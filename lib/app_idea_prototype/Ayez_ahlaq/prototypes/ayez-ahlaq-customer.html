@@ -1,0 +1,1296 @@
+<title>عايز أحلق</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Cairo:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --ink-950:#14120F;
+    --ink-900:#1C1916;
+    --ink-800:#262119;
+    --ink-750:#2C2620;
+    --ink-700:#372F24;
+    --hairline:#3C3327;
+    --brass-300:#E3C273;
+    --brass-400:#D9AE49;
+    --brass-500:#C6982F;
+    --brass-600:#A97F26;
+    --brass-700:#8F6C1F;
+    --brass-100:#3A331F;
+    --ivory-100:#F3ECDD;
+    --ivory-300:#C9BFA8;
+    --ivory-500:#8C8270;
+    --ivory-700:#655D4E;
+    --moss-500:#7CA37C;
+    --moss-600:#5C8560;
+    --rust-500:#C1573B;
+    --rust-400:#D97355;
+    --shadow-lg: 0 24px 60px -20px rgba(0,0,0,.65);
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--ink-950);}
+
+  .stage{
+    min-height:100%;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(198,152,47,.10), transparent 60%),
+      repeating-linear-gradient(90deg, rgba(217,174,73,.035) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgba(217,174,73,.035) 0 1px, transparent 1px 64px),
+      var(--ink-950);
+    color:var(--ivory-100);
+    font-family:'Cairo',system-ui,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:56px 20px 64px;
+    gap:34px;
+  }
+
+  .stage-head{ text-align:center; max-width:560px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .stage-head .kicker{ font-size:12px; letter-spacing:.14em; color:var(--brass-400); font-weight:600; }
+  .stage-head h1{
+    font-family:'Reem Kufi', 'Cairo', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px,5vw,44px);
+    margin:0;
+    color:var(--ivory-100);
+    text-wrap:balance;
+  }
+  .stage-head p{ margin:0; color:var(--ivory-500); font-size:14.5px; line-height:1.8; text-wrap:balance; }
+
+  .jumpbar{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:640px; margin-top:6px; }
+  .jchip{
+    font-family:'Cairo',sans-serif; font-size:12.5px; font-weight:600; color:var(--ivory-300);
+    background:var(--ink-800); border:1px solid var(--hairline); border-radius:100px;
+    padding:7px 14px; cursor:pointer; transition:.15s ease; white-space:nowrap;
+  }
+  .jchip:hover{ border-color:var(--brass-500); color:var(--brass-300); }
+  .jchip.on{ background:var(--brass-500); color:var(--ink-950); border-color:var(--brass-500); }
+
+  .rail{ display:flex; align-items:center; gap:0; height:34px; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .rail.show{ opacity:1; }
+  .rail .seg{ display:flex; align-items:center; gap:0; }
+  .rail .dot{
+    width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--ink-800); border:1.5px solid var(--hairline); color:var(--ivory-500);
+    font-size:11px; font-weight:700; font-variant-numeric:tabular-nums; flex:none;
+  }
+  .rail .dot.active{ background:var(--brass-500); border-color:var(--brass-500); color:var(--ink-950); }
+  .rail .dot.done{ background:var(--ink-750); border-color:var(--brass-600); color:var(--brass-400); }
+  .rail .line{ width:30px; height:1.5px; background:var(--hairline); }
+  .rail .line.done{ background:var(--brass-600); }
+  .rail-label{ position:absolute; margin-top:36px; font-size:10px; color:var(--ivory-500); }
+
+  .rail-wrap{ position:relative; display:flex; flex-direction:column; align-items:center; }
+
+  /* ---------- phone ---------- */
+  .phone{
+    width:396px; padding:14px;
+    background:linear-gradient(155deg,#3a3327,#221d16 60%);
+    border-radius:52px; box-shadow:var(--shadow-lg), inset 0 0 0 1px rgba(217,174,73,.18);
+    flex:none;
+  }
+  .phone-inner{
+    position:relative; width:100%; height:844px; background:var(--ink-900);
+    border-radius:40px; overflow:hidden; display:flex; flex-direction:column;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.5);
+  }
+  .island{
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    width:110px; height:28px; background:#000; border-radius:20px; z-index:50;
+  }
+  .statusbar{
+    display:flex; align-items:center; justify-content:space-between; padding:16px 26px 8px;
+    font-size:14px; font-weight:700; color:var(--ivory-100); font-variant-numeric:tabular-nums; flex:none;
+  }
+  .statusbar .icons{ display:flex; gap:5px; align-items:flex-end; color:var(--ivory-100); }
+  .sb-bars{ display:flex; gap:2px; align-items:flex-end; height:10px; }
+  .sb-bars i{ width:3px; background:var(--ivory-100); border-radius:1px; }
+  .sb-bars i:nth-child(1){ height:4px; } .sb-bars i:nth-child(2){ height:6px; }
+  .sb-bars i:nth-child(3){ height:8px; } .sb-bars i:nth-child(4){ height:10px; }
+  .sb-battery{ width:24px; height:11px; border:1.4px solid var(--ivory-100); border-radius:3px; position:relative; display:flex; align-items:center; padding:1.5px; }
+  .sb-battery::after{ content:''; position:absolute; left:-3px; top:3px; width:2px; height:5px; background:var(--ivory-100); border-radius:0 1px 1px 0; }
+  .sb-battery i{ display:block; width:16px; height:6px; background:var(--ivory-100); border-radius:1px; }
+
+  .viewport{ position:relative; flex:1; overflow:hidden; }
+  .screen{
+    display:none; position:absolute; inset:0; flex-direction:column; background:var(--ink-900);
+  }
+  .screen.active{ display:flex; animation:fadeIn .28s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion:reduce){ .screen.active{ animation:none; } }
+
+  .content{ flex:1; overflow-y:auto; padding:6px 20px 24px; scrollbar-width:none; }
+  .content::-webkit-scrollbar{ display:none; }
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; padding:8px 16px 14px; flex:none;
+  }
+  .iconbtn{
+    width:36px; height:36px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:var(--ink-800); border:1px solid var(--hairline); color:var(--ivory-100); cursor:pointer; flex:none;
+  }
+  .iconbtn:hover{ border-color:var(--brass-500); }
+  .topbar h2{ font-family:'Reem Kufi','Cairo',sans-serif; font-size:18px; margin:0; color:var(--ivory-100); }
+  .topbar .spacer{ width:36px; }
+
+  .ctxbar{
+    margin:0 20px 10px; padding:10px 14px; background:var(--ink-800); border:1px solid var(--hairline);
+    border-radius:14px; display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ivory-300); flex:none;
+  }
+  .ctxbar b{ color:var(--brass-300); font-weight:700; }
+  .ctxbar .dotsep{ width:3px; height:3px; border-radius:50%; background:var(--ivory-700); }
+
+  /* ---------- tab bar ---------- */
+  .tabbar{
+    display:flex; padding:8px 6px 26px; background:var(--ink-800); border-top:1px solid var(--hairline); flex:none;
+  }
+  .tab{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px 0;
+    color:var(--ivory-500); cursor:pointer; background:none; border:none; font-family:'Cairo',sans-serif;
+  }
+  .tab svg{ width:22px; height:22px; }
+  .tab span{ font-size:10.5px; font-weight:600; }
+  .tab.active{ color:var(--brass-400); }
+
+  .home-indicator{ display:flex; justify-content:center; padding:8px 0 10px; background:var(--ink-900); flex:none; }
+  .home-indicator i{ width:126px; height:5px; border-radius:6px; background:var(--ivory-500); opacity:.5; }
+
+  /* ---------- generic bits ---------- */
+  h3.section-title{ font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; color:var(--ivory-100); margin:18px 0 10px; display:flex; align-items:center; justify-content:space-between; }
+  h3.section-title span.more{ font-size:12px; color:var(--brass-400); font-weight:600; cursor:pointer; }
+
+  .search{
+    display:flex; align-items:center; gap:10px; background:var(--ink-800); border:1px solid var(--hairline);
+    border-radius:14px; padding:12px 14px; color:var(--ivory-500); flex:none;
+  }
+  .search svg{ flex:none; }
+  .search span{ font-size:13.5px; }
+
+  .locrow{ display:flex; align-items:center; gap:6px; color:var(--brass-400); font-size:12.5px; font-weight:700; }
+  .locrow svg{ width:15px; height:15px; }
+
+  .hrow{ display:flex; gap:12px; overflow-x:auto; padding:2px 0 6px; scrollbar-width:none; }
+  .hrow::-webkit-scrollbar{ display:none; }
+
+  .stars{ display:flex; align-items:center; gap:3px; }
+  .stars svg{ width:13px; height:13px; color:var(--brass-400); }
+  .rateval{ font-size:12px; font-weight:700; color:var(--ivory-100); font-variant-numeric:tabular-nums; margin-inline-start:2px; }
+
+  .badge{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:100px; }
+  .badge.open{ background:rgba(124,163,124,.16); color:var(--moss-500); }
+  .badge.closed{ background:rgba(193,87,59,.16); color:var(--rust-400); }
+  .badge.link{ background:rgba(217,174,73,.16); color:var(--brass-400); }
+  .badge.queue{ background:rgba(217,174,73,.14); color:var(--brass-300); }
+  .badge .dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
+
+  .shopcard{
+    background:var(--ink-800); border:1px solid var(--hairline); border-radius:18px; padding:12px; cursor:pointer;
+    display:flex; flex-direction:column; gap:9px; transition:.15s ease; flex:none;
+  }
+  .shopcard:hover{ border-color:var(--brass-600); }
+  .shopcard .cover{ height:86px; border-radius:12px; position:relative; display:flex; align-items:flex-end; justify-content:flex-end; padding:8px; }
+  .shopcard .cover .heart{ width:28px; height:28px; border-radius:50%; background:rgba(20,18,15,.55); backdrop-filter:blur(2px); display:flex; align-items:center; justify-content:center; color:#fff; }
+  .shopcard .cover .heart svg{ width:15px; height:15px; }
+  .shopcard .cover .heart.on{ color:var(--rust-400); }
+  .shopcard h4{ margin:0; font-size:14.5px; color:var(--ivory-100); }
+  .shopcard .meta{ display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ivory-500); }
+  .shopcard .tags{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tagchip{ font-size:10.5px; background:var(--ink-750); color:var(--ivory-300); padding:3px 8px; border-radius:100px; border:1px solid var(--hairline); }
+
+  .grid-shops{ display:flex; flex-direction:column; gap:12px; }
+  .wide{ width:auto; }
+  .narrow{ width:168px; }
+
+  .favpin{ display:flex; align-items:center; gap:12px; background:linear-gradient(90deg,rgba(217,174,73,.14),rgba(217,174,73,.03)); border:1px solid var(--brass-600); border-radius:16px; padding:12px; margin-bottom:14px; cursor:pointer; }
+  .favpin .av{ flex:none; }
+  .favpin .txt{ flex:1; min-width:0; }
+  .favpin .txt h4{ margin:0 0 3px; font-size:14px; color:var(--ivory-100); }
+  .favpin .txt p{ margin:0; font-size:11.5px; color:var(--brass-300); }
+
+  .avatar{ border-radius:50%; background:var(--brass-600); color:var(--ink-950); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Reem Kufi',sans-serif; flex:none; }
+
+  .barbercard{ display:flex; align-items:center; gap:12px; background:var(--ink-800); border:1px solid var(--hairline); border-radius:16px; padding:12px; cursor:pointer; margin-bottom:10px; transition:.15s; }
+  .barbercard:hover{ border-color:var(--brass-600); }
+  .barbercard .info{ flex:1; min-width:0; }
+  .barbercard .info h4{ margin:0 0 3px; font-size:14.5px; color:var(--ivory-100); }
+  .barbercard .info .tag{ font-size:11.5px; color:var(--ivory-500); margin-bottom:4px; }
+  .barbercard .chev{ color:var(--ivory-700); flex:none; }
+  .barbercard .chev svg{ width:18px; height:18px; }
+  .portfolio{ display:flex; gap:4px; margin-top:6px; }
+  .portfolio i{ width:22px; height:22px; border-radius:6px; flex:none; }
+
+  .servicecard{ display:flex; align-items:center; gap:12px; background:var(--ink-800); border:1.5px solid var(--hairline); border-radius:16px; padding:14px; cursor:pointer; margin-bottom:10px; transition:.15s; position:relative; }
+  .servicecard.on{ border-color:var(--brass-500); background:rgba(198,152,47,.08); }
+  .servicecard .radio{ width:21px; height:21px; border-radius:50%; border:1.5px solid var(--ivory-700); flex:none; display:flex; align-items:center; justify-content:center; }
+  .servicecard.on .radio{ border-color:var(--brass-500); background:var(--brass-500); }
+  .servicecard.on .radio svg{ width:12px; height:12px; color:var(--ink-950); }
+  .servicecard .info{ flex:1; }
+  .servicecard .info h4{ margin:0 0 3px; font-size:14px; color:var(--ivory-100); }
+  .servicecard .info p{ margin:0; font-size:11.5px; color:var(--ivory-500); }
+  .servicecard .price{ text-align:left; flex:none; }
+  .servicecard .price b{ display:block; font-size:14.5px; color:var(--brass-300); font-variant-numeric:tabular-nums; }
+  .servicecard .price span{ font-size:10.5px; color:var(--ivory-500); }
+  .popular-tag{ position:absolute; top:-9px; right:14px; background:var(--brass-500); color:var(--ink-950); font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:100px; }
+
+  .datestrip{ display:flex; gap:10px; overflow-x:auto; padding:2px 0 10px; scrollbar-width:none; }
+  .datestrip::-webkit-scrollbar{ display:none; }
+  .datechip{ flex:none; width:56px; height:68px; border-radius:14px; background:var(--ink-800); border:1px solid var(--hairline); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; }
+  .datechip span{ font-size:11px; color:var(--ivory-500); }
+  .datechip b{ font-size:17px; color:var(--ivory-100); font-variant-numeric:tabular-nums; }
+  .datechip.on{ background:var(--brass-500); border-color:var(--brass-500); }
+  .datechip.on span{ color:rgba(20,18,15,.7); }
+  .datechip.on b{ color:var(--ink-950); }
+
+  .queuewidget{ display:flex; align-items:center; gap:10px; background:var(--ink-800); border:1px solid var(--hairline); border-radius:14px; padding:12px 14px; margin-bottom:14px; }
+  .queuewidget .pulse{ width:9px; height:9px; border-radius:50%; background:var(--moss-500); flex:none; box-shadow:0 0 0 0 rgba(124,163,124,.6); animation:pulse 1.8s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(124,163,124,.5);} 70%{box-shadow:0 0 0 8px rgba(124,163,124,0);} 100%{box-shadow:0 0 0 0 rgba(124,163,124,0);} }
+  .queuewidget p{ margin:0; font-size:12.5px; color:var(--ivory-300); line-height:1.6; }
+  .queuewidget b{ color:var(--ivory-100); }
+
+  .timegrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .timechip{ position:relative; text-align:center; padding:11px 4px; border-radius:12px; background:var(--ink-800); border:1px solid var(--hairline); font-size:13px; font-weight:700; color:var(--ivory-100); cursor:pointer; font-variant-numeric:tabular-nums; }
+  .timechip.booked{ color:var(--ivory-700); text-decoration:line-through; cursor:not-allowed; background:var(--ink-800); opacity:.55; }
+  .timechip.on{ background:var(--brass-500); border-color:var(--brass-500); color:var(--ink-950); }
+  .timechip .q{ position:absolute; top:-7px; left:50%; transform:translateX(-50%); background:var(--rust-500); color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:100px; }
+
+  .legend{ display:flex; gap:14px; margin-top:14px; }
+  .legend .it{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ivory-500); }
+  .legend i{ width:10px; height:10px; border-radius:3px; }
+
+  .sticky{ flex:none; padding:14px 20px 22px; background:linear-gradient(0deg,var(--ink-900) 60%,rgba(28,25,22,0)); border-top:1px solid var(--hairline); display:flex; align-items:center; gap:12px; }
+  .sticky .tot{ flex:1; }
+  .sticky .tot span{ display:block; font-size:10.5px; color:var(--ivory-500); }
+  .sticky .tot b{ font-size:18px; color:var(--brass-300); font-variant-numeric:tabular-nums; }
+
+  .btn{ font-family:'Cairo',sans-serif; font-weight:700; font-size:14.5px; border-radius:14px; padding:15px 22px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.15s; }
+  .btn-primary{ background:var(--brass-500); color:var(--ink-950); }
+  .btn-primary:hover{ background:var(--brass-400); }
+  .btn-primary:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn-dark{ background:var(--ink-700); color:var(--ivory-100); border:1px solid var(--hairline); }
+  .btn-block{ width:100%; }
+
+  .summarycard{ background:var(--ink-800); border:1px solid var(--hairline); border-radius:18px; padding:16px; }
+  .sumrow{ display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--hairline); }
+  .sumrow:last-child{ border-bottom:none; }
+  .sumrow .lbl{ font-size:11.5px; color:var(--ivory-500); width:70px; flex:none; }
+  .sumrow .val{ font-size:13.5px; color:var(--ivory-100); font-weight:600; flex:1; }
+  .sumtotal{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:12px; border-top:1px dashed var(--hairline); }
+  .sumtotal span{ font-size:13px; color:var(--ivory-300); font-weight:700; }
+  .sumtotal b{ font-size:20px; color:var(--brass-300); font-variant-numeric:tabular-nums; }
+
+  .paymethods{ display:flex; gap:10px; margin:14px 0; }
+  .paymethod{ flex:1; border:1.5px solid var(--hairline); background:var(--ink-800); border-radius:14px; padding:12px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; }
+  .paymethod.on{ border-color:var(--brass-500); background:rgba(198,152,47,.08); }
+  .paymethod svg{ width:20px; height:20px; color:var(--ivory-300); }
+  .paymethod.on svg{ color:var(--brass-400); }
+  .paymethod span{ font-size:12px; font-weight:700; color:var(--ivory-100); }
+
+  .center-col{ display:flex; flex-direction:column; align-items:center; text-align:center; flex:1; justify-content:center; padding:24px; gap:14px; }
+  .successcheck{ width:88px; height:88px; border-radius:50%; background:rgba(124,163,124,.14); display:flex; align-items:center; justify-content:center; color:var(--moss-500); margin-bottom:6px; }
+  .successcheck svg{ width:44px; height:44px; }
+
+  .field{ display:flex; align-items:center; gap:8px; background:var(--ink-800); border:1.5px solid var(--hairline); border-radius:14px; padding:15px 16px; }
+  .field.focus{ border-color:var(--brass-500); }
+  .field input{ background:none; border:none; outline:none; color:var(--ivory-100); font-family:'Cairo',sans-serif; font-size:15px; flex:1; font-variant-numeric:tabular-nums; }
+  .field input::placeholder{ color:var(--ivory-700); }
+
+  .otprow{ display:flex; gap:12px; justify-content:center; }
+  .otpbox{ width:58px; height:64px; border-radius:14px; background:var(--ink-800); border:1.5px solid var(--hairline); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:var(--ivory-100); }
+  .otpbox.on{ border-color:var(--brass-500); }
+
+  .booking-upcoming{ background:linear-gradient(150deg,rgba(198,152,47,.14),var(--ink-800)); border:1px solid var(--brass-600); border-radius:18px; padding:16px; margin-bottom:18px; }
+  .booking-upcoming .head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .booking-upcoming .head h4{ margin:0; font-size:14.5px; color:var(--ivory-100); }
+  .bkactions{ display:flex; gap:10px; margin-top:12px; }
+  .bkactions .btn{ flex:1; padding:11px; font-size:12.5px; }
+
+  .pastcard{ background:var(--ink-800); border:1px solid var(--hairline); border-radius:16px; padding:14px; margin-bottom:12px; }
+  .pastcard .row1{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .pastcard h4{ margin:0; font-size:13.5px; color:var(--ivory-100); }
+  .pastcard .date{ font-size:11px; color:var(--ivory-500); }
+  .ratebar{ display:flex; gap:4px; margin-top:6px; }
+  .ratebar svg{ width:19px; height:19px; color:var(--ivory-700); cursor:pointer; }
+  .ratebar span.on svg{ color:var(--brass-400); }
+
+  .profhead{ display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px 0 10px; }
+  .profhead h3{ margin:0; font-size:17px; color:var(--ivory-100); font-family:'Reem Kufi',sans-serif; }
+  .profhead p{ margin:0; font-size:12.5px; color:var(--ivory-500); font-variant-numeric:tabular-nums; }
+  .proflist{ display:flex; flex-direction:column; gap:2px; margin-top:10px; }
+  .profrow{ display:flex; align-items:center; gap:12px; padding:14px 4px; border-bottom:1px solid var(--hairline); cursor:pointer; }
+  .profrow svg{ color:var(--ivory-300); width:19px; height:19px; flex:none; }
+  .profrow span{ flex:1; font-size:13.5px; color:var(--ivory-100); font-weight:600; }
+  .profrow .chev{ color:var(--ivory-700); width:16px !important; height:16px !important; }
+  .profrow.danger span{ color:var(--rust-400); }
+  .profrow.danger svg{ color:var(--rust-400); }
+
+  .empty-note{ font-size:11.5px; color:var(--ivory-700); text-align:center; padding:8px 0 2px; }
+
+  .cartbadge{ position:absolute; top:-4px; left:-4px; background:var(--rust-500); color:#fff; font-size:9px; font-weight:800; min-width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; padding:0 3px; font-variant-numeric:tabular-nums; }
+
+  .catrow{ display:flex; gap:8px; overflow-x:auto; padding:2px 0 12px; scrollbar-width:none; }
+  .catrow::-webkit-scrollbar{ display:none; }
+  .catchip{ flex:none; font-size:12px; font-weight:700; padding:8px 16px; border-radius:100px; background:var(--ink-800); border:1px solid var(--hairline); color:var(--ivory-300); cursor:pointer; }
+  .catchip.on{ background:var(--brass-500); color:var(--ink-950); border-color:var(--brass-500); }
+
+  .stylegrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px 12px; padding-bottom:6px; }
+  .stylecard{ display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; }
+  .stylecard .swatch{ width:100%; aspect-ratio:1; border-radius:14px; position:relative; border:2.5px solid transparent; }
+  .stylecard.on .swatch{ border-color:var(--brass-400); }
+  .stylecard .swatch .check{ position:absolute; top:6px; left:6px; width:20px; height:20px; border-radius:50%; background:var(--brass-500); display:flex; align-items:center; justify-content:center; }
+  .stylecard .swatch .check svg{ width:12px; height:12px; color:var(--ink-950); }
+  .stylecard .name{ font-size:12.5px; font-weight:700; color:var(--ivory-100); text-align:center; }
+  .stylecard.on .name{ color:var(--brass-300); }
+  .stylecard .delta{ font-size:10.5px; color:var(--ivory-500); }
+
+  .ownproducts-note{ margin:0 0 10px; font-size:11.5px; color:var(--ivory-500); line-height:1.7; }
+
+  .storegrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-bottom:6px; }
+  .productcard{ background:var(--ink-800); border:1px solid var(--hairline); border-radius:16px; padding:10px; cursor:pointer; display:flex; flex-direction:column; gap:7px; transition:.15s; }
+  .productcard:hover{ border-color:var(--brass-600); }
+  .productcard .img{ height:92px; border-radius:12px; }
+  .productcard h4{ margin:0; font-size:12px; color:var(--ivory-100); line-height:1.4; min-height:34px; }
+  .productcard .pmeta{ display:flex; align-items:center; justify-content:space-between; }
+  .productcard .price{ font-size:13px; font-weight:800; color:var(--brass-300); font-variant-numeric:tabular-nums; }
+  .productcard .addbtn{ width:26px; height:26px; border-radius:8px; background:var(--brass-500); color:var(--ink-950); display:flex; align-items:center; justify-content:center; flex:none; }
+
+  .pdimage{ height:220px; border-radius:20px; margin-top:8px; }
+  .qtystep{ display:flex; align-items:center; gap:14px; background:var(--ink-800); border:1px solid var(--hairline); border-radius:14px; padding:8px 16px; }
+  .qtystep button{ width:30px; height:30px; border-radius:9px; background:var(--ink-700); border:none; color:var(--ivory-100); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .qtystep b{ min-width:24px; text-align:center; font-variant-numeric:tabular-nums; font-size:15px; }
+
+  .cartrow{ display:flex; align-items:center; gap:12px; background:var(--ink-800); border:1px solid var(--hairline); border-radius:16px; padding:12px; margin-bottom:10px; }
+  .cartrow .img{ width:52px; height:52px; border-radius:10px; flex:none; }
+  .cartrow .info{ flex:1; min-width:0; }
+  .cartrow .info h4{ margin:0 0 5px; font-size:12.5px; color:var(--ivory-100); }
+  .cartrow .info span{ font-size:11px; color:var(--ivory-500); font-variant-numeric:tabular-nums; }
+  .cartrow .qtystep{ padding:4px 10px; gap:8px; flex:none; }
+  .cartrow .qtystep button{ width:22px; height:22px; font-size:13px; }
+  .cartrow .remove{ color:var(--rust-400); cursor:pointer; flex:none; width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
+
+  .notes{ max-width:520px; background:var(--ink-800); border:1px solid var(--hairline); border-radius:20px; padding:22px 24px; }
+  .notes h3{ font-family:'Reem Kufi',sans-serif; font-size:16px; margin:0 0 12px; color:var(--brass-300); }
+  .notes ul{ margin:0; padding-inline-start:20px; display:flex; flex-direction:column; gap:8px; }
+  .notes li{ font-size:13px; color:var(--ivory-300); line-height:1.7; }
+  .notes li b{ color:var(--ivory-100); }
+</style>
+
+<div class="stage" dir="rtl">
+
+  <div class="stage-head">
+    <div class="kicker">بروتوتايب تفاعلي · موبايل</div>
+    <h1>عايز أحلق ✂️</h1>
+    <p>تطبيق حجز حلاقين — من ترشيح أقرب صالون لحد تأكيد المعاد. دوس على أي حاجة جوه الشاشة تحت، أو استخدم الشرائط دي للقفز مباشرة لأي خطوة.</p>
+    <div class="jumpbar" id="jumpbar"></div>
+  </div>
+
+  <div class="rail-wrap">
+    <div class="rail" id="rail"></div>
+  </div>
+
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="island"></div>
+      <div class="statusbar">
+        <span>9:41</span>
+        <div class="icons">
+          <div class="sb-bars"><i></i><i></i><i></i><i></i></div>
+          <div class="sb-battery"><i></i></div>
+        </div>
+      </div>
+
+      <div class="viewport" id="viewport">
+
+        <!-- 1 SPLASH -->
+        <section class="screen" id="splash">
+          <div class="center-col" style="background:radial-gradient(ellipse at 50% 30%, rgba(198,152,47,.16), transparent 60%);">
+            <div class="avatar" style="width:92px;height:92px;font-size:34px;">ح</div>
+            <h1 style="font-family:'Reem Kufi',sans-serif;font-size:30px;margin:6px 0 0;color:var(--ivory-100);">عايز أحلق</h1>
+            <p style="margin:0;color:var(--ivory-500);font-size:13.5px;">احجز مع أفضل الحلاقين في منطقتك من غير ما تستنى</p>
+            <button class="btn btn-primary" style="margin-top:22px;width:220px;" onclick="go('login')">ابدأ الآن</button>
+          </div>
+        </section>
+
+        <!-- 2 LOGIN -->
+        <section class="screen" id="login">
+          <div class="content" style="padding-top:60px;">
+            <div class="avatar" style="width:64px;height:64px;font-size:26px;background:var(--brass-100);color:var(--brass-400);">✂</div>
+            <h2 style="font-family:'Reem Kufi',sans-serif;font-size:23px;margin:20px 0 6px;">أهلاً بيك 👋</h2>
+            <p style="margin:0 0 22px;color:var(--ivory-500);font-size:13.5px;line-height:1.8;">سجّل برقم موبايلك عشان تقدر تحجز وتتابع الطابور لحظة بلحظة</p>
+            <div class="field"><input type="tel" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right;"><span style="color:var(--ivory-300);font-weight:700;">+20</span></div>
+            <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="go('otp')">إرسال الكود</button>
+            <div style="text-align:center;margin-top:16px;color:var(--brass-400);font-size:13px;font-weight:700;cursor:pointer;" onclick="tab('home')">المتابعة كزائر بدون تسجيل</div>
+          </div>
+        </section>
+
+        <!-- 3 OTP -->
+        <section class="screen" id="otp">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>تأكيد الرقم</h2><div class="spacer"></div></div>
+          <div class="content">
+            <p style="color:var(--ivory-500);font-size:13.5px;line-height:1.8;margin-top:20px;">بعتنالك كود مكوّن من ٤ أرقام على الرقم<br><b style="color:var(--ivory-100);">01012345678</b></p>
+            <div class="otprow" style="margin-top:26px;">
+              <div class="otpbox">5</div><div class="otpbox on">2</div><div class="otpbox">·</div><div class="otpbox">·</div>
+            </div>
+            <button class="btn btn-primary btn-block" style="margin-top:28px;" onclick="tab('home')">تأكيد</button>
+            <div style="text-align:center;margin-top:14px;color:var(--ivory-700);font-size:12.5px;">إعادة الإرسال بعد 00:59</div>
+          </div>
+        </section>
+
+        <!-- 4 HOME -->
+        <section class="screen" id="home">
+          <div class="content">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:14px;">
+              <div>
+                <div class="locrow"><i class="icn" data-i="pin" data-s="15"></i><span>مدينة نصر، القاهرة</span></div>
+                <div style="font-size:11px;color:var(--ivory-700);margin-top:2px;">تقدر تغيّر موقعك من الإعدادات</div>
+              </div>
+              <div class="iconbtn"><i class="icn" data-i="bell" data-s="18"></i></div>
+            </div>
+            <div class="search" style="margin-top:16px;"><i class="icn" data-i="search" data-s="18"></i><span>دور على صالون أو حلاق معيّن...</span></div>
+
+            <h3 class="section-title">المفضلة بتاعتك <span class="more" onclick="tab('favorites')">كل المفضلة</span></h3>
+            <div class="hrow" id="homeFavRow"></div>
+
+            <h3 class="section-title">الأقرب ليك دلوقتي</h3>
+            <div class="grid-shops" id="homeShopsList"></div>
+          </div>
+          <div class="tabbar" id="tabbarHome"></div>
+        </section>
+
+        <!-- 5 FAVORITES -->
+        <section class="screen" id="favorites">
+          <div class="content">
+            <h2 style="font-family:'Reem Kufi',sans-serif;font-size:21px;padding-top:16px;margin:0 0 4px;">المفضلة</h2>
+            <p style="margin:0 0 14px;color:var(--ivory-500);font-size:12.5px;">الصالونات والحلاقين اللي حفظتهم عشان تحجز بسرعة</p>
+            <div id="favPinned"></div>
+            <div id="favList"></div>
+          </div>
+          <div class="tabbar" id="tabbarFav"></div>
+        </section>
+
+        <!-- 6 SHOP DETAIL -->
+        <section class="screen" id="shopDetail">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2 id="sdTitle">صالون</h2><div class="iconbtn" id="sdHeart"><i class="icn" data-i="heart" data-s="18"></i></div></div>
+          <div class="content">
+            <div id="sdCover" style="height:150px;border-radius:18px;position:relative;display:flex;align-items:flex-end;padding:14px;"></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;" id="sdBadges"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+              <div class="stars" id="sdStars"></div>
+              <div class="dotsep" style="width:3px;height:3px;border-radius:50%;background:var(--ivory-700);"></div>
+              <span style="font-size:12px;color:var(--ivory-500);" id="sdDistance"></span>
+            </div>
+            <div class="tags" style="margin-top:10px;" id="sdTags"></div>
+            <p style="margin:16px 0 0;font-size:12.5px;color:var(--ivory-500);line-height:1.8;">صالون معتمد من عايز أحلق، أدوات معقّمة بعد كل عميل، وإمكانية تتابع دورك لحظيًا من التطبيق.</p>
+            <h3 class="section-title">الحلاقين المتاحين</h3>
+            <div id="sdBarbersPreview"></div>
+            <div id="sdOwnProductsSection"></div>
+          </div>
+          <div class="sticky"><button class="btn btn-primary btn-block" onclick="go('chooseBarber')">اختار الحلاق واحجز</button></div>
+        </section>
+
+        <!-- 7 CHOOSE BARBER -->
+        <section class="screen" id="chooseBarber">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>اختار الحلاق</h2><div class="spacer"></div></div>
+          <div class="ctxbar" id="ctxBarber"></div>
+          <div class="content" id="barberList"></div>
+        </section>
+
+        <!-- 8 CHOOSE SERVICE -->
+        <section class="screen" id="chooseService">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>نوع الخدمة</h2><div class="spacer"></div></div>
+          <div class="ctxbar" id="ctxService"></div>
+          <div class="content" id="serviceList"></div>
+          <div class="sticky">
+            <div class="tot"><span>الإجمالي المتوقع</span><b id="svcTotal">150 ج · 45 د</b></div>
+            <button class="btn btn-primary" onclick="go('chooseStyle')">التالي</button>
+          </div>
+        </section>
+
+        <!-- 8b CHOOSE STYLE -->
+        <section class="screen" id="chooseStyle">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>شكل القصة</h2><div class="spacer"></div></div>
+          <div class="ctxbar" id="ctxStyle"></div>
+          <div class="content">
+            <p style="margin:4px 0 12px;font-size:12.5px;color:var(--ivory-500);line-height:1.7;">اختار شكل القصة اللي عايزها بالاسم — الأسعار بتختلف حسب تعقيد القصة</p>
+            <div class="stylegrid" id="styleGrid"></div>
+          </div>
+          <div class="sticky">
+            <div class="tot"><span>الإجمالي المتوقع</span><b id="styleTotal">150 ج · 45 د</b></div>
+            <button class="btn btn-primary" onclick="go('chooseTime')">التالي</button>
+          </div>
+        </section>
+
+        <!-- 9 CHOOSE TIME -->
+        <section class="screen" id="chooseTime">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>اختار المعاد</h2><div class="spacer"></div></div>
+          <div class="ctxbar" id="ctxTime"></div>
+          <div class="content">
+            <div class="datestrip" id="dateStrip"></div>
+            <div class="queuewidget"><div class="pulse"></div><p><b id="queueStatusText">شغال دلوقتي مع عميل</b> — لو حجزت أقرب معاد، هيجيلك الدور خلال شوية</p></div>
+            <h3 class="section-title" style="margin-top:0;">المواعيد المتاحة النهاردة</h3>
+            <div class="timegrid" id="timeGrid"></div>
+            <div class="legend">
+              <div class="it"><i style="background:var(--ink-800);border:1px solid var(--hairline);"></i>متاح</div>
+              <div class="it"><i style="background:var(--brass-500);"></i>مختار</div>
+              <div class="it"><i style="background:var(--ink-800);opacity:.55;"></i>محجوز</div>
+            </div>
+          </div>
+          <div class="sticky"><button class="btn btn-primary btn-block" id="timeNextBtn" onclick="go('summary')" disabled>التالي</button></div>
+        </section>
+
+        <!-- 10 SUMMARY -->
+        <section class="screen" id="summary">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>ملخص الحجز</h2><div class="spacer"></div></div>
+          <div class="content">
+            <div class="summarycard" id="summaryCard"></div>
+            <h3 class="section-title">طريقة الدفع</h3>
+            <div class="paymethods">
+              <div class="paymethod on" id="payCash" onclick="setPay('cash')"><i class="icn" data-i="cash" data-s="20"></i><span>كاش عند الوصول</span></div>
+              <div class="paymethod" id="payCard" onclick="setPay('card')"><i class="icn" data-i="wallet" data-s="20"></i><span>بطاقة/محفظة</span></div>
+            </div>
+            <div class="field" style="margin-top:4px;"><input placeholder="ملاحظة للحلاق (اختياري)"></div>
+          </div>
+          <div class="sticky">
+            <div class="tot"><span>هيتدفع</span><b id="sumTotal">150 ج</b></div>
+            <button class="btn btn-primary" onclick="confirmBooking()">تأكيد الحجز</button>
+          </div>
+        </section>
+
+        <!-- 11 SUCCESS -->
+        <section class="screen" id="success">
+          <div class="center-col">
+            <div class="successcheck"><i class="icn" data-i="check" data-s="44"></i></div>
+            <h2 style="font-family:'Reem Kufi',sans-serif;font-size:22px;margin:0;">تم تأكيد حجزك 🎉</h2>
+            <p style="color:var(--ivory-500);font-size:13px;margin:0;line-height:1.8;" id="successText">هنبعتلك تذكير قبل معادك بساعة. رقم حجزك <b style="color:var(--ivory-100);" id="successCode">#AH-4821</b></p>
+            <button class="btn btn-dark btn-block" style="margin-top:18px;" onclick="shareRef()"><i class="icn" data-i="share" data-s="16"></i> شارك رابط الحلاق مع صحابك</button>
+            <button class="btn btn-primary btn-block" onclick="tab('bookings')">حجوزاتي</button>
+          </div>
+        </section>
+
+        <!-- 12 BOOKINGS -->
+        <section class="screen" id="bookings">
+          <div class="content">
+            <h2 style="font-family:'Reem Kufi',sans-serif;font-size:21px;padding-top:16px;margin:0 0 14px;">حجوزاتي</h2>
+            <div id="bookingsUpcoming"></div>
+            <h3 class="section-title" style="margin-top:6px;">حجوزات سابقة</h3>
+            <div id="bookingsPast"></div>
+          </div>
+          <div class="tabbar" id="tabbarBookings"></div>
+        </section>
+
+        <!-- 13 PROFILE -->
+        <section class="screen" id="profile">
+          <div class="content">
+            <div class="profhead">
+              <div class="avatar" style="width:76px;height:76px;font-size:28px;">م</div>
+              <h3>مختار توفيق</h3>
+              <p>01012345678</p>
+            </div>
+            <div class="proflist">
+              <div class="profrow" onclick="go('myOrders')"><i class="icn" data-i="bag" data-s="18"></i><span>طلباتي</span><i class="icn" data-i="chevronLeft" data-s="16"></i></div>
+              <div class="profrow"><i class="icn" data-i="bell" data-s="18"></i><span>الإشعارات</span><i class="icn" data-i="chevronLeft" data-s="16"></i></div>
+              <div class="profrow"><i class="icn" data-i="wallet" data-s="20"></i><span>طرق الدفع</span><i class="icn" data-i="chevronLeft" data-s="16"></i></div>
+              <div class="profrow"><i class="icn" data-i="globe" data-s="19"></i><span>اللغة — العربية</span><i class="icn" data-i="chevronLeft" data-s="16"></i></div>
+              <div class="profrow"><i class="icn" data-i="user" data-s="19"></i><span>عن التطبيق</span><i class="icn" data-i="chevronLeft" data-s="16"></i></div>
+              <div class="profrow danger"><i class="icn" data-i="logout" data-s="19"></i><span>تسجيل الخروج</span></div>
+            </div>
+          </div>
+          <div class="tabbar" id="tabbarProfile"></div>
+        </section>
+
+        <!-- 14 STORE -->
+        <section class="screen" id="store">
+          <div class="content">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:14px;">
+              <h2 style="font-family:'Reem Kufi',sans-serif;font-size:21px;margin:0;">المتجر</h2>
+              <div class="iconbtn" style="position:relative;" onclick="go('cart')"><i class="icn" data-i="bag" data-s="18"></i><span class="cartbadge" id="cartBadge" style="display:none;">0</span></div>
+            </div>
+            <p style="margin:4px 0 14px;color:var(--ivory-500);font-size:12.5px;">منتجات عناية وأدوات حلاقة أصلية، توصل لحد باب البيت</p>
+            <div class="catrow" id="catRow"></div>
+            <div class="storegrid" id="storeGrid"></div>
+          </div>
+          <div class="tabbar" id="tabbarStore"></div>
+        </section>
+
+        <!-- 15 PRODUCT DETAIL -->
+        <section class="screen" id="productDetail">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>تفاصيل المنتج</h2><div class="iconbtn" style="position:relative;" onclick="go('cart')"><i class="icn" data-i="bag" data-s="18"></i></div></div>
+          <div class="content" id="pdContent"></div>
+        </section>
+
+        <!-- 16 CART -->
+        <section class="screen" id="cart">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>السلة</h2><div class="spacer"></div></div>
+          <div class="content" id="cartContent"></div>
+          <div class="sticky" id="cartSticky">
+            <div class="tot"><span>الإجمالي</span><b id="cartTotalText">0 ج</b></div>
+            <button class="btn btn-primary" id="cartCheckoutBtn" onclick="go('checkout')">الدفع</button>
+          </div>
+        </section>
+
+        <!-- 17 CHECKOUT -->
+        <section class="screen" id="checkout">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>إتمام الطلب</h2><div class="spacer"></div></div>
+          <div class="content">
+            <h3 class="section-title" style="margin-top:0;">عنوان التوصيل</h3>
+            <div class="field"><input value="مدينة نصر، القاهرة"></div>
+            <h3 class="section-title">طريقة الدفع</h3>
+            <div class="paymethods">
+              <div class="paymethod on" id="storePayCash" onclick="setStorePay('cash')"><i class="icn" data-i="cash" data-s="20"></i><span>كاش عند الاستلام</span></div>
+              <div class="paymethod" id="storePayCard" onclick="setStorePay('card')"><i class="icn" data-i="wallet" data-s="20"></i><span>بطاقة/محفظة</span></div>
+            </div>
+            <h3 class="section-title">ملخص الطلب</h3>
+            <div class="summarycard" id="checkoutSummary"></div>
+          </div>
+          <div class="sticky">
+            <div class="tot"><span>الإجمالي</span><b id="checkoutTotal">0 ج</b></div>
+            <button class="btn btn-primary" onclick="confirmOrder()">تأكيد الطلب</button>
+          </div>
+        </section>
+
+        <!-- 18 ORDER SUCCESS -->
+        <section class="screen" id="orderSuccess">
+          <div class="center-col">
+            <div class="successcheck"><i class="icn" data-i="check" data-s="44"></i></div>
+            <h2 style="font-family:'Reem Kufi',sans-serif;font-size:22px;margin:0;">تم تأكيد طلبك 🎉</h2>
+            <p style="color:var(--ivory-500);font-size:13px;margin:0;line-height:1.8;" id="orderSuccessText">هيوصلك خلال يومين لتلاتة. رقم الطلب <b style="color:var(--ivory-100);" id="orderSuccessCode">#ORD-1001</b></p>
+            <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="go('myOrders')">تتبع طلباتي</button>
+            <button class="btn btn-dark btn-block" onclick="tab('store')">رجوع للمتجر</button>
+          </div>
+        </section>
+
+        <!-- 19 MY ORDERS -->
+        <section class="screen" id="myOrders">
+          <div class="topbar"><button class="iconbtn" onclick="back()"><i class="icn" data-i="chevronRight" data-s="20"></i></button><h2>طلباتي</h2><div class="spacer"></div></div>
+          <div class="content" id="myOrdersList"></div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="home-indicator"><i></i></div>
+  </div>
+
+  <div class="notes">
+    <h3>إيه اللي ضفته على الفكرة الأساسية</h3>
+    <ul>
+      <li><b>الترشيح بالموقع</b> ظاهر أعلى الرئيسية، وقائمة "الأقرب ليك" مرتبة بالمسافة.</li>
+      <li><b>المفضلة عبر رابط الدعوة</b> — لو دخلت التطبيق من لينك حلاق، هيتثبّت في المفضلة تلقائي وعليه شارة "من رابط الدعوة".</li>
+      <li><b>حالة الطابور اللحظية</b> في شاشة المعاد — مش بس عدد الحجوزات، كمان "شغال دلوقتي" أو "هيفضى الساعة كذا".</li>
+      <li><b>تقييمات وبورتفوليو مصغّر</b> لكل حلاق قبل ما تختاره.</li>
+      <li><b>السعر والمدة</b> ظاهرين قبل التأكيد، مع طريقة دفع كاش أو بطاقة.</li>
+      <li><b>تتبّع الحجز الحالي</b> في "حجوزاتي" بيوريك ترتيبك في الطابور، وتقييم الخدمة بعد الحجوزات السابقة.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+const ICONS = {
+  home:'<path d="M4 11L12 4L20 11"/><path d="M6 10V20H18V10"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20L15.5 15.5"/>',
+  heart:'<path d="M12 20.5C12 20.5 4 14.7 4 9.2C4 6.3 6.2 4 9 4C10.6 4 11.6 4.8 12 5.6C12.4 4.8 13.4 4 15 4C17.8 4 20 6.3 20 9.2C20 14.7 12 20.5 12 20.5Z"/>',
+  user:'<circle cx="12" cy="8" r="3.5"/><path d="M4.5 20C5.2 16 8.2 14 12 14C15.8 14 18.8 16 19.5 20"/>',
+  calendar:'<rect x="3.5" y="5.5" width="17" height="15" rx="2"/><path d="M3.5 10H20.5"/><path d="M8 3.5V7"/><path d="M16 3.5V7"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12L15.5 14.2"/>',
+  pin:'<path d="M12 21C12 21 5 14.7 5 9.5C5 5.9 8.1 3 12 3C15.9 3 19 5.9 19 9.5C19 14.7 12 21 12 21Z"/><circle cx="12" cy="9.3" r="2.3"/>',
+  chevronRight:'<path d="M9 6L15 12L9 18"/>',
+  chevronLeft:'<path d="M15 6L9 12L15 18"/>',
+  check:'<path d="M5 13L10 18L19 7"/>',
+  x:'<path d="M6 6L18 18M18 6L6 18"/>',
+  bell:'<path d="M6 10C6 6.7 8.7 4 12 4C15.3 4 18 6.7 18 10V14L20 17H4L6 14V10Z"/><path d="M10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20"/>',
+  plus:'<path d="M12 5V19M5 12H19"/>',
+  share:'<circle cx="18" cy="5" r="2.3"/><circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="19" r="2.3"/><path d="M8.1 10.8L15.9 6.2M8.1 13.2L15.9 17.8"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10H21"/><circle cx="17" cy="14.5" r="1.2"/>',
+  cash:'<rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="3"/>',
+  logout:'<path d="M9 6V4.5A1.5 1.5 0 0110.5 3H18a1.5 1.5 0 011.5 1.5v15A1.5 1.5 0 0118 21h-7.5A1.5 1.5 0 019 19.5V18"/><path d="M14 12H3M3 12l3.5-3.5M3 12l3.5 3.5"/>',
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12H20.5M12 3.5C14.5 6 15.7 9 15.7 12C15.7 15 14.5 18 12 20.5C9.5 18 8.3 15 8.3 12C8.3 9 9.5 6 12 3.5Z"/>',
+  star:'<path d="M12 2.6l2.9 6 6.6.8-4.8 4.6 1.2 6.6L12 17.4l-5.9 3.2 1.2-6.6-4.8-4.6 6.6-.8L12 2.6z"/>',
+  bag:'<path d="M6 8H18L17 20H7L6 8Z"/><path d="M9 8V6C9 4.3 10.3 3 12 3C13.7 3 15 4.3 15 6V8"/>',
+  minus:'<path d="M5 12H19"/>'
+};
+function icon(name, size, filled){
+  size = size || 20;
+  const attrs = filled ? 'fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"' : 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" '+attrs+'>'+ICONS[name]+'</svg>';
+}
+
+const allShops = {
+  malek:{id:'malek',name:'صالون الملك',rating:4.9,reviews:410,distance:'800 م',area:'مدينة نصر',open:true,closesAt:'12:00 ص',tags:['قص','ذقن','صبغة'],color:'linear-gradient(135deg,#8F6C1F,#3A331F)'},
+  asala:{id:'asala',name:'صالون الأصالة',rating:4.8,reviews:320,distance:'1.2 كم',area:'مدينة نصر',open:true,closesAt:'11:00 م',tags:['قص','ذقن'],color:'linear-gradient(135deg,#5C8560,#26311F)'},
+  barberhouse:{id:'barberhouse',name:'Barber House',rating:4.6,reviews:150,distance:'2.5 كم',area:'مصر الجديدة',open:false,closesAt:'يفتح 10 ص',tags:['قص','صبغة'],color:'linear-gradient(135deg,#5A4A66,#211C2B)'},
+  hassan:{id:'hassan',name:'كابتن حسن',rating:4.9,reviews:530,distance:'950 م',area:'مدينة نصر',open:true,closesAt:'11:00 م',tags:['قص','ذقن كلاسيك'],color:'linear-gradient(135deg,#C1573B,#3A241C)'}
+};
+const nearbyIds = ['malek','asala','barberhouse'];
+let favoriteIds = ['hassan','malek'];
+const viaLinkId = 'hassan';
+
+const barbers = [
+  {id:'mohamed',name:'محمد سعيد',tag:'فيد وتصفيف عصري',rating:4.9,status:'شغال دلوقتي',ok:true,portfolio:['#8F6C1F','#5C8560','#5A4A66']},
+  {id:'karim',name:'كريم عادل',tag:'ذقن وصبغة',rating:4.7,status:'مشغول لحد 3:15',ok:false,portfolio:['#C1573B','#8F6C1F','#26311F']},
+  {id:'ahmed',name:'أحمد ناصر',tag:'قصات كلاسيك',rating:4.8,status:'شغال دلوقتي',ok:true,portfolio:['#5C8560','#3A331F','#C1573B']}
+];
+
+const services = [
+  {id:'cut',name:'قصة شعر عادية',desc:'غسيل + قص + تصفيف',price:100,dur:30},
+  {id:'cutbeard',name:'قصة + تهذيب ذقن',desc:'الأكثر طلبًا',price:150,dur:45,popular:true},
+  {id:'color',name:'قصة + صبغة',desc:'صبغة أمونيا فري',price:280,dur:75},
+  {id:'beard',name:'حلاقة ذقن فقط',desc:'موس + تسخين فوطة',price:70,dur:20},
+  {id:'kids',name:'قصة أطفال',desc:'لحد 12 سنة',price:80,dur:25}
+];
+
+const dates = [{id:'d0',day:'سبت',num:19},{id:'d1',day:'حد',num:20},{id:'d2',day:'اتنين',num:21},{id:'d3',day:'تلات',num:22},{id:'d4',day:'أربع',num:23}];
+
+const timeSlots = [
+  {t:'10:00',st:'booked'},{t:'10:30',st:'booked'},{t:'11:00',st:'available'},
+  {t:'11:30',st:'available',q:2},{t:'12:00',st:'available'},{t:'12:30',st:'available'},
+  {t:'1:00',st:'booked'},{t:'1:30',st:'available'},{t:'2:00',st:'available',q:1},
+  {t:'2:30',st:'available'},{t:'3:00',st:'booked'},{t:'3:30',st:'available'}
+];
+
+const haircutStyles = [
+  {id:'classic', name:'كلاسيك', delta:0, img:'linear-gradient(135deg,#5C8560,#26311F)'},
+  {id:'fade', name:'فيد أمريكي', delta:0, img:'linear-gradient(135deg,#8F6C1F,#3A331F)'},
+  {id:'mullet', name:'مولت', delta:30, img:'linear-gradient(135deg,#C1573B,#3A241C)'},
+  {id:'undercut', name:'أندركت', delta:20, img:'linear-gradient(135deg,#5A4A66,#211C2B)'},
+  {id:'pompadour', name:'بومبادور', delta:25, img:'linear-gradient(135deg,#A97F26,#3A331F)'},
+  {id:'buzz', name:'باز كت', delta:-10, img:'linear-gradient(135deg,#3A331F,#211C2B)'},
+  {id:'crew', name:'كريو كت', delta:15, img:'linear-gradient(135deg,#6E93A8,#26311F)'},
+  {id:'shag', name:'شاغ مجعد', delta:35, img:'linear-gradient(135deg,#C1573B,#8F6C1F)'}
+];
+
+const categories = ['الكل','عناية الشعر','ذقن ولحية','أدوات','عطور'];
+const products = [
+  {id:'wax', name:'وكس تشكيل الشعر - تثبيت قوي', cat:'عناية الشعر', price:120, rating:4.7, img:'linear-gradient(135deg,#8F6C1F,#3A331F)', desc:'وكس تثبيت قوي بلمعة طبيعية، مناسب لكل أنواع القصات العصرية. يدوم طول اليوم من غير ما يخلي الشعر متيبس.'},
+  {id:'shampoo', name:'شامبو رجالي ضد القشرة', cat:'عناية الشعر', price:95, rating:4.5, img:'linear-gradient(135deg,#5C8560,#26311F)', desc:'شامبو مخصص لفروة الرأس الحساسة، بيقلل القشرة من أول استخدام وريحته تدوم.'},
+  {id:'beardoil', name:'زيت لحية طبيعي', cat:'ذقن ولحية', price:85, rating:4.8, img:'linear-gradient(135deg,#C1573B,#3A241C)', desc:'زيت طبيعي 100% بيرطب اللحية ويقلل الحكة، ويدي مظهر صحي ولمعان خفيف.'},
+  {id:'trimmer', name:'ماكينة حلاقة كهربائية احترافية', cat:'أدوات', price:650, rating:4.9, img:'linear-gradient(135deg,#5A4A66,#211C2B)', desc:'ماكينة شحن USB بشفرات تيتانيوم، مناسبة للفيد والتشذيب الدقيق، شحنة تدوم 90 دقيقة استخدام.'},
+  {id:'scissors', name:'مقص تشذيب دقيق', cat:'أدوات', price:180, rating:4.6, img:'linear-gradient(135deg,#8F6C1F,#26311F)', desc:'ستانلس ستيل ياباني، حواف دقيقة جدًا لتشذيب الذقن والحواجب.'},
+  {id:'shavecream', name:'كريم حلاقة بالصبار', cat:'ذقن ولحية', price:60, rating:4.4, img:'linear-gradient(135deg,#5C8560,#3A331F)', desc:'رغوة ناعمة بخلاصة الصبار، بتقلل تهيج البشرة وتدي حلاقة أنعم.'},
+  {id:'beardbrush', name:'فرشة لحية خشب طبيعي', cat:'ذقن ولحية', price:45, rating:4.3, img:'linear-gradient(135deg,#3A331F,#211C2B)', desc:'فرشة خشب زان طبيعي بتوزع الزيت بالتساوي وتنظم شعر اللحية.'},
+  {id:'cologne', name:'كولونيا ما بعد الحلاقة', cat:'عطور', price:150, rating:4.7, img:'linear-gradient(135deg,#C1573B,#8F6C1F)', desc:'إحساس منعش بعد الحلاقة، بيهدي البشرة وريحته تدوم طول اليوم.'}
+];
+
+// products a barber sells himself, separate from the wholesale "المتجر" catalog above
+const barberOwnedProducts = {
+  mohamed: [
+    {id:'mohamed-pomade', name:'بوماد الصالون الخاص بمحمد سعيد', cat:'عناية الشعر', price:140, rating:5.0, img:'linear-gradient(135deg,#A97F26,#3A331F)', desc:'خلطة البوماد اللي بيستخدمها محمد سعيد في الصالون نفسه، بتثبيت وسط ولمعة طبيعية.'},
+    {id:'mohamed-beardkit', name:'طقم عناية باللحية - توصية محمد سعيد', cat:'ذقن ولحية', price:210, rating:4.9, img:'linear-gradient(135deg,#C1573B,#3A241C)', desc:'زيت + بلسم + فرشة، نفس الطقم اللي بينصح بيه عملاؤه بعد كل حلاقة.'}
+  ]
+};
+
+const state = {
+  shop: allShops.malek,
+  barber: barbers[0],
+  service: services[1],
+  style: haircutStyles[0],
+  date: 'd1',
+  time: '12:30',
+  pay: 'cash',
+  storePay: 'cash',
+  cart: {},
+  orders: [
+    {code:'#ORD-1042', items:[{name:'وكس تشكيل الشعر - تثبيت قوي',qty:1,price:120},{name:'زيت لحية طبيعي',qty:1,price:85}], total:205, dateLabel:'2 أغسطس', status:'delivered'}
+  ],
+  bookings: [
+    {code:'#AH-4790', shop:allShops.asala, barber:barbers[2], service:services[0], style:haircutStyles[0], totalPrice:services[0].price, dateLabel:'15 يوليو', time:'11:00 ص', done:true, rating:0}
+  ]
+};
+let selectedCat = 'الكل';
+let currentProductId = products[0].id;
+let pdQty = 1;
+
+const jumpScreens = [
+  ['splash','البداية'],['login','تسجيل الدخول'],['otp','كود التأكيد'],['home','الرئيسية'],
+  ['favorites','المفضلة'],['shopDetail','صفحة الصالون'],['chooseBarber','اختيار الحلاق'],
+  ['chooseService','اختيار الخدمة'],['chooseStyle','شكل القصة'],['chooseTime','اختيار المعاد'],['summary','ملخص الحجز'],
+  ['success','تأكيد الحجز'],['bookings','حجوزاتي'],['profile','حسابي'],
+  ['store','المتجر'],['productDetail','تفاصيل منتج'],['cart','السلة'],['checkout','إتمام الطلب'],
+  ['orderSuccess','تأكيد الطلب'],['myOrders','طلباتي']
+];
+document.getElementById('jumpbar').innerHTML = jumpScreens.map(function(s){
+  return '<button class="jchip" data-scr="'+s[0]+'" onclick="jumpTo(\''+s[0]+'\')">'+s[1]+'</button>';
+}).join('');
+
+const railSteps = [['shopDetail','الصالون'],['chooseBarber','الحلاق'],['chooseService','الخدمة'],['chooseStyle','الشكل'],['chooseTime','المعاد'],['summary','التأكيد']];
+document.getElementById('rail').innerHTML = railSteps.map(function(s,i){
+  var seg = '<div class="seg"><div class="dot" data-step="'+s[0]+'">'+(i+1)+'</div></div>';
+  if(i < railSteps.length-1) seg += '<div class="line" data-line="'+i+'"></div>';
+  return seg;
+}).join('');
+
+let stack = ['splash'];
+
+function starsHtml(rating, size){
+  let h = '<div class="stars">';
+  for(let i=1;i<=5;i++){ h += icon('star', size||13, i<=Math.round(rating)); }
+  h += '<span class="rateval">'+rating.toFixed(1)+'</span></div>';
+  return h;
+}
+
+function shopCard(s, wide){
+  const isFav = favoriteIds.indexOf(s.id) > -1;
+  return '<div class="shopcard '+(wide?'wide':'narrow')+'" onclick="selectShop(\''+s.id+'\')">' +
+    '<div class="cover" style="background:'+s.color+'">' +
+      '<div class="heart '+(isFav?'on':'')+'" onclick="event.stopPropagation();toggleFav(\''+s.id+'\')">'+icon('heart',15,isFav)+'</div>' +
+    '</div>' +
+    '<h4>'+s.name+'</h4>' +
+    '<div class="meta">'+starsHtml(s.rating,12)+'<span>· '+s.reviews+' تقييم</span></div>' +
+    '<div class="meta">'+icon('pin',13)+'<span>'+s.distance+' · '+s.area+'</span></div>' +
+    '<div class="tags">'+s.tags.map(function(t){return '<span class="tagchip">'+t+'</span>';}).join('')+
+      '<span class="badge '+(s.open?'open':'closed')+'">'+(s.open?'مفتوح دلوقتي':s.closesAt)+'</span></div>' +
+  '</div>';
+}
+
+function renderHome(){
+  document.getElementById('homeFavRow').innerHTML = favoriteIds.map(function(id){
+    return '<div style="width:150px;">'+shopCard(allShops[id], true)+'</div>';
+  }).join('');
+  document.getElementById('homeShopsList').innerHTML = nearbyIds.map(function(id){ return shopCard(allShops[id], true); }).join('');
+}
+
+function renderFavorites(){
+  const pinned = allShops[viaLinkId];
+  document.getElementById('favPinned').innerHTML =
+    '<div class="favpin" onclick="selectShop(\''+pinned.id+'\')">' +
+      '<div class="avatar" style="width:52px;height:52px;font-size:19px;">'+pinned.name.charAt(0)+'</div>' +
+      '<div class="txt"><h4>'+pinned.name+'</h4><p>حلاقك المفضّل · اتضاف من رابط الدعوة</p></div>' +
+      '<span class="badge link">'+icon('share',11)+' رابط</span>' +
+    '</div>';
+  document.getElementById('favList').innerHTML = favoriteIds.filter(function(id){return id!==viaLinkId;}).map(function(id){
+    return shopCard(allShops[id], true);
+  }).join('') || '<div class="empty-note">مفيش صالونات تانية محفوظة لسه</div>';
+}
+
+function toggleFav(id){
+  const i = favoriteIds.indexOf(id);
+  if(i>-1) favoriteIds.splice(i,1); else favoriteIds.push(id);
+  renderHome(); renderFavorites();
+}
+
+function selectShop(id){
+  state.shop = allShops[id];
+  renderShopDetail();
+  go('shopDetail');
+}
+
+function renderShopDetail(){
+  const s = state.shop;
+  document.getElementById('sdTitle').textContent = s.name;
+  document.getElementById('sdCover').style.background = s.color;
+  document.getElementById('sdStars').innerHTML = starsHtml(s.rating,14);
+  document.getElementById('sdDistance').textContent = s.distance+' · '+s.area;
+  document.getElementById('sdTags').innerHTML = s.tags.map(function(t){return '<span class="tagchip">'+t+'</span>';}).join('');
+  document.getElementById('sdBadges').innerHTML = '<span class="badge '+(s.open?'open':'closed')+'"><span class="dot"></span>'+(s.open?'مفتوح — يقفل '+s.closesAt:s.closesAt)+'</span>';
+  const isFav = favoriteIds.indexOf(s.id) > -1;
+  document.getElementById('sdHeart').innerHTML = icon('heart',18,isFav);
+  document.getElementById('sdHeart').style.color = isFav ? 'var(--rust-400)' : 'var(--ivory-100)';
+  document.getElementById('sdHeart').onclick = function(){ toggleFav(s.id); renderShopDetail(); };
+  document.getElementById('sdBarbersPreview').innerHTML = barbers.map(function(b){
+    return '<div class="barbercard" onclick="selectBarber(\''+b.id+'\')">' +
+      '<div class="avatar" style="width:48px;height:48px;font-size:17px;">'+b.name.charAt(0)+'</div>' +
+      '<div class="info"><h4>'+b.name+'</h4><div class="tag">'+b.tag+'</div>'+starsHtml(b.rating,11)+'</div>' +
+      '<div class="chev">'+icon('chevronLeft',18)+'</div>' +
+    '</div>';
+  }).join('');
+
+  const ownIds = Object.keys(barberOwnedProducts);
+  const ownList = ownIds.reduce(function(acc, bid){ return acc.concat(barberOwnedProducts[bid]); }, []);
+  document.getElementById('sdOwnProductsSection').innerHTML = ownList.length ?
+    '<h3 class="section-title">منتجات الحلاقين هنا</h3>' +
+    '<p class="ownproducts-note">بيبيعوها بنفسهم — لو عجبتك تقدر تطلبها من غير ما تحجز.</p>' +
+    '<div class="storegrid">' + ownList.map(productCardHtml).join('') + '</div>'
+    : '';
+}
+
+function renderBarberList(){
+  document.getElementById('ctxBarber').innerHTML = 'بتحجز في <b>'+state.shop.name+'</b>';
+  document.getElementById('barberList').innerHTML = barbers.map(function(b){
+    return '<div class="barbercard" onclick="selectBarber(\''+b.id+'\')">' +
+      '<div class="avatar" style="width:54px;height:54px;font-size:19px;">'+b.name.charAt(0)+'</div>' +
+      '<div class="info">' +
+        '<h4>'+b.name+'</h4><div class="tag">'+b.tag+'</div>' +
+        starsHtml(b.rating,12) +
+        '<div class="portfolio">'+b.portfolio.map(function(c){return '<i style="background:'+c+'"></i>';}).join('')+'</div>' +
+        '<span class="badge '+(b.ok?'open':'closed')+'" style="margin-top:7px;"><span class="dot"></span>'+b.status+'</span>' +
+      '</div>' +
+      '<div class="chev">'+icon('chevronLeft',18)+'</div>' +
+    '</div>';
+  }).join('');
+}
+
+function selectBarber(id){
+  state.barber = barbers.find(function(b){return b.id===id;});
+  renderServiceList();
+  go('chooseService');
+}
+
+function renderServiceList(){
+  document.getElementById('ctxService').innerHTML = 'مع <b>'+state.barber.name+'</b> · '+state.shop.name;
+  document.getElementById('serviceList').innerHTML = services.map(function(sv){
+    const on = sv.id === state.service.id;
+    return '<div class="servicecard '+(on?'on':'')+'" onclick="selectService(\''+sv.id+'\')">' +
+      (sv.popular ? '<span class="popular-tag">الأكثر طلبًا</span>' : '') +
+      '<div class="radio">'+(on?icon('check',12):'')+'</div>' +
+      '<div class="info"><h4>'+sv.name+'</h4><p>'+sv.desc+'</p></div>' +
+      '<div class="price"><b>'+sv.price+' ج</b><span>'+sv.dur+' د</span></div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('svcTotal').textContent = state.service.price+' ج · '+state.service.dur+' د';
+}
+
+function selectService(id){
+  state.service = services.find(function(sv){return sv.id===id;});
+  renderServiceList();
+}
+
+function renderStyleGrid(){
+  document.getElementById('ctxStyle').innerHTML = state.service.name+' مع <b>'+state.barber.name+'</b>';
+  document.getElementById('styleGrid').innerHTML = haircutStyles.map(function(st){
+    const on = st.id === state.style.id;
+    const deltaLabel = st.delta===0 ? 'من غير زيادة' : (st.delta>0 ? '+'+st.delta+' ج' : st.delta+' ج');
+    return '<div class="stylecard '+(on?'on':'')+'" onclick="selectStyle(\''+st.id+'\')">' +
+      '<div class="swatch" style="background:'+st.img+'">'+(on?'<div class="check">'+icon('check',12)+'</div>':'')+'</div>' +
+      '<div class="name">'+st.name+'</div>' +
+      '<div class="delta">'+deltaLabel+'</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('styleTotal').textContent = totalServicePrice()+' ج · '+state.service.dur+' د';
+}
+
+function selectStyle(id){
+  state.style = haircutStyles.find(function(st){return st.id===id;});
+  renderStyleGrid();
+}
+
+function renderDateStrip(){
+  document.getElementById('ctxTime').innerHTML = state.service.name+' مع <b>'+state.barber.name+'</b>';
+  document.getElementById('dateStrip').innerHTML = dates.map(function(d){
+    const on = d.id === state.date;
+    return '<div class="datechip '+(on?'on':'')+'" onclick="selectDate(\''+d.id+'\')"><span>'+d.day+'</span><b>'+d.num+'</b></div>';
+  }).join('');
+}
+
+function selectDate(id){ state.date = id; renderDateStrip(); }
+
+function renderTimeGrid(){
+  document.getElementById('timeGrid').innerHTML = timeSlots.map(function(s){
+    if(s.st==='booked') return '<div class="timechip booked">'+s.t+'</div>';
+    const on = s.t === state.time;
+    return '<div class="timechip '+(on?'on':'')+'" onclick="selectTime(\''+s.t+'\')">'+(s.q?'<span class="q">'+s.q+'</span>':'')+s.t+'</div>';
+  }).join('');
+  document.getElementById('timeNextBtn').disabled = !state.time;
+  document.getElementById('queueStatusText').textContent = state.barber.status;
+}
+
+function selectTime(t){ state.time = t; renderTimeGrid(); }
+
+function renderSummary(){
+  document.getElementById('summaryCard').innerHTML =
+    '<div class="sumrow"><span class="lbl">الصالون</span><span class="val">'+state.shop.name+'</span></div>' +
+    '<div class="sumrow"><span class="lbl">الحلاق</span><span class="val">'+state.barber.name+'</span></div>' +
+    '<div class="sumrow"><span class="lbl">الخدمة</span><span class="val">'+state.service.name+'</span></div>' +
+    '<div class="sumrow"><span class="lbl">الشكل</span><span class="val">'+state.style.name+'</span></div>' +
+    '<div class="sumrow"><span class="lbl">المعاد</span><span class="val">'+dates.find(function(d){return d.id===state.date;}).day+' '+dates.find(function(d){return d.id===state.date;}).num+' — '+state.time+' م</span></div>' +
+    '<div class="sumtotal"><span>الإجمالي</span><b>'+totalServicePrice()+' ج</b></div>';
+  document.getElementById('sumTotal').textContent = totalServicePrice()+' ج';
+}
+
+function setPay(m){
+  state.pay = m;
+  document.getElementById('payCash').classList.toggle('on', m==='cash');
+  document.getElementById('payCard').classList.toggle('on', m==='card');
+}
+
+function confirmBooking(){
+  const code = '#AH-'+Math.floor(4000+Math.random()*999);
+  state.bookings.unshift({
+    code:code, shop:state.shop, barber:state.barber, service:state.service, style:state.style, totalPrice:totalServicePrice(),
+    dateLabel:dates.find(function(d){return d.id===state.date;}).day+' '+dates.find(function(d){return d.id===state.date;}).num,
+    time:state.time+' م', done:false, queueAhead:1, rating:0
+  });
+  document.getElementById('successCode').textContent = code;
+  document.getElementById('successText').innerHTML = 'هنبعتلك تذكير قبل معادك بساعة. رقم حجزك <b style="color:var(--ivory-100);">'+code+'</b>';
+  renderBookings();
+  go('success');
+}
+
+function shareRef(){
+  const b = document.getElementById('successText');
+  const old = b.innerHTML;
+  b.innerHTML = 'تم نسخ رابط <b style="color:var(--ivory-100);">'+state.barber.name+'</b> — ابعته لصحابك عشان يتحطلهم في المفضلة أوتوماتيك 🔗';
+  setTimeout(function(){ b.innerHTML = old; }, 2400);
+}
+
+function bookingCard(bk){
+  if(!bk.done){
+    return '<div class="booking-upcoming">' +
+      '<div class="head"><h4>'+bk.shop.name+' · '+bk.barber.name+'</h4><span class="badge queue"><span class="dot"></span>قادم</span></div>' +
+      '<div class="meta" style="margin-bottom:4px;">'+icon('calendar',13)+'<span style="font-size:12px;color:var(--ivory-300);">'+bk.dateLabel+' — '+bk.time+'</span></div>' +
+      '<div class="meta">'+icon('clock',13)+'<span style="font-size:12px;color:var(--ivory-300);">'+bk.service.name+' ('+bk.style.name+') · '+bk.totalPrice+' ج</span></div>' +
+      '<div class="queuewidget" style="margin:12px 0 0;"><div class="pulse"></div><p>قدامك <b>'+(bk.queueAhead||1)+'</b> عميل دلوقتي — معادك متوقع الساعة <b>'+bk.time+'</b> تقريبًا</p></div>' +
+      '<div class="bkactions"><button class="btn btn-dark">تعديل</button><button class="btn btn-dark" style="color:var(--rust-400);">إلغاء الحجز</button></div>' +
+    '</div>';
+  }
+  return '<div class="pastcard">' +
+    '<div class="row1"><h4>'+bk.shop.name+' · '+bk.barber.name+'</h4><span class="date">'+bk.dateLabel+'</span></div>' +
+    '<div class="meta">'+icon('clock',12)+'<span style="font-size:11.5px;color:var(--ivory-500);">'+bk.service.name+' ('+bk.style.name+')</span></div>' +
+    '<div class="ratebar" id="rate-'+bk.code.replace('#','')+'"></div>' +
+  '</div>';
+}
+
+function renderBookings(){
+  const upcoming = state.bookings.filter(function(b){return !b.done;});
+  const past = state.bookings.filter(function(b){return b.done;});
+  document.getElementById('bookingsUpcoming').innerHTML = upcoming.map(bookingCard).join('') || '<div class="empty-note">مفيش حجوزات قادمة</div>';
+  document.getElementById('bookingsPast').innerHTML = past.map(bookingCard).join('');
+  past.forEach(function(bk){
+    const wrap = document.getElementById('rate-'+bk.code.replace('#',''));
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    for(let i=1;i<=5;i++){
+      const el = document.createElement('span');
+      el.innerHTML = icon('star',19, i<=bk.rating);
+      el.className = i<=bk.rating ? 'on' : '';
+      el.onclick = (function(n){ return function(){ bk.rating = n; renderBookings(); }; })(i);
+      wrap.appendChild(el);
+    }
+  });
+}
+
+function findProduct(id){
+  const inCatalog = products.find(function(x){return x.id===id;});
+  if(inCatalog) return inCatalog;
+  const barberLists = Object.values(barberOwnedProducts);
+  for(let i=0;i<barberLists.length;i++){
+    const hit = barberLists[i].find(function(x){return x.id===id;});
+    if(hit) return hit;
+  }
+  return null;
+}
+function totalServicePrice(){ return state.service.price + state.style.delta; }
+function cartCount(){ return Object.values(state.cart).reduce(function(a,b){return a+b;},0); }
+function cartTotal(){
+  return Object.keys(state.cart).reduce(function(s,id){
+    const p = findProduct(id);
+    return s + (p ? p.price*state.cart[id] : 0);
+  },0);
+}
+function updateCartBadge(){
+  const badge = document.getElementById('cartBadge');
+  if(!badge) return;
+  const c = cartCount();
+  badge.style.display = c ? 'flex' : 'none';
+  badge.textContent = c;
+}
+function addToCart(id, qty){
+  qty = qty || 1;
+  state.cart[id] = (state.cart[id]||0) + qty;
+  updateCartBadge();
+}
+function changeCartQty(id, delta){
+  const q = (state.cart[id]||0) + delta;
+  if(q <= 0) delete state.cart[id]; else state.cart[id] = q;
+  renderCart(); updateCartBadge();
+}
+function removeFromCart(id){ delete state.cart[id]; renderCart(); updateCartBadge(); }
+
+function productCardHtml(p){
+  return '<div class="productcard" onclick="openProduct(\''+p.id+'\')">' +
+    '<div class="img" style="background:'+p.img+'"></div>' +
+    '<h4>'+p.name+'</h4>' +
+    starsHtml(p.rating,11) +
+    '<div class="pmeta"><span class="price">'+p.price+' ج</span>' +
+      '<div class="addbtn" onclick="event.stopPropagation();addToCart(\''+p.id+'\',1);pulseCart();">'+icon('plus',14)+'</div>' +
+    '</div>' +
+  '</div>';
+}
+function pulseCart(){
+  const badge = document.getElementById('cartBadge');
+  if(!badge) return;
+  badge.style.display = 'flex';
+  badge.textContent = cartCount();
+}
+function renderStore(){
+  updateCartBadge();
+  document.getElementById('catRow').innerHTML = categories.map(function(c){
+    return '<div class="catchip '+(c===selectedCat?'on':'')+'" onclick="selectCat(\''+c+'\')">'+c+'</div>';
+  }).join('');
+  const list = products.filter(function(p){ return selectedCat==='الكل' || p.cat===selectedCat; });
+  document.getElementById('storeGrid').innerHTML = list.map(productCardHtml).join('');
+}
+function selectCat(c){ selectedCat = c; renderStore(); }
+
+function openProduct(id){ currentProductId = id; pdQty = 1; renderProductDetail(); go('productDetail'); }
+function pdChangeQty(delta){ pdQty = Math.max(1, pdQty+delta); renderProductDetail(); }
+function pdAddToCart(){ addToCart(currentProductId, pdQty); renderProductDetail(); }
+function renderProductDetail(){
+  const p = findProduct(currentProductId) || products[0];
+  const inCart = state.cart[p.id] || 0;
+  document.getElementById('pdContent').innerHTML =
+    '<div class="pdimage" style="background:'+p.img+'"></div>' +
+    '<h2 style="font-family:\'Reem Kufi\',sans-serif;font-size:19px;margin:16px 0 6px;color:var(--ivory-100);">'+p.name+'</h2>' +
+    '<div style="display:flex;align-items:center;gap:10px;">'+starsHtml(p.rating,13)+'<span style="font-size:20px;font-weight:800;color:var(--brass-300);font-variant-numeric:tabular-nums;">'+p.price+' ج</span></div>' +
+    '<p style="margin:14px 0 0;font-size:13px;color:var(--ivory-500);line-height:1.9;">'+p.desc+'</p>' +
+    (inCart ? '<div class="badge open" style="margin-top:12px;"><span class="dot"></span>'+inCart+' في السلة بالفعل</div>' : '') +
+    '<h3 class="section-title">الكمية</h3>' +
+    '<div class="qtystep"><button onclick="pdChangeQty(-1)">'+icon('minus',14)+'</button><b>'+pdQty+'</b><button onclick="pdChangeQty(1)">'+icon('plus',14)+'</button></div>' +
+    '<button class="btn btn-primary btn-block" style="margin-top:20px;" onclick="pdAddToCart()">'+icon('bag',16)+' أضف للسلة · '+(p.price*pdQty)+' ج</button>';
+}
+
+function cartRowHtml(id, qty){
+  const p = findProduct(id);
+  if(!p) return '';
+  return '<div class="cartrow">' +
+    '<div class="img" style="background:'+p.img+'"></div>' +
+    '<div class="info"><h4>'+p.name+'</h4><span>'+p.price+' ج</span></div>' +
+    '<div class="qtystep"><button onclick="changeCartQty(\''+id+'\',-1)">'+icon('minus',12)+'</button><b>'+qty+'</b><button onclick="changeCartQty(\''+id+'\',1)">'+icon('plus',12)+'</button></div>' +
+    '<div class="remove" onclick="removeFromCart(\''+id+'\')">'+icon('x',16)+'</div>' +
+  '</div>';
+}
+function renderCart(){
+  const ids = Object.keys(state.cart);
+  document.getElementById('cartContent').innerHTML = ids.length
+    ? ids.map(function(id){ return cartRowHtml(id, state.cart[id]); }).join('')
+    : '<div class="empty-note" style="padding-top:40px;">السلة فاضية دلوقتي<br><br><button class="btn btn-dark" onclick="tab(\'store\')">تسوق دلوقتي</button></div>';
+  const total = cartTotal();
+  document.getElementById('cartTotalText').textContent = total+' ج';
+  document.getElementById('cartCheckoutBtn').disabled = ids.length === 0;
+  document.getElementById('cartSticky').style.display = ids.length ? 'flex' : 'none';
+  updateCartBadge();
+}
+
+function setStorePay(m){
+  state.storePay = m;
+  document.getElementById('storePayCash').classList.toggle('on', m==='cash');
+  document.getElementById('storePayCard').classList.toggle('on', m==='card');
+}
+function renderCheckout(){
+  const ids = Object.keys(state.cart);
+  const subtotal = cartTotal();
+  const delivery = subtotal >= 300 || subtotal === 0 ? 0 : 30;
+  const total = subtotal + delivery;
+  document.getElementById('checkoutSummary').innerHTML =
+    ids.map(function(id){
+      const p = findProduct(id);
+      return '<div class="sumrow"><span class="lbl">'+state.cart[id]+'×</span><span class="val">'+p.name+'</span></div>';
+    }).join('') +
+    '<div class="sumrow"><span class="lbl">التوصيل</span><span class="val">'+(delivery? delivery+' ج' : 'مجاني')+'</span></div>' +
+    '<div class="sumtotal"><span>الإجمالي</span><b>'+total+' ج</b></div>';
+  document.getElementById('checkoutTotal').textContent = total+' ج';
+}
+function confirmOrder(){
+  const ids = Object.keys(state.cart);
+  const items = ids.map(function(id){
+    const p = findProduct(id);
+    return {name:p.name, qty:state.cart[id], price:p.price};
+  });
+  const subtotal = cartTotal();
+  const delivery = subtotal >= 300 || subtotal === 0 ? 0 : 30;
+  const code = '#ORD-'+Math.floor(1100+Math.random()*899);
+  state.orders.unshift({code:code, items:items, total:subtotal+delivery, dateLabel:'النهاردة', status:'processing'});
+  state.cart = {};
+  updateCartBadge();
+  document.getElementById('orderSuccessCode').textContent = code;
+  go('orderSuccess');
+}
+
+function orderCardHtml(o){
+  const statusText = {processing:'جاري التجهيز', shipped:'في الطريق', delivered:'اتسلم'}[o.status];
+  return '<div class="pastcard">' +
+    '<div class="row1"><h4>'+o.code+'</h4><span class="date">'+o.dateLabel+'</span></div>' +
+    '<div class="meta">'+icon('bag',12)+'<span style="font-size:11.5px;color:var(--ivory-500);">'+o.items.map(function(i){return i.qty+'× '+i.name;}).join('، ')+'</span></div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">' +
+      '<span class="badge '+(o.status==='delivered'?'open':'queue')+'"><span class="dot"></span>'+statusText+'</span>' +
+      '<b style="font-size:13px;color:var(--brass-300);font-variant-numeric:tabular-nums;">'+o.total+' ج</b>' +
+    '</div>' +
+  '</div>';
+}
+function renderMyOrders(){
+  document.getElementById('myOrdersList').innerHTML = state.orders.length
+    ? state.orders.map(orderCardHtml).join('')
+    : '<div class="empty-note">مفيش طلبات لسه</div>';
+}
+
+const TABS = [
+  ['home','home','الرئيسية'],
+  ['favorites','heart','المفضلة'],
+  ['store','bag','المتجر'],
+  ['bookings','calendar','حجوزاتي'],
+  ['profile','user','حسابي']
+];
+function tabbarHtml(active){
+  return TABS.map(function(t){
+    return '<button class="tab '+(t[0]===active?'active':'')+'" onclick="tab(\''+t[0]+'\')">'+icon(t[1],22)+'<span>'+t[2]+'</span></button>';
+  }).join('');
+}
+function paintTabbars(active){
+  document.getElementById('tabbarHome').innerHTML = tabbarHtml(active);
+  document.getElementById('tabbarFav').innerHTML = tabbarHtml(active);
+  document.getElementById('tabbarStore').innerHTML = tabbarHtml(active);
+  document.getElementById('tabbarBookings').innerHTML = tabbarHtml(active);
+  document.getElementById('tabbarProfile').innerHTML = tabbarHtml(active);
+}
+
+const mainTabs = ['home','favorites','store','bookings','profile'];
+const flowScreens = ['shopDetail','chooseBarber','chooseService','chooseStyle','chooseTime','summary'];
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+
+  if(mainTabs.indexOf(id) > -1) paintTabbars(id);
+
+  const rail = document.getElementById('rail');
+  const stepIdx = flowScreens.indexOf(id);
+  rail.classList.toggle('show', stepIdx > -1);
+  if(stepIdx > -1){
+    rail.querySelectorAll('.dot').forEach(function(d){
+      const dIdx = flowScreens.indexOf(d.dataset.step);
+      d.classList.toggle('active', dIdx === stepIdx);
+      d.classList.toggle('done', dIdx < stepIdx);
+      d.textContent = dIdx < stepIdx ? '' : (dIdx+1);
+      if(dIdx < stepIdx) d.innerHTML = icon('check',13);
+    });
+    rail.querySelectorAll('.line').forEach(function(l){
+      l.classList.toggle('done', parseInt(l.dataset.line,10) < stepIdx);
+    });
+  }
+
+  document.querySelectorAll('.jchip').forEach(function(c){ c.classList.toggle('on', c.dataset.scr===id); });
+
+  if(id==='home') renderHome();
+  if(id==='favorites') renderFavorites();
+  if(id==='chooseBarber') renderBarberList();
+  if(id==='chooseService') renderServiceList();
+  if(id==='chooseStyle') renderStyleGrid();
+  if(id==='chooseTime'){ renderDateStrip(); renderTimeGrid(); }
+  if(id==='summary') renderSummary();
+  if(id==='bookings') renderBookings();
+  if(id==='shopDetail') renderShopDetail();
+  if(id==='store') renderStore();
+  if(id==='productDetail') renderProductDetail();
+  if(id==='cart') renderCart();
+  if(id==='checkout') renderCheckout();
+  if(id==='myOrders') renderMyOrders();
+}
+function go(id){ stack.push(id); show(id); }
+function back(){ if(stack.length>1){ stack.pop(); show(stack[stack.length-1]); } }
+function tab(id){ stack=[id]; show(id); }
+function jumpTo(id){
+  if(mainTabs.indexOf(id) > -1){ tab(id); return; }
+  stack=[id]; show(id);
+}
+
+// hydrate every static <i class="icn" data-i="..."> placeholder with its real inline SVG
+document.querySelectorAll('.icn').forEach(function(el){
+  const name = el.dataset.i;
+  const size = parseInt(el.dataset.s || '20', 10);
+  if(name === 'chevronLeft'){
+    el.outerHTML = '<span class="chev">'+icon(name, size)+'</span>';
+  } else {
+    el.outerHTML = icon(name, size);
+  }
+});
+
+setPay('cash');
+show('splash');
+</script>
