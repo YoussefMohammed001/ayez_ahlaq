@@ -272,5 +272,9 @@
   "themeDark": "Dark",
   "themeLight": "Light",
   "arabic": "العربية",
-  "english": "English"
+  "english": "English",
+  "inStock": "In stock",
+  "outOfStock": "Out of stock",
+  "activeDiscount": "Active offer",
+  "productDetails": "Product details"
 }

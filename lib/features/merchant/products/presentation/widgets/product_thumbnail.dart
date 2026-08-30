@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/constants/strings.dart';
 import '../../../../../core/network/constants/endpoints.dart';
+import '../../../../../core/widgets/authorized_network_image.dart';
 import '../../domain/entities/merchant_product.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
@@ -28,14 +27,11 @@ class ProductThumbnail extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: corner,
-      child: CachedNetworkImage(
-        imageUrl:
-            '${AppStrings.baseUrl}${EndPoints.merchantProductImage(product.id)}',
+      child: AuthorizedNetworkImage(
+        endPoint: EndPoints.merchantProductImage(product.id),
         width: size,
         height: size,
-        fit: BoxFit.cover,
-        placeholder: (_, __) => _buildPlaceholder(context, corner),
-        errorWidget: (_, __, ___) => _buildPlaceholder(context, corner),
+        placeholderBuilder: (context) => _buildPlaceholder(context, corner),
       ),
     );
   }
@@ -48,7 +44,10 @@ class ProductThumbnail extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [context.colorScheme.primary, context.colorScheme.primaryContainer],
+          colors: [
+            context.colorScheme.primary,
+            context.colorScheme.primaryContainer,
+          ],
         ),
         borderRadius: corner,
       ),

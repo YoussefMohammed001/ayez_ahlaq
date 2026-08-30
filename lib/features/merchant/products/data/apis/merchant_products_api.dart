@@ -37,7 +37,7 @@ class MerchantProductsApi {
     );
   }
 
-  Future<Either<Failure, dynamic>> deactivateProduct(int id) {
+  Future<Either<Failure, dynamic>> deleteProduct(int id) {
     return _networkService.deleteData(
       endPoint: EndPoints.merchantProductById(id),
     );

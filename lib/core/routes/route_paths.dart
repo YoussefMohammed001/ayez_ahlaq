@@ -8,6 +8,7 @@ class Routes {
 
   static const String merchantShell = '/merchant';
   static const String merchantProductFormScreen = '/merchant/product/form';
+  static const String merchantProductDetailsScreen = '/merchant/product/details';
   static const String merchantCategoriesScreen = '/merchant/categories';
   static const String merchantDiscountsScreen = '/merchant/discounts';
   static const String merchantDiscountFormScreen = '/merchant/discounts/form';

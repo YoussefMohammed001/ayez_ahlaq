@@ -43,7 +43,7 @@ import '../../features/merchant/products/data/apis/merchant_products_api.dart';
 import '../../features/merchant/products/data/repos/merchant_products_repo.dart';
 import '../../features/merchant/products/domain/repos/i_merchant_products_repo.dart';
 import '../../features/merchant/products/domain/use_cases/create_product_use_case.dart';
-import '../../features/merchant/products/domain/use_cases/deactivate_product_use_case.dart';
+import '../../features/merchant/products/domain/use_cases/delete_product_use_case.dart';
 import '../../features/merchant/products/domain/use_cases/delete_product_image_use_case.dart';
 import '../../features/merchant/products/domain/use_cases/get_products_use_case.dart';
 import '../../features/merchant/products/domain/use_cases/set_product_stock_use_case.dart';
@@ -186,7 +186,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetProductsUseCase(sl()));
     sl.registerLazySingleton(() => CreateProductUseCase(sl()));
     sl.registerLazySingleton(() => UpdateProductUseCase(sl()));
-    sl.registerLazySingleton(() => DeactivateProductUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteProductUseCase(sl()));
     sl.registerLazySingleton(() => SetProductStockUseCase(sl()));
     sl.registerLazySingleton(() => DeleteProductImageUseCase(sl()));
     sl.registerFactory(

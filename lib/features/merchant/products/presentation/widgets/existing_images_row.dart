@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/constants/strings.dart';
 import '../../../../../core/network/constants/endpoints.dart';
+import '../../../../../core/widgets/authorized_network_image.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
 class ExistingImagesRow extends StatelessWidget {
@@ -36,13 +35,11 @@ class ExistingImagesRow extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12.r),
-          child: CachedNetworkImage(
-            imageUrl:
-                '${AppStrings.baseUrl}${EndPoints.merchantProductImageById(productId, imageId)}',
+          child: AuthorizedNetworkImage(
+            endPoint: EndPoints.merchantProductImageById(productId, imageId),
             width: 78.r,
             height: 78.r,
-            fit: BoxFit.cover,
-            errorWidget: (_, __, ___) => Container(
+            placeholderBuilder: (context) => Container(
               width: 78.r,
               height: 78.r,
               color: context.colorScheme.surfaceContainer,

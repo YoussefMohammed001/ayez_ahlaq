@@ -2403,6 +2403,36 @@ class S {
   String get english {
     return Intl.message('English', name: 'english', desc: '', args: []);
   }
+
+  /// `In stock`
+  String get inStock {
+    return Intl.message('In stock', name: 'inStock', desc: '', args: []);
+  }
+
+  /// `Out of stock`
+  String get outOfStock {
+    return Intl.message('Out of stock', name: 'outOfStock', desc: '', args: []);
+  }
+
+  /// `Active offer`
+  String get activeDiscount {
+    return Intl.message(
+      'Active offer',
+      name: 'activeDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product details`
+  String get productDetails {
+    return Intl.message(
+      'Product details',
+      name: 'productDetails',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -17,7 +17,7 @@ abstract class IMerchantProductsRepo {
     ProductFormRequest request,
   );
 
-  Future<Either<Failure, Unit>> deactivateProduct(int id);
+  Future<Either<Failure, Unit>> deleteProduct(int id);
 
   Future<Either<Failure, MerchantProduct>> setStock(int id, int quantity);
 

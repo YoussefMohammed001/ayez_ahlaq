@@ -1,12 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failure.dart';
 import '../../data/requests/product_form_request.dart';
-import '../../data/requests/product_form_request_factory.dart';
 import '../../domain/entities/merchant_product.dart';
 import '../../domain/entities/product_list_ext.dart';
 import '../../domain/use_cases/create_product_use_case.dart';
-import '../../domain/use_cases/deactivate_product_use_case.dart';
 import '../../domain/use_cases/delete_product_image_use_case.dart';
+import '../../domain/use_cases/delete_product_use_case.dart';
 import '../../domain/use_cases/get_products_use_case.dart';
 import '../../domain/use_cases/set_product_stock_use_case.dart';
 import '../../domain/use_cases/update_product_use_case.dart';
@@ -16,7 +15,7 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
   final GetProductsUseCase _getProducts;
   final CreateProductUseCase _createProduct;
   final UpdateProductUseCase _updateProduct;
-  final DeactivateProductUseCase _deactivateProduct;
+  final DeleteProductUseCase _deleteProduct;
   final SetProductStockUseCase _setStock;
   final DeleteProductImageUseCase _deleteImage;
 
@@ -24,7 +23,7 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
     this._getProducts,
     this._createProduct,
     this._updateProduct,
-    this._deactivateProduct,
+    this._deleteProduct,
     this._setStock,
     this._deleteImage,
   ) : super(const MerchantProductsState());
@@ -43,6 +42,15 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
       ),
       (products) => emit(
         state.copyWith(status: ProductsStatus.success, products: products),
+      ),
+    );
+  }
+
+  void filterByCategory(int? categoryId) {
+    emit(
+      state.copyWith(
+        categoryFilter: categoryId,
+        clearCategoryFilter: categoryId == null,
       ),
     );
   }
@@ -91,29 +99,11 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
     );
   }
 
-  Future<void> toggleProductActive(MerchantProduct product) async {
-    if (product.active) {
-      await deactivateProduct(product.id);
-      return;
-    }
-
-    await updateProduct(product.id, product.toFormRequest());
-  }
-
-  Future<void> deactivateProduct(int id) async {
-    final previous = state.products;
-    emit(state.copyWith(products: state.products.markInactive(id)));
-
-    final result = await _deactivateProduct(id);
-
-    result.leftMap((failure) => _revert(previous, failure));
-  }
-
   Future<void> removeProduct(int id) async {
     final previous = state.products;
     emit(state.copyWith(products: state.products.without(id)));
 
-    final result = await _deactivateProduct(id);
+    final result = await _deleteProduct(id);
 
     result.leftMap((failure) => _revert(previous, failure));
   }
@@ -125,7 +115,8 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
 
     result.fold(
       (failure) => _revert(previous, failure),
-      (product) => emit(state.copyWith(products: state.products.replace(product))),
+      (product) =>
+          emit(state.copyWith(products: state.products.replace(product))),
     );
   }
 

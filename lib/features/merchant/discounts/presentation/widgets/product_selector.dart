@@ -21,7 +21,7 @@ class ProductSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MerchantProductsCubit, MerchantProductsState>(
       builder: (context, state) {
-        final products = state.activeProducts;
+        final products = state.products;
         final selected = products.any((p) => p.id == value) ? value : null;
 
         return DropdownButtonFormField<int>(

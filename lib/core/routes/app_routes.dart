@@ -18,6 +18,7 @@ import '../../features/merchant/orders/presentation/pages/order_details_screen.d
 import '../../features/merchant/presentation/pages/merchant_shell.dart';
 import '../../features/merchant/products/presentation/manager/merchant_products_cubit.dart';
 import '../../features/merchant/products/domain/entities/merchant_product.dart';
+import '../../features/merchant/products/presentation/pages/product_details_screen.dart';
 import '../../features/merchant/products/presentation/pages/product_form_screen.dart';
 import '../../features/merchant/profile/domain/entities/merchant_profile.dart';
 import '../../features/merchant/profile/presentation/manager/merchant_profile_cubit.dart';
@@ -90,6 +91,13 @@ final routes = GoRouter(
         child: ProductFormScreen(
           product: state.extra as MerchantProduct?,
         ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantProductDetailsScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _productsCubit,
+        child: ProductDetailsScreen(productId: state.extra as int),
       ),
     ),
     GoRoute(

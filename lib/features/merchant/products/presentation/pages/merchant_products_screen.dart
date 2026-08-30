@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
+import '../../domain/entities/merchant_product.dart';
 import '../manager/merchant_products_cubit.dart';
 import '../manager/merchant_products_state.dart';
+import '../widgets/product_category_filter.dart';
 import '../widgets/product_row.dart';
+import '../widgets/products_header.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
@@ -39,14 +41,17 @@ class MerchantProductsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(context),
+            const ProductsHeader(),
             Padding(
               padding: EdgeInsets.fromLTRB(20.w, 4.h, 20.w, 10.h),
               child: Text(
                 S().productsNote,
-                style: font12w400.copyWith(color: context.colorScheme.onSurfaceVariant),
+                style: font12w400.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
+            const ProductCategoryFilter(),
             Expanded(child: _buildBody()),
           ],
         ),
@@ -54,55 +59,28 @@ class MerchantProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 4.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(S().tabProducts, style: HeadingStyles.h2),
-          InkWell(
-            onTap: () => context.push(Routes.merchantProductFormScreen),
-            child: Container(
-              width: 36.r,
-              height: 36.r,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: context.colorScheme.primary,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Icon(
-                Icons.add,
-                color: context.colorScheme.surfaceContainerLowest,
-                size: 20.r,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBody() {
     return BlocBuilder<MerchantProductsCubit, MerchantProductsState>(
       builder: (context, state) {
+        final cubit = context.read<MerchantProductsCubit>();
+
         if (state.status == ProductsStatus.loading) {
           return const ListSkeleton();
         }
 
         if (state.status == ProductsStatus.failure && state.products.isEmpty) {
           return RefreshableStateView(
-            onRefresh: context.read<MerchantProductsCubit>().loadProducts,
+            onRefresh: cubit.loadProducts,
             child: AppErrorState(
               message: state.errorMessage,
-              onRetry: context.read<MerchantProductsCubit>().loadProducts,
+              onRetry: cubit.loadProducts,
             ),
           );
         }
 
         if (state.products.isEmpty) {
           return RefreshableStateView(
-            onRefresh: context.read<MerchantProductsCubit>().loadProducts,
+            onRefresh: cubit.loadProducts,
             child: AppEmptyState(
               icon: Icons.inventory_2_outlined,
               title: S().noProductsYet,
@@ -114,25 +92,34 @@ class MerchantProductsScreen extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: context.read<MerchantProductsCubit>().loadProducts,
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-            itemCount: state.products.length,
-            itemBuilder: (_, index) {
-              final product = state.products[index];
-              return ProductRow(
-                product: product,
-                onTap: () => context.push(
-                  Routes.merchantProductFormScreen,
-                  extra: product,
-                ),
-                onToggle: () => context
-                    .read<MerchantProductsCubit>()
-                    .toggleProductActive(product),
-                onRemove: () => _confirmRemove(context, product.id),
-              );
-            },
+          onRefresh: cubit.loadProducts,
+          child: _buildList(context, state.visibleProducts),
+        );
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<MerchantProduct> products) {
+    if (products.isEmpty) {
+      return AppEmptyState(
+        icon: Icons.filter_alt_off_outlined,
+        title: S().noProductsYet,
+        message: S().productsNote,
+      );
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+      itemCount: products.length,
+      itemBuilder: (_, index) {
+        final product = products[index];
+        return ProductRow(
+          product: product,
+          onTap: () => context.push(
+            Routes.merchantProductDetailsScreen,
+            extra: product.id,
           ),
+          onRemove: () => _confirmRemove(context, product.id),
         );
       },
     );

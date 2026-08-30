@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ayez Ahlaq — a wholesale platform connecting barber supply merchants with salons.",
     ),
     "acceptOrder": MessageLookupByLibrary.simpleMessage("Accept order"),
+    "activeDiscount": MessageLookupByLibrary.simpleMessage("Active offer"),
     "activeProducts": MessageLookupByLibrary.simpleMessage("Active products"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addAction": MessageLookupByLibrary.simpleMessage("+ Add"),
@@ -223,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
+    "inStock": MessageLookupByLibrary.simpleMessage("In stock"),
     "instagram_error": MessageLookupByLibrary.simpleMessage(
       "Could not open Instagram",
     ),
@@ -349,6 +351,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "orderTotal": MessageLookupByLibrary.simpleMessage("Total"),
     "orderedItems": MessageLookupByLibrary.simpleMessage("Ordered items"),
+    "outOfStock": MessageLookupByLibrary.simpleMessage("Out of stock"),
     "ownerName": MessageLookupByLibrary.simpleMessage("Owner name"),
     "ownerNameHint": MessageLookupByLibrary.simpleMessage("e.g. Ahmed Ali"),
     "ownerNameRequired": MessageLookupByLibrary.simpleMessage(
@@ -407,6 +410,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "productDescriptionHint": MessageLookupByLibrary.simpleMessage(
       "Write a short description and its benefits for barbers",
     ),
+    "productDetails": MessageLookupByLibrary.simpleMessage("Product details"),
     "productFormNote": MessageLookupByLibrary.simpleMessage(
       "This product appears only in the supplies store inside the barbers\' app, not to regular customers.",
     ),

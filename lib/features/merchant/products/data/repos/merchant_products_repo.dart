@@ -41,8 +41,8 @@ class MerchantProductsRepo implements IMerchantProductsRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> deactivateProduct(int id) async {
-    final result = await _api.deactivateProduct(id);
+  Future<Either<Failure, Unit>> deleteProduct(int id) async {
+    final result = await _api.deleteProduct(id);
     return result.map((_) => unit);
   }
 
