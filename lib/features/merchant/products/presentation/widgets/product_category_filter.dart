@@ -22,7 +22,7 @@ class ProductCategoryFilter extends StatelessWidget {
                 .where((c) => used.contains(c.id))
                 .toList();
 
-            if (options.length < 2) return const SizedBox.shrink();
+            if (options.isEmpty) return const SizedBox.shrink();
 
             return FilterChipRow<MerchantCategory>(
               options: options,

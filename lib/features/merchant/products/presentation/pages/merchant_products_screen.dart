@@ -1,3 +1,4 @@
+import 'package:ayez_ahlaq/core/extensions/ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +52,9 @@ class MerchantProductsScreen extends StatelessWidget {
                 ),
               ),
             ),
+            5.hSpace,
             const ProductCategoryFilter(),
+            10.hSpace,
             Expanded(child: _buildBody()),
           ],
         ),

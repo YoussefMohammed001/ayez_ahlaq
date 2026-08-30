@@ -26,6 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>نحتاج إلى الكاميرا لالتقاط صور المنتجات والملف الشخصي.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>نحتاج إلى الوصول إلى الصور لاختيار صور المنتجات والملف الشخصي.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>نحتاج إلى حفظ الصور في مكتبة الصور الخاصة بك.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>نحتاج إلى الميكروفون عند تسجيل مقاطع الفيديو.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

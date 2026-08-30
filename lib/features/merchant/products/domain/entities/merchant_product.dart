@@ -59,5 +59,20 @@ class MerchantProduct extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, price, effectivePrice, active, totalStock];
+  List<Object?> get props => [
+    id,
+    name,
+    brand,
+    categoryId,
+    categoryName,
+    description,
+    price,
+    effectivePrice,
+    minOrderQty,
+    active,
+    totalStock,
+    activeDiscount,
+    imageSource,
+    imageIds,
+  ];
 }
