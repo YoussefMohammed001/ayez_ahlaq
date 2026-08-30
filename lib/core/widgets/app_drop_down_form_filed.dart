@@ -55,9 +55,11 @@ class AppDropdownField<T> extends StatelessWidget {
             fillColor: enabled ? null : Colors.grey.shade300,
             label: Text(
               hintText,
-              style: font12w400.copyWith(color: "#999999".toColor()),
+              style: font12w400.copyWith(color: Theme.of(context).hintColor),
             ),
-            labelStyle: font12w400.copyWith(color: "#999999".toColor()),
+            labelStyle: font12w400.copyWith(
+              color: Theme.of(context).hintColor,
+            ),
             contentPadding:
                 contentPadding ??
                 EdgeInsets.symmetric(horizontal: 12.w, vertical: 15.h),

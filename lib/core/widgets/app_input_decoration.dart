@@ -9,7 +9,7 @@ class AppInputDecoration {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(
-        color: scheme.outlineVariant,
+        color: Theme.of(context).hintColor,
         fontSize: 13.sp,
       ),
       filled: true,

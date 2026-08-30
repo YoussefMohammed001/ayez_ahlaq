@@ -53,7 +53,7 @@ class AppDateField extends StatelessWidget {
                     style: font14w400.copyWith(
                       color: hasValue
                           ? cs.onSurface
-                          : cs.tertiary.withValues(alpha: 0.5),
+                          : Theme.of(context).hintColor,
                     ),
                   ),
                 ),

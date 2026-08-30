@@ -128,7 +128,9 @@ class _AppFormFieldState extends State<AppFormField> {
               ),
               helperMaxLines: 2,
               hintText: widget.hintText,
-              hintStyle: font12w400.copyWith(color: "#999999".toColor()),
+              hintStyle:
+                  widget.hintStyle ??
+                  font12w400.copyWith(color: Theme.of(context).hintColor),
               contentPadding:
                   widget.contentPadding ??
                   EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
