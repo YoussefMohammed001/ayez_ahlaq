@@ -25,6 +25,17 @@ class AppCubit extends Cubit<AppState> {
     emit(ThemeChangedState(themeMode));
   }
 
+  Future<void> setTheme(ThemeMode mode) async {
+    if (themeMode == mode) return;
+
+    themeMode = mode;
+    await sl<PreferencesStorage>().putString(
+      key: PreferencesKeys.themeMode,
+      value: mode == ThemeMode.dark ? 'dark' : 'light',
+    );
+    emit(ThemeChangedState(mode));
+  }
+
   void toggleTheme() async {
     themeMode = themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     await sl<PreferencesStorage>().putString(

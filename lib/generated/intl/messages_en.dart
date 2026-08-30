@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Already have an account?",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Ayez Ahlaq"),
+    "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arabic_full_name_required": MessageLookupByLibrary.simpleMessage(
       "Please enter your full name in Arabic",
     ),
@@ -108,7 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose your account type",
     ),
     "chooseCategory": MessageLookupByLibrary.simpleMessage("Choose a category"),
+    "chooseLanguage": MessageLookupByLibrary.simpleMessage("Choose language"),
     "chooseProduct": MessageLookupByLibrary.simpleMessage("Choose the product"),
+    "chooseTheme": MessageLookupByLibrary.simpleMessage("Choose theme"),
     "choose_image_source": MessageLookupByLibrary.simpleMessage(
       "Choose image source",
     ),
@@ -192,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "emptyDefaultTitle": MessageLookupByLibrary.simpleMessage(
       "Nothing here yet",
     ),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
     "enter_password": MessageLookupByLibrary.simpleMessage(
       "Enter your password",
     ),
@@ -495,6 +499,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabOrders": MessageLookupByLibrary.simpleMessage("Orders"),
     "tabProducts": MessageLookupByLibrary.simpleMessage("Products"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "tiktok_error": MessageLookupByLibrary.simpleMessage(
       "Could not open TikTok",
     ),

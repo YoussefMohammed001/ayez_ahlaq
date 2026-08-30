@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/app_cubit/app_cubit.dart';
+import '../../../../../shared/widgets/settings/language_sheet.dart';
+import '../../../../../shared/widgets/settings/theme_sheet.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/section_title.dart';
@@ -77,12 +77,12 @@ class ProfileAdminMenu extends StatelessWidget {
         MenuRow(
           icon: Icons.brightness_6_rounded,
           label: S().theme,
-          onTap: () => context.read<AppCubit>().toggleTheme(),
+          onTap: () => ThemeSheet.show(context),
         ),
         MenuRow(
           icon: Icons.language_rounded,
           label: S().language,
-          onTap: () => context.read<AppCubit>().changeLanguage(),
+          onTap: () => LanguageSheet.show(context),
         ),
         MenuRow(
           icon: Icons.info_outline_rounded,

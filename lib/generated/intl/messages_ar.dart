@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "عندك حساب بالفعل؟",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("عايز أحلق"),
+    "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arabic_full_name_required": MessageLookupByLibrary.simpleMessage(
       "اكتب الاسم بالكامل بالعربي",
     ),
@@ -104,7 +105,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "اختار نوع الحساب اللي هتستخدمه",
     ),
     "chooseCategory": MessageLookupByLibrary.simpleMessage("اختار فئة"),
+    "chooseLanguage": MessageLookupByLibrary.simpleMessage("اختار اللغة"),
     "chooseProduct": MessageLookupByLibrary.simpleMessage("اختار المنتج"),
+    "chooseTheme": MessageLookupByLibrary.simpleMessage("اختار المظهر"),
     "choose_image_source": MessageLookupByLibrary.simpleMessage(
       "اختار مصدر الصورة",
     ),
@@ -186,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "emptyDefaultTitle": MessageLookupByLibrary.simpleMessage(
       "مفيش حاجة هنا لسه",
     ),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
     "enter_password": MessageLookupByLibrary.simpleMessage("اكتب كلمة السر"),
     "errorDefaultTitle": MessageLookupByLibrary.simpleMessage("حصل خطأ"),
     "extraPhones": MessageLookupByLibrary.simpleMessage("أرقام إضافية"),
@@ -457,6 +461,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabOrders": MessageLookupByLibrary.simpleMessage("الطلبات"),
     "tabProducts": MessageLookupByLibrary.simpleMessage("منتجاتي"),
     "theme": MessageLookupByLibrary.simpleMessage("المظهر"),
+    "themeDark": MessageLookupByLibrary.simpleMessage("غامق"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("فاتح"),
     "tiktok_error": MessageLookupByLibrary.simpleMessage(
       "مش قادر يفتح تيك توك",
     ),

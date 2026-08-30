@@ -266,5 +266,11 @@
   "logoutTitle": "تسجيل الخروج",
   "logoutConfirm": "متأكد إنك عايز تسجّل خروج؟",
   "delete": "حذف",
-  "theme": "المظهر"
+  "theme": "المظهر",
+  "chooseLanguage": "اختار اللغة",
+  "chooseTheme": "اختار المظهر",
+  "themeDark": "غامق",
+  "themeLight": "فاتح",
+  "arabic": "العربية",
+  "english": "English"
 }

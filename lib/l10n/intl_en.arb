@@ -266,5 +266,11 @@
   "logoutTitle": "Log out",
   "logoutConfirm": "Are you sure you want to log out?",
   "delete": "Delete",
-  "theme": "Theme"
+  "theme": "Theme",
+  "chooseLanguage": "Choose language",
+  "chooseTheme": "Choose theme",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "arabic": "العربية",
+  "english": "English"
 }
