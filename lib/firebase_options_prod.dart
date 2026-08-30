@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'ayez-ahlaq.firebasestorage.app',
     iosBundleId: 'com.ayezAhlaq.app',
   );
+
 }
