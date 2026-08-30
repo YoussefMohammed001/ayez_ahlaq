@@ -1,0 +1,4 @@
+#include "Release.xcconfig"
+
+BUNDLE_ID_SUFFIX =
+APP_DISPLAY_NAME = عايز أحلق

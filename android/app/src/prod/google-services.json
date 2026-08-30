@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "692271429773",
+    "project_id": "ayez-ahlaq",
+    "storage_bucket": "ayez-ahlaq.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692271429773:android:e5ee0d835046a39d33cac4",
+        "android_client_info": {
+          "package_name": "com.ayezAhlaq.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoDPdzWTTdjjfC31H4fLfceYjggPrnG7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
