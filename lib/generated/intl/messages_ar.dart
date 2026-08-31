@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "عندك حساب بالفعل؟",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("عايز أحلق"),
+    "appTagline": MessageLookupByLibrary.simpleMessage("حلاقتك على مزاجك"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arabic_full_name_required": MessageLookupByLibrary.simpleMessage(
       "اكتب الاسم بالكامل بالعربي",

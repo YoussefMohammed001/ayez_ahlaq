@@ -714,6 +714,16 @@ class S {
     return Intl.message('Ayez Ahlaq', name: 'appName', desc: '', args: []);
   }
 
+  /// `Your cut, your way`
+  String get appTagline {
+    return Intl.message(
+      'Your cut, your way',
+      name: 'appTagline',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose your account type`
   String get chooseAccountType {
     return Intl.message(
