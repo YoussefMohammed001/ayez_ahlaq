@@ -2433,6 +2433,131 @@ class S {
       args: [],
     );
   }
+
+  /// `Delivery`
+  String get deliveryTitle {
+    return Intl.message('Delivery', name: 'deliveryTitle', desc: '', args: []);
+  }
+
+  /// `When delivery is on, salons can order delivery and the fee is added to the order total. When off, pickup from your shop only.`
+  String get deliveryNote {
+    return Intl.message(
+      'When delivery is on, salons can order delivery and the fee is added to the order total. When off, pickup from your shop only.',
+      name: 'deliveryNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I offer delivery`
+  String get deliveryOffered {
+    return Intl.message(
+      'I offer delivery',
+      name: 'deliveryOffered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery fee`
+  String get deliveryFeeLabel {
+    return Intl.message(
+      'Delivery fee',
+      name: 'deliveryFeeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. 25`
+  String get deliveryFeeHint {
+    return Intl.message('e.g. 25', name: 'deliveryFeeHint', desc: '', args: []);
+  }
+
+  /// `Enter the delivery fee`
+  String get deliveryFeeRequired {
+    return Intl.message(
+      'Enter the delivery fee',
+      name: 'deliveryFeeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free delivery over`
+  String get deliveryFreeOverLabel {
+    return Intl.message(
+      'Free delivery over',
+      name: 'deliveryFreeOverLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave empty for no free delivery`
+  String get deliveryFreeOverHint {
+    return Intl.message(
+      'Leave empty for no free delivery',
+      name: 'deliveryFreeOverHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When the goods total reaches this amount, delivery is free.`
+  String get deliveryFreeOverNote {
+    return Intl.message(
+      'When the goods total reaches this amount, delivery is free.',
+      name: 'deliveryFreeOverNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery is off — pickup only`
+  String get deliveryOffLabel {
+    return Intl.message(
+      'Delivery is off — pickup only',
+      name: 'deliveryOffLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery settings saved`
+  String get deliverySaved {
+    return Intl.message(
+      'Delivery settings saved',
+      name: 'deliverySaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery fee`
+  String get deliveryFeeOrderLabel {
+    return Intl.message(
+      'Delivery fee',
+      name: 'deliveryFeeOrderLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grand total`
+  String get grandTotalLabel {
+    return Intl.message(
+      'Grand total',
+      name: 'grandTotalLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free`
+  String get freeDelivery {
+    return Intl.message('Free', name: 'freeDelivery', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

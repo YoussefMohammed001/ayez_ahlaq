@@ -7,6 +7,8 @@ class EndPoints {
   static const String merchantPhone = 'merchant/phone';
   static String merchantPhoneById(int id) => 'merchant/phone/$id';
 
+  static const String merchantDelivery = 'merchant/delivery';
+
   static const String merchantDashboard = 'merchant/dashboard';
 
   static const String merchantCategory = 'merchant/category';

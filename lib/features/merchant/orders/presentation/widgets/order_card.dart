@@ -67,7 +67,7 @@ class OrderCard extends StatelessWidget {
             children: [
               StatusBadge(label: order.status.label, tone: order.status.tone),
               Text(
-                S().currencyEgp(order.total),
+                S().currencyEgp(order.grandTotal),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: context.semantic.accentSoft,

@@ -1,5 +1,5 @@
 class MerchantOrdersMock {
-  static const bool enabled = true;
+  static const bool enabled = false;
 
   static List<Map<String, dynamic>> orders() => [
     {
@@ -8,11 +8,13 @@ class MerchantOrdersMock {
       'shopName': 'صالون الملك',
       'barberName': 'محمد سعيد',
       'status': 'PENDING',
-      'fulfilmentType': 'DELIVERY',
+      'fulfillmentType': 'DELIVERY',
       'createdAt': '2026-08-30T10:15:00',
       'subtotal': 2880,
       'orderDiscount': 0,
       'total': 2880,
+      'deliveryFee': 0,
+      'grandTotal': 2880,
       'nextStatuses': <String>[],
       'items': [
         {
@@ -41,11 +43,13 @@ class MerchantOrdersMock {
       'shopName': 'صالون الأصالة',
       'barberName': 'أحمد ناصر',
       'status': 'PREPARING',
-      'fulfilmentType': 'DELIVERY',
+      'fulfillmentType': 'DELIVERY',
       'createdAt': '2026-08-29T13:40:00',
       'subtotal': 1530,
       'orderDiscount': 0,
       'total': 1530,
+      'deliveryFee': 0,
+      'grandTotal': 1530,
       'nextStatuses': ['OUT_FOR_DELIVERY', 'READY_FOR_PICKUP'],
       'items': [
         {
@@ -65,11 +69,13 @@ class MerchantOrdersMock {
       'shopName': 'Barber House',
       'barberName': 'كريم عادل',
       'status': 'DELIVERED',
-      'fulfilmentType': 'PICKUP_AT_BRANCH',
+      'fulfillmentType': 'PICKUP_AT_BRANCH',
       'createdAt': '2026-08-26T09:05:00',
       'subtotal': 2850,
       'orderDiscount': 0,
       'total': 2850,
+      'deliveryFee': 0,
+      'grandTotal': 2850,
       'nextStatuses': <String>[],
       'items': [
         {

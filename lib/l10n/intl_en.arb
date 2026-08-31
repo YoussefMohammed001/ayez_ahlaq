@@ -276,5 +276,19 @@
   "inStock": "In stock",
   "outOfStock": "Out of stock",
   "activeDiscount": "Active offer",
-  "productDetails": "Product details"
+  "productDetails": "Product details",
+  "deliveryTitle": "Delivery",
+  "deliveryNote": "When delivery is on, salons can order delivery and the fee is added to the order total. When off, pickup from your shop only.",
+  "deliveryOffered": "I offer delivery",
+  "deliveryFeeLabel": "Delivery fee",
+  "deliveryFeeHint": "e.g. 25",
+  "deliveryFeeRequired": "Enter the delivery fee",
+  "deliveryFreeOverLabel": "Free delivery over",
+  "deliveryFreeOverHint": "Leave empty for no free delivery",
+  "deliveryFreeOverNote": "When the goods total reaches this amount, delivery is free.",
+  "deliveryOffLabel": "Delivery is off — pickup only",
+  "deliverySaved": "Delivery settings saved",
+  "deliveryFeeOrderLabel": "Delivery fee",
+  "grandTotalLabel": "Grand total",
+  "freeDelivery": "Free"
 }

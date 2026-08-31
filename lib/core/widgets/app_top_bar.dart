@@ -18,7 +18,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
         icon: Icon(
-          Icons.arrow_back,
+          Icons.arrow_back_ios,
           color: context.colorScheme.onSurface,
         ),
         onPressed: () => context.pop(),

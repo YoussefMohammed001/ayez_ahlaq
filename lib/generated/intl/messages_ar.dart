@@ -161,6 +161,34 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteProductConfirm": MessageLookupByLibrary.simpleMessage(
       "المنتج هيتشال من متجر الحلاقين. متأكد؟",
     ),
+    "deliveryFeeHint": MessageLookupByLibrary.simpleMessage("مثال: 25"),
+    "deliveryFeeLabel": MessageLookupByLibrary.simpleMessage("رسم التوصيل"),
+    "deliveryFeeOrderLabel": MessageLookupByLibrary.simpleMessage(
+      "رسم التوصيل",
+    ),
+    "deliveryFeeRequired": MessageLookupByLibrary.simpleMessage(
+      "اكتب رسم التوصيل",
+    ),
+    "deliveryFreeOverHint": MessageLookupByLibrary.simpleMessage(
+      "اتركه فاضي لو مفيش توصيل مجاني",
+    ),
+    "deliveryFreeOverLabel": MessageLookupByLibrary.simpleMessage(
+      "توصيل مجاني فوق",
+    ),
+    "deliveryFreeOverNote": MessageLookupByLibrary.simpleMessage(
+      "لو إجمالي البضاعة وصل المبلغ ده، التوصيل يبقى مجاني.",
+    ),
+    "deliveryNote": MessageLookupByLibrary.simpleMessage(
+      "لما تشغّل التوصيل، الصالون يقدر يطلب توصيل وبيتضاف رسم التوصيل على إجمالي الطلب. لو قفلته، الاستلام من المحل بس.",
+    ),
+    "deliveryOffLabel": MessageLookupByLibrary.simpleMessage(
+      "التوصيل مقفول — استلام من المحل بس",
+    ),
+    "deliveryOffered": MessageLookupByLibrary.simpleMessage("بوفّر توصيل"),
+    "deliverySaved": MessageLookupByLibrary.simpleMessage(
+      "تم حفظ إعدادات التوصيل",
+    ),
+    "deliveryTitle": MessageLookupByLibrary.simpleMessage("التوصيل"),
     "discountClosed": MessageLookupByLibrary.simpleMessage("متوقف"),
     "discountLive": MessageLookupByLibrary.simpleMessage("شغال"),
     "discountName": MessageLookupByLibrary.simpleMessage("اسم العرض"),
@@ -204,11 +232,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "field_required": MessageLookupByLibrary.simpleMessage("الخانة دي مطلوبة"),
     "filterAll": MessageLookupByLibrary.simpleMessage("الكل"),
+    "freeDelivery": MessageLookupByLibrary.simpleMessage("مجاني"),
     "fulfilmentDelivery": MessageLookupByLibrary.simpleMessage("توصيل"),
     "fulfilmentPickup": MessageLookupByLibrary.simpleMessage("استلام من المحل"),
     "gallery": MessageLookupByLibrary.simpleMessage("المعرض"),
     "globalCategories": MessageLookupByLibrary.simpleMessage("الفئات العامة"),
     "goToDocuments": MessageLookupByLibrary.simpleMessage("روح للمستندات"),
+    "grandTotalLabel": MessageLookupByLibrary.simpleMessage(
+      "الإجمالي شامل التوصيل",
+    ),
     "greeting": MessageLookupByLibrary.simpleMessage("صباح الفل،"),
     "inStock": MessageLookupByLibrary.simpleMessage("متوفر"),
     "instagram_error": MessageLookupByLibrary.simpleMessage(

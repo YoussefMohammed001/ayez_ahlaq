@@ -12,6 +12,8 @@ class PurchaseOrder extends Equatable {
   final int subtotal;
   final int orderDiscount;
   final int total;
+  final int deliveryFee;
+  final int grandTotal;
   final OrderStatus status;
   final FulfilmentType fulfilmentType;
   final List<OrderStatus> nextStatuses;
@@ -30,11 +32,15 @@ class PurchaseOrder extends Equatable {
     required this.status,
     required this.fulfilmentType,
     required this.nextStatuses,
+    required this.deliveryFee,
+    required this.grandTotal,
     this.createdAt,
     this.rejectionReason,
   });
 
   bool get canAdvance => nextStatuses.isNotEmpty;
+
+  bool get hasDeliveryFee => deliveryFee > 0;
 
   PurchaseOrder copyWith({
     OrderStatus? status,
@@ -49,6 +55,8 @@ class PurchaseOrder extends Equatable {
       subtotal: subtotal,
       orderDiscount: orderDiscount,
       total: total,
+      deliveryFee: deliveryFee,
+      grandTotal: grandTotal,
       status: status ?? this.status,
       fulfilmentType: fulfilmentType,
       nextStatuses: nextStatuses ?? this.nextStatuses,

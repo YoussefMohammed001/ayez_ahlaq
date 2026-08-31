@@ -13,6 +13,8 @@ class PurchaseOrderModel extends PurchaseOrder {
     required super.subtotal,
     required super.orderDiscount,
     required super.total,
+    required super.deliveryFee,
+    required super.grandTotal,
     required super.status,
     required super.fulfilmentType,
     required super.nextStatuses,
@@ -24,6 +26,7 @@ class PurchaseOrderModel extends PurchaseOrder {
     final items = (json['items'] as List?) ?? const [];
     final next = (json['nextStatuses'] as List?) ?? const [];
     final total = (json['total'] as num?)?.toInt() ?? 0;
+    final deliveryFee = (json['deliveryFee'] as num?)?.toInt() ?? 0;
 
     return PurchaseOrderModel(
       id: (json['id'] as num?)?.toInt() ?? 0,
@@ -37,8 +40,13 @@ class PurchaseOrderModel extends PurchaseOrder {
       subtotal: (json['subtotal'] as num?)?.toInt() ?? total,
       orderDiscount: (json['orderDiscount'] as num?)?.toInt() ?? 0,
       total: total,
+      deliveryFee: deliveryFee,
+      grandTotal:
+          (json['grandTotal'] as num?)?.toInt() ?? total + deliveryFee,
       status: OrderStatus.fromApi(json['status'] as String?),
-      fulfilmentType: FulfilmentType.fromApi(json['fulfilmentType'] as String?),
+      fulfilmentType: FulfilmentType.fromApi(
+        json['fulfillmentType'] as String? ?? json['fulfilmentType'] as String?,
+      ),
       nextStatuses:
           next.map((e) => OrderStatus.fromApi(e as String?)).toList(),
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),

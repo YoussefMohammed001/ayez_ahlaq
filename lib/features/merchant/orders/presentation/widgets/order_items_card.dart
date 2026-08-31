@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_card.dart';
+import '../../domain/entities/fulfilment_type.dart';
 import '../../domain/entities/order_item.dart';
 import '../../domain/entities/purchase_order.dart';
 import '../../../../../generated/l10n.dart';
@@ -20,13 +21,21 @@ class OrderItemsCard extends StatelessWidget {
           for (final item in order.items) _buildItemRow(context, item),
           if (order.orderDiscount > 0)
             _buildTotalRow(context, S().orderDiscountLabel, '-${S().currencyEgp(order.orderDiscount)}'),
+          if (order.fulfilmentType == FulfilmentType.delivery)
+            _buildTotalRow(
+              context,
+              S().deliveryFeeOrderLabel,
+              order.hasDeliveryFee
+                  ? S().currencyEgp(order.deliveryFee)
+                  : S().freeDelivery,
+            ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  S().orderTotal,
+                  order.hasDeliveryFee ? S().grandTotalLabel : S().orderTotal,
                   style: TextStyle(
                     color: context.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w700,
@@ -34,7 +43,7 @@ class OrderItemsCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  S().currencyEgp(order.total),
+                  S().currencyEgp(order.grandTotal),
                   style: TextStyle(
                     color: context.semantic.accentSoft,
                     fontWeight: FontWeight.w800,

@@ -15,6 +15,7 @@ class Routes {
   static const String merchantEditProfileScreen = '/merchant/profile/edit';
   static const String merchantChangePasswordScreen = '/merchant/profile/password';
   static const String merchantPhonesScreen = '/merchant/profile/phones';
+  static const String merchantDeliveryScreen = '/merchant/delivery';
   static const String merchantAboutScreen = '/merchant/about';
   static const String merchantNotificationsScreen = '/merchant/notifications';
   static const String merchantOrderDetailsScreen = '/merchant/order';

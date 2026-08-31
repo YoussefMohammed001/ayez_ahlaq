@@ -165,6 +165,34 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteProductConfirm": MessageLookupByLibrary.simpleMessage(
       "It will be removed from the barbers\' store. Are you sure?",
     ),
+    "deliveryFeeHint": MessageLookupByLibrary.simpleMessage("e.g. 25"),
+    "deliveryFeeLabel": MessageLookupByLibrary.simpleMessage("Delivery fee"),
+    "deliveryFeeOrderLabel": MessageLookupByLibrary.simpleMessage(
+      "Delivery fee",
+    ),
+    "deliveryFeeRequired": MessageLookupByLibrary.simpleMessage(
+      "Enter the delivery fee",
+    ),
+    "deliveryFreeOverHint": MessageLookupByLibrary.simpleMessage(
+      "Leave empty for no free delivery",
+    ),
+    "deliveryFreeOverLabel": MessageLookupByLibrary.simpleMessage(
+      "Free delivery over",
+    ),
+    "deliveryFreeOverNote": MessageLookupByLibrary.simpleMessage(
+      "When the goods total reaches this amount, delivery is free.",
+    ),
+    "deliveryNote": MessageLookupByLibrary.simpleMessage(
+      "When delivery is on, salons can order delivery and the fee is added to the order total. When off, pickup from your shop only.",
+    ),
+    "deliveryOffLabel": MessageLookupByLibrary.simpleMessage(
+      "Delivery is off — pickup only",
+    ),
+    "deliveryOffered": MessageLookupByLibrary.simpleMessage("I offer delivery"),
+    "deliverySaved": MessageLookupByLibrary.simpleMessage(
+      "Delivery settings saved",
+    ),
+    "deliveryTitle": MessageLookupByLibrary.simpleMessage("Delivery"),
     "discountClosed": MessageLookupByLibrary.simpleMessage("Closed"),
     "discountLive": MessageLookupByLibrary.simpleMessage("Live"),
     "discountName": MessageLookupByLibrary.simpleMessage("Offer name"),
@@ -214,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This field is required",
     ),
     "filterAll": MessageLookupByLibrary.simpleMessage("All"),
+    "freeDelivery": MessageLookupByLibrary.simpleMessage("Free"),
     "fulfilmentDelivery": MessageLookupByLibrary.simpleMessage("Delivery"),
     "fulfilmentPickup": MessageLookupByLibrary.simpleMessage(
       "Pickup at branch",
@@ -223,6 +252,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Global categories",
     ),
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
+    "grandTotalLabel": MessageLookupByLibrary.simpleMessage("Grand total"),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
     "inStock": MessageLookupByLibrary.simpleMessage("In stock"),
     "instagram_error": MessageLookupByLibrary.simpleMessage(

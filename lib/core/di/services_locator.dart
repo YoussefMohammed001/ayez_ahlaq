@@ -22,6 +22,12 @@ import '../../features/merchant/dashboard/data/repos/merchant_dashboard_repo.dar
 import '../../features/merchant/dashboard/domain/repos/i_merchant_dashboard_repo.dart';
 import '../../features/merchant/dashboard/domain/use_cases/get_dashboard_use_case.dart';
 import '../../features/merchant/dashboard/presentation/manager/merchant_dashboard_cubit.dart';
+import '../../features/merchant/delivery/data/apis/merchant_delivery_api.dart';
+import '../../features/merchant/delivery/data/repos/merchant_delivery_repo.dart';
+import '../../features/merchant/delivery/domain/repos/i_merchant_delivery_repo.dart';
+import '../../features/merchant/delivery/domain/use_cases/get_delivery_use_case.dart';
+import '../../features/merchant/delivery/domain/use_cases/update_delivery_use_case.dart';
+import '../../features/merchant/delivery/presentation/manager/merchant_delivery_cubit.dart';
 import '../../features/merchant/discounts/data/apis/merchant_discounts_api.dart';
 import '../../features/merchant/discounts/data/repos/merchant_discounts_repo.dart';
 import '../../features/merchant/discounts/domain/repos/i_merchant_discounts_repo.dart';
@@ -89,6 +95,7 @@ class ServicesLocator {
     _merchantDiscounts();
     _merchantOrders();
     _merchantProfile();
+    _merchantDelivery();
   }
 
   void _initCrashReporting() {
@@ -234,5 +241,15 @@ class ServicesLocator {
     sl.registerLazySingleton(() => AddPhoneUseCase(sl()));
     sl.registerLazySingleton(() => DeletePhoneUseCase(sl()));
     sl.registerFactory(() => MerchantPhonesCubit(sl(), sl(), sl()));
+  }
+
+  void _merchantDelivery() {
+    sl.registerLazySingleton(() => MerchantDeliveryApi(sl()));
+    sl.registerLazySingleton<IMerchantDeliveryRepo>(
+      () => MerchantDeliveryRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetDeliveryUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateDeliveryUseCase(sl()));
+    sl.registerFactory(() => MerchantDeliveryCubit(sl(), sl()));
   }
 }

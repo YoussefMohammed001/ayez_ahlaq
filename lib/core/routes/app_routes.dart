@@ -8,6 +8,8 @@ import '../../features/merchant/auth/presentation/pages/merchant_register_screen
 import '../../features/merchant/categories/presentation/manager/merchant_categories_cubit.dart';
 import '../../features/merchant/categories/presentation/pages/merchant_categories_screen.dart';
 import '../../features/merchant/dashboard/presentation/manager/merchant_dashboard_cubit.dart';
+import '../../features/merchant/delivery/presentation/manager/merchant_delivery_cubit.dart';
+import '../../features/merchant/delivery/presentation/pages/merchant_delivery_screen.dart';
 import '../../features/merchant/discounts/presentation/manager/merchant_discounts_cubit.dart';
 import '../../features/merchant/discounts/domain/entities/discount.dart';
 import '../../features/merchant/discounts/presentation/pages/discount_form_screen.dart';
@@ -46,6 +48,7 @@ final MerchantAuthCubit _authCubit = sl<MerchantAuthCubit>();
 final MerchantCategoriesCubit _categoriesCubit = sl<MerchantCategoriesCubit>();
 final MerchantDiscountsCubit _discountsCubit = sl<MerchantDiscountsCubit>();
 final MerchantPhonesCubit _phonesCubit = sl<MerchantPhonesCubit>();
+final MerchantDeliveryCubit _deliveryCubit = sl<MerchantDeliveryCubit>();
 
 final routes = GoRouter(
   initialLocation: Routes.splashScreen,
@@ -152,6 +155,13 @@ final routes = GoRouter(
       builder: (_, __) => BlocProvider(
         create: (_) => MerchantNotificationsCubit()..loadNotifications(),
         child: const MerchantNotificationsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantDeliveryScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _deliveryCubit..loadDelivery(),
+        child: const MerchantDeliveryScreen(),
       ),
     ),
     GoRoute(
