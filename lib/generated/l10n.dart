@@ -829,6 +829,46 @@ class S {
     );
   }
 
+  /// `Already have an account? Sign in`
+  String get alreadyHaveAccountLogin {
+    return Intl.message(
+      'Already have an account? Sign in',
+      name: 'alreadyHaveAccountLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Percentage cannot exceed 100%`
+  String get percentAboveMax {
+    return Intl.message(
+      'Percentage cannot exceed 100%',
+      name: 'percentAboveMax',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount must be less than the order value`
+  String get amountAboveTotal {
+    return Intl.message(
+      'Amount must be less than the order value',
+      name: 'amountAboveTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a merchant account`
+  String get createMerchantAccount {
+    return Intl.message(
+      'Create a merchant account',
+      name: 'createMerchantAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Register a new merchant`
   String get registerMerchant {
     return Intl.message(
@@ -1842,6 +1882,26 @@ class S {
   /// `Management`
   String get management {
     return Intl.message('Management', name: 'management', desc: '', args: []);
+  }
+
+  /// `Account`
+  String get accountSection {
+    return Intl.message('Account', name: 'accountSection', desc: '', args: []);
+  }
+
+  /// `App settings`
+  String get appSettings {
+    return Intl.message(
+      'App settings',
+      name: 'appSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support`
+  String get supportSection {
+    return Intl.message('Support', name: 'supportSection', desc: '', args: []);
   }
 
   /// `Edit my info`

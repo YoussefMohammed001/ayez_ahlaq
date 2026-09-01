@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/image_picker_row.dart';
 import '../../../../../core/widgets/section_title.dart';
-import '../../../categories/presentation/widgets/category_dropdown.dart';
+import '../../../categories/presentation/widgets/category_picker_field.dart';
 import '../manager/product_form_controllers.dart';
 import 'existing_images_row.dart';
 import 'product_number_field.dart';
@@ -57,7 +57,7 @@ class ProductFormFields extends StatelessWidget {
         SectionTitle(title: S().brand),
         AppTextField(controller: controllers.brand, hint: S().brandHint),
         SectionTitle(title: S().category),
-        CategoryDropdown(
+        CategoryPickerField(
           value: controllers.categoryId,
           onChanged: onCategoryChanged,
         ),

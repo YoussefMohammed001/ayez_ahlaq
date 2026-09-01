@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/section_title.dart';
+import '../../../products/presentation/manager/merchant_products_cubit.dart';
 import '../../domain/entities/discount_scope.dart';
+import '../../domain/entities/reward_value_rules.dart';
 import '../manager/discount_form_controllers.dart';
 import 'product_selector.dart';
 import 'reward_type_selector.dart';
@@ -78,9 +81,9 @@ class DiscountFormFields extends StatelessWidget {
           SectionTitle(title: S().discountValue),
           AppTextField(
             controller: controllers.rewardValue,
-            hint: '15',
+            hint: controllers.rewardType.isPercent ? '15' : '50',
             isNumber: true,
-            validator: _positive,
+            validator: (value) => _validateRewardValue(context, value),
           ),
         ],
         SectionTitle(title: S().shops),
@@ -97,4 +100,35 @@ class DiscountFormFields extends StatelessWidget {
 
   String? _positive(String? value) =>
       (int.tryParse(value ?? '') ?? 0) <= 0 ? S().invalidNumber : null;
+
+  String? _validateRewardValue(BuildContext context, String? value) {
+    final invalid = _positive(value);
+    if (invalid != null) return invalid;
+
+    final amount = num.parse(value!);
+    final type = controllers.rewardType;
+
+    if (RewardValueRules.exceedsPercent(type, amount)) {
+      return S().percentAboveMax;
+    }
+
+    final ceiling = controllers.amountCeilingFor(_targetProductPrice(context));
+
+    if (RewardValueRules.exceedsCeiling(type, amount, ceiling)) {
+      return S().amountAboveTotal;
+    }
+
+    return null;
+  }
+
+  int? _targetProductPrice(BuildContext context) {
+    final id = controllers.targetProductId;
+    if (id == null) return null;
+
+    for (final product in context.read<MerchantProductsCubit>().state.products) {
+      if (product.id == id) return product.price;
+    }
+
+    return null;
+  }
 }

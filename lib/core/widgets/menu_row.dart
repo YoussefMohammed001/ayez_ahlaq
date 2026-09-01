@@ -8,6 +8,7 @@ class MenuRow extends StatelessWidget {
   final VoidCallback? onTap;
   final bool danger;
   final bool showChevron;
+  final bool showDivider;
 
   const MenuRow({
     super.key,
@@ -16,7 +17,19 @@ class MenuRow extends StatelessWidget {
     this.onTap,
     this.danger = false,
     this.showChevron = true,
+    this.showDivider = true,
   });
+
+  MenuRow withoutDivider() {
+    return MenuRow(
+      icon: icon,
+      label: label,
+      onTap: onTap,
+      danger: danger,
+      showChevron: showChevron,
+      showDivider: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +40,13 @@ class MenuRow extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 4.w),
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
+          border: Border(
+            bottom: BorderSide(
+              color: showDivider
+                  ? context.colorScheme.outline
+                  : Colors.transparent,
+            ),
+          ),
         ),
         child: Row(
           children: [

@@ -4,6 +4,7 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/badge_tone.dart';
 import '../../../../../core/widgets/status_badge.dart';
 import '../../domain/entities/merchant_category.dart';
+import 'category_thumbnail.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
@@ -27,20 +28,7 @@ class CategoryRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          Container(
-            width: 42.r,
-            height: 42.r,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: context.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Icon(
-              Icons.category_outlined,
-              size: 20.r,
-              color: context.semantic.accentSoft,
-            ),
-          ),
+          CategoryThumbnail(category: category, size: 42.r),
           SizedBox(width: 12.w),
           Expanded(
             child: Text(

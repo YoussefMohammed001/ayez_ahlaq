@@ -41,6 +41,11 @@ class DiscountFormControllers {
     DiscountScope.orderTotal => [RewardType.percent, RewardType.amount],
   };
 
+  int? amountCeilingFor(int? targetProductPrice) => switch (scope) {
+    DiscountScope.orderTotal => int.tryParse(minOrderTotal.text),
+    DiscountScope.product || DiscountScope.buyXGetY => targetProductPrice,
+  };
+
   void onScopeChanged(DiscountScope value) {
     scope = value;
     if (!rewardOptions.contains(rewardType)) {

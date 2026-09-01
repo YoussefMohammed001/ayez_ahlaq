@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ayez Ahlaq — a wholesale platform connecting barber supply merchants with salons.",
     ),
     "acceptOrder": MessageLookupByLibrary.simpleMessage("Accept order"),
+    "accountSection": MessageLookupByLibrary.simpleMessage("Account"),
     "activeDiscount": MessageLookupByLibrary.simpleMessage("Active offer"),
     "activeProducts": MessageLookupByLibrary.simpleMessage("Active products"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
@@ -59,10 +60,17 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "allOrders": MessageLookupByLibrary.simpleMessage("All orders"),
     "allShops": MessageLookupByLibrary.simpleMessage("All salons"),
+    "alreadyHaveAccountLogin": MessageLookupByLibrary.simpleMessage(
+      "Already have an account? Sign in",
+    ),
     "already_have_account": MessageLookupByLibrary.simpleMessage(
       "Already have an account?",
     ),
+    "amountAboveTotal": MessageLookupByLibrary.simpleMessage(
+      "Amount must be less than the order value",
+    ),
     "appName": MessageLookupByLibrary.simpleMessage("Ayez Ahlaq"),
+    "appSettings": MessageLookupByLibrary.simpleMessage("App settings"),
     "appTagline": MessageLookupByLibrary.simpleMessage("Your cut, your way"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arabic_full_name_required": MessageLookupByLibrary.simpleMessage(
@@ -143,6 +151,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
     "createDiscount": MessageLookupByLibrary.simpleMessage("Create offer"),
+    "createMerchantAccount": MessageLookupByLibrary.simpleMessage(
+      "Create a merchant account",
+    ),
     "currencyEgp": m1,
     "currentPassword": MessageLookupByLibrary.simpleMessage("Current password"),
     "currentPasswordRequired": MessageLookupByLibrary.simpleMessage(
@@ -413,6 +424,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Account under review",
     ),
     "pendingOrders": MessageLookupByLibrary.simpleMessage("Pending orders"),
+    "percentAboveMax": MessageLookupByLibrary.simpleMessage(
+      "Percentage cannot exceed 100%",
+    ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Label (optional)"),
     "phoneLabelHint": MessageLookupByLibrary.simpleMessage("e.g. Sales line"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
@@ -529,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "stockQuantity": MessageLookupByLibrary.simpleMessage("Available stock"),
+    "supportSection": MessageLookupByLibrary.simpleMessage("Support"),
     "tabAccount": MessageLookupByLibrary.simpleMessage("Account"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
     "tabOrders": MessageLookupByLibrary.simpleMessage("Orders"),

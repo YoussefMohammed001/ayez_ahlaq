@@ -6,12 +6,14 @@ class InfoRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final bool showDivider;
 
   const InfoRow({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
+    this.showDivider = true,
   });
 
   @override
@@ -19,7 +21,13 @@ class InfoRow extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
+        border: Border(
+          bottom: BorderSide(
+            color: showDivider
+                ? context.colorScheme.outline
+                : Colors.transparent,
+          ),
+        ),
       ),
       child: Row(
         children: [

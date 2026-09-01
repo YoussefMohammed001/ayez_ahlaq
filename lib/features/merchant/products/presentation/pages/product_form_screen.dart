@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/network/constants/endpoints.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../core/widgets/authorized_network_image.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../domain/entities/merchant_product.dart';
 import '../manager/merchant_products_cubit.dart';
@@ -36,18 +38,34 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     super.dispose();
   }
 
+  List<int> _currentImageIds(MerchantProductsState state) {
+    if (!_isEditing) return const [];
+
+    for (final product in state.products) {
+      if (product.id == widget.product!.id) return product.imageIds;
+    }
+
+    return widget.product!.imageIds;
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
     final cubit = context.read<MerchantProductsCubit>();
     final request = _controllers.buildRequest(
       imagePaths: _images.map((e) => e.path).toList(),
-      keepImageIds: _isEditing ? widget.product!.imageIds : null,
+      keepImageIds: _isEditing ? _currentImageIds(cubit.state) : null,
     );
 
     final saved = _isEditing
         ? await cubit.updateProduct(widget.product!.id, request)
         : await cubit.createProduct(request);
+
+    if (saved && _isEditing && _images.isNotEmpty) {
+      await AuthorizedNetworkImage.evict(
+        EndPoints.merchantProductImage(widget.product!.id),
+      );
+    }
 
     if (!mounted) return;
 
@@ -79,19 +97,21 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 height: 1.8,
               ),
             ),
-            ProductFormFields(
-              controllers: _controllers,
-              images: _images,
-              onImagesChanged: (images) => setState(() => _images = images),
-              onCategoryChanged: (value) =>
-                  setState(() => _controllers.categoryId = value),
-              productId: widget.product?.id,
-              existingImageIds: widget.product?.imageIds ?? const [],
-              onDeleteImage: _isEditing
-                  ? (imageId) => context
-                        .read<MerchantProductsCubit>()
-                        .deleteImage(widget.product!.id, imageId)
-                  : null,
+            BlocBuilder<MerchantProductsCubit, MerchantProductsState>(
+              builder: (context, state) => ProductFormFields(
+                controllers: _controllers,
+                images: _images,
+                onImagesChanged: (images) => setState(() => _images = images),
+                onCategoryChanged: (value) =>
+                    setState(() => _controllers.categoryId = value),
+                productId: widget.product?.id,
+                existingImageIds: _currentImageIds(state),
+                onDeleteImage: _isEditing
+                    ? (imageId) => context
+                          .read<MerchantProductsCubit>()
+                          .deleteImage(widget.product!.id, imageId)
+                    : null,
+              ),
             ),
             SizedBox(height: 20.h),
             BlocBuilder<MerchantProductsCubit, MerchantProductsState>(

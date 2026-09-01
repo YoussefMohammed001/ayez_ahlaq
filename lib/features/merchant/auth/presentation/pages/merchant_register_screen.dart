@@ -4,15 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
+import '../../../../../core/widgets/app_card.dart';
+import '../../../../../core/widgets/app_password_field.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
-import '../../../../../core/widgets/section_title.dart';
+import '../../../../../shared/auth/presentation/widgets/auth_brand_header.dart';
+import '../../../../../shared/auth/presentation/widgets/auth_footer_prompt.dart';
 import '../../data/requests/register_request.dart';
 import '../manager/merchant_auth_cubit.dart';
 import '../manager/merchant_auth_state.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/extensions/ext_theme.dart';
 
 class MerchantRegisterScreen extends StatefulWidget {
   const MerchantRegisterScreen({super.key});
@@ -67,60 +70,79 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+            padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
             children: [
-              Text(
-                S().registerSubtitle,
-                style: TextStyle(
-                  fontSize: 12.5.sp,
-                  color: context.colorScheme.onSurfaceVariant,
-                  height: 1.8,
-                ),
-              ),
-              SectionTitle(title: S().businessName),
-              AppTextField(
-                controller: _businessController,
-                hint: S().businessNameHint,
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? S().businessNameRequired
-                    : null,
-              ),
-              SectionTitle(title: S().ownerName),
-              AppTextField(
-                controller: _ownerController,
-                hint: S().ownerNameHint,
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? S().ownerNameRequired : null,
-              ),
-              SectionTitle(title: S().phoneNumber),
-              AppTextField(
-                controller: _phoneController,
-                hint: '01001234567',
-                isNumber: true,
-                validator: (v) => (v == null || v.trim().length < 10)
-                    ? S().please_enter_a_valid_phone_number
-                    : null,
-              ),
-              SectionTitle(title: S().password),
-              AppTextField(
-                controller: _passwordController,
-                hint: S().passwordMinHint,
-                obscure: true,
-                validator: (v) =>
-                    (v == null || v.length < 6) ? S().passwordTooShort : null,
+              AuthBrandHeader(
+                title: S().createMerchantAccount,
+                subtitle: S().registerSubtitle,
               ),
               SizedBox(height: 24.h),
-              BlocBuilder<MerchantAuthCubit, MerchantAuthState>(
-                builder: (context, state) => PrimaryCtaButton(
-                  label: S().createAccount,
-                  isLoading: state.status == AuthStatus.submitting,
-                  onPressed: _submit,
-                ),
+              AppCard(
+                padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 18.h),
+                child: Column(children: _buildFormFields()),
+              ),
+              SizedBox(height: 18.h),
+              AuthFooterPrompt(
+                label: S().alreadyHaveAccountLogin,
+                onTap: () => context.pop(),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields() {
+    return [
+      LabeledField(
+        label: S().businessName,
+        child: AppTextField(
+          controller: _businessController,
+          hint: S().businessNameHint,
+          validator: (v) => (v == null || v.trim().isEmpty)
+              ? S().businessNameRequired
+              : null,
+        ),
+      ),
+      LabeledField(
+        label: S().ownerName,
+        child: AppTextField(
+          controller: _ownerController,
+          hint: S().ownerNameHint,
+          validator: (v) =>
+              (v == null || v.trim().isEmpty) ? S().ownerNameRequired : null,
+        ),
+      ),
+      LabeledField(
+        label: S().phoneNumber,
+        child: AppTextField(
+          controller: _phoneController,
+          hint: '01001234567',
+          isNumber: true,
+          validator: (v) => (v == null || v.trim().length < 10)
+              ? S().please_enter_a_valid_phone_number
+              : null,
+        ),
+      ),
+      LabeledField(
+        label: S().password,
+        child: AppPasswordField(
+          controller: _passwordController,
+          hint: S().passwordMinHint,
+          onSubmitted: _submit,
+          validator: (v) =>
+              (v == null || v.length < 6) ? S().passwordTooShort : null,
+        ),
+      ),
+      SizedBox(height: 6.h),
+      BlocBuilder<MerchantAuthCubit, MerchantAuthState>(
+        builder: (context, state) => PrimaryCtaButton(
+          label: S().createAccount,
+          isLoading: state.status == AuthStatus.submitting,
+          onPressed: _submit,
+        ),
+      ),
+    ];
   }
 }

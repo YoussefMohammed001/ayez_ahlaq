@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/widgets/badge_tone.dart';
 import '../../../../../core/widgets/info_row.dart';
@@ -33,12 +34,11 @@ class MerchantProfileScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 20.h),
                 _buildHeader(context, state.profile),
-                SizedBox(height: 18.h),
-                if (state.profile != null) _buildInfo(state.profile!),
-                ProfileAdminMenu(
-                  profile: state.profile,
-                  onLogout: onLogout,
-                ),
+                if (state.profile != null) ...[
+                  SizedBox(height: 18.h),
+                  _buildInfoCard(context, state.profile!),
+                ],
+                ProfileAdminMenu(profile: state.profile, onLogout: onLogout),
                 SizedBox(height: 24.h),
               ],
             );
@@ -84,26 +84,33 @@ class MerchantProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(MerchantProfile profile) {
-    return Column(
-      children: [
-        InfoRow(
-          icon: Icons.person_outline,
-          label: S().businessOwner,
-          value: profile.ownerName,
-        ),
-        InfoRow(
-          icon: Icons.call_outlined,
-          label: S().contact,
-          value: profile.phoneNumber,
-        ),
-        if (profile.email != null && profile.email!.isNotEmpty)
+  Widget _buildInfoCard(BuildContext context, MerchantProfile profile) {
+    final hasEmail = profile.email != null && profile.email!.isNotEmpty;
+
+    return AppCard(
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 2.h),
+      child: Column(
+        children: [
           InfoRow(
-            icon: Icons.mail_outline,
-            label: S().emailLabel,
-            value: profile.email!,
+            icon: Icons.person_outline,
+            label: S().businessOwner,
+            value: profile.ownerName,
           ),
-      ],
+          InfoRow(
+            icon: Icons.call_outlined,
+            label: S().contact,
+            value: profile.phoneNumber,
+            showDivider: hasEmail,
+          ),
+          if (hasEmail)
+            InfoRow(
+              icon: Icons.mail_outline,
+              label: S().emailLabel,
+              value: profile.email!,
+              showDivider: false,
+            ),
+        ],
+      ),
     );
   }
 }

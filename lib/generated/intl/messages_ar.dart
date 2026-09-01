@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "عايز أحلق — منصة بيع بالجملة بتوصّل تجار مستلزمات الحلاقة بالصالونات.",
     ),
     "acceptOrder": MessageLookupByLibrary.simpleMessage("قبول الطلب"),
+    "accountSection": MessageLookupByLibrary.simpleMessage("الحساب"),
     "activeDiscount": MessageLookupByLibrary.simpleMessage("عرض شغال"),
     "activeProducts": MessageLookupByLibrary.simpleMessage("منتجات نشطة"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
@@ -57,10 +58,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "address_required": MessageLookupByLibrary.simpleMessage("العنوان مطلوب"),
     "allOrders": MessageLookupByLibrary.simpleMessage("كل الطلبات"),
     "allShops": MessageLookupByLibrary.simpleMessage("كل الصالونات"),
+    "alreadyHaveAccountLogin": MessageLookupByLibrary.simpleMessage(
+      "عندك حساب بالفعل؟ سجّل دخول",
+    ),
     "already_have_account": MessageLookupByLibrary.simpleMessage(
       "عندك حساب بالفعل؟",
     ),
+    "amountAboveTotal": MessageLookupByLibrary.simpleMessage(
+      "المبلغ لازم يكون أقل من قيمة الطلب",
+    ),
     "appName": MessageLookupByLibrary.simpleMessage("عايز أحلق"),
+    "appSettings": MessageLookupByLibrary.simpleMessage("إعدادات التطبيق"),
     "appTagline": MessageLookupByLibrary.simpleMessage("حلاقتك على مزاجك"),
     "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arabic_full_name_required": MessageLookupByLibrary.simpleMessage(
@@ -137,6 +145,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء الحساب"),
     "createDiscount": MessageLookupByLibrary.simpleMessage("إنشاء العرض"),
+    "createMerchantAccount": MessageLookupByLibrary.simpleMessage(
+      "اعمل حساب تاجر",
+    ),
     "currencyEgp": m1,
     "currentPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة السر الحالية",
@@ -391,6 +402,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "حسابك تحت المراجعة",
     ),
     "pendingOrders": MessageLookupByLibrary.simpleMessage("طلبات معلقة"),
+    "percentAboveMax": MessageLookupByLibrary.simpleMessage(
+      "النسبة مينفعش تزيد عن ١٠٠٪",
+    ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("الوصف (اختياري)"),
     "phoneLabelHint": MessageLookupByLibrary.simpleMessage(
       "مثلاً: خط المبيعات",
@@ -499,6 +513,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stockQuantity": MessageLookupByLibrary.simpleMessage(
       "الكمية المتاحة في المخزن",
     ),
+    "supportSection": MessageLookupByLibrary.simpleMessage("الدعم"),
     "tabAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("لوحتي"),
     "tabOrders": MessageLookupByLibrary.simpleMessage("الطلبات"),

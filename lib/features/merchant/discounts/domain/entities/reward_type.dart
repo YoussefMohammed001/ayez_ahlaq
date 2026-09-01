@@ -17,4 +17,8 @@ enum RewardType {
 
 
   bool get needsValue => this != RewardType.free;
+
+  bool get isPercent => this == RewardType.percent;
+
+  bool get isAmount => this == RewardType.amount;
 }

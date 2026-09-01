@@ -21,6 +21,10 @@ class AuthorizedNetworkImage extends StatefulWidget {
     this.fit = BoxFit.cover,
   });
 
+  static Future<bool> evict(String endPoint) {
+    return CachedNetworkImage.evictFromCache('${AppStrings.baseUrl}$endPoint');
+  }
+
   @override
   State<AuthorizedNetworkImage> createState() => _AuthorizedNetworkImageState();
 }

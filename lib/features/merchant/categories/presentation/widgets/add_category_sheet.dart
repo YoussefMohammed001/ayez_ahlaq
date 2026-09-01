@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/network/constants/endpoints.dart';
 import '../../../../../core/widgets/app_text_field.dart';
+import '../../../../../core/widgets/authorized_network_image.dart';
 import '../../../../../core/widgets/image_picker_row.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
@@ -11,6 +13,7 @@ import '../../data/requests/category_form_request.dart';
 import '../../domain/entities/merchant_category.dart';
 import '../manager/merchant_categories_cubit.dart';
 import '../manager/merchant_categories_state.dart';
+import 'category_thumbnail.dart';
 import '../../../../../generated/l10n.dart';
 
 class AddCategorySheet extends StatefulWidget {
@@ -39,6 +42,9 @@ class _AddCategorySheetState extends State<AddCategorySheet> {
 
   bool get _isEditing => widget.category != null;
 
+  bool get _showsExistingImage =>
+      _images.isEmpty && (widget.category?.hasImage ?? false);
+
   @override
   void dispose() {
     _controller.dispose();
@@ -59,6 +65,12 @@ class _AddCategorySheetState extends State<AddCategorySheet> {
     final saved = _isEditing
         ? await cubit.updateCategory(widget.category!.id, request)
         : await cubit.createCategory(request);
+
+    if (saved && _isEditing && _images.isNotEmpty) {
+      await AuthorizedNetworkImage.evict(
+        EndPoints.merchantCategoryImage(widget.category!.id),
+      );
+    }
 
     if (!mounted) return;
 
@@ -87,10 +99,18 @@ class _AddCategorySheetState extends State<AddCategorySheet> {
           SectionTitle(title: _isEditing ? S().editCategory : S().newCategory),
           AppTextField(controller: _controller, hint: S().newCategoryHint),
           SectionTitle(title: S().categoryImage),
-          ImagePickerRow(
-            images: _images,
-            maxCount: 1,
-            onChanged: (images) => setState(() => _images = images),
+          Row(
+            children: [
+              if (_showsExistingImage) ...[
+                CategoryThumbnail(category: widget.category, size: 78.r),
+                SizedBox(width: 10.w),
+              ],
+              ImagePickerRow(
+                images: _images,
+                maxCount: 1,
+                onChanged: (images) => setState(() => _images = images),
+              ),
+            ],
           ),
           SizedBox(height: 16.h),
           BlocBuilder<MerchantCategoriesCubit, MerchantCategoriesState>(
