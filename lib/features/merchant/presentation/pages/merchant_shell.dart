@@ -4,6 +4,7 @@ import '../../../../core/widgets/app_bottom_nav_bar.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
 import '../../categories/presentation/manager/merchant_categories_cubit.dart';
 import '../../dashboard/presentation/manager/merchant_dashboard_cubit.dart';
+import '../../discounts/presentation/manager/merchant_discounts_cubit.dart';
 import '../../dashboard/presentation/pages/merchant_dashboard_screen.dart';
 import '../../orders/presentation/manager/merchant_orders_cubit.dart';
 import '../../products/presentation/manager/merchant_products_cubit.dart';
@@ -41,6 +42,7 @@ class _MerchantShellState extends State<MerchantShell> {
     context.read<MerchantOrdersCubit>().loadOrders();
     context.read<MerchantProfileCubit>().loadProfile();
     context.read<MerchantCategoriesCubit>().loadCategories();
+    context.read<MerchantDiscountsCubit>().loadDiscounts();
   }
 
   void _goToTab(int index) => setState(() => _index = index);

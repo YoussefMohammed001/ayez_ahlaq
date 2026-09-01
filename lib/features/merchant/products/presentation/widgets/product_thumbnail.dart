@@ -28,12 +28,20 @@ class ProductThumbnail extends StatelessWidget {
     return ClipRRect(
       borderRadius: corner,
       child: AuthorizedNetworkImage(
-        endPoint: EndPoints.merchantProductImage(product.id),
+        endPoint: _endPoint,
         width: size,
         height: size,
         placeholderBuilder: (context) => _buildPlaceholder(context, corner),
       ),
     );
+  }
+
+  String get _endPoint {
+    if (product.imageIds.isEmpty) {
+      return EndPoints.merchantProductImage(product.id);
+    }
+
+    return EndPoints.merchantProductImageById(product.id, product.imageIds.first);
   }
 
   Widget _buildPlaceholder(BuildContext context, BorderRadius corner) {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
+import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../domain/entities/merchant_product.dart';
@@ -42,7 +43,15 @@ class ProductDetailsScreen extends StatelessWidget {
       builder: (context, state) {
         final product = _find(state.products);
 
-        if (product == null) return const SizedBox.shrink();
+        if (product == null) {
+          return Scaffold(
+            appBar: AppTopBar(title: S().productDetails),
+            body: AppEmptyState(
+              icon: Icons.inventory_2_outlined,
+              title: S().noProductsYet,
+            ),
+          );
+        }
 
         return Scaffold(
           appBar: AppTopBar(

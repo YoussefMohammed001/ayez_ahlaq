@@ -16,8 +16,20 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
-class MerchantDiscountsScreen extends StatelessWidget {
+class MerchantDiscountsScreen extends StatefulWidget {
   const MerchantDiscountsScreen({super.key});
+
+  @override
+  State<MerchantDiscountsScreen> createState() =>
+      _MerchantDiscountsScreenState();
+}
+
+class _MerchantDiscountsScreenState extends State<MerchantDiscountsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MerchantDiscountsCubit>().loadDiscounts();
+  }
 
   Future<void> _confirmClose(BuildContext context, int id) async {
     final cubit = context.read<MerchantDiscountsCubit>();

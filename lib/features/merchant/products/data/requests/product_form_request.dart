@@ -33,7 +33,9 @@ class ProductFormRequest {
         'description': description,
       if (minOrderQty != null) 'minOrderQty': minOrderQty,
       if (stock != null) 'stock': stock,
-      if (keepImageIds != null) 'keepImageIds': keepImageIds,
+      if (keepImageIds != null && keepImageIds!.isNotEmpty)
+        'keepImageIds': keepImageIds,
+      if (keepImageIds != null && keepImageIds!.isEmpty) 'keepImageIds': '',
       if (imagePaths.isNotEmpty)
         'images': imagePaths
             .map((path) => MultipartFile.fromFileSync(path))

@@ -186,6 +186,7 @@ Widget _merchantProviders({required Widget child}) {
       BlocProvider.value(value: _ordersCubit),
       BlocProvider.value(value: _profileCubit),
       BlocProvider.value(value: _categoriesCubit),
+      BlocProvider.value(value: _discountsCubit),
     ],
     child: child,
   );
