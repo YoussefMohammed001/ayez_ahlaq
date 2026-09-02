@@ -61,7 +61,7 @@ class CategoryOptionTile extends StatelessWidget {
                   ? Icons.radio_button_checked
                   : Icons.radio_button_unchecked,
               size: 20.r,
-              color: selected ? scheme.primary : scheme.outlineVariant,
+              color: selected ? scheme.primary : scheme.onSurfaceVariant,
             ),
           ],
         ),

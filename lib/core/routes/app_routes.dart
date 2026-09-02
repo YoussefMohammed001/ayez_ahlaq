@@ -8,6 +8,10 @@ import '../../features/merchant/auth/presentation/pages/merchant_register_screen
 import '../../features/merchant/categories/presentation/manager/merchant_categories_cubit.dart';
 import '../../features/merchant/categories/presentation/pages/merchant_categories_screen.dart';
 import '../../features/merchant/dashboard/presentation/manager/merchant_dashboard_cubit.dart';
+import '../../features/merchant/documents/presentation/manager/merchant_documents_cubit.dart';
+import '../../features/merchant/documents/presentation/helpers/document_view_args.dart';
+import '../../features/merchant/documents/presentation/pages/document_viewer_screen.dart';
+import '../../features/merchant/documents/presentation/pages/merchant_documents_screen.dart';
 import '../../features/merchant/delivery/presentation/manager/merchant_delivery_cubit.dart';
 import '../../features/merchant/delivery/presentation/pages/merchant_delivery_screen.dart';
 import '../../features/merchant/discounts/presentation/manager/merchant_discounts_cubit.dart';
@@ -49,6 +53,7 @@ final MerchantCategoriesCubit _categoriesCubit = sl<MerchantCategoriesCubit>();
 final MerchantDiscountsCubit _discountsCubit = sl<MerchantDiscountsCubit>();
 final MerchantPhonesCubit _phonesCubit = sl<MerchantPhonesCubit>();
 final MerchantDeliveryCubit _deliveryCubit = sl<MerchantDeliveryCubit>();
+final MerchantDocumentsCubit _documentsCubit = sl<MerchantDocumentsCubit>();
 
 final routes = GoRouter(
   initialLocation: Routes.splashScreen,
@@ -151,6 +156,23 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.merchantDocumentsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _documentsCubit,
+        child: const MerchantDocumentsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantDocumentViewerScreen,
+      builder: (_, state) {
+        final args = state.extra as DocumentViewArgs;
+        return DocumentViewerScreen(
+          document: args.document,
+          bytes: args.bytes,
+        );
+      },
+    ),
+    GoRoute(
       path: Routes.merchantNotificationsScreen,
       builder: (_, __) => BlocProvider(
         create: (_) => MerchantNotificationsCubit()..loadNotifications(),
@@ -187,6 +209,7 @@ Widget _merchantProviders({required Widget child}) {
       BlocProvider.value(value: _profileCubit),
       BlocProvider.value(value: _categoriesCubit),
       BlocProvider.value(value: _discountsCubit),
+      BlocProvider.value(value: _documentsCubit),
     ],
     child: child,
   );

@@ -17,6 +17,14 @@ import '../../features/merchant/categories/domain/use_cases/delete_category_use_
 import '../../features/merchant/categories/domain/use_cases/get_assignable_categories_use_case.dart';
 import '../../features/merchant/categories/domain/use_cases/update_category_use_case.dart';
 import '../../features/merchant/categories/presentation/manager/merchant_categories_cubit.dart';
+import '../../features/merchant/documents/data/apis/merchant_documents_api.dart';
+import '../../features/merchant/documents/data/repos/merchant_documents_repo.dart';
+import '../../features/merchant/documents/domain/repos/i_merchant_documents_repo.dart';
+import '../../features/merchant/documents/domain/use_cases/delete_document_file_use_case.dart';
+import '../../features/merchant/documents/domain/use_cases/download_document_file_use_case.dart';
+import '../../features/merchant/documents/domain/use_cases/get_documents_use_case.dart';
+import '../../features/merchant/documents/domain/use_cases/upload_document_file_use_case.dart';
+import '../../features/merchant/documents/presentation/manager/merchant_documents_cubit.dart';
 import '../../features/merchant/dashboard/data/apis/merchant_dashboard_api.dart';
 import '../../features/merchant/dashboard/data/repos/merchant_dashboard_repo.dart';
 import '../../features/merchant/dashboard/domain/repos/i_merchant_dashboard_repo.dart';
@@ -91,6 +99,7 @@ class ServicesLocator {
     _merchantAuth();
     _merchantDashboard();
     _merchantCategories();
+    _merchantDocuments();
     _merchantProducts();
     _merchantDiscounts();
     _merchantOrders();
@@ -185,6 +194,20 @@ class ServicesLocator {
     );
   }
 
+  void _merchantDocuments() {
+    sl.registerLazySingleton(() => MerchantDocumentsApi(sl()));
+    sl.registerLazySingleton<IMerchantDocumentsRepo>(
+      () => MerchantDocumentsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetDocumentsUseCase(sl()));
+    sl.registerLazySingleton(() => UploadDocumentFileUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteDocumentFileUseCase(sl()));
+    sl.registerLazySingleton(() => DownloadDocumentFileUseCase(sl()));
+    sl.registerLazySingleton(
+      () => MerchantDocumentsCubit(sl(), sl(), sl(), sl()),
+    );
+  }
+
   void _merchantProducts() {
     sl.registerLazySingleton(() => MerchantProductsApi(sl()));
     sl.registerLazySingleton<IMerchantProductsRepo>(
@@ -236,7 +259,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetMerchantProfileUseCase(sl()));
     sl.registerLazySingleton(() => UpdateMerchantProfileUseCase(sl()));
     sl.registerLazySingleton(() => ChangePasswordUseCase(sl()));
-    sl.registerFactory(() => MerchantProfileCubit(sl(), sl(), sl()));
+    sl.registerLazySingleton(() => MerchantProfileCubit(sl(), sl(), sl()));
     sl.registerLazySingleton(() => GetPhonesUseCase(sl()));
     sl.registerLazySingleton(() => AddPhoneUseCase(sl()));
     sl.registerLazySingleton(() => DeletePhoneUseCase(sl()));

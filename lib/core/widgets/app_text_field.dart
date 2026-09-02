@@ -10,6 +10,7 @@ class AppTextField extends StatelessWidget {
   final bool isNumber;
   final bool obscure;
   final int maxLines;
+  final bool readOnly;
   final String? Function(String?)? validator;
 
   const AppTextField({
@@ -19,6 +20,7 @@ class AppTextField extends StatelessWidget {
     this.isNumber = false,
     this.obscure = false,
     this.maxLines = 1,
+    this.readOnly = false,
     this.validator,
   });
 
@@ -28,11 +30,14 @@ class AppTextField extends StatelessWidget {
       controller: controller,
       maxLines: obscure ? 1 : maxLines,
       obscureText: obscure,
+      readOnly: readOnly,
       keyboardType: isNumber ? TextInputType.phone : TextInputType.text,
       inputFormatters:
           isNumber ? [FilteringTextInputFormatter.digitsOnly] : null,
       style: TextStyle(
-        color: context.colorScheme.onSurface,
+        color: readOnly
+            ? context.colorScheme.onSurfaceVariant
+            : context.colorScheme.onSurface,
         fontSize: 13.5.sp,
       ),
       decoration: AppInputDecoration.build(context, hint),

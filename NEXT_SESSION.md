@@ -36,7 +36,7 @@ flutter test
   ⚠️ الـ Postman collection مكتوب فيه `ayezAhlaq-api` وده **غلط** (nginx 405)
 - Envelope: `{data, message, status}` — `NetworkService` بيتعامل معاه أصلًا
 - Auth: `Bearer`, صلاحية ٢٤ ساعة
-- حساب تجربة: `01001234567` / `secret123`
+- حساب تجربة (متأكد منه ٢٠٢٦/٠٩/٠٢): `0123456` / `123456`
 
 ### فروق مهمة بين الأنواع (مكتشفة بالتجربة على السيرفر)
 | النوع | حقل الدخول | header |
@@ -73,11 +73,18 @@ dark هو الافتراضي. `AppDarkColors`: ink950 `#14120F` · ink900 `#1C19
 
 ## الفاضل — بالترتيب
 
-### ١. المستندات (`/attachment`) — أهم حاجة فاضلة في التاجر
-زرار "مستنداتي" في حسابي مش شغال. الـ feature كله مش موجود.
-**مهم لأن تفعيل الحساب متوقف عليه** (`active: false` لحد ما يرفع مستنداته).
-Endpoints: `GET /merchant/attachment` · `POST|GET|DELETE /merchant/attachment/{id}/file`
-(صور أو PDF بس، أقصى ١٥ ميجا). الأدمن بيحدد الخانات، التاجر بيرفع فيها بس.
+### ~~١. المستندات (`/attachment`)~~ — ✅ خلصت
+`lib/features/merchant/documents/` — عرض · رفع · استبدال · مسح · فتح الملف.
+الـ contract متأكد منه بالتجربة على السيرفر:
+- `GET /merchant/attachment` → list
+- `POST /merchant/attachment/{id}/file` → **اسم الحقل `file`**، بيرجّع الـ attachment المحدّث
+- `DELETE /merchant/attachment/{id}/file` → `{"message":"file removed"}`
+- `GET /merchant/attachment/{id}/file` → bytes خام + `Content-Disposition` (مش JSON) — لو مفيش ملف بيرجّع 404 `no file uploaded for this attachment`
+- الرفع بيرفض أي حاجة غير صور/PDF بـ 400 `only images or PDF files are allowed`
+- الأدمن ممكن يكون رافع الملف بنفسه (`uploadedByType: ADMIN`) والتاجر لسه يقدر يستبدله
+
+الصور بتتعرض جوه التطبيق بـ `AuthorizedNetworkImage`، والـ PDF بيتفتح بـ `share_plus` + `path_provider`
+(اتضافت `path_provider` كـ direct dependency).
 
 ### ٢. الطلبات الحقيقية
 محتاج **response حقيقي واحد** من `GET /api/merchant/order` (لازم حلاق يعمل طلب).

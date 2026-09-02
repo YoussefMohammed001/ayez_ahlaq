@@ -27,16 +27,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(days) => "قبل ${days} أيام";
 
-  static String m3(status) => "تغيير الحالة إلى \"${status}\"";
+  static String m3(size) => "الملف كبير أوي — أقصى حجم ${size} ميجا";
 
-  static String m4(count, limit) => "فئاتي (${count}/${limit})";
+  static String m4(count) => "لسه ناقص ${count} مستندات مطلوبة";
 
-  static String m5(price, stock, min) =>
+  static String m5(size) =>
+      "الأدمن هو اللي بيحدد المستندات المطلوبة. ارفع صورة أو ملف PDF لكل واحد، أقصى حجم ${size} ميجا.";
+
+  static String m6(uploaded, total) => "اترفع ${uploaded} من ${total}";
+
+  static String m7(status) => "تغيير الحالة إلى \"${status}\"";
+
+  static String m8(count, limit) => "فئاتي (${count}/${limit})";
+
+  static String m9(price, stock, min) =>
       "${price} ج · مخزون ${stock} · حد أدنى ${min}";
 
-  static String m6(name) => "الحلاق المسؤول: ${name}";
+  static String m10(name) => "الحلاق المسؤول: ${name}";
 
-  static String m7(count) => "العرض هيبان لـ ${count} صالون";
+  static String m11(count) => "العرض هيبان لـ ${count} صالون";
+
+  static String m12(count) => "${count} قطعة";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -47,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "acceptOrder": MessageLookupByLibrary.simpleMessage("قبول الطلب"),
     "accountSection": MessageLookupByLibrary.simpleMessage("الحساب"),
     "activeDiscount": MessageLookupByLibrary.simpleMessage("عرض شغال"),
+    "activeOrders": MessageLookupByLibrary.simpleMessage("طلبات جارية"),
     "activeProducts": MessageLookupByLibrary.simpleMessage("منتجات نشطة"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
     "addAction": MessageLookupByLibrary.simpleMessage("+ إضافة"),
@@ -118,6 +130,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "chooseLanguage": MessageLookupByLibrary.simpleMessage("اختار اللغة"),
     "chooseProduct": MessageLookupByLibrary.simpleMessage("اختار المنتج"),
     "chooseTheme": MessageLookupByLibrary.simpleMessage("اختار المظهر"),
+    "chooseUploadSource": MessageLookupByLibrary.simpleMessage(
+      "اختار مصدر الملف",
+    ),
     "choose_image_source": MessageLookupByLibrary.simpleMessage(
       "اختار مصدر الصورة",
     ),
@@ -165,6 +180,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteCategoryConfirm": MessageLookupByLibrary.simpleMessage(
       "متأكد إنك عايز تحذف الفئة دي؟",
     ),
+    "deleteDocument": MessageLookupByLibrary.simpleMessage("امسح الملف"),
+    "deleteDocumentConfirm": MessageLookupByLibrary.simpleMessage(
+      "متأكد إنك عايز تمسح الملف ده؟ تقدر ترفعه تاني بعدين.",
+    ),
     "deletePhone": MessageLookupByLibrary.simpleMessage("حذف الرقم"),
     "deletePhoneConfirm": MessageLookupByLibrary.simpleMessage(
       "متأكد إنك عايز تحذف الرقم ده؟",
@@ -172,6 +191,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteProduct": MessageLookupByLibrary.simpleMessage("حذف المنتج"),
     "deleteProductConfirm": MessageLookupByLibrary.simpleMessage(
       "المنتج هيتشال من متجر الحلاقين. متأكد؟",
+    ),
+    "deliveredThisMonth": MessageLookupByLibrary.simpleMessage(
+      "اتسلّم الشهر ده",
     ),
     "deliveryFeeHint": MessageLookupByLibrary.simpleMessage("مثال: 25"),
     "deliveryFeeLabel": MessageLookupByLibrary.simpleMessage("رسم التوصيل"),
@@ -212,7 +234,62 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "discountType": MessageLookupByLibrary.simpleMessage("نوع العرض"),
     "discountValue": MessageLookupByLibrary.simpleMessage("قيمة الخصم"),
+    "discountedProducts": MessageLookupByLibrary.simpleMessage(
+      "منتجات عليها خصم",
+    ),
     "discountsTitle": MessageLookupByLibrary.simpleMessage("العروض والخصومات"),
+    "documentAddedByAdmin": MessageLookupByLibrary.simpleMessage(
+      "مرفوع من الأدمن",
+    ),
+    "documentDeletedSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم مسح الملف",
+    ),
+    "documentLoadFailed": MessageLookupByLibrary.simpleMessage(
+      "مش قادر يفتح الملف",
+    ),
+    "documentNotUploadedYet": MessageLookupByLibrary.simpleMessage(
+      "لسه مترفعش",
+    ),
+    "documentOptional": MessageLookupByLibrary.simpleMessage("اختياري"),
+    "documentRequired": MessageLookupByLibrary.simpleMessage("مطلوب"),
+    "documentTooLarge": m3,
+    "documentUnsupportedType": MessageLookupByLibrary.simpleMessage(
+      "الملفات المسموحة صور أو PDF بس",
+    ),
+    "documentUploaded": MessageLookupByLibrary.simpleMessage("مرفوع"),
+    "documentUploadedSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم رفع الملف",
+    ),
+    "documentsAllUploaded": MessageLookupByLibrary.simpleMessage(
+      "كل المستندات المطلوبة اترفعت",
+    ),
+    "documentsBlockedHeadline": MessageLookupByLibrary.simpleMessage(
+      "ارفع مستنداتك عشان تكمّل",
+    ),
+    "documentsBlockedMessage": MessageLookupByLibrary.simpleMessage(
+      "الأدمن محتاج الملفات دي قبل ما تقدر تستخدم التطبيق. أول ما ترفعها هيتفتح كل حاجة على طول.",
+    ),
+    "documentsBlockedTitle": MessageLookupByLibrary.simpleMessage(
+      "مستندات مطلوبة",
+    ),
+    "documentsMissingRequired": m4,
+    "documentsNote": m5,
+    "documentsOptionalMessage": MessageLookupByLibrary.simpleMessage(
+      "اختيارية — ارفعها في أي وقت",
+    ),
+    "documentsOptionalTitle": MessageLookupByLibrary.simpleMessage(
+      "مستندات تقدر تضيفها",
+    ),
+    "documentsPendingReview": MessageLookupByLibrary.simpleMessage(
+      "حسابك تحت المراجعة لحد ما الأدمن يوافق على مستنداتك.",
+    ),
+    "documentsProgress": m6,
+    "documentsRequestedMessage": MessageLookupByLibrary.simpleMessage(
+      "الأدمن مستني منك ترفع ملفات",
+    ),
+    "documentsRequestedTitle": MessageLookupByLibrary.simpleMessage(
+      "مستندات مطلوبة منك",
+    ),
     "done": MessageLookupByLibrary.simpleMessage("تم"),
     "dont_have_account": MessageLookupByLibrary.simpleMessage("معندكش حساب؟"),
     "editCategory": MessageLookupByLibrary.simpleMessage("تعديل الفئة"),
@@ -235,6 +312,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enter_password": MessageLookupByLibrary.simpleMessage("اكتب كلمة السر"),
     "errorDefaultTitle": MessageLookupByLibrary.simpleMessage("حصل خطأ"),
+    "everythingFine": MessageLookupByLibrary.simpleMessage(
+      "كل حاجة تمام، مفيش حاجة محتاجة تصرف",
+    ),
     "extraPhones": MessageLookupByLibrary.simpleMessage("أرقام إضافية"),
     "extraPhonesNote": MessageLookupByLibrary.simpleMessage(
       "أرقام تواصل إضافية عشان الصالونات تقدر توصلك. رقم الدخول بيغيّره الأدمن.",
@@ -243,6 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "الميزة دي هتشتغل بعد تفعيل حسابك.",
     ),
     "field_required": MessageLookupByLibrary.simpleMessage("الخانة دي مطلوبة"),
+    "filesSource": MessageLookupByLibrary.simpleMessage("الملفات"),
     "filterAll": MessageLookupByLibrary.simpleMessage("الكل"),
     "freeDelivery": MessageLookupByLibrary.simpleMessage("مجاني"),
     "fulfilmentDelivery": MessageLookupByLibrary.simpleMessage("توصيل"),
@@ -254,7 +335,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "الإجمالي شامل التوصيل",
     ),
     "greeting": MessageLookupByLibrary.simpleMessage("صباح الفل،"),
+    "identityLockedAction": MessageLookupByLibrary.simpleMessage(
+      "مش هتقدر تغيّر الاسم ولا اسم النشاط بعد تفعيل الحساب",
+    ),
+    "identityLockedMessage": MessageLookupByLibrary.simpleMessage(
+      "بعد ما حسابك اتفعّل، مش هتقدر تغيّر اسمك ولا اسم النشاط التجاري. كلّم الدعم لو محتاج تعدّلهم.",
+    ),
+    "identityLockedTitle": MessageLookupByLibrary.simpleMessage(
+      "بياناتك موثّقة",
+    ),
     "inStock": MessageLookupByLibrary.simpleMessage("متوفر"),
+    "inactiveProducts": MessageLookupByLibrary.simpleMessage("منتجات موقوفة"),
     "instagram_error": MessageLookupByLibrary.simpleMessage(
       "مش قادر أفتح إنستجرام",
     ),
@@ -263,6 +354,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalid_national_id": MessageLookupByLibrary.simpleMessage(
       "الرقم القومي غير صحيح",
     ),
+    "inventoryTitle": MessageLookupByLibrary.simpleMessage("المخزن"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "latestOrders": MessageLookupByLibrary.simpleMessage("أحدث الطلبات"),
     "listSeparator": MessageLookupByLibrary.simpleMessage("، "),
@@ -297,9 +389,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "missingDocsTitle": MessageLookupByLibrary.simpleMessage("مستندات ناقصة"),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("إيرادات الشهر"),
-    "moveStatusTo": m3,
+    "moveStatusTo": m7,
     "myCategories": MessageLookupByLibrary.simpleMessage("فئات منتجاتي"),
-    "myCategoriesCount": m4,
+    "myCategoriesCount": m8,
     "myDocuments": MessageLookupByLibrary.simpleMessage("مستنداتي"),
     "name_invalid_characters": MessageLookupByLibrary.simpleMessage(
       "الاسم فيه حروف غير مسموحة",
@@ -316,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "national_id_required": MessageLookupByLibrary.simpleMessage(
       "الرقم القومي مطلوب",
     ),
+    "needsAttention": MessageLookupByLibrary.simpleMessage("محتاج منك تصرف"),
     "newCategory": MessageLookupByLibrary.simpleMessage("فئة جديدة"),
     "newCategoryHint": MessageLookupByLibrary.simpleMessage(
       "مثلاً: عروض النخبة",
@@ -326,6 +419,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "معندكش حساب؟ سجّل تاجر جديد",
     ),
     "noDiscountsYet": MessageLookupByLibrary.simpleMessage("لسه مفيش عروض"),
+    "noDocuments": MessageLookupByLibrary.simpleMessage("مفيش مستندات مطلوبة"),
+    "noDocumentsMessage": MessageLookupByLibrary.simpleMessage(
+      "الأدمن لسه مطلبش منك أي مستندات.",
+    ),
     "noExtraPhones": MessageLookupByLibrary.simpleMessage(
       "لسه مفيش أرقام إضافية",
     ),
@@ -372,6 +469,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderTotal": MessageLookupByLibrary.simpleMessage("إجمالي الطلب"),
     "orderedItems": MessageLookupByLibrary.simpleMessage("الأصناف المطلوبة"),
     "outOfStock": MessageLookupByLibrary.simpleMessage("خلص من المخزن"),
+    "outOfStockProducts": MessageLookupByLibrary.simpleMessage("منتجات خلصت"),
+    "outOfStockShort": MessageLookupByLibrary.simpleMessage("خلصت"),
+    "overviewTitle": MessageLookupByLibrary.simpleMessage("نظرة سريعة"),
     "ownerName": MessageLookupByLibrary.simpleMessage("اسم صاحب النشاط"),
     "ownerNameHint": MessageLookupByLibrary.simpleMessage("مثلاً: أحمد علي"),
     "ownerNameRequired": MessageLookupByLibrary.simpleMessage(
@@ -434,7 +534,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "المنتج ده هيظهر للحلاقين في متجر المستلزمات، ومش هيظهر للعملاء العاديين.",
     ),
     "productImages": MessageLookupByLibrary.simpleMessage("صور المنتج"),
-    "productMetaLine": m5,
+    "productMetaLine": m9,
     "productName": MessageLookupByLibrary.simpleMessage("اسم المنتج"),
     "productNameHint": MessageLookupByLibrary.simpleMessage(
       "مثلاً: وكس تثبيت قوي - عبوة صالونات",
@@ -443,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "اكتب اسم المنتج",
     ),
     "productRequired": MessageLookupByLibrary.simpleMessage("اختار منتج"),
+    "productsCount": MessageLookupByLibrary.simpleMessage("عدد المنتجات"),
     "productsNote": MessageLookupByLibrary.simpleMessage(
       "المنتجات اللي بتعرضها هنا بتظهر للحلاقين في متجر المستلزمات.",
     ),
@@ -460,14 +561,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "remove_leading_zero": MessageLookupByLibrary.simpleMessage(
       "امسح الصفر اللي في الأول",
     ),
+    "replaceDocument": MessageLookupByLibrary.simpleMessage("استبدل"),
     "resend_code": MessageLookupByLibrary.simpleMessage("إعادة إرسال الكود"),
-    "responsibleBarber": m6,
+    "responsibleBarber": m10,
     "retry": MessageLookupByLibrary.simpleMessage("حاول تاني"),
     "rewardAmount": MessageLookupByLibrary.simpleMessage("مبلغ ثابت"),
     "rewardFree": MessageLookupByLibrary.simpleMessage("مجانًا"),
     "rewardPercent": MessageLookupByLibrary.simpleMessage("نسبة %"),
     "rewardQuantityLabel": MessageLookupByLibrary.simpleMessage("خد كام قطعة؟"),
     "rewardTypeLabel": MessageLookupByLibrary.simpleMessage("نوع المكافأة"),
+    "runningLowProducts": MessageLookupByLibrary.simpleMessage("قربوا يخلصوا"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("حفظ التعديلات"),
     "scopeBuyXGetY": MessageLookupByLibrary.simpleMessage("اشتري وخد"),
@@ -485,6 +588,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "نسبة أو مبلغ يتخصم من سعر منتج واحد",
     ),
     "seats": MessageLookupByLibrary.simpleMessage("المقاعد"),
+    "shareDocument": MessageLookupByLibrary.simpleMessage("مشاركة"),
     "shops": MessageLookupByLibrary.simpleMessage("الصالونات"),
     "shopsAllHint": MessageLookupByLibrary.simpleMessage(
       "لو مختارتش حاجة، العرض هيكون متاح لكل الصالونات",
@@ -492,7 +596,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "العرض هيبان لكل الصالونات",
     ),
-    "shopsSelectedHint": m7,
+    "shopsSelectedHint": m11,
     "signIn": MessageLookupByLibrary.simpleMessage("دخول"),
     "snapchat_error": MessageLookupByLibrary.simpleMessage(
       "مش قادر أفتح سناب شات",
@@ -513,6 +617,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stockQuantity": MessageLookupByLibrary.simpleMessage(
       "الكمية المتاحة في المخزن",
     ),
+    "stockUnits": m12,
     "supportSection": MessageLookupByLibrary.simpleMessage("الدعم"),
     "tabAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("لوحتي"),
@@ -525,6 +630,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "مش قادر أفتح تيك توك",
     ),
     "today": MessageLookupByLibrary.simpleMessage("النهاردة"),
+    "topProducts": MessageLookupByLibrary.simpleMessage("الأكثر مخزونًا"),
+    "totalStockUnits": MessageLookupByLibrary.simpleMessage("إجمالي القطع"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("حاول تاني"),
     "twitter_error": MessageLookupByLibrary.simpleMessage("مش قادر أفتح X"),
     "underDevelopment": MessageLookupByLibrary.simpleMessage(
@@ -537,9 +644,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "updateRequiredBody": MessageLookupByLibrary.simpleMessage(
       "في نسخة جديدة من التطبيق، حدّث التطبيق عشان تكمل.",
     ),
+    "uploadDocument": MessageLookupByLibrary.simpleMessage("ارفع"),
     "vehicleType": MessageLookupByLibrary.simpleMessage("نوع المركبة"),
     "verifiedMerchant": MessageLookupByLibrary.simpleMessage("حساب تاجر موثّق"),
     "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
+    "viewDocument": MessageLookupByLibrary.simpleMessage("عرض"),
     "weak_password": MessageLookupByLibrary.simpleMessage("كلمة السر ضعيفة"),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("أهلاً بيك 👋"),
     "welcome_message": MessageLookupByLibrary.simpleMessage("أهلاً بيك"),

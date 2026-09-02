@@ -9,6 +9,7 @@ class MenuRow extends StatelessWidget {
   final bool danger;
   final bool showChevron;
   final bool showDivider;
+  final Widget? trailing;
 
   const MenuRow({
     super.key,
@@ -18,6 +19,7 @@ class MenuRow extends StatelessWidget {
     this.danger = false,
     this.showChevron = true,
     this.showDivider = true,
+    this.trailing,
   });
 
   MenuRow withoutDivider() {
@@ -28,12 +30,14 @@ class MenuRow extends StatelessWidget {
       danger: danger,
       showChevron: showChevron,
       showDivider: false,
+      trailing: trailing,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final color = danger ? context.semantic.warning : context.colorScheme.onSurface;
+    final accent = context.semantic.accentStrong;
 
     return InkWell(
       onTap: onTap,
@@ -50,10 +54,20 @@ class MenuRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
-              size: 19.r,
-              color: danger ? context.semantic.warning : context.colorScheme.onSurfaceVariant,
+            Container(
+              width: 32.r,
+              height: 32.r,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: (danger ? context.semantic.warning : accent)
+                    .withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(
+                icon,
+                size: 18.r,
+                color: danger ? context.semantic.warning : accent,
+              ),
             ),
             SizedBox(width: 12.w),
             Expanded(
@@ -66,11 +80,15 @@ class MenuRow extends StatelessWidget {
                 ),
               ),
             ),
+            if (trailing != null) ...[
+              trailing!,
+              SizedBox(width: 8.w),
+            ],
             if (showChevron)
               Icon(
                 Icons.chevron_right,
-                size: 16.r,
-                color: context.colorScheme.outlineVariant,
+                size: 18.r,
+                color: context.colorScheme.onSurfaceVariant,
               ),
           ],
         ),

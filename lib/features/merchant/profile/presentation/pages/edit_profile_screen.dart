@@ -8,8 +8,10 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../domain/entities/merchant_profile.dart';
+import '../helpers/merchant_access.dart';
 import '../manager/merchant_profile_cubit.dart';
 import '../manager/merchant_profile_state.dart';
+import '../widgets/identity_locked_banner.dart';
 import '../../../../../generated/l10n.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -44,10 +46,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final locked = !canEditMerchantIdentity;
     final cubit = context.read<MerchantProfileCubit>();
     final saved = await cubit.updateProfile(
-      businessName: _businessController.text.trim(),
-      ownerName: _ownerController.text.trim(),
+      businessName: locked
+          ? widget.profile.businessName
+          : _businessController.text.trim(),
+      ownerName: locked
+          ? widget.profile.ownerName
+          : _ownerController.text.trim(),
       email: _emailController.text.trim(),
     );
 
@@ -71,10 +78,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
           children: [
+            const IdentityLockedBanner(),
             SectionTitle(title: S().businessName),
             AppTextField(
               controller: _businessController,
               hint: S().businessNameHint,
+              readOnly: !context.canEditIdentity,
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? S().businessNameRequired : null,
             ),
@@ -82,6 +91,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             AppTextField(
               controller: _ownerController,
               hint: S().ownerNameHint,
+              readOnly: !context.canEditIdentity,
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? S().ownerNameRequired : null,
             ),

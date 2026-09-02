@@ -5,6 +5,10 @@ import '../../../../core/widgets/nav_tab_item.dart';
 import '../../categories/presentation/manager/merchant_categories_cubit.dart';
 import '../../dashboard/presentation/manager/merchant_dashboard_cubit.dart';
 import '../../discounts/presentation/manager/merchant_discounts_cubit.dart';
+import '../../documents/presentation/manager/merchant_documents_cubit.dart';
+import '../../documents/presentation/manager/merchant_documents_state.dart';
+import '../../documents/presentation/pages/merchant_documents_screen.dart';
+import '../../../../shared/widgets/documents/required_documents_gate.dart';
 import '../../dashboard/presentation/pages/merchant_dashboard_screen.dart';
 import '../../orders/presentation/manager/merchant_orders_cubit.dart';
 import '../../products/presentation/manager/merchant_products_cubit.dart';
@@ -43,12 +47,26 @@ class _MerchantShellState extends State<MerchantShell> {
     context.read<MerchantProfileCubit>().loadProfile();
     context.read<MerchantCategoriesCubit>().loadCategories();
     context.read<MerchantDiscountsCubit>().loadDiscounts();
+    context.read<MerchantDocumentsCubit>().loadDocuments();
   }
 
   void _goToTab(int index) => setState(() => _index = index);
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<MerchantDocumentsCubit, MerchantDocumentsState>(
+      buildWhen: (previous, current) =>
+          previous.missingRequiredCount != current.missingRequiredCount,
+      builder: (context, documentsState) => RequiredDocumentsGate(
+        isBlocked: documentsState.missingRequiredCount > 0,
+        onLogout: widget.onLogout,
+        blockedBuilder: (_) => const MerchantDocumentsScreen(blocking: true),
+        builder: (_) => _buildShell(),
+      ),
+    );
+  }
+
+  Widget _buildShell() {
     return Scaffold(
       body: BlocBuilder<MerchantProfileCubit, MerchantProfileState>(
         builder: (context, state) {
@@ -57,6 +75,7 @@ class _MerchantShellState extends State<MerchantShell> {
             children: [
               MerchantDashboardScreen(
                 onGoToOrders: () => _goToTab(2),
+                onGoToProducts: () => _goToTab(1),
                 businessName: state.profile?.businessName ?? '',
               ),
               const MerchantProductsScreen(),

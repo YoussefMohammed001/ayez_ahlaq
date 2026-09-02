@@ -27,16 +27,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(days) => "${days} days ago";
 
-  static String m3(status) => "Move status to \"${status}\"";
+  static String m3(size) => "The file is too large — maximum ${size} MB";
 
-  static String m4(count, limit) => "My categories (${count}/${limit})";
+  static String m4(count) => "${count} required documents are still missing";
 
-  static String m5(price, stock, min) =>
+  static String m5(size) =>
+      "The admin sets which documents are needed. Upload an image or a PDF for each one, up to ${size} MB.";
+
+  static String m6(uploaded, total) => "${uploaded} of ${total} uploaded";
+
+  static String m7(status) => "Move status to \"${status}\"";
+
+  static String m8(count, limit) => "My categories (${count}/${limit})";
+
+  static String m9(price, stock, min) =>
       "${price} EGP · stock ${stock} · min ${min}";
 
-  static String m6(name) => "Responsible barber: ${name}";
+  static String m10(name) => "Responsible barber: ${name}";
 
-  static String m7(count) => "The offer applies to ${count} salons";
+  static String m11(count) => "The offer applies to ${count} salons";
+
+  static String m12(count) => "${count} units";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -47,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "acceptOrder": MessageLookupByLibrary.simpleMessage("Accept order"),
     "accountSection": MessageLookupByLibrary.simpleMessage("Account"),
     "activeDiscount": MessageLookupByLibrary.simpleMessage("Active offer"),
+    "activeOrders": MessageLookupByLibrary.simpleMessage("Active orders"),
     "activeProducts": MessageLookupByLibrary.simpleMessage("Active products"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addAction": MessageLookupByLibrary.simpleMessage("+ Add"),
@@ -122,6 +134,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "chooseLanguage": MessageLookupByLibrary.simpleMessage("Choose language"),
     "chooseProduct": MessageLookupByLibrary.simpleMessage("Choose the product"),
     "chooseTheme": MessageLookupByLibrary.simpleMessage("Choose theme"),
+    "chooseUploadSource": MessageLookupByLibrary.simpleMessage(
+      "Choose upload source",
+    ),
     "choose_image_source": MessageLookupByLibrary.simpleMessage(
       "Choose image source",
     ),
@@ -169,6 +184,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteCategoryConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this category?",
     ),
+    "deleteDocument": MessageLookupByLibrary.simpleMessage("Delete file"),
+    "deleteDocumentConfirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this file? You can upload it again later.",
+    ),
     "deletePhone": MessageLookupByLibrary.simpleMessage("Delete number"),
     "deletePhoneConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this number?",
@@ -176,6 +195,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteProduct": MessageLookupByLibrary.simpleMessage("Delete product"),
     "deleteProductConfirm": MessageLookupByLibrary.simpleMessage(
       "It will be removed from the barbers\' store. Are you sure?",
+    ),
+    "deliveredThisMonth": MessageLookupByLibrary.simpleMessage(
+      "Delivered this month",
     ),
     "deliveryFeeHint": MessageLookupByLibrary.simpleMessage("e.g. 25"),
     "deliveryFeeLabel": MessageLookupByLibrary.simpleMessage("Delivery fee"),
@@ -216,8 +238,63 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "discountType": MessageLookupByLibrary.simpleMessage("Offer type"),
     "discountValue": MessageLookupByLibrary.simpleMessage("Discount value"),
+    "discountedProducts": MessageLookupByLibrary.simpleMessage(
+      "Discounted products",
+    ),
     "discountsTitle": MessageLookupByLibrary.simpleMessage(
       "Offers and discounts",
+    ),
+    "documentAddedByAdmin": MessageLookupByLibrary.simpleMessage(
+      "Added by the admin",
+    ),
+    "documentDeletedSuccess": MessageLookupByLibrary.simpleMessage(
+      "File deleted",
+    ),
+    "documentLoadFailed": MessageLookupByLibrary.simpleMessage(
+      "Could not load the file",
+    ),
+    "documentNotUploadedYet": MessageLookupByLibrary.simpleMessage(
+      "Not uploaded yet",
+    ),
+    "documentOptional": MessageLookupByLibrary.simpleMessage("Optional"),
+    "documentRequired": MessageLookupByLibrary.simpleMessage("Required"),
+    "documentTooLarge": m3,
+    "documentUnsupportedType": MessageLookupByLibrary.simpleMessage(
+      "Only images or PDF files are allowed",
+    ),
+    "documentUploaded": MessageLookupByLibrary.simpleMessage("Uploaded"),
+    "documentUploadedSuccess": MessageLookupByLibrary.simpleMessage(
+      "File uploaded",
+    ),
+    "documentsAllUploaded": MessageLookupByLibrary.simpleMessage(
+      "All required documents are uploaded",
+    ),
+    "documentsBlockedHeadline": MessageLookupByLibrary.simpleMessage(
+      "Upload your documents to continue",
+    ),
+    "documentsBlockedMessage": MessageLookupByLibrary.simpleMessage(
+      "The admin needs these files before you can use the app. Once they\'re uploaded, everything unlocks right away.",
+    ),
+    "documentsBlockedTitle": MessageLookupByLibrary.simpleMessage(
+      "Required documents",
+    ),
+    "documentsMissingRequired": m4,
+    "documentsNote": m5,
+    "documentsOptionalMessage": MessageLookupByLibrary.simpleMessage(
+      "Optional — upload them whenever you like",
+    ),
+    "documentsOptionalTitle": MessageLookupByLibrary.simpleMessage(
+      "Documents you can add",
+    ),
+    "documentsPendingReview": MessageLookupByLibrary.simpleMessage(
+      "Your account is under review until the admin approves your documents.",
+    ),
+    "documentsProgress": m6,
+    "documentsRequestedMessage": MessageLookupByLibrary.simpleMessage(
+      "The admin is waiting for files from you",
+    ),
+    "documentsRequestedTitle": MessageLookupByLibrary.simpleMessage(
+      "Documents requested",
     ),
     "done": MessageLookupByLibrary.simpleMessage("Done"),
     "dont_have_account": MessageLookupByLibrary.simpleMessage(
@@ -243,6 +320,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorDefaultTitle": MessageLookupByLibrary.simpleMessage(
       "Something went wrong",
     ),
+    "everythingFine": MessageLookupByLibrary.simpleMessage(
+      "All good — nothing needs action",
+    ),
     "extraPhones": MessageLookupByLibrary.simpleMessage("Extra phone numbers"),
     "extraPhonesNote": MessageLookupByLibrary.simpleMessage(
       "Additional contact numbers for salons to reach you. Your login number is changed by the admin.",
@@ -253,6 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "field_required": MessageLookupByLibrary.simpleMessage(
       "This field is required",
     ),
+    "filesSource": MessageLookupByLibrary.simpleMessage("Files"),
     "filterAll": MessageLookupByLibrary.simpleMessage("All"),
     "freeDelivery": MessageLookupByLibrary.simpleMessage("Free"),
     "fulfilmentDelivery": MessageLookupByLibrary.simpleMessage("Delivery"),
@@ -266,7 +347,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
     "grandTotalLabel": MessageLookupByLibrary.simpleMessage("Grand total"),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
+    "identityLockedAction": MessageLookupByLibrary.simpleMessage(
+      "Your name and business name can\'t be changed after activation",
+    ),
+    "identityLockedMessage": MessageLookupByLibrary.simpleMessage(
+      "Your name and business name can\'t be changed after your account is activated. Contact support if you need to update them.",
+    ),
+    "identityLockedTitle": MessageLookupByLibrary.simpleMessage(
+      "Your details are verified",
+    ),
     "inStock": MessageLookupByLibrary.simpleMessage("In stock"),
+    "inactiveProducts": MessageLookupByLibrary.simpleMessage("Paused products"),
     "instagram_error": MessageLookupByLibrary.simpleMessage(
       "Could not open Instagram",
     ),
@@ -275,6 +366,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalid_national_id": MessageLookupByLibrary.simpleMessage(
       "Invalid national ID",
     ),
+    "inventoryTitle": MessageLookupByLibrary.simpleMessage("Inventory"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "latestOrders": MessageLookupByLibrary.simpleMessage("Latest orders"),
     "listSeparator": MessageLookupByLibrary.simpleMessage(", "),
@@ -315,9 +407,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Missing documents",
     ),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("Month revenue"),
-    "moveStatusTo": m3,
+    "moveStatusTo": m7,
     "myCategories": MessageLookupByLibrary.simpleMessage("My categories"),
-    "myCategoriesCount": m4,
+    "myCategoriesCount": m8,
     "myDocuments": MessageLookupByLibrary.simpleMessage("My documents"),
     "name_invalid_characters": MessageLookupByLibrary.simpleMessage(
       "Name contains invalid characters",
@@ -334,6 +426,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "national_id_required": MessageLookupByLibrary.simpleMessage(
       "National ID is required",
     ),
+    "needsAttention": MessageLookupByLibrary.simpleMessage(
+      "Needs your attention",
+    ),
     "newCategory": MessageLookupByLibrary.simpleMessage("New category"),
     "newCategoryHint": MessageLookupByLibrary.simpleMessage(
       "e.g. Premium offers",
@@ -344,6 +439,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Don\'t have an account? Register as a merchant",
     ),
     "noDiscountsYet": MessageLookupByLibrary.simpleMessage("No offers yet"),
+    "noDocuments": MessageLookupByLibrary.simpleMessage(
+      "No documents requested yet",
+    ),
+    "noDocumentsMessage": MessageLookupByLibrary.simpleMessage(
+      "The admin has not requested any documents from you yet.",
+    ),
     "noExtraPhones": MessageLookupByLibrary.simpleMessage(
       "No extra numbers yet",
     ),
@@ -394,6 +495,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderTotal": MessageLookupByLibrary.simpleMessage("Total"),
     "orderedItems": MessageLookupByLibrary.simpleMessage("Ordered items"),
     "outOfStock": MessageLookupByLibrary.simpleMessage("Out of stock"),
+    "outOfStockProducts": MessageLookupByLibrary.simpleMessage("Out of stock"),
+    "outOfStockShort": MessageLookupByLibrary.simpleMessage("Out of stock"),
+    "overviewTitle": MessageLookupByLibrary.simpleMessage("Overview"),
     "ownerName": MessageLookupByLibrary.simpleMessage("Owner name"),
     "ownerNameHint": MessageLookupByLibrary.simpleMessage("e.g. Ahmed Ali"),
     "ownerNameRequired": MessageLookupByLibrary.simpleMessage(
@@ -460,7 +564,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This product appears only in the supplies store inside the barbers\' app, not to regular customers.",
     ),
     "productImages": MessageLookupByLibrary.simpleMessage("Product images"),
-    "productMetaLine": m5,
+    "productMetaLine": m9,
     "productName": MessageLookupByLibrary.simpleMessage("Product name"),
     "productNameHint": MessageLookupByLibrary.simpleMessage(
       "e.g. Strong hold wax - salon pack",
@@ -469,6 +573,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter the product name",
     ),
     "productRequired": MessageLookupByLibrary.simpleMessage("Choose a product"),
+    "productsCount": MessageLookupByLibrary.simpleMessage("Products"),
     "productsNote": MessageLookupByLibrary.simpleMessage(
       "What you list here is only visible to barbers in their supplies store",
     ),
@@ -488,8 +593,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "remove_leading_zero": MessageLookupByLibrary.simpleMessage(
       "Remove the leading zero",
     ),
+    "replaceDocument": MessageLookupByLibrary.simpleMessage("Replace"),
     "resend_code": MessageLookupByLibrary.simpleMessage("Resend code"),
-    "responsibleBarber": m6,
+    "responsibleBarber": m10,
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "rewardAmount": MessageLookupByLibrary.simpleMessage("Fixed amount"),
     "rewardFree": MessageLookupByLibrary.simpleMessage("Free"),
@@ -498,6 +604,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "How many do they get?",
     ),
     "rewardTypeLabel": MessageLookupByLibrary.simpleMessage("Reward type"),
+    "runningLowProducts": MessageLookupByLibrary.simpleMessage("Running low"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("Save changes"),
     "scopeBuyXGetY": MessageLookupByLibrary.simpleMessage("Buy X get Y"),
@@ -515,6 +622,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "A percentage or amount off a single product",
     ),
     "seats": MessageLookupByLibrary.simpleMessage("Seats"),
+    "shareDocument": MessageLookupByLibrary.simpleMessage("Share"),
     "shops": MessageLookupByLibrary.simpleMessage("Salons"),
     "shopsAllHint": MessageLookupByLibrary.simpleMessage(
       "Selecting none = the offer applies to all salons",
@@ -522,7 +630,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "The offer will apply to all salons",
     ),
-    "shopsSelectedHint": m7,
+    "shopsSelectedHint": m11,
     "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
     "snapchat_error": MessageLookupByLibrary.simpleMessage(
       "Could not open Snapchat",
@@ -543,6 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "stockQuantity": MessageLookupByLibrary.simpleMessage("Available stock"),
+    "stockUnits": m12,
     "supportSection": MessageLookupByLibrary.simpleMessage("Support"),
     "tabAccount": MessageLookupByLibrary.simpleMessage("Account"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
@@ -555,6 +664,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Could not open TikTok",
     ),
     "today": MessageLookupByLibrary.simpleMessage("Today"),
+    "topProducts": MessageLookupByLibrary.simpleMessage("Most stocked"),
+    "totalStockUnits": MessageLookupByLibrary.simpleMessage("Total units"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),
     "twitter_error": MessageLookupByLibrary.simpleMessage("Could not open X"),
     "underDevelopment": MessageLookupByLibrary.simpleMessage(
@@ -567,11 +678,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "updateRequiredBody": MessageLookupByLibrary.simpleMessage(
       "A new version of the app is available. Please update to continue.",
     ),
+    "uploadDocument": MessageLookupByLibrary.simpleMessage("Upload"),
     "vehicleType": MessageLookupByLibrary.simpleMessage("Vehicle type"),
     "verifiedMerchant": MessageLookupByLibrary.simpleMessage(
       "Verified merchant",
     ),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "viewDocument": MessageLookupByLibrary.simpleMessage("View"),
     "weak_password": MessageLookupByLibrary.simpleMessage(
       "Password is too weak",
     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/theme/heading_styles.dart';
+import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -20,8 +22,7 @@ class DashboardGreeting extends StatelessWidget {
             children: [
               Text(
                 S().greeting,
-                style: TextStyle(
-                  fontSize: 12.sp,
+                style: font12w400.copyWith(
                   color: context.colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -30,15 +31,14 @@ class DashboardGreeting extends StatelessWidget {
                 businessName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 17.sp,
+                style: HeadingStyles.h4.copyWith(
                   color: context.colorScheme.onSurface,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
         ),
+        SizedBox(width: 12.w),
         AvatarCircle(
           initials: businessName.isEmpty
               ? S().avatarFallback

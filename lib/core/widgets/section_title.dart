@@ -29,7 +29,8 @@ class SectionTitle extends StatelessWidget {
               onTap: onAction,
               child: Text(
                 actionLabel!,
-                style: font12w600.copyWith(color: context.semantic.accentStrong),
+                style: font12w600.copyWith(color: context.semantic.accentStrong
+                ),
               ),
             ),
         ],

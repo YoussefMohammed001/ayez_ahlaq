@@ -1029,11 +1029,151 @@ class S {
     );
   }
 
+  /// `Active orders`
+  String get activeOrders {
+    return Intl.message(
+      'Active orders',
+      name: 'activeOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivered this month`
+  String get deliveredThisMonth {
+    return Intl.message(
+      'Delivered this month',
+      name: 'deliveredThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Active products`
   String get activeProducts {
     return Intl.message(
       'Active products',
       name: 'activeProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overviewTitle {
+    return Intl.message('Overview', name: 'overviewTitle', desc: '', args: []);
+  }
+
+  /// `Needs your attention`
+  String get needsAttention {
+    return Intl.message(
+      'Needs your attention',
+      name: 'needsAttention',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Out of stock`
+  String get outOfStockProducts {
+    return Intl.message(
+      'Out of stock',
+      name: 'outOfStockProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discounted products`
+  String get discountedProducts {
+    return Intl.message(
+      'Discounted products',
+      name: 'discountedProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused products`
+  String get inactiveProducts {
+    return Intl.message(
+      'Paused products',
+      name: 'inactiveProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inventory`
+  String get inventoryTitle {
+    return Intl.message(
+      'Inventory',
+      name: 'inventoryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total units`
+  String get totalStockUnits {
+    return Intl.message(
+      'Total units',
+      name: 'totalStockUnits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get productsCount {
+    return Intl.message('Products', name: 'productsCount', desc: '', args: []);
+  }
+
+  /// `Out of stock`
+  String get outOfStockShort {
+    return Intl.message(
+      'Out of stock',
+      name: 'outOfStockShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most stocked`
+  String get topProducts {
+    return Intl.message(
+      'Most stocked',
+      name: 'topProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Running low`
+  String get runningLowProducts {
+    return Intl.message(
+      'Running low',
+      name: 'runningLowProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} units`
+  String stockUnits(Object count) {
+    return Intl.message(
+      '$count units',
+      name: 'stockUnits',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `All good — nothing needs action`
+  String get everythingFine {
+    return Intl.message(
+      'All good — nothing needs action',
+      name: 'everythingFine',
       desc: '',
       args: [],
     );
@@ -2627,6 +2767,331 @@ class S {
   /// `Free`
   String get freeDelivery {
     return Intl.message('Free', name: 'freeDelivery', desc: '', args: []);
+  }
+
+  /// `The admin sets which documents are needed. Upload an image or a PDF for each one, up to {size} MB.`
+  String documentsNote(Object size) {
+    return Intl.message(
+      'The admin sets which documents are needed. Upload an image or a PDF for each one, up to $size MB.',
+      name: 'documentsNote',
+      desc: '',
+      args: [size],
+    );
+  }
+
+  /// `{uploaded} of {total} uploaded`
+  String documentsProgress(Object uploaded, Object total) {
+    return Intl.message(
+      '$uploaded of $total uploaded',
+      name: 'documentsProgress',
+      desc: '',
+      args: [uploaded, total],
+    );
+  }
+
+  /// `{count} required documents are still missing`
+  String documentsMissingRequired(Object count) {
+    return Intl.message(
+      '$count required documents are still missing',
+      name: 'documentsMissingRequired',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `All required documents are uploaded`
+  String get documentsAllUploaded {
+    return Intl.message(
+      'All required documents are uploaded',
+      name: 'documentsAllUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account is under review until the admin approves your documents.`
+  String get documentsPendingReview {
+    return Intl.message(
+      'Your account is under review until the admin approves your documents.',
+      name: 'documentsPendingReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Required`
+  String get documentRequired {
+    return Intl.message(
+      'Required',
+      name: 'documentRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optional`
+  String get documentOptional {
+    return Intl.message(
+      'Optional',
+      name: 'documentOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uploaded`
+  String get documentUploaded {
+    return Intl.message(
+      'Uploaded',
+      name: 'documentUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not uploaded yet`
+  String get documentNotUploadedYet {
+    return Intl.message(
+      'Not uploaded yet',
+      name: 'documentNotUploadedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not load the file`
+  String get documentLoadFailed {
+    return Intl.message(
+      'Could not load the file',
+      name: 'documentLoadFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share`
+  String get shareDocument {
+    return Intl.message('Share', name: 'shareDocument', desc: '', args: []);
+  }
+
+  /// `Added by the admin`
+  String get documentAddedByAdmin {
+    return Intl.message(
+      'Added by the admin',
+      name: 'documentAddedByAdmin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload`
+  String get uploadDocument {
+    return Intl.message('Upload', name: 'uploadDocument', desc: '', args: []);
+  }
+
+  /// `Replace`
+  String get replaceDocument {
+    return Intl.message('Replace', name: 'replaceDocument', desc: '', args: []);
+  }
+
+  /// `View`
+  String get viewDocument {
+    return Intl.message('View', name: 'viewDocument', desc: '', args: []);
+  }
+
+  /// `Delete file`
+  String get deleteDocument {
+    return Intl.message(
+      'Delete file',
+      name: 'deleteDocument',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this file? You can upload it again later.`
+  String get deleteDocumentConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this file? You can upload it again later.',
+      name: 'deleteDocumentConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File uploaded`
+  String get documentUploadedSuccess {
+    return Intl.message(
+      'File uploaded',
+      name: 'documentUploadedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File deleted`
+  String get documentDeletedSuccess {
+    return Intl.message(
+      'File deleted',
+      name: 'documentDeletedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The file is too large — maximum {size} MB`
+  String documentTooLarge(Object size) {
+    return Intl.message(
+      'The file is too large — maximum $size MB',
+      name: 'documentTooLarge',
+      desc: '',
+      args: [size],
+    );
+  }
+
+  /// `No documents requested yet`
+  String get noDocuments {
+    return Intl.message(
+      'No documents requested yet',
+      name: 'noDocuments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The admin has not requested any documents from you yet.`
+  String get noDocumentsMessage {
+    return Intl.message(
+      'The admin has not requested any documents from you yet.',
+      name: 'noDocumentsMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your details are verified`
+  String get identityLockedTitle {
+    return Intl.message(
+      'Your details are verified',
+      name: 'identityLockedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your name and business name can't be changed after your account is activated. Contact support if you need to update them.`
+  String get identityLockedMessage {
+    return Intl.message(
+      'Your name and business name can\'t be changed after your account is activated. Contact support if you need to update them.',
+      name: 'identityLockedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your name and business name can't be changed after activation`
+  String get identityLockedAction {
+    return Intl.message(
+      'Your name and business name can\'t be changed after activation',
+      name: 'identityLockedAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Documents requested`
+  String get documentsRequestedTitle {
+    return Intl.message(
+      'Documents requested',
+      name: 'documentsRequestedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The admin is waiting for files from you`
+  String get documentsRequestedMessage {
+    return Intl.message(
+      'The admin is waiting for files from you',
+      name: 'documentsRequestedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Required documents`
+  String get documentsBlockedTitle {
+    return Intl.message(
+      'Required documents',
+      name: 'documentsBlockedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload your documents to continue`
+  String get documentsBlockedHeadline {
+    return Intl.message(
+      'Upload your documents to continue',
+      name: 'documentsBlockedHeadline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The admin needs these files before you can use the app. Once they're uploaded, everything unlocks right away.`
+  String get documentsBlockedMessage {
+    return Intl.message(
+      'The admin needs these files before you can use the app. Once they\'re uploaded, everything unlocks right away.',
+      name: 'documentsBlockedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose upload source`
+  String get chooseUploadSource {
+    return Intl.message(
+      'Choose upload source',
+      name: 'chooseUploadSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Files`
+  String get filesSource {
+    return Intl.message('Files', name: 'filesSource', desc: '', args: []);
+  }
+
+  /// `Only images or PDF files are allowed`
+  String get documentUnsupportedType {
+    return Intl.message(
+      'Only images or PDF files are allowed',
+      name: 'documentUnsupportedType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Documents you can add`
+  String get documentsOptionalTitle {
+    return Intl.message(
+      'Documents you can add',
+      name: 'documentsOptionalTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optional — upload them whenever you like`
+  String get documentsOptionalMessage {
+    return Intl.message(
+      'Optional — upload them whenever you like',
+      name: 'documentsOptionalMessage',
+      desc: '',
+      args: [],
+    );
   }
 }
 

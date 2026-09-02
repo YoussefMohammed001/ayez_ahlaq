@@ -10,7 +10,7 @@ class AppStrings {
   static const String appStoreUrl = '';
 
   static const String fontFamily = 'Cairo';
-  static const String headingFontFamily = 'ReemKufi';
+  static const String headingFontFamily = 'Tajawal';
 
   static const String enPrivacyPolicy = '';
   static const String arPrivacyPolicy = '';

@@ -7,6 +7,7 @@ import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/menu_section.dart';
 import '../../domain/entities/merchant_profile.dart';
+import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../../../../generated/l10n.dart';
 
 class ProfileAdminMenu extends StatelessWidget {
@@ -92,7 +93,12 @@ class ProfileAdminMenu extends StatelessWidget {
         label: S().extraPhones,
         onTap: () => context.push(Routes.merchantPhonesScreen),
       ),
-      MenuRow(icon: Icons.folder_outlined, label: S().myDocuments),
+      MenuRow(
+        icon: Icons.folder_outlined,
+        label: S().myDocuments,
+        trailing: const MissingDocumentsBadge(),
+        onTap: () => context.push(Routes.merchantDocumentsScreen),
+      ),
       MenuRow(
         icon: Icons.lock_outline_rounded,
         label: S().changePassword,

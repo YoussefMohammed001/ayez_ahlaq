@@ -68,7 +68,7 @@ class UserTypeCard extends StatelessWidget {
             Icon(
               Icons.chevron_right,
               size: 18.r,
-              color: context.colorScheme.outlineVariant,
+              color: context.colorScheme.onSurfaceVariant,
             ),
           ],
         ),
