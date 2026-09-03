@@ -25,7 +25,7 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
   ) : super(const TeamMemberDetailState());
 
   Future<void> loadMember(int id) async {
-    emit(state.copyWith(status: TeamMemberDetailStatus.loading));
+    emit(const TeamMemberDetailState(status: TeamMemberDetailStatus.loading));
 
     final result = await _getMember(id);
 

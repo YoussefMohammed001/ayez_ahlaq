@@ -12,7 +12,9 @@ class MemberHoursCubit extends Cubit<MemberHoursState> {
     : super(const MemberHoursState());
 
   Future<void> loadHours(int memberId) async {
-    emit(state.copyWith(status: MemberHoursStatus.loading, memberId: memberId));
+    emit(
+      MemberHoursState(status: MemberHoursStatus.loading, memberId: memberId),
+    );
 
     final result = await _getHours(memberId);
 

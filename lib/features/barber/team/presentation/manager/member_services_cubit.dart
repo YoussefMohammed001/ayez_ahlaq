@@ -24,7 +24,10 @@ class MemberServicesCubit extends Cubit<MemberServicesState> {
 
   Future<void> loadServices(int memberId) async {
     emit(
-      state.copyWith(status: MemberServicesStatus.loading, memberId: memberId),
+      MemberServicesState(
+        status: MemberServicesStatus.loading,
+        memberId: memberId,
+      ),
     );
 
     final catalogResult = await _getCatalog(memberId);
