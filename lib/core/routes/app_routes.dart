@@ -188,6 +188,7 @@ final routes = GoRouter(
           BlocProvider.value(value: _barberNotificationsCubit),
           BlocProvider.value(value: _bookingsCubit),
           BlocProvider.value(value: _barberStorefrontProductsCubit),
+          BlocProvider.value(value: _earningsCubit),
         ],
         child: BarberShell(onLogout: _handleBarberLogout),
       ),

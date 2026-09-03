@@ -44,8 +44,21 @@
 - `GET /barber/order` · `GET /barber/order/{id}` · `PUT /barber/order/{id}/cancel`
 - المتجر بقى تاب أساسي في الـ bottom nav (مش تحت البروفايل). "طلباتي" (`Routes.barberStoreOrdersScreen`) لسه تحت البروفايل كسجلّ.
 - أيقونة سلة + badge في `AppTopBar` لشاشة التجار عشان السلة تبقى واضحة ومتاحة دايمًا.
-- **مفيش cart API فعلي** — السلة كلها client-side جوه `BarberStoreCartCubit` (مفيش persist في السيرفر إلا لحظة `POST /barber/order`). كان فيه bug: `openMerchant` كان بيعمل reset كامل للحالة كل مرة الشاشة تتفتح حتى لو نفس التاجر (رجوع بالـ back button كان بيمسح السلة) — اتصلح بحيث `openMerchant` مايعملش reload لو نفس التاجر وعنده منتجات محمّلة بالفعل.
 - **فجوة معروفة:** مفيش endpoint موثّق لصورة منتج التاجر من ناحية الحلاق (بس `hasImage: bool`) — الصفوف بتعرض أيقونة placeholder. لو ظهر endpoint فعلي (زي `customer/shop/{id}/storefront/product/{id}/image` بس لسياق التاجر) نضيفه بعدين.
+
+### ⏳ Follow-up: هجرة السلة من client-side لـ server-side cart API
+دلوقتي فيه endpoints فعلية للسلة ظهرت — لسه متعملة في الكود. الكود الحالي: `BarberStoreCartCubit` بيبني السلة كلها client-side (مفيش persist في السيرفر إلا لحظة `POST /barber/order`)، والـ quote عن طريق `POST /barber/store/quote`.
+
+الـ endpoints الجداد:
+- `GET /api/barber/cart` — يرجع السلة الحالية من السيرفر
+- `PUT /api/barber/cart` — يستبدل محتوى السلة كامل، بودي `{"items":[{"productId":..,"quantity":..}]}` (`items:[]` لتفريغ السلة)
+- `POST /api/barber/cart/checkout` — يعمل checkout للسلة الحالية، بودي `{"fulfillmentType":"DELIVERY"|"PICKUP_AT_BRANCH","deliveryAddress":..,"deliveryLat":..,"deliveryLng":..,"note":..}` (العنوان/الإحداثيات اختيارية لـ B2B، مفيش `paymentMethod`)
+
+المطلوب لما نرجعلها:
+- نتأكد هل `checkout` ده بديل لـ `POST /barber/order` القديم ولا بيتحط جنبه (يحتاج توضيح من الـ backend/Postman collection المحدّثة)
+- لو بديل: نعمل `BarberCartApi`/`BarberCartRepo` جوه `features/barber/store/`، ونشيل الـ client-side state من `BarberStoreCartCubit` ونخليه بيتكلم مع `GET/PUT /barber/cart` بدل الـ local list
+- السلة تبقى تتحفظ في السيرفر فعليًا (مش بس عند الـ checkout) — يبقى الـ bug القديم بتاع `openMerchant` reset (اتصلح قبل كده client-side) يتراجع مع السلوك الجديد
+- نحدّث الـ Postman collection (`postman/Ayez_ahlaqBarber.postman_collection.json`) لو مش متحدّثة بالـ endpoints دي لسه
 
 ## ٥. Storefront (متجر الحلاق كبائع) — ✅ خلص
 نسخة طبق الأصل من `merchant/products` + `merchant/categories` + `merchant/delivery` + `merchant/orders` — `features/barber/storefront/{products,categories,delivery,orders}/`.

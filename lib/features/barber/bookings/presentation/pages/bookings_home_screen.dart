@@ -28,7 +28,8 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(S().bookingsTitle, style: HeadingStyles.h4),
+        title: Text(S().bookingsTitle,
+            style: HeadingStyles.h4),
         bottom: TabBar(
           controller: _controller,
           isScrollable: true,

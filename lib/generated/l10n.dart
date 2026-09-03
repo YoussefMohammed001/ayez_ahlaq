@@ -1009,9 +1009,44 @@ class S {
     return Intl.message('Bookings', name: 'tabBookings', desc: '', args: []);
   }
 
+  /// `Home`
+  String get tabHome {
+    return Intl.message('Home', name: 'tabHome', desc: '', args: []);
+  }
+
   /// `Good morning,`
   String get greeting {
     return Intl.message('Good morning,', name: 'greeting', desc: '', args: []);
+  }
+
+  /// `Needs your attention`
+  String get homeNeedsAttentionTitle {
+    return Intl.message(
+      'Needs your attention',
+      name: 'homeNeedsAttentionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No pending bookings`
+  String get homeAllClear {
+    return Intl.message(
+      'No pending bookings',
+      name: 'homeAllClear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bookings queued for today`
+  String get homeNoQueueToday {
+    return Intl.message(
+      'No bookings queued for today',
+      name: 'homeNoQueueToday',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `All your customers are barbers and salons registered on the platform — wholesale only.`
@@ -3047,6 +3082,21 @@ class S {
   /// `Shop`
   String get shopSection {
     return Intl.message('Shop', name: 'shopSection', desc: '', args: []);
+  }
+
+  /// `Store & Sales`
+  String get storeAndSalesSection {
+    return Intl.message(
+      'Store & Sales',
+      name: 'storeAndSalesSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More`
+  String get moreSection {
+    return Intl.message('More', name: 'moreSection', desc: '', args: []);
   }
 
   /// `Working hours`

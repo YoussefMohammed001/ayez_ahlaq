@@ -425,6 +425,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "الإجمالي شامل التوصيل",
     ),
     "greeting": MessageLookupByLibrary.simpleMessage("صباح الفل،"),
+    "homeAllClear": MessageLookupByLibrary.simpleMessage(
+      "مفيش حجوزات بانتظار الموافقة",
+    ),
+    "homeNeedsAttentionTitle": MessageLookupByLibrary.simpleMessage(
+      "محتاج ردّك",
+    ),
+    "homeNoQueueToday": MessageLookupByLibrary.simpleMessage(
+      "مفيش حجوزات في الطابور النهاردة",
+    ),
     "hoursSaved": MessageLookupByLibrary.simpleMessage("اتحفظت مواعيد العمل"),
     "identityLockedAction": MessageLookupByLibrary.simpleMessage(
       "مش هتقدر تغيّر الاسم ولا اسم النشاط بعد تفعيل الحساب",
@@ -522,6 +531,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "missingDocsTitle": MessageLookupByLibrary.simpleMessage("مستندات ناقصة"),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("إيرادات الشهر"),
+    "moreSection": MessageLookupByLibrary.simpleMessage("أخرى"),
     "moveStatusTo": m8,
     "myCategories": MessageLookupByLibrary.simpleMessage("فئات منتجاتي"),
     "myCategoriesCount": m9,
@@ -788,6 +798,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "الكمية المتاحة في المخزن",
     ),
     "stockUnits": m16,
+    "storeAndSalesSection": MessageLookupByLibrary.simpleMessage(
+      "المتجر والمبيعات",
+    ),
     "storeOrdersTitle": MessageLookupByLibrary.simpleMessage(
       "طلبات التوريد الخاصة بي",
     ),
@@ -820,6 +833,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabAccount": MessageLookupByLibrary.simpleMessage("حسابي"),
     "tabBookings": MessageLookupByLibrary.simpleMessage("الحجوزات"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("لوحتي"),
+    "tabHome": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "tabOrders": MessageLookupByLibrary.simpleMessage("الطلبات"),
     "tabProducts": MessageLookupByLibrary.simpleMessage("منتجاتي"),
     "tabServices": MessageLookupByLibrary.simpleMessage("الخدمات"),

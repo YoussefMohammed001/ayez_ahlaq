@@ -20,7 +20,11 @@ class BarberStoreMerchantsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(title: S().storeTitle, trailing: const CartIconButton()),
+      appBar: AppTopBar(
+        viewLeading: false,
+        title: S().storeTitle, trailing: const CartIconButton(),
+
+      ),
       body: BlocBuilder<BarberStoreMerchantsCubit, BarberStoreMerchantsState>(
         builder: (context, state) {
           final cubit = context.read<BarberStoreMerchantsCubit>();

@@ -437,6 +437,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
     "grandTotalLabel": MessageLookupByLibrary.simpleMessage("Grand total"),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
+    "homeAllClear": MessageLookupByLibrary.simpleMessage("No pending bookings"),
+    "homeNeedsAttentionTitle": MessageLookupByLibrary.simpleMessage(
+      "Needs your attention",
+    ),
+    "homeNoQueueToday": MessageLookupByLibrary.simpleMessage(
+      "No bookings queued for today",
+    ),
     "hoursSaved": MessageLookupByLibrary.simpleMessage("Working hours saved"),
     "identityLockedAction": MessageLookupByLibrary.simpleMessage(
       "Your name and business name can\'t be changed after activation",
@@ -538,6 +545,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Missing documents",
     ),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("Month revenue"),
+    "moreSection": MessageLookupByLibrary.simpleMessage("More"),
     "moveStatusTo": m8,
     "myCategories": MessageLookupByLibrary.simpleMessage("My categories"),
     "myCategoriesCount": m9,
@@ -824,6 +832,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "stockQuantity": MessageLookupByLibrary.simpleMessage("Available stock"),
     "stockUnits": m16,
+    "storeAndSalesSection": MessageLookupByLibrary.simpleMessage(
+      "Store & Sales",
+    ),
     "storeOrdersTitle": MessageLookupByLibrary.simpleMessage(
       "My supply orders",
     ),
@@ -858,6 +869,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabAccount": MessageLookupByLibrary.simpleMessage("Account"),
     "tabBookings": MessageLookupByLibrary.simpleMessage("Bookings"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
+    "tabHome": MessageLookupByLibrary.simpleMessage("Home"),
     "tabOrders": MessageLookupByLibrary.simpleMessage("Orders"),
     "tabProducts": MessageLookupByLibrary.simpleMessage("Products"),
     "tabServices": MessageLookupByLibrary.simpleMessage("Services"),
