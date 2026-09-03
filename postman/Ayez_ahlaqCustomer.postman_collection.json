@@ -1,0 +1,1051 @@
+{
+  "info": {
+    "name": "Ayez Ahlaq — Customer (mobile app)",
+    "description": "Every endpoint the customer app calls. Auth = phone + password.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://gobeeeg.com/ayezAhlaqApi"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "shopId",
+      "value": "1"
+    },
+    {
+      "key": "barberId",
+      "value": "1"
+    },
+    {
+      "key": "serviceTypeId",
+      "value": "1"
+    },
+    {
+      "key": "haircutStyleId",
+      "value": "1"
+    },
+    {
+      "key": "productId",
+      "value": "1"
+    },
+    {
+      "key": "orderId",
+      "value": "1"
+    },
+    {
+      "key": "bookingId",
+      "value": "1"
+    },
+    {
+      "key": "notificationId",
+      "value": "1"
+    },
+    {
+      "key": "inviteCode",
+      "value": "ABCD234"
+    },
+    {
+      "key": "date",
+      "value": "2026-09-10"
+    },
+    {
+      "key": "lat",
+      "value": "30.0444"
+    },
+    {
+      "key": "lng",
+      "value": "31.2357"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"سمير\",\n  \"phoneNumber\": \"01555555555\",\n  \"password\": \"cust1234\",\n  \"email\": \"c@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"01555555555\",\n  \"password\": \"cust1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.token) pm.collectionVariables.set('token', d.token);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Inbox (paged)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/notification?page=0&size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "notification"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "{ content[], page, size, totalElements, totalPages }. type routes the tap; referenceType+referenceId deep-link."
+          }
+        },
+        {
+          "name": "Unseen count (badge)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/notification/unseen_count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "notification",
+                "unseen_count"
+              ]
+            },
+            "description": "{ \"count\": n }"
+          }
+        },
+        {
+          "name": "Mark all seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/notification/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "notification",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Call when the inbox screen opens."
+          }
+        },
+        {
+          "name": "Mark one seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/notification/{{notificationId}}/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "notification",
+                "{{notificationId}}",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mark one clicked",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/notification/{{notificationId}}/clicked",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "notification",
+                "{{notificationId}}",
+                "clicked"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Implies seen."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device token (FCM push)",
+      "item": [
+        {
+          "name": "Register / re-point",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\",\n  \"platform\": \"ANDROID\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Upserts — a token identifies one device. platform: ANDROID | IOS | WEB."
+          }
+        },
+        {
+          "name": "Unregister one",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unregister all (logout)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/device_token/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "device_token",
+                "all"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Browse shops",
+      "item": [
+        {
+          "name": "Shops — nearest first",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop?lat={{lat}}&lng={{lng}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}"
+                },
+                {
+                  "key": "lng",
+                  "value": "{{lng}}"
+                }
+              ]
+            },
+            "description": "Each shop gets distanceKm (null if the shop has no coordinates) + favorite. Omit lat/lng for name order."
+          }
+        },
+        {
+          "name": "Shops — no location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Shop detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop/{{shopId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop",
+                "{{shopId}}"
+              ]
+            },
+            "description": "{ shop, barbers[] (services, favorite, viaInvite), haircutStyles[], paymentMethods[], addons[] }"
+          }
+        },
+        {
+          "name": "Storefront of a shop",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop/{{shopId}}/storefront",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop",
+                "{{shopId}}",
+                "storefront"
+              ]
+            },
+            "description": "{ shopName, delivery, categories[], products[] } — barber-shop products only, never merchant."
+          }
+        },
+        {
+          "name": "Storefront product image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop/{{shopId}}/storefront/product/{{productId}}/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop",
+                "{{shopId}}",
+                "storefront",
+                "product",
+                "{{productId}}",
+                "image"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Storefront category image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/shop/{{shopId}}/storefront/category/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "shop",
+                "{{shopId}}",
+                "storefront",
+                "category",
+                "1",
+                "image"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment methods",
+      "item": [
+        {
+          "name": "Enabled methods",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/paymentMethod",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "paymentMethod"
+              ]
+            },
+            "description": "Only what the admin enabled (CASH / CARD / WALLET). No charge is taken — the order/booking just records the choice."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Haircut booking",
+      "item": [
+        {
+          "name": "Free slots",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/booking/slots?shopId={{shopId}}&serviceTypeId={{serviceTypeId}}&date={{date}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "booking",
+                "slots"
+              ],
+              "query": [
+                {
+                  "key": "shopId",
+                  "value": "{{shopId}}"
+                },
+                {
+                  "key": "serviceTypeId",
+                  "value": "{{serviceTypeId}}"
+                },
+                {
+                  "key": "date",
+                  "value": "{{date}}"
+                }
+              ]
+            },
+            "description": "{ date, serviceTypeId, perBarber:[{barberId,barberName,durationMinutes,slots}], anyBarberSlots }"
+          }
+        },
+        {
+          "name": "Book (auto-select or a barber)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/booking",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "booking"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shopId\": {{shopId}},\n  \"autoSelect\": true,\n  \"barberId\": null,\n  \"serviceTypeId\": {{serviceTypeId}},\n  \"haircutStyleId\": {{haircutStyleId}},\n  \"date\": \"{{date}}\",\n  \"slotTime\": \"14:30\",\n  \"paymentMethod\": \"CASH\",\n  \"note\": \"لو سمحت سريع\",\n  \"addons\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "PENDING; the shop must confirm within 30 min or it auto-cancels. autoSelect:true — least-busy free barber. total = service price + Σ add-ons.",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "var d = pm.response.json().data;",
+                    "if (d && d.id) pm.collectionVariables.set('bookingId', d.id);"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "My bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/booking",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "booking"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Booking detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/booking/{{bookingId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "booking",
+                "{{bookingId}}"
+              ]
+            },
+            "description": "Carries queuePosition, peopleAhead, ratedBarber, ratedShop."
+          }
+        },
+        {
+          "name": "Cancel booking",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/booking/{{bookingId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "booking",
+                "{{bookingId}}",
+                "cancel"
+              ]
+            },
+            "description": "While PENDING / CONFIRMED / UPCOMING."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Storefront orders",
+      "item": [
+        {
+          "name": "Quote a cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/store/quote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "store",
+                "quote"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shopId\": {{shopId}},\n  \"fulfillmentType\": \"DELIVERY\",\n  \"items\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 2\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ lines, subtotal, deliveryFee, total }. fulfillmentType DELIVERY | PICKUP_AT_BRANCH."
+          }
+        },
+        {
+          "name": "Place order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "order"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shopId\": {{shopId}},\n  \"fulfillmentType\": \"DELIVERY\",\n  \"paymentMethod\": \"CASH\",\n  \"note\": \"الدور الثالث\",\n  \"items\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 2\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "PENDING — the shop owner accepts / rejects.",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "var d = pm.response.json().data;",
+                    "if (d && d.id) pm.collectionVariables.set('orderId', d.id);"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "My orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "order"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Order detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/order/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel order (while PENDING)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/order/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "order",
+                "{{orderId}}",
+                "cancel"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "My favorites",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/favorite",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "favorite"
+              ]
+            },
+            "description": "Favourited barbers with shop, rating, viaInvite, since."
+          }
+        },
+        {
+          "name": "Add a barber",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/favorite/{{barberId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "favorite",
+                "{{barberId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove a barber",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/favorite/{{barberId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "favorite",
+                "{{barberId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add via an invite link",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/favorite/invite/{{inviteCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "favorite",
+                "invite",
+                "{{inviteCode}}"
+              ]
+            },
+            "description": "via_invite = true; notifies the barber."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ratings",
+      "item": [
+        {
+          "name": "Rate the barber",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/rating",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "rating"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": {{bookingId}},\n  \"target\": \"BARBER\",\n  \"stars\": 5,\n  \"note\": \"ممتاز\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "target BARBER | SHOP. The visit must be DONE and yours; one rating per (booking, target)."
+          }
+        },
+        {
+          "name": "Rate the shop",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/rating",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "rating"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": {{bookingId}},\n  \"target\": \"SHOP\",\n  \"stars\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "My ratings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/rating",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "rating"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invite link (public)",
+      "item": [
+        {
+          "name": "Preview a barber invite",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/invite/{{inviteCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "invite",
+                "{{inviteCode}}"
+              ]
+            },
+            "description": "No auth. { code, barberId, barberName, tagline, shopId, shopName, area, address, rating, ratingCount }",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

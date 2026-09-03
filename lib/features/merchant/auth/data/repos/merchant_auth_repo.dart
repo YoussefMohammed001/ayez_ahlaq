@@ -5,6 +5,7 @@ import '../../domain/repos/i_merchant_auth_repo.dart';
 import '../apis/merchant_auth_api.dart';
 import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../../../../shared/auth/data/models/auth_session_model.dart';
+import '../../../../../shared/user_type.dart';
 import '../requests/register_request.dart';
 
 class MerchantAuthRepo implements IMerchantAuthRepo {
@@ -44,7 +45,7 @@ class MerchantAuthRepo implements IMerchantAuthRepo {
 
     await session.fold(
       (_) async {},
-      (value) => _localDataSource.saveSession(value, phone),
+      (value) => _localDataSource.saveSession(value, phone, UserType.merchant),
     );
 
     return session;

@@ -4,6 +4,7 @@ import '../../../../core/helpers/user_helpers.dart';
 import '../../../../core/routes/route_paths.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/ext_theme.dart';
+import '../../../../shared/user_type.dart';
 import '../widgets/splash_body.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,7 +47,21 @@ class _SplashScreenState extends State<SplashScreen>
       return;
     }
 
-    context.go(results.first ? Routes.merchantShell : Routes.loginScreen);
+    final isLoggedIn = results.first;
+    if (!isLoggedIn) {
+      context.go(
+        UserHelpers.userType == UserType.barber
+            ? Routes.barberLoginScreen
+            : Routes.loginScreen,
+      );
+      return;
+    }
+
+    context.go(
+      UserHelpers.userType == UserType.barber
+          ? Routes.barberShell
+          : Routes.merchantShell,
+    );
   }
 
   @override

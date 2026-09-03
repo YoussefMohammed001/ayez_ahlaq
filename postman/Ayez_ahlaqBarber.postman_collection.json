@@ -1,0 +1,2400 @@
+{
+  "info": {
+    "name": "Ayez Ahlaq — Barber console (.exe + mobile)",
+    "description": "Every endpoint the barber console needs — the desktop `.exe` and the barber mobile app share this exact surface. No admin endpoints.\n\n**Client type is mandatory.** Every request (login included) must send `X-Client: DESKTOP` or `X-Client: MOBILE` — set the `client` collection variable once. Login bakes that value into the JWT as a `client` claim; every later call must resend the SAME `X-Client` header or it is rejected (401 mismatch / 400 missing).\n\nAuth: phone number + password. Only the shop **owner** logs in (team members are records only for now). `Auth > Login` stores `token` + `barberId` as collection variables.\n\nPhone: `01001234567` / `+201001234567` / `201001234567` all work.\n\nBase URL: production `https://gobeeeg.com/ayezAhlaqApi`; local `http://localhost:8082`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://gobeeeg.com/ayezAhlaqApi"
+    },
+    {
+      "key": "client",
+      "value": "DESKTOP",
+      "description": "DESKTOP | MOBILE — must be identical on login and every request after it"
+    },
+    {
+      "key": "barberPhone",
+      "value": "01001234567"
+    },
+    {
+      "key": "barberPassword",
+      "value": "secret123"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "barberId",
+      "value": ""
+    },
+    {
+      "key": "attId",
+      "value": ""
+    },
+    {
+      "key": "serviceId",
+      "value": ""
+    },
+    {
+      "key": "serviceTypeId",
+      "value": ""
+    },
+    {
+      "key": "merchantId",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "teamMemberId",
+      "value": "2"
+    },
+    {
+      "key": "productId",
+      "value": "1"
+    },
+    {
+      "key": "categoryId",
+      "value": "1"
+    },
+    {
+      "key": "bookingId",
+      "value": "1"
+    },
+    {
+      "key": "notificationId",
+      "value": "1"
+    },
+    {
+      "key": "inviteCode",
+      "value": "ABCD234"
+    },
+    {
+      "key": "date",
+      "value": "2026-09-10"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.token) {",
+                  "  pm.collectionVariables.set('token', b.data.token);",
+                  "  pm.collectionVariables.set('barberId', b.data.actorId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{barberPhone}}\",\n  \"password\": \"{{barberPassword}}\"\n}"
+            },
+            "description": "`X-Client` header is REQUIRED (400 without it). Response `data` = { token, role: \"BARBER\", actorId, displayName, client }. The token carries a `client` claim = the header value; every request below must send the same `X-Client`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "me"
+              ]
+            },
+            "description": "id, name, phoneNumber (local 0… form), shopId, shopName, owner, active, mustChangePassword, rating, ratingCount, latitude, longitude, address, client."
+          }
+        },
+        {
+          "name": "Update location",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/location",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "location"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": 30.0561,\n  \"longitude\": 31.3301,\n  \"address\": \"شارع عباس العقاد، مدينة نصر\"\n}"
+            },
+            "description": "The barber pins their own geo-location. All three fields optional — send null to clear. Returns the updated profile."
+          }
+        },
+        {
+          "name": "Change password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"{{barberPassword}}\",\n  \"newPassword\": \"newSecret123\"\n}"
+            },
+            "description": "Verifies the current password (401 if wrong), sets the new one (min 6), and clears `mustChangePassword`. Use the temp password the admin gave on first login."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "description": "The admin defines which documents this barber must provide (in the web portal). The barber can only fill the slots — never add or delete them.",
+      "item": [
+        {
+          "name": "List my documents",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.length) { pm.collectionVariables.set('attId', b.data[0].id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/attachment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "attachment"
+              ]
+            },
+            "description": "Each item: id, name, required, createdByType, hasFile, originalFileName, contentType, sizeBytes, uploadedByType, uploadedAt, createdAt."
+          }
+        },
+        {
+          "name": "Upload / replace a document file",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "description": "multipart/form-data, field `file`. Images or PDF only, 15 MB max. Replaces any file already in the slot."
+          }
+        },
+        {
+          "name": "Download a document file",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            },
+            "description": "Returns the raw file bytes with the original filename."
+          }
+        },
+        {
+          "name": "Delete a document file (keep the slot)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            },
+            "description": "Clears the uploaded file. The slot itself stays — only the admin can add or remove slots."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services & prices",
+      "description": "The barber picks which global service types the shop offers and sets price (EGP) + duration (min) for each. GET /catalog = active types not offered yet.",
+      "item": [
+        {
+          "name": "Catalog (not offered yet)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/service/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "service",
+                "catalog"
+              ]
+            },
+            "description": "[{ serviceTypeId, name, description }] — active types the barber does not offer yet"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();",
+                  "if(b&&b.data&&b.data.length)pm.collectionVariables.set('serviceTypeId',b.data[0].serviceTypeId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "service"
+              ]
+            },
+            "description": "[{ id, serviceTypeId, name, description, price, durationMinutes, popular, active }]"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();",
+                  "if(b&&b.data&&b.data.length)pm.collectionVariables.set('serviceId',b.data[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add a service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "service"
+              ]
+            },
+            "description": "price>=0, durationMinutes>=1. 409 if already offered. 404 if the serviceType is missing/inactive.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceTypeId\": {{serviceTypeId}},\n  \"price\": 80,\n  \"durationMinutes\": 30,\n  \"popular\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();",
+                  "if(b&&b.data&&b.data.id)pm.collectionVariables.set('serviceId',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update a service",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/service/{{serviceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "service",
+                "{{serviceId}}"
+              ]
+            },
+            "description": "Change price / duration / popular. active optional.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 100,\n  \"durationMinutes\": 45,\n  \"popular\": false,\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove a service",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/service/{{serviceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "service",
+                "{{serviceId}}"
+              ]
+            },
+            "description": "Deletes the offering row. Future bookings snapshot price/duration so history is unaffected."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Working hours",
+      "description": "Weekly schedule. dayOfWeek 0=Sunday .. 6=Saturday. GET returns all 7 days (a day with no row = off). PUT upserts the whole week; a working day needs opensAt < closesAt (\"HH:mm\").",
+      "item": [
+        {
+          "name": "Get week",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/hours",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "hours"
+              ]
+            },
+            "description": "[{ dayOfWeek, off, opensAt, closesAt }] x7"
+          }
+        },
+        {
+          "name": "Save week",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/hours",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "hours"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"days\": [\n    {\"dayOfWeek\": 0, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"},\n    {\"dayOfWeek\": 1, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"},\n    {\"dayOfWeek\": 2, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"},\n    {\"dayOfWeek\": 3, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"},\n    {\"dayOfWeek\": 4, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"},\n    {\"dayOfWeek\": 5, \"off\": true, \"opensAt\": null, \"closesAt\": null},\n    {\"dayOfWeek\": 6, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\"}\n  ]\n}"
+            },
+            "description": "Send all 7 days. off=true clears the times. 400 if a working day is missing a time or opensAt >= closesAt."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Store & orders",
+      "description": "The barber buys supplies from a merchant (product owner_type=MERCHANT). Browse merchants -> their products -> quote (with discounts) -> place order. The order lands in the merchant inbox as PENDING.",
+      "item": [
+        {
+          "name": "Merchants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/store/merchant",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "store",
+                "merchant"
+              ]
+            },
+            "description": "[{ id, businessName, phoneNumber, rating, ratingCount, productCount }] — active merchants"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();",
+                  "if(b&&b.data&&b.data.length)pm.collectionVariables.set('merchantId',b.data[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Merchant products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/store/merchant/{{merchantId}}/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "store",
+                "merchant",
+                "{{merchantId}}",
+                "product"
+              ]
+            },
+            "description": "[{ id, name, brand, categoryName, price, effectivePrice, minOrderQty, hasImage }]"
+          }
+        },
+        {
+          "name": "Quote a cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/store/quote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "store",
+                "quote"
+              ]
+            },
+            "description": "fulfillmentType is optional (DELIVERY | PICKUP_AT_BRANCH). With DELIVERY the response adds deliveryFee + grandTotal from the merchant's delivery settings (0 when the merchant does not offer delivery or the goods total reaches their free-delivery threshold).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": {{merchantId}},\n  \"fulfillmentType\": \"DELIVERY\",\n  \"items\": [ { \"productId\": 1, \"quantity\": 3 } ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Place order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "order"
+              ]
+            },
+            "description": "fulfillmentType DELIVERY is rejected (400) when the merchant does not offer delivery. The order snapshots deliveryFee; GET order responses expose deliveryFee + grandTotal (= total + deliveryFee).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": {{merchantId}},\n  \"fulfillmentType\": \"DELIVERY\",\n  \"note\": \"عاجل\",\n  \"items\": [ { \"productId\": 1, \"quantity\": 4 } ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();",
+                  "if(b&&b.data&&b.data.id)pm.collectionVariables.set('orderId',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "order"
+              ]
+            },
+            "description": "[{ id, code, status, merchantId, merchantName, fulfillmentType, note, rejectionReason, total, orderDiscount, orderDate, ..., items }]"
+          }
+        },
+        {
+          "name": "Order detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/order/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "order",
+                "{{orderId}}"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Cancel order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/order/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "order",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Only while PENDING (400 otherwise)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Team & earnings",
+      "description": "Read-only barber-console insights, aggregated from bookings (status DONE).",
+      "item": [
+        {
+          "name": "Team ranking",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team"
+              ]
+            },
+            "description": "Every active barber in the caller's shop, ranked by clientsThisMonth (then rating, then name). Each: id, name, owner, you, rating, ratingCount, clientsToday, clientsThisMonth, rank."
+          }
+        },
+        {
+          "name": "My earnings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/earnings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "earnings"
+              ]
+            },
+            "description": "today / last7Days / thisMonth service revenue (SUM total_price of DONE bookings) + matching client counts, avgTicket (thisMonth/clientsThisMonth), supplierSpendThisMonth (committed product-order value bought this month), netThisMonth (thisMonth - supplierSpend), and dailyLast7 [{date, amount, clients}]."
+          }
+        },
+        {
+          "name": "Add team member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"كريم\",\n  \"phoneNumber\": \"01111111111\",\n  \"tagline\": \"نجد الحلاقة\"\n}"
+            },
+            "description": "Owner only. Name + phone (+ optional tagline). No password field — every member gets the default 123456 and mustChangePassword=true; login stays MOBILE-only and is effectively off until enabled."
+          }
+        },
+        {
+          "name": "Team member detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}"
+              ]
+            },
+            "description": "Owner only. {id,name,phoneNumber,tagline,available,active,mustChangePassword,rating,ratingCount}."
+          }
+        },
+        {
+          "name": "Update team member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"كريم\",\n  \"tagline\": \"نجد ذوق\"\n}"
+            },
+            "description": "Owner only."
+          }
+        },
+        {
+          "name": "Set availability",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/availability",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "availability"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"available\": false\n}"
+            },
+            "description": "Owner only. Quick 'available for booking' switch (barber.available)."
+          }
+        },
+        {
+          "name": "Reset member password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tempPassword\": \"newtemp123\"\n}"
+            },
+            "description": "Owner only. Sets a temp password + mustChangePassword=true."
+          }
+        },
+        {
+          "name": "Block team member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}"
+              ]
+            },
+            "description": "Owner only. Sets active=0 — the member can no longer log in. Returns the member."
+          }
+        },
+        {
+          "name": "Re-activate team member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/activate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "activate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "description": "Owner only."
+          }
+        },
+        {
+          "name": "Member working hours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/hours",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "hours"
+              ]
+            },
+            "description": "Owner only. Same 7-day shape as /api/barber/hours."
+          }
+        },
+        {
+          "name": "Save member working hours",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/hours",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "hours"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"days\": [\n    { \"dayOfWeek\": 0, \"off\": false, \"opensAt\": \"10:00\", \"closesAt\": \"22:00\" },\n    { \"dayOfWeek\": 1, \"off\": true },\n    { \"dayOfWeek\": 2, \"off\": true },\n    { \"dayOfWeek\": 3, \"off\": true },\n    { \"dayOfWeek\": 4, \"off\": true },\n    { \"dayOfWeek\": 5, \"off\": true },\n    { \"dayOfWeek\": 6, \"off\": true }\n  ]\n}"
+            },
+            "description": "Owner only. The team member cannot edit their own hours (403) — only the owner."
+          }
+        },
+        {
+          "name": "Member services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "service"
+              ]
+            },
+            "description": "Owner only."
+          }
+        },
+        {
+          "name": "Member service catalog",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/service/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "service",
+                "catalog"
+              ]
+            },
+            "description": "Owner only. Service types the member does not offer yet."
+          }
+        },
+        {
+          "name": "Add member service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "service"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceTypeId\": 1,\n  \"price\": 80,\n  \"durationMinutes\": 30,\n  \"popular\": true\n}"
+            },
+            "description": "Owner only."
+          }
+        },
+        {
+          "name": "Update member service",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/service/{{serviceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "service",
+                "{{serviceId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 90,\n  \"durationMinutes\": 30,\n  \"popular\": false,\n  \"active\": true\n}"
+            },
+            "description": "Owner only."
+          }
+        },
+        {
+          "name": "Remove member service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/team/{{teamMemberId}}/service/{{serviceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "team",
+                "{{teamMemberId}}",
+                "service",
+                "{{serviceId}}"
+              ]
+            },
+            "description": "Owner only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "description": "The barber's own wallet. Balance is whole EGP. Admins credit/debit it (see the admin wallet endpoints); the barber can only read.",
+      "item": [
+        {
+          "name": "My wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/wallet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "wallet"
+              ]
+            },
+            "description": "{ balance, transactions:[{code, direction CREDIT|DEBIT, amount, balanceAfter, reason, by, at}] } (last 50)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Storefront (متجرك)",
+      "description": "The shop's own customer-facing store. Owner only. product/category create+update are multipart/form-data (text fields + optional image part named `image` for category, `images` for product).",
+      "item": [
+        {
+          "name": "Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "product"
+              ]
+            },
+            "description": "Active + inactive products of this shop's storefront."
+          }
+        },
+        {
+          "name": "Categories (assignable)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/category",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "category"
+              ]
+            },
+            "description": "Global categories + this shop's own."
+          }
+        },
+        {
+          "name": "Own categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/category/own",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "category",
+                "own"
+              ]
+            },
+            "description": "Only this shop's own categories."
+          }
+        },
+        {
+          "name": "Create product (multipart)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "شمع تصفيف",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "150",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "20",
+                  "type": "text"
+                },
+                {
+                  "key": "minOrderQty",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "brand",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "product"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update product (multipart)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "شمع",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "140",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "18",
+                  "type": "text"
+                },
+                {
+                  "key": "minOrderQty",
+                  "value": "1",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "product",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Deactivate product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "product",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set stock",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 25\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/product/{{productId}}/stock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "product",
+                "{{productId}}",
+                "stock"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create category (multipart)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "منتجات الصالون",
+                  "type": "text"
+                },
+                {
+                  "key": "active",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/category",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "category"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/category/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "category",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delivery settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/delivery",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "delivery"
+              ]
+            },
+            "description": "{ offered, fee, freeOver }."
+          }
+        },
+        {
+          "name": "Save delivery",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"offered\": true,\n  \"fee\": 20,\n  \"freeOver\": 200\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/delivery",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "delivery"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Orders — list",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "order"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Customer orders for this shop. Owner only. Each: code, status, customerName/Phone, fulfillmentType, paymentMethod, subtotal/deliveryFee/total, items, nextStatuses."
+          }
+        },
+        {
+          "name": "Order — detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/order/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Accept order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/order/{{orderId}}/accept",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "order",
+                "{{orderId}}",
+                "accept"
+              ]
+            },
+            "description": "PENDING → ACCEPTED, deducts product stock."
+          }
+        },
+        {
+          "name": "Reject order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"غير متوفر حاليًا\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/order/{{orderId}}/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "order",
+                "{{orderId}}",
+                "reject"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Advance status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PREPARING\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/storefront/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "storefront",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "PENDING→ACCEPTED→PREPARING→{READY_FOR_PICKUP|OUT_FOR_DELIVERY}→DELIVERED. After ACCEPTED only an admin can cancel."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "My reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "review"
+              ]
+            },
+            "description": "{ average, count, reviews:[{id, stars, note, customerName, bookingId, createdAt}] }. Reviews an admin has hidden (rating.removed_at) are never returned, and average/count already exclude them."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings & queue",
+      "item": [
+        {
+          "name": "List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking?date={{date}}&status=PENDING",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "{{date}}"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                }
+              ]
+            },
+            "description": "Owner = whole shop; a team member = own only. Omit params for everything."
+          }
+        },
+        {
+          "name": "Pending (awaiting confirm)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/pending",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "pending"
+              ]
+            },
+            "description": "The 30-minute confirm queue — the 'notification' surface."
+          }
+        },
+        {
+          "name": "Today's queue",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/queue?date={{date}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "queue"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "{{date}}"
+                }
+              ]
+            },
+            "description": "Time-ordered; walk-ins slot at 'now'."
+          }
+        },
+        {
+          "name": "Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/{{bookingId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "{{bookingId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirm",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/{{bookingId}}/confirm",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "{{bookingId}}",
+                "confirm"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "PENDING → CONFIRMED, enters the queue, notifies the customer."
+          }
+        },
+        {
+          "name": "Reject",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/{{bookingId}}/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "{{bookingId}}",
+                "reject"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"معذرة، الموعد ده معاد متاحًا\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Advance status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/{{bookingId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "{{bookingId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"NEXT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "CONFIRMED → UPCOMING → NEXT → ACTIVE → DONE, or NO_SHOW. DONE bumps clients_this_month."
+          }
+        },
+        {
+          "name": "Add a walk-in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/booking/walkin",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "booking",
+                "walkin"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"barberId\": null,\n  \"serviceTypeId\": {{serviceTypeId}},\n  \"haircutStyleId\": null,\n  \"customerName\": \"زبون كاش\",\n  \"customerPhone\": \"01000000009\",\n  \"paymentMethod\": \"CASH\",\n  \"note\": null,\n  \"addons\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "CONFIRMED walk-in slotted at 'now'. barberId only for the owner adding for another barber."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Inbox (paged)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/notification?page=0&size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "notification"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "{ content[], page, size, totalElements, totalPages }. type routes the tap; referenceType+referenceId deep-link."
+          }
+        },
+        {
+          "name": "Unseen count (badge)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/notification/unseen_count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "notification",
+                "unseen_count"
+              ]
+            },
+            "description": "{ \"count\": n }"
+          }
+        },
+        {
+          "name": "Mark all seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/notification/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "notification",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Call when the inbox screen opens."
+          }
+        },
+        {
+          "name": "Mark one seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/notification/{{notificationId}}/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "notification",
+                "{{notificationId}}",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mark one clicked",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/notification/{{notificationId}}/clicked",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "notification",
+                "{{notificationId}}",
+                "clicked"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Implies seen."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device token (FCM push)",
+      "item": [
+        {
+          "name": "Register / re-point",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\",\n  \"platform\": \"ANDROID\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Upserts — a token identifies one device. platform: ANDROID | IOS | WEB."
+          }
+        },
+        {
+          "name": "Unregister one",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unregister all (logout)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/device_token/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "device_token",
+                "all"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invite link",
+      "item": [
+        {
+          "name": "My invite link",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/invite",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "invite"
+              ]
+            },
+            "description": "{ code, url, favoriteCount }. Code is generated on the first call."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.code) pm.collectionVariables.set('inviteCode', d.code);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Regenerate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Client",
+                "value": "{{client}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/barber/invite/regenerate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "barber",
+                "invite",
+                "regenerate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "if ((pm.request.url.toString() || '').indexOf('/api/barber') !== -1) {",
+          "  pm.request.headers.upsert({ key: 'X-Client', value: pm.variables.get('client') || 'MOBILE' });",
+          "}"
+        ]
+      }
+    }
+  ]
+}

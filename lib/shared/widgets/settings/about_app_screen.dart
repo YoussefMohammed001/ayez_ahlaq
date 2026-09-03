@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../../../../core/theme/heading_styles.dart';
-import '../../../../../core/widgets/app_top_bar.dart';
-import '../../../../../core/widgets/info_row.dart';
-import '../../../../../generated/l10n.dart';
-import '../../../../../core/extensions/ext_theme.dart';
+import '../../../core/theme/heading_styles.dart';
+import '../../../core/widgets/app_top_bar.dart';
+import '../../../core/widgets/info_row.dart';
+import '../../../generated/l10n.dart';
+import '../../../core/extensions/ext_theme.dart';
 
 class AboutAppScreen extends StatelessWidget {
   const AboutAppScreen({super.key});

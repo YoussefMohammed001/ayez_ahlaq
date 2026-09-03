@@ -1,6 +1,7 @@
 import '../../../../core/cache/preferences_storage/preferences_storage.dart';
 import '../../../../core/cache/preferences_storage/preferences_storage_keys.dart';
 import '../../../../core/cache/secure_storage/secure_storage.dart';
+import '../../../user_type.dart';
 import '../../domain/entities/auth_session.dart';
 
 class AuthLocalDataSource {
@@ -9,7 +10,11 @@ class AuthLocalDataSource {
 
   AuthLocalDataSource(this._secureStorage, this._preferencesStorage);
 
-  Future<void> saveSession(AuthSession session, String phone) async {
+  Future<void> saveSession(
+    AuthSession session,
+    String phone,
+    UserType userType,
+  ) async {
     await _secureStorage.write(SecureStorageKeys.userToken, session.token);
     await _preferencesStorage.putInt(
       key: PreferencesKeys.userId,
@@ -22,6 +27,10 @@ class AuthLocalDataSource {
     await _preferencesStorage.putString(
       key: PreferencesKeys.name,
       value: session.displayName,
+    );
+    await _preferencesStorage.putString(
+      key: PreferencesKeys.userType,
+      value: userType.name,
     );
   }
 

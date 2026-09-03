@@ -1,0 +1,1789 @@
+{
+  "info": {
+    "name": "Ayez Ahlaq — Merchant (mobile)",
+    "description": "Every endpoint the merchant mobile app needs, and nothing else. No admin endpoints — the admin uses the web portal.\n\nAuth: phone number + password (same as the barber / customer apps). Self sign-up is `Auth > Register` — the account is active immediately and the response already contains a token. `Auth > Login` and `Auth > Register` both run a test script that stores `token` + `merchantId` as collection variables, so every other request is ready to fire.\n\nPhone number: send it however the user types it — `01001234567`, `+201001234567`, `201001234567` all work. The backend strips the `+20` / `20` / leading `0` and stores the country code (`20`) and the national number (`1001234567`) separately. Responses give you `phoneNumber` (local `0…` form), `countryCode`, and `phoneE164` (`+20…`).\n\nBase URL: production is `https://gobeeeg.com/ayezAhlaqApi`; for local use `http://localhost:8082`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://gobeeeg.com/ayezAhlaqApi"
+    },
+    {
+      "key": "merchantPhone",
+      "value": "01001234567"
+    },
+    {
+      "key": "merchantPassword",
+      "value": "secret123"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "merchantId",
+      "value": ""
+    },
+    {
+      "key": "productId",
+      "value": ""
+    },
+    {
+      "key": "categoryId",
+      "value": ""
+    },
+    {
+      "key": "discountId",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "imageId",
+      "value": ""
+    },
+    {
+      "key": "attId",
+      "value": ""
+    },
+    {
+      "key": "phoneId",
+      "value": ""
+    },
+    {
+      "key": "orderStatus",
+      "value": "PENDING",
+      "description": "PENDING | ACCEPTED | PREPARING | READY_FOR_PICKUP | OUT_FOR_DELIVERY | DELIVERED | REJECTED | CANCELLED"
+    },
+    {
+      "key": "notificationId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register (merchant sign-up)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.token) {",
+                  "  pm.collectionVariables.set('token', b.data.token);",
+                  "  pm.collectionVariables.set('merchantId', b.data.actorId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"businessName\": \"متجر الحلاقة الجميلة\",\n  \"ownerName\": \"أحمد\",\n  \"phoneNumber\": \"{{merchantPhone}}\",\n  \"password\": \"{{merchantPassword}}\",\n  \"userName\": null,\n  \"email\": null\n}"
+            },
+            "description": "Mandatory: businessName, ownerName, phoneNumber, password (min 6). userName + email optional (send null or omit). The phone can be `01001234567` / `+201001234567` / `201001234567` — it is stored as country code `20` + national `1001234567`. 409 if the phone is already taken. Response `data` = { token, role, actorId, displayName }."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.token) {",
+                  "  pm.collectionVariables.set('token', b.data.token);",
+                  "  pm.collectionVariables.set('merchantId', b.data.actorId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"{{merchantPhone}}\",\n  \"password\": \"{{merchantPassword}}\"\n}"
+            },
+            "description": "Body is `phoneNumber` + `password`. Any prefix form is accepted. Token TTL 24h."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get my profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "profile"
+              ]
+            },
+            "description": "Returns businessName, ownerName, phoneNumber (local 0… form), countryCode, phoneE164, userName, email, active, mustChangePassword, `categoryLimit` (max private categories the merchant may add — set by the admin), createdAt, and the list of extra phones."
+          }
+        },
+        {
+          "name": "Update my profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"businessName\": \"متجر الحلاقة الجميلة\",\n  \"ownerName\": \"أحمد علي\",\n  \"email\": \"owner@example.com\"\n}"
+            },
+            "description": "Only these three fields are editable here. The login phone number is changed by the admin, not here."
+          }
+        },
+        {
+          "name": "Change password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"{{merchantPassword}}\",\n  \"newPassword\": \"newSecret123\"\n}"
+            },
+            "description": "newPassword min 6."
+          }
+        },
+        {
+          "name": "List extra phones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/phone",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "phone"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add extra phone",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.id) pm.collectionVariables.set('phoneId', b.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/phone",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "phone"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01112223334\",\n  \"label\": \"خط المبيعات\"\n}"
+            },
+            "description": "Additional contact numbers (not login). label optional."
+          }
+        },
+        {
+          "name": "Delete extra phone",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/phone/{{phoneId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "phone",
+                "{{phoneId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delivery",
+      "description": "Merchant-configurable delivery. When ON, a barber ordering with fulfillmentType=DELIVERY has `fee` added to the order total (free when the goods total reaches `freeOver`). When OFF, barbers can only pick up from the merchant.",
+      "item": [
+        {
+          "name": "Get delivery settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/delivery",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "delivery"
+              ]
+            },
+            "description": "Returns { offered, fee, freeOver }."
+          }
+        },
+        {
+          "name": "Update delivery settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"offered\": true,\n  \"fee\": 25,\n  \"freeOver\": 300\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/delivery",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "delivery"
+              ]
+            },
+            "description": "offered=false clears fee/freeOver. freeOver is optional (null or 0 = no free-delivery threshold)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Dashboard totals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "dashboard"
+              ]
+            },
+            "description": "pendingOrders, activeOrders, deliveredThisMonth, monthRevenue, productCount, liveDiscounts."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "Set a product's quantity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}/stock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}",
+                "stock"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 120\n}"
+            },
+            "description": "Absolute available quantity for the product. Stock lives on the product itself — there are no branches. Accepting an order deducts each item's quantity from its product; a shortfall fails the accept with 400. You can also set `stock` inside Create / Update product."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Assignable categories (global + mine)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category"
+              ]
+            },
+            "description": "Everything a product can be tagged with: admin global catalog (`global: true`) + this merchant's own."
+          }
+        },
+        {
+          "name": "My own categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category/own",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category",
+                "own"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create own category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.id) pm.collectionVariables.set('categoryId', b.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "عروض الخبة",
+                  "type": "text"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "active",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "optional category image (image types only)"
+                }
+              ]
+            },
+            "description": "multipart/form-data. name required. `image` optional — if omitted the category shows the admin's global default category image. The merchant may keep at most `categoryLimit` of their own (from GET profile; the admin sets it) — 400 past the limit. Own categories are auto-renumbered to sortOrder 1..N."
+          }
+        },
+        {
+          "name": "Update own category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category",
+                "{{categoryId}}"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "عروض الخبة",
+                  "type": "text"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "active",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "optional: send to replace the image"
+                },
+                {
+                  "key": "removeImage",
+                  "value": "false",
+                  "type": "text",
+                  "description": "send true to clear the image"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get category image (with fallback)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category/{{categoryId}}/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category",
+                "{{categoryId}}",
+                "image"
+              ]
+            },
+            "description": "The category's own image, or the admin's global default category image. 404 if neither exists. Works for global categories too."
+          }
+        },
+        {
+          "name": "Delete own category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/category/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "category",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product"
+              ]
+            },
+            "description": "Each row: price, effectivePrice (price minus the product's own live PRODUCT discount that applies to every shop — a \"from\" price; shop-scoped / buy-X / order-total offers only show in a quote), minOrderQty, totalStock (available quantity), activeDiscount { discountId, name, rewardType, rewardValue }, imageIds, imageSource."
+          }
+        },
+        {
+          "name": "Get product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.id) pm.collectionVariables.set('productId', b.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "ماكينة حلاقة برو",
+                  "type": "text"
+                },
+                {
+                  "key": "brand",
+                  "value": "Wahl",
+                  "type": "text"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "",
+                  "type": "text",
+                  "description": "optional: a global or own category id"
+                },
+                {
+                  "key": "description",
+                  "value": "ماكينة احترافية سلكية",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "850",
+                  "type": "text"
+                },
+                {
+                  "key": "minOrderQty",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "100",
+                  "type": "text",
+                  "description": "available quantity (optional; also settable via Stock folder)"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": [],
+                  "description": "up to 3 image parts, all named `images`"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "description": "multipart/form-data. name + price (positive integer EGP) required. `stock` = available quantity. Attach up to 3 image files as repeated `images` parts."
+          }
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "ماكينة حلاقة برو",
+                  "type": "text"
+                },
+                {
+                  "key": "brand",
+                  "value": "Wahl",
+                  "type": "text"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "ماكينة احترافية سلكية - إصدار 2026",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "900",
+                  "type": "text"
+                },
+                {
+                  "key": "minOrderQty",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "80",
+                  "type": "text"
+                },
+                {
+                  "key": "keepImageIds",
+                  "value": "",
+                  "type": "text",
+                  "description": "repeat once per EXISTING image id to keep. Omit the field entirely to keep all; send it empty/with a subset to drop the rest."
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": [],
+                  "description": "repeated parts: NEW images to append (kept + new must total <= 3)"
+                }
+              ]
+            },
+            "description": "multipart/form-data. Final image set = (existing images whose id is in keepImageIds) + (new `images` files). If `keepImageIds` is absent, all existing images are kept. Total must be <= 3."
+          }
+        },
+        {
+          "name": "Deactivate product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get primary product image (with fallback)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}",
+                "image"
+              ]
+            },
+            "description": "First of the product's own images, else its category's image, else the global default product image. 404 only if none is configured anywhere. `ProductResponse.imageSource` (OWN / CATEGORY / DEFAULT / NONE) + `imageIds` tell you what's there."
+          }
+        },
+        {
+          "name": "Get one product image by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}/image/{{imageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}",
+                "image",
+                "{{imageId}}"
+              ]
+            },
+            "description": "`imageId` comes from `ProductResponse.imageIds`."
+          }
+        },
+        {
+          "name": "Delete one product image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/product/{{productId}}/image/{{imageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "product",
+                "{{productId}}",
+                "image",
+                "{{imageId}}"
+              ]
+            },
+            "description": "Removes one image. You can also drop images via Update product's keepImageIds."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Discounts",
+      "description": "Four kinds of discount, plus optional per-barbershop scoping. All under /api/merchant/discount.\n\n`scope`:\n- `PRODUCT` — % or fixed EGP off one product. Needs targetProductId. One active PRODUCT discount per product (409 otherwise).\n- `BUY_X_GET_Y` — buy `buyQuantity` of targetProductId, get `rewardQuantity` of them free (rewardType FREE) or discounted (PERCENT/AMOUNT). One active per product.\n- `ORDER_TOTAL` — when the order subtotal reaches `minOrderTotal`: % / EGP off the order, or a free `rewardProductId` gift. Create several for tiers — the highest threshold met wins.\n\n`rewardType`: PERCENT (rewardValue 1-100) | AMOUNT (rewardValue EGP) | FREE (rewardProductId + rewardQuantity; not allowed for PRODUCT).\n\n`shopIds`: omit / empty = every barbershop; list = only those. Get the ids from GET /api/merchant/discount/shop.\n\nActive discounts can be edited in place; closed ones cannot reopen. Use POST /quote to see the math for a cart.",
+      "item": [
+        {
+          "name": "List discounts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount"
+              ]
+            },
+            "description": "All discounts (active + closed), newest first. Each has a resolved `summary`, `liveNow`, and `shops` (empty = all shops)."
+          }
+        },
+        {
+          "name": "List barbershops (for shopIds)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount/shop",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount",
+                "shop"
+              ]
+            },
+            "description": "`[{ id, name, area }]` — pick which barbershops a discount targets."
+          }
+        },
+        {
+          "name": "Get discount",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount/{{discountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount",
+                "{{discountId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create — PRODUCT (% or EGP off one product)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.id) pm.collectionVariables.set('discountId', b.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"خصم الشامبو\",\n  \"scope\": \"PRODUCT\",\n  \"targetProductId\": {{productId}},\n  \"rewardType\": \"PERCENT\",\n  \"rewardValue\": 15,\n  \"startsAt\": null,\n  \"endsAt\": null,\n  \"priority\": 0,\n  \"shopIds\": []\n}"
+            }
+          }
+        },
+        {
+          "name": "Create — BUY_X_GET_Y (buy 4, 5th free)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"اشتري 4 والخامس مجانا\",\n  \"scope\": \"BUY_X_GET_Y\",\n  \"targetProductId\": {{productId}},\n  \"buyQuantity\": 4,\n  \"rewardQuantity\": 1,\n  \"rewardType\": \"FREE\",\n  \"shopIds\": []\n}"
+            },
+            "description": "For a discounted (not free) 5th, use `\"rewardType\": \"PERCENT\", \"rewardValue\": 50`."
+          }
+        },
+        {
+          "name": "Create — ORDER_TOTAL (over 1000 → 10% off)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"عرض الطلبات الكبيرة\",\n  \"scope\": \"ORDER_TOTAL\",\n  \"minOrderTotal\": 1000,\n  \"rewardType\": \"PERCENT\",\n  \"rewardValue\": 10,\n  \"shopIds\": []\n}"
+            },
+            "description": "For a free gift instead: `\"rewardType\": \"FREE\", \"rewardProductId\": <id>, \"rewardQuantity\": 1`."
+          }
+        },
+        {
+          "name": "Create — scoped to specific barbershops",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"خصم صالونات مختارة\",\n  \"scope\": \"PRODUCT\",\n  \"targetProductId\": {{productId}},\n  \"rewardType\": \"AMOUNT\",\n  \"rewardValue\": 25,\n  \"shopIds\": [1, 2]\n}"
+            },
+            "description": "`shopIds` = only these barbershops see the discount. Empty/omitted = all."
+          }
+        },
+        {
+          "name": "Update a discount",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount/{{discountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount",
+                "{{discountId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"خصم الشامبو\",\n  \"scope\": \"PRODUCT\",\n  \"targetProductId\": {{productId}},\n  \"rewardType\": \"PERCENT\",\n  \"rewardValue\": 20,\n  \"shopIds\": []\n}"
+            },
+            "description": "Full replace of an active discount (400 if closed). Send the whole body. `shopIds` replaces the scoping set."
+          }
+        },
+        {
+          "name": "Close a discount",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount/{{discountId}}/close",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount",
+                "{{discountId}}",
+                "close"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Quote — preview a cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/discount/quote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "discount",
+                "quote"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shopId\": null,\n  \"items\": [\n    { \"productId\": {{productId}}, \"quantity\": 5 }\n  ]\n}"
+            },
+            "description": "Runs the same engine the barber-side order will use. Returns `lines` (with split-off gift lines), `subtotal`, `orderDiscount`, `total`, and `applied` (which discounts fired). Pass `shopId` to test per-shop scoping."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders (incoming B2B requests)",
+      "item": [
+        {
+          "name": "List orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order?status=PENDING",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "{{orderStatus}}",
+                  "description": "optional filter. One of: PENDING, ACCEPTED, PREPARING, READY_FOR_PICKUP, OUT_FOR_DELIVERY, DELIVERED, REJECTED, CANCELLED"
+                }
+              ]
+            },
+            "description": "Orders placed by barbershops. Omit `status` for all. The `orderStatus` collection variable defaults to PENDING. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Get order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}"
+              ]
+            },
+            "description": "Full order: items, shop, barber, fulfilmentType (DELIVERY / PICKUP_AT_BRANCH), total, `orderDiscount` (the ORDER_TOTAL reward, EGP), timestamps, and `nextStatuses` — the moves you're allowed to make now.\n\nEach item carries the price applied at order time (`unitPrice`, `unitDiscount`, `lineTotal`, `gift`, `discountId`) AND today's live values (`currentUnitPrice`, `currentUnitDiscount`, `currentEffectivePrice`) + `priceChangedSinceOrder` — so you can show \"ordered at X, now Y\". `gift` lines (BUY_X free unit, ORDER_TOTAL gift) have unitDiscount == unitPrice. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Accept order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/accept",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "accept"
+              ]
+            },
+            "description": "Deducts each item's quantity from its product's stock. 400 if any product is short. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Reject order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "reject"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"الصنف غير متوفر حاليًا\"\n}"
+            },
+            "description": "reason required. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Advance status — (custom, uses {{orderStatus}})",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"{{orderStatus}}\"\n}"
+            },
+            "description": "The full status set (also the values accepted by `GET /order?status=`):\n\n| status | meaning |\n|---|---|\n| PENDING | just placed, waiting on you |\n| ACCEPTED | you accepted; product stock deducted |\n| PREPARING | picking / packing |\n| READY_FOR_PICKUP | ready for pickup (PICKUP orders) |\n| OUT_FOR_DELIVERY | courier on the way (DELIVERY orders) |\n| DELIVERED | handed over — terminal |\n| REJECTED | you rejected with a reason — terminal |\n| CANCELLED | cancelled by the barbershop — terminal |\n\nThis endpoint only makes FORWARD moves: ACCEPTED→PREPARING, PREPARING→READY_FOR_PICKUP | OUT_FOR_DELIVERY, READY_FOR_PICKUP | OUT_FOR_DELIVERY→DELIVERED. Leaving PENDING is done with Accept / Reject. Each order's `nextStatuses` array lists exactly what it will accept right now. Set the `orderStatus` collection variable, or use the ready-made requests below. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Advance status — PREPARING",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PREPARING\"\n}"
+            },
+            "description": "From ACCEPTED. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Advance status — READY_FOR_PICKUP",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"READY_FOR_PICKUP\"\n}"
+            },
+            "description": "From PREPARING, for PICKUP_AT_BRANCH orders. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Advance status — OUT_FOR_DELIVERY",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"OUT_FOR_DELIVERY\"\n}"
+            },
+            "description": "From PREPARING, for DELIVERY orders. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        },
+        {
+          "name": "Advance status — DELIVERED",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/order/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "order",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"DELIVERED\"\n}"
+            },
+            "description": "From READY_FOR_PICKUP or OUT_FOR_DELIVERY. Terminal — sets deliveredAt. Response OrderResponse now also carries `deliveryFee` (fee the barber chose for a DELIVERY order, snapshotted at creation) and `grandTotal` (= total + deliveryFee; `total` stays the goods value). An admin may cancel an order after you accepted it (stock is returned); you then see status=CANCELLED with `cancelledAt` set. The admin's reason (`cancellationNote`, `cancelledByAdminName`) is admin-only and always null in merchant responses."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attachments (my documents)",
+      "item": [
+        {
+          "name": "List my required attachments",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b && b.data && b.data.length) pm.collectionVariables.set('attId', b.data[0].id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/attachment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "attachment"
+              ]
+            },
+            "description": "The document slots the admin defined for this merchant (`name`, `required`, `hasFile`). The merchant only uploads files into these — they cannot create or delete slots; that is the admin's job in the web portal."
+          }
+        },
+        {
+          "name": "Upload / replace the file",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "description": "multipart form field `file`. Allowed: any image type or PDF only. Max 15 MB. Re-uploading replaces the previous file."
+          }
+        },
+        {
+          "name": "Download the file",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            },
+            "description": "Returns the raw bytes with Content-Type + Content-Disposition. Use for in-app preview too."
+          }
+        },
+        {
+          "name": "Delete the file (keep the slot)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/attachment/{{attId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "attachment",
+                "{{attId}}",
+                "file"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Inbox (paged)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/notification?page=0&size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "notification"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "{ content[], page, size, totalElements, totalPages }. type routes the tap; referenceType+referenceId deep-link."
+          }
+        },
+        {
+          "name": "Unseen count (badge)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/notification/unseen_count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "notification",
+                "unseen_count"
+              ]
+            },
+            "description": "{ \"count\": n }"
+          }
+        },
+        {
+          "name": "Mark all seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/notification/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "notification",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Call when the inbox screen opens."
+          }
+        },
+        {
+          "name": "Mark one seen",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/notification/{{notificationId}}/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "notification",
+                "{{notificationId}}",
+                "seen"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mark one clicked",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/notification/{{notificationId}}/clicked",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "notification",
+                "{{notificationId}}",
+                "clicked"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Implies seen."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device token (FCM push)",
+      "item": [
+        {
+          "name": "Register / re-point",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\",\n  \"platform\": \"ANDROID\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Upserts — a token identifies one device. platform: ANDROID | IOS | WEB."
+          }
+        },
+        {
+          "name": "Unregister one",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/device_token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "device_token"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-registration-token\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unregister all (logout)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/device_token/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "device_token",
+                "all"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
