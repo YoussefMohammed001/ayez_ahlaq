@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ayez_ahlaq/core/helpers/notification_service.dart';
+import 'package:ayez_ahlaq/core/notifications/notification_service.dart';
 import 'package:ayez_ahlaq/core/helpers/safe_print.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
 import '../cache/preferences_storage/preferences_storage_keys.dart';
@@ -51,6 +51,6 @@ class AuthNavigationService {
   void _routePendingNotification() {
     final message = sl<NotificationNavigator>().consumePendingInitialMessage();
     if (message == null) return;
-    //sl<NotificationService>().handleNotificationTap(message);
+    sl<NotificationService>().handleNotificationTap(message);
   }
 }

@@ -994,6 +994,21 @@ class S {
     return Intl.message('Account', name: 'tabAccount', desc: '', args: []);
   }
 
+  /// `Services`
+  String get tabServices {
+    return Intl.message('Services', name: 'tabServices', desc: '', args: []);
+  }
+
+  /// `Store`
+  String get tabStore {
+    return Intl.message('Store', name: 'tabStore', desc: '', args: []);
+  }
+
+  /// `Bookings`
+  String get tabBookings {
+    return Intl.message('Bookings', name: 'tabBookings', desc: '', args: []);
+  }
+
   /// `Good morning,`
   String get greeting {
     return Intl.message('Good morning,', name: 'greeting', desc: '', args: []);
@@ -2009,6 +2024,21 @@ class S {
     );
   }
 
+  /// `Shop owner`
+  String get shopOwner {
+    return Intl.message('Shop owner', name: 'shopOwner', desc: '', args: []);
+  }
+
+  /// `Team member`
+  String get teamMember {
+    return Intl.message('Team member', name: 'teamMember', desc: '', args: []);
+  }
+
+  /// `Barbershop`
+  String get shopLabel {
+    return Intl.message('Barbershop', name: 'shopLabel', desc: '', args: []);
+  }
+
   /// `Contact`
   String get contact {
     return Intl.message('Contact', name: 'contact', desc: '', args: []);
@@ -2464,86 +2494,6 @@ class S {
     return Intl.message(
       'Mark all as read',
       name: 'markAllRead',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `New order`
-  String get notifNewOrderTitle {
-    return Intl.message(
-      'New order',
-      name: 'notifNewOrderTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Salon Al Malek sent an order worth 2880 EGP`
-  String get notifNewOrderBody {
-    return Intl.message(
-      'Salon Al Malek sent an order worth 2880 EGP',
-      name: 'notifNewOrderBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Order cancelled`
-  String get notifOrderCancelledTitle {
-    return Intl.message(
-      'Order cancelled',
-      name: 'notifOrderCancelledTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Barber House cancelled order #PO-2170`
-  String get notifOrderCancelledBody {
-    return Intl.message(
-      'Barber House cancelled order #PO-2170',
-      name: 'notifOrderCancelledBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Low stock`
-  String get notifLowStockTitle {
-    return Intl.message(
-      'Low stock',
-      name: 'notifLowStockTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Beard oil is down to 8 units`
-  String get notifLowStockBody {
-    return Intl.message(
-      'Beard oil is down to 8 units',
-      name: 'notifLowStockBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Offer ended`
-  String get notifDiscountEndedTitle {
-    return Intl.message(
-      'Offer ended',
-      name: 'notifDiscountEndedTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your "Buy 4 get 1 free" offer has been closed`
-  String get notifDiscountEndedBody {
-    return Intl.message(
-      'Your "Buy 4 get 1 free" offer has been closed',
-      name: 'notifDiscountEndedBody',
       desc: '',
       args: [],
     );
@@ -3089,6 +3039,1261 @@ class S {
     return Intl.message(
       'Optional — upload them whenever you like',
       name: 'documentsOptionalMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop`
+  String get shopSection {
+    return Intl.message('Shop', name: 'shopSection', desc: '', args: []);
+  }
+
+  /// `Working hours`
+  String get workingHoursTitle {
+    return Intl.message(
+      'Working hours',
+      name: 'workingHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Opens at`
+  String get openTimeLabel {
+    return Intl.message('Opens at', name: 'openTimeLabel', desc: '', args: []);
+  }
+
+  /// `Closes at`
+  String get closeTimeLabel {
+    return Intl.message(
+      'Closes at',
+      name: 'closeTimeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Working hours saved`
+  String get hoursSaved {
+    return Intl.message(
+      'Working hours saved',
+      name: 'hoursSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monday`
+  String get dayMonday {
+    return Intl.message('Monday', name: 'dayMonday', desc: '', args: []);
+  }
+
+  /// `Tuesday`
+  String get dayTuesday {
+    return Intl.message('Tuesday', name: 'dayTuesday', desc: '', args: []);
+  }
+
+  /// `Wednesday`
+  String get dayWednesday {
+    return Intl.message('Wednesday', name: 'dayWednesday', desc: '', args: []);
+  }
+
+  /// `Thursday`
+  String get dayThursday {
+    return Intl.message('Thursday', name: 'dayThursday', desc: '', args: []);
+  }
+
+  /// `Friday`
+  String get dayFriday {
+    return Intl.message('Friday', name: 'dayFriday', desc: '', args: []);
+  }
+
+  /// `Saturday`
+  String get daySaturday {
+    return Intl.message('Saturday', name: 'daySaturday', desc: '', args: []);
+  }
+
+  /// `Sunday`
+  String get daySunday {
+    return Intl.message('Sunday', name: 'daySunday', desc: '', args: []);
+  }
+
+  /// `Services`
+  String get servicesTitle {
+    return Intl.message('Services', name: 'servicesTitle', desc: '', args: []);
+  }
+
+  /// `Add service`
+  String get addServiceTitle {
+    return Intl.message(
+      'Add service',
+      name: 'addServiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit service`
+  String get editServiceTitle {
+    return Intl.message(
+      'Edit service',
+      name: 'editServiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a service`
+  String get chooseService {
+    return Intl.message(
+      'Choose a service',
+      name: 'chooseService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price`
+  String get servicePriceLabel {
+    return Intl.message('Price', name: 'servicePriceLabel', desc: '', args: []);
+  }
+
+  /// `e.g. 100`
+  String get servicePriceHint {
+    return Intl.message(
+      'e.g. 100',
+      name: 'servicePriceHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duration (minutes)`
+  String get serviceDurationLabel {
+    return Intl.message(
+      'Duration (minutes)',
+      name: 'serviceDurationLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. 30`
+  String get serviceDurationHint {
+    return Intl.message(
+      'e.g. 30',
+      name: 'serviceDurationHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{price} EGP · {duration} min`
+  String serviceMetaLine(Object price, Object duration) {
+    return Intl.message(
+      '$price EGP · $duration min',
+      name: 'serviceMetaLine',
+      desc: '',
+      args: [price, duration],
+    );
+  }
+
+  /// `Buy supplies`
+  String get buySupplies {
+    return Intl.message(
+      'Buy supplies',
+      name: 'buySupplies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suppliers store`
+  String get storeTitle {
+    return Intl.message(
+      'Suppliers store',
+      name: 'storeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No suppliers available yet`
+  String get noMerchantsYet {
+    return Intl.message(
+      'No suppliers available yet',
+      name: 'noMerchantsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View cart`
+  String get viewCart {
+    return Intl.message('View cart', name: 'viewCart', desc: '', args: []);
+  }
+
+  /// `Cart`
+  String get cartTitle {
+    return Intl.message('Cart', name: 'cartTitle', desc: '', args: []);
+  }
+
+  /// `Your cart is empty`
+  String get cartEmpty {
+    return Intl.message(
+      'Your cart is empty',
+      name: 'cartEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fulfilment`
+  String get fulfilmentTitle {
+    return Intl.message(
+      'Fulfilment',
+      name: 'fulfilmentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (optional)`
+  String get orderNoteTitle {
+    return Intl.message(
+      'Note (optional)',
+      name: 'orderNoteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a note for the supplier`
+  String get orderNoteHint {
+    return Intl.message(
+      'Add a note for the supplier',
+      name: 'orderNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Place order`
+  String get placeOrder {
+    return Intl.message('Place order', name: 'placeOrder', desc: '', args: []);
+  }
+
+  /// `Order placed`
+  String get orderPlaced {
+    return Intl.message(
+      'Order placed',
+      name: 'orderPlaced',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My supply orders`
+  String get storeOrdersTitle {
+    return Intl.message(
+      'My supply orders',
+      name: 'storeOrdersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel order`
+  String get cancelOrder {
+    return Intl.message(
+      'Cancel order',
+      name: 'cancelOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet`
+  String get walletTitle {
+    return Intl.message('Wallet', name: 'walletTitle', desc: '', args: []);
+  }
+
+  /// `Current balance`
+  String get walletBalanceLabel {
+    return Intl.message(
+      'Current balance',
+      name: 'walletBalanceLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No transactions yet`
+  String get noWalletTransactions {
+    return Intl.message(
+      'No transactions yet',
+      name: 'noWalletTransactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reviews`
+  String get reviewsTitle {
+    return Intl.message('Reviews', name: 'reviewsTitle', desc: '', args: []);
+  }
+
+  /// `{count} reviews`
+  String reviewsCount(Object count) {
+    return Intl.message(
+      '$count reviews',
+      name: 'reviewsCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `No reviews yet`
+  String get noReviewsYet {
+    return Intl.message(
+      'No reviews yet',
+      name: 'noReviewsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite link`
+  String get inviteTitle {
+    return Intl.message('Invite link', name: 'inviteTitle', desc: '', args: []);
+  }
+
+  /// `Share this link with customers — anyone who joins through it becomes your favorite automatically.`
+  String get inviteNote {
+    return Intl.message(
+      'Share this link with customers — anyone who joins through it becomes your favorite automatically.',
+      name: 'inviteNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link copied`
+  String get inviteLinkCopied {
+    return Intl.message(
+      'Link copied',
+      name: 'inviteLinkCopied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customers via this link`
+  String get inviteFavoritesLabel {
+    return Intl.message(
+      'Customers via this link',
+      name: 'inviteFavoritesLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regenerate link`
+  String get regenerateInviteTitle {
+    return Intl.message(
+      'Regenerate link',
+      name: 'regenerateInviteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The old link will stop working. Are you sure?`
+  String get regenerateInviteConfirm {
+    return Intl.message(
+      'The old link will stop working. Are you sure?',
+      name: 'regenerateInviteConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link regenerated`
+  String get inviteRegenerated {
+    return Intl.message(
+      'Link regenerated',
+      name: 'inviteRegenerated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My storefront`
+  String get storefrontProductsTitle {
+    return Intl.message(
+      'My storefront',
+      name: 'storefrontProductsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What you list here is what customers see and can order from your shop`
+  String get storefrontProductsNote {
+    return Intl.message(
+      'What you list here is what customers see and can order from your shop',
+      name: 'storefrontProductsNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This product appears to customers browsing your shop in the app.`
+  String get storefrontProductFormNote {
+    return Intl.message(
+      'This product appears to customers browsing your shop in the app.',
+      name: 'storefrontProductFormNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It will be removed from your storefront. Are you sure?`
+  String get deleteStorefrontProductConfirm {
+    return Intl.message(
+      'It will be removed from your storefront. Are you sure?',
+      name: 'deleteStorefrontProductConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add product`
+  String get addStorefrontProduct {
+    return Intl.message(
+      'Add product',
+      name: 'addStorefrontProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storefront categories`
+  String get storefrontCategoriesTitle {
+    return Intl.message(
+      'Storefront categories',
+      name: 'storefrontCategoriesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storefront delivery`
+  String get storefrontDeliveryMenuTitle {
+    return Intl.message(
+      'Storefront delivery',
+      name: 'storefrontDeliveryMenuTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storefront orders`
+  String get storefrontOrdersTitle {
+    return Intl.message(
+      'Storefront orders',
+      name: 'storefrontOrdersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Orders placed by customers from your storefront`
+  String get storefrontOrdersSubtitle {
+    return Intl.message(
+      'Orders placed by customers from your storefront',
+      name: 'storefrontOrdersSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer`
+  String get customerLabel {
+    return Intl.message('Customer', name: 'customerLabel', desc: '', args: []);
+  }
+
+  /// `Customer phone`
+  String get customerPhoneLabel {
+    return Intl.message(
+      'Customer phone',
+      name: 'customerPhoneLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment method`
+  String get paymentMethodLabel {
+    return Intl.message(
+      'Payment method',
+      name: 'paymentMethodLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings`
+  String get bookingsTitle {
+    return Intl.message('Bookings', name: 'bookingsTitle', desc: '', args: []);
+  }
+
+  /// `Awaiting confirmation`
+  String get bookingsPendingTab {
+    return Intl.message(
+      'Awaiting confirmation',
+      name: 'bookingsPendingTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's queue`
+  String get bookingsQueueTab {
+    return Intl.message(
+      'Today\'s queue',
+      name: 'bookingsQueueTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bookings awaiting confirmation`
+  String get noPendingBookings {
+    return Intl.message(
+      'No bookings awaiting confirmation',
+      name: 'noPendingBookings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The queue is empty`
+  String get queueEmpty {
+    return Intl.message(
+      'The queue is empty',
+      name: 'queueEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awaiting confirmation`
+  String get bookingStatusPending {
+    return Intl.message(
+      'Awaiting confirmation',
+      name: 'bookingStatusPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmed`
+  String get bookingStatusConfirmed {
+    return Intl.message(
+      'Confirmed',
+      name: 'bookingStatusConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upcoming`
+  String get bookingStatusUpcoming {
+    return Intl.message(
+      'Upcoming',
+      name: 'bookingStatusUpcoming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get bookingStatusNext {
+    return Intl.message('Next', name: 'bookingStatusNext', desc: '', args: []);
+  }
+
+  /// `In progress`
+  String get bookingStatusActive {
+    return Intl.message(
+      'In progress',
+      name: 'bookingStatusActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get bookingStatusDone {
+    return Intl.message('Done', name: 'bookingStatusDone', desc: '', args: []);
+  }
+
+  /// `No show`
+  String get bookingStatusNoShow {
+    return Intl.message(
+      'No show',
+      name: 'bookingStatusNoShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected`
+  String get bookingStatusRejected {
+    return Intl.message(
+      'Rejected',
+      name: 'bookingStatusRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get bookingStatusCancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'bookingStatusCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm booking`
+  String get confirmBooking {
+    return Intl.message(
+      'Confirm booking',
+      name: 'confirmBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reject booking`
+  String get rejectBooking {
+    return Intl.message(
+      'Reject booking',
+      name: 'rejectBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking details`
+  String get bookingDetailsTitle {
+    return Intl.message(
+      'Booking details',
+      name: 'bookingDetailsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service`
+  String get serviceLabel {
+    return Intl.message('Service', name: 'serviceLabel', desc: '', args: []);
+  }
+
+  /// `Style`
+  String get styleLabel {
+    return Intl.message('Style', name: 'styleLabel', desc: '', args: []);
+  }
+
+  /// `Date and time`
+  String get bookingDateLabel {
+    return Intl.message(
+      'Date and time',
+      name: 'bookingDateLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Queue position`
+  String get queuePositionLabel {
+    return Intl.message(
+      'Queue position',
+      name: 'queuePositionLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Respond by`
+  String get decisionDeadlineLabel {
+    return Intl.message(
+      'Respond by',
+      name: 'decisionDeadlineLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add-ons`
+  String get addonsLabel {
+    return Intl.message('Add-ons', name: 'addonsLabel', desc: '', args: []);
+  }
+
+  /// `Add a walk-in`
+  String get addWalkInTitle {
+    return Intl.message(
+      'Add a walk-in',
+      name: 'addWalkInTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (optional)`
+  String get walkInNoteLabel {
+    return Intl.message(
+      'Note (optional)',
+      name: 'walkInNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. in a hurry`
+  String get walkInNoteHint {
+    return Intl.message(
+      'e.g. in a hurry',
+      name: 'walkInNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add-ons (optional)`
+  String get walkInAddonsLabel {
+    return Intl.message(
+      'Add-ons (optional)',
+      name: 'walkInAddonsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For a team member (optional)`
+  String get walkInBarberLabel {
+    return Intl.message(
+      'For a team member (optional)',
+      name: 'walkInBarberLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a team member`
+  String get chooseTeamMember {
+    return Intl.message(
+      'Choose a team member',
+      name: 'chooseTeamMember',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add walk-in`
+  String get addWalkInAction {
+    return Intl.message(
+      'Add walk-in',
+      name: 'addWalkInAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your storefront`
+  String get storefrontTitle {
+    return Intl.message(
+      'Your storefront',
+      name: 'storefrontTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team`
+  String get teamTitle {
+    return Intl.message('Team', name: 'teamTitle', desc: '', args: []);
+  }
+
+  /// `Add team member`
+  String get addMemberTitle {
+    return Intl.message(
+      'Add team member',
+      name: 'addMemberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get memberNameLabel {
+    return Intl.message('Name', name: 'memberNameLabel', desc: '', args: []);
+  }
+
+  /// `e.g. Karim`
+  String get memberNameHint {
+    return Intl.message(
+      'e.g. Karim',
+      name: 'memberNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number`
+  String get memberPhoneLabel {
+    return Intl.message(
+      'Phone number',
+      name: 'memberPhoneLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. 01111111111`
+  String get memberPhoneHint {
+    return Intl.message(
+      'e.g. 01111111111',
+      name: 'memberPhoneHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tagline`
+  String get memberTaglineLabel {
+    return Intl.message(
+      'Tagline',
+      name: 'memberTaglineLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optional`
+  String get memberTaglineHint {
+    return Intl.message(
+      'Optional',
+      name: 'memberTaglineHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tagline (optional)`
+  String get memberTaglineOptionalLabel {
+    return Intl.message(
+      'Tagline (optional)',
+      name: 'memberTaglineOptionalLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rank #{rank}`
+  String rankLabel(Object rank) {
+    return Intl.message(
+      'Rank #$rank',
+      name: 'rankLabel',
+      desc: '',
+      args: [rank],
+    );
+  }
+
+  /// `Today`
+  String get clientsTodayLabel {
+    return Intl.message('Today', name: 'clientsTodayLabel', desc: '', args: []);
+  }
+
+  /// `This month`
+  String get clientsThisMonthLabel {
+    return Intl.message(
+      'This month',
+      name: 'clientsThisMonthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rating`
+  String get ratingLabel {
+    return Intl.message('Rating', name: 'ratingLabel', desc: '', args: []);
+  }
+
+  /// `You`
+  String get youLabel {
+    return Intl.message('You', name: 'youLabel', desc: '', args: []);
+  }
+
+  /// `Owner`
+  String get ownerLabel {
+    return Intl.message('Owner', name: 'ownerLabel', desc: '', args: []);
+  }
+
+  /// `Team member`
+  String get memberDetailTitle {
+    return Intl.message(
+      'Team member',
+      name: 'memberDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available for booking`
+  String get availabilityLabel {
+    return Intl.message(
+      'Available for booking',
+      name: 'availabilityLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Working hours`
+  String get memberHoursTitle {
+    return Intl.message(
+      'Working hours',
+      name: 'memberHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get memberServicesTitle {
+    return Intl.message(
+      'Services',
+      name: 'memberServicesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset password`
+  String get resetPasswordTitle {
+    return Intl.message(
+      'Reset password',
+      name: 'resetPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set a new temporary password for this member?`
+  String get resetPasswordConfirm {
+    return Intl.message(
+      'Set a new temporary password for this member?',
+      name: 'resetPasswordConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Temporary password`
+  String get tempPasswordLabel {
+    return Intl.message(
+      'Temporary password',
+      name: 'tempPasswordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. newtemp123`
+  String get tempPasswordHint {
+    return Intl.message(
+      'e.g. newtemp123',
+      name: 'tempPasswordHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset`
+  String get passwordResetSuccess {
+    return Intl.message(
+      'Password reset',
+      name: 'passwordResetSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Block member`
+  String get blockMemberTitle {
+    return Intl.message(
+      'Block member',
+      name: 'blockMemberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This member will no longer be able to log in. Continue?`
+  String get blockMemberConfirm {
+    return Intl.message(
+      'This member will no longer be able to log in. Continue?',
+      name: 'blockMemberConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-activate member`
+  String get activateMemberTitle {
+    return Intl.message(
+      'Re-activate member',
+      name: 'activateMemberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow this member to log in again?`
+  String get activateMemberConfirm {
+    return Intl.message(
+      'Allow this member to log in again?',
+      name: 'activateMemberConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member blocked`
+  String get memberBlocked {
+    return Intl.message(
+      'Member blocked',
+      name: 'memberBlocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member re-activated`
+  String get memberActivated {
+    return Intl.message(
+      'Member re-activated',
+      name: 'memberActivated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member details saved`
+  String get memberSaved {
+    return Intl.message(
+      'Member details saved',
+      name: 'memberSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team member added`
+  String get memberAdded {
+    return Intl.message(
+      'Team member added',
+      name: 'memberAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit member`
+  String get editMemberTitle {
+    return Intl.message(
+      'Edit member',
+      name: 'editMemberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earnings`
+  String get earningsTitle {
+    return Intl.message('Earnings', name: 'earningsTitle', desc: '', args: []);
+  }
+
+  /// `Today`
+  String get earningsToday {
+    return Intl.message('Today', name: 'earningsToday', desc: '', args: []);
+  }
+
+  /// `Last 7 days`
+  String get earningsLast7Days {
+    return Intl.message(
+      'Last 7 days',
+      name: 'earningsLast7Days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This month`
+  String get earningsThisMonth {
+    return Intl.message(
+      'This month',
+      name: 'earningsThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average ticket`
+  String get avgTicketLabel {
+    return Intl.message(
+      'Average ticket',
+      name: 'avgTicketLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Supplier spend this month`
+  String get supplierSpendLabel {
+    return Intl.message(
+      'Supplier spend this month',
+      name: 'supplierSpendLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Net this month`
+  String get netThisMonthLabel {
+    return Intl.message(
+      'Net this month',
+      name: 'netThisMonthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 7 days`
+  String get dailyBreakdownTitle {
+    return Intl.message(
+      'Last 7 days',
+      name: 'dailyBreakdownTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{clients} clients`
+  String earningsClientsLine(Object clients) {
+    return Intl.message(
+      '$clients clients',
+      name: 'earningsClientsLine',
+      desc: '',
+      args: [clients],
+    );
+  }
+
+  /// `No team members yet`
+  String get noTeamMembersYet {
+    return Intl.message(
+      'No team members yet',
+      name: 'noTeamMembersYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get activeLabel {
+    return Intl.message('Active', name: 'activeLabel', desc: '', args: []);
+  }
+
+  /// `Blocked`
+  String get blockedLabel {
+    return Intl.message('Blocked', name: 'blockedLabel', desc: '', args: []);
+  }
+
+  /// `Shop location`
+  String get locationTitle {
+    return Intl.message(
+      'Shop location',
+      name: 'locationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pin your shop's location so customers can find you and see accurate distance.`
+  String get locationNote {
+    return Intl.message(
+      'Pin your shop\'s location so customers can find you and see accurate distance.',
+      name: 'locationNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use current location`
+  String get useCurrentLocation {
+    return Intl.message(
+      'Use current location',
+      name: 'useCurrentLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get addressLabel {
+    return Intl.message('Address', name: 'addressLabel', desc: '', args: []);
+  }
+
+  /// `e.g. Abbas El Akkad St, Nasr City`
+  String get addressHint {
+    return Intl.message(
+      'e.g. Abbas El Akkad St, Nasr City',
+      name: 'addressHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location saved`
+  String get locationSaved {
+    return Intl.message(
+      'Location saved',
+      name: 'locationSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enable location services`
+  String get locationServiceDisabled {
+    return Intl.message(
+      'Please enable location services',
+      name: 'locationServiceDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location permission is required`
+  String get locationPermissionDenied {
+    return Intl.message(
+      'Location permission is required',
+      name: 'locationPermissionDenied',
       desc: '',
       args: [],
     );

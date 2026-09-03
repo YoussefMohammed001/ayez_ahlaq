@@ -8,6 +8,7 @@ import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/menu_section.dart';
 import '../../domain/entities/merchant_profile.dart';
 import '../../../documents/presentation/widgets/missing_documents_badge.dart';
+import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 import '../../../../../generated/l10n.dart';
 
 class ProfileAdminMenu extends StatelessWidget {
@@ -112,6 +113,7 @@ class ProfileAdminMenu extends StatelessWidget {
       MenuRow(
         icon: Icons.notifications_none_rounded,
         label: S().notifications,
+        trailing: const UnseenNotificationsBadge(),
         onTap: () => context.push(Routes.merchantNotificationsScreen),
       ),
       MenuRow(
@@ -132,7 +134,7 @@ class ProfileAdminMenu extends StatelessWidget {
       MenuRow(
         icon: Icons.info_outline_rounded,
         label: S().aboutApp,
-        onTap: () => context.push(Routes.merchantAboutScreen),
+        onTap: () => context.push(Routes.aboutScreen),
       ),
       MenuRow(
         icon: Icons.logout_rounded,

@@ -11,10 +11,21 @@ import 'package:ayez_ahlaq/core/helpers/user_helpers.dart';
 import 'package:ayez_ahlaq/core/di/services_locator.dart';
 import 'package:ayez_ahlaq/core/notifications/notification_payload.dart';
 import 'package:ayez_ahlaq/core/notifications/notification_router.dart';
+import 'package:ayez_ahlaq/features/merchant/device_token/presentation/services/merchant_device_token_sync_service.dart';
+import 'package:ayez_ahlaq/features/merchant/notifications/domain/use_cases/mark_notification_clicked_use_case.dart'
+    as merchant;
+import 'package:ayez_ahlaq/features/merchant/notifications/presentation/manager/merchant_notifications_cubit.dart';
+import 'package:ayez_ahlaq/features/barber/device_token/presentation/services/barber_device_token_sync_service.dart';
+import 'package:ayez_ahlaq/features/barber/notifications/domain/use_cases/mark_notification_clicked_use_case.dart'
+    as barber;
+import 'package:ayez_ahlaq/features/barber/notifications/presentation/manager/barber_notifications_cubit.dart';
+import '../../shared/user_type.dart';
 import '../routes/app_routes.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp();
+  }
   log('📥 Background Message: ${message.data}');
 }
 
@@ -97,6 +108,23 @@ class NotificationService {
 
     final fcmToken = await FirebaseMessaging.instance.getToken();
     log('✅ FCM Token: $fcmToken');
+
+    if (fcmToken == null || await UserHelpers.isGuest()) return;
+
+    try {
+      switch (UserHelpers.userType) {
+        case UserType.merchant:
+          await sl<MerchantDeviceTokenSyncService>().syncToken(fcmToken);
+          break;
+        case UserType.barber:
+          await sl<BarberDeviceTokenSyncService>().syncToken(fcmToken);
+          break;
+        case UserType.customer:
+          break;
+      }
+    } catch (e, st) {
+      log('Error syncing device token: $e\n$st');
+    }
   }
 
   Future<void> _setForegroundNotificationOptions() async {
@@ -198,7 +226,16 @@ class NotificationService {
 
   void _refreshUnseenNotifications() {
     try {
-     // sl<UnseenCountCubit>().refresh();
+      switch (UserHelpers.userType) {
+        case UserType.merchant:
+          sl<MerchantNotificationsCubit>().refreshUnseenCount();
+          break;
+        case UserType.barber:
+          sl<BarberNotificationsCubit>().refreshUnseenCount();
+          break;
+        case UserType.customer:
+          break;
+      }
     } catch (e, st) {
       log("Error refreshing unseen notifications: $e\n$st");
     }
@@ -208,7 +245,22 @@ class NotificationService {
     final navKey = rootNavigatorKey;
     final notificationId = int.tryParse(message.data['id']?.toString() ?? '');
     if (notificationId != null) {
-   //   sl<MarkOneClickedUseCase>().call(notificationId);
+      try {
+        switch (UserHelpers.userType) {
+          case UserType.merchant:
+            sl<merchant.MarkNotificationClickedUseCase>().call(
+              notificationId,
+            );
+            break;
+          case UserType.barber:
+            sl<barber.MarkNotificationClickedUseCase>().call(notificationId);
+            break;
+          case UserType.customer:
+            break;
+        }
+      } catch (e, st) {
+        log('Error marking notification clicked: $e\n$st');
+      }
     }
 
     final payload = NotificationPayload.fromMap(message.data);

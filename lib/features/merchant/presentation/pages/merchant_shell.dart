@@ -8,6 +8,7 @@ import '../../discounts/presentation/manager/merchant_discounts_cubit.dart';
 import '../../documents/presentation/manager/merchant_documents_cubit.dart';
 import '../../documents/presentation/manager/merchant_documents_state.dart';
 import '../../documents/presentation/pages/merchant_documents_screen.dart';
+import '../../notifications/presentation/manager/merchant_notifications_cubit.dart';
 import '../../../../shared/widgets/documents/required_documents_gate.dart';
 import '../../dashboard/presentation/pages/merchant_dashboard_screen.dart';
 import '../../orders/presentation/manager/merchant_orders_cubit.dart';
@@ -48,6 +49,7 @@ class _MerchantShellState extends State<MerchantShell> {
     context.read<MerchantCategoriesCubit>().loadCategories();
     context.read<MerchantDiscountsCubit>().loadDiscounts();
     context.read<MerchantDocumentsCubit>().loadDocuments();
+    context.read<MerchantNotificationsCubit>().refreshUnseenCount();
   }
 
   void _goToTab(int index) => setState(() => _index = index);

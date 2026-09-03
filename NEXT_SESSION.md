@@ -53,11 +53,7 @@ flutter test
 
 `lib/features/merchant/` — auth · dashboard · products · categories · discounts · orders · profile · notifications
 
-**١٩ شاشة**، كلها API حقيقي **ماعدا:**
-- **الطلبات = mock** → `MerchantOrdersMock.enabled = true`
-- **الإشعارات = mock** (بطلب من المستخدم) → `NotificationsMock.enabled = true`
-
-كلاهما: الـ API مكتوب وجاهز، غيّر الـ bool بس.
+**١٩ شاشة**، كلها API حقيقي. الطلبات والإشعارات بقوا API حقيقي بالكامل — مفيش mock متبقي في التاجر.
 
 ### `lib/core/widgets/` (استخدمهم، متعملش جداد)
 `AppCard` · `StatusBadge`+`BadgeTone` · `AvatarCircle` · `StatTile` · `ToggleSwitch` · `SectionTitle` · `AppBottomNavBar` · `AppTopBar` · `PrimaryCtaButton` · `AppTextField` · `AppInputDecoration` · `InfoRow` · `MenuRow` · `AppEmptyState` · `AppErrorState` · `AppStateView` · `RefreshableStateView` · `ImagePickerRow` · `FilterChipRow<T>` · `ShimmerBox` · `ListSkeleton`
@@ -86,9 +82,25 @@ dark هو الافتراضي. `AppDarkColors`: ink950 `#14120F` · ink900 `#1C19
 الصور بتتعرض جوه التطبيق بـ `AuthorizedNetworkImage`، والـ PDF بيتفتح بـ `share_plus` + `path_provider`
 (اتضافت `path_provider` كـ direct dependency).
 
-### ٢. الطلبات الحقيقية
-محتاج **response حقيقي واحد** من `GET /api/merchant/order` (لازم حلاق يعمل طلب).
-شوف `nextStatuses` و `items` وقارنهم بـ `PurchaseOrderModel`، وبعدين `enabled = false`.
+### ~~٢. الطلبات الحقيقية~~ — ✅ خلصت
+`MerchantOrdersMock.enabled = false`، شغّالة على `GET /api/merchant/order` الحقيقي.
+
+### ~~٢.٥ الإشعارات + Device Token~~ — ✅ خلصت
+`lib/features/merchant/notifications/` — inbox مع pagination (`page`/`size`/`hasMore`)، badge عدد غير مقروء، mark-all-seen، mark-clicked (بيعمل implied seen).
+`lib/features/merchant/device_token/` — تسجيل الـ FCM token عند setup، ومسحه كله عند تسجيل الخروج (`DELETE /device_token/all`).
+
+الـ contract:
+- `GET /merchant/notification?page=&size=` → `{content, page, size, totalElements, totalPages}`
+- `GET /merchant/notification/unseen_count` → `{count}`
+- `PUT /merchant/notification/seen` (all) · `PUT /merchant/notification/{id}/seen` · `PUT /merchant/notification/{id}/clicked` (implies seen)
+- `POST /merchant/device_token` `{token, platform}` · `DELETE /merchant/device_token` `{token}` · `DELETE /merchant/device_token/all`
+
+`core/notifications/notification_service.dart` (النسخة الوحيدة المتبقية — اتمسحت نسخة `core/helpers/` المكررة) بقى موصول فعليًا:
+- `_saveFcmToken()` بينده `MerchantDeviceTokenSyncService.syncToken()` (بيقارن بالتوكن المحفوظ في `PreferencesKeys.fcmToken` قبل ما يبعت تاني)
+- `handleNotificationTap()` بينده `MarkNotificationClickedUseCase` وبعدين `NotificationRouter` (تنفيذه الوحيد دلوقتي: `MerchantNotificationRouter` — بيوجّه لشاشة الإشعارات بس، لأن تفاصيل الطلب محتاجة `PurchaseOrder` object مش ID)
+- الـ badge (`UnseenNotificationsBadge`) في صف "الإشعارات" بقائمة البروفايل، بيتغذى من `MerchantNotificationsCubit` مسجّل كـ `lazySingleton` (عشان الـ badge يفضل محدّث في كل الشاشة)
+
+⚠️ `core/notifications/notification_service.dart` بقى ٢٤٧ سطر (فوق الحد ١٥٠) — كان أصلاً فوق الحد قبل التعديل ده، متأجل زي التلات ملفات التانيين في `core/widgets/`.
 
 ### ٣. الحلاق والعميل (لما الـ APIs تجهز)
 **مهم:** ابنِ auth الحلاق **جنب** بتاع التاجر بتكرار مؤقت.

@@ -23,6 +23,11 @@ class UserTypeScreen extends StatelessWidget {
       return;
     }
 
+    if (type == UserType.barber) {
+      context.go(Routes.barberLoginScreen);
+      return;
+    }
+
     showWarning(S().underDevelopment);
   }
 
@@ -55,7 +60,6 @@ class UserTypeScreen extends StatelessWidget {
               icon: Icons.content_cut_rounded,
               title: S().barber,
               subtitle: S().barberHint,
-              enabled: false,
               onTap: () => _select(context, UserType.barber),
             ),
             UserTypeCard(

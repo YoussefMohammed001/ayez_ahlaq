@@ -3,7 +3,9 @@ import 'notification_kind.dart';
 
 class MerchantNotification extends Equatable {
   final int id;
-  final NotificationKind kind;
+  final String type;
+  final String? referenceType;
+  final String? referenceId;
   final String title;
   final String body;
   final DateTime createdAt;
@@ -11,17 +13,23 @@ class MerchantNotification extends Equatable {
 
   const MerchantNotification({
     required this.id,
-    required this.kind,
+    required this.type,
+    this.referenceType,
+    this.referenceId,
     required this.title,
     required this.body,
     required this.createdAt,
     this.seen = false,
   });
 
+  NotificationKind get kind => NotificationKind.fromType(type);
+
   MerchantNotification copyWith({bool? seen}) {
     return MerchantNotification(
       id: id,
-      kind: kind,
+      type: type,
+      referenceType: referenceType,
+      referenceId: referenceId,
       title: title,
       body: body,
       createdAt: createdAt,
@@ -30,5 +38,5 @@ class MerchantNotification extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, kind, title, body, createdAt, seen];
+  List<Object?> get props => [id, type, title, body, createdAt, seen];
 }
