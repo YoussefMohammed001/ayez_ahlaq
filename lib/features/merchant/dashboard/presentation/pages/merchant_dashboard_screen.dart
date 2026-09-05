@@ -6,6 +6,9 @@ import '../../../discounts/presentation/manager/merchant_discounts_cubit.dart';
 import '../../../documents/presentation/manager/merchant_documents_cubit.dart';
 import '../../../orders/presentation/manager/merchant_orders_cubit.dart';
 import '../../../products/presentation/manager/merchant_products_cubit.dart';
+import '../../../subscription/presentation/manager/merchant_subscription_cubit.dart';
+import '../../../subscription/presentation/manager/merchant_subscription_state.dart';
+import '../../../subscription/presentation/widgets/subscription_home_card.dart';
 import '../manager/merchant_dashboard_cubit.dart';
 import '../manager/merchant_dashboard_state.dart';
 import '../widgets/dashboard_attention_section.dart';
@@ -18,6 +21,8 @@ import '../widgets/dashboard_overview_grid.dart';
 import '../widgets/dashboard_recent_orders.dart';
 import '../widgets/dashboard_skeleton.dart';
 import '../widgets/dashboard_stock_lists.dart';
+import '../../../../../core/routes/route_paths.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../generated/l10n.dart';
 
 class MerchantDashboardScreen extends StatelessWidget {
@@ -39,6 +44,7 @@ class MerchantDashboardScreen extends StatelessWidget {
       context.read<MerchantProductsCubit>().loadProducts(),
       context.read<MerchantOrdersCubit>().loadOrders(),
       context.read<MerchantDocumentsCubit>().loadDocuments(),
+      context.read<MerchantSubscriptionCubit>().load(),
     ]);
   }
 
@@ -53,6 +59,19 @@ class MerchantDashboardScreen extends StatelessWidget {
             children: [
               DashboardGreeting(businessName: businessName),
               SizedBox(height: 18.h),
+              BlocBuilder<MerchantSubscriptionCubit, MerchantSubscriptionState>(
+                builder: (context, state) {
+                  final subscription = state.subscription;
+                  if (subscription == null) return const SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 18.h),
+                    child: SubscriptionHomeCard(
+                      subscription: subscription,
+                      onTap: () => context.push(Routes.merchantSubscriptionScreen),
+                    ),
+                  );
+                },
+              ),
               DashboardAttentionSection(
                 onGoToOrders: onGoToOrders,
                 onGoToProducts: onGoToProducts,

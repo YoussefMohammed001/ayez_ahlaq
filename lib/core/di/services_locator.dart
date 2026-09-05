@@ -1,6 +1,74 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/customer/auth/data/apis/customer_auth_api.dart';
+import '../../features/customer/auth/data/repos/customer_auth_repo.dart';
+import '../../features/customer/auth/domain/repos/i_customer_auth_repo.dart';
+import '../../features/customer/auth/domain/use_cases/customer_login_use_case.dart';
+import '../../features/customer/auth/domain/use_cases/customer_logout_use_case.dart';
+import '../../features/customer/auth/domain/use_cases/customer_register_use_case.dart';
+import '../../features/customer/auth/presentation/manager/customer_auth_cubit.dart';
+import '../../features/customer/device_token/data/apis/customer_device_token_api.dart';
+import '../../features/customer/device_token/data/repos/customer_device_token_repo.dart';
+import '../../features/customer/device_token/domain/repos/i_customer_device_token_repo.dart';
+import '../../features/customer/device_token/domain/use_cases/register_customer_device_token_use_case.dart';
+import '../../features/customer/device_token/domain/use_cases/unregister_all_customer_device_tokens_use_case.dart';
+import '../../features/customer/device_token/presentation/services/customer_device_token_sync_service.dart';
+import '../../features/customer/notifications/data/apis/customer_notifications_api.dart';
+import '../../features/customer/notifications/data/repos/customer_notifications_repo.dart';
+import '../../features/customer/notifications/domain/repos/i_customer_notifications_repo.dart';
+import '../../features/customer/notifications/domain/use_cases/get_customer_notifications_use_case.dart';
+import '../../features/customer/notifications/domain/use_cases/get_customer_unseen_notifications_count_use_case.dart';
+import '../../features/customer/notifications/domain/use_cases/mark_all_customer_notifications_seen_use_case.dart';
+import '../../features/customer/notifications/domain/use_cases/mark_customer_notification_clicked_use_case.dart';
+import '../../features/customer/notifications/presentation/manager/customer_notifications_cubit.dart';
+import '../../features/customer/notifications/presentation/services/customer_notification_router.dart';
+import '../../features/customer/shops/data/apis/customer_shops_api.dart';
+import '../../features/customer/shops/data/repos/customer_shops_repo.dart';
+import '../../features/customer/shops/domain/repos/i_customer_shops_repo.dart';
+import '../../features/customer/shops/domain/use_cases/get_shop_detail_use_case.dart';
+import '../../features/customer/shops/domain/use_cases/get_shops_use_case.dart';
+import '../../features/customer/shops/presentation/manager/customer_shop_detail_cubit.dart';
+import '../../features/customer/shops/presentation/manager/customer_shops_cubit.dart';
+import '../../features/customer/booking/data/apis/customer_booking_api.dart';
+import '../../features/customer/booking/data/repos/customer_booking_repo.dart';
+import '../../features/customer/booking/domain/repos/i_customer_booking_repo.dart';
+import '../../features/customer/booking/domain/use_cases/cancel_booking_use_case.dart';
+import '../../features/customer/booking/domain/use_cases/create_booking_use_case.dart';
+import '../../features/customer/booking/domain/use_cases/get_booking_slots_use_case.dart';
+import '../../features/customer/booking/domain/use_cases/get_booking_use_case.dart'
+    as customer_booking;
+import '../../features/customer/booking/domain/use_cases/get_bookings_use_case.dart'
+    as customer_booking;
+import '../../features/customer/booking/presentation/manager/booking_detail_cubit.dart';
+import '../../features/customer/booking/presentation/manager/booking_flow_cubit.dart';
+import '../../features/customer/booking/presentation/manager/my_bookings_cubit.dart';
+import '../../features/customer/store/data/apis/customer_store_api.dart';
+import '../../features/customer/store/data/repos/customer_store_repo.dart';
+import '../../features/customer/store/domain/repos/i_customer_store_repo.dart';
+import '../../features/customer/store/domain/use_cases/cancel_store_order_use_case.dart'
+    as customer_store;
+import '../../features/customer/store/domain/use_cases/get_storefront_use_case.dart';
+import '../../features/customer/store/domain/use_cases/get_store_orders_use_case.dart'
+    as customer_store;
+import '../../features/customer/store/domain/use_cases/place_store_order_use_case.dart';
+import '../../features/customer/store/domain/use_cases/quote_store_cart_use_case.dart';
+import '../../features/customer/store/presentation/manager/store_cart_cubit.dart';
+import '../../features/customer/store/presentation/manager/store_orders_cubit.dart';
+import '../../features/customer/favorites/data/apis/customer_favorites_api.dart';
+import '../../features/customer/favorites/data/repos/customer_favorites_repo.dart';
+import '../../features/customer/favorites/domain/repos/i_customer_favorites_repo.dart';
+import '../../features/customer/favorites/domain/use_cases/add_favorite_use_case.dart';
+import '../../features/customer/favorites/domain/use_cases/add_favorite_via_invite_use_case.dart';
+import '../../features/customer/favorites/domain/use_cases/get_favorites_use_case.dart';
+import '../../features/customer/favorites/domain/use_cases/get_invite_preview_use_case.dart';
+import '../../features/customer/favorites/domain/use_cases/remove_favorite_use_case.dart';
+import '../../features/customer/favorites/presentation/manager/favorites_cubit.dart';
+import '../../features/customer/favorites/presentation/manager/invite_preview_cubit.dart';
+import '../../features/customer/profile/data/repos/customer_profile_repo.dart';
+import '../../features/customer/profile/domain/repos/i_customer_profile_repo.dart';
+import '../../features/customer/profile/domain/use_cases/get_cached_profile_use_case.dart';
+import '../../features/customer/profile/presentation/manager/customer_profile_cubit.dart';
 import '../../features/barber/auth/data/apis/barber_auth_api.dart';
 import '../../features/barber/auth/data/repos/barber_auth_repo.dart';
 import '../../features/barber/auth/domain/repos/i_barber_auth_repo.dart';
@@ -24,11 +92,15 @@ import '../../features/barber/services/data/apis/barber_services_api.dart';
 import '../../features/barber/services/data/repos/barber_services_repo.dart';
 import '../../features/barber/services/domain/repos/i_barber_services_repo.dart';
 import '../../features/barber/services/domain/use_cases/create_barber_service_use_case.dart';
+import '../../features/barber/services/domain/use_cases/create_own_service_use_case.dart';
 import '../../features/barber/services/domain/use_cases/delete_barber_service_use_case.dart';
+import '../../features/barber/services/domain/use_cases/delete_own_service_use_case.dart';
 import '../../features/barber/services/domain/use_cases/get_barber_services_use_case.dart';
+import '../../features/barber/services/domain/use_cases/get_own_services_use_case.dart';
 import '../../features/barber/services/domain/use_cases/get_service_catalog_use_case.dart';
 import '../../features/barber/services/domain/use_cases/update_barber_service_use_case.dart';
 import '../../features/barber/services/presentation/manager/barber_services_cubit.dart';
+import '../../features/barber/services/presentation/manager/own_services_cubit.dart';
 import '../../features/barber/documents/data/apis/barber_documents_api.dart';
 import '../../features/barber/documents/data/repos/barber_documents_repo.dart';
 import '../../features/barber/documents/domain/repos/i_barber_documents_repo.dart';
@@ -49,8 +121,9 @@ import '../../features/barber/store/domain/use_cases/get_merchant_products_use_c
 import '../../features/barber/store/domain/use_cases/get_store_merchants_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_store_order_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_store_orders_use_case.dart';
-import '../../features/barber/store/domain/use_cases/place_store_order_use_case.dart';
-import '../../features/barber/store/domain/use_cases/quote_cart_use_case.dart';
+import '../../features/barber/store/domain/use_cases/checkout_cart_use_case.dart';
+import '../../features/barber/store/domain/use_cases/get_cart_use_case.dart';
+import '../../features/barber/store/domain/use_cases/put_cart_use_case.dart';
 import '../../features/barber/store/presentation/manager/barber_store_cart_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_orders_cubit.dart';
@@ -101,6 +174,34 @@ import '../../features/barber/invite/domain/repos/i_barber_invite_repo.dart';
 import '../../features/barber/invite/domain/use_cases/get_barber_invite_use_case.dart';
 import '../../features/barber/invite/domain/use_cases/regenerate_barber_invite_use_case.dart';
 import '../../features/barber/invite/presentation/manager/barber_invite_cubit.dart';
+import '../../features/barber/subscription/data/apis/barber_subscription_api.dart';
+import '../../features/barber/subscription/data/repos/barber_subscription_repo.dart';
+import '../../features/barber/subscription/domain/repos/i_barber_subscription_repo.dart';
+import '../../features/barber/subscription/domain/use_cases/get_barber_subscription_use_case.dart';
+import '../../features/barber/subscription/domain/use_cases/get_barber_subscription_plans_use_case.dart';
+import '../../features/barber/subscription/domain/use_cases/subscribe_barber_use_case.dart';
+import '../../features/barber/subscription/domain/use_cases/get_barber_subscription_requests_use_case.dart';
+import '../../features/barber/subscription/presentation/manager/barber_subscription_cubit.dart';
+import '../../features/barber/subscription/presentation/manager/barber_subscription_requests_cubit.dart';
+import '../../features/barber/broadcast/data/apis/barber_broadcast_api.dart';
+import '../../features/barber/broadcast/data/repos/barber_broadcast_repo.dart';
+import '../../features/barber/broadcast/domain/repos/i_barber_broadcast_repo.dart';
+import '../../features/barber/broadcast/domain/use_cases/send_barber_broadcast_use_case.dart';
+import '../../features/barber/broadcast/presentation/manager/barber_broadcast_cubit.dart';
+import '../../features/merchant/subscription/data/apis/merchant_subscription_api.dart';
+import '../../features/merchant/subscription/data/repos/merchant_subscription_repo.dart';
+import '../../features/merchant/subscription/domain/repos/i_merchant_subscription_repo.dart';
+import '../../features/merchant/subscription/domain/use_cases/get_merchant_subscription_use_case.dart';
+import '../../features/merchant/subscription/domain/use_cases/get_merchant_subscription_plans_use_case.dart';
+import '../../features/merchant/subscription/domain/use_cases/subscribe_merchant_use_case.dart';
+import '../../features/merchant/subscription/domain/use_cases/get_merchant_subscription_requests_use_case.dart';
+import '../../features/merchant/subscription/presentation/manager/merchant_subscription_cubit.dart';
+import '../../features/merchant/subscription/presentation/manager/merchant_subscription_requests_cubit.dart';
+import '../../features/merchant/broadcast/data/apis/merchant_broadcast_api.dart';
+import '../../features/merchant/broadcast/data/repos/merchant_broadcast_repo.dart';
+import '../../features/merchant/broadcast/domain/repos/i_merchant_broadcast_repo.dart';
+import '../../features/merchant/broadcast/domain/use_cases/send_merchant_broadcast_use_case.dart';
+import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_cubit.dart';
 import '../../features/barber/bookings/data/apis/barber_booking_api.dart';
 import '../../features/barber/bookings/data/repos/barber_booking_repo.dart';
 import '../../features/barber/bookings/domain/repos/i_barber_booking_repo.dart';
@@ -234,6 +335,7 @@ import '../../features/merchant/profile/data/repos/merchant_profile_repo.dart';
 import '../../features/merchant/profile/domain/repos/i_merchant_profile_repo.dart';
 import '../../features/merchant/profile/domain/use_cases/change_password_use_case.dart';
 import '../../features/merchant/profile/domain/use_cases/get_merchant_profile_use_case.dart';
+import '../../features/merchant/profile/domain/use_cases/update_merchant_location_use_case.dart';
 import '../../features/merchant/profile/domain/use_cases/update_merchant_profile_use_case.dart';
 import '../../features/merchant/profile/domain/use_cases/add_phone_use_case.dart';
 import '../../features/merchant/profile/domain/use_cases/delete_phone_use_case.dart';
@@ -278,6 +380,15 @@ class ServicesLocator {
     _initSessionManager();
     _initCrashReporting();
 
+    _customerDeviceToken();
+    _customerNotifications();
+    _customerAuth();
+    _customerFavorites();
+    _customerProfile();
+    _customerShops();
+    _customerBooking();
+    _customerStore();
+
     _merchantAuth();
     _merchantDashboard();
     _merchantCategories();
@@ -289,6 +400,8 @@ class ServicesLocator {
     _merchantDelivery();
     _merchantNotifications();
     _merchantDeviceToken();
+    _merchantSubscription();
+    _merchantBroadcast();
 
     _barberAuth();
     _barberProfile();
@@ -303,11 +416,13 @@ class ServicesLocator {
     _barberWallet();
     _barberReviews();
     _barberInvite();
+    _barberSubscription();
     _barberTeam();
     _barberEarnings();
     _barberBookings();
     _barberNotifications();
     _barberDeviceToken();
+    _barberBroadcast();
 
     _initNotificationRouter();
     _initNotificationService();
@@ -365,9 +480,109 @@ class ServicesLocator {
     sl.registerSingleton<NotificationService>(service);
   }
 
+  void _customerAuth() {
+    sl.registerLazySingleton(() => CustomerAuthApi(sl()));
+    sl.registerLazySingleton(() => AuthLocalDataSource(sl(), sl()));
+    sl.registerLazySingleton<ICustomerAuthRepo>(
+      () => CustomerAuthRepo(sl(), sl()),
+    );
+    sl.registerLazySingleton(() => CustomerLoginUseCase(sl()));
+    sl.registerLazySingleton(() => CustomerRegisterUseCase(sl()));
+    sl.registerLazySingleton(() => CustomerLogoutUseCase(sl(), sl()));
+    sl.registerFactory(() => CustomerAuthCubit(sl(), sl(), sl()));
+  }
+
+  void _customerDeviceToken() {
+    sl.registerLazySingleton(() => CustomerDeviceTokenApi(sl()));
+    sl.registerLazySingleton<ICustomerDeviceTokenRepo>(
+      () => CustomerDeviceTokenRepo(sl()),
+    );
+    sl.registerLazySingleton(() => RegisterCustomerDeviceTokenUseCase(sl()));
+    sl.registerLazySingleton(() => UnregisterAllCustomerDeviceTokensUseCase(sl()));
+    sl.registerLazySingleton(
+      () => CustomerDeviceTokenSyncService(sl(), sl(), sl()),
+    );
+  }
+
+  void _customerNotifications() {
+    sl.registerLazySingleton(() => CustomerNotificationsApi(sl()));
+    sl.registerLazySingleton<ICustomerNotificationsRepo>(
+      () => CustomerNotificationsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetCustomerNotificationsUseCase(sl()));
+    sl.registerLazySingleton(() => GetCustomerUnseenNotificationsCountUseCase(sl()));
+    sl.registerLazySingleton(() => MarkAllCustomerNotificationsSeenUseCase(sl()));
+    sl.registerLazySingleton(() => MarkCustomerNotificationClickedUseCase(sl()));
+    sl.registerLazySingleton(
+      () => CustomerNotificationsCubit(sl(), sl(), sl(), sl()),
+    );
+    sl.registerLazySingleton(() => CustomerNotificationRouter());
+  }
+
+  void _customerFavorites() {
+    sl.registerLazySingleton(() => CustomerFavoritesApi(sl()));
+    sl.registerLazySingleton<ICustomerFavoritesRepo>(
+      () => CustomerFavoritesRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetFavoritesUseCase(sl()));
+    sl.registerLazySingleton(() => AddFavoriteUseCase(sl()));
+    sl.registerLazySingleton(() => RemoveFavoriteUseCase(sl()));
+    sl.registerLazySingleton(() => AddFavoriteViaInviteUseCase(sl()));
+    sl.registerLazySingleton(() => GetInvitePreviewUseCase(sl()));
+    sl.registerFactory(() => FavoritesCubit(sl(), sl()));
+    sl.registerFactory(() => InvitePreviewCubit(sl(), sl(), sl()));
+  }
+
+  void _customerProfile() {
+    sl.registerLazySingleton<ICustomerProfileRepo>(
+      () => CustomerProfileRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetCachedProfileUseCase(sl()));
+    sl.registerFactory(() => CustomerProfileCubit(sl()));
+  }
+
+  void _customerShops() {
+    sl.registerLazySingleton(() => CustomerShopsApi(sl()));
+    sl.registerLazySingleton<ICustomerShopsRepo>(
+      () => CustomerShopsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetShopsUseCase(sl()));
+    sl.registerLazySingleton(() => GetShopDetailUseCase(sl()));
+    sl.registerFactory(() => CustomerShopsCubit(sl()));
+    sl.registerFactory(() => CustomerShopDetailCubit(sl(), sl(), sl()));
+  }
+
+  void _customerBooking() {
+    sl.registerLazySingleton(() => CustomerBookingApi(sl()));
+    sl.registerLazySingleton<ICustomerBookingRepo>(
+      () => CustomerBookingRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetBookingSlotsUseCase(sl()));
+    sl.registerLazySingleton(() => CreateBookingUseCase(sl()));
+    sl.registerLazySingleton(() => customer_booking.GetBookingsUseCase(sl()));
+    sl.registerLazySingleton(() => customer_booking.GetBookingUseCase(sl()));
+    sl.registerLazySingleton(() => CancelBookingUseCase(sl()));
+    sl.registerLazySingleton(() => BookingFlowCubit(sl(), sl()));
+    sl.registerFactory(() => MyBookingsCubit(sl()));
+    sl.registerFactory(() => BookingDetailCubit(sl(), sl()));
+  }
+
+  void _customerStore() {
+    sl.registerLazySingleton(() => CustomerStoreApi(sl()));
+    sl.registerLazySingleton<ICustomerStoreRepo>(
+      () => CustomerStoreRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetStorefrontUseCase(sl()));
+    sl.registerLazySingleton(() => QuoteStoreCartUseCase(sl()));
+    sl.registerLazySingleton(() => PlaceStoreOrderUseCase(sl()));
+    sl.registerLazySingleton(() => customer_store.GetStoreOrdersUseCase(sl()));
+    sl.registerLazySingleton(() => customer_store.CancelStoreOrderUseCase(sl()));
+    sl.registerLazySingleton(() => StoreCartCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => StoreOrdersCubit(sl(), sl()));
+  }
+
   void _merchantAuth() {
     sl.registerLazySingleton(() => MerchantAuthApi(sl()));
-    sl.registerLazySingleton(() => AuthLocalDataSource(sl(), sl()));
     sl.registerLazySingleton<IMerchantAuthRepo>(
       () => MerchantAuthRepo(sl(), sl()),
     );
@@ -464,8 +679,9 @@ class ServicesLocator {
     );
     sl.registerLazySingleton(() => GetMerchantProfileUseCase(sl()));
     sl.registerLazySingleton(() => UpdateMerchantProfileUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateMerchantLocationUseCase(sl()));
     sl.registerLazySingleton(() => ChangePasswordUseCase(sl()));
-    sl.registerLazySingleton(() => MerchantProfileCubit(sl(), sl(), sl()));
+    sl.registerLazySingleton(() => MerchantProfileCubit(sl(), sl(), sl(), sl()));
     sl.registerLazySingleton(() => GetPhonesUseCase(sl()));
     sl.registerLazySingleton(() => AddPhoneUseCase(sl()));
     sl.registerLazySingleton(() => DeletePhoneUseCase(sl()));
@@ -506,6 +722,28 @@ class ServicesLocator {
     sl.registerLazySingleton(
       () => MerchantDeviceTokenSyncService(sl(), sl(), sl()),
     );
+  }
+
+  void _merchantSubscription() {
+    sl.registerLazySingleton(() => MerchantSubscriptionApi(sl()));
+    sl.registerLazySingleton<IMerchantSubscriptionRepo>(
+      () => MerchantSubscriptionRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetMerchantSubscriptionUseCase(sl()));
+    sl.registerLazySingleton(() => GetMerchantSubscriptionPlansUseCase(sl()));
+    sl.registerLazySingleton(() => SubscribeMerchantUseCase(sl()));
+    sl.registerLazySingleton(() => GetMerchantSubscriptionRequestsUseCase(sl()));
+    sl.registerFactory(() => MerchantSubscriptionCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => MerchantSubscriptionRequestsCubit(sl()));
+  }
+
+  void _merchantBroadcast() {
+    sl.registerLazySingleton(() => MerchantBroadcastApi(sl()));
+    sl.registerLazySingleton<IMerchantBroadcastRepo>(
+      () => MerchantBroadcastRepo(sl()),
+    );
+    sl.registerLazySingleton(() => SendMerchantBroadcastUseCase(sl()));
+    sl.registerFactory(() => MerchantBroadcastCubit(sl()));
   }
 
   void _initNotificationRouter() {
@@ -559,9 +797,13 @@ class ServicesLocator {
     sl.registerLazySingleton(() => CreateBarberServiceUseCase(sl()));
     sl.registerLazySingleton(() => UpdateBarberServiceUseCase(sl()));
     sl.registerLazySingleton(() => DeleteBarberServiceUseCase(sl()));
+    sl.registerLazySingleton(() => GetOwnServicesUseCase(sl()));
+    sl.registerLazySingleton(() => CreateOwnServiceUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteOwnServiceUseCase(sl()));
     sl.registerFactory(
       () => BarberServicesCubit(sl(), sl(), sl(), sl(), sl()),
     );
+    sl.registerFactory(() => OwnServicesCubit(sl(), sl(), sl()));
   }
 
   void _barberDocuments() {
@@ -583,13 +825,14 @@ class ServicesLocator {
     sl.registerLazySingleton<IBarberStoreRepo>(() => BarberStoreRepo(sl()));
     sl.registerLazySingleton(() => GetStoreMerchantsUseCase(sl()));
     sl.registerLazySingleton(() => GetMerchantProductsUseCase(sl()));
-    sl.registerLazySingleton(() => QuoteCartUseCase(sl()));
-    sl.registerLazySingleton(() => PlaceStoreOrderUseCase(sl()));
+    sl.registerLazySingleton(() => GetCartUseCase(sl()));
+    sl.registerLazySingleton(() => PutCartUseCase(sl()));
+    sl.registerLazySingleton(() => CheckoutCartUseCase(sl()));
     sl.registerLazySingleton(() => GetStoreOrdersUseCase(sl()));
     sl.registerLazySingleton(() => GetStoreOrderUseCase(sl()));
     sl.registerLazySingleton(() => CancelStoreOrderUseCase(sl()));
     sl.registerFactory(() => BarberStoreMerchantsCubit(sl()));
-    sl.registerFactory(() => BarberStoreCartCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => BarberStoreCartCubit(sl(), sl(), sl(), sl()));
     sl.registerFactory(() => BarberStoreOrdersCubit(sl(), sl()));
   }
 
@@ -668,6 +911,19 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetBarberInviteUseCase(sl()));
     sl.registerLazySingleton(() => RegenerateBarberInviteUseCase(sl()));
     sl.registerFactory(() => BarberInviteCubit(sl(), sl()));
+  }
+
+  void _barberSubscription() {
+    sl.registerLazySingleton(() => BarberSubscriptionApi(sl()));
+    sl.registerLazySingleton<IBarberSubscriptionRepo>(
+      () => BarberSubscriptionRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetBarberSubscriptionUseCase(sl()));
+    sl.registerLazySingleton(() => GetBarberSubscriptionPlansUseCase(sl()));
+    sl.registerLazySingleton(() => SubscribeBarberUseCase(sl()));
+    sl.registerLazySingleton(() => GetBarberSubscriptionRequestsUseCase(sl()));
+    sl.registerFactory(() => BarberSubscriptionCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => BarberSubscriptionRequestsCubit(sl()));
   }
 
   void _barberTeam() {
@@ -763,5 +1019,14 @@ class ServicesLocator {
     sl.registerLazySingleton(
       () => BarberDeviceTokenSyncService(sl(), sl(), sl()),
     );
+  }
+
+  void _barberBroadcast() {
+    sl.registerLazySingleton(() => BarberBroadcastApi(sl()));
+    sl.registerLazySingleton<IBarberBroadcastRepo>(
+      () => BarberBroadcastRepo(sl()),
+    );
+    sl.registerLazySingleton(() => SendBarberBroadcastUseCase(sl()));
+    sl.registerFactory(() => BarberBroadcastCubit(sl()));
   }
 }

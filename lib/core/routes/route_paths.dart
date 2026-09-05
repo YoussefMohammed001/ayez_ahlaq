@@ -3,6 +3,27 @@ class Routes {
   static const String userTypeScreen = '/userType';
   static const String loginScreen = '/login';
   static const String registerScreen = '/register';
+  static const String customerLoginScreen = '/customer/login';
+  static const String customerRegisterScreen = '/customer/register';
+  static const String customerShell = '/customer';
+  static const String customerShopDetailScreen = '/customer/shop';
+  static const String customerChooseServiceScreen = '/customer/booking/service';
+  static const String customerChooseStyleScreen = '/customer/booking/style';
+  static const String customerChooseBarberScreen = '/customer/booking/barber';
+  static const String customerChooseTimeScreen = '/customer/booking/time';
+  static const String customerBookingSummaryScreen = '/customer/booking/summary';
+  static const String customerBookingsScreen = '/customer/bookings';
+  static const String customerBookingDetailScreen = '/customer/bookings/detail';
+  static const String customerStoreProductsScreen = '/customer/store/products';
+  static const String customerStoreCartScreen = '/customer/store/cart';
+  static const String customerStoreOrdersScreen = '/customer/store/orders';
+  static const String customerStoreOrderDetailScreen = '/customer/store/order';
+  static const String customerFavoritesScreen = '/customer/favorites';
+  static const String customerEnterInviteCodeScreen = '/customer/favorites/invite';
+  static const String customerInvitePreviewScreen = '/customer/favorites/invite/preview';
+  static const String customerNotificationsScreen = '/customer/notifications';
+  static const String customerBrowseShopsScreen = '/customer/shops';
+
   static const String barberLoginScreen = '/barber/login';
   static const String barberShell = '/barber';
   static const String barberHoursScreen = '/barber/hours';
@@ -20,7 +41,11 @@ class Routes {
   static const String barberWalletScreen = '/barber/wallet';
   static const String barberReviewsScreen = '/barber/reviews';
   static const String barberInviteScreen = '/barber/invite';
+  static const String barberSubscriptionScreen = '/barber/subscription';
+  static const String barberSubscriptionRequestsScreen =
+      '/barber/subscription/requests';
   static const String barberNotificationsScreen = '/barber/notifications';
+  static const String barberBroadcastScreen = '/barber/broadcast';
   static const String barberTeamScreen = '/barber/team';
   static const String barberTeamMemberDetailScreen = '/barber/team/member';
   static const String barberEarningsScreen = '/barber/earnings';
@@ -45,10 +70,15 @@ class Routes {
   static const String merchantEditProfileScreen = '/merchant/profile/edit';
   static const String merchantChangePasswordScreen = '/merchant/profile/password';
   static const String merchantPhonesScreen = '/merchant/profile/phones';
+  static const String merchantLocationScreen = '/merchant/profile/location';
   static const String merchantDocumentsScreen = '/merchant/profile/documents';
   static const String merchantDocumentViewerScreen =
       '/merchant/profile/documents/view';
   static const String merchantDeliveryScreen = '/merchant/delivery';
   static const String merchantNotificationsScreen = '/merchant/notifications';
   static const String merchantOrderDetailsScreen = '/merchant/order';
+  static const String merchantSubscriptionScreen = '/merchant/subscription';
+  static const String merchantSubscriptionRequestsScreen =
+      '/merchant/subscription/requests';
+  static const String merchantBroadcastScreen = '/merchant/broadcast';
 }

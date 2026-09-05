@@ -4,6 +4,7 @@ import 'notification_router.dart';
 import '../di/services_locator.dart';
 import '../../features/merchant/notifications/presentation/services/merchant_notification_router.dart';
 import '../../features/barber/notifications/presentation/services/barber_notification_router.dart';
+import '../../features/customer/notifications/presentation/services/customer_notification_router.dart';
 
 class UserTypeNotificationRouter implements NotificationRouter {
   @override
@@ -31,6 +32,12 @@ class UserTypeNotificationRouter implements NotificationRouter {
         );
         break;
       case UserType.customer:
+        sl<CustomerNotificationRouter>().route(
+          type: type,
+          typeId: typeId,
+          role: role,
+          context: context,
+        );
         break;
     }
   }

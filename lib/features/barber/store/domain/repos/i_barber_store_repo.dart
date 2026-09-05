@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
-import '../entities/cart_line.dart';
-import '../entities/cart_quote.dart';
+import '../entities/cart.dart';
 import '../entities/fulfillment_type.dart';
 import '../entities/store_merchant.dart';
 import '../entities/store_order.dart';
@@ -14,16 +13,15 @@ abstract class IBarberStoreRepo {
     int merchantId,
   );
 
-  Future<Either<Failure, CartQuote>> quoteCart({
-    required int merchantId,
-    required FulfillmentType? fulfillmentType,
-    required List<CartLine> lines,
-  });
+  Future<Either<Failure, Cart>> getCart();
 
-  Future<Either<Failure, StoreOrder>> placeOrder({
-    required int merchantId,
+  Future<Either<Failure, Cart>> putCart(Map<int, int> quantitiesByProductId);
+
+  Future<Either<Failure, StoreOrder>> checkout({
     required FulfillmentType? fulfillmentType,
-    required List<CartLine> lines,
+    String? deliveryAddress,
+    double? deliveryLat,
+    double? deliveryLng,
     String? note,
   });
 

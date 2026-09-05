@@ -34,6 +34,8 @@
 	<string>نحتاج إلى حفظ الصور في مكتبة الصور الخاصة بك.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>نحتاج إلى الميكروفون عند تسجيل مقاطع الفيديو.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>نحتاج إلى موقعك عشان نحدد موقع محلك على الخريطة.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

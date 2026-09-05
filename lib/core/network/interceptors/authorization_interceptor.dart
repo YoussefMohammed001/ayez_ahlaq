@@ -28,7 +28,7 @@ class AuthorizationInterceptor extends Interceptor {
     options.headers[HttpHeadersKeys.locale] = preferences.getCurrentLanguage();
 
     final userType = preferences.getString(key: PreferencesKeys.userType);
-    if (userType == UserType.barber.name) {
+    if (userType == UserType.barber.name || userType == UserType.customer.name) {
       options.headers[HttpHeadersKeys.client] = 'MOBILE';
     }
 

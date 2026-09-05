@@ -33,6 +33,20 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
   }
 
   @override
+  Future<Either<Failure, MerchantProfile>> updateLocation({
+    double? latitude,
+    double? longitude,
+    String? address,
+  }) async {
+    final result = await _api.updateLocation({
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    });
+    return result.map(_mapOne);
+  }
+
+  @override
   Future<Either<Failure, Unit>> changePassword(
     String currentPassword,
     String newPassword,

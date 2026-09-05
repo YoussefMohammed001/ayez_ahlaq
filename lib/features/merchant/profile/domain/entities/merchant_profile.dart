@@ -11,7 +11,12 @@ class MerchantProfile extends Equatable {
   final bool active;
   final bool mustChangePassword;
   final int categoryLimit;
+  final int? zoneId;
+  final String? zoneName;
   final DateTime? createdAt;
+  final double? latitude;
+  final double? longitude;
+  final String? address;
 
   const MerchantProfile({
     required this.id,
@@ -24,9 +29,24 @@ class MerchantProfile extends Equatable {
     this.phoneE164,
     this.email,
     this.userName,
+    this.zoneId,
+    this.zoneName,
     this.createdAt,
+    this.latitude,
+    this.longitude,
+    this.address,
   });
 
+  bool get needsLocation => latitude == null || longitude == null;
+
   @override
-  List<Object?> get props => [id, businessName, ownerName, phoneNumber, active];
+  List<Object?> get props => [
+    id,
+    businessName,
+    ownerName,
+    phoneNumber,
+    active,
+    latitude,
+    longitude,
+  ];
 }

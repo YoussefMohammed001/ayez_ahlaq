@@ -1,9 +1,50 @@
 class EndPoints {
+  static const String customerRegister = 'customer/register';
+  static const String customerLogin = 'customer/login';
+
+  static const String customerShop = 'customer/shop';
+  static String customerShopById(int id) => 'customer/shop/$id';
+
+  static const String customerBookingSlots = 'customer/booking/slots';
+  static const String customerBooking = 'customer/booking';
+  static String customerBookingById(int id) => 'customer/booking/$id';
+  static String customerBookingCancel(int id) => 'customer/booking/$id/cancel';
+
+  static String customerShopStorefront(int shopId) => 'customer/shop/$shopId/storefront';
+  static String customerShopStorefrontProductImage(int shopId, int productId) =>
+      'customer/shop/$shopId/storefront/product/$productId/image';
+  static String customerShopStorefrontCategoryImage(int shopId, int categoryId) =>
+      'customer/shop/$shopId/storefront/category/$categoryId/image';
+
+  static const String customerStoreQuote = 'customer/store/quote';
+  static const String customerOrder = 'customer/order';
+  static String customerOrderById(int id) => 'customer/order/$id';
+  static String customerOrderCancel(int id) => 'customer/order/$id/cancel';
+
+  static const String customerFavorite = 'customer/favorite';
+  static String customerFavoriteById(int barberId) => 'customer/favorite/$barberId';
+  static String customerFavoriteInvite(String inviteCode) =>
+      'customer/favorite/invite/$inviteCode';
+
+  static String invitePreview(String code) => 'invite/$code';
+
+  static const String customerNotification = 'customer/notification';
+  static const String customerNotificationUnseenCount =
+      'customer/notification/unseen_count';
+  static const String customerNotificationSeen = 'customer/notification/seen';
+  static String customerNotificationSeenById(int id) =>
+      'customer/notification/$id/seen';
+  static String customerNotificationClickedById(int id) =>
+      'customer/notification/$id/clicked';
+
+  static const String customerDeviceToken = 'customer/device_token';
+  static const String customerDeviceTokenAll = 'customer/device_token/all';
+
   static const String merchantRegister = 'merchant/register';
   static const String merchantLogin = 'merchant/login';
 
   static const String barberLogin = 'barber/login';
-  static const String barberMe = 'barber/me';
+  static const String barberMe = 'barber';
   static const String barberLocation = 'barber/location';
   static const String barberPassword = 'barber/password';
 
@@ -12,6 +53,8 @@ class EndPoints {
   static const String barberServiceCatalog = 'barber/service/catalog';
   static const String barberService = 'barber/service';
   static String barberServiceById(int id) => 'barber/service/$id';
+  static const String barberOwnService = 'barber/service/own';
+  static String barberOwnServiceById(int id) => 'barber/service/own/$id';
 
   static const String barberTeam = 'barber/team';
   static String barberTeamById(int id) => 'barber/team/$id';
@@ -32,7 +75,8 @@ class EndPoints {
   static const String barberStoreMerchant = 'barber/store/merchant';
   static String barberStoreMerchantProducts(int merchantId) =>
       'barber/store/merchant/$merchantId/product';
-  static const String barberStoreQuote = 'barber/store/quote';
+  static const String barberCart = 'barber/cart';
+  static const String barberCartCheckout = 'barber/cart/checkout';
   static const String barberOrder = 'barber/order';
   static String barberOrderById(int id) => 'barber/order/$id';
   static String barberOrderCancel(int id) => 'barber/order/$id/cancel';
@@ -53,6 +97,12 @@ class EndPoints {
   static const String barberInvite = 'barber/invite';
   static const String barberInviteRegenerate = 'barber/invite/regenerate';
 
+  static const String barberSubscription = 'barber/subscription';
+  static const String barberSubscriptionPlan = 'barber/subscription/plan';
+  static const String barberSubscriptionSubscribe =
+      'barber/subscription/subscribe';
+  static const String barberSubscriptionRequest = 'barber/subscription/request';
+
   static const String barberNotification = 'barber/notification';
   static const String barberNotificationUnseenCount =
       'barber/notification/unseen_count';
@@ -64,6 +114,8 @@ class EndPoints {
 
   static const String barberDeviceToken = 'barber/device_token';
   static const String barberDeviceTokenAll = 'barber/device_token/all';
+
+  static const String barberBroadcast = 'barber/broadcast';
 
   static const String barberStorefrontProduct = 'barber/storefront/product';
   static String barberStorefrontProductById(int id) =>
@@ -87,6 +139,7 @@ class EndPoints {
       'barber/storefront/order/$id/status';
 
   static const String merchantProfile = 'merchant/profile';
+  static const String merchantLocation = 'merchant/location';
   static const String merchantPassword = 'merchant/password';
   static const String merchantPhone = 'merchant/phone';
   static String merchantPhoneById(int id) => 'merchant/phone/$id';
@@ -134,4 +187,13 @@ class EndPoints {
 
   static const String merchantDeviceToken = 'merchant/device_token';
   static const String merchantDeviceTokenAll = 'merchant/device_token/all';
+
+  static const String merchantSubscription = 'merchant/subscription';
+  static const String merchantSubscriptionPlan = 'merchant/subscription/plan';
+  static const String merchantSubscriptionSubscribe =
+      'merchant/subscription/subscribe';
+  static const String merchantSubscriptionRequest =
+      'merchant/subscription/request';
+
+  static const String merchantBroadcast = 'merchant/broadcast';
 }

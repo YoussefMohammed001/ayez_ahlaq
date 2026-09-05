@@ -5,7 +5,7 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../storefront/products/domain/entities/storefront_product.dart';
 import '../../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../../../storefront/products/presentation/manager/barber_storefront_products_state.dart';
-import '../../../store/presentation/widgets/quantity_stepper.dart';
+import '../../../../../shared/widgets/quantity_stepper.dart';
 import '../../domain/entities/booking_addon.dart';
 
 class WalkInAddonsField extends StatefulWidget {

@@ -8,9 +8,10 @@ import 'package:ayez_ahlaq/core/widgets/app_button.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
 
 class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({super.key, required this.message});
+  const SuccessScreen({super.key, required this.message, required this.doneRoute});
 
   final String message;
+  final String doneRoute;
 
   @override
   State<SuccessScreen> createState() => _SuccessScreenState();
@@ -176,7 +177,7 @@ class _SuccessScreenState extends State<SuccessScreen>
                 opacity: _fadeIn,
                 child: AppButton(
                   text: S().done,
-                  onPressed: () => context.go('/mainScreen'),
+                  onPressed: () => context.go(widget.doneRoute),
                 ),
               ),
               32.hSpace,

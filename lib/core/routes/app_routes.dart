@@ -2,6 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../env/env.dart';
+import '../../features/customer/auth/presentation/manager/customer_auth_cubit.dart';
+import '../../features/customer/auth/presentation/pages/customer_login_screen.dart';
+import '../../features/customer/auth/presentation/pages/customer_register_screen.dart';
+import '../../features/customer/shops/presentation/manager/customer_shop_detail_cubit.dart';
+import '../../features/customer/shops/presentation/manager/customer_shops_cubit.dart';
+import '../../features/customer/presentation/pages/customer_shell.dart';
+import '../../features/customer/profile/presentation/manager/customer_profile_cubit.dart';
+import '../../features/customer/shops/presentation/pages/customer_shop_detail_screen.dart';
+import '../../features/customer/shops/presentation/pages/browse_shops_screen.dart';
+import '../../features/customer/booking/presentation/manager/booking_detail_cubit.dart';
+import '../../features/customer/booking/presentation/manager/booking_flow_cubit.dart';
+import '../../features/customer/booking/presentation/manager/my_bookings_cubit.dart';
+import '../../features/customer/booking/presentation/pages/booking_detail_screen.dart'
+    as customer_booking;
+import '../../features/customer/booking/presentation/pages/booking_summary_screen.dart';
+import '../../features/customer/booking/presentation/pages/choose_barber_screen.dart';
+import '../../features/customer/booking/presentation/pages/choose_service_screen.dart';
+import '../../features/customer/booking/presentation/pages/choose_style_screen.dart';
+import '../../features/customer/booking/presentation/pages/choose_time_screen.dart';
+import '../../features/customer/booking/presentation/pages/my_bookings_screen.dart';
+import '../../features/customer/store/domain/entities/store_order.dart' as customer_store;
+import '../../features/customer/store/presentation/manager/store_cart_cubit.dart';
+import '../../features/customer/store/presentation/manager/store_orders_cubit.dart';
+import '../../features/customer/store/presentation/pages/my_store_orders_screen.dart';
+import '../../features/customer/store/presentation/pages/store_cart_screen.dart';
+import '../../features/customer/store/presentation/pages/store_order_details_screen.dart'
+    as customer_store;
+import '../../features/customer/store/presentation/pages/store_products_screen.dart';
+import '../../features/customer/favorites/presentation/manager/favorites_cubit.dart';
+import '../../features/customer/favorites/presentation/manager/invite_preview_cubit.dart';
+import '../../features/customer/favorites/presentation/pages/enter_invite_code_screen.dart';
+import '../../features/customer/favorites/presentation/pages/favorites_screen.dart';
+import '../../features/customer/favorites/presentation/pages/invite_preview_screen.dart';
+import '../../features/customer/notifications/presentation/manager/customer_notifications_cubit.dart';
+import '../../features/customer/notifications/presentation/pages/customer_notifications_screen.dart';
 import '../../features/barber/auth/presentation/manager/barber_auth_cubit.dart';
 import '../../features/barber/auth/presentation/pages/barber_login_screen.dart';
 import '../../features/barber/bookings/domain/entities/booking.dart';
@@ -15,6 +50,7 @@ import '../../features/barber/profile/domain/entities/barber_profile.dart';
 import '../../features/barber/profile/presentation/pages/barber_location_screen.dart';
 import '../../features/barber/profile/presentation/pages/barber_change_password_screen.dart';
 import '../../features/barber/services/presentation/manager/barber_services_cubit.dart';
+import '../../features/barber/services/presentation/manager/own_services_cubit.dart';
 import '../../features/barber/services/presentation/pages/barber_services_screen.dart';
 import '../../features/barber/documents/presentation/manager/barber_documents_cubit.dart';
 import '../../features/barber/documents/presentation/helpers/document_view_args.dart'
@@ -47,6 +83,18 @@ import '../../features/barber/reviews/presentation/manager/barber_reviews_cubit.
 import '../../features/barber/reviews/presentation/pages/barber_reviews_screen.dart';
 import '../../features/barber/invite/presentation/manager/barber_invite_cubit.dart';
 import '../../features/barber/invite/presentation/pages/barber_invite_screen.dart';
+import '../../features/barber/subscription/presentation/manager/barber_subscription_cubit.dart';
+import '../../features/barber/subscription/presentation/manager/barber_subscription_requests_cubit.dart';
+import '../../features/barber/subscription/presentation/pages/barber_subscription_screen.dart';
+import '../../features/barber/subscription/presentation/pages/barber_subscription_requests_screen.dart';
+import '../../features/barber/broadcast/presentation/manager/barber_broadcast_cubit.dart';
+import '../../features/barber/broadcast/presentation/pages/barber_broadcast_screen.dart';
+import '../../features/merchant/subscription/presentation/manager/merchant_subscription_cubit.dart';
+import '../../features/merchant/subscription/presentation/manager/merchant_subscription_requests_cubit.dart';
+import '../../features/merchant/subscription/presentation/pages/merchant_subscription_screen.dart';
+import '../../features/merchant/subscription/presentation/pages/merchant_subscription_requests_screen.dart';
+import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_cubit.dart';
+import '../../features/merchant/broadcast/presentation/pages/merchant_broadcast_screen.dart';
 import '../../features/barber/notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../features/barber/notifications/presentation/pages/barber_notifications_screen.dart';
 import '../../features/barber/team/presentation/manager/barber_team_cubit.dart';
@@ -87,7 +135,10 @@ import '../../features/merchant/profile/presentation/manager/merchant_phones_cub
 import '../../features/merchant/notifications/presentation/manager/merchant_notifications_cubit.dart';
 import '../../features/merchant/notifications/presentation/pages/merchant_notifications_screen.dart';
 import '../../shared/widgets/settings/about_app_screen.dart';
+import '../../shared/widgets/success_screen.dart';
+import '../../shared/widgets/success_screen_args.dart';
 import '../../features/merchant/profile/presentation/pages/change_password_screen.dart';
+import '../../features/merchant/profile/presentation/pages/merchant_location_screen.dart';
 import '../../features/merchant/profile/presentation/pages/merchant_phones_screen.dart';
 import '../../features/merchant/profile/presentation/pages/edit_profile_screen.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
@@ -111,10 +162,25 @@ final MerchantDeliveryCubit _deliveryCubit = sl<MerchantDeliveryCubit>();
 final MerchantDocumentsCubit _documentsCubit = sl<MerchantDocumentsCubit>();
 final MerchantNotificationsCubit _notificationsCubit =
     sl<MerchantNotificationsCubit>();
+final CustomerAuthCubit _customerAuthCubit = sl<CustomerAuthCubit>();
+final CustomerShopsCubit _customerShopsCubit = sl<CustomerShopsCubit>();
+final CustomerProfileCubit _customerProfileCubit = sl<CustomerProfileCubit>();
+final CustomerShopDetailCubit _customerShopDetailCubit =
+    sl<CustomerShopDetailCubit>();
+final BookingFlowCubit _bookingFlowCubit = sl<BookingFlowCubit>();
+final MyBookingsCubit _myBookingsCubit = sl<MyBookingsCubit>();
+final BookingDetailCubit _customerBookingDetailCubit = sl<BookingDetailCubit>();
+final StoreCartCubit _customerStoreCartCubit = sl<StoreCartCubit>();
+final StoreOrdersCubit _customerStoreOrdersCubit = sl<StoreOrdersCubit>();
+final FavoritesCubit _customerFavoritesCubit = sl<FavoritesCubit>();
+final InvitePreviewCubit _customerInvitePreviewCubit = sl<InvitePreviewCubit>();
+final CustomerNotificationsCubit _customerNotificationsCubit =
+    sl<CustomerNotificationsCubit>();
 final BarberAuthCubit _barberAuthCubit = sl<BarberAuthCubit>();
 final BarberProfileCubit _barberProfileCubit = sl<BarberProfileCubit>();
 final BarberHoursCubit _barberHoursCubit = sl<BarberHoursCubit>();
 final BarberServicesCubit _barberServicesCubit = sl<BarberServicesCubit>();
+final OwnServicesCubit _ownServicesCubit = sl<OwnServicesCubit>();
 final BarberDocumentsCubit _barberDocumentsCubit = sl<BarberDocumentsCubit>();
 final BarberStoreMerchantsCubit _barberStoreMerchantsCubit =
     sl<BarberStoreMerchantsCubit>();
@@ -132,6 +198,17 @@ final BarberStorefrontOrdersCubit _barberStorefrontOrdersCubit =
 final BarberWalletCubit _barberWalletCubit = sl<BarberWalletCubit>();
 final BarberReviewsCubit _barberReviewsCubit = sl<BarberReviewsCubit>();
 final BarberInviteCubit _barberInviteCubit = sl<BarberInviteCubit>();
+final BarberSubscriptionCubit _barberSubscriptionCubit =
+    sl<BarberSubscriptionCubit>();
+final BarberSubscriptionRequestsCubit _barberSubscriptionRequestsCubit =
+    sl<BarberSubscriptionRequestsCubit>();
+final BarberBroadcastCubit _barberBroadcastCubit = sl<BarberBroadcastCubit>();
+final MerchantSubscriptionCubit _merchantSubscriptionCubit =
+    sl<MerchantSubscriptionCubit>();
+final MerchantSubscriptionRequestsCubit _merchantSubscriptionRequestsCubit =
+    sl<MerchantSubscriptionRequestsCubit>();
+final MerchantBroadcastCubit _merchantBroadcastCubit =
+    sl<MerchantBroadcastCubit>();
 final BarberNotificationsCubit _barberNotificationsCubit =
     sl<BarberNotificationsCubit>();
 final BarberTeamCubit _barberTeamCubit = sl<BarberTeamCubit>();
@@ -171,6 +248,152 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.customerLoginScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerAuthCubit,
+        child: const CustomerLoginScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerRegisterScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerAuthCubit,
+        child: const CustomerRegisterScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerShell,
+      builder: (_, __) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _customerShopsCubit),
+          BlocProvider.value(value: _customerStoreOrdersCubit),
+          BlocProvider.value(value: _customerFavoritesCubit),
+          BlocProvider.value(value: _customerProfileCubit),
+          BlocProvider.value(value: _customerNotificationsCubit),
+          BlocProvider.value(value: _myBookingsCubit),
+        ],
+        child: CustomerShell(onLogout: _handleCustomerLogout),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerBrowseShopsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerShopsCubit,
+        child: const BrowseShopsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerShopDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerShopDetailCubit,
+        child: CustomerShopDetailScreen(shopId: state.extra as int),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerChooseServiceScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _bookingFlowCubit,
+        child: const ChooseServiceScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerChooseStyleScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _bookingFlowCubit,
+        child: const ChooseStyleScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerChooseBarberScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _bookingFlowCubit,
+        child: const ChooseBarberScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerChooseTimeScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _bookingFlowCubit,
+        child: const ChooseTimeScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerBookingSummaryScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _bookingFlowCubit,
+        child: const BookingSummaryScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerBookingsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _myBookingsCubit,
+        child: const MyBookingsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerBookingDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerBookingDetailCubit,
+        child: customer_booking.BookingDetailScreen(bookingId: state.extra as int),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreProductsScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerStoreCartCubit,
+        child: StoreProductsScreen(shopId: state.extra as int),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreCartScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerStoreCartCubit,
+        child: const StoreCartScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreOrdersScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerStoreOrdersCubit,
+        child: const MyStoreOrdersScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreOrderDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerStoreOrdersCubit,
+        child: customer_store.StoreOrderDetailsScreen(
+          order: state.extra as customer_store.StoreOrder,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerFavoritesScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerFavoritesCubit,
+        child: const FavoritesScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerEnterInviteCodeScreen,
+      builder: (_, __) => const EnterInviteCodeScreen(),
+    ),
+    GoRoute(
+      path: Routes.customerInvitePreviewScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerInvitePreviewCubit,
+        child: InvitePreviewScreen(inviteCode: state.extra as String),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerNotificationsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerNotificationsCubit,
+        child: const CustomerNotificationsScreen(),
+      ),
+    ),
+    GoRoute(
       path: Routes.barberLoginScreen,
       builder: (_, __) => BlocProvider.value(
         value: _barberAuthCubit,
@@ -183,12 +406,14 @@ final routes = GoRouter(
         providers: [
           BlocProvider.value(value: _barberProfileCubit),
           BlocProvider.value(value: _barberServicesCubit),
+          BlocProvider.value(value: _ownServicesCubit),
           BlocProvider.value(value: _barberStoreMerchantsCubit),
           BlocProvider.value(value: _barberStoreCartCubit),
           BlocProvider.value(value: _barberNotificationsCubit),
           BlocProvider.value(value: _bookingsCubit),
           BlocProvider.value(value: _barberStorefrontProductsCubit),
           BlocProvider.value(value: _earningsCubit),
+          BlocProvider.value(value: _barberSubscriptionCubit),
         ],
         child: BarberShell(onLogout: _handleBarberLogout),
       ),
@@ -223,8 +448,11 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.barberServicesScreen,
-      builder: (_, __) => BlocProvider.value(
-        value: _barberServicesCubit,
+      builder: (_, __) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _barberServicesCubit),
+          BlocProvider.value(value: _ownServicesCubit),
+        ],
         child: const BarberServicesScreen(),
       ),
     ),
@@ -253,6 +481,13 @@ final routes = GoRouter(
         value: _barberStoreCartCubit,
         child: const BarberStoreCartScreen(),
       ),
+    ),
+    GoRoute(
+      path: Routes.successScreen,
+      builder: (_, state) {
+        final args = state.extra as SuccessScreenArgs;
+        return SuccessScreen(message: args.message, doneRoute: args.doneRoute);
+      },
     ),
     GoRoute(
       path: Routes.barberStoreOrdersScreen,
@@ -290,10 +525,31 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.barberSubscriptionScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _barberSubscriptionCubit..load(),
+        child: const BarberSubscriptionScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberSubscriptionRequestsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _barberSubscriptionRequestsCubit..loadRequests(),
+        child: const BarberSubscriptionRequestsScreen(),
+      ),
+    ),
+    GoRoute(
       path: Routes.barberNotificationsScreen,
       builder: (_, __) => BlocProvider.value(
         value: _barberNotificationsCubit..loadNotifications(),
         child: const BarberNotificationsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberBroadcastScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _barberBroadcastCubit,
+        child: const BarberBroadcastScreen(),
       ),
     ),
     GoRoute(
@@ -416,6 +672,13 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.merchantLocationScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _profileCubit,
+        child: MerchantLocationScreen(profile: state.extra as MerchantProfile?),
+      ),
+    ),
+    GoRoute(
       path: Routes.merchantDocumentsScreen,
       builder: (_, __) => BlocProvider.value(
         value: _documentsCubit,
@@ -497,6 +760,29 @@ final routes = GoRouter(
         child: OrderDetailsScreen(order: state.extra as PurchaseOrder),
       ),
     ),
+    GoRoute(
+      path: Routes.merchantSubscriptionScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _merchantSubscriptionCubit..load(),
+        child: const MerchantSubscriptionScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantSubscriptionRequestsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _merchantSubscriptionRequestsCubit..loadRequests(),
+        child: const MerchantSubscriptionRequestsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantBroadcastScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _merchantBroadcastCubit,
+        child: MerchantBroadcastScreen(
+          profile: state.extra as MerchantProfile?,
+        ),
+      ),
+    ),
   ],
 );
 
@@ -511,6 +797,7 @@ Widget _merchantProviders({required Widget child}) {
       BlocProvider.value(value: _discountsCubit),
       BlocProvider.value(value: _documentsCubit),
       BlocProvider.value(value: _notificationsCubit),
+      BlocProvider.value(value: _merchantSubscriptionCubit),
     ],
     child: child,
   );
@@ -524,4 +811,9 @@ Future<void> _handleLogout() async {
 Future<void> _handleBarberLogout() async {
   await _barberAuthCubit.logout();
   rootNavigatorKey.currentContext?.go(Routes.barberLoginScreen);
+}
+
+Future<void> _handleCustomerLogout() async {
+  await _customerAuthCubit.logout();
+  rootNavigatorKey.currentContext?.go(Routes.customerLoginScreen);
 }

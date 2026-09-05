@@ -18,6 +18,9 @@ import 'package:ayez_ahlaq/features/merchant/notifications/presentation/manager/
 import 'package:ayez_ahlaq/features/barber/device_token/presentation/services/barber_device_token_sync_service.dart';
 import 'package:ayez_ahlaq/features/barber/notifications/domain/use_cases/mark_notification_clicked_use_case.dart'
     as barber;
+import 'package:ayez_ahlaq/features/customer/device_token/presentation/services/customer_device_token_sync_service.dart';
+import 'package:ayez_ahlaq/features/customer/notifications/domain/use_cases/mark_customer_notification_clicked_use_case.dart';
+import 'package:ayez_ahlaq/features/customer/notifications/presentation/manager/customer_notifications_cubit.dart';
 import 'package:ayez_ahlaq/features/barber/notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../shared/user_type.dart';
 import '../routes/app_routes.dart';
@@ -120,6 +123,7 @@ class NotificationService {
           await sl<BarberDeviceTokenSyncService>().syncToken(fcmToken);
           break;
         case UserType.customer:
+          await sl<CustomerDeviceTokenSyncService>().syncToken(fcmToken);
           break;
       }
     } catch (e, st) {
@@ -234,6 +238,7 @@ class NotificationService {
           sl<BarberNotificationsCubit>().refreshUnseenCount();
           break;
         case UserType.customer:
+          sl<CustomerNotificationsCubit>().refreshUnseenCount();
           break;
       }
     } catch (e, st) {
@@ -256,6 +261,7 @@ class NotificationService {
             sl<barber.MarkNotificationClickedUseCase>().call(notificationId);
             break;
           case UserType.customer:
+            sl<MarkCustomerNotificationClickedUseCase>().call(notificationId);
             break;
         }
       } catch (e, st) {

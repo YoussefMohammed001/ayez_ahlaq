@@ -10,6 +10,7 @@ import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_brand_header.dart';
+import '../../../../../shared/auth/presentation/widgets/auth_footer_prompt.dart';
 import '../manager/barber_auth_cubit.dart';
 import '../manager/barber_auth_state.dart';
 import '../../../../../generated/l10n.dart';
@@ -69,6 +70,11 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
                 AppCard(
                   padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 18.h),
                   child: Column(children: _buildFormFields()),
+                ),
+                SizedBox(height: 18.h),
+                AuthFooterPrompt(
+                  label: S().changeAccountType,
+                  onTap: () => context.go(Routes.userTypeScreen),
                 ),
               ],
             ),

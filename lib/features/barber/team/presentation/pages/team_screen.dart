@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -30,7 +31,10 @@ class TeamScreen extends StatelessWidget {
           phoneNumber: phone,
           tagline: tagline,
         );
-        return member != null;
+
+        if (member == null) {
+          showError(cubit.state.errorMessage ?? S().somethingWentWrong);
+        }
       },
     );
   }

@@ -34,6 +34,18 @@ class AuthLocalDataSource {
     );
   }
 
+  Future<bool> isLoggedIn() async {
+    final token = await _secureStorage.read(SecureStorageKeys.userToken);
+    return token != null && token.isNotEmpty;
+  }
+
+  ({String name, String phone}) getCachedIdentity() {
+    return (
+      name: _preferencesStorage.getString(key: PreferencesKeys.name),
+      phone: _preferencesStorage.getString(key: PreferencesKeys.phone),
+    );
+  }
+
   Future<void> clearSession() async {
     await _secureStorage.delete(SecureStorageKeys.userToken);
     await _preferencesStorage.putInt(key: PreferencesKeys.userId, value: 0);

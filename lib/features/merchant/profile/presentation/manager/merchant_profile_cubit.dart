@@ -1,17 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/change_password_use_case.dart';
 import '../../domain/use_cases/get_merchant_profile_use_case.dart';
+import '../../domain/use_cases/update_merchant_location_use_case.dart';
 import '../../domain/use_cases/update_merchant_profile_use_case.dart';
 import 'merchant_profile_state.dart';
 
 class MerchantProfileCubit extends Cubit<MerchantProfileState> {
   final GetMerchantProfileUseCase _getProfile;
   final UpdateMerchantProfileUseCase _updateProfile;
+  final UpdateMerchantLocationUseCase _updateLocation;
   final ChangePasswordUseCase _changePassword;
 
   MerchantProfileCubit(
     this._getProfile,
     this._updateProfile,
+    this._updateLocation,
     this._changePassword,
   ) : super(const MerchantProfileState());
 
@@ -44,6 +47,33 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
       businessName: businessName,
       ownerName: ownerName,
       email: email,
+    );
+
+    return result.fold(
+      (failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+        return false;
+      },
+      (profile) {
+        emit(state.copyWith(isSubmitting: false, profile: profile));
+        return true;
+      },
+    );
+  }
+
+  Future<bool> updateLocation({
+    double? latitude,
+    double? longitude,
+    String? address,
+  }) async {
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _updateLocation(
+      latitude: latitude,
+      longitude: longitude,
+      address: address,
     );
 
     return result.fold(

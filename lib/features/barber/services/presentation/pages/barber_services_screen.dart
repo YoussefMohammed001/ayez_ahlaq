@@ -3,15 +3,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/barber_service.dart';
 import '../manager/barber_services_cubit.dart';
 import '../manager/barber_services_state.dart';
+import '../manager/own_services_cubit.dart';
+import '../manager/own_services_state.dart';
 import '../widgets/barber_service_row.dart';
+import '../widgets/own_service_form_sheet.dart';
+import '../widgets/own_service_row.dart';
 import '../widgets/service_form_sheet.dart';
 
-class BarberServicesScreen extends StatelessWidget {
+class BarberServicesScreen extends StatefulWidget {
   const BarberServicesScreen({super.key});
+
+  @override
+  State<BarberServicesScreen> createState() => _BarberServicesScreenState();
+}
+
+class _BarberServicesScreenState extends State<BarberServicesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OwnServicesCubit>().loadOwnServices();
+  }
 
   Future<void> _openForm(
     BuildContext context,
@@ -28,6 +44,16 @@ class BarberServicesScreen extends StatelessWidget {
       onSubmit: (service) => existing == null
           ? cubit.createService(service)
           : cubit.updateService(service),
+    );
+  }
+
+  Future<void> _openOwnServiceForm(BuildContext context) {
+    final cubit = context.read<OwnServicesCubit>();
+
+    return OwnServiceFormSheet.show(
+      context,
+      isSubmitting: cubit.state.isSubmitting,
+      onSubmit: cubit.createOwnService,
     );
   }
 
@@ -73,6 +99,38 @@ class BarberServicesScreen extends StatelessWidget {
                   onEdit: () => _openForm(context, state, existing: service),
                   onDelete: () => cubit.deleteService(service.id),
                 ),
+              SectionTitle(
+                title: S().ownServicesTitle,
+                actionLabel: S().addOwnServiceTitle,
+                onAction: () => _openOwnServiceForm(context),
+              ),
+              BlocBuilder<OwnServicesCubit, OwnServicesState>(
+                builder: (context, ownState) {
+                  if (ownState.status == OwnServicesStatus.loading &&
+                      ownState.services.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (ownState.services.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: Text(S().noOwnServicesYet),
+                    );
+                  }
+
+                  final ownCubit = context.read<OwnServicesCubit>();
+
+                  return Column(
+                    children: [
+                      for (final service in ownState.services)
+                        OwnServiceRow(
+                          service: service,
+                          onDelete: () => ownCubit.deleteOwnService(service.id),
+                        ),
+                    ],
+                  );
+                },
+              ),
             ],
           );
         },

@@ -33,4 +33,16 @@ class BarberServicesApi {
   Future<Either<Failure, dynamic>> deleteService(int id) {
     return _networkService.deleteData(endPoint: EndPoints.barberServiceById(id));
   }
+
+  Future<Either<Failure, dynamic>> getOwnServices() {
+    return _networkService.getData(endPoint: EndPoints.barberOwnService);
+  }
+
+  Future<Either<Failure, dynamic>> createOwnService(Map<String, dynamic> body) {
+    return _networkService.postData(endPoint: EndPoints.barberOwnService, data: body);
+  }
+
+  Future<Either<Failure, dynamic>> deleteOwnService(int id) {
+    return _networkService.deleteData(endPoint: EndPoints.barberOwnServiceById(id));
+  }
 }

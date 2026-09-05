@@ -19,6 +19,13 @@ class MerchantProfileApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> updateLocation(Map<String, dynamic> body) {
+    return _networkService.putData(
+      endPoint: EndPoints.merchantLocation,
+      data: body,
+    );
+  }
+
   Future<Either<Failure, dynamic>> getPhones() {
     return _networkService.getData(endPoint: EndPoints.merchantPhone);
   }

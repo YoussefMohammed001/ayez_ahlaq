@@ -38,27 +38,36 @@
 - متوصلة من قايمة البروفايل (`Routes.barberDocumentsScreen`)
 
 ## ٤. Store & orders (شراء من تاجر) — ✅ خلص
-`features/barber/store/` — merchants list → products (+ quantity stepper) → cart (fulfillment type + note + quote) → place order → orders list/detail/cancel.
+`features/barber/store/` — merchants list → products (+ quantity stepper) → **سلة server-side** (fulfillment type + note) → checkout → orders list/detail/cancel.
 - `GET /barber/store/merchant` · `GET /barber/store/merchant/{id}/product`
-- `POST /barber/store/quote` · `POST /barber/order`
-- `GET /barber/order` · `GET /barber/order/{id}` · `PUT /barber/order/{id}/cancel`
+- `GET/PUT /barber/cart` (السلة بتتحفظ في السيرفر فعليًا، مش client-side) · `POST /barber/cart/checkout` (بديل كامل لـ `POST /barber/order` القديم — نفس الـ `StoreOrder` response بالظبط)
+- `GET /barber/order` · `GET /barber/order/{id}` · `PUT /barber/order/{id}/cancel` — لسه زي ما هما لسجلّ/تفاصيل/إلغاء الطلبات
 - المتجر بقى تاب أساسي في الـ bottom nav (مش تحت البروفايل). "طلباتي" (`Routes.barberStoreOrdersScreen`) لسه تحت البروفايل كسجلّ.
 - أيقونة سلة + badge في `AppTopBar` لشاشة التجار عشان السلة تبقى واضحة ومتاحة دايمًا.
 - **فجوة معروفة:** مفيش endpoint موثّق لصورة منتج التاجر من ناحية الحلاق (بس `hasImage: bool`) — الصفوف بتعرض أيقونة placeholder. لو ظهر endpoint فعلي (زي `customer/shop/{id}/storefront/product/{id}/image` بس لسياق التاجر) نضيفه بعدين.
 
-### ⏳ Follow-up: هجرة السلة من client-side لـ server-side cart API
-دلوقتي فيه endpoints فعلية للسلة ظهرت — لسه متعملة في الكود. الكود الحالي: `BarberStoreCartCubit` بيبني السلة كلها client-side (مفيش persist في السيرفر إلا لحظة `POST /barber/order`)، والـ quote عن طريق `POST /barber/store/quote`.
+### ✅ هجرة السلة من client-side لـ server-side cart API — خلصت
+اتأكد فعليًا (curl حي على الـ production API) إن `POST /barber/cart/checkout` بديل كامل لـ `POST /barber/order` القديم — نفس الـ `StoreOrder` shape بالظبط، والطلب اللي بيتعمل منه بيظهر عادي في `GET /barber/order/{id}` وقابل للإلغاء بنفس الـ endpoint القديم.
 
-الـ endpoints الجداد:
-- `GET /api/barber/cart` — يرجع السلة الحالية من السيرفر
-- `PUT /api/barber/cart` — يستبدل محتوى السلة كامل، بودي `{"items":[{"productId":..,"quantity":..}]}` (`items:[]` لتفريغ السلة)
-- `POST /api/barber/cart/checkout` — يعمل checkout للسلة الحالية، بودي `{"fulfillmentType":"DELIVERY"|"PICKUP_AT_BRANCH","deliveryAddress":..,"deliveryLat":..,"deliveryLng":..,"note":..}` (العنوان/الإحداثيات اختيارية لـ B2B، مفيش `paymentMethod`)
+شكل `GET`/`PUT /barber/cart` response (اتأكد من السيرفر مباشرة):
+```json
+{
+  "sellerId": 1, "sellerType": "MERCHANT", "sellerName": "...",
+  "deliveryOffered": false, "deliveryFee": 0, "freeDeliveryOver": null,
+  "lines": [{"productId":1,"productName":"...","quantity":4,"unitPrice":200,"lineTotal":800,"minOrderQty":4,"available":true,"unavailableReason":null}],
+  "itemCount": 4, "subtotal": 800, "checkoutReady": true, "updatedAt": "..."
+}
+```
+`PUT` بودي `{"items":[{"productId":..,"quantity":..}]}` (`items:[]` بيفضّي السلة). `minOrderQty` بيتحقق منه السيرفر ويرجع 400 برسالة واضحة لو أقل من المطلوب.
 
-المطلوب لما نرجعلها:
-- نتأكد هل `checkout` ده بديل لـ `POST /barber/order` القديم ولا بيتحط جنبه (يحتاج توضيح من الـ backend/Postman collection المحدّثة)
-- لو بديل: نعمل `BarberCartApi`/`BarberCartRepo` جوه `features/barber/store/`، ونشيل الـ client-side state من `BarberStoreCartCubit` ونخليه بيتكلم مع `GET/PUT /barber/cart` بدل الـ local list
-- السلة تبقى تتحفظ في السيرفر فعليًا (مش بس عند الـ checkout) — يبقى الـ bug القديم بتاع `openMerchant` reset (اتصلح قبل كده client-side) يتراجع مع السلوك الجديد
-- نحدّث الـ Postman collection (`postman/Ayez_ahlaqBarber.postman_collection.json`) لو مش متحدّثة بالـ endpoints دي لسه
+اللي اتعمل:
+- `Cart`/`CartLine` entities جداد (`domain/entities/cart.dart` و`cart_line.dart`) بديل عن `CartLine` القديمة اللي كانت بتحمل `StoreProduct` كامل — دلوقتي السلة self-describing من السيرفر (`productName`/`unitPrice`/`available`/`unavailableReason` مباشرة من الـ response).
+- `CartQuote` entity/model والـ `QuoteCartUseCase`/`POST /barber/store/quote` اتشالوا خالص — السلة نفسها بترجع `subtotal`/`deliveryFee`.
+- `BarberCartApi` (جوه `BarberStoreApi`): `getCart`/`putCart`/`checkout` بديل عن `quoteCart`/`placeOrder`.
+- `GetCartUseCase`/`PutCartUseCase`/`CheckoutCartUseCase` بديل عن `QuoteCartUseCase`/`PlaceStoreOrderUseCase`.
+- `BarberStoreCartCubit` بقى بيتكلم مع السيرفر مباشرة (`loadCart`/`setQuantity` بيعمل `putCart` فورًا/`submitOrder` بيعمل `checkout`) — مفيش local list تاني. الـ bug القديم بتاع `openMerchant` reset اتحل تلقائيًا لأن السلة بقت مصدرها السيرفر مش الـ state المحلي.
+- `BarberStoreMerchantsScreen` بيعمل `loadCart()` في `initState` عشان الـ badge يبقى صح من أول ما اليوزر يدخل تاب المتجر.
+- الـ Postman collection (`postman/Ayez_ahlaqBarber.postman_collection.json`) **لسه متحدّثة بـ endpoints السلة الجديدة** — لو حد وصلها نسخة فيها التوثيق ده تتضاف.
 
 ## ٥. Storefront (متجر الحلاق كبائع) — ✅ خلص
 نسخة طبق الأصل من `merchant/products` + `merchant/categories` + `merchant/delivery` + `merchant/orders` — `features/barber/storefront/{products,categories,delivery,orders}/`.

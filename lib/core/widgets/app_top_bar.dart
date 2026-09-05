@@ -26,7 +26,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
           Icons.arrow_back_ios,
           color: context.colorScheme.onSurface,
         ),
-        onPressed: () => context.pop(),
+        onPressed: () {
+          if (context.canPop()) context.pop();
+        },
       ) : SizedBox(),
       title: Text(title, style: HeadingStyles.h4),
       actions: trailing == null ? null : [trailing!, SizedBox(width: 8.w)],

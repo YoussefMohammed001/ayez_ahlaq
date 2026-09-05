@@ -12,6 +12,8 @@ import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/fulfillment_type.dart';
+import '../../../../../shared/widgets/success_screen_args.dart';
+import '../../domain/entities/store_product.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
 import '../widgets/cart_line_row.dart';
@@ -41,9 +43,14 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
     if (!context.mounted) return;
 
     if (order != null) {
-      showSuccess(S().orderPlaced);
       cubit.reset();
-      context.go(Routes.barberStoreOrdersScreen);
+      context.go(
+        Routes.successScreen,
+        extra: SuccessScreenArgs(
+          message: S().orderPlaced,
+          doneRoute: Routes.barberShell,
+        ),
+      );
     } else {
       showError(cubit.state.errorMessage ?? S().somethingWentWrong);
     }
@@ -57,19 +64,31 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
         builder: (context, state) {
           final cubit = context.read<BarberStoreCartCubit>();
 
-          if (state.lines.isEmpty) {
+          if (state.cart.isEmpty) {
             return AppEmptyState(icon: Icons.shopping_cart_outlined, title: S().cartEmpty);
           }
 
           return ListView(
             padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
             children: [
-              for (final line in state.lines)
+              for (final line in state.cart.lines)
                 CartLineRow(
                   line: line,
                   onRemove: () {
-                    cubit.setQuantity(line.product, 0);
-                    cubit.refreshQuote();
+                    final product = state.products.firstWhere(
+                      (p) => p.id == line.productId,
+                      orElse: () => StoreProduct(
+                        id: line.productId,
+                        name: line.productName,
+                        brand: '',
+                        categoryName: '',
+                        price: line.unitPrice,
+                        effectivePrice: line.unitPrice,
+                        minOrderQty: line.minOrderQty,
+                        hasImage: false,
+                      ),
+                    );
+                    cubit.setQuantity(product, 0);
                   },
                 ),
               SectionTitle(title: S().fulfilmentTitle),
@@ -77,19 +96,13 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
                 label: FulfillmentType.delivery.label,
                 icon: Icons.local_shipping_outlined,
                 selected: state.fulfillmentType == FulfillmentType.delivery,
-                onTap: () {
-                  cubit.setFulfillmentType(FulfillmentType.delivery);
-                  cubit.refreshQuote();
-                },
+                onTap: () => cubit.setFulfillmentType(FulfillmentType.delivery),
               ),
               OptionTile(
                 label: FulfillmentType.pickupAtBranch.label,
                 icon: Icons.storefront_outlined,
                 selected: state.fulfillmentType == FulfillmentType.pickupAtBranch,
-                onTap: () {
-                  cubit.setFulfillmentType(FulfillmentType.pickupAtBranch);
-                  cubit.refreshQuote();
-                },
+                onTap: () => cubit.setFulfillmentType(FulfillmentType.pickupAtBranch),
               ),
               SectionTitle(title: S().orderNoteTitle),
               AppTextField(
@@ -98,8 +111,7 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
                 maxLines: 3,
               ),
               SizedBox(height: 12.h),
-              if (state.quote != null)
-                CartQuoteCard(quote: state.quote!, isQuoting: state.isQuoting),
+              CartQuoteCard(cart: state.cart, isUpdating: state.isUpdatingCart),
               SizedBox(height: 20.h),
               PrimaryCtaButton(
                 label: S().placeOrder,

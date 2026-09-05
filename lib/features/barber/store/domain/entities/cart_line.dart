@@ -1,18 +1,35 @@
 import 'package:equatable/equatable.dart';
-import 'store_product.dart';
 
 class CartLine extends Equatable {
-  final StoreProduct product;
+  final int productId;
+  final String productName;
   final int quantity;
+  final int unitPrice;
+  final int lineTotal;
+  final int minOrderQty;
+  final bool available;
+  final String? unavailableReason;
 
-  const CartLine({required this.product, required this.quantity});
-
-  int get lineTotal => product.effectivePrice * quantity;
-
-  CartLine copyWith({int? quantity}) {
-    return CartLine(product: product, quantity: quantity ?? this.quantity);
-  }
+  const CartLine({
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+    required this.unitPrice,
+    required this.lineTotal,
+    required this.minOrderQty,
+    required this.available,
+    this.unavailableReason,
+  });
 
   @override
-  List<Object?> get props => [product, quantity];
+  List<Object?> get props => [
+    productId,
+    productName,
+    quantity,
+    unitPrice,
+    lineTotal,
+    minOrderQty,
+    available,
+    unavailableReason,
+  ];
 }

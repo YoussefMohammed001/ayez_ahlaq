@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../domain/entities/barber_service.dart';
+import '../../domain/entities/own_service.dart';
 import '../../domain/entities/service_catalog_item.dart';
 import '../../domain/repos/i_barber_services_repo.dart';
 import '../apis/barber_services_api.dart';
 import '../models/barber_service_model.dart';
+import '../models/own_service_model.dart';
 import '../models/service_catalog_item_model.dart';
 
 class BarberServicesRepo implements IBarberServicesRepo {
@@ -49,6 +51,40 @@ class BarberServicesRepo implements IBarberServicesRepo {
   Future<Either<Failure, Unit>> deleteService(int id) async {
     final result = await _api.deleteService(id);
     return result.map((_) => unit);
+  }
+
+  @override
+  Future<Either<Failure, List<OwnService>>> getOwnServices() async {
+    final result = await _api.getOwnServices();
+    return result.map(_mapOwnServices);
+  }
+
+  @override
+  Future<Either<Failure, OwnService>> createOwnService(
+    String name,
+    String description,
+  ) async {
+    final result = await _api.createOwnService(
+      OwnServiceModel.toCreateJson(name, description),
+    );
+    return result.map(_mapOwnOne);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteOwnService(int id) async {
+    final result = await _api.deleteOwnService(id);
+    return result.map((_) => unit);
+  }
+
+  List<OwnService> _mapOwnServices(dynamic response) {
+    final data = response['data'] as List? ?? const [];
+    return data
+        .map((json) => OwnServiceModel.fromJson(json as Map<String, dynamic>))
+        .toList();
+  }
+
+  OwnService _mapOwnOne(dynamic response) {
+    return OwnServiceModel.fromJson(response['data'] as Map<String, dynamic>);
   }
 
   List<ServiceCatalogItem> _mapCatalog(dynamic response) {

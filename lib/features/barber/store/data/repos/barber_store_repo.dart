@@ -1,14 +1,13 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
-import '../../domain/entities/cart_line.dart';
-import '../../domain/entities/cart_quote.dart';
+import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_order.dart';
 import '../../domain/entities/store_product.dart';
 import '../../domain/repos/i_barber_store_repo.dart';
 import '../apis/barber_store_api.dart';
-import '../models/cart_quote_model.dart';
+import '../models/cart_model.dart';
 import '../models/store_merchant_model.dart';
 import '../models/store_order_model.dart';
 import '../models/store_product_model.dart';
@@ -33,36 +32,38 @@ class BarberStoreRepo implements IBarberStoreRepo {
   }
 
   @override
-  Future<Either<Failure, CartQuote>> quoteCart({
-    required int merchantId,
-    required FulfillmentType? fulfillmentType,
-    required List<CartLine> lines,
-  }) async {
-    final result = await _api.quoteCart(
-      _cartBody(
-        merchantId: merchantId,
-        fulfillmentType: fulfillmentType,
-        lines: lines,
-      ),
-    );
-    return result.map(_mapQuote);
+  Future<Either<Failure, Cart>> getCart() async {
+    final result = await _api.getCart();
+    return result.map(_mapCart);
   }
 
   @override
-  Future<Either<Failure, StoreOrder>> placeOrder({
-    required int merchantId,
+  Future<Either<Failure, Cart>> putCart(
+    Map<int, int> quantitiesByProductId,
+  ) async {
+    final result = await _api.putCart({
+      'items': quantitiesByProductId.entries
+          .map((e) => {'productId': e.key, 'quantity': e.value})
+          .toList(),
+    });
+    return result.map(_mapCart);
+  }
+
+  @override
+  Future<Either<Failure, StoreOrder>> checkout({
     required FulfillmentType? fulfillmentType,
-    required List<CartLine> lines,
+    String? deliveryAddress,
+    double? deliveryLat,
+    double? deliveryLng,
     String? note,
   }) async {
-    final body = _cartBody(
-      merchantId: merchantId,
-      fulfillmentType: fulfillmentType,
-      lines: lines,
-    );
-    if (note != null) body['note'] = note;
-
-    final result = await _api.placeOrder(body);
+    final result = await _api.checkout({
+      if (fulfillmentType != null) 'fulfillmentType': fulfillmentType.toApi(),
+      if (deliveryAddress != null) 'deliveryAddress': deliveryAddress,
+      if (deliveryLat != null) 'deliveryLat': deliveryLat,
+      if (deliveryLng != null) 'deliveryLng': deliveryLng,
+      if (note != null) 'note': note,
+    });
     return result.map(_mapOrder);
   }
 
@@ -82,23 +83,6 @@ class BarberStoreRepo implements IBarberStoreRepo {
   Future<Either<Failure, Unit>> cancelOrder(int id) async {
     final result = await _api.cancelOrder(id);
     return result.map((_) => unit);
-  }
-
-  Map<String, dynamic> _cartBody({
-    required int merchantId,
-    required FulfillmentType? fulfillmentType,
-    required List<CartLine> lines,
-  }) {
-    return {
-      'merchantId': merchantId,
-      if (fulfillmentType != null) 'fulfillmentType': fulfillmentType.toApi(),
-      'items': lines
-          .map((line) => {
-                'productId': line.product.id,
-                'quantity': line.quantity,
-              })
-          .toList(),
-    };
   }
 
   List<StoreMerchant> _mapMerchants(dynamic response) {
@@ -126,7 +110,7 @@ class BarberStoreRepo implements IBarberStoreRepo {
     return StoreOrderModel.fromJson(response['data'] as Map<String, dynamic>);
   }
 
-  CartQuote _mapQuote(dynamic response) {
-    return CartQuoteModel.fromJson(response['data'] as Map<String, dynamic>);
+  Cart _mapCart(dynamic response) {
+    return CartModel.fromJson(response['data'] as Map<String, dynamic>);
   }
 }

@@ -49,19 +49,19 @@ class _SplashScreenState extends State<SplashScreen>
 
     final isLoggedIn = results.first;
     if (!isLoggedIn) {
-      context.go(
-        UserHelpers.userType == UserType.barber
-            ? Routes.barberLoginScreen
-            : Routes.loginScreen,
-      );
+      context.go(switch (UserHelpers.userType) {
+        UserType.barber => Routes.barberLoginScreen,
+        UserType.customer => Routes.customerLoginScreen,
+        UserType.merchant => Routes.loginScreen,
+      });
       return;
     }
 
-    context.go(
-      UserHelpers.userType == UserType.barber
-          ? Routes.barberShell
-          : Routes.merchantShell,
-    );
+    context.go(switch (UserHelpers.userType) {
+      UserType.barber => Routes.barberShell,
+      UserType.customer => Routes.customerShell,
+      UserType.merchant => Routes.merchantShell,
+    });
   }
 
   @override

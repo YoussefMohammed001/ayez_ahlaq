@@ -9,13 +9,25 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
+import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_merchants_cubit.dart';
 import '../manager/barber_store_merchants_state.dart';
 import '../widgets/cart_icon_button.dart';
 import '../widgets/store_merchant_row.dart';
 
-class BarberStoreMerchantsScreen extends StatelessWidget {
+class BarberStoreMerchantsScreen extends StatefulWidget {
   const BarberStoreMerchantsScreen({super.key});
+
+  @override
+  State<BarberStoreMerchantsScreen> createState() => _BarberStoreMerchantsScreenState();
+}
+
+class _BarberStoreMerchantsScreenState extends State<BarberStoreMerchantsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<BarberStoreCartCubit>().loadCart();
+  }
 
   @override
   Widget build(BuildContext context) {

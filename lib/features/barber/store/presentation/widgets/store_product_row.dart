@@ -4,7 +4,7 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_product.dart';
-import 'quantity_stepper.dart';
+import '../../../../../shared/widgets/quantity_stepper.dart';
 
 class StoreProductRow extends StatelessWidget {
   final StoreProduct product;

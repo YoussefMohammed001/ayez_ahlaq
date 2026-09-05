@@ -10,7 +10,7 @@ import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
-import '../widgets/cart_summary_bar.dart';
+import '../../../../../shared/widgets/cart_summary_bar.dart';
 import '../widgets/store_product_row.dart';
 
 class BarberStoreProductsScreen extends StatefulWidget {
@@ -27,11 +27,6 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
   void initState() {
     super.initState();
     context.read<BarberStoreCartCubit>().openMerchant(widget.merchant);
-  }
-
-  int _quantityFor(BarberStoreCartState state, int productId) {
-    final match = state.lines.where((line) => line.product.id == productId);
-    return match.isEmpty ? 0 : match.first.quantity;
   }
 
   @override
@@ -63,19 +58,16 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
                     final product = state.products[index];
                     return StoreProductRow(
                       product: product,
-                      quantity: _quantityFor(state, product.id),
-                      onQuantityChanged: (quantity) {
-                        cubit.setQuantity(product, quantity);
-                        cubit.refreshQuote();
-                      },
+                      quantity: state.quantityFor(product.id),
+                      onQuantityChanged: (quantity) => cubit.setQuantity(product, quantity),
                     );
                   },
                 ),
               ),
-              if (state.lines.isNotEmpty)
+              if (!state.cart.isEmpty)
                 CartSummaryBar(
-                  itemCount: state.itemCount,
-                  subtotal: state.subtotal,
+                  itemCount: state.cart.itemCount,
+                  subtotal: state.cart.subtotal,
                   actionLabel: S().viewCart,
                   onPressed: () => context.push(Routes.barberStoreCartScreen),
                 ),

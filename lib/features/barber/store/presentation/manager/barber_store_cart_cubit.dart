@@ -1,21 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/cart_line.dart';
+import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_order.dart';
 import '../../domain/entities/store_product.dart';
+import '../../domain/use_cases/checkout_cart_use_case.dart';
+import '../../domain/use_cases/get_cart_use_case.dart';
 import '../../domain/use_cases/get_merchant_products_use_case.dart';
-import '../../domain/use_cases/place_store_order_use_case.dart';
-import '../../domain/use_cases/quote_cart_use_case.dart';
+import '../../domain/use_cases/put_cart_use_case.dart';
 import 'barber_store_cart_state.dart';
 
 class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
   final GetMerchantProductsUseCase _getProducts;
-  final QuoteCartUseCase _quoteCart;
-  final PlaceStoreOrderUseCase _placeOrder;
+  final GetCartUseCase _getCart;
+  final PutCartUseCase _putCart;
+  final CheckoutCartUseCase _checkout;
 
-  BarberStoreCartCubit(this._getProducts, this._quoteCart, this._placeOrder)
-      : super(const BarberStoreCartState());
+  BarberStoreCartCubit(
+    this._getProducts,
+    this._getCart,
+    this._putCart,
+    this._checkout,
+  ) : super(const BarberStoreCartState());
+
+  Future<void> loadCart() async {
+    final result = await _getCart();
+    result.fold(
+      (failure) => emit(state.copyWith(errorMessage: failure.message)),
+      (cart) => emit(state.copyWith(cart: cart)),
+    );
+  }
 
   Future<void> openMerchant(StoreMerchant merchant) async {
     if (state.merchant?.id == merchant.id && state.products.isNotEmpty) {
@@ -26,6 +40,7 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
       BarberStoreCartState(
         status: BarberStoreCartStatus.loading,
         merchant: merchant,
+        cart: state.cart,
       ),
     );
 
@@ -45,37 +60,34 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
         ),
       ),
     );
+
+    await loadCart();
   }
 
-  void setQuantity(StoreProduct product, int quantity) {
-    emit(state.copyWith(lines: _withQuantity(state.lines, product, quantity)));
-  }
+  Future<void> setQuantity(StoreProduct product, int quantity) async {
+    final clamped = quantity <= 0
+        ? 0
+        : (quantity < product.minOrderQty ? product.minOrderQty : quantity);
 
-  List<CartLine> _withQuantity(
-    List<CartLine> lines,
-    StoreProduct product,
-    int quantity,
-  ) {
-    if (quantity <= 0) {
-      return lines.where((line) => line.product.id != product.id).toList();
+    final quantities = {
+      for (final line in state.cart.lines) line.productId: line.quantity,
+    };
+    if (clamped == 0) {
+      quantities.remove(product.id);
+    } else {
+      quantities[product.id] = clamped;
     }
 
-    final clamped = quantity < product.minOrderQty
-        ? product.minOrderQty
-        : quantity;
-    final index = lines.indexWhere((line) => line.product.id == product.id);
+    emit(state.copyWith(isUpdatingCart: true));
 
-    if (index == -1) {
-      return [...lines, CartLine(product: product, quantity: clamped)];
-    }
+    final result = await _putCart(quantities);
 
-    return [
-      for (final line in lines)
-        if (line.product.id == product.id)
-          line.copyWith(quantity: clamped)
-        else
-          line,
-    ];
+    result.fold(
+      (failure) => emit(
+        state.copyWith(isUpdatingCart: false, errorMessage: failure.message),
+      ),
+      (cart) => emit(state.copyWith(isUpdatingCart: false, cart: cart)),
+    );
   }
 
   void setFulfillmentType(FulfillmentType? type) {
@@ -86,39 +98,13 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
 
   void setNote(String note) => emit(state.copyWith(note: note));
 
-  Future<void> refreshQuote() async {
-    final merchant = state.merchant;
-    if (merchant == null || state.lines.isEmpty) {
-      emit(state.copyWith(clearQuote: true));
-      return;
-    }
-
-    emit(state.copyWith(isQuoting: true));
-
-    final result = await _quoteCart(
-      merchantId: merchant.id,
-      fulfillmentType: state.fulfillmentType,
-      lines: state.lines,
-    );
-
-    result.fold(
-      (failure) => emit(
-        state.copyWith(isQuoting: false, errorMessage: failure.message),
-      ),
-      (quote) => emit(state.copyWith(isQuoting: false, quote: quote)),
-    );
-  }
-
   Future<StoreOrder?> submitOrder() async {
-    final merchant = state.merchant;
-    if (merchant == null || state.lines.isEmpty) return null;
+    if (state.cart.isEmpty) return null;
 
     emit(state.copyWith(isSubmitting: true));
 
-    final result = await _placeOrder(
-      merchantId: merchant.id,
+    final result = await _checkout(
       fulfillmentType: state.fulfillmentType,
-      lines: state.lines,
       note: state.note.isEmpty ? null : state.note,
     );
 
@@ -130,7 +116,7 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
         return null;
       },
       (order) {
-        emit(state.copyWith(isSubmitting: false));
+        emit(state.copyWith(isSubmitting: false, cart: Cart.empty));
         return order;
       },
     );

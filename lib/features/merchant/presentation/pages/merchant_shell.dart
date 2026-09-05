@@ -9,7 +9,7 @@ import '../../documents/presentation/manager/merchant_documents_cubit.dart';
 import '../../documents/presentation/manager/merchant_documents_state.dart';
 import '../../documents/presentation/pages/merchant_documents_screen.dart';
 import '../../notifications/presentation/manager/merchant_notifications_cubit.dart';
-import '../../../../shared/widgets/documents/required_documents_gate.dart';
+import '../../../../shared/widgets/blocking_gate.dart';
 import '../../dashboard/presentation/pages/merchant_dashboard_screen.dart';
 import '../../orders/presentation/manager/merchant_orders_cubit.dart';
 import '../../products/presentation/manager/merchant_products_cubit.dart';
@@ -17,7 +17,9 @@ import '../../products/presentation/pages/merchant_products_screen.dart';
 import '../../orders/presentation/pages/merchant_orders_screen.dart';
 import '../../profile/presentation/manager/merchant_profile_cubit.dart';
 import '../../profile/presentation/manager/merchant_profile_state.dart';
+import '../../profile/presentation/pages/merchant_location_screen.dart';
 import '../../profile/presentation/pages/merchant_profile_screen.dart';
+import '../../subscription/presentation/manager/merchant_subscription_cubit.dart';
 import '../../../../generated/l10n.dart';
 
 class MerchantShell extends StatefulWidget {
@@ -50,17 +52,36 @@ class _MerchantShellState extends State<MerchantShell> {
     context.read<MerchantDiscountsCubit>().loadDiscounts();
     context.read<MerchantDocumentsCubit>().loadDocuments();
     context.read<MerchantNotificationsCubit>().refreshUnseenCount();
+    context.read<MerchantSubscriptionCubit>().load();
   }
 
   void _goToTab(int index) => setState(() => _index = index);
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<MerchantProfileCubit, MerchantProfileState>(
+      buildWhen: (previous, current) => previous.profile != current.profile,
+      builder: (context, profileState) {
+        final profile = profileState.profile;
+        return BlockingGate(
+          isBlocked: profile != null && profile.needsLocation,
+          title: S().locationTitle,
+          onLogout: widget.onLogout,
+          blockedBuilder: (_) =>
+              MerchantLocationScreen(profile: profile, blocking: true),
+          builder: (_) => _buildDocumentsGate(),
+        );
+      },
+    );
+  }
+
+  Widget _buildDocumentsGate() {
     return BlocBuilder<MerchantDocumentsCubit, MerchantDocumentsState>(
       buildWhen: (previous, current) =>
           previous.missingRequiredCount != current.missingRequiredCount,
-      builder: (context, documentsState) => RequiredDocumentsGate(
+      builder: (context, documentsState) => BlockingGate(
         isBlocked: documentsState.missingRequiredCount > 0,
+        title: S().documentsBlockedTitle,
         onLogout: widget.onLogout,
         blockedBuilder: (_) => const MerchantDocumentsScreen(blocking: true),
         builder: (_) => _buildShell(),

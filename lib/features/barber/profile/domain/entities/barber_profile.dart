@@ -31,6 +31,8 @@ class BarberProfile extends Equatable {
     this.longitude,
   });
 
+  bool get needsLocation => latitude == null || longitude == null;
+
   @override
   List<Object?> get props => [
     id,
@@ -42,5 +44,7 @@ class BarberProfile extends Equatable {
     active,
     rating,
     ratingCount,
+    latitude,
+    longitude,
   ];
 }

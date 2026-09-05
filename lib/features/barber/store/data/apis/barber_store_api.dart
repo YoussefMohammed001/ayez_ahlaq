@@ -18,16 +18,20 @@ class BarberStoreApi {
     );
   }
 
-  Future<Either<Failure, dynamic>> quoteCart(Map<String, dynamic> body) {
-    return _networkService.postData(
-      endPoint: EndPoints.barberStoreQuote,
+  Future<Either<Failure, dynamic>> getCart() {
+    return _networkService.getData(endPoint: EndPoints.barberCart);
+  }
+
+  Future<Either<Failure, dynamic>> putCart(Map<String, dynamic> body) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberCart,
       data: body,
     );
   }
 
-  Future<Either<Failure, dynamic>> placeOrder(Map<String, dynamic> body) {
+  Future<Either<Failure, dynamic>> checkout(Map<String, dynamic> body) {
     return _networkService.postData(
-      endPoint: EndPoints.barberOrder,
+      endPoint: EndPoints.barberCartCheckout,
       data: body,
     );
   }

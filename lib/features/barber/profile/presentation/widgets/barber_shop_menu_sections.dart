@@ -69,6 +69,11 @@ class BarberShopMenuSections extends StatelessWidget {
               label: S().walletTitle,
               onTap: () => context.push(Routes.barberWalletScreen),
             ),
+            MenuRow(
+              icon: Icons.workspace_premium_outlined,
+              label: S().subscriptionTitle,
+              onTap: () => context.push(Routes.barberSubscriptionScreen),
+            ),
           ],
         ),
         MenuSection(
@@ -78,6 +83,11 @@ class BarberShopMenuSections extends StatelessWidget {
               icon: Icons.star_border_rounded,
               label: S().reviewsTitle,
               onTap: () => context.push(Routes.barberReviewsScreen),
+            ),
+            MenuRow(
+              icon: Icons.campaign_outlined,
+              label: S().sendBroadcast,
+              onTap: () => context.push(Routes.barberBroadcastScreen),
             ),
             // MenuRow(
             //   icon: Icons.link_rounded,

@@ -10,14 +10,17 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/location_blocked_notice.dart';
+import '../../../../../shared/widgets/location_notes.dart';
 import '../../domain/entities/barber_profile.dart';
 import '../manager/barber_profile_cubit.dart';
 import '../manager/barber_profile_state.dart';
 
 class BarberLocationScreen extends StatefulWidget {
   final BarberProfile? profile;
+  final bool blocking;
 
-  const BarberLocationScreen({super.key, this.profile});
+  const BarberLocationScreen({super.key, this.profile, this.blocking = false});
 
   @override
   State<BarberLocationScreen> createState() => _BarberLocationScreenState();
@@ -87,7 +90,7 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
 
     if (saved) {
       showSuccess(S().locationSaved);
-      context.pop();
+      if (!widget.blocking) context.pop();
       return;
     }
 
@@ -98,18 +101,14 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(title: S().locationTitle),
+      appBar: widget.blocking
+          ? null
+          : AppTopBar(title: S().locationTitle),
       body: ListView(
         padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
         children: [
-          Text(
-            S().locationNote,
-            style: TextStyle(
-              fontSize: 12.5.sp,
-              height: 1.8,
-              color: context.colorScheme.onSurfaceVariant,
-            ),
-          ),
+          if (widget.blocking) const LocationBlockedNotice(),
+          const LocationNotes(),
           SizedBox(height: 16.h),
           PrimaryCtaButton(
             label: S().useCurrentLocation,

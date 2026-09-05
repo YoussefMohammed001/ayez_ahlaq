@@ -76,6 +76,10 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
                   label: S().noAccountRegister,
                   onTap: () => context.push(Routes.registerScreen),
                 ),
+                AuthFooterPrompt(
+                  label: S().changeAccountType,
+                  onTap: () => context.go(Routes.userTypeScreen),
+                ),
               ],
             ),
           ),

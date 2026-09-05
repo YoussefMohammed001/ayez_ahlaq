@@ -9,6 +9,9 @@ import '../../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../../bookings/presentation/manager/bookings_state.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../../profile/presentation/manager/barber_profile_state.dart';
+import '../../../subscription/presentation/manager/barber_subscription_cubit.dart';
+import '../../../subscription/presentation/manager/barber_subscription_state.dart';
+import '../../../subscription/presentation/widgets/subscription_home_card.dart';
 import '../../../team/presentation/manager/earnings_cubit.dart';
 import '../../../team/presentation/manager/earnings_state.dart';
 import '../widgets/barber_home_greeting.dart';
@@ -27,6 +30,7 @@ class BarberHomeScreen extends StatelessWidget {
       context.read<EarningsCubit>().loadEarnings(),
       context.read<BookingsCubit>().loadPending(),
       context.read<BookingsCubit>().loadQueue(),
+      context.read<BarberSubscriptionCubit>().load(),
     ]);
   }
 
@@ -59,6 +63,17 @@ class BarberHomeScreen extends StatelessWidget {
                     return HomeEarningsGrid(
                       earnings: state.earnings,
                       onTap: () => context.push(Routes.barberEarningsScreen),
+                    );
+                  },
+                ),
+                SizedBox(height: 14.h),
+                BlocBuilder<BarberSubscriptionCubit, BarberSubscriptionState>(
+                  builder: (context, state) {
+                    final subscription = state.subscription;
+                    if (subscription == null) return const SizedBox.shrink();
+                    return SubscriptionHomeCard(
+                      subscription: subscription,
+                      onTap: () => context.push(Routes.barberSubscriptionScreen),
                     );
                   },
                 ),

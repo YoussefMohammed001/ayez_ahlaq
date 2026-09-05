@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/cart_line.dart';
-import '../../domain/entities/cart_quote.dart';
+import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_product.dart';
@@ -11,11 +10,10 @@ class BarberStoreCartState extends Equatable {
   final BarberStoreCartStatus status;
   final StoreMerchant? merchant;
   final List<StoreProduct> products;
-  final List<CartLine> lines;
+  final Cart cart;
   final FulfillmentType? fulfillmentType;
-  final CartQuote? quote;
   final String note;
-  final bool isQuoting;
+  final bool isUpdatingCart;
   final bool isSubmitting;
   final String? errorMessage;
 
@@ -23,30 +21,28 @@ class BarberStoreCartState extends Equatable {
     this.status = BarberStoreCartStatus.initial,
     this.merchant,
     this.products = const [],
-    this.lines = const [],
+    this.cart = Cart.empty,
     this.fulfillmentType,
-    this.quote,
     this.note = '',
-    this.isQuoting = false,
+    this.isUpdatingCart = false,
     this.isSubmitting = false,
     this.errorMessage,
   });
 
-  int get itemCount => lines.fold(0, (sum, line) => sum + line.quantity);
-
-  int get subtotal => lines.fold(0, (sum, line) => sum + line.lineTotal);
+  int quantityFor(int productId) {
+    final match = cart.lines.where((line) => line.productId == productId);
+    return match.isEmpty ? 0 : match.first.quantity;
+  }
 
   BarberStoreCartState copyWith({
     BarberStoreCartStatus? status,
     StoreMerchant? merchant,
     List<StoreProduct>? products,
-    List<CartLine>? lines,
+    Cart? cart,
     FulfillmentType? fulfillmentType,
     bool clearFulfillmentType = false,
-    CartQuote? quote,
-    bool clearQuote = false,
     String? note,
-    bool? isQuoting,
+    bool? isUpdatingCart,
     bool? isSubmitting,
     String? errorMessage,
   }) {
@@ -54,13 +50,12 @@ class BarberStoreCartState extends Equatable {
       status: status ?? this.status,
       merchant: merchant ?? this.merchant,
       products: products ?? this.products,
-      lines: lines ?? this.lines,
+      cart: cart ?? this.cart,
       fulfillmentType: clearFulfillmentType
           ? null
           : (fulfillmentType ?? this.fulfillmentType),
-      quote: clearQuote ? null : (quote ?? this.quote),
       note: note ?? this.note,
-      isQuoting: isQuoting ?? this.isQuoting,
+      isUpdatingCart: isUpdatingCart ?? this.isUpdatingCart,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       errorMessage: errorMessage,
     );
@@ -71,11 +66,10 @@ class BarberStoreCartState extends Equatable {
     status,
     merchant,
     products,
-    lines,
+    cart,
     fulfillmentType,
-    quote,
     note,
-    isQuoting,
+    isUpdatingCart,
     isSubmitting,
     errorMessage,
   ];

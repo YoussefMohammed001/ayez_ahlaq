@@ -77,6 +77,23 @@ class ProfileAdminMenu extends StatelessWidget {
         label: S().deliveryTitle,
         onTap: () => context.push(Routes.merchantDeliveryScreen),
       ),
+      MenuRow(
+        icon: Icons.location_on_outlined,
+        label: S().locationTitle,
+        onTap: () =>
+            context.push(Routes.merchantLocationScreen, extra: profile),
+      ),
+      MenuRow(
+        icon: Icons.workspace_premium_outlined,
+        label: S().subscriptionTitle,
+        onTap: () => context.push(Routes.merchantSubscriptionScreen),
+      ),
+      MenuRow(
+        icon: Icons.campaign_outlined,
+        label: S().sendBroadcast,
+        onTap: () =>
+            context.push(Routes.merchantBroadcastScreen, extra: profile),
+      ),
     ];
   }
 

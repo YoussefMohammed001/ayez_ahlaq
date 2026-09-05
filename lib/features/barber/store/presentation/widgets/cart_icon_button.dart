@@ -13,22 +13,22 @@ class CartIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BarberStoreCartCubit, BarberStoreCartState>(
-      buildWhen: (previous, current) => previous.itemCount != current.itemCount,
+      buildWhen: (previous, current) => previous.cart.itemCount != current.cart.itemCount,
       builder: (context, state) {
         return Stack(
           clipBehavior: Clip.none,
           children: [
             IconButton(
               icon: const Icon(Icons.shopping_cart_outlined),
-              onPressed: state.itemCount == 0
+              onPressed: state.cart.itemCount == 0
                   ? null
                   : () => context.push(Routes.barberStoreCartScreen),
             ),
-            if (state.itemCount > 0)
+            if (state.cart.itemCount > 0)
               Positioned(
                 top: 4.r,
                 right: 4.r,
-                child: CountBadge(count: state.itemCount),
+                child: CountBadge(count: state.cart.itemCount),
               ),
           ],
         );

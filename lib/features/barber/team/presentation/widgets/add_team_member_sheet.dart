@@ -8,7 +8,7 @@ import '../../../../../generated/l10n.dart';
 
 class AddTeamMemberSheet extends StatefulWidget {
   final bool isSubmitting;
-  final Future<bool> Function(String name, String phone, String? tagline) onSubmit;
+  final Future<void> Function(String name, String phone, String? tagline) onSubmit;
 
   const AddTeamMemberSheet({
     super.key,
@@ -19,7 +19,7 @@ class AddTeamMemberSheet extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required bool isSubmitting,
-    required Future<bool> Function(String name, String phone, String? tagline) onSubmit,
+    required Future<void> Function(String name, String phone, String? tagline) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -53,13 +53,13 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
 
     final tagline = _taglineController.text.trim();
 
-    final saved = await widget.onSubmit(
+    await widget.onSubmit(
       _nameController.text.trim(),
       _phoneController.text.trim(),
       tagline.isEmpty ? null : tagline,
     );
 
-    if (saved && mounted) Navigator.of(context).pop();
+    if (mounted) Navigator.of(context).pop();
   }
 
   @override

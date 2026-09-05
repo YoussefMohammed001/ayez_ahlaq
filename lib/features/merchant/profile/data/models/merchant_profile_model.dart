@@ -12,7 +12,12 @@ class MerchantProfileModel extends MerchantProfile {
     super.phoneE164,
     super.email,
     super.userName,
+    super.zoneId,
+    super.zoneName,
     super.createdAt,
+    super.latitude,
+    super.longitude,
+    super.address,
   });
 
   factory MerchantProfileModel.fromJson(Map<String, dynamic> json) {
@@ -27,7 +32,12 @@ class MerchantProfileModel extends MerchantProfile {
       active: json['active'] as bool? ?? false,
       mustChangePassword: json['mustChangePassword'] as bool? ?? false,
       categoryLimit: (json['categoryLimit'] as num?)?.toInt() ?? 0,
+      zoneId: (json['zoneId'] as num?)?.toInt(),
+      zoneName: json['zoneName'] as String?,
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      address: json['address'] as String?,
     );
   }
 }

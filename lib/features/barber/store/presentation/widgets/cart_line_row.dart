@@ -26,15 +26,20 @@ class CartLineRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  line.product.name,
+                  line.productName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 13.sp, color: scheme.onSurface, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  '${line.quantity} × ${S().currencyEgp(line.product.effectivePrice)}',
+                  '${line.quantity} × ${S().currencyEgp(line.unitPrice)}',
                   style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
                 ),
+                if (!line.available)
+                  Text(
+                    line.unavailableReason ?? '',
+                    style: TextStyle(fontSize: 11.sp, color: context.semantic.warning),
+                  ),
               ],
             ),
           ),

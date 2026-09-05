@@ -1,0 +1,71 @@
+default_platform(:android)
+
+FLUTTER_ROOT = File.expand_path("../..", __dir__)
+
+FIREBASE_APP_IDS = {
+  dev: "1:583878347347:android:c8ee47d8236083507614a6",
+  prod: "1:692271429773:android:e5ee0d835046a39d33cac4"
+}
+
+FIREBASE_TESTER_GROUP = "ayez-ahlaq-testers"
+
+FIREBASE_TESTERS = [
+  "yoseffmohamed001@gmail.com",
+  "Omar.hatem1230@gmail.com",
+  "Mokhtarsaber72@gmail.com"
+].join(",")
+
+RELEASE_NOTES = <<~NOTES
+  الفيتشرز الموجودة في النسخة دي:
+
+  حساب الحلاق (barber):
+  - تسجيل دخول واشتراك، وضع مستندات التوثيق
+  - الصفحة الرئيسية وإدارة الحجوزات (بما فيها حجز الزباين اللي بييجوا على الفاضي)
+  - مواعيد الشغل وإدارة الخدمات والفريق
+  - متجر أدوات الحلاقة (تصفح، عربية، طلب)
+  - واجهة عرض المحل (منتجات، تصنيفات، توصيل)
+  - الاشتراكات، المحفظة، التقييمات، الدعوات، البث والإشعارات
+
+  حساب الزبون (customer):
+  - تسجيل دخول، تصفح المحلات، حجز مواعيد
+  - المفضلة، متجر المنتجات، الملف الشخصي، الإشعارات
+
+  حساب التاجر (merchant):
+  - تسجيل دخول، لوحة تحكم، إدارة المنتجات والتصنيفات والعروض
+  - الطلبات والتوصيل، الاشتراكات، البث والإشعارات
+NOTES
+
+platform :android do
+  desc "Build and distribute a flavor to Firebase App Distribution"
+  lane :distribute do |options|
+    flavor = (options[:flavor] || "dev").to_sym
+    entrypoint = flavor == :prod ? "lib/main_prod.dart" : "lib/main_dev.dart"
+    firebase_app_id = FIREBASE_APP_IDS.fetch(flavor)
+
+    Dir.chdir(FLUTTER_ROOT) do
+      sh("flutter", "build", "apk", "--flavor", flavor.to_s, "-t", entrypoint, "--release")
+    end
+
+    apk_path = File.join(
+      FLUTTER_ROOT, "build", "app", "outputs", "flutter-apk", "app-#{flavor}-release.apk"
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id,
+      apk_path: apk_path,
+      groups: FIREBASE_TESTER_GROUP,
+      firebase_cli_token: "ENV_FIREBASE_CLI_TOKEN_REDACTED",
+      release_notes: options[:release_notes] || RELEASE_NOTES
+    )
+  end
+
+  desc "Distribute the dev flavor to Firebase App Distribution"
+  lane :distribute_dev do |options|
+    distribute(options.merge(flavor: "dev"))
+  end
+
+  desc "Distribute the prod flavor to Firebase App Distribution"
+  lane :distribute_prod do |options|
+    distribute(options.merge(flavor: "prod"))
+  end
+end

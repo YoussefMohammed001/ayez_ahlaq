@@ -12,6 +12,12 @@ abstract class IMerchantProfileRepo {
     String? email,
   });
 
+  Future<Either<Failure, MerchantProfile>> updateLocation({
+    double? latitude,
+    double? longitude,
+    String? address,
+  });
+
   Future<Either<Failure, Unit>> changePassword(
     String currentPassword,
     String newPassword,

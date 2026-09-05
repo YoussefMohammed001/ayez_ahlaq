@@ -28,6 +28,11 @@ class UserTypeScreen extends StatelessWidget {
       return;
     }
 
+    if (type == UserType.customer) {
+      context.go(Routes.customerLoginScreen);
+      return;
+    }
+
     showWarning(S().underDevelopment);
   }
 
@@ -53,7 +58,6 @@ class UserTypeScreen extends StatelessWidget {
               icon: Icons.person_rounded,
               title: S().customer,
               subtitle: S().customerHint,
-              enabled: false,
               onTap: () => _select(context, UserType.customer),
             ),
             UserTypeCard(
