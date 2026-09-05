@@ -56,8 +56,6 @@ class _MerchantBroadcastScreenState extends State<MerchantBroadcastScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final hasZone = widget.profile?.zoneName != null;
-
     return Scaffold(
       appBar: AppTopBar(title: S().broadcastTitle),
       body: ListView(
@@ -76,10 +74,8 @@ class _MerchantBroadcastScreenState extends State<MerchantBroadcastScreen> {
             builder: (context, state) => BroadcastScopeSelector(
               scope: state.scope,
               zoneName: widget.profile?.zoneName,
-              onChanged: hasZone
-                  ? (scope) =>
-                        context.read<MerchantBroadcastCubit>().selectScope(scope)
-                  : null,
+              onChanged: (scope) =>
+                  context.read<MerchantBroadcastCubit>().selectScope(scope),
             ),
           ),
           SectionTitle(title: S().broadcastTitleFieldHint),

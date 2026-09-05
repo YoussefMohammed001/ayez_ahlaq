@@ -89,6 +89,11 @@ class ProfileAdminMenu extends StatelessWidget {
         onTap: () => context.push(Routes.merchantSubscriptionScreen),
       ),
       MenuRow(
+        icon: Icons.account_balance_wallet_outlined,
+        label: S().walletTitle,
+        onTap: () => context.push(Routes.merchantWalletScreen),
+      ),
+      MenuRow(
         icon: Icons.campaign_outlined,
         label: S().sendBroadcast,
         onTap: () =>

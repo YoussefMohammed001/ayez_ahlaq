@@ -14,6 +14,7 @@ import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../booking/presentation/manager/booking_flow_cubit.dart';
+import '../../domain/entities/shop_barber.dart';
 import '../../domain/entities/shop_detail.dart';
 import '../manager/customer_shop_detail_cubit.dart';
 import '../manager/customer_shop_detail_state.dart';
@@ -43,17 +44,37 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
         Future<void> reload() => cubit.loadShopDetail(widget.shopId);
         final detail = state.detail;
 
+        final owner = detail == null || detail.barbers.isEmpty
+            ? null
+            : detail.barbers.cast<ShopBarber>().firstWhere(
+                (b) => b.owner,
+                orElse: () => detail.barbers.first,
+              );
+
         return Scaffold(
           appBar: AppTopBar(
             title: S().shopDetailTitle,
             trailing: detail == null
                 ? null
-                : IconButton(
-                    icon: const Icon(Icons.storefront_outlined),
-                    onPressed: () => context.push(
-                      Routes.customerStoreProductsScreen,
-                      extra: widget.shopId,
-                    ),
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (owner != null)
+                        IconButton(
+                          icon: Icon(
+                            owner.favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                            color: owner.favorite ? context.semantic.warning : null,
+                          ),
+                          onPressed: () => cubit.toggleFavorite(owner.id),
+                        ),
+                      IconButton(
+                        icon: const Icon(Icons.storefront_outlined),
+                        onPressed: () => context.push(
+                          Routes.customerStoreProductsScreen,
+                          extra: widget.shopId,
+                        ),
+                      ),
+                    ],
                   ),
           ),
           body: _buildBody(state, detail, reload),
@@ -102,20 +123,15 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
 
     return RefreshIndicator(
       onRefresh: reload,
-      child: _ShopDetailBody(
-        detail: detail,
-        onToggleFavorite: (barberId, currentlyFavorite) =>
-            context.read<CustomerShopDetailCubit>().toggleFavorite(barberId, currentlyFavorite),
-      ),
+      child: _ShopDetailBody(detail: detail),
     );
   }
 }
 
 class _ShopDetailBody extends StatelessWidget {
   final ShopDetail detail;
-  final void Function(int barberId, bool currentlyFavorite) onToggleFavorite;
 
-  const _ShopDetailBody({required this.detail, required this.onToggleFavorite});
+  const _ShopDetailBody({required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -150,12 +166,7 @@ class _ShopDetailBody extends StatelessWidget {
         if (detail.barbers.isEmpty)
           AppEmptyState(icon: Icons.content_cut_rounded, title: S().noBarbersYet, compact: true)
         else
-          ...detail.barbers.map(
-            (barber) => ShopBarberRow(
-              barber: barber,
-              onToggleFavorite: () => onToggleFavorite(barber.id, barber.favorite),
-            ),
-          ),
+          ...detail.barbers.map((barber) => ShopBarberRow(barber: barber)),
         if (detail.paymentMethods.isNotEmpty) ...[
           SectionTitle(title: S().paymentMethodsSectionTitle),
           Wrap(

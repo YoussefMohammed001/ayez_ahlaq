@@ -7,6 +7,7 @@ class WalletTransaction extends Equatable {
   final int amount;
   final int balanceAfter;
   final String reason;
+  final String source;
   final String by;
   final DateTime? at;
 
@@ -16,10 +17,20 @@ class WalletTransaction extends Equatable {
     required this.amount,
     required this.balanceAfter,
     required this.reason,
+    required this.source,
     required this.by,
     this.at,
   });
 
   @override
-  List<Object?> get props => [code, direction, amount, balanceAfter, reason, by, at];
+  List<Object?> get props => [
+    code,
+    direction,
+    amount,
+    balanceAfter,
+    reason,
+    source,
+    by,
+    at,
+  ];
 }

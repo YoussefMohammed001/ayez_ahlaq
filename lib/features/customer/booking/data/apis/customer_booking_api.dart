@@ -41,4 +41,11 @@ class CustomerBookingApi {
   Future<Either<Failure, dynamic>> cancelBooking(int id) {
     return _networkService.putData(endPoint: EndPoints.customerBookingCancel(id));
   }
+
+  Future<Either<Failure, dynamic>> rateBooking(Map<String, dynamic> body) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRating,
+      data: body,
+    );
+  }
 }

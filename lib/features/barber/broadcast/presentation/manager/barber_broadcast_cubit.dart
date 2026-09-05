@@ -8,10 +8,15 @@ class BarberBroadcastCubit extends Cubit<BarberBroadcastState> {
   BarberBroadcastCubit(this._sendBroadcast)
     : super(const BarberBroadcastState());
 
+  void selectScope(BarberBroadcastScope scope) {
+    emit(state.copyWith(scope: scope));
+  }
+
   Future<bool> send({required String title, required String body}) async {
     emit(state.copyWith(status: BarberBroadcastStatus.sending));
 
-    final result = await _sendBroadcast(title: title, body: body);
+    final scope = state.scope == BarberBroadcastScope.mine ? 'MINE' : 'ALL';
+    final result = await _sendBroadcast(scope: scope, title: title, body: body);
 
     return result.fold(
       (failure) {

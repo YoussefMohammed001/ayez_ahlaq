@@ -46,7 +46,17 @@
       "Bash(curl -s -X DELETE https://gobeeeg.com/ayezAhlaqApi/api/barber/service/own/9 -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IkJBUkJFUiIsImlhdCI6MTc4ODU2OTI1MywiZXhwIjoxNzg4NjU1NjUzLCJjbGllbnQiOiJNT0JJTEUifQ.0VUlvlHv9DeOLgfRfDdCAhUt5PlrR1PXiFATq5XLpQo' -H 'X-Client: MOBILE')",
       "Bash(rm -f /tmp/resp1.json /tmp/resp2.json /tmp/resp3.json /tmp/resp4.json /tmp/r.json /tmp/r2.json /tmp/r5.json /tmp/r6.json)",
       "Bash(curl -s -X DELETE https://gobeeeg.com/ayezAhlaqApi/api/barber/service/own/8 -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IkJBUkJFUiIsImlhdCI6MTc4ODU2OTI1MywiZXhwIjoxNzg4NjU1NjUzLCJjbGllbnQiOiJNT0JJTEUifQ.0VUlvlHv9DeOLgfRfDdCAhUt5PlrR1PXiFATq5XLpQo' -H 'X-Client: MOBILE')",
-      "Bash(curl -s -o /dev/null -w 'GET /service \\(catalog list\\) status codes still fine: %{http_code}\\\\n' https://gobeeeg.com/ayezAhlaqApi/api/barber/service -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IkJBUkJFUiIsImlhdCI6MTc4ODU2OTI1MywiZXhwIjoxNzg4NjU1NjUzLCJjbGllbnQiOiJNT0JJTEUifQ.0VUlvlHv9DeOLgfRfDdCAhUt5PlrR1PXiFATq5XLpQo' -H 'X-Client: MOBILE')"
+      "Bash(curl -s -o /dev/null -w 'GET /service \\(catalog list\\) status codes still fine: %{http_code}\\\\n' https://gobeeeg.com/ayezAhlaqApi/api/barber/service -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6IkJBUkJFUiIsImlhdCI6MTc4ODU2OTI1MywiZXhwIjoxNzg4NjU1NjUzLCJjbGllbnQiOiJNT0JJTEUifQ.0VUlvlHv9DeOLgfRfDdCAhUt5PlrR1PXiFATq5XLpQo' -H 'X-Client: MOBILE')",
+      "Bash(curl -s -X POST https://gobeeeg.com/ayezAhlaqApi/api/customer/login -H 'Content-Type: application/json' -d '{\"identifier\":\"01555555555\",\"password\":\"cust1234\"}')",
+      "Bash(curl -s https://gobeeeg.com/ayezAhlaqApi/api/customer -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTcxODU4LCJleHAiOjE3ODg2NTgyNTh9.D45Q2rVKzAWd14xq6c9EfiWnPcEBwXxfnXKmHXtX_oo' -H 'X-Client: MOBILE')",
+      "Bash(rm -f /tmp/parse_test.dart)",
+      "Bash(curl -s https://gobeeeg.com/ayezAhlaqApi/api/customer/shop -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTcxODU4LCJleHAiOjE3ODg2NTgyNTh9.D45Q2rVKzAWd14xq6c9EfiWnPcEBwXxfnXKmHXtX_oo' -H 'X-Client: MOBILE')",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' https://gobeeeg.com/ayezAhlaqApi/api/barber/team -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTcxODU4LCJleHAiOjE3ODg2NTgyNTh9.D45Q2rVKzAWd14xq6c9EfiWnPcEBwXxfnXKmHXtX_oo' -H 'X-Client: MOBILE')",
+      "Bash(curl -s -X POST https://gobeeeg.com/ayezAhlaqApi/api/barber/login -H 'Content-Type: application/json' -d '{\"identifier\":\"01008451421\",\"password\":\"1234567\"}')",
+      "Bash(curl -s -X POST https://gobeeeg.com/ayezAhlaqApi/api/barber/login -H 'Content-Type: application/json' -H 'X-Client: MOBILE' -d '{\"identifier\":\"01008451421\",\"password\":\"1234567\"}')"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
     ]
   }
 }

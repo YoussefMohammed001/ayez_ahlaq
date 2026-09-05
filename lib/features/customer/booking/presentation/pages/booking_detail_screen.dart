@@ -7,9 +7,11 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
+import '../../domain/entities/customer_booking_status.dart';
 import '../manager/booking_detail_cubit.dart';
 import '../manager/booking_detail_state.dart';
 import '../widgets/customer_booking_detail_card.dart';
+import '../widgets/rate_booking_sheet.dart';
 
 class BookingDetailScreen extends StatefulWidget {
   final int bookingId;
@@ -78,6 +80,14 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                             child: const CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Text(S().cancelBooking),
+                  ),
+                ],
+                if (booking.status == CustomerBookingStatus.done &&
+                    (!booking.ratedBarber || !booking.ratedShop)) ...[
+                  SizedBox(height: 20.h),
+                  ElevatedButton(
+                    onPressed: () => RateBookingSheet.show(context, booking),
+                    child: Text(S().rateBooking),
                   ),
                 ],
               ],

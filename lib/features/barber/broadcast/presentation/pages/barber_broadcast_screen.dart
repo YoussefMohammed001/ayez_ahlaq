@@ -11,6 +11,7 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/barber_broadcast_cubit.dart';
 import '../manager/barber_broadcast_state.dart';
+import '../widgets/barber_broadcast_scope_selector.dart';
 
 class BarberBroadcastScreen extends StatefulWidget {
   const BarberBroadcastScreen({super.key});
@@ -62,6 +63,14 @@ class _BarberBroadcastScreenState extends State<BarberBroadcastScreen> {
               fontSize: 12.5.sp,
               height: 1.8,
               color: context.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          SizedBox(height: 16.h),
+          BlocBuilder<BarberBroadcastCubit, BarberBroadcastState>(
+            builder: (context, state) => BarberBroadcastScopeSelector(
+              scope: state.scope,
+              onChanged: (scope) =>
+                  context.read<BarberBroadcastCubit>().selectScope(scope),
             ),
           ),
           SizedBox(height: 16.h),

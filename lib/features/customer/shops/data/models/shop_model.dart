@@ -19,7 +19,7 @@ class ShopModel extends Shop {
       distanceKm: (json['distanceKm'] as num?)?.toDouble(),
       favorite: json['favorite'] as bool? ?? false,
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
-      ratingCount: (json['ratingCount'] as num?)?.toInt() ?? 0,
+      ratingCount: (json['reviewCount'] as num?)?.toInt() ?? 0,
     );
   }
 }

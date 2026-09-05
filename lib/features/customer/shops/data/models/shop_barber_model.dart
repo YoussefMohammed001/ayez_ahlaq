@@ -26,6 +26,7 @@ class ShopBarberModel extends ShopBarber {
     required super.ratingCount,
     required super.favorite,
     required super.viaInvite,
+    required super.owner,
     required super.services,
   });
 
@@ -37,6 +38,7 @@ class ShopBarberModel extends ShopBarber {
       ratingCount: (json['ratingCount'] as num?)?.toInt() ?? 0,
       favorite: json['favorite'] as bool? ?? false,
       viaInvite: json['viaInvite'] as bool? ?? false,
+      owner: json['owner'] as bool? ?? false,
       services: (json['services'] as List<dynamic>? ?? [])
           .map((e) => ShopBarberServiceModel.fromJson(e as Map<String, dynamic>))
           .toList(),

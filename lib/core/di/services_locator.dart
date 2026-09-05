@@ -40,6 +40,7 @@ import '../../features/customer/booking/domain/use_cases/get_booking_use_case.da
     as customer_booking;
 import '../../features/customer/booking/domain/use_cases/get_bookings_use_case.dart'
     as customer_booking;
+import '../../features/customer/booking/domain/use_cases/rate_booking_use_case.dart';
 import '../../features/customer/booking/presentation/manager/booking_detail_cubit.dart';
 import '../../features/customer/booking/presentation/manager/booking_flow_cubit.dart';
 import '../../features/customer/booking/presentation/manager/my_bookings_cubit.dart';
@@ -65,9 +66,10 @@ import '../../features/customer/favorites/domain/use_cases/get_invite_preview_us
 import '../../features/customer/favorites/domain/use_cases/remove_favorite_use_case.dart';
 import '../../features/customer/favorites/presentation/manager/favorites_cubit.dart';
 import '../../features/customer/favorites/presentation/manager/invite_preview_cubit.dart';
+import '../../features/customer/profile/data/apis/customer_profile_api.dart';
 import '../../features/customer/profile/data/repos/customer_profile_repo.dart';
 import '../../features/customer/profile/domain/repos/i_customer_profile_repo.dart';
-import '../../features/customer/profile/domain/use_cases/get_cached_profile_use_case.dart';
+import '../../features/customer/profile/domain/use_cases/get_customer_profile_use_case.dart';
 import '../../features/customer/profile/presentation/manager/customer_profile_cubit.dart';
 import '../../features/barber/auth/data/apis/barber_auth_api.dart';
 import '../../features/barber/auth/data/repos/barber_auth_repo.dart';
@@ -163,6 +165,16 @@ import '../../features/barber/wallet/data/repos/barber_wallet_repo.dart';
 import '../../features/barber/wallet/domain/repos/i_barber_wallet_repo.dart';
 import '../../features/barber/wallet/domain/use_cases/get_barber_wallet_use_case.dart';
 import '../../features/barber/wallet/presentation/manager/barber_wallet_cubit.dart';
+import '../../features/barber/wallet/data/apis/barber_wallet_requests_api.dart';
+import '../../features/barber/wallet/data/repos/barber_wallet_requests_repo.dart';
+import '../../features/barber/wallet/domain/repos/i_barber_wallet_requests_repo.dart';
+import '../../features/barber/wallet/domain/use_cases/get_wallet_requests_use_case.dart';
+import '../../features/barber/wallet/domain/use_cases/get_wallet_request_detail_use_case.dart';
+import '../../features/barber/wallet/domain/use_cases/create_wallet_request_use_case.dart';
+import '../../features/barber/wallet/domain/use_cases/cancel_wallet_request_use_case.dart';
+import '../../features/barber/wallet/domain/use_cases/get_wallet_request_attachment_use_case.dart';
+import '../../features/barber/wallet/presentation/manager/barber_wallet_requests_cubit.dart';
+import '../../features/barber/wallet/presentation/manager/create_wallet_request_cubit.dart';
 import '../../features/barber/reviews/data/apis/barber_reviews_api.dart';
 import '../../features/barber/reviews/data/repos/barber_reviews_repo.dart';
 import '../../features/barber/reviews/domain/repos/i_barber_reviews_repo.dart';
@@ -202,6 +214,27 @@ import '../../features/merchant/broadcast/data/repos/merchant_broadcast_repo.dar
 import '../../features/merchant/broadcast/domain/repos/i_merchant_broadcast_repo.dart';
 import '../../features/merchant/broadcast/domain/use_cases/send_merchant_broadcast_use_case.dart';
 import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_cubit.dart';
+import '../../features/merchant/wallet/data/apis/merchant_wallet_api.dart';
+import '../../features/merchant/wallet/data/apis/merchant_wallet_requests_api.dart';
+import '../../features/merchant/wallet/data/repos/merchant_wallet_repo.dart';
+import '../../features/merchant/wallet/data/repos/merchant_wallet_requests_repo.dart';
+import '../../features/merchant/wallet/domain/repos/i_merchant_wallet_repo.dart';
+import '../../features/merchant/wallet/domain/repos/i_merchant_wallet_requests_repo.dart';
+import '../../features/merchant/wallet/domain/use_cases/get_merchant_wallet_use_case.dart';
+import '../../features/merchant/wallet/presentation/manager/merchant_wallet_cubit.dart';
+import '../../features/merchant/wallet/presentation/manager/merchant_wallet_requests_cubit.dart';
+import '../../features/merchant/wallet/domain/use_cases/get_wallet_requests_use_case.dart'
+    as merchant_wallet;
+import '../../features/merchant/wallet/domain/use_cases/get_wallet_request_detail_use_case.dart'
+    as merchant_wallet;
+import '../../features/merchant/wallet/domain/use_cases/create_wallet_request_use_case.dart'
+    as merchant_wallet;
+import '../../features/merchant/wallet/domain/use_cases/cancel_wallet_request_use_case.dart'
+    as merchant_wallet;
+import '../../features/merchant/wallet/domain/use_cases/get_wallet_request_attachment_use_case.dart'
+    as merchant_wallet;
+import '../../features/merchant/wallet/presentation/manager/create_wallet_request_cubit.dart'
+    as merchant_wallet;
 import '../../features/barber/bookings/data/apis/barber_booking_api.dart';
 import '../../features/barber/bookings/data/repos/barber_booking_repo.dart';
 import '../../features/barber/bookings/domain/repos/i_barber_booking_repo.dart';
@@ -402,6 +435,8 @@ class ServicesLocator {
     _merchantDeviceToken();
     _merchantSubscription();
     _merchantBroadcast();
+    _merchantWallet();
+    _merchantWalletRequests();
 
     _barberAuth();
     _barberProfile();
@@ -414,6 +449,7 @@ class ServicesLocator {
     _barberStorefrontDelivery();
     _barberStorefrontOrders();
     _barberWallet();
+    _barberWalletRequests();
     _barberReviews();
     _barberInvite();
     _barberSubscription();
@@ -534,10 +570,11 @@ class ServicesLocator {
   }
 
   void _customerProfile() {
+    sl.registerLazySingleton(() => CustomerProfileApi(sl()));
     sl.registerLazySingleton<ICustomerProfileRepo>(
       () => CustomerProfileRepo(sl()),
     );
-    sl.registerLazySingleton(() => GetCachedProfileUseCase(sl()));
+    sl.registerLazySingleton(() => GetCustomerProfileUseCase(sl()));
     sl.registerFactory(() => CustomerProfileCubit(sl()));
   }
 
@@ -562,9 +599,10 @@ class ServicesLocator {
     sl.registerLazySingleton(() => customer_booking.GetBookingsUseCase(sl()));
     sl.registerLazySingleton(() => customer_booking.GetBookingUseCase(sl()));
     sl.registerLazySingleton(() => CancelBookingUseCase(sl()));
+    sl.registerLazySingleton(() => RateBookingUseCase(sl()));
     sl.registerLazySingleton(() => BookingFlowCubit(sl(), sl()));
     sl.registerFactory(() => MyBookingsCubit(sl()));
-    sl.registerFactory(() => BookingDetailCubit(sl(), sl()));
+    sl.registerFactory(() => BookingDetailCubit(sl(), sl(), sl()));
   }
 
   void _customerStore() {
@@ -746,6 +784,33 @@ class ServicesLocator {
     sl.registerFactory(() => MerchantBroadcastCubit(sl()));
   }
 
+  void _merchantWallet() {
+    sl.registerLazySingleton(() => MerchantWalletApi(sl()));
+    sl.registerLazySingleton<IMerchantWalletRepo>(
+      () => MerchantWalletRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetMerchantWalletUseCase(sl()));
+    sl.registerFactory(() => MerchantWalletCubit(sl()));
+  }
+
+  void _merchantWalletRequests() {
+    sl.registerLazySingleton(() => MerchantWalletRequestsApi(sl()));
+    sl.registerLazySingleton<IMerchantWalletRequestsRepo>(
+      () => MerchantWalletRequestsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => merchant_wallet.GetWalletRequestsUseCase(sl()));
+    sl.registerLazySingleton(
+      () => merchant_wallet.GetWalletRequestDetailUseCase(sl()),
+    );
+    sl.registerLazySingleton(() => merchant_wallet.CreateWalletRequestUseCase(sl()));
+    sl.registerLazySingleton(() => merchant_wallet.CancelWalletRequestUseCase(sl()));
+    sl.registerLazySingleton(
+      () => merchant_wallet.GetWalletRequestAttachmentUseCase(sl()),
+    );
+    sl.registerFactory(() => MerchantWalletRequestsCubit(sl(), sl()));
+    sl.registerFactory(() => merchant_wallet.CreateWalletRequestCubit(sl()));
+  }
+
   void _initNotificationRouter() {
     sl.registerLazySingleton<MerchantNotificationRouter>(
       () => MerchantNotificationRouter(),
@@ -898,6 +963,20 @@ class ServicesLocator {
     sl.registerFactory(() => BarberWalletCubit(sl()));
   }
 
+  void _barberWalletRequests() {
+    sl.registerLazySingleton(() => BarberWalletRequestsApi(sl()));
+    sl.registerLazySingleton<IBarberWalletRequestsRepo>(
+      () => BarberWalletRequestsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetWalletRequestsUseCase(sl()));
+    sl.registerLazySingleton(() => GetWalletRequestDetailUseCase(sl()));
+    sl.registerLazySingleton(() => CreateWalletRequestUseCase(sl()));
+    sl.registerLazySingleton(() => CancelWalletRequestUseCase(sl()));
+    sl.registerLazySingleton(() => GetWalletRequestAttachmentUseCase(sl()));
+    sl.registerFactory(() => BarberWalletRequestsCubit(sl(), sl()));
+    sl.registerFactory(() => CreateWalletRequestCubit(sl()));
+  }
+
   void _barberReviews() {
     sl.registerLazySingleton(() => BarberReviewsApi(sl()));
     sl.registerLazySingleton<IBarberReviewsRepo>(() => BarberReviewsRepo(sl()));
@@ -985,7 +1064,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => AdvanceBookingStatusUseCase(sl()));
     sl.registerLazySingleton(() => CreateWalkInUseCase(sl()));
     sl.registerFactory(
-      () => BookingsCubit(sl(), sl(), sl(), sl(), sl(), sl()),
+      () => BookingsCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl()),
     );
   }
 

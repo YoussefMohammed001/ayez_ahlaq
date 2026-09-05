@@ -6,8 +6,9 @@ import '../../../../../generated/l10n.dart';
 
 class WalletBalanceCard extends StatelessWidget {
   final int balance;
+  final int? available;
 
-  const WalletBalanceCard({super.key, required this.balance});
+  const WalletBalanceCard({super.key, required this.balance, this.available});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,13 @@ class WalletBalanceCard extends StatelessWidget {
               color: context.colorScheme.onSurface,
             ),
           ),
+          if (available != null) ...[
+            SizedBox(height: 10.h),
+            Text(
+              S().walletAvailableLabel(available!),
+              style: TextStyle(fontSize: 11.5.sp, color: context.colorScheme.onSurfaceVariant),
+            ),
+          ],
         ],
       ),
     );

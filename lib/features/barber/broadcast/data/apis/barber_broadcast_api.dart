@@ -9,12 +9,13 @@ class BarberBroadcastApi {
   BarberBroadcastApi(this._networkService);
 
   Future<Either<Failure, dynamic>> send({
+    required String scope,
     required String title,
     required String body,
   }) {
     return _networkService.postData(
       endPoint: EndPoints.barberBroadcast,
-      data: {'scope': 'ALL', 'title': title, 'body': body},
+      data: {'scope': scope, 'title': title, 'body': body},
     );
   }
 }

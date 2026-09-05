@@ -39,6 +39,13 @@ class Routes {
   static const String barberStoreOrdersScreen = '/barber/store/orders';
   static const String barberStoreOrderDetailsScreen = '/barber/store/order';
   static const String barberWalletScreen = '/barber/wallet';
+  static const String barberWalletRequestsScreen = '/barber/wallet/requests';
+  static const String createBarberWalletRequestScreen =
+      '/barber/wallet/requests/create';
+  static const String barberWalletRequestDetailScreen =
+      '/barber/wallet/requests/detail';
+  static const String barberWalletRequestAttachmentScreen =
+      '/barber/wallet/requests/detail/attachment';
   static const String barberReviewsScreen = '/barber/reviews';
   static const String barberInviteScreen = '/barber/invite';
   static const String barberSubscriptionScreen = '/barber/subscription';
@@ -81,4 +88,13 @@ class Routes {
   static const String merchantSubscriptionRequestsScreen =
       '/merchant/subscription/requests';
   static const String merchantBroadcastScreen = '/merchant/broadcast';
+
+  static const String merchantWalletScreen = '/merchant/wallet';
+  static const String merchantWalletRequestsScreen = '/merchant/wallet/requests';
+  static const String createMerchantWalletRequestScreen =
+      '/merchant/wallet/requests/create';
+  static const String merchantWalletRequestDetailScreen =
+      '/merchant/wallet/requests/detail';
+  static const String merchantWalletRequestAttachmentScreen =
+      '/merchant/wallet/requests/detail/attachment';
 }

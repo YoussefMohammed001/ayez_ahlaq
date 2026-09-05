@@ -8,9 +8,8 @@ import '../../domain/entities/shop_barber.dart';
 
 class ShopBarberRow extends StatelessWidget {
   final ShopBarber barber;
-  final VoidCallback onToggleFavorite;
 
-  const ShopBarberRow({super.key, required this.barber, required this.onToggleFavorite});
+  const ShopBarberRow({super.key, required this.barber});
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +29,14 @@ class ShopBarberRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        barber.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w700,
-                          color: scheme.onSurface,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: onToggleFavorite,
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: Padding(
-                        padding: EdgeInsets.all(4.w),
-                        child: Icon(
-                          barber.favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                          size: 18.r,
-                          color: barber.favorite ? context.semantic.warning : scheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                  ],
+                Text(
+                  barber.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13.5.sp,
+                    fontWeight: FontWeight.w700,
+                    color: scheme.onSurface,
+                  ),
                 ),
                 SizedBox(height: 4.h),
                 Row(

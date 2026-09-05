@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
+import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/barber_wallet_cubit.dart';
 import '../manager/barber_wallet_state.dart';
@@ -18,7 +21,13 @@ class BarberWalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(title: S().walletTitle),
+      appBar: AppTopBar(
+        title: S().walletTitle,
+        trailing: IconButton(
+          icon: Icon(Icons.receipt_long_outlined, color: context.colorScheme.onSurface),
+          onPressed: () => context.push(Routes.barberWalletRequestsScreen),
+        ),
+      ),
       body: BlocBuilder<BarberWalletCubit, BarberWalletState>(
         builder: (context, state) {
           final cubit = context.read<BarberWalletCubit>();
@@ -42,7 +51,10 @@ class BarberWalletScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
               children: [
-                WalletBalanceCard(balance: wallet.balance),
+                WalletBalanceCard(
+                  balance: wallet.balance,
+                  available: wallet.available,
+                ),
                 SizedBox(height: 18.h),
                 if (wallet.transactions.isEmpty)
                   Padding(

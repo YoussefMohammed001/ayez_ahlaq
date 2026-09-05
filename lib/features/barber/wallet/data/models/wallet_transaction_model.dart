@@ -8,6 +8,7 @@ class WalletTransactionModel extends WalletTransaction {
     required super.amount,
     required super.balanceAfter,
     required super.reason,
+    required super.source,
     required super.by,
     super.at,
   });
@@ -19,6 +20,7 @@ class WalletTransactionModel extends WalletTransaction {
       amount: (json['amount'] as num?)?.toInt() ?? 0,
       balanceAfter: (json['balanceAfter'] as num?)?.toInt() ?? 0,
       reason: json['reason'] as String? ?? '',
+      source: json['source'] as String? ?? '',
       by: json['by'] as String? ?? '',
       at: DateTime.tryParse(json['at'] as String? ?? ''),
     );

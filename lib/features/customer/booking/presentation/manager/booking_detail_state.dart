@@ -7,12 +7,14 @@ class BookingDetailState extends Equatable {
   final BookingDetailStatus status;
   final CustomerBooking? booking;
   final bool isCancelling;
+  final bool isRating;
   final String? errorMessage;
 
   const BookingDetailState({
     this.status = BookingDetailStatus.initial,
     this.booking,
     this.isCancelling = false,
+    this.isRating = false,
     this.errorMessage,
   });
 
@@ -20,16 +22,18 @@ class BookingDetailState extends Equatable {
     BookingDetailStatus? status,
     CustomerBooking? booking,
     bool? isCancelling,
+    bool? isRating,
     String? errorMessage,
   }) {
     return BookingDetailState(
       status: status ?? this.status,
       booking: booking ?? this.booking,
       isCancelling: isCancelling ?? this.isCancelling,
+      isRating: isRating ?? this.isRating,
       errorMessage: errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [status, booking, isCancelling, errorMessage];
+  List<Object?> get props => [status, booking, isCancelling, isRating, errorMessage];
 }

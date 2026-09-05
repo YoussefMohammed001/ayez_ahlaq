@@ -10,10 +10,11 @@ class BarberBroadcastRepo implements IBarberBroadcastRepo {
 
   @override
   Future<Either<Failure, Unit>> send({
+    required String scope,
     required String title,
     required String body,
   }) async {
-    final result = await _api.send(title: title, body: body);
+    final result = await _api.send(scope: scope, title: title, body: body);
     return result.map((_) => unit);
   }
 }

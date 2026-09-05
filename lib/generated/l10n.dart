@@ -3374,6 +3374,46 @@ class S {
     );
   }
 
+  /// `Delete service`
+  String get deleteServiceTitle {
+    return Intl.message(
+      'Delete service',
+      name: 'deleteServiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this service? Past bookings won't be affected.`
+  String get deleteServiceConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this service? Past bookings won\'t be affected.',
+      name: 'deleteServiceConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete custom service`
+  String get deleteOwnServiceTitle {
+    return Intl.message(
+      'Delete custom service',
+      name: 'deleteOwnServiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this custom service?`
+  String get deleteOwnServiceConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this custom service?',
+      name: 'deleteOwnServiceConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `File uploaded`
   String get documentUploadedSuccess {
     return Intl.message(
@@ -3939,6 +3979,276 @@ class S {
     );
   }
 
+  /// `Available: {amount} EGP`
+  String walletAvailableLabel(Object amount) {
+    return Intl.message(
+      'Available: $amount EGP',
+      name: 'walletAvailableLabel',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Wallet requests`
+  String get walletRequestsTitle {
+    return Intl.message(
+      'Wallet requests',
+      name: 'walletRequestsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No requests yet`
+  String get walletRequestsEmpty {
+    return Intl.message(
+      'No requests yet',
+      name: 'walletRequestsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New wallet request`
+  String get createWalletRequestTitle {
+    return Intl.message(
+      'New wallet request',
+      name: 'createWalletRequestTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request type`
+  String get walletRequestTypeLabel {
+    return Intl.message(
+      'Request type',
+      name: 'walletRequestTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit`
+  String get walletRequestTypeDeposit {
+    return Intl.message(
+      'Deposit',
+      name: 'walletRequestTypeDeposit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw`
+  String get walletRequestTypeWithdraw {
+    return Intl.message(
+      'Withdraw',
+      name: 'walletRequestTypeWithdraw',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get walletRequestAmountLabel {
+    return Intl.message(
+      'Amount',
+      name: 'walletRequestAmountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the amount`
+  String get walletRequestAmountHint {
+    return Intl.message(
+      'Enter the amount',
+      name: 'walletRequestAmountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get walletRequestNoteLabel {
+    return Intl.message(
+      'Note',
+      name: 'walletRequestNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a note (optional)`
+  String get walletRequestNoteHint {
+    return Intl.message(
+      'Add a note (optional)',
+      name: 'walletRequestNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receipt`
+  String get walletRequestAttachmentLabel {
+    return Intl.message(
+      'Receipt',
+      name: 'walletRequestAttachmentLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attach a receipt photo`
+  String get attachReceiptPhoto {
+    return Intl.message(
+      'Attach a receipt photo',
+      name: 'attachReceiptPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receipt photo attached`
+  String get receiptPhotoAttached {
+    return Intl.message(
+      'Receipt photo attached',
+      name: 'receiptPhotoAttached',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit request`
+  String get submitWalletRequest {
+    return Intl.message(
+      'Submit request',
+      name: 'submitWalletRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request submitted`
+  String get walletRequestCreatedSuccess {
+    return Intl.message(
+      'Request submitted',
+      name: 'walletRequestCreatedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get walletRequestStatusPending {
+    return Intl.message(
+      'Pending',
+      name: 'walletRequestStatusPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get walletRequestStatusApproved {
+    return Intl.message(
+      'Approved',
+      name: 'walletRequestStatusApproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected`
+  String get walletRequestStatusRejected {
+    return Intl.message(
+      'Rejected',
+      name: 'walletRequestStatusRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get walletRequestStatusCancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'walletRequestStatusCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decision note`
+  String get walletRequestDecisionNoteLabel {
+    return Intl.message(
+      'Decision note',
+      name: 'walletRequestDecisionNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decided by`
+  String get walletRequestDecidedByLabel {
+    return Intl.message(
+      'Decided by',
+      name: 'walletRequestDecidedByLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decided at`
+  String get walletRequestDecidedAtLabel {
+    return Intl.message(
+      'Decided at',
+      name: 'walletRequestDecidedAtLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel request`
+  String get cancelWalletRequestAction {
+    return Intl.message(
+      'Cancel request',
+      name: 'cancelWalletRequestAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel request`
+  String get cancelWalletRequestTitle {
+    return Intl.message(
+      'Cancel request',
+      name: 'cancelWalletRequestTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel this request?`
+  String get cancelWalletRequestConfirm {
+    return Intl.message(
+      'Are you sure you want to cancel this request?',
+      name: 'cancelWalletRequestConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request cancelled`
+  String get walletRequestCancelledSuccess {
+    return Intl.message(
+      'Request cancelled',
+      name: 'walletRequestCancelledSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reviews`
   String get reviewsTitle {
     return Intl.message('Reviews', name: 'reviewsTitle', desc: '', args: []);
@@ -4389,6 +4699,16 @@ class S {
     );
   }
 
+  /// `My customers only`
+  String get broadcastScopeMine {
+    return Intl.message(
+      'My customers only',
+      name: 'broadcastScopeMine',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `My zone only`
   String get broadcastScopeZone {
     return Intl.message(
@@ -4569,6 +4889,16 @@ class S {
     );
   }
 
+  /// `History`
+  String get bookingsHistoryTab {
+    return Intl.message(
+      'History',
+      name: 'bookingsHistoryTab',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No bookings awaiting confirmation`
   String get noPendingBookings {
     return Intl.message(
@@ -4584,6 +4914,16 @@ class S {
     return Intl.message(
       'The queue is empty',
       name: 'queueEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bookings yet`
+  String get noBookingHistory {
+    return Intl.message(
+      'No bookings yet',
+      name: 'noBookingHistory',
       desc: '',
       args: [],
     );
@@ -5314,6 +5654,131 @@ class S {
     return Intl.message(
       'We need your shop\'s location before you can use the app. Once it\'s saved, everything unlocks right away.',
       name: 'locationBlockedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate booking`
+  String get rateBooking {
+    return Intl.message(
+      'Rate booking',
+      name: 'rateBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate the barber`
+  String get rateBarberTitle {
+    return Intl.message(
+      'Rate the barber',
+      name: 'rateBarberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate the shop`
+  String get rateShopTitle {
+    return Intl.message(
+      'Rate the shop',
+      name: 'rateShopTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How was your experience with {barberName}?`
+  String rateBarberSubtitle(String barberName) {
+    return Intl.message(
+      'How was your experience with $barberName?',
+      name: 'rateBarberSubtitle',
+      desc: '',
+      args: [barberName],
+    );
+  }
+
+  /// `How was your experience with {shopName}?`
+  String rateShopSubtitle(String shopName) {
+    return Intl.message(
+      'How was your experience with $shopName?',
+      name: 'rateShopSubtitle',
+      desc: '',
+      args: [shopName],
+    );
+  }
+
+  /// `Write your feedback (optional)`
+  String get rateNoteHint {
+    return Intl.message(
+      'Write your feedback (optional)',
+      name: 'rateNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit rating`
+  String get submitRating {
+    return Intl.message(
+      'Submit rating',
+      name: 'submitRating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate the shop too`
+  String get rateShopToo {
+    return Intl.message(
+      'Rate the shop too',
+      name: 'rateShopToo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not now`
+  String get skipForNow {
+    return Intl.message('Not now', name: 'skipForNow', desc: '', args: []);
+  }
+
+  /// `Thanks for your rating`
+  String get ratingSubmittedMessage {
+    return Intl.message(
+      'Thanks for your rating',
+      name: 'ratingSubmittedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a star rating first`
+  String get selectStarsError {
+    return Intl.message(
+      'Select a star rating first',
+      name: 'selectStarsError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You already rated the barber`
+  String get alreadyRatedBarber {
+    return Intl.message(
+      'You already rated the barber',
+      name: 'alreadyRatedBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You already rated the shop`
+  String get alreadyRatedShop {
+    return Intl.message(
+      'You already rated the shop',
+      name: 'alreadyRatedShop',
       desc: '',
       args: [],
     );

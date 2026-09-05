@@ -42,6 +42,29 @@ class CustomerBooking extends Equatable {
     this.peopleAhead,
   });
 
+  CustomerBooking copyWith({bool? ratedBarber, bool? ratedShop}) {
+    return CustomerBooking(
+      id: id,
+      code: code,
+      status: status,
+      shopId: shopId,
+      shopName: shopName,
+      barberId: barberId,
+      barberName: barberName,
+      serviceLabel: serviceLabel,
+      styleName: styleName,
+      totalPrice: totalPrice,
+      bookingDate: bookingDate,
+      slotTime: slotTime,
+      paymentMethod: paymentMethod,
+      note: note,
+      queuePosition: queuePosition,
+      peopleAhead: peopleAhead,
+      ratedBarber: ratedBarber ?? this.ratedBarber,
+      ratedShop: ratedShop ?? this.ratedShop,
+    );
+  }
+
   @override
-  List<Object?> get props => [id, code, status, totalPrice, queuePosition, peopleAhead];
+  List<Object?> get props => [id, code, status, totalPrice, queuePosition, peopleAhead, ratedBarber, ratedShop];
 }

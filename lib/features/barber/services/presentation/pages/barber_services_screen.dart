@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/barber_service.dart';
+import '../../domain/entities/own_service.dart';
 import '../manager/barber_services_cubit.dart';
 import '../manager/barber_services_state.dart';
 import '../manager/own_services_cubit.dart';
@@ -47,13 +49,50 @@ class _BarberServicesScreenState extends State<BarberServicesScreen> {
     );
   }
 
+  Future<void> _confirmDeleteService(
+    BuildContext context,
+    BarberService service,
+  ) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().deleteServiceTitle,
+      message: S().deleteServiceConfirm,
+      confirmLabel: S().delete,
+      icon: Icons.delete_outline_rounded,
+    );
+
+    if (confirmed) await context.read<BarberServicesCubit>().deleteService(service.id);
+  }
+
+  Future<void> _confirmDeleteOwnService(
+    BuildContext context,
+    OwnService service,
+  ) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().deleteOwnServiceTitle,
+      message: S().deleteOwnServiceConfirm,
+      confirmLabel: S().delete,
+      icon: Icons.delete_outline_rounded,
+    );
+
+    if (confirmed) {
+      await context.read<OwnServicesCubit>().deleteOwnService(service.id);
+    }
+  }
+
   Future<void> _openOwnServiceForm(BuildContext context) {
-    final cubit = context.read<OwnServicesCubit>();
+    final ownCubit = context.read<OwnServicesCubit>();
+    final servicesCubit = context.read<BarberServicesCubit>();
 
     return OwnServiceFormSheet.show(
       context,
-      isSubmitting: cubit.state.isSubmitting,
-      onSubmit: cubit.createOwnService,
+      isSubmitting: ownCubit.state.isSubmitting,
+      onSubmit: (name, description) async {
+        final created = await ownCubit.createOwnService(name, description);
+        if (created) await servicesCubit.loadServices();
+        return created;
+      },
     );
   }
 
@@ -97,7 +136,7 @@ class _BarberServicesScreenState extends State<BarberServicesScreen> {
                     service.copyWith(active: value),
                   ),
                   onEdit: () => _openForm(context, state, existing: service),
-                  onDelete: () => cubit.deleteService(service.id),
+                  onDelete: () => _confirmDeleteService(context, service),
                 ),
               SectionTitle(
                 title: S().ownServicesTitle,
@@ -118,14 +157,12 @@ class _BarberServicesScreenState extends State<BarberServicesScreen> {
                     );
                   }
 
-                  final ownCubit = context.read<OwnServicesCubit>();
-
                   return Column(
                     children: [
                       for (final service in ownState.services)
                         OwnServiceRow(
                           service: service,
-                          onDelete: () => ownCubit.deleteOwnService(service.id),
+                          onDelete: () => _confirmDeleteOwnService(context, service),
                         ),
                     ],
                   );

@@ -24,6 +24,7 @@ class ShopBarber extends Equatable {
   final int ratingCount;
   final bool favorite;
   final bool viaInvite;
+  final bool owner;
   final List<ShopBarberService> services;
 
   const ShopBarber({
@@ -33,6 +34,7 @@ class ShopBarber extends Equatable {
     required this.ratingCount,
     required this.favorite,
     required this.viaInvite,
+    required this.owner,
     required this.services,
   });
 
@@ -44,6 +46,7 @@ class ShopBarber extends Equatable {
       ratingCount: ratingCount,
       favorite: favorite ?? this.favorite,
       viaInvite: viaInvite,
+      owner: owner,
       services: services,
     );
   }
@@ -56,6 +59,7 @@ class ShopBarber extends Equatable {
     ratingCount,
     favorite,
     viaInvite,
+    owner,
     services,
   ];
 }

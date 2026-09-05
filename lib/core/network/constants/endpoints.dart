@@ -1,6 +1,7 @@
 class EndPoints {
   static const String customerRegister = 'customer/register';
   static const String customerLogin = 'customer/login';
+  static const String customerMe = 'customer';
 
   static const String customerShop = 'customer/shop';
   static String customerShopById(int id) => 'customer/shop/$id';
@@ -9,6 +10,8 @@ class EndPoints {
   static const String customerBooking = 'customer/booking';
   static String customerBookingById(int id) => 'customer/booking/$id';
   static String customerBookingCancel(int id) => 'customer/booking/$id/cancel';
+
+  static const String customerRating = 'customer/rating';
 
   static String customerShopStorefront(int shopId) => 'customer/shop/$shopId/storefront';
   static String customerShopStorefrontProductImage(int shopId, int productId) =>
@@ -82,6 +85,12 @@ class EndPoints {
   static String barberOrderCancel(int id) => 'barber/order/$id/cancel';
 
   static const String barberWallet = 'barber/wallet';
+  static const String barberWalletRequests = 'barber/walletRequests';
+  static String barberWalletRequestById(int id) => 'barber/walletRequests/$id';
+  static String barberWalletRequestAttachment(int id) =>
+      'barber/walletRequests/$id/attachment';
+  static String barberWalletRequestCancel(int id) =>
+      'barber/walletRequests/$id/cancel';
 
   static const String barberReview = 'barber/review';
 
@@ -196,4 +205,13 @@ class EndPoints {
       'merchant/subscription/request';
 
   static const String merchantBroadcast = 'merchant/broadcast';
+
+  static const String merchantWallet = 'merchant/wallet';
+  static const String merchantWalletRequests = 'merchant/walletRequests';
+  static String merchantWalletRequestById(int id) =>
+      'merchant/walletRequests/$id';
+  static String merchantWalletRequestAttachment(int id) =>
+      'merchant/walletRequests/$id/attachment';
+  static String merchantWalletRequestCancel(int id) =>
+      'merchant/walletRequests/$id/cancel';
 }

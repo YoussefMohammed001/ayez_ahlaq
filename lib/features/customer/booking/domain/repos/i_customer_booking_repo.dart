@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../entities/booking_slots.dart';
 import '../entities/customer_booking.dart';
+import '../entities/rating_target.dart';
 
 abstract class ICustomerBookingRepo {
   Future<Either<Failure, BookingSlots>> getSlots({
@@ -27,4 +28,11 @@ abstract class ICustomerBookingRepo {
   Future<Either<Failure, CustomerBooking>> getBooking(int id);
 
   Future<Either<Failure, CustomerBooking>> cancelBooking(int id);
+
+  Future<Either<Failure, Unit>> rateBooking({
+    required int bookingId,
+    required RatingTarget target,
+    required int stars,
+    String? note,
+  });
 }

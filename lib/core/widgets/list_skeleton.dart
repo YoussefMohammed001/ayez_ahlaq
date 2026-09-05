@@ -14,6 +14,7 @@ class ListSkeleton extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
       itemCount: itemCount,
+      shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, __) => Container(
         padding: EdgeInsets.all(12.w),

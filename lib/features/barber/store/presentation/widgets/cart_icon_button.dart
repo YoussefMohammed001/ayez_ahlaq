@@ -20,9 +20,10 @@ class CartIconButton extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.shopping_cart_outlined),
-              onPressed: state.cart.itemCount == 0
-                  ? null
-                  : () => context.push(Routes.barberStoreCartScreen),
+              onPressed: () {
+                context.read<BarberStoreCartCubit>().loadCart();
+                context.push(Routes.barberStoreCartScreen);
+              },
             ),
             if (state.cart.itemCount > 0)
               Positioned(

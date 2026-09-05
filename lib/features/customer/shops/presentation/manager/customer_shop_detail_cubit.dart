@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../favorites/domain/use_cases/add_favorite_use_case.dart';
 import '../../../favorites/domain/use_cases/remove_favorite_use_case.dart';
+import '../../domain/entities/shop_barber.dart';
 import '../../domain/use_cases/get_shop_detail_use_case.dart';
 import 'customer_shop_detail_state.dart';
 
@@ -30,22 +31,29 @@ class CustomerShopDetailCubit extends Cubit<CustomerShopDetailState> {
     );
   }
 
-  Future<void> toggleFavorite(int barberId, bool currentlyFavorite) async {
+  Future<void> toggleFavorite(int barberId) async {
     final detail = state.detail;
     if (detail == null) return;
 
+    final target = detail.barbers.cast<ShopBarber>().firstWhere(
+      (b) => b.owner,
+      orElse: () => detail.barbers.firstWhere((b) => b.id == barberId),
+    );
+    final targetId = target.id;
+    final currentlyFavorite = target.favorite;
+
     final updatedBarbers = detail.barbers
-        .map((b) => b.id == barberId ? b.copyWith(favorite: !currentlyFavorite) : b)
+        .map((b) => b.id == targetId ? b.copyWith(favorite: !currentlyFavorite) : b)
         .toList();
     emit(state.copyWith(detail: detail.copyWith(barbers: updatedBarbers)));
 
     final result = currentlyFavorite
-        ? await _removeFavorite(barberId)
-        : await _addFavorite(barberId);
+        ? await _removeFavorite(targetId)
+        : await _addFavorite(targetId);
 
     result.fold((failure) {
       final revertedBarbers = detail.barbers
-          .map((b) => b.id == barberId ? b.copyWith(favorite: currentlyFavorite) : b)
+          .map((b) => b.id == targetId ? b.copyWith(favorite: currentlyFavorite) : b)
           .toList();
       emit(
         state.copyWith(

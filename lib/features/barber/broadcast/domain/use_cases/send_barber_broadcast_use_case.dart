@@ -8,9 +8,10 @@ class SendBarberBroadcastUseCase {
   SendBarberBroadcastUseCase(this._repo);
 
   Future<Either<Failure, Unit>> call({
+    required String scope,
     required String title,
     required String body,
   }) {
-    return _repo.send(title: title, body: body);
+    return _repo.send(scope: scope, title: title, body: body);
   }
 }

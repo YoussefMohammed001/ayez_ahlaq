@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../domain/entities/booking_slots.dart';
 import '../../domain/entities/customer_booking.dart';
+import '../../domain/entities/rating_target.dart';
 import '../../domain/repos/i_customer_booking_repo.dart';
 import '../apis/customer_booking_api.dart';
 import '../models/booking_slots_model.dart';
@@ -90,5 +91,22 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
       (response) =>
           CustomerBookingModel.fromJson(response['data'] as Map<String, dynamic>),
     );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> rateBooking({
+    required int bookingId,
+    required RatingTarget target,
+    required int stars,
+    String? note,
+  }) async {
+    final result = await _api.rateBooking({
+      'bookingId': bookingId,
+      'target': target.toApi,
+      'stars': stars,
+      'note': note,
+    });
+
+    return result.map((_) => unit);
   }
 }
