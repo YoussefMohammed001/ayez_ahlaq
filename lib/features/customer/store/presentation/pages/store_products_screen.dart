@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -26,7 +27,28 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<StoreCartCubit>().openShop(widget.shopId);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _openShop());
+  }
+
+  Future<void> _openShop() async {
+    final cubit = context.read<StoreCartCubit>();
+
+    if (cubit.state.hasItemsFromOtherShop(widget.shopId)) {
+      final confirmed = await showConfirmDialog(
+        context,
+        title: S().switchShopCartTitle,
+        message: S().switchShopCartMessage,
+        confirmLabel: S().switchShopCartConfirm,
+        icon: Icons.remove_shopping_cart_outlined,
+      );
+
+      if (!confirmed) {
+        if (mounted) Navigator.of(context).pop();
+        return;
+      }
+    }
+
+    if (mounted) cubit.openShop(widget.shopId);
   }
 
   @override

@@ -25,9 +25,8 @@ class MerchantPhonesCubit extends Cubit<MerchantPhonesState> {
           errorMessage: failure.message,
         ),
       ),
-      (phones) => emit(
-        state.copyWith(status: PhonesStatus.success, phones: phones),
-      ),
+      (phones) =>
+          emit(state.copyWith(status: PhonesStatus.success, phones: phones)),
     );
   }
 
@@ -45,10 +44,7 @@ class MerchantPhonesCubit extends Cubit<MerchantPhonesState> {
       },
       (added) {
         emit(
-          state.copyWith(
-            isSubmitting: false,
-            phones: [...state.phones, added],
-          ),
+          state.copyWith(isSubmitting: false, phones: [...state.phones, added]),
         );
         return true;
       },
@@ -62,9 +58,8 @@ class MerchantPhonesCubit extends Cubit<MerchantPhonesState> {
     final result = await _deletePhone(id);
 
     result.leftMap(
-      (failure) => emit(
-        state.copyWith(phones: previous, errorMessage: failure.message),
-      ),
+      (failure) =>
+          emit(state.copyWith(phones: previous, errorMessage: failure.message)),
     );
   }
 

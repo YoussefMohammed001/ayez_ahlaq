@@ -61,15 +61,6 @@ class BarberTeamRepo implements IBarberTeamRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> resetPassword(
-    int id,
-    String tempPassword,
-  ) async {
-    final result = await _api.resetPassword(id, tempPassword);
-    return result.map((_) => unit);
-  }
-
-  @override
   Future<Either<Failure, TeamMemberDetail>> blockMember(int id) async {
     final result = await _api.blockMember(id);
     return result.map(_mapOne);
@@ -79,6 +70,12 @@ class BarberTeamRepo implements IBarberTeamRepo {
   Future<Either<Failure, TeamMemberDetail>> activateMember(int id) async {
     final result = await _api.activateMember(id);
     return result.map(_mapOne);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteMemberPermanently(int id) async {
+    final result = await _api.deleteMemberPermanently(id);
+    return result.map((_) => unit);
   }
 
   List<TeamMember> _mapMany(dynamic response) {

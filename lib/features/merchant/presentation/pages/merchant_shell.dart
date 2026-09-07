@@ -17,6 +17,7 @@ import '../../products/presentation/pages/merchant_products_screen.dart';
 import '../../orders/presentation/pages/merchant_orders_screen.dart';
 import '../../profile/presentation/manager/merchant_profile_cubit.dart';
 import '../../profile/presentation/manager/merchant_profile_state.dart';
+import '../../profile/presentation/pages/merchant_force_change_password_screen.dart';
 import '../../profile/presentation/pages/merchant_location_screen.dart';
 import '../../profile/presentation/pages/merchant_profile_screen.dart';
 import '../../subscription/presentation/manager/merchant_subscription_cubit.dart';
@@ -64,12 +65,18 @@ class _MerchantShellState extends State<MerchantShell> {
       builder: (context, profileState) {
         final profile = profileState.profile;
         return BlockingGate(
-          isBlocked: profile != null && profile.needsLocation,
-          title: S().locationTitle,
+          isBlocked: profile != null && profile.mustChangePassword,
+          title: S().forceChangePasswordTitle,
           onLogout: widget.onLogout,
-          blockedBuilder: (_) =>
-              MerchantLocationScreen(profile: profile, blocking: true),
-          builder: (_) => _buildDocumentsGate(),
+          blockedBuilder: (_) => const MerchantForceChangePasswordScreen(),
+          builder: (_) => BlockingGate(
+            isBlocked: profile != null && profile.needsLocation,
+            title: S().locationTitle,
+            onLogout: widget.onLogout,
+            blockedBuilder: (_) =>
+                MerchantLocationScreen(profile: profile, blocking: true),
+            builder: (_) => _buildDocumentsGate(),
+          ),
         );
       },
     );
@@ -99,6 +106,7 @@ class _MerchantShellState extends State<MerchantShell> {
               MerchantDashboardScreen(
                 onGoToOrders: () => _goToTab(2),
                 onGoToProducts: () => _goToTab(1),
+                onGoToProfile: () => _goToTab(3),
                 businessName: state.profile?.businessName ?? '',
               ),
               const MerchantProductsScreen(),

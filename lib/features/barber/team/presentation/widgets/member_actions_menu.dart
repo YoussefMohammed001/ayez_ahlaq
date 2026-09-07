@@ -8,17 +8,17 @@ import '../../domain/entities/team_member_detail.dart';
 class MemberActionsMenu extends StatelessWidget {
   final TeamMemberDetail member;
   final VoidCallback onEdit;
-  final VoidCallback onResetPassword;
   final VoidCallback onBlock;
   final VoidCallback onActivate;
+  final VoidCallback onDeletePermanently;
 
   const MemberActionsMenu({
     super.key,
     required this.member,
     required this.onEdit,
-    required this.onResetPassword,
     required this.onBlock,
     required this.onActivate,
+    required this.onDeletePermanently,
   });
 
   Future<void> _confirmBlock(BuildContext context) async {
@@ -46,6 +46,18 @@ class MemberActionsMenu extends StatelessWidget {
     if (confirmed) onActivate();
   }
 
+  Future<void> _confirmDeletePermanently(BuildContext context) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().deleteMemberPermanentlyTitle,
+      message: S().deleteMemberPermanentlyConfirm,
+      confirmLabel: S().deleteMemberPermanentlyTitle,
+      icon: Icons.delete_forever_rounded,
+    );
+
+    if (confirmed) onDeletePermanently();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MenuSection(
@@ -55,11 +67,6 @@ class MemberActionsMenu extends StatelessWidget {
           icon: Icons.edit_outlined,
           label: S().editMemberTitle,
           onTap: onEdit,
-        ),
-        MenuRow(
-          icon: Icons.password_rounded,
-          label: S().resetPasswordTitle,
-          onTap: onResetPassword,
         ),
         if (member.active)
           MenuRow(
@@ -74,6 +81,12 @@ class MemberActionsMenu extends StatelessWidget {
             label: S().activateMemberTitle,
             onTap: () => _confirmActivate(context),
           ),
+        MenuRow(
+          icon: Icons.delete_forever_rounded,
+          label: S().deleteMemberPermanentlyTitle,
+          danger: true,
+          onTap: () => _confirmDeletePermanently(context),
+        ),
       ],
     );
   }

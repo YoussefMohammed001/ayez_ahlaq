@@ -6,6 +6,7 @@ class Earnings extends Equatable {
   final num last7Days;
   final num thisMonth;
   final int clientsToday;
+  final int clientsLast7Days;
   final int clientsThisMonth;
   final num avgTicket;
   final num supplierSpendThisMonth;
@@ -17,6 +18,7 @@ class Earnings extends Equatable {
     required this.last7Days,
     required this.thisMonth,
     required this.clientsToday,
+    this.clientsLast7Days = 0,
     required this.clientsThisMonth,
     required this.avgTicket,
     required this.supplierSpendThisMonth,
@@ -29,6 +31,7 @@ class Earnings extends Equatable {
       last7Days = 0,
       thisMonth = 0,
       clientsToday = 0,
+      clientsLast7Days = 0,
       clientsThisMonth = 0,
       avgTicket = 0,
       supplierSpendThisMonth = 0,
@@ -41,6 +44,7 @@ class Earnings extends Equatable {
     last7Days,
     thisMonth,
     clientsToday,
+    clientsLast7Days,
     clientsThisMonth,
     avgTicket,
     supplierSpendThisMonth,

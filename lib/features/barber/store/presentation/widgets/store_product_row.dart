@@ -9,6 +9,7 @@ import '../../../../../shared/widgets/quantity_stepper.dart';
 class StoreProductRow extends StatelessWidget {
   final StoreProduct product;
   final int quantity;
+  final bool isUpdating;
   final ValueChanged<int> onQuantityChanged;
 
   const StoreProductRow({
@@ -16,6 +17,7 @@ class StoreProductRow extends StatelessWidget {
     required this.product,
     required this.quantity,
     required this.onQuantityChanged,
+    this.isUpdating = false,
   });
 
   @override
@@ -76,6 +78,24 @@ class StoreProductRow extends StatelessWidget {
                     ],
                   ],
                 ),
+                if (product.minOrderQty > 1) ...[
+                  SizedBox(height: 3.h),
+                  Text(
+                    '${S().minOrderQty}: ${product.minOrderQty}',
+                    style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                  ),
+                ],
+                if (quantity > 0) ...[
+                  SizedBox(height: 3.h),
+                  Text(
+                    S().currencyEgp(product.effectivePrice * quantity),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      color: scheme.onSurface,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -84,6 +104,7 @@ class StoreProductRow extends StatelessWidget {
             quantity: quantity,
             minQuantity: product.minOrderQty,
             onChanged: onQuantityChanged,
+            disabled: isUpdating,
           ),
         ],
       ),

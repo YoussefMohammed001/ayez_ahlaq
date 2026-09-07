@@ -22,4 +22,45 @@ class MerchantAuthApi {
       data: request.toJson(),
     );
   }
+
+  Future<Either<Failure, dynamic>> verifyRegisterOtp(String phone, String otp) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantRegisterVerifyOtp,
+      data: {'phoneNumber': phone, 'otp': otp},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> resendRegisterOtp(String phone) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantRegisterResendOtp,
+      data: {'phoneNumber': phone},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> forgotPassword(String phone) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantPasswordForgot,
+      data: {'phoneNumber': phone},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> verifyPasswordOtp(
+    String phone,
+    String code,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantPasswordVerifyOtp,
+      data: {'phoneNumber': phone, 'code': code},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> resetPassword(
+    String resetToken,
+    String newPassword,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantPasswordReset,
+      data: {'resetToken': resetToken, 'newPassword': newPassword},
+    );
+  }
 }

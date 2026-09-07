@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
@@ -33,7 +34,10 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppTopBar(title: widget.merchant.businessName),
-      body: BlocBuilder<BarberStoreCartCubit, BarberStoreCartState>(
+      body: BlocConsumer<BarberStoreCartCubit, BarberStoreCartState>(
+        listenWhen: (previous, current) =>
+            current.errorMessage != null && current.errorMessage != previous.errorMessage,
+        listener: (context, state) => showError(state.errorMessage!),
         builder: (context, state) {
           final cubit = context.read<BarberStoreCartCubit>();
 
@@ -59,7 +63,12 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
                     return StoreProductRow(
                       product: product,
                       quantity: state.quantityFor(product.id),
-                      onQuantityChanged: (quantity) => cubit.setQuantity(product, quantity),
+                      isUpdating: state.isUpdatingCart,
+                      onQuantityChanged: (quantity) => cubit.setQuantity(
+                        product.id,
+                        product.minOrderQty,
+                        quantity,
+                      ),
                     );
                   },
                 ),

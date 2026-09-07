@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../generated/l10n.dart';
 import '../widgets/add_walk_in_sheet.dart';
+import 'history_bookings_view.dart';
 import 'pending_bookings_view.dart';
 import 'queue_bookings_view.dart';
 
@@ -14,7 +15,7 @@ class BookingsHomeScreen extends StatefulWidget {
 
 class _BookingsHomeScreenState extends State<BookingsHomeScreen>
     with SingleTickerProviderStateMixin {
-  late final _controller = TabController(length: 2, vsync: this)
+  late final _controller = TabController(length: 3, vsync: this)
     ..addListener(() => setState(() {}));
 
   @override
@@ -37,12 +38,17 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
           tabs: [
             Tab(text: S().bookingsPendingTab),
             Tab(text: S().bookingsQueueTab),
+            Tab(text: S().bookingsHistoryTab),
           ],
         ),
       ),
       body: TabBarView(
         controller: _controller,
-        children: const [PendingBookingsView(), QueueBookingsView()],
+        children: const [
+          PendingBookingsView(),
+          QueueBookingsView(),
+          HistoryBookingsView(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => AddWalkInSheet.show(context),

@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../shops/domain/entities/shop_addon.dart';
 import '../../../shops/domain/entities/shop_detail.dart';
+import '../../domain/entities/booking_addon.dart';
 import '../../domain/use_cases/create_booking_use_case.dart';
 import '../../domain/use_cases/get_booking_slots_use_case.dart';
 import 'booking_flow_state.dart';
@@ -87,6 +89,21 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
     emit(state.copyWith(note: note));
   }
 
+  void setAddonQuantity(ShopAddon addon, int quantity) {
+    final next = state.addons.where((a) => a.productId != addon.id).toList();
+    if (quantity > 0) {
+      next.add(
+        BookingAddon(
+          productId: addon.id,
+          quantity: quantity,
+          name: addon.name,
+          price: addon.price,
+        ),
+      );
+    }
+    emit(state.copyWith(addons: next));
+  }
+
   Future<void> submit() async {
     final serviceTypeId = state.serviceTypeId;
     final date = state.date;
@@ -105,6 +122,7 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
       slotTime: slotTime,
       paymentMethod: state.paymentMethod,
       note: state.note,
+      addons: state.addons,
     );
 
     result.fold(

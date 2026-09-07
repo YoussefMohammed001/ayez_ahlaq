@@ -87,7 +87,7 @@ class BarberShopMenuSections extends StatelessWidget {
             MenuRow(
               icon: Icons.campaign_outlined,
               label: S().sendBroadcast,
-              onTap: () => context.push(Routes.barberBroadcastScreen),
+              onTap: () => context.push(Routes.barberBroadcastListScreen),
             ),
             // MenuRow(
             //   icon: Icons.link_rounded,

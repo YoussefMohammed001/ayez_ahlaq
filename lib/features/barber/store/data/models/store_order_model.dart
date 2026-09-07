@@ -19,6 +19,12 @@ class StoreOrderModel extends StoreOrder {
     super.note,
     super.rejectionReason,
     super.orderDate,
+    super.acceptedAt,
+    super.rejectedAt,
+    super.deliveredAt,
+    super.deliveryAddress,
+    super.deliveryLat,
+    super.deliveryLng,
   });
 
   factory StoreOrderModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +51,12 @@ class StoreOrderModel extends StoreOrder {
       note: json['note'] as String?,
       rejectionReason: json['rejectionReason'] as String?,
       orderDate: DateTime.tryParse(json['orderDate'] as String? ?? ''),
+      acceptedAt: DateTime.tryParse(json['acceptedAt'] as String? ?? ''),
+      rejectedAt: DateTime.tryParse(json['rejectedAt'] as String? ?? ''),
+      deliveredAt: DateTime.tryParse(json['deliveredAt'] as String? ?? ''),
+      deliveryAddress: json['deliveryAddress'] as String?,
+      deliveryLat: (json['deliveryLat'] as num?)?.toDouble(),
+      deliveryLng: (json['deliveryLng'] as num?)?.toDouble(),
     );
   }
 }

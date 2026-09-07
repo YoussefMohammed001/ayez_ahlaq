@@ -74,10 +74,18 @@ class NetworkService {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     bool isRaw = true,
+    bool skipClientHeader = false,
   }) {
     final payload = _preparePayload(data, isRaw);
     return _safeRequest(
-      () => dio.post(endPoint, data: payload, queryParameters: queryParameters),
+      () => dio.post(
+        endPoint,
+        data: payload,
+        queryParameters: queryParameters,
+        options: skipClientHeader
+            ? Options(extra: {HttpHeadersKeys.skipClientHeaderExtraKey: true})
+            : null,
+      ),
     );
   }
 

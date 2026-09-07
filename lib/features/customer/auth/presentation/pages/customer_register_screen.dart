@@ -21,8 +21,7 @@ class CustomerRegisterScreen extends StatefulWidget {
   const CustomerRegisterScreen({super.key});
 
   @override
-  State<CustomerRegisterScreen> createState() =>
-      _CustomerRegisterScreenState();
+  State<CustomerRegisterScreen> createState() => _CustomerRegisterScreenState();
 }
 
 class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
@@ -62,8 +61,8 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
       appBar: AppTopBar(title: S().registerCustomer),
       body: BlocListener<CustomerAuthCubit, CustomerAuthState>(
         listener: (context, state) {
-          if (state.status == CustomerAuthStatus.authenticated) {
-            context.go(Routes.customerShell);
+          if (state.status == CustomerAuthStatus.otpRequested) {
+            context.replace(Routes.customerVerifyOtpScreen);
           }
           if (state.status == CustomerAuthStatus.failure &&
               state.errorMessage != null) {
@@ -130,7 +129,10 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
       ),
       LabeledField(
         label: S().emailOptional,
-        child: AppTextField(controller: _emailController, hint: 'name@mail.com'),
+        child: AppTextField(
+          controller: _emailController,
+          hint: 'name@mail.com',
+        ),
       ),
       SizedBox(height: 6.h),
       BlocBuilder<CustomerAuthCubit, CustomerAuthState>(

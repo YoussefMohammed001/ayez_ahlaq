@@ -1,3 +1,5 @@
+import 'storefront_fulfillment_type.dart';
+
 enum StorefrontOrderStatus {
   pending,
   accepted,
@@ -37,4 +39,12 @@ enum StorefrontOrderStatus {
       this == StorefrontOrderStatus.cancelled;
 
   bool get needsDecision => this == StorefrontOrderStatus.pending;
+
+  bool isValidFor(StorefrontFulfillmentType fulfillmentType) => switch (this) {
+    StorefrontOrderStatus.readyForPickup =>
+      fulfillmentType == StorefrontFulfillmentType.pickupAtBranch,
+    StorefrontOrderStatus.outForDelivery =>
+      fulfillmentType == StorefrontFulfillmentType.delivery,
+    _ => true,
+  };
 }

@@ -22,8 +22,15 @@ class StoreCartCubit extends Cubit<StoreCartState> {
       (failure) => emit(
         state.copyWith(status: StoreCartStatus.failure, errorMessage: failure.message),
       ),
-      (storefront) =>
-          emit(state.copyWith(status: StoreCartStatus.loaded, storefront: storefront)),
+      (storefront) => emit(
+        state.copyWith(
+          status: StoreCartStatus.loaded,
+          storefront: storefront,
+          fulfillmentType: storefront.delivery.offered
+              ? state.fulfillmentType
+              : StoreFulfillmentType.pickupAtBranch,
+        ),
+      ),
     );
   }
 
@@ -38,6 +45,10 @@ class StoreCartCubit extends Cubit<StoreCartState> {
   }
 
   void setFulfillmentType(StoreFulfillmentType type) {
+    if (type == StoreFulfillmentType.delivery &&
+        state.storefront?.delivery.offered == false) {
+      return;
+    }
     emit(state.copyWith(fulfillmentType: type, clearQuote: true));
   }
 

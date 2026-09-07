@@ -28,4 +28,6 @@ abstract class IMerchantProfileRepo {
   Future<Either<Failure, MerchantPhone>> addPhone(String phone, String? label);
 
   Future<Either<Failure, Unit>> deletePhone(int id);
+
+  Future<Either<Failure, Unit>> deleteAccount(String password);
 }

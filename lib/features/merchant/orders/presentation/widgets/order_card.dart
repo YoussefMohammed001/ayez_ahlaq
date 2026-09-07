@@ -65,7 +65,10 @@ class OrderCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StatusBadge(label: order.status.label, tone: order.status.tone),
+              StatusBadge(
+                label: order.status.labelFor(order.fulfilmentType),
+                tone: order.status.tone,
+              ),
               Text(
                 S().currencyEgp(order.grandTotal),
                 style: TextStyle(

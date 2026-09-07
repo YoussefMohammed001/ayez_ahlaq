@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/activate_team_member_use_case.dart';
 import '../../domain/use_cases/block_team_member_use_case.dart';
+import '../../domain/use_cases/delete_team_member_permanently_use_case.dart';
 import '../../domain/use_cases/get_team_member_use_case.dart';
-import '../../domain/use_cases/reset_member_password_use_case.dart';
 import '../../domain/use_cases/set_member_availability_use_case.dart';
 import '../../domain/use_cases/update_team_member_use_case.dart';
 import 'team_member_detail_state.dart';
@@ -11,17 +11,17 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
   final GetTeamMemberUseCase _getMember;
   final UpdateTeamMemberUseCase _updateMember;
   final SetMemberAvailabilityUseCase _setAvailability;
-  final ResetMemberPasswordUseCase _resetPassword;
   final BlockTeamMemberUseCase _blockMember;
   final ActivateTeamMemberUseCase _activateMember;
+  final DeleteTeamMemberPermanentlyUseCase _deleteMemberPermanently;
 
   TeamMemberDetailCubit(
     this._getMember,
     this._updateMember,
     this._setAvailability,
-    this._resetPassword,
     this._blockMember,
     this._activateMember,
+    this._deleteMemberPermanently,
   ) : super(const TeamMemberDetailState());
 
   Future<void> loadMember(int id) async {
@@ -76,26 +76,6 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
     );
   }
 
-  Future<bool> resetPassword(String tempPassword) async {
-    final member = state.member;
-    if (member == null) return false;
-
-    emit(state.copyWith(isSubmitting: true));
-
-    final result = await _resetPassword(member.id, tempPassword);
-
-    return result.fold(
-      (failure) {
-        emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
-        return false;
-      },
-      (_) {
-        emit(state.copyWith(isSubmitting: false));
-        return true;
-      },
-    );
-  }
-
   Future<void> blockMember() async {
     final member = state.member;
     if (member == null) return;
@@ -121,6 +101,26 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
     result.fold(
       (failure) => emit(state.copyWith(isSubmitting: false, errorMessage: failure.message)),
       (updated) => emit(state.copyWith(isSubmitting: false, member: updated)),
+    );
+  }
+
+  Future<bool> deleteMemberPermanently() async {
+    final member = state.member;
+    if (member == null) return false;
+
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _deleteMemberPermanently(member.id);
+
+    return result.fold(
+      (failure) {
+        emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
+        return false;
+      },
+      (_) {
+        emit(state.copyWith(isSubmitting: false));
+        return true;
+      },
     );
   }
 }

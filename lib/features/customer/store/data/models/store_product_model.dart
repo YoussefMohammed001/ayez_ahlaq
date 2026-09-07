@@ -24,7 +24,9 @@ class StoreProductModel extends StoreProduct {
       description: json['description'] as String?,
       price: (json['price'] as num?)?.toInt() ?? 0,
       minOrderQty: (json['minOrderQty'] as num?)?.toInt() ?? 1,
-      stock: (json['stock'] as num?)?.toInt() ?? 0,
+      stock: (json['totalStock'] as num?)?.toInt() ??
+          (json['stock'] as num?)?.toInt() ??
+          0,
       hasImage: json['hasImage'] as bool? ?? false,
     );
   }

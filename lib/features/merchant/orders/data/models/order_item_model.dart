@@ -9,6 +9,9 @@ class OrderItemModel extends OrderItem {
     required super.unitDiscount,
     required super.lineTotal,
     super.gift,
+    super.discountId,
+    super.currentUnitPrice,
+    super.currentUnitDiscount,
     super.currentEffectivePrice,
     super.priceChangedSinceOrder,
   });
@@ -22,6 +25,9 @@ class OrderItemModel extends OrderItem {
       unitDiscount: (json['unitDiscount'] as num?)?.toInt() ?? 0,
       lineTotal: (json['lineTotal'] as num?)?.toInt() ?? 0,
       gift: json['gift'] as bool? ?? false,
+      discountId: (json['discountId'] as num?)?.toInt(),
+      currentUnitPrice: (json['currentUnitPrice'] as num?)?.toInt(),
+      currentUnitDiscount: (json['currentUnitDiscount'] as num?)?.toInt(),
       currentEffectivePrice: (json['currentEffectivePrice'] as num?)?.toInt(),
       priceChangedSinceOrder: json['priceChangedSinceOrder'] as bool? ?? false,
     );

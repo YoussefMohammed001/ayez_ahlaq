@@ -25,9 +25,9 @@ abstract class IBarberTeamRepo {
     bool available,
   );
 
-  Future<Either<Failure, Unit>> resetPassword(int id, String tempPassword);
-
   Future<Either<Failure, TeamMemberDetail>> blockMember(int id);
 
   Future<Either<Failure, TeamMemberDetail>> activateMember(int id);
+
+  Future<Either<Failure, Unit>> deleteMemberPermanently(int id);
 }

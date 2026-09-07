@@ -7,6 +7,8 @@ class ChangeBarberPasswordUseCase {
 
   ChangeBarberPasswordUseCase(this._repo);
 
-  Future<Either<Failure, Unit>> call(String currentPassword, String newPassword) =>
-      _repo.changePassword(currentPassword, newPassword);
+  Future<Either<Failure, Unit>> call(
+    String currentPassword,
+    String newPassword,
+  ) => _repo.changePassword(currentPassword, newPassword);
 }

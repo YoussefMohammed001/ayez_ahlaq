@@ -19,7 +19,18 @@ class PurchaseOrderModel extends PurchaseOrder {
     required super.fulfilmentType,
     required super.nextStatuses,
     super.createdAt,
+    super.orderDate,
+    super.acceptedAt,
+    super.rejectedAt,
+    super.deliveredAt,
+    super.cancelledAt,
     super.rejectionReason,
+    super.cancellationNote,
+    super.cancelledByAdminName,
+    super.note,
+    super.deliveryAddress,
+    super.deliveryLat,
+    super.deliveryLng,
   });
 
   factory PurchaseOrderModel.fromJson(Map<String, dynamic> json) {
@@ -50,7 +61,18 @@ class PurchaseOrderModel extends PurchaseOrder {
       nextStatuses:
           next.map((e) => OrderStatus.fromApi(e as String?)).toList(),
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
+      orderDate: DateTime.tryParse(json['orderDate'] as String? ?? ''),
+      acceptedAt: DateTime.tryParse(json['acceptedAt'] as String? ?? ''),
+      rejectedAt: DateTime.tryParse(json['rejectedAt'] as String? ?? ''),
+      deliveredAt: DateTime.tryParse(json['deliveredAt'] as String? ?? ''),
+      cancelledAt: DateTime.tryParse(json['cancelledAt'] as String? ?? ''),
       rejectionReason: json['rejectionReason'] as String?,
+      cancellationNote: json['cancellationNote'] as String?,
+      cancelledByAdminName: json['cancelledByAdminName'] as String?,
+      note: json['note'] as String?,
+      deliveryAddress: json['deliveryAddress'] as String?,
+      deliveryLat: (json['deliveryLat'] as num?)?.toDouble(),
+      deliveryLng: (json['deliveryLng'] as num?)?.toDouble(),
     );
   }
 }

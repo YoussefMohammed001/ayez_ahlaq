@@ -18,6 +18,12 @@ class StoreOrder extends Equatable {
   final int grandTotal;
   final List<StoreOrderItem> items;
   final DateTime? orderDate;
+  final DateTime? acceptedAt;
+  final DateTime? rejectedAt;
+  final DateTime? deliveredAt;
+  final String? deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
 
   const StoreOrder({
     required this.id,
@@ -34,9 +40,21 @@ class StoreOrder extends Equatable {
     this.note,
     this.rejectionReason,
     this.orderDate,
+    this.acceptedAt,
+    this.rejectedAt,
+    this.deliveredAt,
+    this.deliveryAddress,
+    this.deliveryLat,
+    this.deliveryLng,
   });
 
   bool get hasDeliveryFee => deliveryFee > 0;
+
+  int get preDiscountTotal => total + orderDiscount;
+
+  int? get orderDiscountPercent => preDiscountTotal > 0
+      ? ((orderDiscount / preDiscountTotal) * 100).round()
+      : null;
 
   StoreOrder copyWith({StoreOrderStatus? status}) {
     return StoreOrder(
@@ -54,6 +72,12 @@ class StoreOrder extends Equatable {
       note: note,
       rejectionReason: rejectionReason,
       orderDate: orderDate,
+      acceptedAt: acceptedAt,
+      rejectedAt: rejectedAt,
+      deliveredAt: deliveredAt,
+      deliveryAddress: deliveryAddress,
+      deliveryLat: deliveryLat,
+      deliveryLng: deliveryLng,
     );
   }
 

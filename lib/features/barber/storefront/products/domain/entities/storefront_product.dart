@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'active_discount.dart';
+import 'product_image_source.dart';
 
 class StorefrontProduct extends Equatable {
   final int id;
@@ -8,24 +10,32 @@ class StorefrontProduct extends Equatable {
   final String? categoryName;
   final String? description;
   final int price;
+  final int effectivePrice;
   final int minOrderQty;
   final bool active;
   final int stock;
-  final bool hasImage;
+  final ActiveDiscount? activeDiscount;
+  final ProductImageSource imageSource;
+  final List<int> imageIds;
 
   const StorefrontProduct({
     required this.id,
     required this.name,
     required this.price,
+    required this.effectivePrice,
     required this.minOrderQty,
     required this.active,
     required this.stock,
-    required this.hasImage,
+    required this.imageSource,
+    required this.imageIds,
     this.brand,
     this.categoryId,
     this.categoryName,
     this.description,
+    this.activeDiscount,
   });
+
+  bool get hasDiscount => effectivePrice < price;
 
   bool get isOutOfStock => stock <= 0;
 
@@ -38,10 +48,13 @@ class StorefrontProduct extends Equatable {
       categoryName: categoryName,
       description: description,
       price: price,
+      effectivePrice: effectivePrice,
       minOrderQty: minOrderQty,
       active: active ?? this.active,
       stock: stock ?? this.stock,
-      hasImage: hasImage,
+      activeDiscount: activeDiscount,
+      imageSource: imageSource,
+      imageIds: imageIds,
     );
   }
 
@@ -54,9 +67,12 @@ class StorefrontProduct extends Equatable {
     categoryName,
     description,
     price,
+    effectivePrice,
     minOrderQty,
     active,
     stock,
-    hasImage,
+    activeDiscount,
+    imageSource,
+    imageIds,
   ];
 }

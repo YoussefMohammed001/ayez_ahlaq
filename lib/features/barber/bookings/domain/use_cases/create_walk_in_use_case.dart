@@ -10,11 +10,11 @@ class CreateWalkInUseCase {
   CreateWalkInUseCase(this._repo);
 
   Future<Either<Failure, Booking>> call({
-    int? barberId,
+    required int barberId,
     required int serviceTypeId,
     int? haircutStyleId,
-    required String customerName,
-    required String customerPhone,
+    String? customerName,
+    String? customerPhone,
     required String paymentMethod,
     String? note,
     required List<BookingAddon> addons,

@@ -1,11 +1,13 @@
 import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../domain/entities/transfer_account.dart';
 import '../../domain/entities/wallet_request.dart';
 import '../../domain/entities/wallet_request_page.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../../domain/repos/i_barber_wallet_requests_repo.dart';
 import '../apis/barber_wallet_requests_api.dart';
+import '../models/transfer_account_model.dart';
 import '../models/wallet_request_model.dart';
 import '../models/wallet_request_page_model.dart';
 
@@ -13,6 +15,17 @@ class BarberWalletRequestsRepo implements IBarberWalletRequestsRepo {
   final BarberWalletRequestsApi _api;
 
   BarberWalletRequestsRepo(this._api);
+
+  @override
+  Future<Either<Failure, List<TransferAccount>>> getTransferAccounts() async {
+    final result = await _api.getTransferAccounts();
+    return result.map((response) {
+      final data = response['data'] as List? ?? const [];
+      return data
+          .map((json) => TransferAccountModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    });
+  }
 
   @override
   Future<Either<Failure, WalletRequestPage>> getWalletRequests({
@@ -33,12 +46,16 @@ class BarberWalletRequestsRepo implements IBarberWalletRequestsRepo {
   Future<Either<Failure, WalletRequest>> createWalletRequest({
     required WalletRequestType type,
     required int amount,
+    int? transferAccountId,
+    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
     final result = await _api.createWalletRequest(
       type: type.toApi(),
       amount: amount,
+      transferAccountId: transferAccountId,
+      withdrawAccountNumber: withdrawAccountNumber,
       note: note,
       filePath: filePath,
     );

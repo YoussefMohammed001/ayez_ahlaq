@@ -78,7 +78,9 @@ class BarberProfileScreen extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         StatusBadge(
-          label: (profile?.active ?? false) ? S().verifiedMerchant : S().underReview,
+          label: (profile?.active ?? false)
+              ? S().verifiedBarber
+              : S().underReview,
           tone: (profile?.active ?? false) ? BadgeTone.open : BadgeTone.gold,
         ),
       ],

@@ -19,7 +19,7 @@ class ChooseBarberScreen extends StatelessWidget {
     final cubit = context.read<BookingFlowCubit>();
     final state = cubit.state;
     final barbers = state.shopDetail!.barbers
-        .where((b) => b.services.any((s) => s.id == state.serviceTypeId))
+        .where((b) => b.services.any((s) => s.serviceTypeId == state.serviceTypeId))
         .toList();
 
     return Scaffold(

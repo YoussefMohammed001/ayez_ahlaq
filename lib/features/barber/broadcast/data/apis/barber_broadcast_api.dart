@@ -18,4 +18,14 @@ class BarberBroadcastApi {
       data: {'scope': scope, 'title': title, 'body': body},
     );
   }
+
+  Future<Either<Failure, dynamic>> list({
+    required int page,
+    required int size,
+  }) {
+    return _networkService.getData(
+      endPoint: EndPoints.barberBroadcast,
+      queryParameters: {'page': page, 'size': size},
+    );
+  }
 }

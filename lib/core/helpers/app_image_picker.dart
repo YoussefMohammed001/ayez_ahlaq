@@ -1,8 +1,12 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '/generated/l10n.dart';
+import '../../shared/widgets/attachments/attachment_source.dart';
+import '../../shared/widgets/attachments/attachment_source_sheet.dart';
 import 'helpers.dart';
+
+const _imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'heic'];
 
 class AppImagePicker {
   AppImagePicker._();
@@ -48,47 +52,6 @@ class AppImagePicker {
     return XFile(file.path);
   }
 
-  static Future<void> showPickerSheet({
-    required BuildContext context,
-    required void Function(XFile file) onPicked,
-    int imageQuality = 80,
-  }) async {
-    await showCupertinoModalPopup(
-      context: context,
-      builder: (ctx) => CupertinoActionSheet(
-        title: Text(S().choose_image_source),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final xfile = await _picker.pickImage(
-                source: ImageSource.gallery,
-                imageQuality: imageQuality,
-              );
-              if (xfile != null) onPicked(xfile);
-            },
-            child: Text(S().gallery),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final xfile = await _picker.pickImage(
-                source: ImageSource.camera,
-                imageQuality: imageQuality,
-              );
-              if (xfile != null) onPicked(xfile);
-            },
-            child: Text(S().camera),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.of(ctx).pop(),
-          child: Text(S().cancel),
-        ),
-      ),
-    );
-  }
-
   static Future<void> showMultiPickerSheet({
     required BuildContext context,
     required List<XFile> current,
@@ -98,39 +61,40 @@ class AppImagePicker {
   }) async {
     if (current.length >= maxCount) return;
 
-    await showCupertinoModalPopup(
-      context: context,
-      builder: (ctx) => CupertinoActionSheet(
-        title: Text(S().choose_image_source),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final xfile = await _picker.pickImage(
-                source: ImageSource.gallery,
-                imageQuality: imageQuality,
-              );
-              if (xfile != null) onPicked(xfile);
-            },
-            child: Text(S().gallery),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final xfile = await _picker.pickImage(
-                source: ImageSource.camera,
-                imageQuality: imageQuality,
-              );
-              if (xfile != null) onPicked(xfile);
-            },
-            child: Text(S().camera),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.of(ctx).pop(),
-          child: Text(S().cancel),
-        ),
+    final source = await AttachmentSourceSheet.show(context);
+    if (source == null || !context.mounted) return;
+
+    final xfile = await _pickFrom(source, imageQuality: imageQuality);
+    if (xfile != null) onPicked(xfile);
+  }
+
+  static Future<XFile?> _pickFrom(
+    AttachmentSource source, {
+    required int imageQuality,
+  }) {
+    return switch (source) {
+      AttachmentSource.camera => _picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: imageQuality,
       ),
+      AttachmentSource.gallery => _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: imageQuality,
+      ),
+      AttachmentSource.files => _pickImageFile(),
+    };
+  }
+
+  static Future<XFile?> _pickImageFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: _imageExtensions,
+      withData: false,
     );
+
+    final path = result?.files.single.path;
+    if (path == null) return null;
+
+    return XFile(path);
   }
 }

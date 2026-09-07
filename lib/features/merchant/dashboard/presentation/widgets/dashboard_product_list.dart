@@ -36,7 +36,7 @@ class DashboardProductList extends StatelessWidget {
             padding: EdgeInsets.all(10.w),
             onTap: () => context.push(
               Routes.merchantProductDetailsScreen,
-              extra: product,
+              extra: product.id,
             ),
             child: Row(
               children: [

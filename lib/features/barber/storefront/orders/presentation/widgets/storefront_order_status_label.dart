@@ -1,4 +1,5 @@
 import '../../../../../../generated/l10n.dart';
+import '../../domain/entities/storefront_fulfillment_type.dart';
 import '../../domain/entities/storefront_order_status.dart';
 
 extension StorefrontOrderStatusLabel on StorefrontOrderStatus {
@@ -12,4 +13,12 @@ extension StorefrontOrderStatusLabel on StorefrontOrderStatus {
     StorefrontOrderStatus.rejected => S().statusRejected,
     StorefrontOrderStatus.cancelled => S().statusCancelled,
   };
+
+  String labelFor(StorefrontFulfillmentType fulfillmentType) {
+    if (this == StorefrontOrderStatus.delivered &&
+        fulfillmentType == StorefrontFulfillmentType.pickupAtBranch) {
+      return S().statusPickedUpAtBranch;
+    }
+    return label;
+  }
 }

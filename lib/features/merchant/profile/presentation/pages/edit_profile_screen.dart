@@ -84,16 +84,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               controller: _businessController,
               hint: S().businessNameHint,
               readOnly: !context.canEditIdentity,
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? S().businessNameRequired : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? S().businessNameRequired
+                  : null,
             ),
             SectionTitle(title: S().ownerName),
             AppTextField(
               controller: _ownerController,
               hint: S().ownerNameHint,
               readOnly: !context.canEditIdentity,
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? S().ownerNameRequired : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? S().ownerNameRequired
+                  : null,
             ),
             SectionTitle(title: S().emailOptional),
             AppTextField(

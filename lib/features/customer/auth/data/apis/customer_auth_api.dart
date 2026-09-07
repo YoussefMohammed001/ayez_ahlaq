@@ -22,4 +22,45 @@ class CustomerAuthApi {
       data: request.toJson(),
     );
   }
+
+  Future<Either<Failure, dynamic>> verifyRegisterOtp(String phone, String otp) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRegisterVerifyOtp,
+      data: {'phoneNumber': phone, 'otp': otp},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> resendRegisterOtp(String phone) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRegisterResendOtp,
+      data: {'phoneNumber': phone},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> forgotPassword(String phone) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerPasswordForgot,
+      data: {'phoneNumber': phone},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> verifyPasswordOtp(
+    String phone,
+    String code,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerPasswordVerifyOtp,
+      data: {'phoneNumber': phone, 'code': code},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> resetPassword(
+    String resetToken,
+    String newPassword,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerPasswordReset,
+      data: {'resetToken': resetToken, 'newPassword': newPassword},
+    );
+  }
 }

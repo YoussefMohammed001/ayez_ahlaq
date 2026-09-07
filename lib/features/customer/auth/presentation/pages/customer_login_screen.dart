@@ -52,6 +52,9 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
             if (state.status == CustomerAuthStatus.authenticated) {
               context.go(Routes.customerShell);
             }
+            if (state.status == CustomerAuthStatus.otpRequested) {
+              context.replace(Routes.customerVerifyOtpScreen);
+            }
             if (state.status == CustomerAuthStatus.failure &&
                 state.errorMessage != null) {
               showError(state.errorMessage!);
@@ -64,7 +67,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               children: [
                 AuthBrandHeader(
                   title: S().welcomeBack,
-                  subtitle: S().loginSubtitle,
+                  subtitle: S().loginSubtitleCustomer,
                 ),
                 SizedBox(height: 26.h),
                 AppCard(
@@ -72,6 +75,11 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                   child: Column(children: _buildFormFields()),
                 ),
                 SizedBox(height: 18.h),
+                AuthFooterPrompt(
+                  label: S().forgotPassword,
+                  onTap: () =>
+                      context.push(Routes.customerForgotPasswordScreen),
+                ),
                 AuthFooterPrompt(
                   label: S().noAccountRegisterCustomer,
                   onTap: () => context.push(Routes.customerRegisterScreen),

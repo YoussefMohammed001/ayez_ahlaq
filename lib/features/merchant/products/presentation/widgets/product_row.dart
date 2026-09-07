@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_card.dart';
+import '../../../../../core/widgets/badge_tone.dart';
+import '../../../../../core/widgets/status_badge.dart';
 import '../../domain/entities/merchant_product.dart';
+import 'active_discount_label.dart';
 import 'product_thumbnail.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -49,20 +52,34 @@ class ProductRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          product.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: context.colorScheme.onSurface,
-            fontWeight: FontWeight.w700,
-          ),
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                product.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: context.colorScheme.onSurface,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            if (product.activeDiscount != null) ...[
+              SizedBox(width: 6.w),
+              StatusBadge(
+                label: product.activeDiscount!.valueLabel,
+                tone: BadgeTone.gold,
+                showDot: false,
+              ),
+            ],
+          ],
         ),
         SizedBox(height: 4.h),
         Text(
           S().productMetaLine(
-            product.price,
+            product.effectivePrice,
             product.totalStock,
             product.minOrderQty,
           ),

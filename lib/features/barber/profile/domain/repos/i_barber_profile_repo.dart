@@ -15,4 +15,6 @@ abstract class IBarberProfileRepo {
     String currentPassword,
     String newPassword,
   );
+
+  Future<Either<Failure, Unit>> deleteAccount(String password);
 }

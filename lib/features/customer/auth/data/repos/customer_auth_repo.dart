@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../../../../shared/auth/data/models/auth_session_model.dart';
 import '../../../../../shared/auth/domain/entities/auth_session.dart';
+import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
 import '../../../../../shared/user_type.dart';
 import '../../domain/repos/i_customer_auth_repo.dart';
 import '../apis/customer_auth_api.dart';
@@ -24,11 +26,57 @@ class CustomerAuthRepo implements ICustomerAuthRepo {
   }
 
   @override
-  Future<Either<Failure, AuthSession>> register(
+  Future<Either<Failure, Unit>> register(
     CustomerRegisterRequest request,
   ) async {
     final result = await _api.register(request);
-    return _persist(result, request.phoneNumber);
+    return result.map((_) => unit);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> verifyRegisterOtp(
+    String phone,
+    String otp,
+  ) async {
+    final result = await _api.verifyRegisterOtp(phone, otp);
+    return result.map((_) => unit);
+  }
+
+  @override
+  Future<Either<Failure, String>> resendRegisterOtp(String phone) async {
+    final result = await _api.resendRegisterOtp(phone);
+    return result.map(
+      (response) =>
+          response['message'] as String? ?? S().otpResentMessage,
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> forgotPassword(String phone) async {
+    final result = await _api.forgotPassword(phone);
+    return result.map((_) => unit);
+  }
+
+  @override
+  Future<Either<Failure, PasswordResetTicket>> verifyPasswordOtp(
+    String phone,
+    String code,
+  ) async {
+    final result = await _api.verifyPasswordOtp(phone, code);
+    return result.map(
+      (response) => PasswordResetTicket(
+        resetToken: response['data']?['resetToken'] as String? ?? '',
+      ),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword(
+    String resetToken,
+    String newPassword,
+  ) async {
+    final result = await _api.resetPassword(resetToken, newPassword);
+    return result.map((_) => unit);
   }
 
   @override

@@ -25,13 +25,23 @@ class _CreateWalletRequestScreenState extends State<CreateWalletRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+  final _withdrawAccountController = TextEditingController();
   WalletRequestType _type = WalletRequestType.deposit;
   String? _filePath;
+  int? _transferAccountId;
+  bool _showTransferAccountError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CreateWalletRequestCubit>().loadTransferAccounts();
+  }
 
   @override
   void dispose() {
     _amountController.dispose();
     _noteController.dispose();
+    _withdrawAccountController.dispose();
     super.dispose();
   }
 
@@ -56,17 +66,28 @@ class _CreateWalletRequestScreenState extends State<CreateWalletRequestScreen> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-
     final cubit = context.read<CreateWalletRequestCubit>();
+    final requiresTransferAccount =
+        _type == WalletRequestType.deposit && cubit.state.transferAccounts.isNotEmpty;
+
+    setState(() {
+      _showTransferAccountError = requiresTransferAccount && _transferAccountId == null;
+    });
+
+    if (!_formKey.currentState!.validate() || _showTransferAccountError) return;
+
     final amount = int.tryParse(_amountController.text.trim()) ?? 0;
     final note = _noteController.text.trim();
+
+    final withdrawAccount = _withdrawAccountController.text.trim();
 
     final created = await cubit.submit(
       type: _type,
       amount: amount,
+      transferAccountId: _transferAccountId,
+      withdrawAccountNumber: withdrawAccount.isEmpty ? null : withdrawAccount,
       note: note.isEmpty ? null : note,
-      filePath: _filePath,
+      filePath: _type == WalletRequestType.deposit ? _filePath : null,
     );
 
     if (!mounted) return;
@@ -87,26 +108,34 @@ class _CreateWalletRequestScreenState extends State<CreateWalletRequestScreen> {
       appBar: AppTopBar(title: S().createWalletRequestTitle),
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-          children: [
-            WalletRequestFormFields(
-              amountController: _amountController,
-              noteController: _noteController,
-              type: _type,
-              onTypeChanged: (type) => setState(() => _type = type),
-              filePath: _filePath,
-              onPickAttachment: _pickAttachment,
-            ),
-            SizedBox(height: 20.h),
-            BlocBuilder<CreateWalletRequestCubit, CreateWalletRequestState>(
-              builder: (context, state) => PrimaryCtaButton(
+        child: BlocBuilder<CreateWalletRequestCubit, CreateWalletRequestState>(
+          builder: (context, state) => ListView(
+            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+            children: [
+              WalletRequestFormFields(
+                amountController: _amountController,
+                noteController: _noteController,
+                withdrawAccountController: _withdrawAccountController,
+                type: _type,
+                onTypeChanged: (type) => setState(() => _type = type),
+                filePath: _filePath,
+                onPickAttachment: _pickAttachment,
+                transferAccounts: state.transferAccounts,
+                selectedTransferAccountId: _transferAccountId,
+                onTransferAccountChanged: (id) => setState(() {
+                  _transferAccountId = id;
+                  _showTransferAccountError = false;
+                }),
+                showTransferAccountError: _showTransferAccountError,
+              ),
+              SizedBox(height: 20.h),
+              PrimaryCtaButton(
                 label: S().submitWalletRequest,
                 isLoading: state.status == CreateWalletRequestStatus.submitting,
                 onPressed: _submit,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

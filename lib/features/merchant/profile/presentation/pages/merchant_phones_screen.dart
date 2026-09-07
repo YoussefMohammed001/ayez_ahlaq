@@ -35,7 +35,11 @@ class MerchantPhonesScreen extends StatelessWidget {
       appBar: AppTopBar(
         title: S().extraPhones,
         trailing: IconButton(
-          icon: Icon(Icons.add, color: context.semantic.accentStrong, size: 22.r),
+          icon: Icon(
+            Icons.add,
+            color: context.semantic.accentStrong,
+            size: 22.r,
+          ),
           onPressed: () => AddPhoneSheet.show(context),
         ),
       ),

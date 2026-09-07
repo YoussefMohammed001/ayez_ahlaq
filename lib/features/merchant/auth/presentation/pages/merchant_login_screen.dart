@@ -52,6 +52,9 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
             if (state.status == AuthStatus.authenticated) {
               context.go(Routes.merchantShell);
             }
+            if (state.status == AuthStatus.otpRequested) {
+              context.replace(Routes.merchantVerifyOtpScreen);
+            }
             if (state.status == AuthStatus.failure &&
                 state.errorMessage != null) {
               showError(state.errorMessage!);
@@ -72,6 +75,11 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
                   child: Column(children: _buildFormFields()),
                 ),
                 SizedBox(height: 18.h),
+                AuthFooterPrompt(
+                  label: S().forgotPassword,
+                  onTap: () =>
+                      context.push(Routes.merchantForgotPasswordScreen),
+                ),
                 AuthFooterPrompt(
                   label: S().noAccountRegister,
                   onTap: () => context.push(Routes.registerScreen),

@@ -45,6 +45,11 @@ class CustomerProfileMenu extends StatelessWidget {
               onTap: () => context.push(Routes.customerNotificationsScreen),
             ),
             MenuRow(
+              icon: Icons.lock_outline_rounded,
+              label: S().changePassword,
+              onTap: () => context.push(Routes.customerChangePasswordScreen),
+            ),
+            MenuRow(
               icon: Icons.brightness_6_rounded,
               label: S().theme,
               onTap: () => ThemeSheet.show(context),
@@ -70,6 +75,12 @@ class CustomerProfileMenu extends StatelessWidget {
               danger: true,
               showChevron: false,
               onTap: () => _confirmLogout(context),
+            ),
+            MenuRow(
+              icon: Icons.delete_forever_rounded,
+              label: S().deleteAccount,
+              danger: true,
+              onTap: () => context.push(Routes.customerDeleteAccountScreen),
             ),
           ],
         ),

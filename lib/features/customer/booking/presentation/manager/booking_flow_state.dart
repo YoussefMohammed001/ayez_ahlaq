@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../shops/domain/entities/shop_detail.dart';
+import '../../domain/entities/booking_addon.dart';
 import '../../domain/entities/booking_slots.dart';
 import '../../domain/entities/customer_booking.dart';
 
@@ -31,6 +32,7 @@ class BookingFlowState extends Equatable {
   final BookingSlots? slots;
   final CustomerBooking? createdBooking;
   final String? errorMessage;
+  final List<BookingAddon> addons;
 
   const BookingFlowState({
     this.status = BookingFlowStatus.initial,
@@ -51,9 +53,13 @@ class BookingFlowState extends Equatable {
     this.slots,
     this.createdBooking,
     this.errorMessage,
+    this.addons = const [],
   });
 
-  int get totalPrice => servicePrice + styleDelta;
+  int get addonsTotal =>
+      addons.fold(0, (sum, addon) => sum + (addon.price ?? 0) * addon.quantity);
+
+  int get totalPrice => servicePrice + styleDelta + addonsTotal;
 
   BookingFlowState copyWith({
     BookingFlowStatus? status,
@@ -73,6 +79,7 @@ class BookingFlowState extends Equatable {
     BookingSlots? slots,
     CustomerBooking? createdBooking,
     String? errorMessage,
+    List<BookingAddon>? addons,
     bool clearBarber = false,
     bool clearStyle = false,
   }) {
@@ -95,6 +102,7 @@ class BookingFlowState extends Equatable {
       slots: slots ?? this.slots,
       createdBooking: createdBooking ?? this.createdBooking,
       errorMessage: errorMessage,
+      addons: addons ?? this.addons,
     );
   }
 
@@ -113,5 +121,6 @@ class BookingFlowState extends Equatable {
     slots,
     createdBooking,
     errorMessage,
+    addons,
   ];
 }

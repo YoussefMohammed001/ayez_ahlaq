@@ -52,6 +52,9 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
             if (state.status == BarberAuthStatus.authenticated) {
               context.go(Routes.barberShell);
             }
+            if (state.status == BarberAuthStatus.otpRequested) {
+              context.replace(Routes.barberVerifyOtpScreen);
+            }
             if (state.status == BarberAuthStatus.failure &&
                 state.errorMessage != null) {
               showError(state.errorMessage!);
@@ -64,7 +67,7 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
               children: [
                 AuthBrandHeader(
                   title: S().welcomeBack,
-                  subtitle: S().loginSubtitle,
+                  subtitle: S().loginSubtitleBarber,
                 ),
                 SizedBox(height: 26.h),
                 AppCard(
@@ -72,6 +75,14 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
                   child: Column(children: _buildFormFields()),
                 ),
                 SizedBox(height: 18.h),
+                AuthFooterPrompt(
+                  label: S().forgotPassword,
+                  onTap: () => context.push(Routes.barberForgotPasswordScreen),
+                ),
+                AuthFooterPrompt(
+                  label: S().noAccountRegisterBarber,
+                  onTap: () => context.push(Routes.barberRegisterScreen),
+                ),
                 AuthFooterPrompt(
                   label: S().changeAccountType,
                   onTap: () => context.go(Routes.userTypeScreen),

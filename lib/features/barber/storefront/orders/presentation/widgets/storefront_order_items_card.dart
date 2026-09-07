@@ -63,6 +63,7 @@ class StorefrontOrderItemsCard extends StatelessWidget {
         border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
@@ -74,21 +75,28 @@ class StorefrontOrderItemsCard extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            '${item.quantity} ×',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: context.colorScheme.onSurfaceVariant,
-            ),
-          ),
           SizedBox(width: 10.w),
-          Text(
-            S().currencyEgp(item.lineTotal),
-            style: TextStyle(
-              fontSize: 13.sp,
-              color: context.semantic.accentSoft,
-              fontWeight: FontWeight.w700,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${item.quantity} × ${S().currencyEgp(item.unitPrice)}',
+                textDirection: TextDirection.ltr,
+                style: TextStyle(
+                  fontSize: 11.5.sp,
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                S().currencyEgp(item.lineTotal),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: context.semantic.accentSoft,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
         ],
       ),

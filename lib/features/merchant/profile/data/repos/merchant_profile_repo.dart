@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../domain/entities/merchant_phone.dart';
 import '../../domain/entities/merchant_profile.dart';
 import '../../domain/repos/i_merchant_profile_repo.dart';
@@ -9,8 +10,9 @@ import '../models/merchant_profile_model.dart';
 
 class MerchantProfileRepo implements IMerchantProfileRepo {
   final MerchantProfileApi _api;
+  final AuthLocalDataSource _localDataSource;
 
-  MerchantProfileRepo(this._api);
+  MerchantProfileRepo(this._api, this._localDataSource);
 
   @override
   Future<Either<Failure, MerchantProfile>> getProfile() async {
@@ -75,9 +77,8 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
   ) async {
     final result = await _api.addPhone(phone, label);
     return result.map(
-      (response) => MerchantPhoneModel.fromJson(
-        response['data'] as Map<String, dynamic>,
-      ),
+      (response) =>
+          MerchantPhoneModel.fromJson(response['data'] as Map<String, dynamic>),
     );
   }
 
@@ -91,5 +92,14 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
     return MerchantProfileModel.fromJson(
       response['data'] as Map<String, dynamic>,
     );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAccount(String password) async {
+    final result = await _api.deleteAccount(password);
+
+    await result.fold((_) async {}, (_) => _localDataSource.clearSession());
+
+    return result.map((_) => unit);
   }
 }

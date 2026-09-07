@@ -12,11 +12,15 @@ class CreateWalletRequestUseCase {
   Future<Either<Failure, WalletRequest>> call({
     required WalletRequestType type,
     required int amount,
+    int? transferAccountId,
+    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) => _repo.createWalletRequest(
     type: type,
     amount: amount,
+    transferAccountId: transferAccountId,
+    withdrawAccountNumber: withdrawAccountNumber,
     note: note,
     filePath: filePath,
   );

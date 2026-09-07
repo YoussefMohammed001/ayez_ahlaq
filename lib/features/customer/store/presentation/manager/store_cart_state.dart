@@ -41,6 +41,9 @@ class StoreCartState extends Equatable {
 
   bool get isEmpty => items.isEmpty;
 
+  bool hasItemsFromOtherShop(int otherShopId) =>
+      items.isNotEmpty && shopId != null && shopId != otherShopId;
+
   int quantityFor(int productId) => items[productId] ?? 0;
 
   int get subtotal {

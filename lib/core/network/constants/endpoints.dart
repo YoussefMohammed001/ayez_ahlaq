@@ -1,6 +1,12 @@
 class EndPoints {
   static const String customerRegister = 'customer/register';
+  static const String customerRegisterVerifyOtp = 'customer/register/verifyOtp';
+  static const String customerRegisterResendOtp = 'customer/register/resendOtp';
   static const String customerLogin = 'customer/login';
+  static const String customerPasswordForgot = 'customer/password/forgot';
+  static const String customerPasswordVerifyOtp = 'customer/password/verifyOtp';
+  static const String customerPasswordReset = 'customer/password/reset';
+  static const String customerPassword = 'customer/password';
   static const String customerMe = 'customer';
 
   static const String customerShop = 'customer/shop';
@@ -24,6 +30,8 @@ class EndPoints {
   static String customerOrderById(int id) => 'customer/order/$id';
   static String customerOrderCancel(int id) => 'customer/order/$id/cancel';
 
+  static const String customerPaymentMethod = 'customer/paymentMethod';
+
   static const String customerFavorite = 'customer/favorite';
   static String customerFavoriteById(int barberId) => 'customer/favorite/$barberId';
   static String customerFavoriteInvite(String inviteCode) =>
@@ -44,9 +52,20 @@ class EndPoints {
   static const String customerDeviceTokenAll = 'customer/device_token/all';
 
   static const String merchantRegister = 'merchant/register';
+  static const String merchantRegisterVerifyOtp = 'merchant/register/verifyOtp';
+  static const String merchantRegisterResendOtp = 'merchant/register/resendOtp';
   static const String merchantLogin = 'merchant/login';
+  static const String merchantPasswordForgot = 'merchant/password/forgot';
+  static const String merchantPasswordVerifyOtp = 'merchant/password/verifyOtp';
+  static const String merchantPasswordReset = 'merchant/password/reset';
 
+  static const String barberRegister = 'barber/register';
+  static const String barberRegisterVerifyOtp = 'barber/register/verifyOtp';
+  static const String barberRegisterResendOtp = 'barber/register/resendOtp';
   static const String barberLogin = 'barber/login';
+  static const String barberPasswordForgot = 'barber/password/forgot';
+  static const String barberPasswordVerifyOtp = 'barber/password/verifyOtp';
+  static const String barberPasswordReset = 'barber/password/reset';
   static const String barberMe = 'barber';
   static const String barberLocation = 'barber/location';
   static const String barberPassword = 'barber/password';
@@ -62,8 +81,10 @@ class EndPoints {
   static const String barberTeam = 'barber/team';
   static String barberTeamById(int id) => 'barber/team/$id';
   static String barberTeamAvailability(int id) => 'barber/team/$id/availability';
-  static String barberTeamPassword(int id) => 'barber/team/$id/password';
   static String barberTeamActivate(int id) => 'barber/team/$id/activate';
+  static String barberTeamPermanent(int id) => 'barber/team/$id/permanent';
+  static String barberTeamMemberEarnings(int id) => 'barber/team/$id/earnings';
+  static String barberTeamMemberClients(int id) => 'barber/team/$id/clients';
   static String barberTeamHours(int id) => 'barber/team/$id/hours';
   static String barberTeamService(int id) => 'barber/team/$id/service';
   static String barberTeamServiceCatalog(int id) =>
@@ -85,6 +106,7 @@ class EndPoints {
   static String barberOrderCancel(int id) => 'barber/order/$id/cancel';
 
   static const String barberWallet = 'barber/wallet';
+  static const String barberTransferAccount = 'barber/transferAccount';
   static const String barberWalletRequests = 'barber/walletRequests';
   static String barberWalletRequestById(int id) => 'barber/walletRequests/$id';
   static String barberWalletRequestAttachment(int id) =>
@@ -147,6 +169,7 @@ class EndPoints {
   static String barberStorefrontOrderStatus(int id) =>
       'barber/storefront/order/$id/status';
 
+  static const String merchantMe = 'merchant';
   static const String merchantProfile = 'merchant/profile';
   static const String merchantLocation = 'merchant/location';
   static const String merchantPassword = 'merchant/password';
@@ -207,6 +230,7 @@ class EndPoints {
   static const String merchantBroadcast = 'merchant/broadcast';
 
   static const String merchantWallet = 'merchant/wallet';
+  static const String merchantTransferAccount = 'merchant/transferAccount';
   static const String merchantWalletRequests = 'merchant/walletRequests';
   static String merchantWalletRequestById(int id) =>
       'merchant/walletRequests/$id';

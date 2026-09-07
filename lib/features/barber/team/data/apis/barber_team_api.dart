@@ -37,15 +37,12 @@ class BarberTeamApi {
     );
   }
 
-  Future<Either<Failure, dynamic>> resetPassword(int id, String tempPassword) {
-    return _networkService.putData(
-      endPoint: EndPoints.barberTeamPassword(id),
-      data: {'tempPassword': tempPassword},
-    );
-  }
-
   Future<Either<Failure, dynamic>> blockMember(int id) {
     return _networkService.deleteData(endPoint: EndPoints.barberTeamById(id));
+  }
+
+  Future<Either<Failure, dynamic>> deleteMemberPermanently(int id) {
+    return _networkService.deleteData(endPoint: EndPoints.barberTeamPermanent(id));
   }
 
   Future<Either<Failure, dynamic>> activateMember(int id) {

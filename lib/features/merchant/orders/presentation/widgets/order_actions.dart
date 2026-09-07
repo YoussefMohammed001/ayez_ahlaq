@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../domain/entities/purchase_order.dart';
 import '../manager/merchant_orders_cubit.dart';
+import '../manager/merchant_orders_state.dart';
 import 'reject_order_sheet.dart';
 import '../../../../../generated/l10n.dart';
 import 'order_status_label.dart';
@@ -22,58 +23,77 @@ class OrderActions extends StatelessWidget {
       return _buildTerminalNote(context);
     }
 
-    return Column(
-      children: [
-        for (final next in order.nextStatuses)
-          Padding(
-            padding: EdgeInsets.only(bottom: 10.h),
-            child: PrimaryCtaButton(
-              label: S().moveStatusTo(next.label),
-              onPressed: () => context.read<MerchantOrdersCubit>().advanceStatus(
-                order.id,
-                next,
+    return BlocBuilder<MerchantOrdersCubit, MerchantOrdersState>(
+      buildWhen: (previous, current) =>
+          previous.updatingOrderId != current.updatingOrderId,
+      builder: (context, state) {
+        final isUpdating = state.updatingOrderId == order.id;
+
+        return Column(
+          children: [
+            for (final next in order.validNextStatuses)
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: PrimaryCtaButton(
+                  label: S().moveStatusTo(next.labelFor(order.fulfilmentType)),
+                  isLoading: isUpdating,
+                  onPressed: () => context
+                      .read<MerchantOrdersCubit>()
+                      .advanceStatus(order.id, next),
+                ),
               ),
-            ),
-          ),
-      ],
+          ],
+        );
+      },
     );
   }
 
   Widget _buildDecisionButtons(BuildContext context) {
-    return Column(
-      children: [
-        PrimaryCtaButton(
-          label: S().acceptOrder,
-          onPressed: () =>
-              context.read<MerchantOrdersCubit>().acceptOrder(order.id),
-        ),
-        SizedBox(height: 10.h),
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            minimumSize: Size.fromHeight(52.h),
-            side: BorderSide(color: context.colorScheme.outline),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14.r),
+    return BlocBuilder<MerchantOrdersCubit, MerchantOrdersState>(
+      buildWhen: (previous, current) =>
+          previous.updatingOrderId != current.updatingOrderId,
+      builder: (context, state) {
+        final isUpdating = state.updatingOrderId == order.id;
+
+        return Column(
+          children: [
+            PrimaryCtaButton(
+              label: S().acceptOrder,
+              isLoading: isUpdating,
+              onPressed: () =>
+                  context.read<MerchantOrdersCubit>().acceptOrder(order.id),
             ),
-          ),
-          onPressed: () => RejectOrderSheet.show(context, order.id),
-          child: Text(
-            S().rejectOrder,
-            style: TextStyle(
-              color: context.semantic.warning,
-              fontWeight: FontWeight.w700,
-              fontSize: 15.sp,
+            SizedBox(height: 10.h),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                minimumSize: Size.fromHeight(52.h),
+                side: BorderSide(color: context.colorScheme.outline),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
+              ),
+              onPressed: isUpdating
+                  ? null
+                  : () => RejectOrderSheet.show(context, order.id),
+              child: Text(
+                S().rejectOrder,
+                style: TextStyle(
+                  color: context.semantic.warning,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15.sp,
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 
   Widget _buildTerminalNote(BuildContext context) {
     return Center(
       child: Text(
-        order.status.label,
+        order.status.labelFor(order.fulfilmentType),
         style: TextStyle(
           color: context.semantic.success,
           fontWeight: FontWeight.w700,

@@ -18,7 +18,18 @@ class PurchaseOrder extends Equatable {
   final FulfilmentType fulfilmentType;
   final List<OrderStatus> nextStatuses;
   final DateTime? createdAt;
+  final DateTime? orderDate;
+  final DateTime? acceptedAt;
+  final DateTime? rejectedAt;
+  final DateTime? deliveredAt;
+  final DateTime? cancelledAt;
   final String? rejectionReason;
+  final String? cancellationNote;
+  final String? cancelledByAdminName;
+  final String? note;
+  final String? deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
 
   const PurchaseOrder({
     required this.id,
@@ -35,12 +46,34 @@ class PurchaseOrder extends Equatable {
     required this.deliveryFee,
     required this.grandTotal,
     this.createdAt,
+    this.orderDate,
+    this.acceptedAt,
+    this.rejectedAt,
+    this.deliveredAt,
+    this.cancelledAt,
     this.rejectionReason,
+    this.cancellationNote,
+    this.cancelledByAdminName,
+    this.note,
+    this.deliveryAddress,
+    this.deliveryLat,
+    this.deliveryLng,
   });
 
-  bool get canAdvance => nextStatuses.isNotEmpty;
+  List<OrderStatus> get validNextStatuses =>
+      nextStatuses.where((s) => s.isValidFor(fulfilmentType)).toList();
+
+  bool get canAdvance => validNextStatuses.isNotEmpty;
 
   bool get hasDeliveryFee => deliveryFee > 0;
+
+  bool get hasDeliveryLocation => deliveryLat != null && deliveryLng != null;
+
+  int get preDiscountTotal => total + orderDiscount;
+
+  int? get orderDiscountPercent => preDiscountTotal > 0
+      ? ((orderDiscount / preDiscountTotal) * 100).round()
+      : null;
 
   PurchaseOrder copyWith({
     OrderStatus? status,
@@ -61,7 +94,18 @@ class PurchaseOrder extends Equatable {
       fulfilmentType: fulfilmentType,
       nextStatuses: nextStatuses ?? this.nextStatuses,
       createdAt: createdAt,
+      orderDate: orderDate,
+      acceptedAt: acceptedAt,
+      rejectedAt: rejectedAt,
+      deliveredAt: deliveredAt,
+      cancelledAt: cancelledAt,
       rejectionReason: rejectionReason,
+      cancellationNote: cancellationNote,
+      cancelledByAdminName: cancelledByAdminName,
+      note: note,
+      deliveryAddress: deliveryAddress,
+      deliveryLat: deliveryLat,
+      deliveryLng: deliveryLng,
     );
   }
 

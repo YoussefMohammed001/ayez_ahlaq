@@ -36,7 +36,10 @@ class StorefrontOrder extends Equatable {
     this.rejectionReason,
   });
 
-  bool get canAdvance => nextStatuses.isNotEmpty;
+  List<StorefrontOrderStatus> get validNextStatuses =>
+      nextStatuses.where((s) => s.isValidFor(fulfillmentType)).toList();
+
+  bool get canAdvance => validNextStatuses.isNotEmpty;
 
   bool get hasDeliveryFee => deliveryFee > 0;
 

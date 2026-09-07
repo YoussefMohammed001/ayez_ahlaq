@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/change_password_use_case.dart';
+import '../../domain/use_cases/delete_merchant_account_use_case.dart';
 import '../../domain/use_cases/get_merchant_profile_use_case.dart';
 import '../../domain/use_cases/update_merchant_location_use_case.dart';
 import '../../domain/use_cases/update_merchant_profile_use_case.dart';
@@ -10,12 +11,14 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
   final UpdateMerchantProfileUseCase _updateProfile;
   final UpdateMerchantLocationUseCase _updateLocation;
   final ChangePasswordUseCase _changePassword;
+  final DeleteMerchantAccountUseCase _deleteAccount;
 
   MerchantProfileCubit(
     this._getProfile,
     this._updateProfile,
     this._updateLocation,
     this._changePassword,
+    this._deleteAccount,
   ) : super(const MerchantProfileState());
 
   Future<void> loadProfile() async {
@@ -30,9 +33,8 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
           errorMessage: failure.message,
         ),
       ),
-      (profile) => emit(
-        state.copyWith(status: ProfileStatus.success, profile: profile),
-      ),
+      (profile) =>
+          emit(state.copyWith(status: ProfileStatus.success, profile: profile)),
     );
   }
 
@@ -94,6 +96,23 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
     emit(state.copyWith(isSubmitting: true));
 
     final result = await _changePassword(current, next);
+
+    final failure = result.fold((value) => value, (_) => null);
+
+    if (failure != null) {
+      emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
+      return false;
+    }
+
+    emit(state.copyWith(isSubmitting: false));
+    await loadProfile();
+    return true;
+  }
+
+  Future<bool> deleteAccount(String password) async {
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _deleteAccount(password);
 
     return result.fold(
       (failure) {

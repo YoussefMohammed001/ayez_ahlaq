@@ -105,9 +105,7 @@ class _MerchantLocationScreenState extends State<MerchantLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.blocking
-          ? null
-          : AppTopBar(title: S().locationTitle),
+      appBar: widget.blocking ? null : AppTopBar(title: S().locationTitle),
       body: ListView(
         padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
         children: [
@@ -123,7 +121,10 @@ class _MerchantLocationScreenState extends State<MerchantLocationScreen> {
             SizedBox(height: 10.h),
             Text(
               '${_latitude!.toStringAsFixed(5)}, ${_longitude!.toStringAsFixed(5)}',
-              style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: context.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
           SectionTitle(title: S().addressLabel),

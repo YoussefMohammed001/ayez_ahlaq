@@ -77,6 +77,6 @@ class AppStateView extends StatelessWidget {
       child: content,
     );
 
-    return compact ? padded : Center(child: padded);
+    return SizedBox(width: double.infinity, child: Center(child: padded));
   }
 }

@@ -165,6 +165,12 @@ class ProfileAdminMenu extends StatelessWidget {
         showChevron: false,
         onTap: () => _confirmLogout(context),
       ),
+      MenuRow(
+        icon: Icons.delete_forever_rounded,
+        label: S().deleteAccount,
+        danger: true,
+        onTap: () => context.push(Routes.merchantDeleteAccountScreen),
+      ),
     ];
   }
 }

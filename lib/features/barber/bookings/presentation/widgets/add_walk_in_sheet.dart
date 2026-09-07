@@ -22,11 +22,13 @@ import 'walk_in_service_field.dart';
 
 class AddWalkInSheet extends StatefulWidget {
   final bool isOwner;
+  final int? ownBarberId;
 
-  const AddWalkInSheet({super.key, this.isOwner = false});
+  const AddWalkInSheet({super.key, this.isOwner = false, this.ownBarberId});
 
   static Future<void> show(BuildContext context) {
-    final isOwner = context.read<BarberProfileCubit>().state.profile?.owner ?? false;
+    final profile = context.read<BarberProfileCubit>().state.profile;
+    final isOwner = profile?.owner ?? false;
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -39,7 +41,7 @@ class AddWalkInSheet extends StatefulWidget {
           if (isOwner)
             BlocProvider(create: (_) => sl<BarberTeamCubit>()..loadTeam()),
         ],
-        child: AddWalkInSheet(isOwner: isOwner),
+        child: AddWalkInSheet(isOwner: isOwner, ownBarberId: profile?.id),
       ),
     );
   }
@@ -57,7 +59,14 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
   final _noteController = TextEditingController();
   int? _serviceId;
   int? _barberId;
+  bool _barberError = false;
   List<BookingAddon> _addons = const [];
+
+  @override
+  void initState() {
+    super.initState();
+    _barberId = widget.ownBarberId;
+  }
 
   @override
   void dispose() {
@@ -68,16 +77,24 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
   }
 
   Future<void> _submit() async {
-    if (_serviceId == null || !_formKey.currentState!.validate()) return;
+    setState(() => _barberError = widget.isOwner && _barberId == null);
+
+    if (_serviceId == null || _barberError || !_formKey.currentState!.validate()) {
+      return;
+    }
 
     final services = context.read<BarberServicesCubit>().state.services;
     final selected = services.firstWhere((s) => s.id == _serviceId);
 
     final saved = await context.read<BookingsCubit>().createWalkIn(
-      barberId: _barberId,
+      barberId: _barberId!,
       serviceTypeId: selected.catalogId,
-      customerName: _nameController.text.trim(),
-      customerPhone: _phoneController.text.trim(),
+      customerName: _nameController.text.trim().isEmpty
+          ? null
+          : _nameController.text.trim(),
+      customerPhone: _phoneController.text.trim().isEmpty
+          ? null
+          : _phoneController.text.trim(),
       paymentMethod: _cashPaymentMethod,
       note: _noteController.text.trim().isEmpty
           ? null
@@ -119,24 +136,30 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
                     builder: (_, state) => WalkInBarberField(
                       members: state.members.where((m) => !m.owner).toList(),
                       value: _barberId,
-                      onChanged: (value) => setState(() => _barberId = value),
+                      onChanged: (value) => setState(() {
+                        _barberId = value;
+                        _barberError = false;
+                      }),
                     ),
                   ),
+                  if (_barberError) ...[
+                    SizedBox(height: 4.h),
+                    Text(
+                      S().chooseTeamMemberRequired,
+                      style: TextStyle(fontSize: 11.sp, color: context.semantic.warning),
+                    ),
+                  ],
                 ],
-                SectionTitle(title: S().customerLabel),
+                SectionTitle(title: S().customerLabelOptional),
                 AppTextField(
                   controller: _nameController,
-                  hint: S().customerLabel,
-                  validator: (v) =>
-                      (v ?? '').trim().isEmpty ? S().customerLabel : null,
+                  hint: S().customerLabelOptional,
                 ),
-                SectionTitle(title: S().customerPhoneLabel),
+                SectionTitle(title: S().customerPhoneLabelOptional),
                 AppTextField(
                   controller: _phoneController,
-                  hint: S().customerPhoneLabel,
+                  hint: S().customerPhoneLabelOptional,
                   isNumber: true,
-                  validator: (v) =>
-                      (v ?? '').trim().isEmpty ? S().customerPhoneLabel : null,
                 ),
                 SectionTitle(title: S().walkInNoteLabel),
                 AppTextField(

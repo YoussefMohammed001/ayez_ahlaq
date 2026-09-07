@@ -20,7 +20,14 @@ class OrderItemsCard extends StatelessWidget {
         children: [
           for (final item in order.items) _buildItemRow(context, item),
           if (order.orderDiscount > 0)
-            _buildTotalRow(context, S().orderDiscountLabel, '-${S().currencyEgp(order.orderDiscount)}'),
+            _buildTotalRow(
+              context,
+              order.orderDiscountPercent != null
+                  ? S().orderDiscountWithPercentLabel(order.orderDiscountPercent!)
+                  : S().orderDiscountLabel,
+              S().currencyEgp(order.orderDiscount),
+              isNegative: true,
+            ),
           if (order.fulfilmentType == FulfilmentType.delivery)
             _buildTotalRow(
               context,
@@ -65,6 +72,7 @@ class OrderItemsCard extends StatelessWidget {
         border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Row(
@@ -90,28 +98,101 @@ class OrderItemsCard extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            '${item.quantity} ×',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: context.colorScheme.onSurfaceVariant,
-            ),
-          ),
           SizedBox(width: 10.w),
-          Text(
-            S().currencyEgp(item.lineTotal),
-            style: TextStyle(
-              fontSize: 13.sp,
-              color: context.semantic.accentSoft,
-              fontWeight: FontWeight.w700,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (item.hasUnitDiscount)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    Text(
+                      S().currencyEgp(item.unitPrice),
+                      style: TextStyle(
+                        fontSize: 10.5.sp,
+                        color: context.colorScheme.onSurfaceVariant,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      '${item.quantity} × ${S().currencyEgp(item.effectiveUnitPrice)}',
+                      style: TextStyle(
+                        fontSize: 11.5.sp,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Text(
+                  '${item.quantity} × ${S().currencyEgp(item.unitPrice)}',
+                  textDirection: TextDirection.ltr,
+                  style: TextStyle(
+                    fontSize: 11.5.sp,
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              if (item.hasUnitDiscount && item.unitDiscountPercent != null) ...[
+                SizedBox(height: 2.h),
+                Text(
+                  S().unitDiscountPercentLabel(item.unitDiscountPercent!),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: context.semantic.success,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+              SizedBox(height: 2.h),
+              Text(
+                S().currencyEgp(item.lineTotal),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: context.semantic.accentSoft,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              if (item.newDiscountAppliedSinceOrder &&
+                  item.currentEffectivePrice != null) ...[
+                SizedBox(height: 2.h),
+                Text(
+                  S().newDiscountSinceOrderLabel(
+                    item.currentUnitDiscountPercent ?? 0,
+                    S().currencyEgp(item.currentEffectivePrice!),
+                  ),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: context.semantic.success,
+                  ),
+                ),
+              ] else if (item.basePriceChangedSinceOrder &&
+                  item.currentEffectivePrice != null) ...[
+                SizedBox(height: 2.h),
+                Text(
+                  S().priceChangedSinceOrderLabel(
+                    S().currencyEgp(item.currentEffectivePrice!),
+                  ),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: context.semantic.warning,
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTotalRow(BuildContext context, String label, String value) {
+  Widget _buildTotalRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool isNegative = false,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(
@@ -128,7 +209,8 @@ class OrderItemsCard extends StatelessWidget {
             ),
           ),
           Text(
-            value,
+            isNegative ? '- $value' : value,
+            textDirection: TextDirection.ltr,
             style: TextStyle(
               fontSize: 13.sp,
               color: context.semantic.success,

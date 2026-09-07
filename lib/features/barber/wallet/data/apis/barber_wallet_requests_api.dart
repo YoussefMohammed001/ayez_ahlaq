@@ -9,6 +9,10 @@ class BarberWalletRequestsApi {
 
   BarberWalletRequestsApi(this._networkService);
 
+  Future<Either<Failure, dynamic>> getTransferAccounts() {
+    return _networkService.getData(endPoint: EndPoints.barberTransferAccount);
+  }
+
   Future<Either<Failure, dynamic>> getWalletRequests({
     required int page,
     required int size,
@@ -28,6 +32,8 @@ class BarberWalletRequestsApi {
   Future<Either<Failure, dynamic>> createWalletRequest({
     required String type,
     required int amount,
+    int? transferAccountId,
+    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
@@ -36,6 +42,10 @@ class BarberWalletRequestsApi {
       formData: FormData.fromMap({
         'type': type,
         'amount': amount.toString(),
+        if (transferAccountId != null)
+          'transferAccountId': transferAccountId.toString(),
+        if (withdrawAccountNumber != null)
+          'withdrawAccountNumber': withdrawAccountNumber,
         if (note != null) 'note': note,
         if (filePath != null) 'file': await MultipartFile.fromFile(filePath),
       }),

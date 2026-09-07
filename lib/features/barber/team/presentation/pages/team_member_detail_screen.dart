@@ -11,10 +11,11 @@ import '../manager/team_member_detail_cubit.dart';
 import '../manager/team_member_detail_state.dart';
 import '../widgets/edit_member_sheet.dart';
 import '../widgets/member_actions_menu.dart';
+import '../widgets/member_clients_section.dart';
+import '../widgets/member_earnings_section.dart';
 import '../widgets/member_hours_section.dart';
 import '../widgets/member_info_card.dart';
 import '../widgets/member_services_section.dart';
-import '../widgets/reset_password_sheet.dart';
 
 class TeamMemberDetailScreen extends StatelessWidget {
   const TeamMemberDetailScreen({super.key});
@@ -34,20 +35,6 @@ class TeamMemberDetailScreen extends StatelessWidget {
     );
   }
 
-  void _openResetPassword(BuildContext context) {
-    final cubit = context.read<TeamMemberDetailCubit>();
-
-    ResetPasswordSheet.show(
-      context,
-      isSubmitting: cubit.state.isSubmitting,
-      onSubmit: (tempPassword) async {
-        final saved = await cubit.resetPassword(tempPassword);
-        if (saved) showSuccess(S().passwordResetSuccess);
-        return saved;
-      },
-    );
-  }
-
   Future<void> _block(BuildContext context) async {
     await context.read<TeamMemberDetailCubit>().blockMember();
     if (context.mounted) showSuccess(S().memberBlocked);
@@ -56,6 +43,18 @@ class TeamMemberDetailScreen extends StatelessWidget {
   Future<void> _activate(BuildContext context) async {
     await context.read<TeamMemberDetailCubit>().activateMember();
     if (context.mounted) showSuccess(S().memberActivated);
+  }
+
+  Future<void> _deletePermanently(BuildContext context) async {
+    final deleted = await context.read<TeamMemberDetailCubit>().deleteMemberPermanently();
+    if (!context.mounted) return;
+
+    if (deleted) {
+      showSuccess(S().memberDeletedPermanently);
+      Navigator.of(context).pop();
+    } else {
+      showError(context.read<TeamMemberDetailCubit>().state.errorMessage ?? S().somethingWentWrong);
+    }
   }
 
   @override
@@ -108,12 +107,14 @@ class TeamMemberDetailScreen extends StatelessWidget {
               MemberActionsMenu(
                 member: member,
                 onEdit: () => _openEdit(context, member),
-                onResetPassword: () => _openResetPassword(context),
                 onBlock: () => _block(context),
                 onActivate: () => _activate(context),
+                onDeletePermanently: () => _deletePermanently(context),
               ),
               const MemberHoursSection(),
               const MemberServicesSection(),
+              const MemberEarningsSection(),
+              const MemberClientsSection(),
             ],
           );
         },

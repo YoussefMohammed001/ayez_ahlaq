@@ -19,7 +19,7 @@ class ChooseServiceScreen extends StatelessWidget {
     final services = <int, ShopBarberService>{};
     for (final barber in shopDetail.barbers) {
       for (final service in barber.services) {
-        services[service.id] = service;
+        services[service.serviceTypeId] = service;
       }
     }
 
@@ -33,7 +33,7 @@ class ChooseServiceScreen extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 10.h),
                 onTap: () {
                   context.read<BookingFlowCubit>().selectService(
-                    serviceTypeId: service.id,
+                    serviceTypeId: service.serviceTypeId,
                     serviceName: service.name,
                     price: service.price,
                   );

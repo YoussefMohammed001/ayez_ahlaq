@@ -52,10 +52,14 @@ class MerchantProfileApi {
   ) {
     return _networkService.putData(
       endPoint: EndPoints.merchantPassword,
-      data: {
-        'currentPassword': currentPassword,
-        'newPassword': newPassword,
-      },
+      data: {'currentPassword': currentPassword, 'newPassword': newPassword},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> deleteAccount(String password) {
+    return _networkService.deleteData(
+      endPoint: EndPoints.merchantMe,
+      data: {'password': password},
     );
   }
 }

@@ -3,18 +3,21 @@ import '../../domain/entities/storefront_order.dart';
 import '../../domain/entities/storefront_order_status.dart';
 import '../../domain/use_cases/accept_storefront_order_use_case.dart';
 import '../../domain/use_cases/advance_storefront_order_status_use_case.dart';
+import '../../domain/use_cases/get_storefront_order_use_case.dart';
 import '../../domain/use_cases/get_storefront_orders_use_case.dart';
 import '../../domain/use_cases/reject_storefront_order_use_case.dart';
 import 'barber_storefront_orders_state.dart';
 
 class BarberStorefrontOrdersCubit extends Cubit<BarberStorefrontOrdersState> {
   final GetStorefrontOrdersUseCase _getOrders;
+  final GetStorefrontOrderUseCase _getOrder;
   final AcceptStorefrontOrderUseCase _acceptOrder;
   final RejectStorefrontOrderUseCase _rejectOrder;
   final AdvanceStorefrontOrderStatusUseCase _advanceStatus;
 
   BarberStorefrontOrdersCubit(
     this._getOrders,
+    this._getOrder,
     this._acceptOrder,
     this._rejectOrder,
     this._advanceStatus,
@@ -36,6 +39,15 @@ class BarberStorefrontOrdersCubit extends Cubit<BarberStorefrontOrdersState> {
         state.copyWith(status: StorefrontOrdersStatus.success, orders: orders),
       ),
     );
+  }
+
+  Future<StorefrontOrder?> refreshOrder(int id) async {
+    final result = await _getOrder(id);
+
+    return result.fold((failure) => null, (order) {
+      emit(state.copyWith(orders: _replace(order)));
+      return order;
+    });
   }
 
   void applyFilter(StorefrontOrderStatus? status) {
@@ -61,6 +73,9 @@ class BarberStorefrontOrdersCubit extends Cubit<BarberStorefrontOrdersState> {
     );
   }
 
-  List<StorefrontOrder> _replace(StorefrontOrder order) =>
-      state.orders.map((o) => o.id == order.id ? order : o).toList();
+  List<StorefrontOrder> _replace(StorefrontOrder order) {
+    final exists = state.orders.any((o) => o.id == order.id);
+    if (!exists) return [...state.orders, order];
+    return state.orders.map((o) => o.id == order.id ? order : o).toList();
+  }
 }

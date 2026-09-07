@@ -13,6 +13,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../manager/booking_flow_cubit.dart';
 import '../manager/booking_flow_state.dart';
+import '../widgets/booking_addons_field.dart';
 import '../widgets/summary_row.dart';
 
 class BookingSummaryScreen extends StatefulWidget {
@@ -81,6 +82,14 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                         ],
                       ),
                     ),
+                    if (state.shopDetail!.addons.isNotEmpty) ...[
+                      SectionTitle(title: S().walkInAddonsLabel),
+                      BookingAddonsField(
+                        shopAddons: state.shopDetail!.addons,
+                        selectedAddons: state.addons,
+                        onQuantityChanged: cubit.setAddonQuantity,
+                      ),
+                    ],
                     SectionTitle(title: S().paymentMethodsSectionTitle),
                     Wrap(
                       spacing: 8.w,

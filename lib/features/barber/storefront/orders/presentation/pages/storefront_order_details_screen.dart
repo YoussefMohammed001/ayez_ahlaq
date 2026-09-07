@@ -10,37 +10,59 @@ import '../../../../../../generated/l10n.dart';
 import '../../domain/entities/storefront_order.dart';
 import '../manager/barber_storefront_orders_cubit.dart';
 import '../manager/barber_storefront_orders_state.dart';
-import '../widgets/storefront_fulfillment_type_label.dart';
 import '../widgets/storefront_order_actions.dart';
+import '../widgets/storefront_order_info_card.dart';
 import '../widgets/storefront_order_items_card.dart';
 import '../widgets/storefront_order_status_label.dart';
 import '../widgets/storefront_order_status_tone.dart';
 
-class StorefrontOrderDetailsScreen extends StatelessWidget {
+class StorefrontOrderDetailsScreen extends StatefulWidget {
   final StorefrontOrder order;
 
   const StorefrontOrderDetailsScreen({super.key, required this.order});
+
+  @override
+  State<StorefrontOrderDetailsScreen> createState() =>
+      _StorefrontOrderDetailsScreenState();
+}
+
+class _StorefrontOrderDetailsScreenState
+    extends State<StorefrontOrderDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<BarberStorefrontOrdersCubit>().refreshOrder(widget.order.id);
+  }
+
+  Future<void> _refresh() =>
+      context.read<BarberStorefrontOrdersCubit>().refreshOrder(widget.order.id);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
       builder: (context, state) {
         final current = state.orders.firstWhere(
-          (o) => o.id == order.id,
-          orElse: () => order,
+          (o) => o.id == widget.order.id,
+          orElse: () => widget.order,
         );
 
         return Scaffold(
           appBar: AppTopBar(title: current.code),
-          body: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-            children: [
-              _buildHeader(context, current),
-              SectionTitle(title: S().orderedItems),
-              StorefrontOrderItemsCard(order: current),
-              SizedBox(height: 20.h),
-              StorefrontOrderActions(order: current),
-            ],
+          body: RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+              children: [
+                _buildHeader(context, current),
+                SectionTitle(title: S().orderedItems),
+                StorefrontOrderItemsCard(order: current),
+                SizedBox(height: 16.h),
+                SectionTitle(title: S().orderInfoTitle),
+                StorefrontOrderInfoCard(order: current),
+                SizedBox(height: 20.h),
+                StorefrontOrderActions(order: current),
+              ],
+            ),
           ),
         );
       },
@@ -77,15 +99,13 @@ class StorefrontOrderDetailsScreen extends StatelessWidget {
                   color: context.colorScheme.onSurfaceVariant,
                 ),
               ),
-              SizedBox(height: 4.h),
-              Text(
-                order.fulfillmentType.label,
-                style: TextStyle(fontSize: 11.sp, color: context.semantic.info),
-              ),
             ],
           ),
         ),
-        StatusBadge(label: order.status.label, tone: order.status.tone),
+        StatusBadge(
+          label: order.status.labelFor(order.fulfillmentType),
+          tone: order.status.tone,
+        ),
       ],
     );
   }

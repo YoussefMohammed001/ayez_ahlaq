@@ -814,6 +814,26 @@ class S {
     );
   }
 
+  /// `Sign in to book your barber and order your favorite products`
+  String get loginSubtitleCustomer {
+    return Intl.message(
+      'Sign in to book your barber and order your favorite products',
+      name: 'loginSubtitleCustomer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with your barber account to manage your bookings and shop`
+  String get loginSubtitleBarber {
+    return Intl.message(
+      'Sign in with your barber account to manage your bookings and shop',
+      name: 'loginSubtitleBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Phone number`
   String get phoneNumber {
     return Intl.message(
@@ -1969,6 +1989,156 @@ class S {
     );
   }
 
+  /// `Product price changed, now {price}`
+  String priceChangedSinceOrderLabel(Object price) {
+    return Intl.message(
+      'Product price changed, now $price',
+      name: 'priceChangedSinceOrderLabel',
+      desc: '',
+      args: [price],
+    );
+  }
+
+  /// `This product now has a {percent}% discount, priced at {price}`
+  String newDiscountSinceOrderLabel(Object percent, Object price) {
+    return Intl.message(
+      'This product now has a $percent% discount, priced at $price',
+      name: 'newDiscountSinceOrderLabel',
+      desc: '',
+      args: [percent, price],
+    );
+  }
+
+  /// `{percent}% off`
+  String unitDiscountPercentLabel(Object percent) {
+    return Intl.message(
+      '$percent% off',
+      name: 'unitDiscountPercentLabel',
+      desc: '',
+      args: [percent],
+    );
+  }
+
+  /// `Order details`
+  String get orderInfoTitle {
+    return Intl.message(
+      'Order details',
+      name: 'orderInfoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fulfilment type`
+  String get orderFulfilmentTypeLabel {
+    return Intl.message(
+      'Fulfilment type',
+      name: 'orderFulfilmentTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order note`
+  String get orderNoteLabel {
+    return Intl.message(
+      'Order note',
+      name: 'orderNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery address`
+  String get orderDeliveryAddressLabel {
+    return Intl.message(
+      'Delivery address',
+      name: 'orderDeliveryAddressLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order date`
+  String get orderDateLabel {
+    return Intl.message(
+      'Order date',
+      name: 'orderDateLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accepted at`
+  String get orderAcceptedAtLabel {
+    return Intl.message(
+      'Accepted at',
+      name: 'orderAcceptedAtLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivered at`
+  String get orderDeliveredAtLabel {
+    return Intl.message(
+      'Delivered at',
+      name: 'orderDeliveredAtLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected at`
+  String get orderRejectedAtLabel {
+    return Intl.message(
+      'Rejected at',
+      name: 'orderRejectedAtLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejection reason`
+  String get orderRejectionReasonLabel {
+    return Intl.message(
+      'Rejection reason',
+      name: 'orderRejectionReasonLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled at`
+  String get orderCancelledAtLabel {
+    return Intl.message(
+      'Cancelled at',
+      name: 'orderCancelledAtLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancellation reason`
+  String get orderCancellationNoteLabel {
+    return Intl.message(
+      'Cancellation reason',
+      name: 'orderCancellationNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled by`
+  String get orderCancelledByLabel {
+    return Intl.message(
+      'Cancelled by',
+      name: 'orderCancelledByLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Total`
   String get orderTotal {
     return Intl.message('Total', name: 'orderTotal', desc: '', args: []);
@@ -1981,6 +2151,16 @@ class S {
       name: 'orderDiscountLabel',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Order discount ({percent}%)`
+  String orderDiscountWithPercentLabel(Object percent) {
+    return Intl.message(
+      'Order discount ($percent%)',
+      name: 'orderDiscountWithPercentLabel',
+      desc: '',
+      args: [percent],
     );
   }
 
@@ -2509,6 +2689,16 @@ class S {
     );
   }
 
+  /// `Verified barber`
+  String get verifiedBarber {
+    return Intl.message(
+      'Verified barber',
+      name: 'verifiedBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Under review`
   String get underReview {
     return Intl.message(
@@ -2729,6 +2919,16 @@ class S {
     );
   }
 
+  /// `Picked up at branch`
+  String get statusPickedUpAtBranch {
+    return Intl.message(
+      'Picked up at branch',
+      name: 'statusPickedUpAtBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rejected`
   String get statusRejected {
     return Intl.message('Rejected', name: 'statusRejected', desc: '', args: []);
@@ -2771,6 +2971,31 @@ class S {
       name: 'currencyEgp',
       desc: '',
       args: [amount],
+    );
+  }
+
+  /// `Cash on delivery`
+  String get paymentMethodCash {
+    return Intl.message(
+      'Cash on delivery',
+      name: 'paymentMethodCash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card`
+  String get paymentMethodCard {
+    return Intl.message('Card', name: 'paymentMethodCard', desc: '', args: []);
+  }
+
+  /// `Wallet`
+  String get paymentMethodWallet {
+    return Intl.message(
+      'Wallet',
+      name: 'paymentMethodWallet',
+      desc: '',
+      args: [],
     );
   }
 
@@ -3889,11 +4114,51 @@ class S {
     );
   }
 
+  /// `Clear current cart?`
+  String get switchShopCartTitle {
+    return Intl.message(
+      'Clear current cart?',
+      name: 'switchShopCartTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your cart has items from another shop. Continuing will clear it so you can start fresh with this shop.`
+  String get switchShopCartMessage {
+    return Intl.message(
+      'Your cart has items from another shop. Continuing will clear it so you can start fresh with this shop.',
+      name: 'switchShopCartMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get switchShopCartConfirm {
+    return Intl.message(
+      'Continue',
+      name: 'switchShopCartConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Fulfilment`
   String get fulfilmentTitle {
     return Intl.message(
       'Fulfilment',
       name: 'fulfilmentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This merchant does not offer delivery`
+  String get deliveryNotOfferedReason {
+    return Intl.message(
+      'This merchant does not offer delivery',
+      name: 'deliveryNotOfferedReason',
       desc: '',
       args: [],
     );
@@ -4069,6 +4334,66 @@ class S {
     );
   }
 
+  /// `Transfer to`
+  String get transferAccountLabel {
+    return Intl.message(
+      'Transfer to',
+      name: 'transferAccountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must choose the account to transfer to`
+  String get transferAccountRequired {
+    return Intl.message(
+      'You must choose the account to transfer to',
+      name: 'transferAccountRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number`
+  String get transferAccountAccountNumber {
+    return Intl.message(
+      'Number',
+      name: 'transferAccountAccountNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We'll transfer to this account`
+  String get withdrawAccountLabel {
+    return Intl.message(
+      'We\'ll transfer to this account',
+      name: 'withdrawAccountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The wallet/account number you want the money sent to`
+  String get withdrawAccountHint {
+    return Intl.message(
+      'The wallet/account number you want the money sent to',
+      name: 'withdrawAccountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must enter the account number to receive the money`
+  String get withdrawAccountRequired {
+    return Intl.message(
+      'You must enter the account number to receive the money',
+      name: 'withdrawAccountRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Note`
   String get walletRequestNoteLabel {
     return Intl.message(
@@ -4136,6 +4461,36 @@ class S {
       name: 'walletRequestCreatedSuccess',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Confirm deposit`
+  String get confirmWalletRequestDepositTitle {
+    return Intl.message(
+      'Confirm deposit',
+      name: 'confirmWalletRequestDepositTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm withdrawal`
+  String get confirmWalletRequestWithdrawTitle {
+    return Intl.message(
+      'Confirm withdrawal',
+      name: 'confirmWalletRequestWithdrawTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You're about to submit a request for {amount} EGP. Are you sure?`
+  String confirmWalletRequestMessage(Object amount) {
+    return Intl.message(
+      'You\'re about to submit a request for $amount EGP. Are you sure?',
+      name: 'confirmWalletRequestMessage',
+      desc: '',
+      args: [amount],
     );
   }
 
@@ -4749,6 +5104,66 @@ class S {
     );
   }
 
+  /// `Sent notifications`
+  String get broadcastListTitle {
+    return Intl.message(
+      'Sent notifications',
+      name: 'broadcastListTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't sent any notification yet`
+  String get broadcastListEmpty {
+    return Intl.message(
+      'You haven\'t sent any notification yet',
+      name: 'broadcastListEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending review`
+  String get broadcastStatusPending {
+    return Intl.message(
+      'Pending review',
+      name: 'broadcastStatusPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get broadcastStatusApproved {
+    return Intl.message(
+      'Approved',
+      name: 'broadcastStatusApproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected`
+  String get broadcastStatusRejected {
+    return Intl.message(
+      'Rejected',
+      name: 'broadcastStatusRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} recipients`
+  String broadcastRecipientCount(Object count) {
+    return Intl.message(
+      '$count recipients',
+      name: 'broadcastRecipientCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
   /// `My storefront`
   String get storefrontProductsTitle {
     return Intl.message(
@@ -4844,11 +5259,31 @@ class S {
     return Intl.message('Customer', name: 'customerLabel', desc: '', args: []);
   }
 
+  /// `Customer (optional)`
+  String get customerLabelOptional {
+    return Intl.message(
+      'Customer (optional)',
+      name: 'customerLabelOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Customer phone`
   String get customerPhoneLabel {
     return Intl.message(
       'Customer phone',
       name: 'customerPhoneLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer phone (optional)`
+  String get customerPhoneLabelOptional {
+    return Intl.message(
+      'Customer phone (optional)',
+      name: 'customerPhoneLabelOptional',
       desc: '',
       args: [],
     );
@@ -5114,10 +5549,10 @@ class S {
     );
   }
 
-  /// `For a team member (optional)`
+  /// `Team member`
   String get walkInBarberLabel {
     return Intl.message(
-      'For a team member (optional)',
+      'Team member',
       name: 'walkInBarberLabel',
       desc: '',
       args: [],
@@ -5129,6 +5564,16 @@ class S {
     return Intl.message(
       'Choose a team member',
       name: 'chooseTeamMember',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must choose a team member`
+  String get chooseTeamMemberRequired {
+    return Intl.message(
+      'You must choose a team member',
+      name: 'chooseTeamMemberRequired',
       desc: '',
       args: [],
     );
@@ -5259,6 +5704,16 @@ class S {
     );
   }
 
+  /// `Last 7 days`
+  String get clientsLast7DaysLabel {
+    return Intl.message(
+      'Last 7 days',
+      name: 'clientsLast7DaysLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rating`
   String get ratingLabel {
     return Intl.message('Rating', name: 'ratingLabel', desc: '', args: []);
@@ -5304,6 +5759,46 @@ class S {
     );
   }
 
+  /// `Member earnings`
+  String get memberEarningsTitle {
+    return Intl.message(
+      'Member earnings',
+      name: 'memberEarningsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member clients`
+  String get memberClientsTitle {
+    return Intl.message(
+      'Member clients',
+      name: 'memberClientsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No clients in this period`
+  String get memberClientsEmpty {
+    return Intl.message(
+      'No clients in this period',
+      name: 'memberClientsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change period`
+  String get memberClientsDateRangeAction {
+    return Intl.message(
+      'Change period',
+      name: 'memberClientsDateRangeAction',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Services`
   String get memberServicesTitle {
     return Intl.message(
@@ -5329,26 +5824,6 @@ class S {
     return Intl.message(
       'Set a new temporary password for this member?',
       name: 'resetPasswordConfirm',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Temporary password`
-  String get tempPasswordLabel {
-    return Intl.message(
-      'Temporary password',
-      name: 'tempPasswordLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `e.g. newtemp123`
-  String get tempPasswordHint {
-    return Intl.message(
-      'e.g. newtemp123',
-      name: 'tempPasswordHint',
       desc: '',
       args: [],
     );
@@ -5419,6 +5894,36 @@ class S {
     return Intl.message(
       'Member re-activated',
       name: 'memberActivated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete member permanently`
+  String get deleteMemberPermanentlyTitle {
+    return Intl.message(
+      'Delete member permanently',
+      name: 'deleteMemberPermanentlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This member will be permanently deleted and this cannot be undone. Continue?`
+  String get deleteMemberPermanentlyConfirm {
+    return Intl.message(
+      'This member will be permanently deleted and this cannot be undone. Continue?',
+      name: 'deleteMemberPermanentlyConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member deleted permanently`
+  String get memberDeletedPermanently {
+    return Intl.message(
+      'Member deleted permanently',
+      name: 'memberDeletedPermanently',
       desc: '',
       args: [],
     );
@@ -5779,6 +6284,326 @@ class S {
     return Intl.message(
       'You already rated the shop',
       name: 'alreadyRatedShop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify phone number`
+  String get verifyPhoneTitle {
+    return Intl.message(
+      'Verify phone number',
+      name: 'verifyPhoneTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We sent a 6-digit code to your phone`
+  String get verifyPhoneSubtitle {
+    return Intl.message(
+      'We sent a 6-digit code to your phone',
+      name: 'verifyPhoneSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code sent to`
+  String get otpSentTo {
+    return Intl.message('Code sent to', name: 'otpSentTo', desc: '', args: []);
+  }
+
+  /// `Enter the verification code`
+  String get enterOtpCode {
+    return Intl.message(
+      'Enter the verification code',
+      name: 'enterOtpCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the full code`
+  String get otpRequired {
+    return Intl.message(
+      'Enter the full code',
+      name: 'otpRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A new code has been sent`
+  String get otpResentMessage {
+    return Intl.message(
+      'A new code has been sent',
+      name: 'otpResentMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify`
+  String get verify {
+    return Intl.message('Verify', name: 'verify', desc: '', args: []);
+  }
+
+  /// `Forgot password?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot password?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recover password`
+  String get forgotPasswordTitle {
+    return Intl.message(
+      'Recover password',
+      name: 'forgotPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your phone number and we'll send a code`
+  String get forgotPasswordSubtitle {
+    return Intl.message(
+      'Enter your phone number and we\'ll send a code',
+      name: 'forgotPasswordSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send code`
+  String get sendCode {
+    return Intl.message('Send code', name: 'sendCode', desc: '', args: []);
+  }
+
+  /// `New password`
+  String get setNewPasswordTitle {
+    return Intl.message(
+      'New password',
+      name: 'setNewPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a new password for your account`
+  String get setNewPasswordSubtitle {
+    return Intl.message(
+      'Choose a new password for your account',
+      name: 'setNewPasswordSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save password`
+  String get saveNewPassword {
+    return Intl.message(
+      'Save password',
+      name: 'saveNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register as barber`
+  String get registerBarber {
+    return Intl.message(
+      'Register as barber',
+      name: 'registerBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register your shop and start taking bookings`
+  String get registerSubtitleBarber {
+    return Intl.message(
+      'Register your shop and start taking bookings',
+      name: 'registerSubtitleBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create barber account`
+  String get createBarberAccount {
+    return Intl.message(
+      'Create barber account',
+      name: 'createBarberAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop name`
+  String get shopName {
+    return Intl.message('Shop name', name: 'shopName', desc: '', args: []);
+  }
+
+  /// `Elegance Barbershop`
+  String get shopNameHint {
+    return Intl.message(
+      'Elegance Barbershop',
+      name: 'shopNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the shop name`
+  String get shopNameRequired {
+    return Intl.message(
+      'Enter the shop name',
+      name: 'shopNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Area`
+  String get area {
+    return Intl.message('Area', name: 'area', desc: '', args: []);
+  }
+
+  /// `Nasr City`
+  String get areaHint {
+    return Intl.message('Nasr City', name: 'areaHint', desc: '', args: []);
+  }
+
+  /// `Enter the area`
+  String get areaRequired {
+    return Intl.message(
+      'Enter the area',
+      name: 'areaRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get address {
+    return Intl.message('Address', name: 'address', desc: '', args: []);
+  }
+
+  /// `Enter the address`
+  String get addressRequired {
+    return Intl.message(
+      'Enter the address',
+      name: 'addressRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barber name`
+  String get barberName {
+    return Intl.message('Barber name', name: 'barberName', desc: '', args: []);
+  }
+
+  /// `Enter the barber name`
+  String get barberNameRequired {
+    return Intl.message(
+      'Enter the barber name',
+      name: 'barberNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No account? Register as barber`
+  String get noAccountRegisterBarber {
+    return Intl.message(
+      'No account? Register as barber',
+      name: 'noAccountRegisterBarber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permanently delete account`
+  String get deleteAccountTitle {
+    return Intl.message(
+      'Permanently delete account',
+      name: 'deleteAccountTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account and all your data will be permanently deleted. Enter your password to confirm.`
+  String get deleteAccountWarning {
+    return Intl.message(
+      'Your account and all your data will be permanently deleted. Enter your password to confirm.',
+      name: 'deleteAccountWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm deletion`
+  String get deleteAccountConfirm {
+    return Intl.message(
+      'Confirm deletion',
+      name: 'deleteAccountConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account deleted`
+  String get accountDeleted {
+    return Intl.message(
+      'Account deleted',
+      name: 'accountDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get passwordRequired {
+    return Intl.message(
+      'Enter your password',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password change required`
+  String get forceChangePasswordTitle {
+    return Intl.message(
+      'Password change required',
+      name: 'forceChangePasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You signed in with a temporary password. Choose a new one to continue.`
+  String get forceChangePasswordMessage {
+    return Intl.message(
+      'You signed in with a temporary password. Choose a new one to continue.',
+      name: 'forceChangePasswordMessage',
       desc: '',
       args: [],
     );

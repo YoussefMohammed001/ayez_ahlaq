@@ -61,7 +61,11 @@ class StorefrontProductRow extends StatelessWidget {
         ),
         SizedBox(height: 4.h),
         Text(
-          S().productMetaLine(product.price, product.stock, product.minOrderQty),
+          S().productMetaLine(
+            product.effectivePrice,
+            product.stock,
+            product.minOrderQty,
+          ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

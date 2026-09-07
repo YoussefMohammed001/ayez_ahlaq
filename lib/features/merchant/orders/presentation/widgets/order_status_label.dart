@@ -1,4 +1,5 @@
 import '../../../../../generated/l10n.dart';
+import '../../domain/entities/fulfilment_type.dart';
 import '../../domain/entities/order_status.dart';
 
 extension OrderStatusLabel on OrderStatus {
@@ -12,4 +13,12 @@ extension OrderStatusLabel on OrderStatus {
     OrderStatus.rejected => S().statusRejected,
     OrderStatus.cancelled => S().statusCancelled,
   };
+
+  String labelFor(FulfilmentType fulfilmentType) {
+    if (this == OrderStatus.delivered &&
+        fulfilmentType == FulfilmentType.pickupAtBranch) {
+      return S().statusPickedUpAtBranch;
+    }
+    return label;
+  }
 }

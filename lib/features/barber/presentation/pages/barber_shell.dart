@@ -8,6 +8,7 @@ import '../../home/presentation/pages/barber_home_screen.dart';
 import '../../notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../profile/presentation/manager/barber_profile_state.dart';
+import '../../profile/presentation/pages/barber_force_change_password_screen.dart';
 import '../../profile/presentation/pages/barber_location_screen.dart';
 import '../../profile/presentation/pages/barber_profile_screen.dart';
 import '../../../../shared/widgets/blocking_gate.dart';
@@ -47,6 +48,7 @@ class _BarberShellState extends State<BarberShell> {
     context.read<EarningsCubit>().loadEarnings();
     context.read<BookingsCubit>().loadPending();
     context.read<BookingsCubit>().loadQueue();
+    context.read<BookingsCubit>().loadHistory();
     context.read<BarberSubscriptionCubit>().load();
   }
 
@@ -57,12 +59,18 @@ class _BarberShellState extends State<BarberShell> {
       builder: (context, profileState) {
         final profile = profileState.profile;
         return BlockingGate(
-          isBlocked: profile != null && profile.needsLocation,
-          title: S().locationTitle,
+          isBlocked: profile != null && profile.mustChangePassword,
+          title: S().forceChangePasswordTitle,
           onLogout: widget.onLogout,
-          blockedBuilder: (_) =>
-              BarberLocationScreen(profile: profile, blocking: true),
-          builder: (_) => _buildShell(),
+          blockedBuilder: (_) => const BarberForceChangePasswordScreen(),
+          builder: (_) => BlockingGate(
+            isBlocked: profile != null && profile.needsLocation,
+            title: S().locationTitle,
+            onLogout: widget.onLogout,
+            blockedBuilder: (_) =>
+                BarberLocationScreen(profile: profile, blocking: true),
+            builder: (_) => _buildShell(),
+          ),
         );
       },
     );

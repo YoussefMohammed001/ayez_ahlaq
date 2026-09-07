@@ -30,6 +30,7 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
   final _ownerController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -37,6 +38,7 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
     _ownerController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -59,8 +61,8 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
       appBar: AppTopBar(title: S().registerMerchant),
       body: BlocListener<MerchantAuthCubit, MerchantAuthState>(
         listener: (context, state) {
-          if (state.status == AuthStatus.authenticated) {
-            context.go(Routes.merchantShell);
+          if (state.status == AuthStatus.otpRequested) {
+            context.replace(Routes.merchantVerifyOtpScreen);
           }
           if (state.status == AuthStatus.failure &&
               state.errorMessage != null) {
@@ -100,9 +102,8 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
         child: AppTextField(
           controller: _businessController,
           hint: S().businessNameHint,
-          validator: (v) => (v == null || v.trim().isEmpty)
-              ? S().businessNameRequired
-              : null,
+          validator: (v) =>
+              (v == null || v.trim().isEmpty) ? S().businessNameRequired : null,
         ),
       ),
       LabeledField(
@@ -130,9 +131,21 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
         child: AppPasswordField(
           controller: _passwordController,
           hint: S().passwordMinHint,
-          onSubmitted: _submit,
           validator: (v) =>
               (v == null || v.length < 6) ? S().passwordTooShort : null,
+        ),
+      ),
+      LabeledField(
+        label: S().confirm_password,
+        child: AppPasswordField(
+          controller: _confirmPasswordController,
+          hint: S().passwordMinHint,
+          onSubmitted: _submit,
+          validator: (v) {
+            if (v == null || v.isEmpty) return S().confirm_password;
+            if (v != _passwordController.text) return S().passwordNotMatch;
+            return null;
+          },
         ),
       ),
       SizedBox(height: 6.h),

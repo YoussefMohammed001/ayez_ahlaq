@@ -6,17 +6,36 @@ class QuantityStepper extends StatelessWidget {
   final int quantity;
   final int minQuantity;
   final ValueChanged<int> onChanged;
+  final bool disabled;
 
   const QuantityStepper({
     super.key,
     required this.quantity,
     required this.onChanged,
     this.minQuantity = 1,
+    this.disabled = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
+
+    if (disabled) {
+      return SizedBox(
+        width: 28.r,
+        height: 28.r,
+        child: Center(
+          child: SizedBox(
+            width: 16.r,
+            height: 16.r,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: scheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+      );
+    }
 
     return Row(
       mainAxisSize: MainAxisSize.min,

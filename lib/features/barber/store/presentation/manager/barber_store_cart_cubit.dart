@@ -3,7 +3,6 @@ import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_order.dart';
-import '../../domain/entities/store_product.dart';
 import '../../domain/use_cases/checkout_cart_use_case.dart';
 import '../../domain/use_cases/get_cart_use_case.dart';
 import '../../domain/use_cases/get_merchant_products_use_case.dart';
@@ -27,8 +26,15 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
     final result = await _getCart();
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: failure.message)),
-      (cart) => emit(state.copyWith(cart: cart)),
+      (cart) => emit(state.copyWith(cart: cart, fulfillmentType: _resolveFulfillmentType(cart))),
     );
+  }
+
+  FulfillmentType? _resolveFulfillmentType(Cart cart) {
+    if (!cart.deliveryOffered && state.fulfillmentType == FulfillmentType.delivery) {
+      return FulfillmentType.pickupAtBranch;
+    }
+    return state.fulfillmentType;
   }
 
   Future<void> openMerchant(StoreMerchant merchant) async {
@@ -64,18 +70,18 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
     await loadCart();
   }
 
-  Future<void> setQuantity(StoreProduct product, int quantity) async {
+  Future<void> setQuantity(int productId, int minOrderQty, int quantity) async {
     final clamped = quantity <= 0
         ? 0
-        : (quantity < product.minOrderQty ? product.minOrderQty : quantity);
+        : (quantity < minOrderQty ? minOrderQty : quantity);
 
     final quantities = {
       for (final line in state.cart.lines) line.productId: line.quantity,
     };
     if (clamped == 0) {
-      quantities.remove(product.id);
+      quantities.remove(productId);
     } else {
-      quantities[product.id] = clamped;
+      quantities[productId] = clamped;
     }
 
     emit(state.copyWith(isUpdatingCart: true));
@@ -86,11 +92,20 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
       (failure) => emit(
         state.copyWith(isUpdatingCart: false, errorMessage: failure.message),
       ),
-      (cart) => emit(state.copyWith(isUpdatingCart: false, cart: cart)),
+      (cart) => emit(
+        state.copyWith(
+          isUpdatingCart: false,
+          cart: cart,
+          fulfillmentType: _resolveFulfillmentType(cart),
+        ),
+      ),
     );
   }
 
   void setFulfillmentType(FulfillmentType? type) {
+    if (type == FulfillmentType.delivery && !state.cart.deliveryOffered) {
+      return;
+    }
     emit(
       state.copyWith(fulfillmentType: type, clearFulfillmentType: type == null),
     );

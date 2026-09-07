@@ -12,6 +12,8 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../payment_methods/presentation/manager/payment_methods_cubit.dart';
+import '../../../payment_methods/presentation/manager/payment_methods_state.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../manager/store_cart_cubit.dart';
 import '../manager/store_cart_state.dart';
@@ -33,6 +35,7 @@ class _StoreCartScreenState extends State<StoreCartScreen> {
   void initState() {
     super.initState();
     context.read<StoreCartCubit>().refreshQuote();
+    context.read<PaymentMethodsCubit>().loadMethods();
   }
 
   @override
@@ -83,13 +86,16 @@ class _StoreCartScreenState extends State<StoreCartScreen> {
                   quantity: entry.value,
                   unitPrice: products[entry.key]?.price ?? 0,
                   lineTotal: (products[entry.key]?.price ?? 0) * entry.value,
-                  onRemove: () => cubit.setQuantity(entry.key, 0),
+                  minOrderQty: products[entry.key]?.minOrderQty ?? 1,
+                  onQuantityChanged: (quantity) => cubit.setQuantity(entry.key, quantity),
                 ),
               SectionTitle(title: S().fulfilmentTitle),
               OptionTile(
                 label: StoreFulfillmentType.delivery.label,
                 icon: Icons.local_shipping_outlined,
                 selected: state.fulfillmentType == StoreFulfillmentType.delivery,
+                enabled: state.storefront?.delivery.offered ?? true,
+                disabledReason: S().deliveryNotOfferedReason,
                 onTap: () {
                   cubit.setFulfillmentType(StoreFulfillmentType.delivery);
                   cubit.refreshQuote();
@@ -102,6 +108,31 @@ class _StoreCartScreenState extends State<StoreCartScreen> {
                 onTap: () {
                   cubit.setFulfillmentType(StoreFulfillmentType.pickupAtBranch);
                   cubit.refreshQuote();
+                },
+              ),
+              BlocBuilder<PaymentMethodsCubit, PaymentMethodsState>(
+                builder: (context, paymentState) {
+                  if (paymentState.methods.isEmpty) return const SizedBox.shrink();
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionTitle(title: S().paymentMethodsSectionTitle),
+                      Wrap(
+                        spacing: 8.w,
+                        runSpacing: 8.h,
+                        children: paymentState.methods
+                            .map(
+                              (method) => ChoiceChip(
+                                label: Text(method.label),
+                                selected: state.paymentMethod == method.code,
+                                onSelected: (_) => cubit.setPaymentMethod(method.code),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  );
                 },
               ),
               SectionTitle(title: S().orderNoteTitle),

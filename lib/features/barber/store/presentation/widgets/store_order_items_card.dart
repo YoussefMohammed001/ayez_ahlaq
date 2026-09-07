@@ -20,7 +20,12 @@ class StoreOrderItemsCard extends StatelessWidget {
         children: [
           for (final item in order.items) _buildItemRow(context, item),
           if (order.orderDiscount > 0)
-            _buildTotalRow(context, S().orderDiscountLabel, '-${S().currencyEgp(order.orderDiscount)}'),
+            _buildTotalRow(
+              context,
+              S().orderDiscountLabel,
+              S().currencyEgp(order.orderDiscount),
+              isNegative: true,
+            ),
           if (order.fulfillmentType == FulfillmentType.delivery)
             _buildTotalRow(
               context,
@@ -63,33 +68,87 @@ class StoreOrderItemsCard extends StatelessWidget {
         border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Text(
-              item.productName,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.sp, color: context.colorScheme.onSurface),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    item.productName,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13.sp, color: context.colorScheme.onSurface),
+                  ),
+                ),
+                if (item.gift) ...[
+                  SizedBox(width: 6.w),
+                  Icon(
+                    Icons.card_giftcard,
+                    size: 14.r,
+                    color: context.semantic.success,
+                  ),
+                ],
+              ],
             ),
-          ),
-          Text(
-            '${item.quantity} ×',
-            style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
           ),
           SizedBox(width: 10.w),
-          Text(
-            S().currencyEgp(item.lineTotal),
-            style: TextStyle(
-              fontSize: 13.sp,
-              color: context.semantic.accentSoft,
-              fontWeight: FontWeight.w700,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (item.hasUnitDiscount)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    Text(
+                      S().currencyEgp(item.unitPrice),
+                      style: TextStyle(
+                        fontSize: 10.5.sp,
+                        color: context.colorScheme.onSurfaceVariant,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      '${item.quantity} × ${S().currencyEgp(item.effectiveUnitPrice)}',
+                      style: TextStyle(
+                        fontSize: 11.5.sp,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Text(
+                  '${item.quantity} × ${S().currencyEgp(item.unitPrice)}',
+                  textDirection: TextDirection.ltr,
+                  style: TextStyle(
+                    fontSize: 11.5.sp,
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              SizedBox(height: 2.h),
+              Text(
+                S().currencyEgp(item.lineTotal),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: context.semantic.accentSoft,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTotalRow(BuildContext context, String label, String value) {
+  Widget _buildTotalRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool isNegative = false,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(
@@ -103,7 +162,8 @@ class StoreOrderItemsCard extends StatelessWidget {
             style: TextStyle(fontSize: 12.5.sp, color: context.colorScheme.onSurfaceVariant),
           ),
           Text(
-            value,
+            isNegative ? '- $value' : value,
+            textDirection: TextDirection.ltr,
             style: TextStyle(
               fontSize: 13.sp,
               color: context.semantic.success,

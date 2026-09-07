@@ -8,8 +8,13 @@ import '../../../../../core/extensions/ext_theme.dart';
 
 class DashboardGreeting extends StatelessWidget {
   final String businessName;
+  final VoidCallback onProfileTap;
 
-  const DashboardGreeting({super.key, required this.businessName});
+  const DashboardGreeting({
+    super.key,
+    required this.businessName,
+    required this.onProfileTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +44,14 @@ class DashboardGreeting extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-        AvatarCircle(
-          initials: businessName.isEmpty
-              ? S().avatarFallback
-              : businessName.substring(0, 1),
-          size: 44.r,
+        GestureDetector(
+          onTap: onProfileTap,
+          child: AvatarCircle(
+            initials: businessName.isEmpty
+                ? S().avatarFallback
+                : businessName.substring(0, 1),
+            size: 44.r,
+          ),
         ),
       ],
     );

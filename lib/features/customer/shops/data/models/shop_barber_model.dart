@@ -2,18 +2,24 @@ import '../../domain/entities/shop_barber.dart';
 
 class ShopBarberServiceModel extends ShopBarberService {
   const ShopBarberServiceModel({
-    required super.id,
+    required super.barberServiceId,
+    required super.serviceTypeId,
     required super.name,
     required super.price,
     required super.durationMinutes,
+    super.description,
+    super.popular,
   });
 
   factory ShopBarberServiceModel.fromJson(Map<String, dynamic> json) {
     return ShopBarberServiceModel(
-      id: (json['id'] as num?)?.toInt() ?? 0,
+      barberServiceId: (json['barberServiceId'] as num?)?.toInt() ?? 0,
+      serviceTypeId: (json['serviceTypeId'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
+      description: json['description'] as String?,
       price: (json['price'] as num?)?.toInt() ?? 0,
       durationMinutes: (json['durationMinutes'] as num?)?.toInt() ?? 0,
+      popular: json['popular'] as bool? ?? false,
     );
   }
 }

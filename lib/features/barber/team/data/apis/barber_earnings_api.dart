@@ -11,4 +11,21 @@ class BarberEarningsApi {
   Future<Either<Failure, dynamic>> getEarnings() {
     return _networkService.getData(endPoint: EndPoints.barberEarnings);
   }
+
+  Future<Either<Failure, dynamic>> getMemberEarnings(int memberId) {
+    return _networkService.getData(
+      endPoint: EndPoints.barberTeamMemberEarnings(memberId),
+    );
+  }
+
+  Future<Either<Failure, dynamic>> getMemberClients(
+    int memberId, {
+    required String from,
+    required String to,
+  }) {
+    return _networkService.getData(
+      endPoint: EndPoints.barberTeamMemberClients(memberId),
+      queryParameters: {'from': from, 'to': to},
+    );
+  }
 }

@@ -27,6 +27,11 @@ class EarningsBreakdownCard extends StatelessWidget {
             value: '${earnings.clientsThisMonth}',
           ),
           InfoRow(
+            icon: Icons.groups_outlined,
+            label: S().clientsLast7DaysLabel,
+            value: '${earnings.clientsLast7Days}',
+          ),
+          InfoRow(
             icon: Icons.shopping_bag_outlined,
             label: S().supplierSpendLabel,
             value: '${earnings.supplierSpendThisMonth}',

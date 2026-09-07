@@ -3,8 +3,22 @@ class Routes {
   static const String userTypeScreen = '/userType';
   static const String loginScreen = '/login';
   static const String registerScreen = '/register';
+  static const String merchantVerifyOtpScreen = '/merchant/register/verify';
+  static const String merchantForgotPasswordScreen = '/merchant/password/forgot';
+  static const String merchantResetPasswordOtpScreen =
+      '/merchant/password/verify';
+  static const String merchantResetPasswordScreen = '/merchant/password/reset';
+  static const String merchantDeleteAccountScreen = '/merchant/profile/delete';
   static const String customerLoginScreen = '/customer/login';
   static const String customerRegisterScreen = '/customer/register';
+  static const String customerVerifyOtpScreen = '/customer/register/verify';
+  static const String customerForgotPasswordScreen = '/customer/password/forgot';
+  static const String customerResetPasswordOtpScreen =
+      '/customer/password/verify';
+  static const String customerResetPasswordScreen = '/customer/password/reset';
+  static const String customerChangePasswordScreen =
+      '/customer/profile/password';
+  static const String customerDeleteAccountScreen = '/customer/profile/delete';
   static const String customerShell = '/customer';
   static const String customerShopDetailScreen = '/customer/shop';
   static const String customerChooseServiceScreen = '/customer/booking/service';
@@ -25,6 +39,12 @@ class Routes {
   static const String customerBrowseShopsScreen = '/customer/shops';
 
   static const String barberLoginScreen = '/barber/login';
+  static const String barberRegisterScreen = '/barber/register';
+  static const String barberVerifyOtpScreen = '/barber/register/verify';
+  static const String barberForgotPasswordScreen = '/barber/password/forgot';
+  static const String barberResetPasswordOtpScreen = '/barber/password/verify';
+  static const String barberResetPasswordScreen = '/barber/password/reset';
+  static const String barberDeleteAccountScreen = '/barber/profile/delete';
   static const String barberShell = '/barber';
   static const String barberHoursScreen = '/barber/hours';
   static const String barberLocationScreen = '/barber/profile/location';
@@ -53,6 +73,7 @@ class Routes {
       '/barber/subscription/requests';
   static const String barberNotificationsScreen = '/barber/notifications';
   static const String barberBroadcastScreen = '/barber/broadcast';
+  static const String barberBroadcastListScreen = '/barber/broadcast/list';
   static const String barberTeamScreen = '/barber/team';
   static const String barberTeamMemberDetailScreen = '/barber/team/member';
   static const String barberEarningsScreen = '/barber/earnings';

@@ -62,6 +62,24 @@ class StoreProductRow extends StatelessWidget {
                         : context.semantic.accentSoft,
                   ),
                 ),
+                if (!product.isOutOfStock && product.minOrderQty > 1) ...[
+                  SizedBox(height: 3.h),
+                  Text(
+                    '${S().minOrderQty}: ${product.minOrderQty}',
+                    style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                  ),
+                ],
+                if (!product.isOutOfStock && quantity > 0) ...[
+                  SizedBox(height: 3.h),
+                  Text(
+                    S().currencyEgp(product.price * quantity),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      color: scheme.onSurface,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

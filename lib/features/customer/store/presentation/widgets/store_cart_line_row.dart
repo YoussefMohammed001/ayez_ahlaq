@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/quantity_stepper.dart';
 
 class StoreCartLineRow extends StatelessWidget {
   final String productName;
   final int quantity;
   final int unitPrice;
   final int lineTotal;
+  final int minOrderQty;
   final bool available;
   final String? unavailableReason;
-  final VoidCallback onRemove;
+  final ValueChanged<int> onQuantityChanged;
 
   const StoreCartLineRow({
     super.key,
@@ -18,7 +20,8 @@ class StoreCartLineRow extends StatelessWidget {
     required this.quantity,
     required this.unitPrice,
     required this.lineTotal,
-    required this.onRemove,
+    required this.onQuantityChanged,
+    this.minOrderQty = 1,
     this.available = true,
     this.unavailableReason,
   });
@@ -43,7 +46,7 @@ class StoreCartLineRow extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  '$quantity × ${S().currencyEgp(unitPrice)}',
+                  S().currencyEgp(unitPrice),
                   style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
                 ),
                 if (!available)
@@ -54,18 +57,15 @@ class StoreCartLineRow extends StatelessWidget {
               ],
             ),
           ),
+          QuantityStepper(
+            quantity: quantity,
+            minQuantity: minOrderQty,
+            onChanged: onQuantityChanged,
+          ),
+          SizedBox(width: 12.w),
           Text(
             S().currencyEgp(lineTotal),
             style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: context.semantic.accentSoft),
-          ),
-          SizedBox(width: 8.w),
-          InkWell(
-            onTap: onRemove,
-            borderRadius: BorderRadius.circular(8.r),
-            child: Padding(
-              padding: EdgeInsets.all(4.w),
-              child: Icon(Icons.delete_outline_rounded, size: 18.r, color: context.semantic.warning),
-            ),
           ),
         ],
       ),

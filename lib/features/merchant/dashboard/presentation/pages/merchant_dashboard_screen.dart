@@ -28,12 +28,14 @@ import '../../../../../generated/l10n.dart';
 class MerchantDashboardScreen extends StatelessWidget {
   final VoidCallback onGoToOrders;
   final VoidCallback onGoToProducts;
+  final VoidCallback onGoToProfile;
   final String businessName;
 
   const MerchantDashboardScreen({
     super.key,
     required this.onGoToOrders,
     required this.onGoToProducts,
+    required this.onGoToProfile,
     required this.businessName,
   });
 
@@ -57,7 +59,10 @@ class MerchantDashboardScreen extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
             children: [
-              DashboardGreeting(businessName: businessName),
+              DashboardGreeting(
+                businessName: businessName,
+                onProfileTap: onGoToProfile,
+              ),
               SizedBox(height: 18.h),
               BlocBuilder<MerchantSubscriptionCubit, MerchantSubscriptionState>(
                 builder: (context, state) {

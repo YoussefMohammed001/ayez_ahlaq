@@ -1,20 +1,34 @@
 import 'package:equatable/equatable.dart';
 
 class ShopBarberService extends Equatable {
-  final int id;
+  final int barberServiceId;
+  final int serviceTypeId;
   final String name;
+  final String? description;
   final int price;
   final int durationMinutes;
+  final bool popular;
 
   const ShopBarberService({
-    required this.id,
+    required this.barberServiceId,
+    required this.serviceTypeId,
     required this.name,
     required this.price,
     required this.durationMinutes,
+    this.description,
+    this.popular = false,
   });
 
   @override
-  List<Object?> get props => [id, name, price, durationMinutes];
+  List<Object?> get props => [
+    barberServiceId,
+    serviceTypeId,
+    name,
+    description,
+    price,
+    durationMinutes,
+    popular,
+  ];
 }
 
 class ShopBarber extends Equatable {

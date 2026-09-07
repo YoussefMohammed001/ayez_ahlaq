@@ -3,24 +3,36 @@ import '../../domain/entities/order_status.dart';
 import '../../domain/entities/purchase_order.dart';
 import '../../domain/use_cases/accept_order_use_case.dart';
 import '../../domain/use_cases/advance_order_status_use_case.dart';
+import '../../domain/use_cases/get_order_use_case.dart';
 import '../../domain/use_cases/get_orders_use_case.dart';
 import '../../domain/use_cases/reject_order_use_case.dart';
 import 'merchant_orders_state.dart';
 
 class MerchantOrdersCubit extends Cubit<MerchantOrdersState> {
   final GetOrdersUseCase _getOrders;
+  final GetOrderUseCase _getOrder;
   final AcceptOrderUseCase _acceptOrder;
   final RejectOrderUseCase _rejectOrder;
   final AdvanceOrderStatusUseCase _advanceStatus;
 
   MerchantOrdersCubit(
     this._getOrders,
+    this._getOrder,
     this._acceptOrder,
     this._rejectOrder,
     this._advanceStatus,
   ) : super(const MerchantOrdersState());
 
   Future<void> loadOrders() => _fetch(state.filter);
+
+  Future<PurchaseOrder?> refreshOrder(int id) async {
+    final result = await _getOrder(id);
+
+    return result.fold((failure) => null, (order) {
+      emit(state.copyWith(orders: _replace(order)));
+      return order;
+    });
+  }
 
   Future<void> applyFilter(OrderStatus? status) => _fetch(status);
 
@@ -68,6 +80,9 @@ class MerchantOrdersCubit extends Cubit<MerchantOrdersState> {
     );
   }
 
-  List<PurchaseOrder> _replace(PurchaseOrder order) =>
-      state.orders.map((o) => o.id == order.id ? order : o).toList();
+  List<PurchaseOrder> _replace(PurchaseOrder order) {
+    final exists = state.orders.any((o) => o.id == order.id);
+    if (!exists) return [...state.orders, order];
+    return state.orders.map((o) => o.id == order.id ? order : o).toList();
+  }
 }

@@ -1,17 +1,42 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../../domain/use_cases/create_wallet_request_use_case.dart';
+import '../../domain/use_cases/get_transfer_accounts_use_case.dart';
 import 'create_wallet_request_state.dart';
 
 class CreateWalletRequestCubit extends Cubit<CreateWalletRequestState> {
   final CreateWalletRequestUseCase _createWalletRequest;
+  final GetTransferAccountsUseCase _getTransferAccounts;
 
-  CreateWalletRequestCubit(this._createWalletRequest)
+  CreateWalletRequestCubit(this._createWalletRequest, this._getTransferAccounts)
     : super(const CreateWalletRequestState());
+
+  Future<void> loadTransferAccounts() async {
+    emit(state.copyWith(transferAccountsStatus: TransferAccountsStatus.loading));
+
+    final result = await _getTransferAccounts();
+
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          transferAccountsStatus: TransferAccountsStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (accounts) => emit(
+        state.copyWith(
+          transferAccountsStatus: TransferAccountsStatus.success,
+          transferAccounts: accounts,
+        ),
+      ),
+    );
+  }
 
   Future<bool> submit({
     required WalletRequestType type,
     required int amount,
+    int? transferAccountId,
+    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
@@ -20,6 +45,8 @@ class CreateWalletRequestCubit extends Cubit<CreateWalletRequestState> {
     final result = await _createWalletRequest(
       type: type,
       amount: amount,
+      transferAccountId: transferAccountId,
+      withdrawAccountNumber: withdrawAccountNumber,
       note: note,
       filePath: filePath,
     );

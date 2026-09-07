@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/quantity_stepper.dart';
 import '../../domain/entities/cart_line.dart';
 
 class CartLineRow extends StatelessWidget {
   final CartLine line;
-  final VoidCallback onRemove;
+  final ValueChanged<int> onQuantityChanged;
 
-  const CartLineRow({super.key, required this.line, required this.onRemove});
+  const CartLineRow({
+    super.key,
+    required this.line,
+    required this.onQuantityChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class CartLineRow extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  '${line.quantity} × ${S().currencyEgp(line.unitPrice)}',
+                  S().currencyEgp(line.unitPrice),
                   style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
                 ),
                 if (!line.available)
@@ -43,18 +48,15 @@ class CartLineRow extends StatelessWidget {
               ],
             ),
           ),
+          QuantityStepper(
+            quantity: line.quantity,
+            minQuantity: line.minOrderQty,
+            onChanged: onQuantityChanged,
+          ),
+          SizedBox(width: 12.w),
           Text(
             S().currencyEgp(line.lineTotal),
             style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: context.semantic.accentSoft),
-          ),
-          SizedBox(width: 8.w),
-          InkWell(
-            onTap: onRemove,
-            borderRadius: BorderRadius.circular(8.r),
-            child: Padding(
-              padding: EdgeInsets.all(4.w),
-              child: Icon(Icons.delete_outline_rounded, size: 18.r, color: context.semantic.warning),
-            ),
           ),
         ],
       ),

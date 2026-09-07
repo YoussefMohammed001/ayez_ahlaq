@@ -28,4 +28,11 @@ class BarberProfileApi {
       data: {'currentPassword': currentPassword, 'newPassword': newPassword},
     );
   }
+
+  Future<Either<Failure, dynamic>> deleteAccount(String password) {
+    return _networkService.deleteData(
+      endPoint: EndPoints.barberMe,
+      data: {'password': password},
+    );
+  }
 }

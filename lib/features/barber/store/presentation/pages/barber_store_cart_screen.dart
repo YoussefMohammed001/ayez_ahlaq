@@ -13,7 +13,6 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
-import '../../domain/entities/store_product.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
 import '../widgets/cart_line_row.dart';
@@ -60,7 +59,10 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppTopBar(title: S().cartTitle),
-      body: BlocBuilder<BarberStoreCartCubit, BarberStoreCartState>(
+      body: BlocConsumer<BarberStoreCartCubit, BarberStoreCartState>(
+        listenWhen: (previous, current) =>
+            current.errorMessage != null && current.errorMessage != previous.errorMessage,
+        listener: (context, state) => showError(state.errorMessage!),
         builder: (context, state) {
           final cubit = context.read<BarberStoreCartCubit>();
 
@@ -74,28 +76,19 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
               for (final line in state.cart.lines)
                 CartLineRow(
                   line: line,
-                  onRemove: () {
-                    final product = state.products.firstWhere(
-                      (p) => p.id == line.productId,
-                      orElse: () => StoreProduct(
-                        id: line.productId,
-                        name: line.productName,
-                        brand: '',
-                        categoryName: '',
-                        price: line.unitPrice,
-                        effectivePrice: line.unitPrice,
-                        minOrderQty: line.minOrderQty,
-                        hasImage: false,
-                      ),
-                    );
-                    cubit.setQuantity(product, 0);
-                  },
+                  onQuantityChanged: (quantity) => cubit.setQuantity(
+                    line.productId,
+                    line.minOrderQty,
+                    quantity,
+                  ),
                 ),
               SectionTitle(title: S().fulfilmentTitle),
               OptionTile(
                 label: FulfillmentType.delivery.label,
                 icon: Icons.local_shipping_outlined,
                 selected: state.fulfillmentType == FulfillmentType.delivery,
+                enabled: state.cart.deliveryOffered,
+                disabledReason: S().deliveryNotOfferedReason,
                 onTap: () => cubit.setFulfillmentType(FulfillmentType.delivery),
               ),
               OptionTile(

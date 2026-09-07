@@ -6,6 +6,7 @@ import '../../domain/entities/booking_status.dart';
 import '../../domain/use_cases/advance_booking_status_use_case.dart';
 import '../../domain/use_cases/confirm_booking_use_case.dart';
 import '../../domain/use_cases/create_walk_in_use_case.dart';
+import '../../domain/use_cases/get_bookings_use_case.dart';
 import '../../domain/use_cases/get_pending_bookings_use_case.dart';
 import '../../domain/use_cases/get_queue_use_case.dart';
 import '../../domain/use_cases/reject_booking_use_case.dart';
@@ -14,6 +15,7 @@ import 'bookings_state.dart';
 class BookingsCubit extends Cubit<BookingsState> {
   final GetPendingBookingsUseCase _getPending;
   final GetQueueUseCase _getQueue;
+  final GetBookingsUseCase _getBookings;
   final ConfirmBookingUseCase _confirmBooking;
   final RejectBookingUseCase _rejectBooking;
   final AdvanceBookingStatusUseCase _advanceStatus;
@@ -22,6 +24,7 @@ class BookingsCubit extends Cubit<BookingsState> {
   BookingsCubit(
     this._getPending,
     this._getQueue,
+    this._getBookings,
     this._confirmBooking,
     this._rejectBooking,
     this._advanceStatus,
@@ -64,6 +67,27 @@ class BookingsCubit extends Cubit<BookingsState> {
     );
   }
 
+  Future<void> loadHistory() async {
+    emit(state.copyWith(historyStatus: BookingsStatus.loading));
+
+    final result = await _getBookings();
+
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          historyStatus: BookingsStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (history) {
+        final sorted = [...history]..sort(
+          (a, b) => (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)),
+        );
+        emit(state.copyWith(historyStatus: BookingsStatus.success, history: sorted));
+      },
+    );
+  }
+
   Future<void> confirmBooking(int id) => _mutate(id, () => _confirmBooking(id));
 
   Future<void> rejectBooking(int id, String reason) =>
@@ -73,11 +97,11 @@ class BookingsCubit extends Cubit<BookingsState> {
       _mutate(id, () => _advanceStatus(id, status));
 
   Future<bool> createWalkIn({
-    int? barberId,
+    required int barberId,
     required int serviceTypeId,
     int? haircutStyleId,
-    required String customerName,
-    required String customerPhone,
+    String? customerName,
+    String? customerPhone,
     required String paymentMethod,
     String? note,
     List<BookingAddon> addons = const [],
