@@ -8,6 +8,7 @@ class BarberProfile extends Equatable {
   final String shopName;
   final bool owner;
   final bool active;
+  final bool servesClients;
   final bool mustChangePassword;
   final double rating;
   final int ratingCount;
@@ -23,6 +24,7 @@ class BarberProfile extends Equatable {
     required this.shopName,
     required this.owner,
     required this.active,
+    required this.servesClients,
     required this.mustChangePassword,
     required this.rating,
     required this.ratingCount,
@@ -42,6 +44,7 @@ class BarberProfile extends Equatable {
     shopName,
     owner,
     active,
+    servesClients,
     rating,
     ratingCount,
     latitude,

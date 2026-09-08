@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../generated/l10n.dart';
-import '../widgets/add_walk_in_sheet.dart';
+import '../widgets/walk_in_sheet_launcher.dart';
 import 'history_bookings_view.dart';
 import 'pending_bookings_view.dart';
 import 'queue_bookings_view.dart';
@@ -33,8 +33,7 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
             style: HeadingStyles.h4),
         bottom: TabBar(
           controller: _controller,
-          isScrollable: true,
-          tabAlignment: TabAlignment.start,
+          isScrollable: false,
           tabs: [
             Tab(text: S().bookingsPendingTab),
             Tab(text: S().bookingsQueueTab),
@@ -51,7 +50,8 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AddWalkInSheet.show(context),
+        heroTag: 'addWalkInFab',
+        onPressed: () => showAddWalkInSheet(context),
         child: const Icon(Icons.add_rounded),
       ),
     );

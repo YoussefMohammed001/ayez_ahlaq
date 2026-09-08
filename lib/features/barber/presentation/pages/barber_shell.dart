@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/widgets/app_bottom_nav_bar.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/routes/route_paths.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
+import '../../../../core/widgets/notched_bottom_nav_bar.dart';
 import '../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../bookings/presentation/pages/bookings_home_screen.dart';
 import '../../home/presentation/pages/barber_home_screen.dart';
@@ -14,9 +16,13 @@ import '../../profile/presentation/pages/barber_profile_screen.dart';
 import '../../../../shared/widgets/blocking_gate.dart';
 import '../../services/presentation/manager/barber_services_cubit.dart';
 import '../../store/presentation/manager/barber_store_merchants_cubit.dart';
-import '../../store/presentation/pages/barber_store_merchants_screen.dart';
+import '../../storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
+import '../../storefront/delivery/presentation/manager/barber_storefront_delivery_cubit.dart';
+import '../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
+import '../../storefront/presentation/pages/storefront_home_screen.dart';
 import '../../subscription/presentation/manager/barber_subscription_cubit.dart';
 import '../../team/presentation/manager/earnings_cubit.dart';
+import '../widgets/barber_store_fab.dart';
 import '../../../../generated/l10n.dart';
 
 class BarberShell extends StatefulWidget {
@@ -34,7 +40,7 @@ class _BarberShellState extends State<BarberShell> {
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.home_rounded, S().tabHome),
     NavTabItem(Icons.event_available_rounded, S().tabBookings),
-    NavTabItem(Icons.storefront_outlined, S().tabStore),
+    NavTabItem(Icons.storefront_outlined, S().storefrontTitle),
     NavTabItem(Icons.person_rounded, S().tabAccount),
   ];
 
@@ -44,6 +50,9 @@ class _BarberShellState extends State<BarberShell> {
     context.read<BarberProfileCubit>().loadProfile();
     context.read<BarberServicesCubit>().loadServices();
     context.read<BarberStoreMerchantsCubit>().loadMerchants();
+    context.read<BarberStorefrontCategoriesCubit>().loadCategories();
+    context.read<BarberStorefrontDeliveryCubit>().loadDelivery();
+    context.read<BarberStorefrontOrdersCubit>().loadOrders();
     context.read<BarberNotificationsCubit>().refreshUnseenCount();
     context.read<EarningsCubit>().loadEarnings();
     context.read<BookingsCubit>().loadPending();
@@ -83,11 +92,15 @@ class _BarberShellState extends State<BarberShell> {
         children: [
           BarberHomeScreen(onGoToTab: (i) => setState(() => _index = i)),
           const BookingsHomeScreen(),
-          const BarberStoreMerchantsScreen(),
+          const StorefrontHomeScreen(),
           BarberProfileScreen(onLogout: widget.onLogout),
         ],
       ),
-      bottomNavigationBar: AppBottomNavBar(
+      floatingActionButton: BarberStoreFab(
+        onPressed: () => context.push(Routes.barberStoreMerchantsScreen),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: NotchedBottomNavBar(
         items: _tabs,
         currentIndex: _index,
         onTap: (i) => setState(() => _index = i),

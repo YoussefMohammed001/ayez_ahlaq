@@ -54,8 +54,12 @@ class WalletRequestFormFields extends StatelessWidget {
           selected: type == WalletRequestType.withdraw,
           onTap: () => onTypeChanged(WalletRequestType.withdraw),
         ),
-        if (type == WalletRequestType.deposit && transferAccounts.isNotEmpty) ...[
-          SectionTitle(title: S().transferAccountLabel),
+        if (transferAccounts.isNotEmpty) ...[
+          SectionTitle(
+            title: type == WalletRequestType.deposit
+                ? S().transferAccountLabel
+                : S().withdrawMethodLabel,
+          ),
           TransferAccountField(
             accounts: transferAccounts,
             selectedId: selectedTransferAccountId,

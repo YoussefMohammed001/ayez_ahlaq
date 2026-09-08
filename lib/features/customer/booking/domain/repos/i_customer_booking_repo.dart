@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../entities/booking_addon.dart';
+import '../entities/booking_drink.dart';
 import '../entities/booking_slots.dart';
 import '../entities/customer_booking.dart';
 import '../entities/rating_target.dart';
@@ -23,6 +24,7 @@ abstract class ICustomerBookingRepo {
     required String paymentMethod,
     String? note,
     List<BookingAddon> addons = const [],
+    List<BookingDrink> drinks = const [],
   });
 
   Future<Either<Failure, List<CustomerBooking>>> getBookings();

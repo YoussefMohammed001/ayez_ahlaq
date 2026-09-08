@@ -1,5 +1,6 @@
 import '../../domain/entities/customer_booking.dart';
 import '../../domain/entities/customer_booking_status.dart';
+import 'booking_addon_model.dart';
 
 class CustomerBookingModel extends CustomerBooking {
   const CustomerBookingModel({
@@ -21,6 +22,7 @@ class CustomerBookingModel extends CustomerBooking {
     super.note,
     super.queuePosition,
     super.peopleAhead,
+    super.addons,
   });
 
   factory CustomerBookingModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,9 @@ class CustomerBookingModel extends CustomerBooking {
       peopleAhead: (json['peopleAhead'] as num?)?.toInt(),
       ratedBarber: json['ratedBarber'] as bool? ?? false,
       ratedShop: json['ratedShop'] as bool? ?? false,
+      addons: (json['addons'] as List<dynamic>? ?? [])
+          .map((e) => BookingAddonModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

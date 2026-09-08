@@ -13,7 +13,7 @@ import '../../../../../core/widgets/section_title.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../payment_methods/presentation/manager/payment_methods_cubit.dart';
-import '../../../payment_methods/presentation/manager/payment_methods_state.dart';
+import '../../../../../shared/payment_methods/payment_methods_state.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../manager/store_cart_cubit.dart';
 import '../manager/store_cart_state.dart';

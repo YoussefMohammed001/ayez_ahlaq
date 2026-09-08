@@ -5,6 +5,7 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/booking.dart';
+import '../../domain/entities/booking_addon.dart';
 
 class BookingInfoCard extends StatelessWidget {
   final Booking booking;
@@ -13,6 +14,9 @@ class BookingInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final drinks = booking.addons.where((a) => a.isDrink).toList();
+    final products = booking.addons.where((a) => !a.isDrink).toList();
+
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,16 +43,56 @@ class BookingInfoCard extends StatelessWidget {
               S().decisionDeadlineLabel,
               AppDateTime.formatDateTime(booking.decisionDeadline!),
             ),
-          if (booking.addons.isNotEmpty)
-            _buildRow(
-              context,
-              S().addonsLabel,
-              booking.addons
-                  .map((a) => '${a.name ?? '#${a.productId}'} x${a.quantity}')
-                  .join(S().listSeparator),
-            ),
+          if (drinks.isNotEmpty) _buildExtrasSection(context, S().drinksTitle, drinks),
+          if (products.isNotEmpty) _buildExtrasSection(context, S().addonsLabel, products),
           if ((booking.note ?? '').isNotEmpty)
             _buildRow(context, S().walkInNoteLabel, booking.note!),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExtrasSection(BuildContext context, String title, List<BookingAddon> items) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+          ),
+          SizedBox(height: 4.h),
+          for (final item in items) _buildExtraRow(context, item),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExtraRow(BuildContext context, BookingAddon item) {
+    final name = item.name ?? '#${item.drinkId ?? item.productId}';
+    final total = item.lineTotal ?? ((item.price ?? 0) * item.quantity);
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: 2.h),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              '${item.quantity}× $name',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 12.5.sp, color: context.colorScheme.onSurface),
+            ),
+          ),
+          Text(
+            S().currencyEgp(total),
+            style: TextStyle(
+              fontSize: 12.5.sp,
+              fontWeight: FontWeight.w600,
+              color: context.colorScheme.onSurface,
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
-import '../entities/payment_method.dart';
+import '../../../../../shared/payment_methods/payment_method.dart';
 import '../repos/i_customer_payment_methods_repo.dart';
 
 class GetEnabledPaymentMethodsUseCase {

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/get_enabled_payment_methods_use_case.dart';
-import 'payment_methods_state.dart';
+import '../../../../../shared/payment_methods/payment_methods_state.dart';
 
 class PaymentMethodsCubit extends Cubit<PaymentMethodsState> {
   final GetEnabledPaymentMethodsUseCase _getEnabledPaymentMethods;

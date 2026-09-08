@@ -11,7 +11,14 @@ import '../../orders/presentation/pages/barber_storefront_orders_screen.dart';
 import '../../products/presentation/pages/barber_storefront_products_screen.dart';
 
 class StorefrontHomeScreen extends StatefulWidget {
-  const StorefrontHomeScreen({super.key});
+  final int initialTabIndex;
+  final bool showBackButton;
+
+  const StorefrontHomeScreen({
+    super.key,
+    this.initialTabIndex = 0,
+    this.showBackButton = false,
+  });
 
   @override
   State<StorefrontHomeScreen> createState() => _StorefrontHomeScreenState();
@@ -19,8 +26,11 @@ class StorefrontHomeScreen extends StatefulWidget {
 
 class _StorefrontHomeScreenState extends State<StorefrontHomeScreen>
     with SingleTickerProviderStateMixin {
-  late final _controller = TabController(length: 4, vsync: this)
-    ..addListener(() => setState(() {}));
+  late final _controller = TabController(
+    length: 4,
+    vsync: this,
+    initialIndex: widget.initialTabIndex,
+  )..addListener(() => setState(() {}));
 
   @override
   void dispose() {
@@ -32,10 +42,13 @@ class _StorefrontHomeScreenState extends State<StorefrontHomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: context.colorScheme.onSurface),
-          onPressed: () => context.pop(),
-        ),
+        leading: widget.showBackButton
+            ? IconButton(
+                icon: Icon(Icons.arrow_back_ios, color: context.colorScheme.onSurface),
+                onPressed: () => context.pop(),
+              )
+            : null,
+        automaticallyImplyLeading: widget.showBackButton,
         title: Text(S().storefrontTitle, style: HeadingStyles.h4),
         bottom: TabBar(
           controller: _controller,
@@ -66,11 +79,13 @@ class _StorefrontHomeScreenState extends State<StorefrontHomeScreen>
     switch (_controller.index) {
       case 0:
         return FloatingActionButton(
+          heroTag: 'storefrontAddProductFab',
           onPressed: () => context.push(Routes.barberStorefrontProductFormScreen),
           child: const Icon(Icons.add_rounded),
         );
       case 1:
         return FloatingActionButton(
+          heroTag: 'storefrontAddCategoryFab',
           onPressed: () => AddStorefrontCategorySheet.show(context),
           child: const Icon(Icons.add_rounded),
         );

@@ -3,17 +3,20 @@ import '../../domain/use_cases/change_barber_password_use_case.dart';
 import '../../domain/use_cases/delete_barber_account_use_case.dart';
 import '../../domain/use_cases/get_barber_profile_use_case.dart';
 import '../../domain/use_cases/update_barber_location_use_case.dart';
+import '../../domain/use_cases/update_serves_clients_use_case.dart';
 import 'barber_profile_state.dart';
 
 class BarberProfileCubit extends Cubit<BarberProfileState> {
   final GetBarberProfileUseCase _getProfile;
   final UpdateBarberLocationUseCase _updateLocation;
+  final UpdateServesClientsUseCase _updateServesClients;
   final ChangeBarberPasswordUseCase _changePassword;
   final DeleteBarberAccountUseCase _deleteAccount;
 
   BarberProfileCubit(
     this._getProfile,
     this._updateLocation,
+    this._updateServesClients,
     this._changePassword,
     this._deleteAccount,
   ) : super(const BarberProfileState());
@@ -48,6 +51,25 @@ class BarberProfileCubit extends Cubit<BarberProfileState> {
       longitude: longitude,
       address: address,
     );
+
+    return result.fold(
+      (failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+        return false;
+      },
+      (profile) {
+        emit(state.copyWith(isSubmitting: false, profile: profile));
+        return true;
+      },
+    );
+  }
+
+  Future<bool> updateServesClients(bool value) async {
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _updateServesClients(value);
 
     return result.fold(
       (failure) {

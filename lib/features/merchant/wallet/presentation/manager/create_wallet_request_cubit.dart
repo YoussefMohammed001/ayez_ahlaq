@@ -36,7 +36,6 @@ class CreateWalletRequestCubit extends Cubit<CreateWalletRequestState> {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
-    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
@@ -46,7 +45,6 @@ class CreateWalletRequestCubit extends Cubit<CreateWalletRequestState> {
       type: type,
       amount: amount,
       transferAccountId: transferAccountId,
-      withdrawAccountNumber: withdrawAccountNumber,
       note: note,
       filePath: filePath,
     );

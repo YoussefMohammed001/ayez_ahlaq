@@ -20,7 +20,6 @@ abstract class IBarberWalletRequestsRepo {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
-    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   });

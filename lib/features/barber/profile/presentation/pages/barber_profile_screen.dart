@@ -10,6 +10,7 @@ import '../../domain/entities/barber_profile.dart';
 import '../manager/barber_profile_cubit.dart';
 import '../manager/barber_profile_state.dart';
 import '../widgets/barber_profile_menu.dart';
+import '../widgets/serves_clients_card.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
@@ -37,6 +38,10 @@ class BarberProfileScreen extends StatelessWidget {
                 if (state.profile != null) ...[
                   SizedBox(height: 18.h),
                   _buildInfoCard(context, state.profile!),
+                ],
+                if (state.profile?.owner ?? false) ...[
+                  SizedBox(height: 12.h),
+                  const ServesClientsCard(),
                 ],
                 SizedBox(height: 18.h),
                 BarberProfileMenu(profile: state.profile, onLogout: onLogout),

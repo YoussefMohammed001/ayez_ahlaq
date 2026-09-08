@@ -16,6 +16,7 @@ class SectionTitle extends StatelessWidget {
     this.onAction,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +24,7 @@ class SectionTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: HeadingStyles.h4),
+          Expanded(child: Text(title, style: HeadingStyles.h4)),
           if (actionLabel != null)
             GestureDetector(
               onTap: onAction,

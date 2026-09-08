@@ -19,6 +19,13 @@ class BarberProfileApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> updateServesClients(bool value) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberServesClients,
+      data: {'value': value},
+    );
+  }
+
   Future<Either<Failure, dynamic>> changePassword(
     String currentPassword,
     String newPassword,

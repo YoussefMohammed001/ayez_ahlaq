@@ -89,6 +89,11 @@ class ProfileAdminMenu extends StatelessWidget {
         onTap: () => context.push(Routes.merchantSubscriptionScreen),
       ),
       MenuRow(
+        icon: Icons.trending_up_rounded,
+        label: S().sponsorshipTitle,
+        onTap: () => context.push(Routes.merchantSponsorshipScreen),
+      ),
+      MenuRow(
         icon: Icons.account_balance_wallet_outlined,
         label: S().walletTitle,
         onTap: () => context.push(Routes.merchantWalletScreen),
@@ -97,7 +102,7 @@ class ProfileAdminMenu extends StatelessWidget {
         icon: Icons.campaign_outlined,
         label: S().sendBroadcast,
         onTap: () =>
-            context.push(Routes.merchantBroadcastScreen, extra: profile),
+            context.push(Routes.merchantBroadcastListScreen, extra: profile),
       ),
     ];
   }

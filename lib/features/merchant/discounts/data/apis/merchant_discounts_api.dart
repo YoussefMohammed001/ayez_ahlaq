@@ -34,6 +34,16 @@ class MerchantDiscountsApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> quote({
+    int? shopId,
+    required List<Map<String, dynamic>> items,
+  }) {
+    return _networkService.postData(
+      endPoint: EndPoints.merchantDiscountQuote,
+      data: {'shopId': shopId, 'items': items},
+    );
+  }
+
   Future<Either<Failure, dynamic>> closeDiscount(int id) {
     return _networkService.putData(
       endPoint: EndPoints.merchantDiscountClose(id),

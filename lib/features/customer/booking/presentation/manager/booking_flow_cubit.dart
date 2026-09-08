@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../shops/domain/entities/shop_addon.dart';
+import '../../../shops/domain/entities/shop_drink.dart';
 import '../../../shops/domain/entities/shop_detail.dart';
-import '../../domain/entities/booking_addon.dart';
 import '../../domain/use_cases/create_booking_use_case.dart';
 import '../../domain/use_cases/get_booking_slots_use_case.dart';
+import 'booking_flow_extras.dart';
 import 'booking_flow_state.dart';
 
 class BookingFlowCubit extends Cubit<BookingFlowState> {
@@ -90,18 +91,19 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
   }
 
   void setAddonQuantity(ShopAddon addon, int quantity) {
-    final next = state.addons.where((a) => a.productId != addon.id).toList();
-    if (quantity > 0) {
-      next.add(
-        BookingAddon(
-          productId: addon.id,
-          quantity: quantity,
-          name: addon.name,
-          price: addon.price,
-        ),
-      );
-    }
-    emit(state.copyWith(addons: next));
+    emit(
+      state.copyWith(
+        addons: BookingFlowExtras.withAddon(state.addons, addon, quantity),
+      ),
+    );
+  }
+
+  void setDrinkQuantity(ShopDrink drink, int quantity) {
+    emit(
+      state.copyWith(
+        drinks: BookingFlowExtras.withDrink(state.drinks, drink, quantity),
+      ),
+    );
   }
 
   Future<void> submit() async {
@@ -123,6 +125,7 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
       paymentMethod: state.paymentMethod,
       note: state.note,
       addons: state.addons,
+      drinks: state.drinks,
     );
 
     result.fold(

@@ -47,6 +47,7 @@ class Routes {
   static const String barberDeleteAccountScreen = '/barber/profile/delete';
   static const String barberShell = '/barber';
   static const String barberHoursScreen = '/barber/hours';
+  static const String barberDrinksScreen = '/barber/drinks';
   static const String barberLocationScreen = '/barber/profile/location';
   static const String barberChangePasswordScreen =
       '/barber/profile/password';
@@ -54,10 +55,11 @@ class Routes {
   static const String barberServicesScreen = '/barber/profile/services';
   static const String barberDocumentViewerScreen =
       '/barber/profile/documents/view';
+  static const String barberStoreMerchantsScreen = '/barber/store';
   static const String barberStoreProductsScreen = '/barber/store/products';
   static const String barberStoreCartScreen = '/barber/store/cart';
-  static const String barberStoreOrdersScreen = '/barber/store/orders';
   static const String barberStoreOrderDetailsScreen = '/barber/store/order';
+  static const String barberSponsorshipScreen = '/barber/sponsorship';
   static const String barberWalletScreen = '/barber/wallet';
   static const String barberWalletRequestsScreen = '/barber/wallet/requests';
   static const String createBarberWalletRequestScreen =
@@ -95,6 +97,7 @@ class Routes {
   static const String merchantCategoriesScreen = '/merchant/categories';
   static const String merchantDiscountsScreen = '/merchant/discounts';
   static const String merchantDiscountFormScreen = '/merchant/discounts/form';
+  static const String merchantDiscountQuoteScreen = '/merchant/discounts/quote';
   static const String merchantEditProfileScreen = '/merchant/profile/edit';
   static const String merchantChangePasswordScreen = '/merchant/profile/password';
   static const String merchantPhonesScreen = '/merchant/profile/phones';
@@ -105,10 +108,12 @@ class Routes {
   static const String merchantDeliveryScreen = '/merchant/delivery';
   static const String merchantNotificationsScreen = '/merchant/notifications';
   static const String merchantOrderDetailsScreen = '/merchant/order';
+  static const String merchantSponsorshipScreen = '/merchant/sponsorship';
   static const String merchantSubscriptionScreen = '/merchant/subscription';
   static const String merchantSubscriptionRequestsScreen =
       '/merchant/subscription/requests';
   static const String merchantBroadcastScreen = '/merchant/broadcast';
+  static const String merchantBroadcastListScreen = '/merchant/broadcast/list';
 
   static const String merchantWalletScreen = '/merchant/wallet';
   static const String merchantWalletRequestsScreen = '/merchant/wallet/requests';

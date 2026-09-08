@@ -1,6 +1,7 @@
 import '../../domain/entities/booking.dart';
 import '../../domain/entities/booking_status.dart';
 import 'booking_addon_model.dart';
+import 'booking_adjustment_model.dart';
 
 class BookingModel extends Booking {
   const BookingModel({
@@ -26,6 +27,9 @@ class BookingModel extends Booking {
     required super.walkIn,
     required super.nextStatuses,
     required super.addons,
+    super.adjustments,
+    super.adjustmentsTotal,
+    super.billingLocked,
     super.haircutStyleId,
     super.styleName,
     super.note,
@@ -41,6 +45,7 @@ class BookingModel extends Booking {
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     final addons = (json['addons'] as List?) ?? const [];
     final next = (json['nextStatuses'] as List?) ?? const [];
+    final adjustments = (json['adjustments'] as List?) ?? const [];
 
     return BookingModel(
       id: (json['id'] as num?)?.toInt() ?? 0,
@@ -83,6 +88,13 @@ class BookingModel extends Booking {
             (e) => BookingAddonModel.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
+      adjustments: adjustments
+          .map<BookingAdjustmentModel>(
+            (e) => BookingAdjustmentModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      adjustmentsTotal: (json['adjustmentsTotal'] as num?)?.toInt() ?? 0,
+      billingLocked: json['billingLocked'] as bool? ?? false,
     );
   }
 }

@@ -49,13 +49,20 @@ class QuantityStepper extends StatelessWidget {
         ),
         SizedBox(
           width: 32.w,
-          child: Text(
-            '$quantity',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: scheme.onSurface,
-              fontWeight: FontWeight.w700,
-              fontSize: 13.5.sp,
+          child: TweenAnimationBuilder<double>(
+            key: ValueKey(quantity),
+            tween: Tween(begin: 1.3, end: 1),
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutBack,
+            builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+            child: Text(
+              '$quantity',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: scheme.onSurface,
+                fontWeight: FontWeight.w700,
+                fontSize: 13.5.sp,
+              ),
             ),
           ),
         ),

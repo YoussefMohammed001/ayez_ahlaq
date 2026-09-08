@@ -6,6 +6,7 @@ import '../../../../../core/widgets/status_badge.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/customer_booking.dart';
+import 'booking_extras_summary.dart';
 import 'customer_booking_status_label.dart';
 import 'customer_booking_status_tone.dart';
 
@@ -46,6 +47,7 @@ class CustomerBookingDetailCard extends StatelessWidget {
             '${booking.bookingDate} · ${AppDateTime.formatHour(booking.slotTime)}',
           ),
           _row(context, S().paymentMethodLabel, booking.paymentMethod),
+          BookingExtrasSummary(addons: booking.addons),
           _row(context, S().orderTotal, S().currencyEgp(booking.totalPrice)),
           if (booking.queuePosition != null)
             _row(context, S().queuePositionLabel, '${booking.queuePosition}'),

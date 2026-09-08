@@ -55,10 +55,25 @@ class BarberShopMenuSections extends StatelessWidget {
               onTap: () => context.push(Routes.barberStorefrontHomeScreen),
             ),
             MenuRow(
-              icon: Icons.receipt_long_outlined,
-              label: S().storeOrdersTitle,
-              onTap: () => context.push(Routes.barberStoreOrdersScreen),
+              icon: Icons.local_cafe_outlined,
+              label: S().drinksTitle,
+              onTap: () => context.push(Routes.barberDrinksScreen),
             ),
+          ],
+        ),
+        MenuSection(
+          title: S().purchasesSection,
+          children: [
+            MenuRow(
+              icon: Icons.storefront_outlined,
+              label: S().storeTitle,
+              onTap: () => context.push(Routes.barberStoreMerchantsScreen),
+            ),
+          ],
+        ),
+        MenuSection(
+          title: S().financialSection,
+          children: [
             MenuRow(
               icon: Icons.payments_outlined,
               label: S().earningsTitle,
@@ -73,6 +88,11 @@ class BarberShopMenuSections extends StatelessWidget {
               icon: Icons.workspace_premium_outlined,
               label: S().subscriptionTitle,
               onTap: () => context.push(Routes.barberSubscriptionScreen),
+            ),
+            MenuRow(
+              icon: Icons.trending_up_rounded,
+              label: S().sponsorshipTitle,
+              onTap: () => context.push(Routes.barberSponsorshipScreen),
             ),
           ],
         ),
@@ -89,11 +109,6 @@ class BarberShopMenuSections extends StatelessWidget {
               label: S().sendBroadcast,
               onTap: () => context.push(Routes.barberBroadcastListScreen),
             ),
-            // MenuRow(
-            //   icon: Icons.link_rounded,
-            //   label: S().inviteTitle,
-            //   onTap: () => context.push(Routes.barberInviteScreen),
-            // ),
           ],
         ),
       ],

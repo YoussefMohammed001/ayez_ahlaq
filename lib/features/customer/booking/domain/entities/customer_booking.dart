@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'booking_addon.dart';
 import 'customer_booking_status.dart';
 
 class CustomerBooking extends Equatable {
@@ -20,6 +21,7 @@ class CustomerBooking extends Equatable {
   final int? peopleAhead;
   final bool ratedBarber;
   final bool ratedShop;
+  final List<BookingAddon> addons;
 
   const CustomerBooking({
     required this.id,
@@ -40,6 +42,7 @@ class CustomerBooking extends Equatable {
     this.note,
     this.queuePosition,
     this.peopleAhead,
+    this.addons = const [],
   });
 
   CustomerBooking copyWith({bool? ratedBarber, bool? ratedShop}) {
@@ -62,9 +65,10 @@ class CustomerBooking extends Equatable {
       peopleAhead: peopleAhead,
       ratedBarber: ratedBarber ?? this.ratedBarber,
       ratedShop: ratedShop ?? this.ratedShop,
+      addons: addons,
     );
   }
 
   @override
-  List<Object?> get props => [id, code, status, totalPrice, queuePosition, peopleAhead, ratedBarber, ratedShop];
+  List<Object?> get props => [id, code, status, totalPrice, queuePosition, peopleAhead, ratedBarber, ratedShop, addons];
 }

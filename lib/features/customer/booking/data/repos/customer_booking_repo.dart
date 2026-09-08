@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../domain/entities/booking_addon.dart';
+import '../../domain/entities/booking_drink.dart';
 import '../../domain/entities/booking_slots.dart';
 import '../../domain/entities/customer_booking.dart';
 import '../../domain/entities/rating_target.dart';
@@ -44,6 +45,7 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
     required String paymentMethod,
     String? note,
     List<BookingAddon> addons = const [],
+    List<BookingDrink> drinks = const [],
   }) async {
     final result = await _api.createBooking({
       'shopId': shopId,
@@ -57,6 +59,9 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
       'note': note,
       'addons': addons
           .map((a) => {'productId': a.productId, 'quantity': a.quantity})
+          .toList(),
+      'drinks': drinks
+          .map((d) => {'drinkId': d.drinkId, 'quantity': d.quantity})
           .toList(),
     });
 

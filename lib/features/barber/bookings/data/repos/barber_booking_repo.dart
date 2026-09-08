@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../domain/entities/booking.dart';
 import '../../domain/entities/booking_addon.dart';
+import '../../domain/entities/booking_adjustment.dart';
+import '../../domain/entities/booking_drink.dart';
 import '../../domain/entities/booking_status.dart';
 import '../../domain/repos/i_barber_booking_repo.dart';
 import '../apis/barber_booking_api.dart';
@@ -67,9 +69,11 @@ class BarberBookingRepo implements IBarberBookingRepo {
     int? haircutStyleId,
     String? customerName,
     String? customerPhone,
+    String? slotTime,
     required String paymentMethod,
     String? note,
     required List<BookingAddon> addons,
+    required List<BookingDrink> drinks,
   }) async {
     final result = await _api.createWalkIn(
       barberId: barberId,
@@ -77,10 +81,36 @@ class BarberBookingRepo implements IBarberBookingRepo {
       haircutStyleId: haircutStyleId,
       customerName: customerName,
       customerPhone: customerPhone,
+      slotTime: slotTime,
       paymentMethod: paymentMethod,
       note: note,
       addons: addons
           .map((a) => {'productId': a.productId, 'quantity': a.quantity})
+          .toList(),
+      drinks: drinks
+          .map((d) => {'drinkId': d.drinkId, 'quantity': d.quantity})
+          .toList(),
+    );
+    return result.map(_mapOne);
+  }
+
+  @override
+  Future<Either<Failure, Booking>> updateBilling({
+    required int id,
+    required List<BookingDrink> drinks,
+    required List<BookingAddon> addons,
+    required List<BookingAdjustment> adjustments,
+  }) async {
+    final result = await _api.updateBilling(
+      id: id,
+      drinks: drinks
+          .map((d) => {'drinkId': d.drinkId, 'quantity': d.quantity})
+          .toList(),
+      addons: addons
+          .map((a) => {'productId': a.productId, 'quantity': a.quantity})
+          .toList(),
+      adjustments: adjustments
+          .map((a) => {'label': a.label, 'amount': a.amount})
           .toList(),
     );
     return result.map(_mapOne);

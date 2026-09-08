@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../data/requests/discount_request.dart';
 import '../entities/discount.dart';
+import '../entities/discount_quote.dart';
 import '../entities/discount_shop.dart';
 
 abstract class IMerchantDiscountsRepo {
@@ -17,4 +18,9 @@ abstract class IMerchantDiscountsRepo {
   );
 
   Future<Either<Failure, Unit>> closeDiscount(int id);
+
+  Future<Either<Failure, DiscountQuote>> quote({
+    int? shopId,
+    required Map<int, int> items,
+  });
 }

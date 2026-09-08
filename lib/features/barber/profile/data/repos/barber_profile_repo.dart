@@ -33,6 +33,12 @@ class BarberProfileRepo implements IBarberProfileRepo {
   }
 
   @override
+  Future<Either<Failure, BarberProfile>> updateServesClients(bool value) async {
+    final result = await _api.updateServesClients(value);
+    return result.map(_mapProfile);
+  }
+
+  @override
   Future<Either<Failure, Unit>> changePassword(
     String currentPassword,
     String newPassword,

@@ -41,15 +41,15 @@ class EndPoints {
 
   static const String customerNotification = 'customer/notification';
   static const String customerNotificationUnseenCount =
-      'customer/notification/unseen_count';
+      'customer/notification/unseenCount';
   static const String customerNotificationSeen = 'customer/notification/seen';
   static String customerNotificationSeenById(int id) =>
       'customer/notification/$id/seen';
   static String customerNotificationClickedById(int id) =>
       'customer/notification/$id/clicked';
 
-  static const String customerDeviceToken = 'customer/device_token';
-  static const String customerDeviceTokenAll = 'customer/device_token/all';
+  static const String customerDeviceToken = 'customer/deviceToken';
+  static const String customerDeviceTokenAll = 'customer/deviceToken/all';
 
   static const String merchantRegister = 'merchant/register';
   static const String merchantRegisterVerifyOtp = 'merchant/register/verifyOtp';
@@ -69,6 +69,8 @@ class EndPoints {
   static const String barberMe = 'barber';
   static const String barberLocation = 'barber/location';
   static const String barberPassword = 'barber/password';
+  static const String barberServesClients = 'barber/servesClients';
+  static const String barberPaymentMethod = 'barber/paymentMethod';
 
   static const String barberHours = 'barber/hours';
 
@@ -124,9 +126,15 @@ class EndPoints {
   static String barberBookingReject(int id) => 'barber/booking/$id/reject';
   static String barberBookingStatus(int id) => 'barber/booking/$id/status';
   static const String barberBookingWalkin = 'barber/booking/walkin';
+  static String barberBookingBilling(int id) => 'barber/booking/$id/billing';
 
   static const String barberInvite = 'barber/invite';
   static const String barberInviteRegenerate = 'barber/invite/regenerate';
+
+  static const String barberSponsorship = 'barber/sponsorship';
+
+  static const String barberDrink = 'barber/drink';
+  static String barberDrinkById(int id) => 'barber/drink/$id';
 
   static const String barberSubscription = 'barber/subscription';
   static const String barberSubscriptionPlan = 'barber/subscription/plan';
@@ -136,15 +144,15 @@ class EndPoints {
 
   static const String barberNotification = 'barber/notification';
   static const String barberNotificationUnseenCount =
-      'barber/notification/unseen_count';
+      'barber/notification/unseenCount';
   static const String barberNotificationSeen = 'barber/notification/seen';
   static String barberNotificationSeenById(int id) =>
       'barber/notification/$id/seen';
   static String barberNotificationClickedById(int id) =>
       'barber/notification/$id/clicked';
 
-  static const String barberDeviceToken = 'barber/device_token';
-  static const String barberDeviceTokenAll = 'barber/device_token/all';
+  static const String barberDeviceToken = 'barber/deviceToken';
+  static const String barberDeviceTokenAll = 'barber/deviceToken/all';
 
   static const String barberBroadcast = 'barber/broadcast';
 
@@ -210,15 +218,17 @@ class EndPoints {
 
   static const String merchantNotification = 'merchant/notification';
   static const String merchantNotificationUnseenCount =
-      'merchant/notification/unseen_count';
+      'merchant/notification/unseenCount';
   static const String merchantNotificationSeen = 'merchant/notification/seen';
   static String merchantNotificationSeenById(int id) =>
       'merchant/notification/$id/seen';
   static String merchantNotificationClickedById(int id) =>
       'merchant/notification/$id/clicked';
 
-  static const String merchantDeviceToken = 'merchant/device_token';
-  static const String merchantDeviceTokenAll = 'merchant/device_token/all';
+  static const String merchantDeviceToken = 'merchant/deviceToken';
+  static const String merchantDeviceTokenAll = 'merchant/deviceToken/all';
+
+  static const String merchantSponsorship = 'merchant/sponsorship';
 
   static const String merchantSubscription = 'merchant/subscription';
   static const String merchantSubscriptionPlan = 'merchant/subscription/plan';

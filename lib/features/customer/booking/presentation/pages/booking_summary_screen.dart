@@ -14,6 +14,7 @@ import '../../../../../shared/widgets/success_screen_args.dart';
 import '../manager/booking_flow_cubit.dart';
 import '../manager/booking_flow_state.dart';
 import '../widgets/booking_addons_field.dart';
+import '../widgets/booking_drinks_field.dart';
 import '../widgets/summary_row.dart';
 
 class BookingSummaryScreen extends StatefulWidget {
@@ -82,6 +83,14 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                         ],
                       ),
                     ),
+                    if (state.shopDetail!.drinks.isNotEmpty) ...[
+                      SectionTitle(title: S().drinksTitle),
+                      BookingDrinksField(
+                        shopDrinks: state.shopDetail!.drinks,
+                        selectedDrinks: state.drinks,
+                        onQuantityChanged: cubit.setDrinkQuantity,
+                      ),
+                    ],
                     if (state.shopDetail!.addons.isNotEmpty) ...[
                       SectionTitle(title: S().walkInAddonsLabel),
                       BookingAddonsField(

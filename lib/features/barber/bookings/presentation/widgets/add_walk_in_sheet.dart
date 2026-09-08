@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/di/services_locator.dart';
-import '../../../../../core/widgets/app_text_field.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
-import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../../services/presentation/manager/barber_services_cubit.dart';
-import '../../../services/presentation/manager/barber_services_state.dart';
-import '../../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
-import '../../../team/presentation/manager/barber_team_cubit.dart';
-import '../../../team/presentation/manager/barber_team_state.dart';
 import '../../domain/entities/booking_addon.dart';
+import '../../domain/entities/booking_drink.dart';
 import '../manager/bookings_cubit.dart';
-import '../manager/bookings_state.dart';
-import 'walk_in_addons_field.dart';
-import 'walk_in_barber_field.dart';
-import 'walk_in_service_field.dart';
+import 'walk_in_confirm_sheet.dart';
+import 'walk_in_extras_fields.dart';
+import 'walk_in_assignment_fields.dart';
+import 'walk_in_customer_fields.dart';
+import 'walk_in_sheet_container.dart';
+
+const _walkInPaymentMethod = 'CASH';
 
 class AddWalkInSheet extends StatefulWidget {
   final bool isOwner;
@@ -26,41 +23,20 @@ class AddWalkInSheet extends StatefulWidget {
 
   const AddWalkInSheet({super.key, this.isOwner = false, this.ownBarberId});
 
-  static Future<void> show(BuildContext context) {
-    final profile = context.read<BarberProfileCubit>().state.profile;
-    final isOwner = profile?.owner ?? false;
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: context.read<BookingsCubit>()),
-          BlocProvider.value(value: context.read<BarberServicesCubit>()),
-          BlocProvider.value(value: context.read<BarberStorefrontProductsCubit>()),
-          if (isOwner)
-            BlocProvider(create: (_) => sl<BarberTeamCubit>()..loadTeam()),
-        ],
-        child: AddWalkInSheet(isOwner: isOwner, ownBarberId: profile?.id),
-      ),
-    );
-  }
-
   @override
   State<AddWalkInSheet> createState() => _AddWalkInSheetState();
 }
 
 class _AddWalkInSheetState extends State<AddWalkInSheet> {
-  static const _cashPaymentMethod = 'CASH';
-
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _noteController = TextEditingController();
+  final _addons = ValueNotifier<List<BookingAddon>>(const []);
+  final _drinks = ValueNotifier<List<BookingDrink>>(const []);
   int? _serviceId;
   int? _barberId;
-  bool _barberError = false;
-  List<BookingAddon> _addons = const [];
+  String? _slotTime;
 
   @override
   void initState() {
@@ -73,116 +49,90 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
     _nameController.dispose();
     _phoneController.dispose();
     _noteController.dispose();
+    _addons.dispose();
+    _drinks.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    setState(() => _barberError = widget.isOwner && _barberId == null);
+  String? _textOrNull(TextEditingController controller) {
+    final text = controller.text.trim();
+    return text.isEmpty ? null : text;
+  }
 
-    if (_serviceId == null || _barberError || !_formKey.currentState!.validate()) {
+  void _reviewAndSubmit() {
+    if (!_formKey.currentState!.validate()) return;
+
+    showWalkInConfirmSheet(
+      context,
+      drinks: _drinks.value,
+      addons: _addons.value,
+      onConfirm: _confirm,
+    );
+  }
+
+  Future<void> _confirm(BuildContext sheetContext) async {
+    final services = context.read<BarberServicesCubit>().state.services;
+    final selected = services.firstWhere((s) => s.id == _serviceId);
+    final bookingsCubit = context.read<BookingsCubit>();
+
+    final saved = await bookingsCubit.createWalkIn(
+      barberId: _barberId!,
+      serviceTypeId: selected.catalogId,
+      customerName: _textOrNull(_nameController),
+      customerPhone: _textOrNull(_phoneController),
+      slotTime: _slotTime,
+      paymentMethod: _walkInPaymentMethod,
+      note: _textOrNull(_noteController),
+      addons: _addons.value,
+      drinks: _drinks.value,
+    );
+
+    if (!sheetContext.mounted) return;
+
+    if (saved) {
+      Navigator.of(sheetContext).pop();
+      if (mounted) Navigator.of(context).pop();
       return;
     }
 
-    final services = context.read<BarberServicesCubit>().state.services;
-    final selected = services.firstWhere((s) => s.id == _serviceId);
-
-    final saved = await context.read<BookingsCubit>().createWalkIn(
-      barberId: _barberId!,
-      serviceTypeId: selected.catalogId,
-      customerName: _nameController.text.trim().isEmpty
-          ? null
-          : _nameController.text.trim(),
-      customerPhone: _phoneController.text.trim().isEmpty
-          ? null
-          : _phoneController.text.trim(),
-      paymentMethod: _cashPaymentMethod,
-      note: _noteController.text.trim().isEmpty
-          ? null
-          : _noteController.text.trim(),
-      addons: _addons,
-    );
-
-    if (saved && mounted) Navigator.of(context).pop();
+    final message = bookingsCubit.state.errorMessage;
+    if (message != null) showError(message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 24.h),
-        decoration: BoxDecoration(
-          color: context.colorScheme.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-        ),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SectionTitle(title: S().addWalkInTitle),
-                BlocBuilder<BarberServicesCubit, BarberServicesState>(
-                  builder: (_, state) => WalkInServiceField(
-                    services: state.services,
-                    value: _serviceId,
-                    onChanged: (value) => setState(() => _serviceId = value),
-                  ),
-                ),
-                if (widget.isOwner) ...[
-                  SectionTitle(title: S().walkInBarberLabel),
-                  BlocBuilder<BarberTeamCubit, BarberTeamState>(
-                    builder: (_, state) => WalkInBarberField(
-                      members: state.members.where((m) => !m.owner).toList(),
-                      value: _barberId,
-                      onChanged: (value) => setState(() {
-                        _barberId = value;
-                        _barberError = false;
-                      }),
-                    ),
-                  ),
-                  if (_barberError) ...[
-                    SizedBox(height: 4.h),
-                    Text(
-                      S().chooseTeamMemberRequired,
-                      style: TextStyle(fontSize: 11.sp, color: context.semantic.warning),
-                    ),
-                  ],
-                ],
-                SectionTitle(title: S().customerLabelOptional),
-                AppTextField(
-                  controller: _nameController,
-                  hint: S().customerLabelOptional,
-                ),
-                SectionTitle(title: S().customerPhoneLabelOptional),
-                AppTextField(
-                  controller: _phoneController,
-                  hint: S().customerPhoneLabelOptional,
-                  isNumber: true,
-                ),
-                SectionTitle(title: S().walkInNoteLabel),
-                AppTextField(
-                  controller: _noteController,
-                  hint: S().walkInNoteHint,
-                  maxLines: 2,
-                ),
-                SectionTitle(title: S().walkInAddonsLabel),
-                WalkInAddonsField(
-                  addons: _addons,
-                  onChanged: (addons) => setState(() => _addons = addons),
-                ),
-                SizedBox(height: 20.h),
-                BlocBuilder<BookingsCubit, BookingsState>(
-                  builder: (_, state) => PrimaryCtaButton(
-                    label: S().addWalkInAction,
-                    isLoading: state.isSubmittingWalkIn,
-                    onPressed: _submit,
-                  ),
-                ),
-              ],
+    return WalkInSheetContainer(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionTitle(title: S().addWalkInTitle),
+            WalkInAssignmentFields(
+              isOwner: widget.isOwner,
+              serviceId: _serviceId,
+              barberId: _barberId,
+              onServiceChanged: (value) => setState(() => _serviceId = value),
+              onBarberChanged: (value) => setState(() => _barberId = value),
             ),
-          ),
+            WalkInCustomerFields(
+              nameController: _nameController,
+              phoneController: _phoneController,
+              noteController: _noteController,
+            ),
+            WalkInExtrasFields(
+              slotTime: _slotTime,
+              onSlotTimeChanged: (value) => setState(() => _slotTime = value),
+              drinks: _drinks,
+              addons: _addons,
+            ),
+            SizedBox(height: 20.h),
+            PrimaryCtaButton(
+              label: S().addWalkInAction,
+              onPressed: _reviewAndSubmit,
+            ),
+          ],
         ),
       ),
     );

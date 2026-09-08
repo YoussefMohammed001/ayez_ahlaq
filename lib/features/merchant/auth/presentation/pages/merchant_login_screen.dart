@@ -104,9 +104,6 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
           controller: _phoneController,
           hint: '01001234567',
           isNumber: true,
-          // validator: (v) => (v == null || v.trim().length < 10)
-          //     ? S().please_enter_a_valid_phone_number
-          //     : null,
         ),
       ),
       LabeledField(

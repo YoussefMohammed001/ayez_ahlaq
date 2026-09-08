@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../entities/booking_addon.dart';
+import '../entities/booking_drink.dart';
 import '../entities/customer_booking.dart';
 import '../repos/i_customer_booking_repo.dart';
 
@@ -20,6 +21,7 @@ class CreateBookingUseCase {
     required String paymentMethod,
     String? note,
     List<BookingAddon> addons = const [],
+    List<BookingDrink> drinks = const [],
   }) => _repo.createBooking(
     shopId: shopId,
     autoSelect: autoSelect,
@@ -31,5 +33,6 @@ class CreateBookingUseCase {
     paymentMethod: paymentMethod,
     note: note,
     addons: addons,
+    drinks: drinks,
   );
 }

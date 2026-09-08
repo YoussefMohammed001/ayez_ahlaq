@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../entities/booking.dart';
 import '../entities/booking_addon.dart';
+import '../entities/booking_adjustment.dart';
+import '../entities/booking_drink.dart';
 import '../entities/booking_status.dart';
 
 abstract class IBarberBookingRepo {
@@ -28,8 +30,17 @@ abstract class IBarberBookingRepo {
     int? haircutStyleId,
     String? customerName,
     String? customerPhone,
+    String? slotTime,
     required String paymentMethod,
     String? note,
     required List<BookingAddon> addons,
+    required List<BookingDrink> drinks,
+  });
+
+  Future<Either<Failure, Booking>> updateBilling({
+    required int id,
+    required List<BookingDrink> drinks,
+    required List<BookingAddon> addons,
+    required List<BookingAdjustment> adjustments,
   });
 }

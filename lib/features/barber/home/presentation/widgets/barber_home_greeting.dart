@@ -8,8 +8,13 @@ import '../../../../../core/extensions/ext_theme.dart';
 
 class BarberHomeGreeting extends StatelessWidget {
   final String shopName;
+  final VoidCallback onAvatarTap;
 
-  const BarberHomeGreeting({super.key, required this.shopName});
+  const BarberHomeGreeting({
+    super.key,
+    required this.shopName,
+    required this.onAvatarTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +44,12 @@ class BarberHomeGreeting extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-        AvatarCircle(
-          initials: shopName.isEmpty ? S().avatarFallback : shopName.substring(0, 1),
-          size: 44.r,
+        GestureDetector(
+          onTap: onAvatarTap,
+          child: AvatarCircle(
+            initials: shopName.isEmpty ? S().avatarFallback : shopName.substring(0, 1),
+            size: 44.r,
+          ),
         ),
       ],
     );

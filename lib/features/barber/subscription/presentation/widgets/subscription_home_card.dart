@@ -71,7 +71,12 @@ class SubscriptionHomeCard extends StatelessWidget {
                   style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w800, color: scheme.onSurface),
                 ),
               ),
-              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant, size: 20.r),
+              Row(
+                children: [
+                  Text(S().view),
+                  Icon(Icons.chevron_right, color: scheme.onSurfaceVariant, size: 20.r),
+                ],
+              ),
             ],
           ),
           if (subscription.nextRenewalDate != null) ...[
@@ -81,17 +86,17 @@ class SubscriptionHomeCard extends StatelessWidget {
               style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
             ),
           ],
-          if (quotas.isNotEmpty) ...[
-            SizedBox(height: 10.h),
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 6.h,
-              children: [
-                for (final entry in quotas)
-                  _QuotaChip(label: entry.key, quota: entry.value),
-              ],
-            ),
-          ],
+          // if (quotas.isNotEmpty) ...[
+          //   SizedBox(height: 10.h),
+          //   Wrap(
+          //     spacing: 8.w,
+          //     runSpacing: 6.h,
+          //     children: [
+          //       for (final entry in quotas)
+          //         _QuotaChip(label: entry.key, quota: entry.value),
+          //     ],
+          //   ),
+          // ],
         ],
       ),
     );

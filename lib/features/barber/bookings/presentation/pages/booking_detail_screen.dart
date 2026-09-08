@@ -14,15 +14,30 @@ import '../widgets/booking_actions.dart';
 import '../widgets/booking_info_card.dart';
 import '../widgets/booking_status_label.dart';
 import '../widgets/booking_status_tone.dart';
+import '../widgets/edit_bill_sheet.dart';
 
-class BookingDetailScreen extends StatelessWidget {
+class BookingDetailScreen extends StatefulWidget {
   final Booking booking;
 
   const BookingDetailScreen({super.key, required this.booking});
 
+  @override
+  State<BookingDetailScreen> createState() => _BookingDetailScreenState();
+}
+
+class _BookingDetailScreenState extends State<BookingDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<BookingsCubit>().refreshBooking(widget.booking.id);
+  }
+
+  Future<void> _refresh() =>
+      context.read<BookingsCubit>().refreshBooking(widget.booking.id);
+
   Booking _resolve(BookingsState state) {
-    final all = [...state.pending, ...state.queue];
-    return all.firstWhere((b) => b.id == booking.id, orElse: () => booking);
+    final all = [...state.pending, ...state.queue, ...state.history];
+    return all.firstWhere((b) => b.id == widget.booking.id, orElse: () => widget.booking);
   }
 
   @override
@@ -33,15 +48,26 @@ class BookingDetailScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppTopBar(title: current.code),
-          body: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-            children: [
-              _buildHeader(context, current),
-              SectionTitle(title: S().bookingDetailsTitle),
-              BookingInfoCard(booking: current),
-              SizedBox(height: 20.h),
-              BookingActions(booking: current),
-            ],
+          body: RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+              children: [
+                _buildHeader(context, current),
+                SectionTitle(title: S().bookingDetailsTitle),
+                BookingInfoCard(booking: current),
+                if (!current.billingLocked) ...[
+                  SizedBox(height: 12.h),
+                  OutlinedButton.icon(
+                    onPressed: () => EditBillSheet.show(context, current),
+                    icon: Icon(Icons.receipt_long_outlined, size: 18.r),
+                    label: Text(S().editBillAction),
+                  ),
+                ],
+                SizedBox(height: 20.h),
+                BookingActions(booking: current),
+              ],
+            ),
           ),
         );
       },

@@ -35,9 +35,13 @@ class MerchantProduct extends Equatable {
     this.activeDiscount,
   });
 
+  static const int lowStockThreshold = 5;
+
   bool get hasDiscount => effectivePrice < price;
 
   bool get isOutOfStock => totalStock <= 0;
+
+  bool get isRunningLow => !isOutOfStock && totalStock <= lowStockThreshold;
 
   MerchantProduct copyWith({bool? active, int? totalStock}) {
     return MerchantProduct(

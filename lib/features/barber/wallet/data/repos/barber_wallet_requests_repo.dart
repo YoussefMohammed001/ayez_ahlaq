@@ -47,7 +47,6 @@ class BarberWalletRequestsRepo implements IBarberWalletRequestsRepo {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
-    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
@@ -55,7 +54,6 @@ class BarberWalletRequestsRepo implements IBarberWalletRequestsRepo {
       type: type.toApi(),
       amount: amount,
       transferAccountId: transferAccountId,
-      withdrawAccountNumber: withdrawAccountNumber,
       note: note,
       filePath: filePath,
     );

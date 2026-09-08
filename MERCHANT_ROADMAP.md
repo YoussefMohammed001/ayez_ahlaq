@@ -77,6 +77,25 @@
 
 ---
 
+## مراجعة شاملة تانية (بعد الروادماب القديم)
+
+- [x] **مفيش شاشة تعرض سجل الـ Broadcast (حالة الموافقة)**
+  `GET /api/merchant/broadcast` ("My broadcasts with status") كان موجود في الـ Postman ومش متنادى عليه خالص — التاجر كان بيبعت إشعار (يدخل قائمة موافقة الأدمن كـ `PENDING`) ومفيش أي طريقة يشوف بيها اتوافق عليه ولا اترفض ولا لسه معلّق. الحلاق عنده نفس الميزة بالظبط (`GetBroadcastsUseCase` + `BroadcastListScreen`) فاتعمل نفس الشيء للتاجر حرفيًا:
+  - `Broadcast`/`BroadcastPage`/`BroadcastScope`/`BroadcastStatus` entities جديدة في `merchant/broadcast/domain/entities/`.
+  - `MerchantBroadcastApi.list()` + `MerchantBroadcastRepo.list()` + `IMerchantBroadcastRepo.list()` + `GetMerchantBroadcastsUseCase`.
+  - `MerchantBroadcastListCubit`/`State` (pagination بنفس نمط الحلاق: `loadBroadcasts()` + `loadMore()` على scroll).
+  - `MerchantBroadcastListScreen` + `MerchantBroadcastRow` + `MerchantBroadcastStatusChip` (نفس الـ widgets البصرية للحلاق، بس مسمّاة بادئة `Merchant` عشان معندناش تكرار اسم كلاس بين الفيتشرين).
+  - راوت جديد `/merchant/broadcast/list` مسجّل في `app_routes.dart` + DI في `services_locator.dart`.
+  - `profile_admin_menu.dart`: زرار "إرسال إشعار" بقى بيفتح شاشة الليستة (بدل شاشة الإنشاء مباشرة) — زي الحلاق بالظبط — والليستة هي اللي فيها زرار "+" يفتح شاشة الإنشاء.
+
+- [x] **Validator رقم الموبايل متعلّق كومنت في شاشة اللوجين**
+  `merchant_login_screen.dart` فيه كومنت 3 سطور لـ validator متعلّق (مخالف لقاعدة "no comments"). اتأكد إن باقي شاشات اللوجين في المشروع (حلاق/عميل) كمان حقل الموبايل عندهم من غير validator أصلًا — يعني مفيش سلوك تاني لازم يترجع، الكومنت الميت بس اتشال.
+
+- [x] **الـ mock (`MerchantOrdersMock`) كان لسه متوصّل في `merchant_orders_repo.dart`**
+  6 فروع `if (MerchantOrdersMock.enabled)` في الـ repo كانت كود ميت (الـ flag `false` دايمًا). اتشالوا كلهم + الملف `data/local/merchant_orders_mock.dart` نفسه اتمسح.
+
+---
+
 ## ملاحظات تقنية
 - التأكيد قبل أي "تنفيذ" (سحب/إيداع/تغيير باقة... إلخ) بيتعمل بـ `showConfirmDialog(context, {title, message, confirmLabel, icon, isDestructive})` من `core/helpers/show_confirm_dialog.dart` — مفيش `ConfirmCancelDialog` في الكود، ده اسم مكنش موجود أصلًا.
 - قبل ما تعمل بوتوم شيت اختيار صورة جديد، دوّر كويس على اللي اتعمل قبل كده (`AppImagePicker`/`ImagePickerRow`) — الهدف ماكنش يتكرر.

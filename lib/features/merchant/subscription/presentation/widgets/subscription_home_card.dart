@@ -81,19 +81,20 @@ class SubscriptionHomeCard extends StatelessWidget {
               style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
             ),
           ],
-          if (quotas.isNotEmpty) ...[
-            SizedBox(height: 10.h),
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 6.h,
-              children: [
-                for (final entry in quotas)
-                  _QuotaChip(label: entry.key, quota: entry.value),
-              ],
-            ),
-          ],
+          // if (quotas.isNotEmpty) ...[
+          //   SizedBox(height: 10.h),
+          //   Wrap(
+          //     spacing: 8.w,
+          //     runSpacing: 6.h,
+          //     children: [
+          //       for (final entry in quotas)
+          //         _QuotaChip(label: entry.key, quota: entry.value),
+          //     ],
+          //   ),
+         // ],
         ],
       ),
+
     );
   }
 

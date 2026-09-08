@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -65,6 +66,12 @@ import '../../features/barber/presentation/pages/barber_shell.dart';
 import '../../features/barber/profile/presentation/manager/barber_profile_cubit.dart';
 import '../../features/barber/hours/presentation/manager/barber_hours_cubit.dart';
 import '../../features/barber/hours/presentation/pages/barber_hours_screen.dart';
+import '../../features/barber/drinks/presentation/manager/barber_drinks_cubit.dart';
+import '../../features/barber/drinks/presentation/pages/barber_drinks_screen.dart';
+import '../../features/barber/sponsorship/presentation/manager/barber_sponsorship_cubit.dart';
+import '../../features/barber/sponsorship/presentation/pages/barber_sponsorship_screen.dart';
+import '../../features/merchant/sponsorship/presentation/manager/merchant_sponsorship_cubit.dart';
+import '../../features/merchant/sponsorship/presentation/pages/merchant_sponsorship_screen.dart';
 import '../../features/barber/profile/domain/entities/barber_profile.dart';
 import '../../features/barber/profile/presentation/pages/barber_location_screen.dart';
 import '../../features/barber/profile/presentation/pages/barber_change_password_screen.dart';
@@ -105,8 +112,8 @@ import '../../features/barber/store/presentation/manager/barber_store_cart_cubit
 import '../../features/barber/store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_orders_cubit.dart';
 import '../../features/barber/store/presentation/pages/barber_store_cart_screen.dart';
+import '../../features/barber/store/presentation/pages/store_home_screen.dart';
 import '../../features/barber/store/presentation/pages/barber_store_order_details_screen.dart';
-import '../../features/barber/store/presentation/pages/barber_store_orders_screen.dart';
 import '../../features/barber/store/presentation/pages/barber_store_products_screen.dart';
 import '../../features/barber/storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
 import '../../features/barber/storefront/delivery/presentation/manager/barber_storefront_delivery_cubit.dart';
@@ -137,6 +144,8 @@ import '../../features/merchant/subscription/presentation/manager/merchant_subsc
 import '../../features/merchant/subscription/presentation/pages/merchant_subscription_screen.dart';
 import '../../features/merchant/subscription/presentation/pages/merchant_subscription_requests_screen.dart';
 import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_cubit.dart';
+import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_list_cubit.dart';
+import '../../features/merchant/broadcast/presentation/pages/merchant_broadcast_list_screen.dart';
 import '../../features/merchant/broadcast/presentation/pages/merchant_broadcast_screen.dart';
 import '../../features/barber/notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../features/barber/notifications/presentation/pages/barber_notifications_screen.dart';
@@ -165,6 +174,8 @@ import '../../features/merchant/delivery/presentation/pages/merchant_delivery_sc
 import '../../features/merchant/discounts/presentation/manager/merchant_discounts_cubit.dart';
 import '../../features/merchant/discounts/domain/entities/discount.dart';
 import '../../features/merchant/discounts/presentation/pages/discount_form_screen.dart';
+import '../../features/merchant/discounts/presentation/manager/discount_quote_cubit.dart';
+import '../../features/merchant/discounts/presentation/pages/discount_quote_screen.dart';
 import '../../features/merchant/discounts/presentation/pages/merchant_discounts_screen.dart';
 import '../../features/merchant/orders/domain/entities/purchase_order.dart';
 import '../../features/merchant/orders/presentation/manager/merchant_orders_cubit.dart';
@@ -192,7 +203,7 @@ import '../di/services_locator.dart';
 import 'route_observer.dart';
 import 'route_paths.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = ChuckerFlutter.navigatorKey;
 final CustomGoRouterObserver customGoRouterObserver = CustomGoRouterObserver();
 
 final MerchantProductsCubit _productsCubit = sl<MerchantProductsCubit>();
@@ -225,6 +236,11 @@ final CustomerNotificationsCubit _customerNotificationsCubit =
 final BarberAuthCubit _barberAuthCubit = sl<BarberAuthCubit>();
 final BarberProfileCubit _barberProfileCubit = sl<BarberProfileCubit>();
 final BarberHoursCubit _barberHoursCubit = sl<BarberHoursCubit>();
+final BarberDrinksCubit _barberDrinksCubit = sl<BarberDrinksCubit>();
+final BarberSponsorshipCubit _barberSponsorshipCubit =
+    sl<BarberSponsorshipCubit>();
+final MerchantSponsorshipCubit _merchantSponsorshipCubit =
+    sl<MerchantSponsorshipCubit>();
 final BarberServicesCubit _barberServicesCubit = sl<BarberServicesCubit>();
 final OwnServicesCubit _ownServicesCubit = sl<OwnServicesCubit>();
 final BarberDocumentsCubit _barberDocumentsCubit = sl<BarberDocumentsCubit>();
@@ -258,6 +274,8 @@ final MerchantSubscriptionRequestsCubit _merchantSubscriptionRequestsCubit =
     sl<MerchantSubscriptionRequestsCubit>();
 final MerchantBroadcastCubit _merchantBroadcastCubit =
     sl<MerchantBroadcastCubit>();
+final MerchantBroadcastListCubit _merchantBroadcastListCubit =
+    sl<MerchantBroadcastListCubit>();
 final MerchantWalletCubit _merchantWalletCubit = sl<MerchantWalletCubit>();
 final MerchantWalletRequestsCubit _merchantWalletRequestsCubit =
     sl<MerchantWalletRequestsCubit>();
@@ -588,6 +606,9 @@ final routes = GoRouter(
           BlocProvider.value(value: _barberNotificationsCubit),
           BlocProvider.value(value: _bookingsCubit),
           BlocProvider.value(value: _barberStorefrontProductsCubit),
+          BlocProvider.value(value: _barberStorefrontCategoriesCubit),
+          BlocProvider.value(value: _barberStorefrontDeliveryCubit),
+          BlocProvider.value(value: _barberStorefrontOrdersCubit),
           BlocProvider.value(value: _earningsCubit),
           BlocProvider.value(value: _barberSubscriptionCubit),
         ],
@@ -599,6 +620,20 @@ final routes = GoRouter(
       builder: (_, __) => BlocProvider.value(
         value: _barberHoursCubit..loadHours(),
         child: const BarberHoursScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberSponsorshipScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _barberSponsorshipCubit..loadSponsorship(),
+        child: const BarberSponsorshipScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberDrinksScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _barberDrinksCubit..loadDrinks(),
+        child: const BarberDrinksScreen(),
       ),
     ),
     GoRoute(
@@ -643,6 +678,17 @@ final routes = GoRouter(
       },
     ),
     GoRoute(
+      path: Routes.barberStoreMerchantsScreen,
+      builder: (_, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _barberStoreMerchantsCubit..loadMerchants()),
+          BlocProvider.value(value: _barberStoreCartCubit),
+          BlocProvider.value(value: _barberStoreOrdersCubit..loadOrders()),
+        ],
+        child: StoreHomeScreen(initialTabIndex: state.extra as int? ?? 0),
+      ),
+    ),
+    GoRoute(
       path: Routes.barberStoreProductsScreen,
       builder: (_, state) => BlocProvider.value(
         value: _barberStoreCartCubit,
@@ -664,13 +710,6 @@ final routes = GoRouter(
         final args = state.extra as SuccessScreenArgs;
         return SuccessScreen(message: args.message, doneRoute: args.doneRoute);
       },
-    ),
-    GoRoute(
-      path: Routes.barberStoreOrdersScreen,
-      builder: (_, __) => BlocProvider.value(
-        value: _barberStoreOrdersCubit..loadOrders(),
-        child: const BarberStoreOrdersScreen(),
-      ),
     ),
     GoRoute(
       path: Routes.barberStoreOrderDetailsScreen,
@@ -869,6 +908,17 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.merchantDiscountQuoteScreen,
+      builder: (_, __) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _discountsCubit),
+          BlocProvider.value(value: _productsCubit),
+          BlocProvider(create: (_) => sl<DiscountQuoteCubit>()),
+        ],
+        child: const DiscountQuoteScreen(),
+      ),
+    ),
+    GoRoute(
       path: Routes.merchantEditProfileScreen,
       builder: (_, state) => BlocProvider.value(
         value: _profileCubit,
@@ -929,14 +979,17 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.barberStorefrontHomeScreen,
-      builder: (_, __) => MultiBlocProvider(
+      builder: (_, state) => MultiBlocProvider(
         providers: [
           BlocProvider.value(value: _barberStorefrontProductsCubit..loadProducts()),
           BlocProvider.value(value: _barberStorefrontCategoriesCubit..loadCategories()),
           BlocProvider.value(value: _barberStorefrontDeliveryCubit..loadDelivery()),
           BlocProvider.value(value: _barberStorefrontOrdersCubit..loadOrders()),
         ],
-        child: const StorefrontHomeScreen(),
+        child: StorefrontHomeScreen(
+          initialTabIndex: state.extra as int? ?? 0,
+          showBackButton: true,
+        ),
       ),
     ),
     GoRoute(
@@ -979,6 +1032,13 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.merchantSponsorshipScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _merchantSponsorshipCubit..loadSponsorship(),
+        child: const MerchantSponsorshipScreen(),
+      ),
+    ),
+    GoRoute(
       path: Routes.merchantSubscriptionScreen,
       builder: (_, __) => BlocProvider.value(
         value: _merchantSubscriptionCubit..load(),
@@ -997,6 +1057,15 @@ final routes = GoRouter(
       builder: (_, state) => BlocProvider.value(
         value: _merchantBroadcastCubit,
         child: MerchantBroadcastScreen(
+          profile: state.extra as MerchantProfile?,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.merchantBroadcastListScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _merchantBroadcastListCubit,
+        child: MerchantBroadcastListScreen(
           profile: state.extra as MerchantProfile?,
         ),
       ),

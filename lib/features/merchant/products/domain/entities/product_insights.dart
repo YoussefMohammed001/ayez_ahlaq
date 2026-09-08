@@ -14,13 +14,15 @@ extension ProductInsights on List<MerchantProduct> {
       fold(0, (sum, product) => sum + product.totalStock);
 
   List<MerchantProduct> get mostStocked {
-    final sorted = [...this]
-      ..sort((a, b) => b.totalStock.compareTo(a.totalStock));
+    final sorted =
+        where((product) => !product.isRunningLow && !product.isOutOfStock)
+            .toList()
+          ..sort((a, b) => b.totalStock.compareTo(a.totalStock));
     return sorted.take(3).toList();
   }
 
   List<MerchantProduct> get runningLow {
-    final sorted = where((product) => !product.isOutOfStock).toList()
+    final sorted = where((product) => product.isRunningLow).toList()
       ..sort((a, b) => a.totalStock.compareTo(b.totalStock));
     return sorted.take(3).toList();
   }

@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
-import '../../domain/entities/payment_method.dart';
+import '../../../../../shared/payment_methods/payment_method.dart';
 import '../../domain/repos/i_customer_payment_methods_repo.dart';
 import '../apis/customer_payment_methods_api.dart';
-import '../models/payment_method_model.dart';
+import '../../../../../shared/payment_methods/payment_method_model.dart';
 
 class CustomerPaymentMethodsRepo implements ICustomerPaymentMethodsRepo {
   final CustomerPaymentMethodsApi _api;

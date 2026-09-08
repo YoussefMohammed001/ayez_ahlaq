@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'booking_addon.dart';
+import 'booking_adjustment.dart';
 import 'booking_status.dart';
 
 class Booking extends Equatable {
@@ -35,6 +36,9 @@ class Booking extends Equatable {
   final String? cancelReason;
   final List<BookingStatus> nextStatuses;
   final List<BookingAddon> addons;
+  final List<BookingAdjustment> adjustments;
+  final int adjustmentsTotal;
+  final bool billingLocked;
 
   const Booking({
     required this.id,
@@ -59,6 +63,9 @@ class Booking extends Equatable {
     required this.walkIn,
     required this.nextStatuses,
     required this.addons,
+    this.adjustments = const [],
+    this.adjustmentsTotal = 0,
+    this.billingLocked = false,
     this.haircutStyleId,
     this.styleName,
     this.note,
@@ -107,6 +114,9 @@ class Booking extends Equatable {
       cancelReason: cancelReason,
       nextStatuses: nextStatuses ?? this.nextStatuses,
       addons: addons,
+      adjustments: adjustments,
+      adjustmentsTotal: adjustmentsTotal,
+      billingLocked: billingLocked,
     );
   }
 

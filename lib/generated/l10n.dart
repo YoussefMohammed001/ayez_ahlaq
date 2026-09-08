@@ -1559,6 +1559,16 @@ class S {
     );
   }
 
+  /// `You have {count} new orders on your store`
+  String newStorefrontOrdersCount(Object count) {
+    return Intl.message(
+      'You have $count new orders on your store',
+      name: 'newStorefrontOrdersCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
   /// `Month revenue`
   String get monthRevenue {
     return Intl.message(
@@ -2729,6 +2739,581 @@ class S {
     return Intl.message('Team member', name: 'teamMember', desc: '', args: []);
   }
 
+  /// `Do you take clients?`
+  String get servesClientsTitle {
+    return Intl.message(
+      'Do you take clients?',
+      name: 'servesClientsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I work on clients`
+  String get servesClientsLabel {
+    return Intl.message(
+      'I work on clients',
+      name: 'servesClientsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customers can see you and book with you.`
+  String get servesClientsOnHint {
+    return Intl.message(
+      'Customers can see you and book with you.',
+      name: 'servesClientsOnHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are hidden from customers and the queue, and you free an employee slot in your plan.`
+  String get servesClientsOffHint {
+    return Intl.message(
+      'You are hidden from customers and the queue, and you free an employee slot in your plan.',
+      name: 'servesClientsOffHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your status has been updated`
+  String get servesClientsUpdated {
+    return Intl.message(
+      'Your status has been updated',
+      name: 'servesClientsUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drinks`
+  String get drinksTitle {
+    return Intl.message('Drinks', name: 'drinksTitle', desc: '', args: []);
+  }
+
+  /// `Your shop's drink menu, added to the customer's bill`
+  String get drinksSubtitle {
+    return Intl.message(
+      'Your shop\'s drink menu, added to the customer\'s bill',
+      name: 'drinksSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No drinks yet`
+  String get noDrinks {
+    return Intl.message('No drinks yet', name: 'noDrinks', desc: '', args: []);
+  }
+
+  /// `Add tea, coffee and water so you can put them on the bill.`
+  String get noDrinksHint {
+    return Intl.message(
+      'Add tea, coffee and water so you can put them on the bill.',
+      name: 'noDrinksHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a drink`
+  String get addDrink {
+    return Intl.message('Add a drink', name: 'addDrink', desc: '', args: []);
+  }
+
+  /// `Edit drink`
+  String get editDrink {
+    return Intl.message('Edit drink', name: 'editDrink', desc: '', args: []);
+  }
+
+  /// `Drink name`
+  String get drinkName {
+    return Intl.message('Drink name', name: 'drinkName', desc: '', args: []);
+  }
+
+  /// `Tea, coffee, water…`
+  String get drinkNameHint {
+    return Intl.message(
+      'Tea, coffee, water…',
+      name: 'drinkNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price in EGP`
+  String get drinkPrice {
+    return Intl.message('Price in EGP', name: 'drinkPrice', desc: '', args: []);
+  }
+
+  /// `10`
+  String get drinkPriceHint {
+    return Intl.message('10', name: 'drinkPriceHint', desc: '', args: []);
+  }
+
+  /// `Enter the drink name`
+  String get drinkNameRequired {
+    return Intl.message(
+      'Enter the drink name',
+      name: 'drinkNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid price`
+  String get drinkPriceRequired {
+    return Intl.message(
+      'Enter a valid price',
+      name: 'drinkPriceRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available to customers`
+  String get drinkActive {
+    return Intl.message(
+      'Available to customers',
+      name: 'drinkActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Off`
+  String get drinkInactive {
+    return Intl.message('Off', name: 'drinkInactive', desc: '', args: []);
+  }
+
+  /// `Delete drink`
+  String get deleteDrink {
+    return Intl.message(
+      'Delete drink',
+      name: 'deleteDrink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this drink from the menu?`
+  String get deleteDrinkConfirm {
+    return Intl.message(
+      'Are you sure you want to remove this drink from the menu?',
+      name: 'deleteDrinkConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit the bill`
+  String get editBillTitle {
+    return Intl.message(
+      'Edit the bill',
+      name: 'editBillTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit the bill`
+  String get editBillAction {
+    return Intl.message(
+      'Edit the bill',
+      name: 'editBillAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This bill is locked`
+  String get billLocked {
+    return Intl.message(
+      'This bill is locked',
+      name: 'billLocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extras and discounts`
+  String get billAdjustments {
+    return Intl.message(
+      'Extras and discounts',
+      name: 'billAdjustments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a line`
+  String get addAdjustment {
+    return Intl.message(
+      'Add a line',
+      name: 'addAdjustment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get adjustmentLabel {
+    return Intl.message('Reason', name: 'adjustmentLabel', desc: '', args: []);
+  }
+
+  /// `Extra beard trim, discount…`
+  String get adjustmentLabelHint {
+    return Intl.message(
+      'Extra beard trim, discount…',
+      name: 'adjustmentLabelHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get adjustmentAmount {
+    return Intl.message('Amount', name: 'adjustmentAmount', desc: '', args: []);
+  }
+
+  /// `30, or -20 for a discount`
+  String get adjustmentAmountHint {
+    return Intl.message(
+      '30, or -20 for a discount',
+      name: 'adjustmentAmountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a reason for the line`
+  String get adjustmentLabelRequired {
+    return Intl.message(
+      'Enter a reason for the line',
+      name: 'adjustmentLabelRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid amount`
+  String get adjustmentAmountRequired {
+    return Intl.message(
+      'Enter a valid amount',
+      name: 'adjustmentAmountRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get billTotal {
+    return Intl.message('Total', name: 'billTotal', desc: '', args: []);
+  }
+
+  /// `The bill has been updated`
+  String get billSaved {
+    return Intl.message(
+      'The bill has been updated',
+      name: 'billSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price preview`
+  String get quoteTitle {
+    return Intl.message(
+      'Price preview',
+      name: 'quoteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try a cart and see how discounts land before a barber orders`
+  String get quoteSubtitle {
+    return Intl.message(
+      'Try a cart and see how discounts land before a barber orders',
+      name: 'quoteSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick products and quantities`
+  String get quotePickProducts {
+    return Intl.message(
+      'Pick products and quantities',
+      name: 'quotePickProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test for a specific shop`
+  String get quoteScopeShop {
+    return Intl.message(
+      'Test for a specific shop',
+      name: 'quoteScopeShop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All shops`
+  String get quoteAllShops {
+    return Intl.message('All shops', name: 'quoteAllShops', desc: '', args: []);
+  }
+
+  /// `Calculate`
+  String get quoteCalculate {
+    return Intl.message(
+      'Calculate',
+      name: 'quoteCalculate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one product to see the maths`
+  String get quoteEmpty {
+    return Intl.message(
+      'Pick at least one product to see the maths',
+      name: 'quoteEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No discounts apply to this cart`
+  String get quoteNoDiscount {
+    return Intl.message(
+      'No discounts apply to this cart',
+      name: 'quoteNoDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discounts that fired`
+  String get quoteAppliedTitle {
+    return Intl.message(
+      'Discounts that fired',
+      name: 'quoteAppliedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total before any discount`
+  String get quoteGrossTotal {
+    return Intl.message(
+      'Total before any discount',
+      name: 'quoteGrossTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total after product discounts`
+  String get quoteSubtotal {
+    return Intl.message(
+      'Total after product discounts',
+      name: 'quoteSubtotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order discount`
+  String get quoteOrderDiscount {
+    return Intl.message(
+      'Order discount',
+      name: 'quoteOrderDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Final total`
+  String get quoteTotal {
+    return Intl.message('Final total', name: 'quoteTotal', desc: '', args: []);
+  }
+
+  /// `You save`
+  String get quoteSavings {
+    return Intl.message('You save', name: 'quoteSavings', desc: '', args: []);
+  }
+
+  /// `Gift`
+  String get quoteGift {
+    return Intl.message('Gift', name: 'quoteGift', desc: '', args: []);
+  }
+
+  /// `Unit price after discount`
+  String get quoteUnitAfterDiscount {
+    return Intl.message(
+      'Unit price after discount',
+      name: 'quoteUnitAfterDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion`
+  String get sponsorshipTitle {
+    return Intl.message(
+      'Promotion',
+      name: 'sponsorshipTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Put your products at the top of the barbers' store`
+  String get sponsorshipMerchantSubtitle {
+    return Intl.message(
+      'Put your products at the top of the barbers\' store',
+      name: 'sponsorshipMerchantSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Put your shop at the top of the customers' list`
+  String get sponsorshipBarberSubtitle {
+    return Intl.message(
+      'Put your shop at the top of the customers\' list',
+      name: 'sponsorshipBarberSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion is live`
+  String get sponsorshipActive {
+    return Intl.message(
+      'Promotion is live',
+      name: 'sponsorshipActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion is off`
+  String get sponsorshipInactive {
+    return Intl.message(
+      'Promotion is off',
+      name: 'sponsorshipInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ends on`
+  String get sponsorshipEndsAt {
+    return Intl.message(
+      'Ends on',
+      name: 'sponsorshipEndsAt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{days} days left`
+  String sponsorshipDaysLeft(Object days) {
+    return Intl.message(
+      '$days days left',
+      name: 'sponsorshipDaysLeft',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  /// `Monthly price`
+  String get sponsorshipMonthlyPrice {
+    return Intl.message(
+      'Monthly price',
+      name: 'sponsorshipMonthlyPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available in your wallet`
+  String get sponsorshipWalletAvailable {
+    return Intl.message(
+      'Available in your wallet',
+      name: 'sponsorshipWalletAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promote for a month`
+  String get sponsorshipBuy {
+    return Intl.message(
+      'Promote for a month',
+      name: 'sponsorshipBuy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Promotion activated`
+  String get sponsorshipBought {
+    return Intl.message(
+      'Promotion activated',
+      name: 'sponsorshipBought',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your wallet is short by {amount}, top up first`
+  String sponsorshipInsufficient(Object amount) {
+    return Intl.message(
+      'Your wallet is short by $amount, top up first',
+      name: 'sponsorshipInsufficient',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Top up the wallet`
+  String get sponsorshipTopUp {
+    return Intl.message(
+      'Top up the wallet',
+      name: 'sponsorshipTopUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activate promotion`
+  String get sponsorshipConfirmTitle {
+    return Intl.message(
+      'Activate promotion',
+      name: 'sponsorshipConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{amount} will be charged from your wallet and you stay promoted for 30 days.`
+  String sponsorshipConfirmMessage(Object amount) {
+    return Intl.message(
+      '$amount will be charged from your wallet and you stay promoted for 30 days.',
+      name: 'sponsorshipConfirmMessage',
+      desc: '',
+      args: [amount],
+    );
+  }
+
   /// `Barbershop`
   String get shopLabel {
     return Intl.message('Barbershop', name: 'shopLabel', desc: '', args: []);
@@ -3819,11 +4404,31 @@ class S {
     return Intl.message('Shop', name: 'shopSection', desc: '', args: []);
   }
 
-  /// `Store & Sales`
+  /// `Your Store`
   String get storeAndSalesSection {
     return Intl.message(
-      'Store & Sales',
+      'Your Store',
       name: 'storeAndSalesSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchases`
+  String get purchasesSection {
+    return Intl.message(
+      'Purchases',
+      name: 'purchasesSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Financials`
+  String get financialSection {
+    return Intl.message(
+      'Financials',
+      name: 'financialSection',
       desc: '',
       args: [],
     );
@@ -4359,6 +4964,16 @@ class S {
     return Intl.message(
       'Number',
       name: 'transferAccountAccountNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do you want to receive it?`
+  String get withdrawMethodLabel {
+    return Intl.message(
+      'How do you want to receive it?',
+      name: 'withdrawMethodLabel',
       desc: '',
       args: [],
     );
@@ -5579,11 +6194,101 @@ class S {
     );
   }
 
+  /// `You must choose a service`
+  String get chooseServiceRequired {
+    return Intl.message(
+      'You must choose a service',
+      name: 'chooseServiceRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add walk-in`
   String get addWalkInAction {
     return Intl.message(
       'Add walk-in',
       name: 'addWalkInAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get walkInSlotTimeLabel {
+    return Intl.message(
+      'Time',
+      name: 'walkInSlotTimeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now`
+  String get walkInSlotTimeNow {
+    return Intl.message('Now', name: 'walkInSlotTimeNow', desc: '', args: []);
+  }
+
+  /// `Pick a time`
+  String get walkInSlotTimeSpecific {
+    return Intl.message(
+      'Pick a time',
+      name: 'walkInSlotTimeSpecific',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `None`
+  String get walkInPickerNoneSelected {
+    return Intl.message(
+      'None',
+      name: 'walkInPickerNoneSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get walkInPickerDone {
+    return Intl.message('Done', name: 'walkInPickerDone', desc: '', args: []);
+  }
+
+  /// `Add`
+  String get walkInPickerAddMore {
+    return Intl.message('Add', name: 'walkInPickerAddMore', desc: '', args: []);
+  }
+
+  /// `Review order`
+  String get walkInConfirmTitle {
+    return Intl.message(
+      'Review order',
+      name: 'walkInConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm and add customer`
+  String get walkInConfirmAction {
+    return Intl.message(
+      'Confirm and add customer',
+      name: 'walkInConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get walkInConfirmEdit {
+    return Intl.message('Edit', name: 'walkInConfirmEdit', desc: '', args: []);
+  }
+
+  /// `Extras total`
+  String get walkInConfirmTotalLabel {
+    return Intl.message(
+      'Extras total',
+      name: 'walkInConfirmTotalLabel',
       desc: '',
       args: [],
     );
@@ -6607,6 +7312,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `View`
+  String get view {
+    return Intl.message('View', name: 'view', desc: '', args: []);
   }
 }
 

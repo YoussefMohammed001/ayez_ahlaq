@@ -11,6 +11,8 @@ abstract class IBarberProfileRepo {
     String? address,
   });
 
+  Future<Either<Failure, BarberProfile>> updateServesClients(bool value);
+
   Future<Either<Failure, Unit>> changePassword(
     String currentPassword,
     String newPassword,

@@ -12,12 +12,15 @@ import '../../../profile/presentation/manager/barber_profile_state.dart';
 import '../../../subscription/presentation/manager/barber_subscription_cubit.dart';
 import '../../../subscription/presentation/manager/barber_subscription_state.dart';
 import '../../../subscription/presentation/widgets/subscription_home_card.dart';
+import '../../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
+import '../../../storefront/orders/presentation/manager/barber_storefront_orders_state.dart';
 import '../../../team/presentation/manager/earnings_cubit.dart';
 import '../../../team/presentation/manager/earnings_state.dart';
 import '../widgets/barber_home_greeting.dart';
 import '../widgets/home_earnings_grid.dart';
 import '../widgets/home_pending_section.dart';
 import '../widgets/home_queue_section.dart';
+import '../widgets/home_storefront_orders_card.dart';
 
 class BarberHomeScreen extends StatelessWidget {
   final ValueChanged<int> onGoToTab;
@@ -31,6 +34,7 @@ class BarberHomeScreen extends StatelessWidget {
       context.read<BookingsCubit>().loadPending(),
       context.read<BookingsCubit>().loadQueue(),
       context.read<BarberSubscriptionCubit>().load(),
+      context.read<BarberStorefrontOrdersCubit>().loadOrders(),
     ]);
   }
 
@@ -48,6 +52,7 @@ class BarberHomeScreen extends StatelessWidget {
                 BlocBuilder<BarberProfileCubit, BarberProfileState>(
                   builder: (context, state) => BarberHomeGreeting(
                     shopName: state.profile?.shopName ?? '',
+                    onAvatarTap: () => onGoToTab(3),
                   ),
                 ),
                 SizedBox(height: 18.h),
@@ -74,6 +79,24 @@ class BarberHomeScreen extends StatelessWidget {
                     return SubscriptionHomeCard(
                       subscription: subscription,
                       onTap: () => context.push(Routes.barberSubscriptionScreen),
+                    );
+                  },
+                ),
+                SizedBox(height: 14.h),
+                BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
+                  builder: (context, state) {
+                    final pendingCount =
+                        state.orders.where((o) => o.status.needsDecision).length;
+                    if (pendingCount == 0) return const SizedBox.shrink();
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 14.h),
+                      child: HomeStorefrontOrdersCard(
+                        pendingCount: pendingCount,
+                        onTap: () => context.push(
+                          Routes.barberStorefrontHomeScreen,
+                          extra: 3,
+                        ),
+                      ),
                     );
                   },
                 ),

@@ -102,6 +102,32 @@ import '../../features/barber/profile/data/repos/barber_profile_repo.dart';
 import '../../features/barber/profile/domain/repos/i_barber_profile_repo.dart';
 import '../../features/barber/profile/domain/use_cases/get_barber_profile_use_case.dart';
 import '../../features/barber/profile/domain/use_cases/update_barber_location_use_case.dart';
+import '../../features/barber/profile/domain/use_cases/update_serves_clients_use_case.dart';
+import '../../features/barber/drinks/data/apis/barber_drinks_api.dart';
+import '../../features/barber/drinks/data/repos/barber_drinks_repo.dart';
+import '../../features/barber/drinks/domain/repos/i_barber_drinks_repo.dart';
+import '../../features/barber/drinks/domain/use_cases/create_drink_use_case.dart';
+import '../../features/barber/drinks/domain/use_cases/delete_drink_use_case.dart';
+import '../../features/barber/drinks/domain/use_cases/get_drinks_use_case.dart';
+import '../../features/barber/drinks/domain/use_cases/update_drink_use_case.dart';
+import '../../features/barber/drinks/presentation/manager/barber_drinks_cubit.dart';
+import '../../features/barber/payment_methods/data/apis/barber_payment_methods_api.dart';
+import '../../features/barber/payment_methods/data/repos/barber_payment_methods_repo.dart';
+import '../../features/barber/payment_methods/domain/repos/i_barber_payment_methods_repo.dart';
+import '../../features/barber/payment_methods/domain/use_cases/get_barber_payment_methods_use_case.dart';
+import '../../features/barber/payment_methods/presentation/manager/barber_payment_methods_cubit.dart';
+import '../../features/merchant/sponsorship/data/apis/merchant_sponsorship_api.dart';
+import '../../features/merchant/sponsorship/data/repos/merchant_sponsorship_repo.dart';
+import '../../features/merchant/sponsorship/domain/repos/i_merchant_sponsorship_repo.dart';
+import '../../features/merchant/sponsorship/domain/use_cases/buy_merchant_sponsorship_use_case.dart';
+import '../../features/merchant/sponsorship/domain/use_cases/get_merchant_sponsorship_use_case.dart';
+import '../../features/merchant/sponsorship/presentation/manager/merchant_sponsorship_cubit.dart';
+import '../../features/barber/sponsorship/data/apis/barber_sponsorship_api.dart';
+import '../../features/barber/sponsorship/data/repos/barber_sponsorship_repo.dart';
+import '../../features/barber/sponsorship/domain/repos/i_barber_sponsorship_repo.dart';
+import '../../features/barber/sponsorship/domain/use_cases/buy_barber_sponsorship_use_case.dart';
+import '../../features/barber/sponsorship/domain/use_cases/get_barber_sponsorship_use_case.dart';
+import '../../features/barber/sponsorship/presentation/manager/barber_sponsorship_cubit.dart';
 import '../../features/barber/profile/domain/use_cases/change_barber_password_use_case.dart';
 import '../../features/barber/profile/presentation/manager/barber_profile_cubit.dart';
 import '../../features/barber/hours/data/apis/barber_hours_api.dart';
@@ -236,8 +262,10 @@ import '../../features/merchant/subscription/presentation/manager/merchant_subsc
 import '../../features/merchant/broadcast/data/apis/merchant_broadcast_api.dart';
 import '../../features/merchant/broadcast/data/repos/merchant_broadcast_repo.dart';
 import '../../features/merchant/broadcast/domain/repos/i_merchant_broadcast_repo.dart';
+import '../../features/merchant/broadcast/domain/use_cases/get_merchant_broadcasts_use_case.dart';
 import '../../features/merchant/broadcast/domain/use_cases/send_merchant_broadcast_use_case.dart';
 import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_cubit.dart';
+import '../../features/merchant/broadcast/presentation/manager/merchant_broadcast_list_cubit.dart';
 import '../../features/merchant/wallet/data/apis/merchant_wallet_api.dart';
 import '../../features/merchant/wallet/data/apis/merchant_wallet_requests_api.dart';
 import '../../features/merchant/wallet/data/repos/merchant_wallet_repo.dart';
@@ -267,6 +295,7 @@ import '../../features/barber/bookings/domain/repos/i_barber_booking_repo.dart';
 import '../../features/barber/bookings/domain/use_cases/advance_booking_status_use_case.dart';
 import '../../features/barber/bookings/domain/use_cases/confirm_booking_use_case.dart';
 import '../../features/barber/bookings/domain/use_cases/create_walk_in_use_case.dart';
+import '../../features/barber/bookings/domain/use_cases/update_booking_billing_use_case.dart';
 import '../../features/barber/bookings/domain/use_cases/get_booking_use_case.dart';
 import '../../features/barber/bookings/domain/use_cases/get_bookings_use_case.dart';
 import '../../features/barber/bookings/domain/use_cases/get_pending_bookings_use_case.dart';
@@ -375,6 +404,8 @@ import '../../features/merchant/discounts/data/apis/merchant_discounts_api.dart'
 import '../../features/merchant/discounts/data/repos/merchant_discounts_repo.dart';
 import '../../features/merchant/discounts/domain/repos/i_merchant_discounts_repo.dart';
 import '../../features/merchant/discounts/domain/use_cases/close_discount_use_case.dart';
+import '../../features/merchant/discounts/domain/use_cases/quote_discount_use_case.dart';
+import '../../features/merchant/discounts/presentation/manager/discount_quote_cubit.dart';
 import '../../features/merchant/discounts/domain/use_cases/create_discount_use_case.dart';
 import '../../features/merchant/discounts/domain/use_cases/get_discount_shops_use_case.dart';
 import '../../features/merchant/discounts/domain/use_cases/get_discounts_use_case.dart';
@@ -477,6 +508,10 @@ class ServicesLocator {
 
     _barberAuth();
     _barberProfile();
+    _barberDrinks();
+    _barberPaymentMethods();
+    _merchantSponsorship();
+    _barberSponsorship();
     _barberHours();
     _barberServices();
     _barberDocuments();
@@ -755,6 +790,8 @@ class ServicesLocator {
     sl.registerLazySingleton(() => CreateDiscountUseCase(sl()));
     sl.registerLazySingleton(() => UpdateDiscountUseCase(sl()));
     sl.registerLazySingleton(() => CloseDiscountUseCase(sl()));
+    sl.registerLazySingleton(() => QuoteDiscountUseCase(sl()));
+    sl.registerFactory(() => DiscountQuoteCubit(sl()));
     sl.registerFactory(
       () => MerchantDiscountsCubit(sl(), sl(), sl(), sl(), sl()),
     );
@@ -830,6 +867,26 @@ class ServicesLocator {
     );
   }
 
+  void _merchantSponsorship() {
+    sl.registerLazySingleton(() => MerchantSponsorshipApi(sl()));
+    sl.registerLazySingleton<IMerchantSponsorshipRepo>(
+      () => MerchantSponsorshipRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetMerchantSponsorshipUseCase(sl()));
+    sl.registerLazySingleton(() => BuyMerchantSponsorshipUseCase(sl()));
+    sl.registerFactory(() => MerchantSponsorshipCubit(sl(), sl()));
+  }
+
+  void _barberSponsorship() {
+    sl.registerLazySingleton(() => BarberSponsorshipApi(sl()));
+    sl.registerLazySingleton<IBarberSponsorshipRepo>(
+      () => BarberSponsorshipRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetBarberSponsorshipUseCase(sl()));
+    sl.registerLazySingleton(() => BuyBarberSponsorshipUseCase(sl()));
+    sl.registerFactory(() => BarberSponsorshipCubit(sl(), sl()));
+  }
+
   void _merchantSubscription() {
     sl.registerLazySingleton(() => MerchantSubscriptionApi(sl()));
     sl.registerLazySingleton<IMerchantSubscriptionRepo>(
@@ -849,7 +906,9 @@ class ServicesLocator {
       () => MerchantBroadcastRepo(sl()),
     );
     sl.registerLazySingleton(() => SendMerchantBroadcastUseCase(sl()));
+    sl.registerLazySingleton(() => GetMerchantBroadcastsUseCase(sl()));
     sl.registerFactory(() => MerchantBroadcastCubit(sl()));
+    sl.registerFactory(() => MerchantBroadcastListCubit(sl()));
   }
 
   void _merchantWallet() {
@@ -917,9 +976,29 @@ class ServicesLocator {
     );
     sl.registerLazySingleton(() => GetBarberProfileUseCase(sl()));
     sl.registerLazySingleton(() => UpdateBarberLocationUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateServesClientsUseCase(sl()));
     sl.registerLazySingleton(() => ChangeBarberPasswordUseCase(sl()));
     sl.registerLazySingleton(() => DeleteBarberAccountUseCase(sl()));
-    sl.registerFactory(() => BarberProfileCubit(sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => BarberProfileCubit(sl(), sl(), sl(), sl(), sl()));
+  }
+
+  void _barberPaymentMethods() {
+    sl.registerLazySingleton(() => BarberPaymentMethodsApi(sl()));
+    sl.registerLazySingleton<IBarberPaymentMethodsRepo>(
+      () => BarberPaymentMethodsRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetBarberPaymentMethodsUseCase(sl()));
+    sl.registerFactory(() => BarberPaymentMethodsCubit(sl()));
+  }
+
+  void _barberDrinks() {
+    sl.registerLazySingleton(() => BarberDrinksApi(sl()));
+    sl.registerLazySingleton<IBarberDrinksRepo>(() => BarberDrinksRepo(sl()));
+    sl.registerLazySingleton(() => GetDrinksUseCase(sl()));
+    sl.registerLazySingleton(() => CreateDrinkUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateDrinkUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteDrinkUseCase(sl()));
+    sl.registerFactory(() => BarberDrinksCubit(sl(), sl(), sl(), sl()));
   }
 
   void _barberHours() {
@@ -1147,8 +1226,9 @@ class ServicesLocator {
     sl.registerLazySingleton(() => RejectBookingUseCase(sl()));
     sl.registerLazySingleton(() => AdvanceBookingStatusUseCase(sl()));
     sl.registerLazySingleton(() => CreateWalkInUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateBookingBillingUseCase(sl()));
     sl.registerFactory(
-      () => BookingsCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl()),
+      () => BookingsCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()),
     );
   }
 

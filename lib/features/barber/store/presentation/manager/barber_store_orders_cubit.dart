@@ -41,6 +41,10 @@ class BarberStoreOrdersCubit extends Cubit<BarberStoreOrdersState> {
     });
   }
 
+  void applyFilter(StoreOrderStatus? status) {
+    emit(state.copyWith(filter: status, clearFilter: status == null));
+  }
+
   List<StoreOrder> _replace(StoreOrder order) {
     final exists = state.orders.any((o) => o.id == order.id);
     if (!exists) return [...state.orders, order];

@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../domain/entities/discount.dart';
+import '../../domain/entities/discount_quote.dart';
 import '../../domain/entities/discount_shop.dart';
 import '../../domain/repos/i_merchant_discounts_repo.dart';
 import '../apis/merchant_discounts_api.dart';
 import '../models/discount_model.dart';
+import '../models/discount_quote_model.dart';
 import '../models/discount_shop_model.dart';
 import '../requests/discount_request.dart';
 
@@ -64,5 +66,24 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
 
   Discount _mapOne(dynamic response) {
     return DiscountModel.fromJson(response['data'] as Map<String, dynamic>);
+  }
+
+  @override
+  Future<Either<Failure, DiscountQuote>> quote({
+    int? shopId,
+    required Map<int, int> items,
+  }) async {
+    final result = await _api.quote(
+      shopId: shopId,
+      items: items.entries
+          .map((e) => {'productId': e.key, 'quantity': e.value})
+          .toList(),
+    );
+
+    return result.map(
+      (response) => DiscountQuoteModel.fromJson(
+        response['data'] as Map<String, dynamic>? ?? const {},
+      ),
+    );
   }
 }

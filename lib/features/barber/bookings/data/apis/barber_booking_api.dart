@@ -60,15 +60,33 @@ class BarberBookingApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> updateBilling({
+    required int id,
+    required List<Map<String, dynamic>> drinks,
+    required List<Map<String, dynamic>> addons,
+    required List<Map<String, dynamic>> adjustments,
+  }) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberBookingBilling(id),
+      data: {
+        'drinks': drinks,
+        'addons': addons,
+        'adjustments': adjustments,
+      },
+    );
+  }
+
   Future<Either<Failure, dynamic>> createWalkIn({
     required int barberId,
     required int serviceTypeId,
     int? haircutStyleId,
     String? customerName,
     String? customerPhone,
+    String? slotTime,
     required String paymentMethod,
     String? note,
     required List<Map<String, dynamic>> addons,
+    required List<Map<String, dynamic>> drinks,
   }) {
     return _networkService.postData(
       endPoint: EndPoints.barberBookingWalkin,
@@ -78,9 +96,11 @@ class BarberBookingApi {
         'haircutStyleId': haircutStyleId,
         'customerName': customerName,
         'customerPhone': customerPhone,
+        'slotTime': slotTime,
         'paymentMethod': paymentMethod,
         'note': note,
         'addons': addons,
+        'drinks': drinks,
       },
     );
   }

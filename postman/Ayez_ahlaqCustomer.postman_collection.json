@@ -34,6 +34,10 @@
       "value": "1"
     },
     {
+      "key": "productId2",
+      "value": "2"
+    },
+    {
       "key": "orderId",
       "value": "1"
     },
@@ -43,6 +47,22 @@
     },
     {
       "key": "notificationId",
+      "value": "1"
+    },
+    {
+      "key": "transferAccountId",
+      "value": "1"
+    },
+    {
+      "key": "walletRequestId",
+      "value": "1"
+    },
+    {
+      "key": "resetToken",
+      "value": ""
+    },
+    {
+      "key": "drinkId",
       "value": "1"
     },
     {
@@ -105,6 +125,7 @@
                 }
               }
             },
+            "description": "ALWAYS returns { activated:false, auth:null, otpTtlSeconds:300, devOtp } — NO token. Call 'Register - verify OTP' next. A verified live phone -> 409.",
             "auth": {
               "type": "noauth"
             }
@@ -140,6 +161,7 @@
                 }
               }
             },
+            "description": "Un-verified phone -> 400 'رقم هاتفك غير مؤكّد'. Blocked account -> 400.",
             "auth": {
               "type": "noauth"
             }
@@ -150,11 +172,253 @@
               "script": {
                 "exec": [
                   "var d = pm.response.json().data;",
-                  "if (d && d.token) pm.collectionVariables.set('token', d.token);"
+                  "if (d && d.token) pm.collectionVariables.set('token', d.token);",
+                  "if (d && d.auth && d.auth.token) pm.collectionVariables.set('token', d.auth.token);"
                 ]
               }
             }
           ]
+        },
+        {
+          "name": "Register - verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/register/verifyOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "register",
+                "verifyOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\",\n  \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "ALWAYS required — the customer register call returns NO token. Returns the full AuthResponse (the token).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.token) pm.collectionVariables.set('token', d.token);",
+                  "if (d && d.auth && d.auth.token) pm.collectionVariables.set('token', d.auth.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register - resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/register/resendOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "register",
+                "resendOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Fresh 6-digit code (TTL 300s), attempt counter reset, previous code dead. 400 if there is no pending / un-verified signup for that number.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Forgot password - send code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/password/forgot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "password",
+                "forgot"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ expiresInSeconds, devOtp }. Barber: works for the owner AND a team member; no X-Client needed.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Forgot password - verify code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/password/verifyOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "password",
+                "verifyOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\",\n  \"code\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ resetToken (opaque, TTL 600s), expiresInSeconds }.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.resetToken) pm.collectionVariables.set('resetToken', d.resetToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Forgot password - reset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/password/reset",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "password",
+                "reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"{{resetToken}}\",\n  \"newPassword\": \"newpass123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Third step. 400 on a bad / expired reset token.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Change password (logged in)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"cust1234\",\n  \"newPassword\": \"newpass123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "min 6 chars; wrong currentPassword -> 400. Barber: X-Client required."
+          }
         }
       ]
     },
@@ -196,7 +460,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/customer/notification/unseen_count",
+              "raw": "{{baseUrl}}/api/customer/notification/unseenCount",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -204,7 +468,7 @@
                 "api",
                 "customer",
                 "notification",
-                "unseen_count"
+                "unseenCount"
               ]
             },
             "description": "{ \"count\": n }"
@@ -329,14 +593,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/customer/device_token",
+              "raw": "{{baseUrl}}/api/customer/deviceToken",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "customer",
-                "device_token"
+                "deviceToken"
               ]
             },
             "body": {
@@ -362,14 +626,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/customer/device_token",
+              "raw": "{{baseUrl}}/api/customer/deviceToken",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "customer",
-                "device_token"
+                "deviceToken"
               ]
             },
             "body": {
@@ -389,14 +653,14 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/customer/device_token/all",
+              "raw": "{{baseUrl}}/api/customer/deviceToken/all",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "customer",
-                "device_token",
+                "deviceToken",
                 "all"
               ]
             }
@@ -433,7 +697,7 @@
                 }
               ]
             },
-            "description": "Each shop gets distanceKm (null if the shop has no coordinates) + favorite. Omit lat/lng for name order."
+            "description": "Each shop: distanceKm (null if no coords), favorite, sponsored. WITH lat/lng: if the customer falls inside an admin service zone → only that zone's shops, nearest first; else all shops nearest first. Sponsored shops are pinned to the very top (with sponsored=true) regardless of distance."
           }
         },
         {
@@ -451,7 +715,8 @@
                 "customer",
                 "shop"
               ]
-            }
+            },
+            "description": "No lat/lng → ordered by rating desc, then most-visited (completed bookings) desc. Sponsored shops still pinned on top."
           }
         },
         {
@@ -471,7 +736,7 @@
                 "{{shopId}}"
               ]
             },
-            "description": "{ shop, barbers[] (services, favorite, viaInvite), haircutStyles[], paymentMethods[], addons[] }"
+            "description": "{ shop, barbers[] (services, favorite, viaInvite), haircutStyles[], paymentMethods[], addons[], drinks[] }. drinks[] = { id, name, price } — the shop's DRINK MENU, the primary pick-list on the booking screen; send picks as `drinks` on POST /api/customer/booking. addons[] = storefront products (id, name, brand, categoryId, categoryName, price, stock) — the older buffet path, still sendable as `addons`."
           }
         },
         {
@@ -627,26 +892,26 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"shopId\": {{shopId}},\n  \"autoSelect\": true,\n  \"barberId\": null,\n  \"serviceTypeId\": {{serviceTypeId}},\n  \"haircutStyleId\": {{haircutStyleId}},\n  \"date\": \"{{date}}\",\n  \"slotTime\": \"14:30\",\n  \"paymentMethod\": \"CASH\",\n  \"note\": \"لو سمحت سريع\",\n  \"addons\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 1\n    }\n  ]\n}",
+              "raw": "{\n  \"shopId\": {{shopId}},\n  \"autoSelect\": true,\n  \"barberId\": null,\n  \"serviceTypeId\": {{serviceTypeId}},\n  \"haircutStyleId\": {{haircutStyleId}},\n  \"date\": \"{{date}}\",\n  \"slotTime\": \"14:30\",\n  \"paymentMethod\": \"CASH\",\n  \"note\": \"لو سمحت سريع\",\n  \"drinks\": [\n    {\n      \"drinkId\": \"{{drinkId}}\",\n      \"quantity\": 1\n    }\n  ],\n  \"addons\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 1\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "PENDING; the shop must confirm within 30 min or it auto-cancels. autoSelect:true — least-busy free barber. total = service price + Σ add-ons.",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "var d = pm.response.json().data;",
-                    "if (d && d.id) pm.collectionVariables.set('bookingId', d.id);"
-                  ]
-                }
+            "description": "PENDING; the shop confirms within the wait window (auto-accept or auto-cancel per the admin setting). autoSelect:true → least-busy free barber. `drinks` (optional) = picks from shop-detail drinks[], each { drinkId, quantity }. `addons` (optional) = storefront products, each { productId, quantity } (active + in stock, else 400). total = service price + Σ drinks + Σ add-ons; the view echoes addons[] (drinkId set for drink lines) with names + line totals. The barber can also add/adjust drinks in-queue via PUT /api/barber/booking/{id}/billing."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('bookingId', d.id);"
+                ]
               }
-            ]
-          }
+            }
+          ]
         },
         {
           "name": "My bookings",
@@ -710,7 +975,142 @@
       ]
     },
     {
-      "name": "Storefront orders",
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get my cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "cart"
+              ]
+            },
+            "description": "One cart per customer — no shopId. { sellerId, sellerName, deliveryOffered, deliveryFee, freeDeliveryOver, lines[], itemCount, subtotal, checkoutReady, updatedAt }. Empty cart → sellerId / sellerType / sellerName / updatedAt all null, lines []."
+          }
+        },
+        {
+          "name": "Set the cart (whole-cart replace)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "cart"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productId\": {{productId}},\n      \"quantity\": 2\n    },\n    {\n      \"productId\": {{productId2}},\n      \"quantity\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Replaces the whole cart. The shop is DERIVED from the products — every line must be from the same shop's storefront (mixed → 400). Each line also validated (on that storefront, active, ≥ minOrderQty, no dupes → 400). PUT a coherent list from another shop and the cart switches to it."
+          }
+        },
+        {
+          "name": "Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "cart",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fulfillmentType\": \"DELIVERY\",\n  \"paymentMethod\": \"CASH\",\n  \"deliveryAddress\": \"شارع المرور، برج 5، شقة 12\",\n  \"deliveryLat\": 30.0131,\n  \"deliveryLng\": 31.2089,\n  \"note\": \"اتصل قبل الوصول\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "No items, no sellerId — seller comes from the cart. Builds a PENDING order via the same path as 'Place order', then deletes the cart. fulfillmentType DELIVERY | PICKUP_AT_BRANCH. paymentMethod must be admin-enabled. deliveryAddress REQUIRED when DELIVERY and the shop offers delivery (→ 400). Empty cart → 400."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('orderId', d.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Empty the cart",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "cart"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Deletes the cart. (Utility — run last.)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Storefront orders (legacy — items in body)",
       "item": [
         {
           "name": "Quote a cart",
@@ -743,7 +1143,7 @@
                 }
               }
             },
-            "description": "{ lines, subtotal, deliveryFee, total }. fulfillmentType DELIVERY | PICKUP_AT_BRANCH."
+            "description": "{ lines, subtotal, deliveryFee, total }. fulfillmentType DELIVERY | PICKUP_AT_BRANCH. Still valid as a stateless price preview for the Cart flow."
           }
         },
         {
@@ -776,19 +1176,19 @@
                 }
               }
             },
-            "description": "PENDING — the shop owner accepts / rejects.",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "var d = pm.response.json().data;",
-                    "if (d && d.id) pm.collectionVariables.set('orderId', d.id);"
-                  ]
-                }
+            "description": "PENDING — the shop owner accepts / rejects. Unchanged; the Cart folder is the preferred path now."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('orderId', d.id);"
+                ]
               }
-            ]
-          }
+            }
+          ]
         },
         {
           "name": "My orders",
@@ -824,7 +1224,8 @@
                 "order",
                 "{{orderId}}"
               ]
-            }
+            },
+            "description": "Carries deliveryAddress / deliveryLat / deliveryLng for DELIVERY orders."
           }
         },
         {
@@ -928,6 +1329,216 @@
               ]
             },
             "description": "via_invite = true; notifies the barber."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "My wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/wallet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "wallet"
+              ]
+            },
+            "description": "{ balance, held, available, holds[], transactions[] }. held = admin-reserved (e.g. an upcoming subscription fee); available = balance − held."
+          }
+        },
+        {
+          "name": "Transfer accounts (deposit dropdown)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/transferAccount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "transferAccount"
+              ]
+            },
+            "description": "The admin-managed numbers you transfer the money TO (InstaPay / Vodafone Cash / …). Returns active ones only: [{ id, type, mobileNumber, label }]. Show these as a dropdown on the DEPOSIT screen — the user picks one, you send its id as transferAccountId below."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.length) pm.collectionVariables.set('transferAccountId', d[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Submit a top-up / withdrawal request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/walletRequests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "walletRequests"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "type",
+                  "value": "DEPOSIT",
+                  "type": "text",
+                  "description": "DEPOSIT (add balance) | WITHDRAW (pay me out)"
+                },
+                {
+                  "key": "amount",
+                  "value": "500",
+                  "type": "text"
+                },
+                {
+                  "key": "transferAccountId",
+                  "value": "{{transferAccountId}}",
+                  "type": "text",
+                  "description": "REQUIRED for DEPOSIT **and WITHDRAW** — the id of the chosen transfer account (from GET /transferAccount), i.e. the InstaPay / Vodafone Cash method. Missing → 400, inactive/unknown id → 400."
+                },
+                {
+                  "key": "note",
+                  "value": "حولت على انستاباي — مرجع 998877",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Optional — ONE image or PDF, ≤ 15 MB (transfer screenshot / bank slip)."
+                }
+              ]
+            },
+            "description": "multipart/form-data. Creates a PENDING request. One pending per owner at a time (409). **transferAccountId is required for BOTH DEPOSIT and WITHDRAW** — it is the admin-managed InstaPay / Vodafone Cash account from GET /transferAccount, and it is what tells the admin which method to use. On WITHDRAW put the merchant's own receiving number in `note`. WITHDRAW is capped at the wallet's available balance. The admin approves (credits/debits the wallet) or rejects with a reason; you get a notification."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('walletRequestId', d.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/walletRequests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "walletRequests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Request detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/walletRequests/{{walletRequestId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "walletRequests",
+                "{{walletRequestId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download my attachment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/walletRequests/{{walletRequestId}}/attachment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "walletRequests",
+                "{{walletRequestId}}",
+                "attachment"
+              ]
+            },
+            "description": "404 if the request has no attachment."
+          }
+        },
+        {
+          "name": "Cancel my request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/walletRequests/{{walletRequestId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customer",
+                "walletRequests",
+                "{{walletRequestId}}",
+                "cancel"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "PENDING → CANCELLED."
           }
         }
       ]

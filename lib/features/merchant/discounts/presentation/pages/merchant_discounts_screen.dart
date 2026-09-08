@@ -49,9 +49,28 @@ class _MerchantDiscountsScreenState extends State<MerchantDiscountsScreen> {
     return Scaffold(
       appBar: AppTopBar(
         title: S().discountsTitle,
-        trailing: IconButton(
-          icon: Icon(Icons.add, color: context.semantic.accentStrong, size: 22.r),
-          onPressed: () => context.push(Routes.merchantDiscountFormScreen),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.calculate_outlined,
+                color: context.colorScheme.onSurfaceVariant,
+                size: 21.r,
+              ),
+              tooltip: S().quoteTitle,
+              onPressed: () =>
+                  context.push(Routes.merchantDiscountQuoteScreen),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                color: context.semantic.accentStrong,
+                size: 22.r,
+              ),
+              onPressed: () => context.push(Routes.merchantDiscountFormScreen),
+            ),
+          ],
         ),
       ),
       body: BlocBuilder<MerchantDiscountsCubit, MerchantDiscountsState>(

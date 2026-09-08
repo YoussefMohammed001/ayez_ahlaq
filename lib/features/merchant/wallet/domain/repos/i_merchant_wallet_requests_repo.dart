@@ -20,7 +20,6 @@ abstract class IMerchantWalletRequestsRepo {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
-    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   });

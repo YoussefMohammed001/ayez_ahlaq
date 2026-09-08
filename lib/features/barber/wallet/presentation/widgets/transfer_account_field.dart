@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/option_tile.dart';
-import '../../../../../generated/l10n.dart';
 import '../../domain/entities/transfer_account.dart';
 
 class TransferAccountField extends StatelessWidget {
@@ -22,9 +21,7 @@ class TransferAccountField extends StatelessWidget {
       children: [
         for (final account in accounts)
           OptionTile(
-            label: account.holderName == null
-                ? '${account.label} — ${S().transferAccountAccountNumber}: ${account.accountNumber}'
-                : '${account.label} (${account.holderName}) — ${S().transferAccountAccountNumber}: ${account.accountNumber}',
+            label: account.label,
             icon: Icons.account_balance_wallet_outlined,
             selected: selectedId == account.id,
             onTap: () => onChanged(account.id),

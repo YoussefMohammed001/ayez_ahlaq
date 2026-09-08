@@ -7,6 +7,7 @@ import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/widgets/attachments/attachment_source_sheet.dart';
+import '../../../../../shared/widgets/forms/withdraw_note_composer.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../documents/presentation/helpers/document_file_picker.dart';
 import '../../domain/entities/wallet_request_type.dart';
@@ -69,8 +70,7 @@ class _CreateMerchantWalletRequestScreenState
 
   Future<void> _submit() async {
     final cubit = context.read<CreateWalletRequestCubit>();
-    final requiresTransferAccount =
-        _type == WalletRequestType.deposit && cubit.state.transferAccounts.isNotEmpty;
+    final requiresTransferAccount = cubit.state.transferAccounts.isNotEmpty;
 
     setState(() {
       _showTransferAccountError = requiresTransferAccount && _transferAccountId == null;
@@ -101,8 +101,7 @@ class _CreateMerchantWalletRequestScreenState
       type: _type,
       amount: amount,
       transferAccountId: _transferAccountId,
-      withdrawAccountNumber: withdrawAccount.isEmpty ? null : withdrawAccount,
-      note: note.isEmpty ? null : note,
+      note: WithdrawNoteComposer.compose(note: note, account: withdrawAccount),
       filePath: _type == WalletRequestType.deposit ? _filePath : null,
     );
 

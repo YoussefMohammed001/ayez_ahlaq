@@ -71,6 +71,26 @@
     {
       "key": "notificationId",
       "value": "1"
+    },
+    {
+      "key": "walletRequestId",
+      "value": "1"
+    },
+    {
+      "key": "transferAccountId",
+      "value": "1"
+    },
+    {
+      "key": "broadcastId",
+      "value": "1"
+    },
+    {
+      "key": "resetToken",
+      "value": ""
+    },
+    {
+      "key": "planId",
+      "value": "1"
     }
   ],
   "item": [
@@ -118,7 +138,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"businessName\": \"متجر الحلاقة الجميلة\",\n  \"ownerName\": \"أحمد\",\n  \"phoneNumber\": \"{{merchantPhone}}\",\n  \"password\": \"{{merchantPassword}}\",\n  \"userName\": null,\n  \"email\": null\n}"
+              "raw": "{\n  \"businessName\": \"متجر الحلاقة للجملة\",\n  \"ownerName\": \"أحمد\",\n  \"phoneNumber\": \"{{merchantPhone}}\",\n  \"password\": \"{{merchantPassword}}\",\n  \"userName\": null,\n  \"email\": null\n}"
             },
             "description": "Mandatory: businessName, ownerName, phoneNumber, password (min 6). userName + email optional (send null or omit). The phone can be `01001234567` / `+201001234567` / `201001234567` — it is stored as country code `20` + national `1001234567`. 409 if the phone is already taken. Response `data` = { token, role, actorId, displayName }."
           }
@@ -168,6 +188,247 @@
             },
             "description": "Body is `phoneNumber` + `password`. Any prefix form is accepted. Token TTL 24h."
           }
+        },
+        {
+          "name": "Register - verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/register/verifyOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "register",
+                "verifyOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\",\n  \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Only needed when reviving a previously self-deleted account (register then returns {activated:false, devOtp}); a brand-new phone is logged in immediately. Returns the full AuthResponse (the token).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.token) pm.collectionVariables.set('token', d.token);",
+                  "if (d && d.auth && d.auth.token) pm.collectionVariables.set('token', d.auth.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register - resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/register/resendOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "register",
+                "resendOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Fresh 6-digit code (TTL 300s), attempt counter reset, previous code dead. 400 if there is no pending / un-verified signup for that number.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Forgot password - send code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/password/forgot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "password",
+                "forgot"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ expiresInSeconds, devOtp }. Works for a barber owner AND a team member. No X-Client needed even for barber.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Forgot password - verify code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/password/verifyOtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "password",
+                "verifyOtp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"01555555555\",\n  \"code\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ resetToken (opaque, TTL 600s), expiresInSeconds }.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.resetToken) pm.collectionVariables.set('resetToken', d.resetToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Forgot password - reset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/password/reset",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "password",
+                "reset"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"{{resetToken}}\",\n  \"newPassword\": \"newpass123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Third and final step. 400 on a bad / expired reset token.",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Change password (logged in)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"cust1234\",\n  \"newPassword\": \"newpass123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "min 6 chars; wrong currentPassword -> 400. Barber: X-Client required (bare /api/{role}/password, not the /password/ prefix)."
+          }
         }
       ]
     },
@@ -216,7 +477,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"businessName\": \"متجر الحلاقة الجميلة\",\n  \"ownerName\": \"أحمد علي\",\n  \"email\": \"owner@example.com\"\n}"
+              "raw": "{\n  \"businessName\": \"متجر الحلاقة للجملة\",\n  \"ownerName\": \"أحمد على\",\n  \"email\": \"owner@example.com\"\n}"
             },
             "description": "Only these three fields are editable here. The login phone number is changed by the admin, not here."
           }
@@ -514,7 +775,7 @@
               "formdata": [
                 {
                   "key": "name",
-                  "value": "عروض الخبة",
+                  "value": "عروض النخبة",
                   "type": "text"
                 },
                 {
@@ -560,7 +821,7 @@
               "formdata": [
                 {
                   "key": "name",
-                  "value": "عروض الخبة",
+                  "value": "عروض النخبة",
                   "type": "text"
                 },
                 {
@@ -1038,7 +1299,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"اشتري 4 والخامس مجانا\",\n  \"scope\": \"BUY_X_GET_Y\",\n  \"targetProductId\": {{productId}},\n  \"buyQuantity\": 4,\n  \"rewardQuantity\": 1,\n  \"rewardType\": \"FREE\",\n  \"shopIds\": []\n}"
+              "raw": "{\n  \"name\": \"اشترى 4 والخامس مجانا\",\n  \"scope\": \"BUY_X_GET_Y\",\n  \"targetProductId\": {{productId}},\n  \"buyQuantity\": 4,\n  \"rewardQuantity\": 1,\n  \"rewardType\": \"FREE\",\n  \"shopIds\": []\n}"
             },
             "description": "For a discounted (not free) 5th, use `\"rewardType\": \"PERCENT\", \"rewardValue\": 50`."
           }
@@ -1577,7 +1838,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/merchant/notification/unseen_count",
+              "raw": "{{baseUrl}}/api/merchant/notification/unseenCount",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1585,7 +1846,7 @@
                 "api",
                 "merchant",
                 "notification",
-                "unseen_count"
+                "unseenCount"
               ]
             },
             "description": "{ \"count\": n }"
@@ -1710,14 +1971,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/merchant/device_token",
+              "raw": "{{baseUrl}}/api/merchant/deviceToken",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "merchant",
-                "device_token"
+                "deviceToken"
               ]
             },
             "body": {
@@ -1743,14 +2004,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/merchant/device_token",
+              "raw": "{{baseUrl}}/api/merchant/deviceToken",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "merchant",
-                "device_token"
+                "deviceToken"
               ]
             },
             "body": {
@@ -1770,15 +2031,457 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/merchant/device_token/all",
+              "raw": "{{baseUrl}}/api/merchant/deviceToken/all",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "merchant",
-                "device_token",
+                "deviceToken",
                 "all"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "My wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/wallet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "wallet"
+              ]
+            },
+            "description": "{ balance, held, available, holds[], transactions[] }. held = admin-reserved (e.g. an upcoming subscription fee); available = balance − held."
+          }
+        },
+        {
+          "name": "Transfer accounts (deposit dropdown)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/transferAccount",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "transferAccount"
+              ]
+            },
+            "description": "The admin-managed numbers you transfer the money TO (InstaPay / Vodafone Cash / …). Returns active ones only: [{ id, type, mobileNumber, label }]. Show these as a dropdown on the DEPOSIT screen — the user picks one, you send its id as transferAccountId below."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.length) pm.collectionVariables.set('transferAccountId', d[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Submit a top-up / withdrawal request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/walletRequests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "walletRequests"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "type",
+                  "value": "DEPOSIT",
+                  "type": "text",
+                  "description": "DEPOSIT (add balance) | WITHDRAW (pay me out)"
+                },
+                {
+                  "key": "amount",
+                  "value": "500",
+                  "type": "text"
+                },
+                {
+                  "key": "transferAccountId",
+                  "value": "{{transferAccountId}}",
+                  "type": "text",
+                  "description": "REQUIRED for DEPOSIT **and WITHDRAW** — the id of the chosen transfer account (from GET /transferAccount), i.e. the InstaPay / Vodafone Cash method. Missing → 400, inactive/unknown id → 400."
+                },
+                {
+                  "key": "note",
+                  "value": "حولت على انستاباي — مرجع 998877",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Optional — ONE image or PDF, ≤ 15 MB (transfer screenshot / bank slip)."
+                }
+              ]
+            },
+            "description": "multipart/form-data. Creates a PENDING request. One pending per owner at a time (409). **transferAccountId is required for BOTH DEPOSIT and WITHDRAW** — it is the admin-managed InstaPay / Vodafone Cash account from GET /transferAccount, and it is what tells the admin which method to use. On WITHDRAW put the merchant's own receiving number in `note`. WITHDRAW is capped at the wallet's available balance. The admin approves (credits/debits the wallet) or rejects with a reason; you get a notification."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('walletRequestId', d.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/walletRequests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "walletRequests"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Request detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/walletRequests/{{walletRequestId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "walletRequests",
+                "{{walletRequestId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download my attachment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/walletRequests/{{walletRequestId}}/attachment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "walletRequests",
+                "{{walletRequestId}}",
+                "attachment"
+              ]
+            },
+            "description": "404 if the request has no attachment."
+          }
+        },
+        {
+          "name": "Cancel my request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/walletRequests/{{walletRequestId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "walletRequests",
+                "{{walletRequestId}}",
+                "cancel"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "PENDING → CANCELLED."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Broadcast (send-notification — needs admin approval)",
+      "item": [
+        {
+          "name": "Submit a broadcast",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/broadcast",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "broadcast"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scope\": \"ALL\",\n  \"title\": \"عرض اليوم\",\n  \"body\": \"تفاصيل العرض هنا\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Sends a notification to barber shops. scope: ALL (every shop) | ZONE (shops in your auto-detected service zone). NOT sent immediately — it enters the admin approval queue as status=PENDING (recipientCount 0, no quota spent). The admin may edit the title/body, then approve (quota is spent + delivered) or reject with a reason. You get a notification either way (type broadcast_approved / broadcast_rejected). ZONE with no location set / outside every zone → 400."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.id) pm.collectionVariables.set('broadcastId', d.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My broadcasts (with status)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/broadcast",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "broadcast"
+              ]
+            },
+            "description": "Each: { id, scope, title, body, status (PENDING|APPROVED|REJECTED), recipientCount, decisionNote, decidedAt, sentAt, createdAt }."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sponsorship (الترويج)",
+      "item": [
+        {
+          "name": "Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/sponsorship",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "sponsorship"
+              ]
+            },
+            "description": "{ active, startsAt, endsAt, lastPrice, monthlyPrice, walletBalance, walletAvailable, canAfford }."
+          }
+        },
+        {
+          "name": "Buy (1 month)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/sponsorship",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "sponsorship"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Buys 1 month of sponsored placement in the BARBER supply store, charged from the merchant wallet (source=SPONSORSHIP). 409 already sponsored, 400 low balance. Blocked while documents are pending."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription (self-service)",
+      "item": [
+        {
+          "name": "My subscription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/subscription",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "subscription"
+              ]
+            },
+            "description": "{ hasSubscription, planId, planName (snapshot), fee, status, nextRenewalDate, autoCharge, and UsageItems {cap,used,remaining}: notificationsAll, notificationsZone, products, ownCategories }."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var d = pm.response.json().data;",
+                  "if (d && d.planId) pm.collectionVariables.set('planId', d.planId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Subscribable plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/subscription/plan",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "subscription",
+                "plan"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Subscribe / switch plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/subscription/subscribe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "subscription",
+                "subscribe"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"planId\": \"{{planId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "{ activated } — true if the wallet covered it, false → a PENDING admin request."
+          }
+        },
+        {
+          "name": "My pending requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/merchant/subscription/request",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "merchant",
+                "subscription",
+                "request"
               ]
             }
           }

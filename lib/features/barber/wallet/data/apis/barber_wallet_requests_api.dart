@@ -33,7 +33,6 @@ class BarberWalletRequestsApi {
     required String type,
     required int amount,
     int? transferAccountId,
-    String? withdrawAccountNumber,
     String? note,
     String? filePath,
   }) async {
@@ -44,8 +43,6 @@ class BarberWalletRequestsApi {
         'amount': amount.toString(),
         if (transferAccountId != null)
           'transferAccountId': transferAccountId.toString(),
-        if (withdrawAccountNumber != null)
-          'withdrawAccountNumber': withdrawAccountNumber,
         if (note != null) 'note': note,
         if (filePath != null) 'file': await MultipartFile.fromFile(filePath),
       }),

@@ -2,6 +2,7 @@ import '../../domain/entities/shop_detail.dart';
 import 'haircut_style_model.dart';
 import 'shop_addon_model.dart';
 import 'shop_barber_model.dart';
+import 'shop_drink_model.dart';
 import 'shop_model.dart';
 import 'shop_payment_method_model.dart';
 
@@ -12,6 +13,7 @@ class ShopDetailModel extends ShopDetail {
     required super.haircutStyles,
     required super.paymentMethods,
     required super.addons,
+    super.drinks,
   });
 
   factory ShopDetailModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,9 @@ class ShopDetailModel extends ShopDetail {
           .toList(),
       addons: (json['addons'] as List<dynamic>? ?? [])
           .map((e) => ShopAddonModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      drinks: (json['drinks'] as List<dynamic>? ?? [])
+          .map((e) => ShopDrinkModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
