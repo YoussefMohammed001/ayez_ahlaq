@@ -9,7 +9,7 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/widgets/attachments/attachment_source_sheet.dart';
 import '../../../../../shared/widgets/forms/withdraw_note_composer.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../documents/presentation/helpers/document_file_picker.dart';
+import '../../../../../shared/widgets/documents/document_file_picker.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../manager/create_wallet_request_cubit.dart';
 import '../manager/create_wallet_request_state.dart';

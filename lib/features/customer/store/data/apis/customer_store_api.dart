@@ -14,15 +14,19 @@ class CustomerStoreApi {
     );
   }
 
-  Future<Either<Failure, dynamic>> quoteCart(Map<String, dynamic> body) {
-    return _networkService.postData(
-      endPoint: EndPoints.customerStoreQuote,
-      data: body,
-    );
+  Future<Either<Failure, dynamic>> getCart() {
+    return _networkService.getData(endPoint: EndPoints.customerCart);
   }
 
-  Future<Either<Failure, dynamic>> placeOrder(Map<String, dynamic> body) {
-    return _networkService.postData(endPoint: EndPoints.customerOrder, data: body);
+  Future<Either<Failure, dynamic>> putCart(Map<String, dynamic> body) {
+    return _networkService.putData(endPoint: EndPoints.customerCart, data: body);
+  }
+
+  Future<Either<Failure, dynamic>> checkout(Map<String, dynamic> body) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerCartCheckout,
+      data: body,
+    );
   }
 
   Future<Either<Failure, dynamic>> getOrders() {

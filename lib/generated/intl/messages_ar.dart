@@ -1186,6 +1186,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
       "مثلاً: الصنف غير متوفر حاليًا",
     ),
+    "removeCurrentImage": MessageLookupByLibrary.simpleMessage(
+      "حذف الصورة الحالية",
+    ),
     "remove_leading_zero": MessageLookupByLibrary.simpleMessage(
       "امسح الصفر اللي في الأول",
     ),
@@ -1263,6 +1266,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "serviceLabel": MessageLookupByLibrary.simpleMessage("الخدمة"),
     "serviceMetaLine": m24,
+    "servicePopularLabel": MessageLookupByLibrary.simpleMessage("الأكثر طلبًا"),
     "servicePriceHint": MessageLookupByLibrary.simpleMessage("مثلاً ١٠٠"),
     "servicePriceLabel": MessageLookupByLibrary.simpleMessage("السعر"),
     "servicesTitle": MessageLookupByLibrary.simpleMessage("الخدمات"),

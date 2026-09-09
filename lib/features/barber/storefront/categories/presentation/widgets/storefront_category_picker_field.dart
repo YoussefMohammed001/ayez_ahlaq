@@ -48,7 +48,7 @@ class StorefrontCategoryPickerField extends StatelessWidget {
             ),
             child: Row(
               children: [
-                StorefrontCategoryThumbnail(size: 44.r),
+                StorefrontCategoryThumbnail(category: selected, size: 44.r),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Text(

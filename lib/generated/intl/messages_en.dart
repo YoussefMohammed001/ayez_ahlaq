@@ -1277,6 +1277,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
       "e.g. item is out of stock",
     ),
+    "removeCurrentImage": MessageLookupByLibrary.simpleMessage(
+      "Remove current image",
+    ),
     "remove_leading_zero": MessageLookupByLibrary.simpleMessage(
       "Remove the leading zero",
     ),
@@ -1356,6 +1359,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "serviceLabel": MessageLookupByLibrary.simpleMessage("Service"),
     "serviceMetaLine": m24,
+    "servicePopularLabel": MessageLookupByLibrary.simpleMessage(
+      "Most requested",
+    ),
     "servicePriceHint": MessageLookupByLibrary.simpleMessage("e.g. 100"),
     "servicePriceLabel": MessageLookupByLibrary.simpleMessage("Price"),
     "servicesTitle": MessageLookupByLibrary.simpleMessage("Services"),

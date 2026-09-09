@@ -26,7 +26,7 @@ class StorefrontProductRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          StorefrontProductThumbnail(size: 54.r),
+          StorefrontProductThumbnail(product: product, size: 54.r),
           SizedBox(width: 12.w),
           Expanded(child: _buildInfo(context)),
           GestureDetector(

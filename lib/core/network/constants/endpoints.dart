@@ -25,7 +25,8 @@ class EndPoints {
   static String customerShopStorefrontCategoryImage(int shopId, int categoryId) =>
       'customer/shop/$shopId/storefront/category/$categoryId/image';
 
-  static const String customerStoreQuote = 'customer/store/quote';
+  static const String customerCart = 'customer/cart';
+  static const String customerCartCheckout = 'customer/cart/checkout';
   static const String customerOrder = 'customer/order';
   static String customerOrderById(int id) => 'customer/order/$id';
   static String customerOrderCancel(int id) => 'customer/order/$id/cancel';
@@ -50,6 +51,16 @@ class EndPoints {
 
   static const String customerDeviceToken = 'customer/deviceToken';
   static const String customerDeviceTokenAll = 'customer/deviceToken/all';
+
+  static const String customerWallet = 'customer/wallet';
+  static const String customerTransferAccount = 'customer/transferAccount';
+  static const String customerWalletRequests = 'customer/walletRequests';
+  static String customerWalletRequestById(int id) =>
+      'customer/walletRequests/$id';
+  static String customerWalletRequestAttachment(int id) =>
+      'customer/walletRequests/$id/attachment';
+  static String customerWalletRequestCancel(int id) =>
+      'customer/walletRequests/$id/cancel';
 
   static const String merchantRegister = 'merchant/register';
   static const String merchantRegisterVerifyOtp = 'merchant/register/verifyOtp';
@@ -101,6 +112,8 @@ class EndPoints {
   static const String barberStoreMerchant = 'barber/store/merchant';
   static String barberStoreMerchantProducts(int merchantId) =>
       'barber/store/merchant/$merchantId/product';
+  static String barberStoreMerchantProductImage(int merchantId, int productId) =>
+      'barber/store/merchant/$merchantId/product/$productId/image';
   static const String barberCart = 'barber/cart';
   static const String barberCartCheckout = 'barber/cart/checkout';
   static const String barberOrder = 'barber/order';
@@ -161,11 +174,15 @@ class EndPoints {
       'barber/storefront/product/$id';
   static String barberStorefrontProductStock(int id) =>
       'barber/storefront/product/$id/stock';
+  static String barberStorefrontProductImage(int id) =>
+      'barber/storefront/product/$id/image';
   static const String barberStorefrontCategory = 'barber/storefront/category';
   static const String barberStorefrontOwnCategory =
       'barber/storefront/category/own';
   static String barberStorefrontCategoryById(int id) =>
       'barber/storefront/category/$id';
+  static String barberStorefrontCategoryImage(int id) =>
+      'barber/storefront/category/$id/image';
   static const String barberStorefrontDelivery = 'barber/storefront/delivery';
   static const String barberStorefrontOrder = 'barber/storefront/order';
   static String barberStorefrontOrderById(int id) =>

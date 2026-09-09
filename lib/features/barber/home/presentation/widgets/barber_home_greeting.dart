@@ -3,17 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
+import '../../../../../shared/widgets/notifications_icon_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 
 class BarberHomeGreeting extends StatelessWidget {
   final String shopName;
   final VoidCallback onAvatarTap;
+  final VoidCallback onNotificationsTap;
 
   const BarberHomeGreeting({
     super.key,
     required this.shopName,
     required this.onAvatarTap,
+    required this.onNotificationsTap,
   });
 
   @override
@@ -44,6 +48,11 @@ class BarberHomeGreeting extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
+        NotificationsIconButton(
+          badge: const BarberUnseenNotificationsBadge(),
+          onTap: onNotificationsTap,
+        ),
+        SizedBox(width: 14.w),
         GestureDetector(
           onTap: onAvatarTap,
           child: AvatarCircle(

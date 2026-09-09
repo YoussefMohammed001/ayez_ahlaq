@@ -10,9 +10,15 @@ import 'storefront_category_thumbnail.dart';
 
 class StorefrontCategoryRow extends StatelessWidget {
   final StorefrontCategory category;
+  final VoidCallback? onEdit;
   final VoidCallback? onRemove;
 
-  const StorefrontCategoryRow({super.key, required this.category, this.onRemove});
+  const StorefrontCategoryRow({
+    super.key,
+    required this.category,
+    this.onEdit,
+    this.onRemove,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class StorefrontCategoryRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          StorefrontCategoryThumbnail(size: 42.r),
+          StorefrontCategoryThumbnail(category: category, size: 42.r),
           SizedBox(width: 12.w),
           Expanded(
             child: Text(
@@ -40,6 +46,17 @@ class StorefrontCategoryRow extends StatelessWidget {
             tone: category.global ? BadgeTone.muted : BadgeTone.gold,
             showDot: false,
           ),
+          if (onEdit != null) ...[
+            SizedBox(width: 8.w),
+            GestureDetector(
+              onTap: onEdit,
+              child: Icon(
+                Icons.edit_outlined,
+                size: 18.r,
+                color: context.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
           if (onRemove != null) ...[
             SizedBox(width: 8.w),
             GestureDetector(

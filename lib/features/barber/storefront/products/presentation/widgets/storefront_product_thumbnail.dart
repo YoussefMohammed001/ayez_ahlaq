@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/network/constants/endpoints.dart';
+import '../../../../../../core/widgets/authorized_network_image.dart';
 import '../../../../../../core/extensions/ext_theme.dart';
+import '../../domain/entities/storefront_product.dart';
 
 class StorefrontProductThumbnail extends StatelessWidget {
+  final StorefrontProduct product;
   final double size;
   final double? radius;
 
-  const StorefrontProductThumbnail({super.key, required this.size, this.radius});
+  const StorefrontProductThumbnail({
+    super.key,
+    required this.product,
+    required this.size,
+    this.radius,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
+    final corner = BorderRadius.circular(radius ?? 12);
 
+    if (product.imageIds.isEmpty) {
+      return _buildPlaceholder(context, corner);
+    }
+
+    return ClipRRect(
+      borderRadius: corner,
+      child: AuthorizedNetworkImage(
+        endPoint: EndPoints.barberStorefrontProductImage(product.id),
+        width: size,
+        height: size,
+        placeholderBuilder: (context) => _buildPlaceholder(context, corner),
+      ),
+    );
+  }
+
+  Widget _buildPlaceholder(BuildContext context, BorderRadius corner) {
+    final scheme = context.colorScheme;
     return Container(
       width: size,
       height: size,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(radius ?? 12),
-      ),
-      child: Icon(
-        Icons.inventory_2_outlined,
-        size: size * 0.4,
-        color: scheme.onSurfaceVariant,
-      ),
+      decoration: BoxDecoration(color: scheme.surfaceContainerHighest, borderRadius: corner),
+      child: Icon(Icons.inventory_2_outlined, size: size * 0.4, color: scheme.onSurfaceVariant),
     );
   }
 }

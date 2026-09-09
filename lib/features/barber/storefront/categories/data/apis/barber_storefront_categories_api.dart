@@ -31,6 +31,16 @@ class BarberStorefrontCategoriesApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> updateCategory(
+    int id,
+    StorefrontCategoryFormRequest request,
+  ) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberStorefrontCategoryById(id),
+      data: FormData.fromMap(request.toFormMap()),
+    );
+  }
+
   Future<Either<Failure, dynamic>> deleteCategory(int id) {
     return _networkService.deleteData(
       endPoint: EndPoints.barberStorefrontCategoryById(id),

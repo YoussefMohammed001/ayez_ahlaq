@@ -1,7 +1,7 @@
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../../domain/entities/store_order.dart';
 import '../../domain/entities/store_order_status.dart';
-import 'store_quote_line_model.dart';
+import 'store_order_item_model.dart';
 
 class StoreOrderModel extends StoreOrder {
   const StoreOrderModel({
@@ -19,6 +19,9 @@ class StoreOrderModel extends StoreOrder {
     super.note,
     super.createdAt,
     super.rejectionReason,
+    super.deliveryAddress,
+    super.deliveryLat,
+    super.deliveryLng,
   });
 
   factory StoreOrderModel.fromJson(Map<String, dynamic> json) {
@@ -36,11 +39,14 @@ class StoreOrderModel extends StoreOrder {
       deliveryFee: (json['deliveryFee'] as num?)?.toInt() ?? 0,
       total: (json['total'] as num?)?.toInt() ?? 0,
       items: (json['items'] as List<dynamic>? ?? [])
-          .map((e) => StoreQuoteLineModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => StoreOrderItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       note: json['note'] as String?,
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
       rejectionReason: json['rejectionReason'] as String?,
+      deliveryAddress: json['deliveryAddress'] as String?,
+      deliveryLat: (json['deliveryLat'] as num?)?.toDouble(),
+      deliveryLng: (json['deliveryLng'] as num?)?.toDouble(),
     );
   }
 }

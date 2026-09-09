@@ -6,7 +6,11 @@
 
 **✅ اتعملت فجوة الـ Profile بالكامل:** `PUT /barber/location` (زرار "استخدام موقعي الحالي" بـ `geolocator` + حقل عنوان يدوي، الحقول التلاتة اختيارية) و`PUT /barber/password` (تغيير كلمة السر — نسخة طبق الأصل من شاشة التاجر). الاتنين متوصلين من قايمة البروفايل. `BarberProfile` entity اتضاف لها `latitude`/`longitude`.
 
-**مرجع دايم للـ API:** الـ Postman collections الكاملة (barber/merchant/customer) محفوظة في `postman/*.json` — اقرأها قبل أي feature جديدة بدل التخمين.
+**مرجع دايم للـ API:** الـ Postman collections الكاملة (barber/merchant/customer) محفوظة في `postman/*.json` — اقرأها قبل أي feature جديدة بدل التخمين. **تنبيه:** الكولكشن مش موثّق فيها كل حاجة موجودة فعليًا على السيرفر (مثال: صور المنتجات/الفئات) — لو شاكك في وجود endpoint، اختبره حي (`curl`) بدل ما تفترض إنه مش موجود بس لأنه مش مكتوب.
+
+**✅ إعادة تنظيم البروفايل والشاشة الرئيسية:** قايمة البروفايل بقت 5 sections بدل 3 (المحل / متجرك / المشتريات / الحساب المالي / المزيد). الـ bottom nav بقى 4 تابز (الرئيسية / الحجوزات / متجرك / حسابي) + FAB مركزي يفتح "المتجر" (شرا من تاجر) — فبقى "متجرك" (بيع) و"المتجر" (شرا) وصولهم من مكانين مختلفين ومقصودين. الشاشة الرئيسية بقى فيها تنبيه لطلبات الـ storefront الجديدة (pending) فوق قسم الحجوزات.
+
+**✅ شاشة الـ walk-in اتحسّنت بالكامل:** إضافة `slotTime` اختياري (تحديد ميعاد بدل "دلوقتي" دايمًا)، طريقة الدفع بقت CASH ثابتة (مفيش UI اختيار)، اختيار المشروبات/المنتجات بقى عن طريق bottom sheet منفصل بالأسعار وchips بدل قايمة طويلة جوه نفس الشيت، وفيه خطوة مراجعة (confirmation) قبل الإرسال النهائي. الـ dropdowns (خدمة/عضو فريق) بقى ليها validation ظاهر (border أحمر + رسالة). حل مشكلة لاج حقيقي كان بيحصل عند تعديل الكمية بسبب `setState` على الشيت كله — اتحل بـ `ValueNotifier` معزول لكل قايمة.
 
 ---
 
@@ -14,7 +18,8 @@
 - `GET/PUT /barber/hours` — أسبوع كامل، ٧ أيام، `dayOfWeek` 0-6 — `features/barber/hours/`
 - `GET /barber/service/catalog` — الأنواع المتاحة مش مقدَّمة لسه
 - `GET/POST/PUT/DELETE /barber/service` — الخدمات اللي بيقدّمها الحلاق — `features/barber/services/`
-- الخدمات كانت تاب أساسي في الـ bottom nav وبعدين اترجعت تحت البروفايل (`Routes.barberServicesScreen`) جنب الساعات — الاتنين settings-ish وملهومش داعي ياخدوا تاب لوحدهم. الـ bottom nav دلوقتي: الحجوزات / المتجر / حسابي (٣ تابز بس). `BarberServicesCubit` لسه متعمول provide على مستوى الـ shell عشان `AddWalkInSheet` بيحتاجه.
+- الخدمات كانت تاب أساسي في الـ bottom nav وبعدين اترجعت تحت البروفايل (`Routes.barberServicesScreen`) جنب الساعات — الاتنين settings-ish وملهومش داعي ياخدوا تاب لوحدهم. `BarberServicesCubit` لسه متعمول provide على مستوى الـ shell عشان `AddWalkInSheet` بيحتاجه.
+- **الـ bottom nav الحالي فعليًا ٤ تابز**: الرئيسية / الحجوزات / متجرك (Storefront) / حسابي — plus FAB مركزي بيفتح "المتجر" (تصفح تجار + شرا). راجع قسم "إعادة تنظيم البروفايل والشاشة الرئيسية" تحت لتفاصيل التطور من ٣ تابز للـ ٤.
 - الـ JSON اتأكد من الـ Postman collection الحقيقي
 
 ## ٢. Bookings & queue — ✅ خلص
@@ -23,7 +28,7 @@
 - `GET /barber/booking/{id}` (detail)
 - `PUT /barber/booking/{id}/confirm` · `reject` (بسبب) · `status` (بيعتمد على `nextStatuses` القادم من السيرفر، مفيش ترتيب حالات متسلسل مكتوب في الكود)
 - `POST /barber/booking/walkin`
-- **بقت أول تاب في الـ bottom nav** (الحجوزات / المتجر / حسابي) بدل ما تتحط تحت البروفايل — لأنها أهم شاشة يومية للحلاق
+- **بقت تاب أساسي في الـ bottom nav** بدل ما تتحط تحت البروفايل — لأنها أهم شاشة يومية للحلاق (الترتيب الحالي: الرئيسية / الحجوزات / متجرك / حسابي)
 - **مهم:** السيرفر هو المسؤول عن التصفية — الـ owner بيشوف حجوزات كل المحل (كل حجز فيه `barberId`/`barberName` واضح)، وعضو الفريق بيشوف حجوزاته بس تلقائيًا من نفس الـ endpoint، مفيش فلترة client-side.
 - الويدجت بتاعة تفاصيل الحجز بتستخدم spread operator (`[...pending, ...queue]`) بدل الاعتماد على list مبني بـ `.map().toList()` عشان تتفادى نفس bug الـ type-mismatch اللي حصل قبل كده في `barber/store`.
 - **تعديلات إضافية بعد المراجعة:**
@@ -42,9 +47,9 @@
 - `GET /barber/store/merchant` · `GET /barber/store/merchant/{id}/product`
 - `GET/PUT /barber/cart` (السلة بتتحفظ في السيرفر فعليًا، مش client-side) · `POST /barber/cart/checkout` (بديل كامل لـ `POST /barber/order` القديم — نفس الـ `StoreOrder` response بالظبط)
 - `GET /barber/order` · `GET /barber/order/{id}` · `PUT /barber/order/{id}/cancel` — لسه زي ما هما لسجلّ/تفاصيل/إلغاء الطلبات
-- المتجر بقى تاب أساسي في الـ bottom nav (مش تحت البروفايل). "طلباتي" (`Routes.barberStoreOrdersScreen`) لسه تحت البروفايل كسجلّ.
+- المتجر (شرا من تاجر) متاح من مكانين: FAB مركزي في الـ shell (يفتح `StoreHomeScreen` بتاب "تصفح التجار") و"متجر الموردين" تحت قسم "المشتريات" في البروفايل. "طلباتي" (`Routes.barberStoreOrdersScreen`) بقى تاب جوه نفس `StoreHomeScreen` (فلاتر بالحالة اتضافت كمان).
 - أيقونة سلة + badge في `AppTopBar` لشاشة التجار عشان السلة تبقى واضحة ومتاحة دايمًا.
-- **فجوة معروفة:** مفيش endpoint موثّق لصورة منتج التاجر من ناحية الحلاق (بس `hasImage: bool`) — الصفوف بتعرض أيقونة placeholder. لو ظهر endpoint فعلي (زي `customer/shop/{id}/storefront/product/{id}/image` بس لسياق التاجر) نضيفه بعدين.
+- **الفجوة القديمة (مفيش صورة منتج تاجر) اتحلّت** — `GET /barber/store/merchant/{merchantId}/product/{productId}/image` اتأكد إنه شغال فعليًا على السيرفر الحي، وبقى مستخدم في `StoreProductThumbnail` (`features/barber/store/presentation/widgets/`) بدل أيقونة الـ placeholder.
 
 ### ✅ هجرة السلة من client-side لـ server-side cart API — خلصت
 اتأكد فعليًا (curl حي على الـ production API) إن `POST /barber/cart/checkout` بديل كامل لـ `POST /barber/order` القديم — نفس الـ `StoreOrder` shape بالظبط، والطلب اللي بيتعمل منه بيظهر عادي في `GET /barber/order/{id}` وقابل للإلغاء بنفس الـ endpoint القديم.
@@ -72,12 +77,13 @@
 ## ٥. Storefront (متجر الحلاق كبائع) — ✅ خلص
 نسخة طبق الأصل من `merchant/products` + `merchant/categories` + `merchant/delivery` + `merchant/orders` — `features/barber/storefront/{products,categories,delivery,orders}/`.
 - Products: `GET/POST/PUT/DELETE /barber/storefront/product` + `stock`
-- Categories: `GET /barber/storefront/category` (+ `own`) · `POST/DELETE` — مفيش update endpoint، متعملش
+- Categories: `GET /barber/storefront/category` (+ `own`) · `POST/PUT/DELETE` (PUT اتضاف، شوف "تعديل تصنيف" تحت)
 - Delivery: `GET/PUT /barber/storefront/delivery`
 - Orders (عميل بيطلب من الحلاق): `GET /barber/storefront/order` · detail · `accept`/`reject`/`status` (forward-only، مفيش cancel للحلاق)
-- متوصلة من قايمة البروفايل بـ row واحدة ("متجرك") بتفتح شاشة موحدة بـ 4 tabs (منتجات/تصنيفات/توصيل/طلبات) بدل 4 صفوف منفصلة — مفيش تاب جديد في الـ bottom nav
+- **بقى تاب أساسي في الـ bottom nav** (اسمه "متجرك") بدل ما يتحط تحت البروفايل بس — شاشته لسه فيها 4 tabs داخلية (منتجات/تصنيفات/توصيل/طلبات)، وبرضو متاح من صف "متجرك" في قسم "المحل" بالبروفايل كمكان تاني للوصول.
 - إضافة تصنيف جديد ممكنة من جوه فورم المنتج نفسه (زرار "+" في شيت اختيار التصنيف) بدل ما ترجع تقفل الفورم وتروح شاشة التصنيفات لوحدها
-- **فجوة معروفة:** زي `barber/store`، مفيش endpoint لصور المنتجات/الفئات — أيقونة placeholder بس. الرفع (upload) شغال عادي.
+- **تعديل تصنيف (Edit) اتعمل** — `PUT /barber/storefront/category/{id}` (multipart: name/sortOrder/active/removeImage/image) بقى مستخدم؛ نفس شيت الإضافة (`AddStorefrontCategorySheet`) بقى بيشتغل create و edit بباراميتر `editing` اختياري، وزرار قلم ✏️ اتضاف جنب زرار الحذف في صفوف الفئات الخاصة بالحلاق.
+- **الفجوة القديمة (مفيش صور منتجات/فئات) اتحلّت بالكامل** — الـ endpoints دي اتأكد إنها شغالة فعليًا على السيرفر الحي: `GET /barber/storefront/product/{id}/image` و`GET /barber/storefront/category/{id}/image`. بقيوا مستخدمين في `StorefrontProductThumbnail`/`StorefrontCategoryThumbnail` بدل الـ placeholder. الرفع (upload) كان شغال من الأول.
 - **ملاحظة تسمية:** `Store*` (الحلاق بيشتري من تاجر) و`Storefront*` (الحلاق بيبيع للعميل) كلاسات منفصلة تمامًا، اتأكد مفيش تضارب أسامي.
 
 ## ٦. Notifications + Device token — ✅ خلص
@@ -98,13 +104,31 @@
 - متوصلة من قايمة البروفايل بـ 2 rows ("الفريق" / "الأرباح")
 
 ## ٨. Wallet — ✅ خلص
-قراءة بس. `GET /barber/wallet` → `{ balance, transactions:[{code, direction, amount, balanceAfter, reason, by, at}] }` — `features/barber/wallet/`. متوصلة من قايمة البروفايل (`Routes.barberWalletScreen`).
+مش قراءة بس — فيها CRUD كامل لطلبات الإيداع/السحب.
+- `GET /barber/wallet` → `{ balance, transactions:[{code, direction, amount, balanceAfter, reason, by, at}] }`
+- طلبات المحفظة: إنشاء طلب إيداع/سحب، عرض تفاصيل الطلب، إلغاء الطلب، تحميل مرفق — كلها متوصلة ومستخدمة في `features/barber/wallet/`.
+- متوصلة من قايمة البروفايل (`Routes.barberWalletScreen`).
 
 ## ٩. Reviews — ✅ خلص
 قراءة بس. `GET /barber/review` → `{ average, count, reviews:[{id, stars, note, customerName, bookingId, createdAt}] }` — `features/barber/reviews/`. متوصلة من قايمة البروفايل (`Routes.barberReviewsScreen`).
 
 ## ١٠. Invite link — ✅ خلص
 `GET /barber/invite` → `{ code, url, favoriteCount }` · `PUT /barber/invite/regenerate` — `features/barber/invite/`. رابط قابل للنسخ + عدد العملاء اللي جم من خلاله + زرار إعادة توليد (بتأكيد). متوصلة من قايمة البروفايل (`Routes.barberInviteScreen`).
+
+## ١١. Payment methods — ✅ خلص (متعملش لها section قبل كده)
+قراءة طرق الدفع المتاحة للحلاق (تُستخدم في اختيار طريقة الدفع بشاشات الحجز/الفورمات) — `features/barber/payment_methods/`.
+
+## ١٢. Sponsorship (الترويج) — ✅ خلص (متعملش لها section قبل كده)
+`GET /barber/sponsorship` → حالة الترويج الحالية (نشط/غير نشط، تاريخ البداية/النهاية، السعر، رصيد المحفظة) — `features/barber/sponsorship/`. متوصلة من قايمة البروفايل (`Routes.barberSponsorshipScreen`).
+
+## ١٣. Broadcast (إرسال إشعار جماعي) — ✅ خلص (متعملش لها section قبل كده)
+إرسال بث/إشعار لعملاء الحلاق — `features/barber/broadcast/`. متوصلة من قايمة البروفايل (`Routes.barberBroadcastListScreen`).
+
+## ١٤. Drinks (المشروبات) — ✅ خلص (متعملش لها section قبل كده)
+قائمة مشروبات الحلاق (منفصلة عن الخدمات ومنتجات الـ storefront) — `features/barber/drinks/`. بتُستخدم في شاشة الـ walk-in (اختيار مشروبات للعميل) وفي فاتورة الحجز.
+
+## ١٥. Subscription — ✅ خلص (متعملش لها section قبل كده)
+حالة الاشتراك الحالي + طلبات تجديد/ترقية الاشتراك (`barber/subscription`, `barber/subscription/requests`) — `features/barber/subscription/`. متوصلة من قايمة البروفايل (`Routes.barberSubscriptionScreen`) وكارت في الشاشة الرئيسية.
 
 ---
 

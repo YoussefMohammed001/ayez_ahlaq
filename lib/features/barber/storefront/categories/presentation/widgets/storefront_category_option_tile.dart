@@ -35,7 +35,7 @@ class StorefrontCategoryOptionTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            StorefrontCategoryThumbnail(size: 48.r),
+            StorefrontCategoryThumbnail(category: category, size: 48.r),
             SizedBox(width: 12.w),
             Expanded(
               child: Text(

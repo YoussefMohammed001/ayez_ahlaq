@@ -3779,6 +3779,16 @@ class S {
     );
   }
 
+  /// `Remove current image`
+  String get removeCurrentImage {
+    return Intl.message(
+      'Remove current image',
+      name: 'removeCurrentImage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Save`
   String get save {
     return Intl.message('Save', name: 'save', desc: '', args: []);
@@ -4574,6 +4584,16 @@ class S {
     return Intl.message(
       'e.g. 30',
       name: 'serviceDurationHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most requested`
+  String get servicePopularLabel {
+    return Intl.message(
+      'Most requested',
+      name: 'servicePopularLabel',
       desc: '',
       args: [],
     );

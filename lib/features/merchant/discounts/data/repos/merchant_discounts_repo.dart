@@ -22,6 +22,12 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
   }
 
   @override
+  Future<Either<Failure, Discount>> getDiscountById(int id) async {
+    final result = await _api.getDiscountById(id);
+    return result.map(_mapOne);
+  }
+
+  @override
   Future<Either<Failure, List<DiscountShop>>> getShops() async {
     final result = await _api.getShops();
     return result.map((response) {

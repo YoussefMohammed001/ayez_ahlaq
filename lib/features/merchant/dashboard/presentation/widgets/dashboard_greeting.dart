@@ -3,17 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
+import '../../../../../shared/widgets/notifications_icon_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 
 class DashboardGreeting extends StatelessWidget {
   final String businessName;
   final VoidCallback onProfileTap;
+  final VoidCallback onNotificationsTap;
 
   const DashboardGreeting({
     super.key,
     required this.businessName,
     required this.onProfileTap,
+    required this.onNotificationsTap,
   });
 
   @override
@@ -44,6 +48,11 @@ class DashboardGreeting extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
+        NotificationsIconButton(
+          badge: const UnseenNotificationsBadge(),
+          onTap: onNotificationsTap,
+        ),
+        SizedBox(width: 14.w),
         GestureDetector(
           onTap: onProfileTap,
           child: AvatarCircle(

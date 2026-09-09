@@ -8,6 +8,8 @@ import '../entities/discount_shop.dart';
 abstract class IMerchantDiscountsRepo {
   Future<Either<Failure, List<Discount>>> getDiscounts();
 
+  Future<Either<Failure, Discount>> getDiscountById(int id);
+
   Future<Either<Failure, List<DiscountShop>>> getShops();
 
   Future<Either<Failure, Discount>> createDiscount(DiscountRequest request);

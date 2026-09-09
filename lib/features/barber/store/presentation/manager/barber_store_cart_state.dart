@@ -13,6 +13,9 @@ class BarberStoreCartState extends Equatable {
   final Cart cart;
   final FulfillmentType? fulfillmentType;
   final String note;
+  final String deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
   final bool isUpdatingCart;
   final bool isSubmitting;
   final String? errorMessage;
@@ -24,6 +27,9 @@ class BarberStoreCartState extends Equatable {
     this.cart = Cart.empty,
     this.fulfillmentType,
     this.note = '',
+    this.deliveryAddress = '',
+    this.deliveryLat,
+    this.deliveryLng,
     this.isUpdatingCart = false,
     this.isSubmitting = false,
     this.errorMessage,
@@ -34,6 +40,22 @@ class BarberStoreCartState extends Equatable {
     return match.isEmpty ? 0 : match.first.quantity;
   }
 
+  bool get isDelivery => fulfillmentType == FulfillmentType.delivery;
+
+  FulfillmentType? resolvedFulfillmentType(Cart nextCart) {
+    if (!nextCart.deliveryOffered && fulfillmentType == FulfillmentType.delivery) {
+      return FulfillmentType.pickupAtBranch;
+    }
+    return fulfillmentType;
+  }
+
+  String? get checkoutDeliveryAddress =>
+      isDelivery && deliveryAddress.isNotEmpty ? deliveryAddress : null;
+
+  double? get checkoutDeliveryLat => isDelivery ? deliveryLat : null;
+
+  double? get checkoutDeliveryLng => isDelivery ? deliveryLng : null;
+
   BarberStoreCartState copyWith({
     BarberStoreCartStatus? status,
     StoreMerchant? merchant,
@@ -42,6 +64,9 @@ class BarberStoreCartState extends Equatable {
     FulfillmentType? fulfillmentType,
     bool clearFulfillmentType = false,
     String? note,
+    String? deliveryAddress,
+    double? deliveryLat,
+    double? deliveryLng,
     bool? isUpdatingCart,
     bool? isSubmitting,
     String? errorMessage,
@@ -55,6 +80,9 @@ class BarberStoreCartState extends Equatable {
           ? null
           : (fulfillmentType ?? this.fulfillmentType),
       note: note ?? this.note,
+      deliveryAddress: deliveryAddress ?? this.deliveryAddress,
+      deliveryLat: deliveryLat ?? this.deliveryLat,
+      deliveryLng: deliveryLng ?? this.deliveryLng,
       isUpdatingCart: isUpdatingCart ?? this.isUpdatingCart,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       errorMessage: errorMessage,
@@ -69,6 +97,9 @@ class BarberStoreCartState extends Equatable {
     cart,
     fulfillmentType,
     note,
+    deliveryAddress,
+    deliveryLat,
+    deliveryLng,
     isUpdatingCart,
     isSubmitting,
     errorMessage,

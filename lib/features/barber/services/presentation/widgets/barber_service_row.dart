@@ -33,15 +33,29 @@ class BarberServiceRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  service.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w700,
-                    color: scheme.onSurface,
-                  ),
+                Row(
+                  children: [
+                    if (service.popular) ...[
+                      Icon(
+                        Icons.star_rounded,
+                        size: 14.r,
+                        color: context.semantic.accentStrong,
+                      ),
+                      SizedBox(width: 4.w),
+                    ],
+                    Flexible(
+                      child: Text(
+                        service.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 4.h),
                 Text(

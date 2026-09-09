@@ -6,18 +6,16 @@ import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_text_field.dart';
-import '../../../../../core/widgets/option_tile.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/fulfillment_type.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
 import '../widgets/cart_line_row.dart';
 import '../widgets/cart_quote_card.dart';
-import '../widgets/fulfillment_type_label.dart';
+import '../widgets/store_fulfillment_section.dart';
 
 class BarberStoreCartScreen extends StatefulWidget {
   const BarberStoreCartScreen({super.key});
@@ -28,15 +26,21 @@ class BarberStoreCartScreen extends StatefulWidget {
 
 class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
   final _noteController = TextEditingController();
+  late final _addressController = TextEditingController(
+    text: context.read<BarberStoreCartCubit>().state.deliveryAddress,
+  );
 
   @override
   void dispose() {
     _noteController.dispose();
+    _addressController.dispose();
     super.dispose();
   }
 
   Future<void> _submit(BuildContext context) async {
     final cubit = context.read<BarberStoreCartCubit>();
+    cubit.setNote(_noteController.text.trim());
+    cubit.setDeliveryLocation(address: _addressController.text.trim());
     final order = await cubit.submitOrder();
 
     if (!context.mounted) return;
@@ -82,20 +86,15 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
                     quantity,
                   ),
                 ),
-              SectionTitle(title: S().fulfilmentTitle),
-              OptionTile(
-                label: FulfillmentType.delivery.label,
-                icon: Icons.local_shipping_outlined,
-                selected: state.fulfillmentType == FulfillmentType.delivery,
-                enabled: state.cart.deliveryOffered,
-                disabledReason: S().deliveryNotOfferedReason,
-                onTap: () => cubit.setFulfillmentType(FulfillmentType.delivery),
-              ),
-              OptionTile(
-                label: FulfillmentType.pickupAtBranch.label,
-                icon: Icons.storefront_outlined,
-                selected: state.fulfillmentType == FulfillmentType.pickupAtBranch,
-                onTap: () => cubit.setFulfillmentType(FulfillmentType.pickupAtBranch),
+              StoreFulfillmentSection(
+                cart: state.cart,
+                fulfillmentType: state.fulfillmentType,
+                addressController: _addressController,
+                deliveryLat: state.deliveryLat,
+                deliveryLng: state.deliveryLng,
+                onTypeChanged: cubit.setFulfillmentType,
+                onLocationPicked: (lat, lng) =>
+                    cubit.setDeliveryLocation(lat: lat, lng: lng),
               ),
               SectionTitle(title: S().orderNoteTitle),
               AppTextField(
@@ -109,10 +108,7 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
               PrimaryCtaButton(
                 label: S().placeOrder,
                 isLoading: state.isSubmitting,
-                onPressed: () {
-                  cubit.setNote(_noteController.text.trim());
-                  _submit(context);
-                },
+                onPressed: () => _submit(context),
               ),
             ],
           );

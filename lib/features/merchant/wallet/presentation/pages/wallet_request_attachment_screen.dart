@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../documents/presentation/widgets/document_image_view.dart';
+import '../../../../../shared/widgets/documents/document_image_view.dart';
 
 class WalletRequestAttachmentScreen extends StatelessWidget {
   final Uint8List bytes;

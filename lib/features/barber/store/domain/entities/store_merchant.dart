@@ -7,6 +7,9 @@ class StoreMerchant extends Equatable {
   final double rating;
   final int ratingCount;
   final int productCount;
+  final bool deliveryOffered;
+  final int deliveryFee;
+  final int? freeDeliveryOver;
 
   const StoreMerchant({
     required this.id,
@@ -15,8 +18,21 @@ class StoreMerchant extends Equatable {
     required this.rating,
     required this.ratingCount,
     required this.productCount,
+    required this.deliveryOffered,
+    required this.deliveryFee,
+    this.freeDeliveryOver,
   });
 
   @override
-  List<Object?> get props => [id, businessName, phoneNumber, rating, ratingCount, productCount];
+  List<Object?> get props => [
+    id,
+    businessName,
+    phoneNumber,
+    rating,
+    ratingCount,
+    productCount,
+    deliveryOffered,
+    deliveryFee,
+    freeDeliveryOver,
+  ];
 }

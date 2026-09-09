@@ -68,6 +68,8 @@ class BarberStorefrontCategoriesScreen extends StatelessWidget {
               for (final category in state.own)
                 StorefrontCategoryRow(
                   category: category,
+                  onEdit: () =>
+                      AddStorefrontCategorySheet.show(context, editing: category),
                   onRemove: () => _confirmRemove(context, category.id),
                 ),
             SectionTitle(title: S().globalCategories),

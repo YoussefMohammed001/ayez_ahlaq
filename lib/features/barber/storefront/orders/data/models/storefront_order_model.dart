@@ -19,6 +19,10 @@ class StorefrontOrderModel extends StorefrontOrder {
     required super.nextStatuses,
     super.createdAt,
     super.rejectionReason,
+    super.note,
+    super.deliveryAddress,
+    super.deliveryLat,
+    super.deliveryLng,
   });
 
   factory StorefrontOrderModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +54,10 @@ class StorefrontOrderModel extends StorefrontOrder {
           .toList(),
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
       rejectionReason: json['rejectionReason'] as String?,
+      note: json['note'] as String?,
+      deliveryAddress: json['deliveryAddress'] as String?,
+      deliveryLat: (json['deliveryLat'] as num?)?.toDouble(),
+      deliveryLng: (json['deliveryLng'] as num?)?.toDouble(),
     );
   }
 }

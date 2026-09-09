@@ -26,15 +26,10 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
     final result = await _getCart();
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: failure.message)),
-      (cart) => emit(state.copyWith(cart: cart, fulfillmentType: _resolveFulfillmentType(cart))),
+      (cart) => emit(
+        state.copyWith(cart: cart, fulfillmentType: state.resolvedFulfillmentType(cart)),
+      ),
     );
-  }
-
-  FulfillmentType? _resolveFulfillmentType(Cart cart) {
-    if (!cart.deliveryOffered && state.fulfillmentType == FulfillmentType.delivery) {
-      return FulfillmentType.pickupAtBranch;
-    }
-    return state.fulfillmentType;
   }
 
   Future<void> openMerchant(StoreMerchant merchant) async {
@@ -96,7 +91,7 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
         state.copyWith(
           isUpdatingCart: false,
           cart: cart,
-          fulfillmentType: _resolveFulfillmentType(cart),
+          fulfillmentType: state.resolvedFulfillmentType(cart),
         ),
       ),
     );
@@ -113,6 +108,16 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
 
   void setNote(String note) => emit(state.copyWith(note: note));
 
+  void setDeliveryLocation({String? address, double? lat, double? lng}) {
+    emit(
+      state.copyWith(
+        deliveryAddress: address ?? state.deliveryAddress,
+        deliveryLat: lat ?? state.deliveryLat,
+        deliveryLng: lng ?? state.deliveryLng,
+      ),
+    );
+  }
+
   Future<StoreOrder?> submitOrder() async {
     if (state.cart.isEmpty) return null;
 
@@ -120,6 +125,9 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
 
     final result = await _checkout(
       fulfillmentType: state.fulfillmentType,
+      deliveryAddress: state.checkoutDeliveryAddress,
+      deliveryLat: state.checkoutDeliveryLat,
+      deliveryLng: state.checkoutDeliveryLng,
       note: state.note.isEmpty ? null : state.note,
     );
 

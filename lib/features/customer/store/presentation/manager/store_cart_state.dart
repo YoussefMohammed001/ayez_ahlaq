@@ -1,81 +1,90 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/shop_storefront.dart';
+import '../../domain/entities/store_cart.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../../domain/entities/store_order.dart';
-import '../../domain/entities/store_quote.dart';
 
-enum StoreCartStatus {
-  initial,
-  loading,
-  loaded,
-  quoting,
-  placingOrder,
-  orderPlaced,
-  failure,
-}
+enum StoreCartStatus { initial, loading, success, failure }
 
 class StoreCartState extends Equatable {
   final StoreCartStatus status;
-  final int? shopId;
   final ShopStorefront? storefront;
-  final Map<int, int> items;
-  final StoreFulfillmentType fulfillmentType;
+  final StoreCart cart;
+  final StoreFulfillmentType? fulfillmentType;
   final String paymentMethod;
-  final StoreQuote? quote;
+  final String deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
+  final String note;
+  final bool isUpdatingCart;
+  final bool isSubmitting;
   final StoreOrder? placedOrder;
   final String? errorMessage;
 
   const StoreCartState({
     this.status = StoreCartStatus.initial,
-    this.shopId,
     this.storefront,
-    this.items = const {},
-    this.fulfillmentType = StoreFulfillmentType.delivery,
+    this.cart = StoreCart.empty,
+    this.fulfillmentType,
     this.paymentMethod = 'CASH',
-    this.quote,
+    this.deliveryAddress = '',
+    this.deliveryLat,
+    this.deliveryLng,
+    this.note = '',
+    this.isUpdatingCart = false,
+    this.isSubmitting = false,
     this.placedOrder,
     this.errorMessage,
   });
 
-  int get itemCount => items.values.fold(0, (sum, qty) => sum + qty);
+  bool get isEmpty => cart.isEmpty;
 
-  bool get isEmpty => items.isEmpty;
+  bool get isDelivery => fulfillmentType == StoreFulfillmentType.delivery;
 
-  bool hasItemsFromOtherShop(int otherShopId) =>
-      items.isNotEmpty && shopId != null && shopId != otherShopId;
+  String? get checkoutDeliveryAddress =>
+      isDelivery && deliveryAddress.isNotEmpty ? deliveryAddress : null;
 
-  int quantityFor(int productId) => items[productId] ?? 0;
+  double? get checkoutDeliveryLat => isDelivery ? deliveryLat : null;
 
-  int get subtotal {
-    final priceById = <int, int>{
-      for (final p in storefront?.products ?? const []) p.id: p.price,
-    };
-    return items.entries.fold<int>(
-      0,
-      (sum, entry) => sum + (priceById[entry.key] ?? 0) * entry.value,
-    );
+  double? get checkoutDeliveryLng => isDelivery ? deliveryLng : null;
+
+  String? get checkoutNote => note.isEmpty ? null : note;
+
+  int quantityFor(int productId) {
+    final match = cart.lines.where((line) => line.productId == productId);
+    return match.isEmpty ? 0 : match.first.quantity;
   }
 
   StoreCartState copyWith({
     StoreCartStatus? status,
-    int? shopId,
     ShopStorefront? storefront,
-    Map<int, int>? items,
+    StoreCart? cart,
     StoreFulfillmentType? fulfillmentType,
+    bool clearFulfillmentType = false,
     String? paymentMethod,
-    StoreQuote? quote,
+    String? deliveryAddress,
+    double? deliveryLat,
+    double? deliveryLng,
+    String? note,
+    bool? isUpdatingCart,
+    bool? isSubmitting,
     StoreOrder? placedOrder,
     String? errorMessage,
-    bool clearQuote = false,
   }) {
     return StoreCartState(
       status: status ?? this.status,
-      shopId: shopId ?? this.shopId,
       storefront: storefront ?? this.storefront,
-      items: items ?? this.items,
-      fulfillmentType: fulfillmentType ?? this.fulfillmentType,
+      cart: cart ?? this.cart,
+      fulfillmentType: clearFulfillmentType
+          ? null
+          : (fulfillmentType ?? this.fulfillmentType),
       paymentMethod: paymentMethod ?? this.paymentMethod,
-      quote: clearQuote ? null : (quote ?? this.quote),
+      deliveryAddress: deliveryAddress ?? this.deliveryAddress,
+      deliveryLat: deliveryLat ?? this.deliveryLat,
+      deliveryLng: deliveryLng ?? this.deliveryLng,
+      note: note ?? this.note,
+      isUpdatingCart: isUpdatingCart ?? this.isUpdatingCart,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
       placedOrder: placedOrder ?? this.placedOrder,
       errorMessage: errorMessage,
     );
@@ -84,12 +93,16 @@ class StoreCartState extends Equatable {
   @override
   List<Object?> get props => [
     status,
-    shopId,
     storefront,
-    items,
+    cart,
     fulfillmentType,
     paymentMethod,
-    quote,
+    deliveryAddress,
+    deliveryLat,
+    deliveryLng,
+    note,
+    isUpdatingCart,
+    isSubmitting,
     placedOrder,
     errorMessage,
   ];

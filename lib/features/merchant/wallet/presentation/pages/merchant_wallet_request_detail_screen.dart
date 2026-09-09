@@ -17,12 +17,28 @@ import '../manager/merchant_wallet_requests_state.dart';
 import '../widgets/wallet_request_attachment_tile.dart';
 import '../widgets/wallet_request_info_card.dart';
 
-class MerchantWalletRequestDetailScreen extends StatelessWidget {
+class MerchantWalletRequestDetailScreen extends StatefulWidget {
   final WalletRequest request;
 
   const MerchantWalletRequestDetailScreen({super.key, required this.request});
 
-  Future<void> _viewAttachment(BuildContext context) async {
+  @override
+  State<MerchantWalletRequestDetailScreen> createState() =>
+      _MerchantWalletRequestDetailScreenState();
+}
+
+class _MerchantWalletRequestDetailScreenState
+    extends State<MerchantWalletRequestDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MerchantWalletRequestsCubit>().refreshRequest(widget.request.id);
+  }
+
+  Future<void> _refresh() =>
+      context.read<MerchantWalletRequestsCubit>().refreshRequest(widget.request.id);
+
+  Future<void> _viewAttachment(BuildContext context, WalletRequest request) async {
     final bytes = await sl<GetWalletRequestAttachmentUseCase>().call(request.id);
 
     if (!context.mounted) return;
@@ -34,7 +50,7 @@ class MerchantWalletRequestDetailScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _cancel(BuildContext context) async {
+  Future<void> _cancel(BuildContext context, WalletRequest request) async {
     final cubit = context.read<MerchantWalletRequestsCubit>();
 
     final confirmed = await showConfirmDialog(
@@ -58,31 +74,41 @@ class MerchantWalletRequestDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: request.code),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-        children: [
-          WalletRequestInfoCard(request: request),
-          if (request.hasAttachment) ...[
-            SizedBox(height: 14.h),
-            WalletRequestAttachmentTile(
-              attachmentName: request.attachmentName,
-              onTap: () => _viewAttachment(context),
+    return BlocBuilder<MerchantWalletRequestsCubit, MerchantWalletRequestsState>(
+      builder: (context, state) {
+        final current = state.requests.firstWhere(
+          (r) => r.id == widget.request.id,
+          orElse: () => widget.request,
+        );
+
+        return Scaffold(
+          appBar: AppTopBar(title: current.code),
+          body: RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+              children: [
+                WalletRequestInfoCard(request: current),
+                if (current.hasAttachment) ...[
+                  SizedBox(height: 14.h),
+                  WalletRequestAttachmentTile(
+                    attachmentName: current.attachmentName,
+                    onTap: () => _viewAttachment(context, current),
+                  ),
+                ],
+                if (current.status == WalletRequestStatus.pending) ...[
+                  SizedBox(height: 20.h),
+                  PrimaryCtaButton(
+                    label: S().cancelWalletRequestAction,
+                    isLoading: state.isCancelling(current.id),
+                    onPressed: () => _cancel(context, current),
+                  ),
+                ],
+              ],
             ),
-          ],
-          if (request.status == WalletRequestStatus.pending) ...[
-            SizedBox(height: 20.h),
-            BlocBuilder<MerchantWalletRequestsCubit, MerchantWalletRequestsState>(
-              builder: (context, state) => PrimaryCtaButton(
-                label: S().cancelWalletRequestAction,
-                isLoading: state.isCancelling(request.id),
-                onPressed: () => _cancel(context),
-              ),
-            ),
-          ],
-        ],
-      ),
+          ),
+        );
+      },
     );
   }
 }

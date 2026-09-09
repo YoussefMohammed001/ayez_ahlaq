@@ -4,7 +4,6 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/subscription.dart';
-import '../../domain/entities/subscription_quota.dart';
 
 class SubscriptionHomeCard extends StatelessWidget {
   final Subscription subscription;
@@ -38,17 +37,6 @@ class SubscriptionHomeCard extends StatelessWidget {
 
     final isPending = subscription.status == 'PENDING';
     final statusColor = isPending ? semantic.warning : semantic.success;
-
-    final quotas = <MapEntry<String, SubscriptionQuota>>[
-      if (subscription.employees != null) MapEntry(S().quotaEmployees, subscription.employees!),
-      if (subscription.notificationsAll != null)
-        MapEntry(S().quotaNotificationsAll, subscription.notificationsAll!),
-      if (subscription.notificationsZone != null)
-        MapEntry(S().quotaNotificationsZone, subscription.notificationsZone!),
-      if (subscription.products != null) MapEntry(S().quotaProducts, subscription.products!),
-      if (subscription.ownCategories != null)
-        MapEntry(S().quotaOwnCategories, subscription.ownCategories!),
-    ];
 
     return AppCard(
       onTap: onTap,
@@ -86,17 +74,6 @@ class SubscriptionHomeCard extends StatelessWidget {
               style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
             ),
           ],
-          // if (quotas.isNotEmpty) ...[
-          //   SizedBox(height: 10.h),
-          //   Wrap(
-          //     spacing: 8.w,
-          //     runSpacing: 6.h,
-          //     children: [
-          //       for (final entry in quotas)
-          //         _QuotaChip(label: entry.key, quota: entry.value),
-          //     ],
-          //   ),
-          // ],
         ],
       ),
     );
@@ -104,31 +81,5 @@ class SubscriptionHomeCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-  }
-}
-
-class _QuotaChip extends StatelessWidget {
-  final String label;
-  final SubscriptionQuota quota;
-
-  const _QuotaChip({required this.label, required this.quota});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-    final cap = quota.cap;
-    final valueLabel = cap == null ? S().quotaUnlimited : S().quotaUsedOfCap(quota.used, cap);
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 5.h),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Text(
-        '$label: $valueLabel',
-        style: TextStyle(fontSize: 10.5.sp, fontWeight: FontWeight.w600, color: scheme.onSurfaceVariant),
-      ),
-    );
   }
 }

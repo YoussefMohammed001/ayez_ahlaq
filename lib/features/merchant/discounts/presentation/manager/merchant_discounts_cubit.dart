@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/requests/discount_request.dart';
+import '../../domain/entities/discount.dart';
 import '../../domain/use_cases/close_discount_use_case.dart';
 import '../../domain/use_cases/create_discount_use_case.dart';
+import '../../domain/use_cases/get_discount_by_id_use_case.dart';
 import '../../domain/use_cases/update_discount_use_case.dart';
 import '../../domain/use_cases/get_discount_shops_use_case.dart';
 import '../../domain/use_cases/get_discounts_use_case.dart';
@@ -9,6 +11,7 @@ import 'merchant_discounts_state.dart';
 
 class MerchantDiscountsCubit extends Cubit<MerchantDiscountsState> {
   final GetDiscountsUseCase _getDiscounts;
+  final GetDiscountByIdUseCase _getDiscountById;
   final GetDiscountShopsUseCase _getShops;
   final CreateDiscountUseCase _createDiscount;
   final UpdateDiscountUseCase _updateDiscount;
@@ -16,6 +19,7 @@ class MerchantDiscountsCubit extends Cubit<MerchantDiscountsState> {
 
   MerchantDiscountsCubit(
     this._getDiscounts,
+    this._getDiscountById,
     this._getShops,
     this._createDiscount,
     this._updateDiscount,
@@ -38,6 +42,22 @@ class MerchantDiscountsCubit extends Cubit<MerchantDiscountsState> {
         state.copyWith(status: DiscountsStatus.success, discounts: discounts),
       ),
     );
+  }
+
+  Future<Discount?> refreshDiscount(int id) async {
+    final result = await _getDiscountById(id);
+
+    return result.fold((failure) => null, (discount) {
+      final exists = state.discounts.any((d) => d.id == id);
+      emit(
+        state.copyWith(
+          discounts: exists
+              ? state.discounts.map((d) => d.id == id ? discount : d).toList()
+              : [...state.discounts, discount],
+        ),
+      );
+      return discount;
+    });
   }
 
   Future<void> loadShops() async {

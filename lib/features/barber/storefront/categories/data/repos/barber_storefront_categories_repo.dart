@@ -34,6 +34,15 @@ class BarberStorefrontCategoriesRepo
   }
 
   @override
+  Future<Either<Failure, StorefrontCategory>> updateCategory(
+    int id,
+    StorefrontCategoryFormRequest request,
+  ) async {
+    final result = await _api.updateCategory(id, request);
+    return result.map(_mapOne);
+  }
+
+  @override
   Future<Either<Failure, Unit>> deleteCategory(int id) async {
     final result = await _api.deleteCategory(id);
     return result.map((_) => unit);

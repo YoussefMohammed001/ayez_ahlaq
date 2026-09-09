@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../domain/entities/merchant_document.dart';
 import '../helpers/document_opener.dart';
-import '../widgets/document_image_view.dart';
+import '../../../../../shared/widgets/documents/document_image_view.dart';
 import '../widgets/document_pdf_view.dart';
 import '../widgets/document_unsupported_view.dart';
 import '../../../../../generated/l10n.dart';

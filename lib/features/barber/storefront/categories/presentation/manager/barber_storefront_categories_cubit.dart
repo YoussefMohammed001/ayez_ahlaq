@@ -3,17 +3,20 @@ import '../../data/requests/storefront_category_form_request.dart';
 import '../../domain/use_cases/create_storefront_category_use_case.dart';
 import '../../domain/use_cases/delete_storefront_category_use_case.dart';
 import '../../domain/use_cases/get_assignable_storefront_categories_use_case.dart';
+import '../../domain/use_cases/update_storefront_category_use_case.dart';
 import 'barber_storefront_categories_state.dart';
 
 class BarberStorefrontCategoriesCubit
     extends Cubit<BarberStorefrontCategoriesState> {
   final GetAssignableStorefrontCategoriesUseCase _getAssignable;
   final CreateStorefrontCategoryUseCase _createCategory;
+  final UpdateStorefrontCategoryUseCase _updateCategory;
   final DeleteStorefrontCategoryUseCase _deleteCategory;
 
   BarberStorefrontCategoriesCubit(
     this._getAssignable,
     this._createCategory,
+    this._updateCategory,
     this._deleteCategory,
   ) : super(const BarberStorefrontCategoriesState());
 
@@ -57,6 +60,36 @@ class BarberStorefrontCategoriesCubit
             isSubmitting: false,
             assignable: [...state.assignable, category],
             own: [...state.own, category],
+          ),
+        );
+        return true;
+      },
+    );
+  }
+
+  Future<bool> updateCategory(
+    int id,
+    StorefrontCategoryFormRequest request,
+  ) async {
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _updateCategory(id, request);
+
+    return result.fold(
+      (failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+        return false;
+      },
+      (category) {
+        emit(
+          state.copyWith(
+            isSubmitting: false,
+            assignable: [
+              for (final c in state.assignable) c.id == id ? category : c,
+            ],
+            own: [for (final c in state.own) c.id == id ? category : c],
           ),
         );
         return true;

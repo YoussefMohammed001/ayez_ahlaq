@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../cache/preferences_storage/preferences_storage.dart';
+import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '../cache/secure_storage/secure_storage.dart';
 import '../constants/strings.dart';
 import '../di/services_locator.dart';
 import '../network/constants/http_headers.dart';
+import '../../shared/user_type.dart';
 
 class AuthorizedNetworkImage extends StatefulWidget {
   final String endPoint;
@@ -34,6 +37,11 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
     SecureStorageKeys.userToken,
   );
 
+  bool _requiresClientHeader() {
+    final userType = sl<PreferencesStorage>().getString(key: PreferencesKeys.userType);
+    return userType == UserType.barber.name || userType == UserType.customer.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
@@ -47,7 +55,10 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
 
         return CachedNetworkImage(
           imageUrl: '${AppStrings.baseUrl}${widget.endPoint}',
-          httpHeaders: {HttpHeadersKeys.authorization: 'Bearer $token'},
+          httpHeaders: {
+            HttpHeadersKeys.authorization: 'Bearer $token',
+            if (_requiresClientHeader()) HttpHeadersKeys.client: 'MOBILE',
+          },
           width: widget.width,
           height: widget.height,
           fit: widget.fit,

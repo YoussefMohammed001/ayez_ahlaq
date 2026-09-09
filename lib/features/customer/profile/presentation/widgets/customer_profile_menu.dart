@@ -45,6 +45,16 @@ class CustomerProfileMenu extends StatelessWidget {
               onTap: () => context.push(Routes.customerNotificationsScreen),
             ),
             MenuRow(
+              icon: Icons.account_balance_wallet_outlined,
+              label: S().walletTitle,
+              onTap: () => context.push(Routes.customerWalletScreen),
+            ),
+            MenuRow(
+              icon: Icons.star_border_rounded,
+              label: S().reviewsTitle,
+              onTap: () => context.push(Routes.customerRatingsScreen),
+            ),
+            MenuRow(
               icon: Icons.lock_outline_rounded,
               label: S().changePassword,
               onTap: () => context.push(Routes.customerChangePasswordScreen),

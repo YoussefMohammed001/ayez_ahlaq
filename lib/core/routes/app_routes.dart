@@ -57,6 +57,20 @@ import '../../features/customer/favorites/presentation/pages/favorites_screen.da
 import '../../features/customer/favorites/presentation/pages/invite_preview_screen.dart';
 import '../../features/customer/notifications/presentation/manager/customer_notifications_cubit.dart';
 import '../../features/customer/notifications/presentation/pages/customer_notifications_screen.dart';
+import '../../features/customer/wallet/domain/entities/wallet_request.dart'
+    as customer_wallet;
+import '../../features/customer/wallet/presentation/manager/customer_wallet_cubit.dart';
+import '../../features/customer/wallet/presentation/manager/customer_wallet_requests_cubit.dart';
+import '../../features/customer/wallet/presentation/manager/create_wallet_request_cubit.dart'
+    as customer_wallet;
+import '../../features/customer/wallet/presentation/pages/customer_wallet_screen.dart';
+import '../../features/customer/wallet/presentation/pages/customer_wallet_requests_screen.dart';
+import '../../features/customer/wallet/presentation/pages/create_customer_wallet_request_screen.dart';
+import '../../features/customer/wallet/presentation/pages/customer_wallet_request_detail_screen.dart';
+import '../../features/customer/wallet/presentation/pages/wallet_request_attachment_screen.dart'
+    as customer_wallet;
+import '../../features/customer/ratings/presentation/manager/customer_ratings_cubit.dart';
+import '../../features/customer/ratings/presentation/pages/customer_ratings_screen.dart';
 import '../../features/barber/auth/presentation/manager/barber_auth_cubit.dart';
 import '../../features/barber/auth/presentation/pages/barber_login_screen.dart';
 import '../../features/barber/bookings/domain/entities/booking.dart';
@@ -260,6 +274,9 @@ final BarberStorefrontOrdersCubit _barberStorefrontOrdersCubit =
 final BarberWalletCubit _barberWalletCubit = sl<BarberWalletCubit>();
 final BarberWalletRequestsCubit _barberWalletRequestsCubit =
     sl<BarberWalletRequestsCubit>();
+final CustomerWalletCubit _customerWalletCubit = sl<CustomerWalletCubit>();
+final CustomerWalletRequestsCubit _customerWalletRequestsCubit =
+    sl<CustomerWalletRequestsCubit>();
 final BarberReviewsCubit _barberReviewsCubit = sl<BarberReviewsCubit>();
 final BarberInviteCubit _barberInviteCubit = sl<BarberInviteCubit>();
 final BarberSubscriptionCubit _barberSubscriptionCubit =
@@ -752,6 +769,49 @@ final routes = GoRouter(
       path: Routes.barberWalletRequestAttachmentScreen,
       builder: (_, state) => barber_wallet.WalletRequestAttachmentScreen(
         bytes: state.extra as Uint8List,
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerWalletScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerWalletCubit..loadWallet(),
+        child: const CustomerWalletScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerWalletRequestsScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _customerWalletRequestsCubit..loadRequests(),
+        child: const CustomerWalletRequestsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.createCustomerWalletRequestScreen,
+      builder: (_, __) => BlocProvider(
+        create: (_) => sl<customer_wallet.CreateWalletRequestCubit>(),
+        child: const CreateCustomerWalletRequestScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerWalletRequestDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerWalletRequestsCubit,
+        child: CustomerWalletRequestDetailScreen(
+          request: state.extra as customer_wallet.WalletRequest,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerWalletRequestAttachmentScreen,
+      builder: (_, state) => customer_wallet.WalletRequestAttachmentScreen(
+        bytes: state.extra as Uint8List,
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerRatingsScreen,
+      builder: (_, __) => BlocProvider(
+        create: (_) => sl<CustomerRatingsCubit>()..loadRatings(),
+        child: const CustomerRatingsScreen(),
       ),
     ),
     GoRoute(

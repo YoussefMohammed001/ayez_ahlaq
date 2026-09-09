@@ -12,6 +12,7 @@ import '../../domain/entities/store_merchant.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
 import '../../../../../shared/widgets/cart_summary_bar.dart';
+import '../widgets/store_merchant_detail_card.dart';
 import '../widgets/store_product_row.dart';
 
 class BarberStoreProductsScreen extends StatefulWidget {
@@ -54,6 +55,7 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
 
           return Column(
             children: [
+              StoreMerchantDetailCard(merchant: widget.merchant),
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
@@ -61,6 +63,7 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
                   itemBuilder: (_, index) {
                     final product = state.products[index];
                     return StoreProductRow(
+                      merchantId: widget.merchant.id,
                       product: product,
                       quantity: state.quantityFor(product.id),
                       isUpdating: state.isUpdatingCart,

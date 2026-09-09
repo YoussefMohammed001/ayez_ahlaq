@@ -18,6 +18,10 @@ class StorefrontOrder extends Equatable {
   final List<StorefrontOrderStatus> nextStatuses;
   final DateTime? createdAt;
   final String? rejectionReason;
+  final String? note;
+  final String? deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
 
   const StorefrontOrder({
     required this.id,
@@ -34,7 +38,13 @@ class StorefrontOrder extends Equatable {
     required this.nextStatuses,
     this.createdAt,
     this.rejectionReason,
+    this.note,
+    this.deliveryAddress,
+    this.deliveryLat,
+    this.deliveryLng,
   });
+
+  bool get hasDeliveryLocation => deliveryLat != null && deliveryLng != null;
 
   List<StorefrontOrderStatus> get validNextStatuses =>
       nextStatuses.where((s) => s.isValidFor(fulfillmentType)).toList();
@@ -62,6 +72,10 @@ class StorefrontOrder extends Equatable {
       nextStatuses: nextStatuses ?? this.nextStatuses,
       createdAt: createdAt,
       rejectionReason: rejectionReason,
+      note: note,
+      deliveryAddress: deliveryAddress,
+      deliveryLat: deliveryLat,
+      deliveryLng: deliveryLng,
     );
   }
 

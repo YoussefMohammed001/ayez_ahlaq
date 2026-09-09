@@ -37,6 +37,15 @@ class Routes {
   static const String customerInvitePreviewScreen = '/customer/favorites/invite/preview';
   static const String customerNotificationsScreen = '/customer/notifications';
   static const String customerBrowseShopsScreen = '/customer/shops';
+  static const String customerWalletScreen = '/customer/wallet';
+  static const String customerWalletRequestsScreen = '/customer/wallet/requests';
+  static const String createCustomerWalletRequestScreen =
+      '/customer/wallet/requests/create';
+  static const String customerWalletRequestDetailScreen =
+      '/customer/wallet/requests/detail';
+  static const String customerWalletRequestAttachmentScreen =
+      '/customer/wallet/requests/attachment';
+  static const String customerRatingsScreen = '/customer/ratings';
 
   static const String barberLoginScreen = '/barber/login';
   static const String barberRegisterScreen = '/barber/register';

@@ -5,8 +5,10 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_product.dart';
 import '../../../../../shared/widgets/quantity_stepper.dart';
+import 'store_product_thumbnail.dart';
 
 class StoreProductRow extends StatelessWidget {
+  final int merchantId;
   final StoreProduct product;
   final int quantity;
   final bool isUpdating;
@@ -14,6 +16,7 @@ class StoreProductRow extends StatelessWidget {
 
   const StoreProductRow({
     super.key,
+    required this.merchantId,
     required this.product,
     required this.quantity,
     required this.onQuantityChanged,
@@ -28,16 +31,7 @@ class StoreProductRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          Container(
-            width: 44.r,
-            height: 44.r,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: scheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Icon(Icons.inventory_2_outlined, size: 22.r, color: scheme.onSurfaceVariant),
-          ),
+          StoreProductThumbnail(merchantId: merchantId, product: product, size: 44.r),
           SizedBox(width: 12.w),
           Expanded(
             child: Column(

@@ -3,27 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/quantity_stepper.dart';
+import '../../domain/entities/store_cart_line.dart';
 
 class StoreCartLineRow extends StatelessWidget {
-  final String productName;
-  final int quantity;
-  final int unitPrice;
-  final int lineTotal;
-  final int minOrderQty;
-  final bool available;
-  final String? unavailableReason;
+  final StoreCartLine line;
   final ValueChanged<int> onQuantityChanged;
 
   const StoreCartLineRow({
     super.key,
-    required this.productName,
-    required this.quantity,
-    required this.unitPrice,
-    required this.lineTotal,
+    required this.line,
     required this.onQuantityChanged,
-    this.minOrderQty = 1,
-    this.available = true,
-    this.unavailableReason,
   });
 
   @override
@@ -40,31 +29,31 @@ class StoreCartLineRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  productName,
+                  line.productName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 13.sp, color: scheme.onSurface, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  S().currencyEgp(unitPrice),
+                  S().currencyEgp(line.netUnitPrice),
                   style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
                 ),
-                if (!available)
+                if (!line.available)
                   Text(
-                    unavailableReason ?? '',
+                    line.unavailableReason ?? '',
                     style: TextStyle(fontSize: 11.sp, color: context.semantic.warning),
                   ),
               ],
             ),
           ),
           QuantityStepper(
-            quantity: quantity,
-            minQuantity: minOrderQty,
+            quantity: line.quantity,
+            minQuantity: line.minOrderQty,
             onChanged: onQuantityChanged,
           ),
           SizedBox(width: 12.w),
           Text(
-            S().currencyEgp(lineTotal),
+            S().currencyEgp(line.lineTotal),
             style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: context.semantic.accentSoft),
           ),
         ],

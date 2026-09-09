@@ -13,6 +13,10 @@ class MerchantDiscountsApi {
     return _networkService.getData(endPoint: EndPoints.merchantDiscount);
   }
 
+  Future<Either<Failure, dynamic>> getDiscountById(int id) {
+    return _networkService.getData(endPoint: EndPoints.merchantDiscountById(id));
+  }
+
   Future<Either<Failure, dynamic>> getShops() {
     return _networkService.getData(endPoint: EndPoints.merchantDiscountShop);
   }

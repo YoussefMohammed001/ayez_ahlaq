@@ -5,7 +5,7 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../../domain/entities/store_order.dart';
-import '../../domain/entities/store_quote_line.dart';
+import '../../domain/entities/store_order_item.dart';
 
 class StoreOrderItemsCard extends StatelessWidget {
   final StoreOrder order;
@@ -50,7 +50,7 @@ class StoreOrderItemsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildItemRow(BuildContext context, StoreQuoteLine item) {
+  Widget _buildItemRow(BuildContext context, StoreOrderItem item) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(

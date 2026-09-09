@@ -11,6 +11,7 @@ class StoreProductRow extends StatelessWidget {
   final int shopId;
   final StoreProduct product;
   final int quantity;
+  final bool isUpdating;
   final ValueChanged<int> onQuantityChanged;
 
   const StoreProductRow({
@@ -19,6 +20,7 @@ class StoreProductRow extends StatelessWidget {
     required this.product,
     required this.quantity,
     required this.onQuantityChanged,
+    this.isUpdating = false,
   });
 
   @override
@@ -89,6 +91,7 @@ class StoreProductRow extends StatelessWidget {
               quantity: quantity,
               minQuantity: product.minOrderQty,
               onChanged: onQuantityChanged,
+              disabled: isUpdating,
             ),
         ],
       ),

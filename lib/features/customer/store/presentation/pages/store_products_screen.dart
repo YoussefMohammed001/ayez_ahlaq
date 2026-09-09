@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
@@ -27,13 +28,19 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _openShop());
+    context.read<StoreCartCubit>().openShop(widget.shopId);
   }
 
-  Future<void> _openShop() async {
+  Future<void> _setQuantity(
+    BuildContext context,
+    int productId,
+    int minOrderQty,
+    int quantity,
+  ) async {
     final cubit = context.read<StoreCartCubit>();
+    final cart = cubit.state.cart;
 
-    if (cubit.state.hasItemsFromOtherShop(widget.shopId)) {
+    if (quantity > 0 && !cart.isEmpty && cart.sellerId != widget.shopId) {
       final confirmed = await showConfirmDialog(
         context,
         title: S().switchShopCartTitle,
@@ -42,18 +49,18 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
         icon: Icons.remove_shopping_cart_outlined,
       );
 
-      if (!confirmed) {
-        if (mounted) Navigator.of(context).pop();
-        return;
-      }
+      if (!confirmed) return;
     }
 
-    if (mounted) cubit.openShop(widget.shopId);
+    cubit.setQuantity(productId, minOrderQty, quantity);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StoreCartCubit, StoreCartState>(
+    return BlocConsumer<StoreCartCubit, StoreCartState>(
+      listenWhen: (previous, current) =>
+          current.errorMessage != null && current.errorMessage != previous.errorMessage,
+      listener: (context, state) => showError(state.errorMessage!),
       builder: (context, state) {
         final cubit = context.read<StoreCartCubit>();
         final storefront = state.storefront;
@@ -64,8 +71,8 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
           bottomNavigationBar: state.isEmpty
               ? null
               : CartSummaryBar(
-                  itemCount: state.itemCount,
-                  subtotal: state.subtotal,
+                  itemCount: state.cart.itemCount,
+                  subtotal: state.cart.subtotal,
                   actionLabel: S().viewCart,
                   onPressed: () => context.push(Routes.customerStoreCartScreen),
                 ),
@@ -96,11 +103,16 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
       itemCount: products.length,
       itemBuilder: (_, index) {
         final product = products[index];
+        final quantity = state.cart.sellerId == widget.shopId
+            ? state.quantityFor(product.id)
+            : 0;
+
         return StoreProductRow(
           shopId: widget.shopId,
           product: product,
-          quantity: state.quantityFor(product.id),
-          onQuantityChanged: (quantity) => cubit.setQuantity(product.id, quantity),
+          quantity: quantity,
+          isUpdating: state.isUpdatingCart,
+          onQuantityChanged: (q) => _setQuantity(context, product.id, product.minOrderQty, q),
         );
       },
     );

@@ -12,5 +12,10 @@ abstract class IBarberStorefrontCategoriesRepo {
     StorefrontCategoryFormRequest request,
   );
 
+  Future<Either<Failure, StorefrontCategory>> updateCategory(
+    int id,
+    StorefrontCategoryFormRequest request,
+  );
+
   Future<Either<Failure, Unit>> deleteCategory(int id);
 }

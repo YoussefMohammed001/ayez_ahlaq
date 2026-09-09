@@ -64,7 +64,13 @@ class StorefrontProductDetailsScreen extends StatelessWidget {
           body: ListView(
             padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
             children: [
-              Center(child: StorefrontProductThumbnail(size: 220.h, radius: 18.r)),
+              Center(
+                child: StorefrontProductThumbnail(
+                  product: product,
+                  size: 220.h,
+                  radius: 18.r,
+                ),
+              ),
               SizedBox(height: 18.h),
               StorefrontProductDetailInfo(product: product),
               SizedBox(height: 24.h),

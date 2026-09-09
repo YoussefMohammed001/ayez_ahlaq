@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -8,6 +7,7 @@ import '../../../../../generated/l10n.dart';
 import '../../domain/entities/barber_service.dart';
 import '../../domain/entities/service_catalog_item.dart';
 import 'catalog_picker_field.dart';
+import 'service_form_fields.dart';
 
 class ServiceFormSheet extends StatefulWidget {
   final List<ServiceCatalogItem> catalog;
@@ -56,11 +56,13 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
     text: widget.existing == null ? '' : '${widget.existing!.durationMinutes}',
   );
   int? _catalogId;
+  late bool _popular;
 
   @override
   void initState() {
     super.initState();
     _catalogId = widget.existing?.catalogId;
+    _popular = widget.existing?.popular ?? false;
   }
 
   @override
@@ -83,7 +85,7 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
         description: catalogItem.description,
         price: int.parse(_priceController.text.trim()),
         durationMinutes: int.parse(_durationController.text.trim()),
-        popular: widget.existing?.popular ?? false,
+        popular: _popular,
         active: widget.existing?.active ?? true,
       ),
     );
@@ -121,23 +123,11 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
                   enabled: widget.existing == null,
                   onChanged: (value) => setState(() => _catalogId = value),
                 ),
-                SectionTitle(title: S().servicePriceLabel),
-                AppTextField(
-                  controller: _priceController,
-                  hint: S().servicePriceHint,
-                  isNumber: true,
-                  validator: (v) => (int.tryParse(v ?? '') ?? -1) <= 0
-                      ? S().invalidPrice
-                      : null,
-                ),
-                SectionTitle(title: S().serviceDurationLabel),
-                AppTextField(
-                  controller: _durationController,
-                  hint: S().serviceDurationHint,
-                  isNumber: true,
-                  validator: (v) => (int.tryParse(v ?? '') ?? -1) <= 0
-                      ? S().invalidNumber
-                      : null,
+                ServiceFormFields(
+                  priceController: _priceController,
+                  durationController: _durationController,
+                  popular: _popular,
+                  onPopularChanged: (value) => setState(() => _popular = value),
                 ),
                 SizedBox(height: 20.h),
                 PrimaryCtaButton(

@@ -53,6 +53,8 @@ class BarberHomeScreen extends StatelessWidget {
                   builder: (context, state) => BarberHomeGreeting(
                     shopName: state.profile?.shopName ?? '',
                     onAvatarTap: () => onGoToTab(3),
+                    onNotificationsTap: () =>
+                        context.push(Routes.barberNotificationsScreen),
                   ),
                 ),
                 SizedBox(height: 18.h),

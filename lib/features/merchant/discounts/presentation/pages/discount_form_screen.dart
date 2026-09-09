@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../domain/entities/discount.dart';
@@ -25,14 +26,35 @@ class DiscountFormScreen extends StatefulWidget {
 
 class _DiscountFormScreenState extends State<DiscountFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final _controllers = DiscountFormControllers(widget.discount);
+  late DiscountFormControllers _controllers;
+  bool _isLoading = false;
 
   bool get _isEditing => widget.discount != null;
 
   @override
   void initState() {
     super.initState();
+    _controllers = DiscountFormControllers(widget.discount);
     context.read<MerchantDiscountsCubit>().loadShops();
+    if (_isEditing) _refreshDiscount();
+  }
+
+  Future<void> _refreshDiscount() async {
+    setState(() => _isLoading = true);
+
+    final fresh = await context
+        .read<MerchantDiscountsCubit>()
+        .refreshDiscount(widget.discount!.id);
+
+    if (!mounted) return;
+
+    setState(() {
+      if (fresh != null) {
+        _controllers.dispose();
+        _controllers = DiscountFormControllers(fresh);
+      }
+      _isLoading = false;
+    });
   }
 
   @override
@@ -67,32 +89,36 @@ class _DiscountFormScreenState extends State<DiscountFormScreen> {
       appBar: AppTopBar(
         title: _isEditing ? S().editDiscount : S().newDiscount,
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-          children: [
-            SectionTitle(title: S().discountType),
-            ScopeSelector(
-              value: _controllers.scope,
-              onChanged: (value) => setState(
-                () => _controllers.onScopeChanged(value),
-              ),
+      body: _isLoading ? const ListSkeleton() : _buildForm(),
+    );
+  }
+
+  Widget _buildForm() {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+        children: [
+          SectionTitle(title: S().discountType),
+          ScopeSelector(
+            value: _controllers.scope,
+            onChanged: (value) => setState(
+              () => _controllers.onScopeChanged(value),
             ),
-            DiscountFormFields(
-              controllers: _controllers,
-              onChanged: () => setState(() {}),
+          ),
+          DiscountFormFields(
+            controllers: _controllers,
+            onChanged: () => setState(() {}),
+          ),
+          SizedBox(height: 20.h),
+          BlocBuilder<MerchantDiscountsCubit, MerchantDiscountsState>(
+            builder: (context, state) => PrimaryCtaButton(
+              label: _isEditing ? S().save : S().createDiscount,
+              isLoading: state.isSubmitting,
+              onPressed: _submit,
             ),
-            SizedBox(height: 20.h),
-            BlocBuilder<MerchantDiscountsCubit, MerchantDiscountsState>(
-              builder: (context, state) => PrimaryCtaButton(
-                label: _isEditing ? S().save : S().createDiscount,
-                isLoading: state.isSubmitting,
-                onPressed: _submit,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -30,24 +30,27 @@ class InfoRow extends StatelessWidget {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 18.r, color: context.colorScheme.onSurfaceVariant),
           SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 12.5.sp,
-                color: context.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ),
           Text(
-            value,
+            label,
             style: TextStyle(
               fontSize: 12.5.sp,
-              color: context.colorScheme.onSurface,
-              fontWeight: FontWeight.w600,
+              color: context.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontSize: 12.5.sp,
+                color: context.colorScheme.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

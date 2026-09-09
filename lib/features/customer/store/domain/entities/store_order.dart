@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'store_fulfillment_type.dart';
+import 'store_order_item.dart';
 import 'store_order_status.dart';
-import 'store_quote_line.dart';
 
 class StoreOrder extends Equatable {
   final int id;
@@ -14,10 +14,13 @@ class StoreOrder extends Equatable {
   final int subtotal;
   final int deliveryFee;
   final int total;
-  final List<StoreQuoteLine> items;
+  final List<StoreOrderItem> items;
   final String? note;
   final DateTime? createdAt;
   final String? rejectionReason;
+  final String? deliveryAddress;
+  final double? deliveryLat;
+  final double? deliveryLng;
 
   const StoreOrder({
     required this.id,
@@ -34,6 +37,9 @@ class StoreOrder extends Equatable {
     this.note,
     this.createdAt,
     this.rejectionReason,
+    this.deliveryAddress,
+    this.deliveryLat,
+    this.deliveryLng,
   });
 
   StoreOrder copyWith({StoreOrderStatus? status}) {
@@ -52,6 +58,9 @@ class StoreOrder extends Equatable {
       note: note,
       createdAt: createdAt,
       rejectionReason: rejectionReason,
+      deliveryAddress: deliveryAddress,
+      deliveryLat: deliveryLat,
+      deliveryLng: deliveryLng,
     );
   }
 

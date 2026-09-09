@@ -62,6 +62,8 @@ class MerchantDashboardScreen extends StatelessWidget {
               DashboardGreeting(
                 businessName: businessName,
                 onProfileTap: onGoToProfile,
+                onNotificationsTap: () =>
+                    context.push(Routes.merchantNotificationsScreen),
               ),
               SizedBox(height: 18.h),
               BlocBuilder<MerchantSubscriptionCubit, MerchantSubscriptionState>(

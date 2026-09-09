@@ -8,6 +8,9 @@ class StoreMerchantModel extends StoreMerchant {
     required super.rating,
     required super.ratingCount,
     required super.productCount,
+    required super.deliveryOffered,
+    required super.deliveryFee,
+    super.freeDeliveryOver,
   });
 
   factory StoreMerchantModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +21,9 @@ class StoreMerchantModel extends StoreMerchant {
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
       ratingCount: (json['ratingCount'] as num?)?.toInt() ?? 0,
       productCount: (json['productCount'] as num?)?.toInt() ?? 0,
+      deliveryOffered: json['deliveryOffered'] as bool? ?? false,
+      deliveryFee: (json['deliveryFee'] as num?)?.toInt() ?? 0,
+      freeDeliveryOver: (json['freeDeliveryOver'] as num?)?.toInt(),
     );
   }
 }

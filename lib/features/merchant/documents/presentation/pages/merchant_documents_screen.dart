@@ -12,7 +12,7 @@ import '../widgets/document_row.dart';
 import '../widgets/documents_summary_card.dart';
 import '../../../../../shared/widgets/documents/documents_blocked_notice.dart';
 import '../../../../../generated/l10n.dart';
-import '../helpers/document_file_picker.dart';
+import '../../../../../shared/widgets/documents/document_file_picker.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
 class MerchantDocumentsScreen extends StatefulWidget {

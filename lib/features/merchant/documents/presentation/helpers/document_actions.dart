@@ -7,7 +7,7 @@ import '../../../../../core/routes/route_paths.dart';
 import '../../domain/entities/merchant_document.dart';
 import '../manager/merchant_documents_cubit.dart';
 import '../../../../../shared/widgets/attachments/attachment_source_sheet.dart';
-import 'document_file_picker.dart';
+import '../../../../../shared/widgets/documents/document_file_picker.dart';
 import 'document_view_args.dart';
 import '../../../../../generated/l10n.dart';
 
