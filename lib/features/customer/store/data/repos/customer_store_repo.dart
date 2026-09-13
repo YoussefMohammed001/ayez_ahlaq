@@ -43,7 +43,7 @@ class CustomerStoreRepo implements ICustomerStoreRepo {
   }
 
   @override
-  Future<Either<Failure, StoreOrder>> checkout({
+  Future<Either<Failure, (StoreOrder, String)>> checkout({
     required StoreFulfillmentType? fulfillmentType,
     required String paymentMethod,
     String? deliveryAddress,
@@ -59,13 +59,15 @@ class CustomerStoreRepo implements ICustomerStoreRepo {
       if (deliveryLng != null) 'deliveryLng': deliveryLng,
       if (note != null) 'note': note,
     });
-    return result.map(_mapOrder);
+    return result.map<(StoreOrder, String)>(
+      (response) => (_mapOrder(response), response['message'] as String? ?? ''),
+    );
   }
 
   @override
   Future<Either<Failure, List<StoreOrder>>> getOrders() async {
     final result = await _api.getOrders();
-    return result.map(
+    return result.map<List<StoreOrder>>(
       (response) => (response['data'] as List<dynamic>? ?? [])
           .map((e) => StoreOrderModel.fromJson(e as Map<String, dynamic>))
           .toList(),

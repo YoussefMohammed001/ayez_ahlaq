@@ -5,6 +5,7 @@ import '../entities/fulfillment_type.dart';
 import '../entities/store_merchant.dart';
 import '../entities/store_order.dart';
 import '../entities/store_product.dart';
+import '../entities/store_quote.dart';
 
 abstract class IBarberStoreRepo {
   Future<Either<Failure, List<StoreMerchant>>> getMerchants();
@@ -17,7 +18,13 @@ abstract class IBarberStoreRepo {
 
   Future<Either<Failure, Cart>> putCart(Map<int, int> quantitiesByProductId);
 
-  Future<Either<Failure, StoreOrder>> checkout({
+  Future<Either<Failure, StoreQuote>> getQuote({
+    required int merchantId,
+    required Map<int, int> quantitiesByProductId,
+    FulfillmentType? fulfillmentType,
+  });
+
+  Future<Either<Failure, (StoreOrder, String)>> checkout({
     required FulfillmentType? fulfillmentType,
     String? deliveryAddress,
     double? deliveryLat,

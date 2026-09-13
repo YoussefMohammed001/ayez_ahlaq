@@ -132,8 +132,12 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
       (failure) => emit(
         state.copyWith(status: BookingFlowStatus.failure, errorMessage: failure.message),
       ),
-      (booking) => emit(
-        state.copyWith(status: BookingFlowStatus.success, createdBooking: booking),
+      (result) => emit(
+        state.copyWith(
+          status: BookingFlowStatus.success,
+          createdBooking: result.$1,
+          successMessage: result.$2,
+        ),
       ),
     );
   }

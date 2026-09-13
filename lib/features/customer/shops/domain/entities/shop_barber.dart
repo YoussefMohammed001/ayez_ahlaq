@@ -34,8 +34,10 @@ class ShopBarberService extends Equatable {
 class ShopBarber extends Equatable {
   final int id;
   final String name;
+  final String? tagline;
   final double rating;
   final int ratingCount;
+  final bool available;
   final bool favorite;
   final bool viaInvite;
   final bool owner;
@@ -44,8 +46,10 @@ class ShopBarber extends Equatable {
   const ShopBarber({
     required this.id,
     required this.name,
+    this.tagline,
     required this.rating,
     required this.ratingCount,
+    required this.available,
     required this.favorite,
     required this.viaInvite,
     required this.owner,
@@ -56,8 +60,10 @@ class ShopBarber extends Equatable {
     return ShopBarber(
       id: id,
       name: name,
+      tagline: tagline,
       rating: rating,
       ratingCount: ratingCount,
+      available: available,
       favorite: favorite ?? this.favorite,
       viaInvite: viaInvite,
       owner: owner,
@@ -69,8 +75,10 @@ class ShopBarber extends Equatable {
   List<Object?> get props => [
     id,
     name,
+    tagline,
     rating,
     ratingCount,
+    available,
     favorite,
     viaInvite,
     owner,

@@ -37,7 +37,7 @@ class StoreCartCubit extends Cubit<StoreCartState> {
   }
 
   Future<void> openShop(int shopId) async {
-    if (state.storefront != null && state.status == StoreCartStatus.success) {
+    if (state.storefront?.shopId == shopId && state.status == StoreCartStatus.success) {
       return;
     }
 
@@ -133,15 +133,16 @@ class StoreCartCubit extends Cubit<StoreCartState> {
         emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
         return null;
       },
-      (order) {
+      (result) {
         emit(
           state.copyWith(
             isSubmitting: false,
             cart: StoreCart.empty,
-            placedOrder: order,
+            placedOrder: result.$1,
+            placedOrderMessage: result.$2,
           ),
         );
-        return order;
+        return result.$1;
       },
     );
   }

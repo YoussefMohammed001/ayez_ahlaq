@@ -12,7 +12,7 @@ abstract class ICustomerStoreRepo {
 
   Future<Either<Failure, StoreCart>> putCart(Map<int, int> quantitiesByProductId);
 
-  Future<Either<Failure, StoreOrder>> checkout({
+  Future<Either<Failure, (StoreOrder, String)>> checkout({
     required StoreFulfillmentType? fulfillmentType,
     required String paymentMethod,
     String? deliveryAddress,

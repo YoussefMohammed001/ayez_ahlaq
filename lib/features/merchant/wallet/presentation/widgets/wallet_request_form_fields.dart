@@ -97,15 +97,13 @@ class WalletRequestFormFields extends StatelessWidget {
           hint: S().walletRequestNoteHint,
           maxLines: 4,
         ),
-        if (type == WalletRequestType.deposit) ...[
-          SectionTitle(title: S().walletRequestAttachmentLabel),
-          OptionTile(
-            label: filePath == null ? S().attachReceiptPhoto : S().receiptPhotoAttached,
-            icon: Icons.photo_camera_outlined,
-            selected: filePath != null,
-            onTap: onPickAttachment,
-          ),
-        ],
+        SectionTitle(title: S().walletRequestAttachmentLabel),
+        OptionTile(
+          label: filePath == null ? S().attachReceiptPhoto : S().receiptPhotoAttached,
+          icon: Icons.photo_camera_outlined,
+          selected: filePath != null,
+          onTap: onPickAttachment,
+        ),
       ],
     );
   }

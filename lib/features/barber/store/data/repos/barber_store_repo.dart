@@ -5,12 +5,14 @@ import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_order.dart';
 import '../../domain/entities/store_product.dart';
+import '../../domain/entities/store_quote.dart';
 import '../../domain/repos/i_barber_store_repo.dart';
 import '../apis/barber_store_api.dart';
 import '../models/cart_model.dart';
 import '../models/store_merchant_model.dart';
 import '../models/store_order_model.dart';
 import '../models/store_product_model.dart';
+import '../models/store_quote_model.dart';
 
 class BarberStoreRepo implements IBarberStoreRepo {
   final BarberStoreApi _api;
@@ -50,7 +52,23 @@ class BarberStoreRepo implements IBarberStoreRepo {
   }
 
   @override
-  Future<Either<Failure, StoreOrder>> checkout({
+  Future<Either<Failure, StoreQuote>> getQuote({
+    required int merchantId,
+    required Map<int, int> quantitiesByProductId,
+    FulfillmentType? fulfillmentType,
+  }) async {
+    final result = await _api.getQuote({
+      'merchantId': merchantId,
+      'items': quantitiesByProductId.entries
+          .map((e) => {'productId': e.key, 'quantity': e.value})
+          .toList(),
+      if (fulfillmentType != null) 'fulfillmentType': fulfillmentType.toApi(),
+    });
+    return result.map(_mapQuote);
+  }
+
+  @override
+  Future<Either<Failure, (StoreOrder, String)>> checkout({
     required FulfillmentType? fulfillmentType,
     String? deliveryAddress,
     double? deliveryLat,
@@ -64,7 +82,9 @@ class BarberStoreRepo implements IBarberStoreRepo {
       if (deliveryLng != null) 'deliveryLng': deliveryLng,
       if (note != null) 'note': note,
     });
-    return result.map(_mapOrder);
+    return result.map<(StoreOrder, String)>(
+      (response) => (_mapOrder(response), response['message'] as String? ?? ''),
+    );
   }
 
   @override
@@ -112,5 +132,9 @@ class BarberStoreRepo implements IBarberStoreRepo {
 
   Cart _mapCart(dynamic response) {
     return CartModel.fromJson(response['data'] as Map<String, dynamic>);
+  }
+
+  StoreQuote _mapQuote(dynamic response) {
+    return StoreQuoteModel.fromJson(response['data'] as Map<String, dynamic>);
   }
 }

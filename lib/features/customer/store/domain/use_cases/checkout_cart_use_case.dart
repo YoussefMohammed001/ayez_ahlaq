@@ -9,7 +9,7 @@ class CheckoutCartUseCase {
 
   CheckoutCartUseCase(this._repo);
 
-  Future<Either<Failure, StoreOrder>> call({
+  Future<Either<Failure, (StoreOrder, String)>> call({
     required StoreFulfillmentType? fulfillmentType,
     required String paymentMethod,
     String? deliveryAddress,

@@ -54,7 +54,7 @@ class WalletRequestFormFields extends StatelessWidget {
           selected: type == WalletRequestType.withdraw,
           onTap: () => onTypeChanged(WalletRequestType.withdraw),
         ),
-        if (type == WalletRequestType.deposit && transferAccounts.isNotEmpty) ...[
+        if (transferAccounts.isNotEmpty) ...[
           SectionTitle(title: S().transferAccountLabel),
           TransferAccountField(
             accounts: transferAccounts,
@@ -93,15 +93,13 @@ class WalletRequestFormFields extends StatelessWidget {
           hint: S().walletRequestNoteHint,
           maxLines: 4,
         ),
-        if (type == WalletRequestType.deposit) ...[
-          SectionTitle(title: S().walletRequestAttachmentLabel),
-          OptionTile(
-            label: filePath == null ? S().attachReceiptPhoto : S().receiptPhotoAttached,
-            icon: Icons.photo_camera_outlined,
-            selected: filePath != null,
-            onTap: onPickAttachment,
-          ),
-        ],
+        SectionTitle(title: S().walletRequestAttachmentLabel),
+        OptionTile(
+          label: filePath == null ? S().attachReceiptPhoto : S().receiptPhotoAttached,
+          icon: Icons.photo_camera_outlined,
+          selected: filePath != null,
+          onTap: onPickAttachment,
+        ),
       ],
     );
   }

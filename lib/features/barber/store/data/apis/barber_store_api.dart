@@ -36,6 +36,13 @@ class BarberStoreApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> getQuote(Map<String, dynamic> body) {
+    return _networkService.postData(
+      endPoint: EndPoints.barberStoreQuote,
+      data: body,
+    );
+  }
+
   Future<Either<Failure, dynamic>> getOrders() {
     return _networkService.getData(endPoint: EndPoints.barberOrder);
   }

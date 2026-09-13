@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/quantity_picker_sheet.dart';
+import '../../../../../shared/widgets/quantity_picker_trigger.dart';
 import '../../../drinks/domain/entities/drink.dart';
 import '../../../drinks/presentation/manager/barber_drinks_cubit.dart';
 import '../../../drinks/presentation/manager/barber_drinks_state.dart';
 import '../../domain/entities/booking_drink.dart';
-import 'walk_in_picker_trigger.dart';
-import 'walk_in_quantity_picker_sheet.dart';
 
 class WalkInDrinksField extends StatefulWidget {
   final ValueNotifier<List<BookingDrink>> drinks;
@@ -56,10 +56,11 @@ class _WalkInDrinksFieldState extends State<WalkInDrinksField> {
         return ValueListenableBuilder<List<BookingDrink>>(
           valueListenable: widget.drinks,
           builder: (context, selected, _) {
-            return WalkInPickerTrigger(
+            return QuantityPickerTrigger(
               chips: [
                 for (final drink in selected)
-                  WalkInPickerChip(
+                  QuantityPickerChip(
+                    id: drink.drinkId,
                     label: drink.name ?? '',
                     quantity: drink.quantity,
                     price: drink.price ?? 0,
@@ -67,7 +68,7 @@ class _WalkInDrinksFieldState extends State<WalkInDrinksField> {
                         selected.where((d) => d.drinkId != drink.drinkId).toList(),
                   ),
               ],
-              onTap: () => WalkInQuantityPickerSheet.show<Drink>(
+              onTap: () => QuantityPickerSheet.show<Drink>(
                 context,
                 title: S().drinksTitle,
                 items: drinks,

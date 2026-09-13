@@ -10,6 +10,7 @@ class BarberServicesState extends Equatable {
   final List<BarberService> services;
   final String? errorMessage;
   final bool isSubmitting;
+  final bool isDeleting;
 
   const BarberServicesState({
     this.status = BarberServicesStatus.initial,
@@ -17,6 +18,7 @@ class BarberServicesState extends Equatable {
     this.services = const [],
     this.errorMessage,
     this.isSubmitting = false,
+    this.isDeleting = false,
   });
 
   BarberServicesState copyWith({
@@ -25,6 +27,7 @@ class BarberServicesState extends Equatable {
     List<BarberService>? services,
     String? errorMessage,
     bool? isSubmitting,
+    bool? isDeleting,
   }) {
     return BarberServicesState(
       status: status ?? this.status,
@@ -32,6 +35,7 @@ class BarberServicesState extends Equatable {
       services: services ?? this.services,
       errorMessage: errorMessage,
       isSubmitting: isSubmitting ?? this.isSubmitting,
+      isDeleting: isDeleting ?? this.isDeleting,
     );
   }
 
@@ -42,5 +46,6 @@ class BarberServicesState extends Equatable {
     services,
     errorMessage,
     isSubmitting,
+    isDeleting,
   ];
 }

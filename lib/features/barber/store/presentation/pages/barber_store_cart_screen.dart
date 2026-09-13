@@ -16,6 +16,7 @@ import '../manager/barber_store_cart_state.dart';
 import '../widgets/cart_line_row.dart';
 import '../widgets/cart_quote_card.dart';
 import '../widgets/store_fulfillment_section.dart';
+import '../widgets/store_line_item_row.dart';
 
 class BarberStoreCartScreen extends StatefulWidget {
   const BarberStoreCartScreen({super.key});
@@ -41,16 +42,16 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
     final cubit = context.read<BarberStoreCartCubit>();
     cubit.setNote(_noteController.text.trim());
     cubit.setDeliveryLocation(address: _addressController.text.trim());
-    final order = await cubit.submitOrder();
+    final result = await cubit.submitOrder();
 
     if (!context.mounted) return;
 
-    if (order != null) {
+    if (result != null) {
       cubit.reset();
       context.go(
         Routes.successScreen,
         extra: SuccessScreenArgs(
-          message: S().orderPlaced,
+          message: result.$2.isEmpty ? S().orderPlaced : result.$2,
           doneRoute: Routes.barberShell,
         ),
       );
@@ -86,6 +87,11 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
                     quantity,
                   ),
                 ),
+              if (state.quote.lines.any((line) => line.gift)) ...[
+                SectionTitle(title: S().quoteGift),
+                for (final line in state.quote.lines.where((line) => line.gift))
+                  StoreLineItemRow(item: line),
+              ],
               StoreFulfillmentSection(
                 cart: state.cart,
                 fulfillmentType: state.fulfillmentType,
@@ -103,7 +109,7 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
                 maxLines: 3,
               ),
               SizedBox(height: 12.h),
-              CartQuoteCard(cart: state.cart, isUpdating: state.isUpdatingCart),
+              CartQuoteCard(quote: state.quote, isUpdating: state.isUpdatingCart),
               SizedBox(height: 20.h),
               PrimaryCtaButton(
                 label: S().placeOrder,

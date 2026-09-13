@@ -8,12 +8,14 @@ class OwnServicesState extends Equatable {
   final List<OwnService> services;
   final String? errorMessage;
   final bool isSubmitting;
+  final bool isDeleting;
 
   const OwnServicesState({
     this.status = OwnServicesStatus.initial,
     this.services = const [],
     this.errorMessage,
     this.isSubmitting = false,
+    this.isDeleting = false,
   });
 
   OwnServicesState copyWith({
@@ -21,15 +23,23 @@ class OwnServicesState extends Equatable {
     List<OwnService>? services,
     String? errorMessage,
     bool? isSubmitting,
+    bool? isDeleting,
   }) {
     return OwnServicesState(
       status: status ?? this.status,
       services: services ?? this.services,
       errorMessage: errorMessage,
       isSubmitting: isSubmitting ?? this.isSubmitting,
+      isDeleting: isDeleting ?? this.isDeleting,
     );
   }
 
   @override
-  List<Object?> get props => [status, services, errorMessage, isSubmitting];
+  List<Object?> get props => [
+    status,
+    services,
+    errorMessage,
+    isSubmitting,
+    isDeleting,
+  ];
 }

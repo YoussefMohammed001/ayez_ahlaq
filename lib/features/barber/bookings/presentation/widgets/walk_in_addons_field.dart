@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/quantity_picker_sheet.dart';
+import '../../../../../shared/widgets/quantity_picker_trigger.dart';
 import '../../../storefront/products/domain/entities/storefront_product.dart';
 import '../../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../../../storefront/products/presentation/manager/barber_storefront_products_state.dart';
 import '../../domain/entities/booking_addon.dart';
-import 'walk_in_picker_trigger.dart';
-import 'walk_in_quantity_picker_sheet.dart';
 
 class WalkInAddonsField extends StatefulWidget {
   final ValueNotifier<List<BookingAddon>> addons;
@@ -56,10 +56,11 @@ class _WalkInAddonsFieldState extends State<WalkInAddonsField> {
         return ValueListenableBuilder<List<BookingAddon>>(
           valueListenable: widget.addons,
           builder: (context, selected, _) {
-            return WalkInPickerTrigger(
+            return QuantityPickerTrigger(
               chips: [
                 for (final addon in selected)
-                  WalkInPickerChip(
+                  QuantityPickerChip(
+                    id: addon.productId,
                     label: addon.name ?? '',
                     quantity: addon.quantity,
                     price: addon.price ?? 0,
@@ -67,7 +68,7 @@ class _WalkInAddonsFieldState extends State<WalkInAddonsField> {
                         selected.where((a) => a.productId != addon.productId).toList(),
                   ),
               ],
-              onTap: () => WalkInQuantityPickerSheet.show<StorefrontProduct>(
+              onTap: () => QuantityPickerSheet.show<StorefrontProduct>(
                 context,
                 title: S().walkInAddonsLabel,
                 items: products,

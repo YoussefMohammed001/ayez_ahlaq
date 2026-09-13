@@ -8,6 +8,8 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/booking_flow_cubit.dart';
+import '../widgets/barber_selection_row.dart';
+import '../widgets/booking_context_pill.dart';
 
 class ChooseBarberScreen extends StatelessWidget {
   const ChooseBarberScreen({super.key});
@@ -27,6 +29,10 @@ class ChooseBarberScreen extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
         children: [
+          BookingContextPill(
+            label: S().bookingWithShopLabel(state.shopDetail!.shop.name),
+          ),
+          SizedBox(height: 14.h),
           AppCard(
             margin: EdgeInsets.only(bottom: 10.h),
             onTap: () {
@@ -60,35 +66,14 @@ class ChooseBarberScreen extends StatelessWidget {
               ],
             ),
           ),
-          ...barbers.map(
-            (barber) => AppCard(
-              margin: EdgeInsets.only(bottom: 10.h),
+          for (final barber in barbers)
+            BarberSelectionRow(
+              barber: barber,
               onTap: () {
                 cubit.selectBarber(barberId: barber.id, barberName: barber.name);
                 _proceed(context);
               },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      barber.name,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: context.colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  Icon(Icons.star_rounded, size: 15.r, color: context.semantic.accentSoft),
-                  SizedBox(width: 3.w),
-                  Text(
-                    '${barber.rating.toStringAsFixed(1)} (${barber.ratingCount})',
-                    style: TextStyle(fontSize: 11.5.sp, color: context.colorScheme.onSurfaceVariant),
-                  ),
-                ],
-              ),
             ),
-          ),
         ],
       ),
     );

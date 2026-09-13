@@ -175,6 +175,7 @@ import '../../features/barber/store/domain/use_cases/get_store_order_use_case.da
 import '../../features/barber/store/domain/use_cases/get_store_orders_use_case.dart';
 import '../../features/barber/store/domain/use_cases/checkout_cart_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_cart_use_case.dart';
+import '../../features/barber/store/domain/use_cases/get_quote_use_case.dart';
 import '../../features/barber/store/domain/use_cases/put_cart_use_case.dart';
 import '../../features/barber/store/presentation/manager/barber_store_cart_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_merchants_cubit.dart';
@@ -1121,12 +1122,15 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetMerchantProductsUseCase(sl()));
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
     sl.registerLazySingleton(() => PutCartUseCase(sl()));
+    sl.registerLazySingleton(() => GetQuoteUseCase(sl()));
     sl.registerLazySingleton(() => CheckoutCartUseCase(sl()));
     sl.registerLazySingleton(() => GetStoreOrdersUseCase(sl()));
     sl.registerLazySingleton(() => GetStoreOrderUseCase(sl()));
     sl.registerLazySingleton(() => CancelStoreOrderUseCase(sl()));
     sl.registerFactory(() => BarberStoreMerchantsCubit(sl()));
-    sl.registerFactory(() => BarberStoreCartCubit(sl(), sl(), sl(), sl()));
+    sl.registerFactory(
+      () => BarberStoreCartCubit(sl(), sl(), sl(), sl(), sl()),
+    );
     sl.registerFactory(() => BarberStoreOrdersCubit(sl(), sl(), sl()));
   }
 

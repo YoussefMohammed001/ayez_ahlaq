@@ -13,7 +13,7 @@ abstract class ICustomerBookingRepo {
     required String date,
   });
 
-  Future<Either<Failure, CustomerBooking>> createBooking({
+  Future<Either<Failure, (CustomerBooking, String)>> createBooking({
     required int shopId,
     required bool autoSelect,
     int? barberId,

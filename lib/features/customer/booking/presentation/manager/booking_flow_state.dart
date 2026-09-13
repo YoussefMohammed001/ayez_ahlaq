@@ -32,6 +32,7 @@ class BookingFlowState extends Equatable {
   final String? note;
   final BookingSlots? slots;
   final CustomerBooking? createdBooking;
+  final String? successMessage;
   final String? errorMessage;
   final List<BookingAddon> addons;
   final List<BookingDrink> drinks;
@@ -54,6 +55,7 @@ class BookingFlowState extends Equatable {
     this.note,
     this.slots,
     this.createdBooking,
+    this.successMessage,
     this.errorMessage,
     this.addons = const [],
     this.drinks = const [],
@@ -85,6 +87,7 @@ class BookingFlowState extends Equatable {
     String? note,
     BookingSlots? slots,
     CustomerBooking? createdBooking,
+    String? successMessage,
     String? errorMessage,
     List<BookingAddon>? addons,
     List<BookingDrink>? drinks,
@@ -109,6 +112,7 @@ class BookingFlowState extends Equatable {
       note: note ?? this.note,
       slots: slots ?? this.slots,
       createdBooking: createdBooking ?? this.createdBooking,
+      successMessage: successMessage ?? this.successMessage,
       errorMessage: errorMessage,
       addons: addons ?? this.addons,
       drinks: drinks ?? this.drinks,
@@ -129,6 +133,7 @@ class BookingFlowState extends Equatable {
     note,
     slots,
     createdBooking,
+    successMessage,
     errorMessage,
     addons,
     drinks,

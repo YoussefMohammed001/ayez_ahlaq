@@ -28,8 +28,10 @@ class ShopBarberModel extends ShopBarber {
   const ShopBarberModel({
     required super.id,
     required super.name,
+    super.tagline,
     required super.rating,
     required super.ratingCount,
+    required super.available,
     required super.favorite,
     required super.viaInvite,
     required super.owner,
@@ -40,8 +42,10 @@ class ShopBarberModel extends ShopBarber {
     return ShopBarberModel(
       id: (json['id'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
+      tagline: json['tagline'] as String?,
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
       ratingCount: (json['ratingCount'] as num?)?.toInt() ?? 0,
+      available: json['available'] as bool? ?? true,
       favorite: json['favorite'] as bool? ?? false,
       viaInvite: json['viaInvite'] as bool? ?? false,
       owner: json['owner'] as bool? ?? false,

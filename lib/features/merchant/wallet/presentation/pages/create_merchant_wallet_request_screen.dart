@@ -78,6 +78,11 @@ class _CreateMerchantWalletRequestScreenState
 
     if (!_formKey.currentState!.validate() || _showTransferAccountError) return;
 
+    if (_filePath == null) {
+      showError(S().walletRequestAttachmentRequired);
+      return;
+    }
+
     final amount = int.tryParse(_amountController.text.trim()) ?? 0;
     final note = _noteController.text.trim();
 
@@ -102,7 +107,7 @@ class _CreateMerchantWalletRequestScreenState
       amount: amount,
       transferAccountId: _transferAccountId,
       note: WithdrawNoteComposer.compose(note: note, account: withdrawAccount),
-      filePath: _type == WalletRequestType.deposit ? _filePath : null,
+      filePath: _filePath,
     );
 
     if (!mounted) return;

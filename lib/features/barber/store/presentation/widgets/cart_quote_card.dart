@@ -3,31 +3,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/cart.dart';
+import '../../domain/entities/store_quote.dart';
 
 class CartQuoteCard extends StatelessWidget {
-  final Cart cart;
+  final StoreQuote quote;
   final bool isUpdating;
 
-  const CartQuoteCard({super.key, required this.cart, this.isUpdating = false});
+  const CartQuoteCard({super.key, required this.quote, this.isUpdating = false});
 
   @override
   Widget build(BuildContext context) {
-    final grandTotal = cart.subtotal + cart.deliveryFee;
-
     return AppCard(
       child: Opacity(
         opacity: isUpdating ? 0.5 : 1,
         child: Column(
           children: [
-            _buildRow(context, S().orderTotal, S().currencyEgp(cart.subtotal)),
-            if (cart.deliveryFee > 0)
-              _buildRow(context, S().deliveryFeeOrderLabel, S().currencyEgp(cart.deliveryFee)),
+            _buildRow(context, S().orderTotal, S().currencyEgp(quote.subtotal)),
+            if (quote.orderDiscount > 0)
+              _buildRow(
+                context,
+                S().orderDiscountLabel,
+                '-${S().currencyEgp(quote.orderDiscount)}',
+              ),
+            if (quote.deliveryFee > 0)
+              _buildRow(context, S().deliveryFeeOrderLabel, S().currencyEgp(quote.deliveryFee)),
             SizedBox(height: 6.h),
             _buildRow(
               context,
               S().grandTotalLabel,
-              S().currencyEgp(grandTotal),
+              S().currencyEgp(quote.grandTotal),
               emphasize: true,
             ),
           ],

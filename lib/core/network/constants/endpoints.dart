@@ -116,6 +116,7 @@ class EndPoints {
       'barber/store/merchant/$merchantId/product/$productId/image';
   static const String barberCart = 'barber/cart';
   static const String barberCartCheckout = 'barber/cart/checkout';
+  static const String barberStoreQuote = 'barber/store/quote';
   static const String barberOrder = 'barber/order';
   static String barberOrderById(int id) => 'barber/order/$id';
   static String barberOrderCancel(int id) => 'barber/order/$id/cancel';

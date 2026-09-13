@@ -24,27 +24,21 @@ class BarberServiceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
 
-    return AppCard(
-      onTap: onEdit,
-      margin: EdgeInsets.only(bottom: 10.h),
-      child: Row(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h, top: service.popular ? 10.h : 0),
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          AppCard(
+            onTap: onEdit,
+            borderColor: service.popular ? context.semantic.accentStrong : null,
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    if (service.popular) ...[
-                      Icon(
-                        Icons.star_rounded,
-                        size: 14.r,
-                        color: context.semantic.accentStrong,
-                      ),
-                      SizedBox(width: 4.w),
-                    ],
-                    Flexible(
-                      child: Text(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         service.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -54,28 +48,55 @@ class BarberServiceRow extends StatelessWidget {
                           color: scheme.onSurface,
                         ),
                       ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        S().serviceMetaLine(service.price, service.durationMinutes),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 10.5.sp, color: scheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+                ToggleSwitch(value: service.active, onTap: () => onToggleActive(!service.active)),
+                SizedBox(width: 4.w),
+                PopupMenuButton<VoidCallback>(
+                  icon: Icon(Icons.more_vert_rounded, color: scheme.onSurfaceVariant),
+                  onSelected: (action) => action(),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: onEdit,
+                      child: Text(S().edit),
+                    ),
+                    PopupMenuItem(
+                      value: onDelete,
+                      child: Text(S().delete, style: TextStyle(color: context.semantic.warning)),
                     ),
                   ],
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  S().serviceMetaLine(service.price, service.durationMinutes),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 10.5.sp, color: scheme.onSurfaceVariant),
                 ),
               ],
             ),
           ),
-          ToggleSwitch(value: service.active, onTap: () => onToggleActive(!service.active)),
-          SizedBox(width: 8.w),
-          GestureDetector(
-            onTap: onDelete,
-            child: Padding(
-              padding: EdgeInsets.all(4.r),
-              child: Icon(Icons.delete_outline, size: 20.r, color: context.semantic.warning),
+          if (service.popular)
+            Positioned(
+              top: -10.h,
+              right: 14.w,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: context.semantic.accentStrong,
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
+                child: Text(
+                  S().servicePopularLabel,
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w700,
+                    color: scheme.surfaceContainerLowest,
+                  ),
+                ),
+              ),
             ),
-          ),
         ],
       ),
     );

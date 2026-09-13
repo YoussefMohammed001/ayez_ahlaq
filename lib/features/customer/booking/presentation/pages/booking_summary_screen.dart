@@ -10,11 +10,12 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/payment_methods/payment_method_tile.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../manager/booking_flow_cubit.dart';
 import '../manager/booking_flow_state.dart';
-import '../widgets/booking_addons_field.dart';
-import '../widgets/booking_drinks_field.dart';
+import '../widgets/booking_addons_picker_field.dart';
+import '../widgets/booking_drinks_picker_field.dart';
 import '../widgets/summary_row.dart';
 
 class BookingSummaryScreen extends StatefulWidget {
@@ -43,8 +44,8 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
             context.go(
               Routes.successScreen,
               extra: SuccessScreenArgs(
-                message: S().bookingCreatedMessage,
-                doneRoute: Routes.customerBookingsScreen,
+                message: state.successMessage ?? S().bookingCreatedMessage,
+                doneRoute: Routes.customerShell,
               ),
             );
           }
@@ -85,7 +86,7 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                     ),
                     if (state.shopDetail!.drinks.isNotEmpty) ...[
                       SectionTitle(title: S().drinksTitle),
-                      BookingDrinksField(
+                      BookingDrinksPickerField(
                         shopDrinks: state.shopDetail!.drinks,
                         selectedDrinks: state.drinks,
                         onQuantityChanged: cubit.setDrinkQuantity,
@@ -93,25 +94,27 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                     ],
                     if (state.shopDetail!.addons.isNotEmpty) ...[
                       SectionTitle(title: S().walkInAddonsLabel),
-                      BookingAddonsField(
+                      BookingAddonsPickerField(
                         shopAddons: state.shopDetail!.addons,
                         selectedAddons: state.addons,
                         onQuantityChanged: cubit.setAddonQuantity,
                       ),
                     ],
                     SectionTitle(title: S().paymentMethodsSectionTitle),
-                    Wrap(
-                      spacing: 8.w,
-                      runSpacing: 8.h,
-                      children: state.shopDetail!.paymentMethods
-                          .map(
-                            (method) => ChoiceChip(
-                              label: Text(method.name),
-                              selected: state.paymentMethod == method.name,
-                              onSelected: (_) => cubit.setPaymentMethod(method.name),
+                    Row(
+                      children: [
+                        for (final method in state.shopDetail!.paymentMethods) ...[
+                          Expanded(
+                            child: PaymentMethodTile(
+                              method: method,
+                              selected: state.paymentMethod == method.code,
+                              onTap: () => cubit.setPaymentMethod(method.code),
                             ),
-                          )
-                          .toList(),
+                          ),
+                          if (method != state.shopDetail!.paymentMethods.last)
+                            SizedBox(width: 10.w),
+                        ],
+                      ],
                     ),
                     SectionTitle(title: S().walkInNoteLabel),
                     AppTextField(

@@ -75,14 +75,17 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
   Future<void> _submit() async {
     if (_catalogId == null || !_formKey.currentState!.validate()) return;
 
-    final catalogItem = widget.catalog.firstWhere((c) => c.id == _catalogId);
+    final existing = widget.existing;
+    final catalogItem = existing == null
+        ? widget.catalog.firstWhere((c) => c.id == _catalogId)
+        : null;
 
     final saved = await widget.onSubmit(
       BarberService(
-        id: widget.existing?.id ?? 0,
-        catalogId: catalogItem.id,
-        name: catalogItem.name,
-        description: catalogItem.description,
+        id: existing?.id ?? 0,
+        catalogId: existing?.catalogId ?? catalogItem!.id,
+        name: existing?.name ?? catalogItem!.name,
+        description: existing?.description ?? catalogItem!.description,
         price: int.parse(_priceController.text.trim()),
         durationMinutes: int.parse(_durationController.text.trim()),
         popular: _popular,

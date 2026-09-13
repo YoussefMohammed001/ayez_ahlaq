@@ -3,6 +3,7 @@ import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../../domain/entities/store_product.dart';
+import '../../domain/entities/store_quote.dart';
 
 enum BarberStoreCartStatus { initial, loading, success, failure }
 
@@ -11,6 +12,7 @@ class BarberStoreCartState extends Equatable {
   final StoreMerchant? merchant;
   final List<StoreProduct> products;
   final Cart cart;
+  final StoreQuote quote;
   final FulfillmentType? fulfillmentType;
   final String note;
   final String deliveryAddress;
@@ -25,6 +27,7 @@ class BarberStoreCartState extends Equatable {
     this.merchant,
     this.products = const [],
     this.cart = Cart.empty,
+    this.quote = StoreQuote.empty,
     this.fulfillmentType,
     this.note = '',
     this.deliveryAddress = '',
@@ -61,6 +64,7 @@ class BarberStoreCartState extends Equatable {
     StoreMerchant? merchant,
     List<StoreProduct>? products,
     Cart? cart,
+    StoreQuote? quote,
     FulfillmentType? fulfillmentType,
     bool clearFulfillmentType = false,
     String? note,
@@ -76,6 +80,7 @@ class BarberStoreCartState extends Equatable {
       merchant: merchant ?? this.merchant,
       products: products ?? this.products,
       cart: cart ?? this.cart,
+      quote: quote ?? this.quote,
       fulfillmentType: clearFulfillmentType
           ? null
           : (fulfillmentType ?? this.fulfillmentType),
@@ -95,6 +100,7 @@ class BarberStoreCartState extends Equatable {
     merchant,
     products,
     cart,
+    quote,
     fulfillmentType,
     note,
     deliveryAddress,

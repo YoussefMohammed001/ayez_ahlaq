@@ -54,12 +54,13 @@ class _StoreCartScreenState extends State<StoreCartScreen> {
     if (!context.mounted) return;
 
     if (order != null) {
+      final message = cubit.state.placedOrderMessage;
       cubit.reset();
       context.go(
         Routes.successScreen,
         extra: SuccessScreenArgs(
-          message: S().orderPlaced,
-          doneRoute: Routes.customerStoreOrdersScreen,
+          message: (message == null || message.isEmpty) ? S().orderPlaced : message,
+          doneRoute: Routes.customerShell,
         ),
       );
     } else {

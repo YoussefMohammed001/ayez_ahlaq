@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/extensions/ext_theme.dart';
-import '../../../../../generated/l10n.dart';
+import '../../core/extensions/ext_theme.dart';
+import '../../generated/l10n.dart';
 
-class WalkInPickerChip {
+class QuantityPickerChip {
+  final Object id;
   final String label;
   final int quantity;
   final int price;
   final VoidCallback onRemove;
 
-  const WalkInPickerChip({
+  const QuantityPickerChip({
+    required this.id,
     required this.label,
     required this.quantity,
     required this.price,
@@ -17,11 +19,11 @@ class WalkInPickerChip {
   });
 }
 
-class WalkInPickerTrigger extends StatelessWidget {
-  final List<WalkInPickerChip> chips;
+class QuantityPickerTrigger extends StatelessWidget {
+  final List<QuantityPickerChip> chips;
   final VoidCallback onTap;
 
-  const WalkInPickerTrigger({super.key, required this.chips, required this.onTap});
+  const QuantityPickerTrigger({super.key, required this.chips, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class WalkInPickerTrigger extends StatelessWidget {
                     children: [
                       for (final chip in chips)
                         InputChip(
-                          key: ValueKey(chip.label),
+                          key: ValueKey(chip.id),
                           label: Text(
                             '${chip.quantity}× ${chip.label} · ${S().currencyEgp(chip.price * chip.quantity)}',
                             style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurface),

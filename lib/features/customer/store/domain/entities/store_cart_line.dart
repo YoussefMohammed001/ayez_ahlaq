@@ -25,6 +25,8 @@ class StoreCartLine extends Equatable {
     this.unavailableReason,
   });
 
+  bool get hasUnitDiscount => unitDiscount > 0;
+
   @override
   List<Object?> get props => [
     productId,

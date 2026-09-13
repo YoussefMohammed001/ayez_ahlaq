@@ -1,10 +1,10 @@
+import '../../../../../shared/payment_methods/payment_method_model.dart';
 import '../../domain/entities/shop_detail.dart';
 import 'haircut_style_model.dart';
 import 'shop_addon_model.dart';
 import 'shop_barber_model.dart';
 import 'shop_drink_model.dart';
 import 'shop_model.dart';
-import 'shop_payment_method_model.dart';
 
 class ShopDetailModel extends ShopDetail {
   const ShopDetailModel({
@@ -26,7 +26,7 @@ class ShopDetailModel extends ShopDetail {
           .map((e) => HaircutStyleModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       paymentMethods: (json['paymentMethods'] as List<dynamic>? ?? [])
-          .map((e) => ShopPaymentMethodModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => PaymentMethodModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       addons: (json['addons'] as List<dynamic>? ?? [])
           .map((e) => ShopAddonModel.fromJson(e as Map<String, dynamic>))

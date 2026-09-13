@@ -58,14 +58,24 @@ class OwnServicesCubit extends Cubit<OwnServicesState> {
   Future<void> deleteOwnService(int id) async {
     final previous = state.services;
 
-    emit(state.copyWith(services: state.services.where((s) => s.id != id).toList()));
+    emit(
+      state.copyWith(
+        isDeleting: true,
+        services: state.services.where((s) => s.id != id).toList(),
+      ),
+    );
 
     final result = await _deleteOwnService(id);
 
-    result.leftMap(
+    result.fold(
       (failure) => emit(
-        state.copyWith(services: previous, errorMessage: failure.message),
+        state.copyWith(
+          isDeleting: false,
+          services: previous,
+          errorMessage: failure.message,
+        ),
       ),
+      (_) => emit(state.copyWith(isDeleting: false)),
     );
   }
 }

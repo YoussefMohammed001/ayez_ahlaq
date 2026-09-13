@@ -10,7 +10,7 @@ class CreateBookingUseCase {
 
   CreateBookingUseCase(this._repo);
 
-  Future<Either<Failure, CustomerBooking>> call({
+  Future<Either<Failure, (CustomerBooking, String)>> call({
     required int shopId,
     required bool autoSelect,
     int? barberId,

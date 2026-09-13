@@ -181,7 +181,7 @@ class _ShopDetailBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Text(
-                      method.name,
+                      method.label,
                       style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
                     ),
                   ),

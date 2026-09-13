@@ -19,6 +19,7 @@ class StoreCartState extends Equatable {
   final bool isUpdatingCart;
   final bool isSubmitting;
   final StoreOrder? placedOrder;
+  final String? placedOrderMessage;
   final String? errorMessage;
 
   const StoreCartState({
@@ -34,6 +35,7 @@ class StoreCartState extends Equatable {
     this.isUpdatingCart = false,
     this.isSubmitting = false,
     this.placedOrder,
+    this.placedOrderMessage,
     this.errorMessage,
   });
 
@@ -69,6 +71,7 @@ class StoreCartState extends Equatable {
     bool? isUpdatingCart,
     bool? isSubmitting,
     StoreOrder? placedOrder,
+    String? placedOrderMessage,
     String? errorMessage,
   }) {
     return StoreCartState(
@@ -86,6 +89,7 @@ class StoreCartState extends Equatable {
       isUpdatingCart: isUpdatingCart ?? this.isUpdatingCart,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       placedOrder: placedOrder ?? this.placedOrder,
+      placedOrderMessage: placedOrderMessage ?? this.placedOrderMessage,
       errorMessage: errorMessage,
     );
   }
@@ -104,6 +108,7 @@ class StoreCartState extends Equatable {
     isUpdatingCart,
     isSubmitting,
     placedOrder,
+    placedOrderMessage,
     errorMessage,
   ];
 }

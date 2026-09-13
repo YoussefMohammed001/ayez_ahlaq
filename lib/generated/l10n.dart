@@ -1224,6 +1224,31 @@ class S {
     );
   }
 
+  /// `Booking at {shopName}`
+  String bookingWithShopLabel(Object shopName) {
+    return Intl.message(
+      'Booking at $shopName',
+      name: 'bookingWithShopLabel',
+      desc: '',
+      args: [shopName],
+    );
+  }
+
+  /// `Available now`
+  String get barberAvailableNow {
+    return Intl.message(
+      'Available now',
+      name: 'barberAvailableNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Busy`
+  String get barberBusyNow {
+    return Intl.message('Busy', name: 'barberBusyNow', desc: '', args: []);
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(
@@ -3844,6 +3869,11 @@ class S {
     return Intl.message('Delete', name: 'delete', desc: '', args: []);
   }
 
+  /// `Edit`
+  String get edit {
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
+  }
+
   /// `Theme`
   String get theme {
     return Intl.message('Theme', name: 'theme', desc: '', args: []);
@@ -5074,6 +5104,16 @@ class S {
     return Intl.message(
       'Receipt photo attached',
       name: 'receiptPhotoAttached',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please attach a transfer proof photo`
+  String get walletRequestAttachmentRequired {
+    return Intl.message(
+      'Please attach a transfer proof photo',
+      name: 'walletRequestAttachmentRequired',
       desc: '',
       args: [],
     );

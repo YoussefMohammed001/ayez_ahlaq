@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
+import '../../../../../shared/payment_methods/payment_method.dart';
 import 'haircut_style.dart';
 import 'shop.dart';
 import 'shop_addon.dart';
 import 'shop_barber.dart';
 import 'shop_drink.dart';
-import 'shop_payment_method.dart';
 
 class ShopDetail extends Equatable {
   final Shop shop;
   final List<ShopBarber> barbers;
   final List<HaircutStyle> haircutStyles;
-  final List<ShopPaymentMethod> paymentMethods;
+  final List<PaymentMethod> paymentMethods;
   final List<ShopAddon> addons;
   final List<ShopDrink> drinks;
 

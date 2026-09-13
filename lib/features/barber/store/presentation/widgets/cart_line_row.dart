@@ -36,10 +36,31 @@ class CartLineRow extends StatelessWidget {
                   style: TextStyle(fontSize: 13.sp, color: scheme.onSurface, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 2.h),
-                Text(
-                  S().currencyEgp(line.unitPrice),
-                  style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
-                ),
+                if (line.hasUnitDiscount)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    textDirection: TextDirection.ltr,
+                    children: [
+                      Text(
+                        S().currencyEgp(line.unitPrice),
+                        style: TextStyle(
+                          fontSize: 10.5.sp,
+                          color: scheme.onSurfaceVariant,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        S().currencyEgp(line.netUnitPrice),
+                        style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                      ),
+                    ],
+                  )
+                else
+                  Text(
+                    S().currencyEgp(line.netUnitPrice),
+                    style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                  ),
                 if (!line.available)
                   Text(
                     line.unavailableReason ?? '',

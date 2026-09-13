@@ -34,7 +34,7 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
   }
 
   @override
-  Future<Either<Failure, CustomerBooking>> createBooking({
+  Future<Either<Failure, (CustomerBooking, String)>> createBooking({
     required int shopId,
     required bool autoSelect,
     int? barberId,
@@ -65,9 +65,11 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
           .toList(),
     });
 
-    return result.map(
-      (response) =>
-          CustomerBookingModel.fromJson(response['data'] as Map<String, dynamic>),
+    return result.map<(CustomerBooking, String)>(
+      (response) => (
+        CustomerBookingModel.fromJson(response['data'] as Map<String, dynamic>),
+        response['message'] as String? ?? '',
+      ),
     );
   }
 

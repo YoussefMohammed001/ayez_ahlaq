@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/extensions/ext_theme.dart';
-import '../../../../../core/widgets/primary_cta_button.dart';
-import '../../../../../generated/l10n.dart';
-import '../../../../../shared/widgets/quantity_stepper.dart';
+import '../../core/extensions/ext_theme.dart';
+import '../../core/widgets/primary_cta_button.dart';
+import '../../generated/l10n.dart';
+import 'quantity_stepper.dart';
 
-class WalkInQuantityPickerSheet<T> extends StatefulWidget {
+class QuantityPickerSheet<T> extends StatefulWidget {
   final String title;
   final List<T> items;
   final String Function(T item) nameOf;
@@ -13,7 +13,7 @@ class WalkInQuantityPickerSheet<T> extends StatefulWidget {
   final int Function(T item) quantityOf;
   final void Function(T item, int quantity) onQuantityChanged;
 
-  const WalkInQuantityPickerSheet({
+  const QuantityPickerSheet({
     super.key,
     required this.title,
     required this.items,
@@ -36,7 +36,7 @@ class WalkInQuantityPickerSheet<T> extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => WalkInQuantityPickerSheet<T>(
+      builder: (_) => QuantityPickerSheet<T>(
         title: title,
         items: items,
         nameOf: nameOf,
@@ -48,12 +48,10 @@ class WalkInQuantityPickerSheet<T> extends StatefulWidget {
   }
 
   @override
-  State<WalkInQuantityPickerSheet<T>> createState() =>
-      _WalkInQuantityPickerSheetState<T>();
+  State<QuantityPickerSheet<T>> createState() => _QuantityPickerSheetState<T>();
 }
 
-class _WalkInQuantityPickerSheetState<T>
-    extends State<WalkInQuantityPickerSheet<T>> {
+class _QuantityPickerSheetState<T> extends State<QuantityPickerSheet<T>> {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;

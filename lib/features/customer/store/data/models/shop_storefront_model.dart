@@ -5,6 +5,7 @@ import 'store_product_model.dart';
 
 class ShopStorefrontModel extends ShopStorefront {
   const ShopStorefrontModel({
+    required super.shopId,
     required super.shopName,
     required super.delivery,
     required super.categories,
@@ -13,6 +14,7 @@ class ShopStorefrontModel extends ShopStorefront {
 
   factory ShopStorefrontModel.fromJson(Map<String, dynamic> json) {
     return ShopStorefrontModel(
+      shopId: (json['shopId'] as num?)?.toInt() ?? 0,
       shopName: json['shopName'] as String? ?? '',
       delivery: StoreDeliveryModel.fromJson(
         json['delivery'] as Map<String, dynamic>? ?? {},
