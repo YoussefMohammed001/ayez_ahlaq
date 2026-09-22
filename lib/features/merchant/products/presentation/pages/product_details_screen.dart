@@ -34,7 +34,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
     await cubit.removeProduct(productId);
 
-    if (context.mounted) context.pop();
+    if (context.mounted && cubit.state.errorMessage == null) context.pop();
   }
 
   @override

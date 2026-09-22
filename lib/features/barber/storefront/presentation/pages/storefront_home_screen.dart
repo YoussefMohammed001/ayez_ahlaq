@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/theme/heading_styles.dart';
-import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../categories/presentation/pages/barber_storefront_categories_screen.dart';
 import '../../categories/presentation/widgets/add_storefront_category_sheet.dart';
@@ -41,19 +40,13 @@ class _StorefrontHomeScreenState extends State<StorefrontHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: widget.showBackButton
-            ? IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: context.colorScheme.onSurface),
-                onPressed: () => context.pop(),
-              )
-            : null,
-        automaticallyImplyLeading: widget.showBackButton,
-        title: Text(S().storefrontTitle, style: HeadingStyles.h4),
+      appBar: AppTopBar(
+        title: S().storefrontTitle,
+        viewLeading: widget.showBackButton,
         bottom: TabBar(
           controller: _controller,
           isScrollable: true,
-          tabAlignment: TabAlignment.start,
+          tabAlignment: TabAlignment.center,
           tabs: [
             Tab(text: S().storefrontProductsTitle),
             Tab(text: S().storefrontCategoriesTitle),
@@ -80,7 +73,8 @@ class _StorefrontHomeScreenState extends State<StorefrontHomeScreen>
       case 0:
         return FloatingActionButton(
           heroTag: 'storefrontAddProductFab',
-          onPressed: () => context.push(Routes.barberStorefrontProductFormScreen),
+          onPressed: () =>
+              context.push(Routes.barberStorefrontProductFormScreen),
           child: const Icon(Icons.add_rounded),
         );
       case 1:

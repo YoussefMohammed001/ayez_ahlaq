@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/store_order.dart';
 import '../manager/barber_store_orders_cubit.dart';
 import '../manager/barber_store_orders_state.dart';
@@ -34,44 +36,59 @@ class _BarberStoreOrderDetailsScreenState
   Future<void> _refresh() =>
       context.read<BarberStoreOrdersCubit>().refreshOrder(widget.order.id);
 
+  Future<void> _cancel(BuildContext context, int orderId) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().cancelOrderConfirmTitle,
+      message: S().cancelOrderConfirmMessage,
+      confirmLabel: S().cancelOrderConfirmAction,
+      icon: Icons.cancel_outlined,
+    );
+
+    if (!confirmed || !context.mounted) return;
+    context.read<BarberStoreOrdersCubit>().cancelOrder(orderId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BarberStoreOrdersCubit, BarberStoreOrdersState>(
-      builder: (context, state) {
-        final current = state.orders.firstWhere(
-          (o) => o.id == widget.order.id,
-          orElse: () => widget.order,
-        );
-        final isCancelling = state.cancellingId == current.id;
+    return BusyErrorListener<BarberStoreOrdersCubit, BarberStoreOrdersState>(
+      isBusy: (state) => state.cancellingId != null,
+      errorMessage: (state) => state.errorMessage,
+      child: BlocBuilder<BarberStoreOrdersCubit, BarberStoreOrdersState>(
+        builder: (context, state) {
+          final current = state.orders.firstWhere(
+            (o) => o.id == widget.order.id,
+            orElse: () => widget.order,
+          );
+          final isCancelling = state.cancellingId == current.id;
 
-        return Scaffold(
-          appBar: AppTopBar(title: current.code),
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-              children: [
-                _buildHeader(context, current),
-                SectionTitle(title: S().orderedItems),
-                StoreOrderItemsCard(order: current),
-                SizedBox(height: 16.h),
-                SectionTitle(title: S().orderInfoTitle),
-                StoreOrderInfoCard(order: current),
-                if (current.status.canCancel) ...[
-                  SizedBox(height: 20.h),
-                  PrimaryCtaButton(
-                    label: S().cancelOrder,
-                    isLoading: isCancelling,
-                    onPressed: () => context
-                        .read<BarberStoreOrdersCubit>()
-                        .cancelOrder(current.id),
-                  ),
+          return Scaffold(
+            appBar: AppTopBar(title: current.code),
+            body: RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                children: [
+                  _buildHeader(context, current),
+                  SectionTitle(title: S().orderedItems),
+                  StoreOrderItemsCard(order: current),
+                  SizedBox(height: 16.h),
+                  SectionTitle(title: S().orderInfoTitle),
+                  StoreOrderInfoCard(order: current),
+                  if (current.status.canCancel) ...[
+                    SizedBox(height: 20.h),
+                    PrimaryCtaButton(
+                      label: S().cancelOrder,
+                      isLoading: isCancelling,
+                      onPressed: () => _cancel(context, current.id),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

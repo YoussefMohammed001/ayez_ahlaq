@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../../core/error/failure.dart';
+import '../../../../../../core/network/response_guard.dart';
 import '../../domain/entities/storefront_category.dart';
 import '../../domain/repos/i_barber_storefront_categories_repo.dart';
 import '../apis/barber_storefront_categories_api.dart';
@@ -30,7 +31,7 @@ class BarberStorefrontCategoriesRepo
     StorefrontCategoryFormRequest request,
   ) async {
     final result = await _api.createCategory(request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -39,7 +40,7 @@ class BarberStorefrontCategoriesRepo
     StorefrontCategoryFormRequest request,
   ) async {
     final result = await _api.updateCategory(id, request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -57,9 +58,7 @@ class BarberStorefrontCategoriesRepo
         .toList();
   }
 
-  StorefrontCategory _mapOne(dynamic response) {
-    return StorefrontCategoryModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, StorefrontCategory> _mapOne(dynamic response) {
+    return requireDataMap(response).map(StorefrontCategoryModel.fromJson);
   }
 }

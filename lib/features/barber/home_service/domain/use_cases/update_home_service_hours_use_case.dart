@@ -1,0 +1,13 @@
+import 'package:dartz/dartz.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../hours/domain/entities/working_day.dart';
+import '../repos/i_barber_home_service_hours_repo.dart';
+
+class UpdateHomeServiceHoursUseCase {
+  final IBarberHomeServiceHoursRepo _repo;
+
+  UpdateHomeServiceHoursUseCase(this._repo);
+
+  Future<Either<Failure, List<WorkingDay>>> call(List<WorkingDay> days) =>
+      _repo.updateHours(days);
+}

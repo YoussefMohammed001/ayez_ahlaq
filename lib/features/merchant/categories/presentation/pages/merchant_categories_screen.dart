@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
+import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/merchant_categories_cubit.dart';
 import '../manager/merchant_categories_state.dart';
 import '../widgets/add_category_sheet.dart';
@@ -34,59 +36,70 @@ class MerchantCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: S().myCategories),
-      body: BlocBuilder<MerchantCategoriesCubit, MerchantCategoriesState>(
-        builder: (context, state) {
-          if (state.status == CategoriesStatus.loading &&
-              state.assignable.isEmpty) {
-            return const ListSkeleton();
-          }
+    return BusyErrorListener<MerchantCategoriesCubit, MerchantCategoriesState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(title: S().myCategories),
+        body: BlocBuilder<MerchantCategoriesCubit, MerchantCategoriesState>(
+          builder: (context, state) {
+            if (state.status == CategoriesStatus.loading &&
+                state.assignable.isEmpty) {
+              return const ListSkeleton();
+            }
 
-          if (state.status == CategoriesStatus.failure &&
-              state.assignable.isEmpty) {
-            return AppErrorState(
-              message: state.errorMessage,
-              onRetry: context.read<MerchantCategoriesCubit>().loadCategories,
-            );
-          }
+            if (state.status == CategoriesStatus.failure &&
+                state.assignable.isEmpty) {
+              return AppErrorState(
+                message: state.errorMessage,
+                onRetry: context.read<MerchantCategoriesCubit>().loadCategories,
+              );
+            }
 
-          return ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-            children: [
-              Text(
-                S().categoriesNote(categoryLimit),
-                style: TextStyle(
-                  fontSize: 12.5.sp,
-                  color: context.colorScheme.onSurfaceVariant,
-                  height: 1.8,
-                ),
-              ),
-              SectionTitle(
-                title: S().myCategoriesCount(state.own.length, categoryLimit),
-                actionLabel: state.own.length < categoryLimit ? S().addAction : null,
-                onAction: () => AddCategorySheet.show(context),
-              ),
-              if (state.own.isEmpty)
-                AppEmptyState(
-                  icon: Icons.category_outlined,
-                  title: S().noOwnCategories,
-                  compact: true,
-                )
-              else
-                for (final category in state.own)
-                  CategoryRow(
-                    category: category,
-                    onRemove: () => _confirmRemove(context, category.id),
-                    onTap: () =>
-                        AddCategorySheet.show(context, category: category),
+            return RefreshableStateView(
+              onRefresh: context.read<MerchantCategoriesCubit>().loadCategories,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    S().categoriesNote(categoryLimit),
+                    style: TextStyle(
+                      fontSize: 12.5.sp,
+                      color: context.colorScheme.onSurfaceVariant,
+                      height: 1.8,
+                    ),
                   ),
-              SectionTitle(title: S().globalCategories),
-              for (final category in state.globalCategories)
-                CategoryRow(category: category),
-            ],
-          );
-        },
+                  SectionTitle(
+                    title: S().myCategoriesCount(state.own.length, categoryLimit),
+                    actionLabel: state.own.length < categoryLimit
+                        ? S().addAction
+                        : null,
+                    onAction: () => AddCategorySheet.show(context),
+                  ),
+                  if (state.own.isEmpty)
+                    AppEmptyState(
+                      icon: Icons.category_outlined,
+                      title: S().noOwnCategories,
+                      compact: true,
+                    )
+                  else
+                    for (final category in state.own)
+                      CategoryRow(
+                        category: category,
+                        onRemove: () => _confirmRemove(context, category.id),
+                        onTap: () =>
+                            AddCategorySheet.show(context, category: category),
+                      ),
+                  SectionTitle(title: S().globalCategories),
+                  for (final category in state.globalCategories)
+                    CategoryRow(category: category),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

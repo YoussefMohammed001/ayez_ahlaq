@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../domain/entities/barber_profile.dart';
 import '../../domain/repos/i_barber_profile_repo.dart';
@@ -15,7 +16,7 @@ class BarberProfileRepo implements IBarberProfileRepo {
   @override
   Future<Either<Failure, BarberProfile>> getProfile() async {
     final result = await _api.getProfile();
-    return result.map(_mapProfile);
+    return result.flatMap(_mapProfile);
   }
 
   @override
@@ -29,13 +30,13 @@ class BarberProfileRepo implements IBarberProfileRepo {
       'longitude': longitude,
       'address': address,
     });
-    return result.map(_mapProfile);
+    return result.flatMap(_mapProfile);
   }
 
   @override
   Future<Either<Failure, BarberProfile>> updateServesClients(bool value) async {
     final result = await _api.updateServesClients(value);
-    return result.map(_mapProfile);
+    return result.flatMap(_mapProfile);
   }
 
   @override
@@ -56,9 +57,7 @@ class BarberProfileRepo implements IBarberProfileRepo {
     return result.map((_) => unit);
   }
 
-  BarberProfile _mapProfile(dynamic response) {
-    return BarberProfileModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, BarberProfile> _mapProfile(dynamic response) {
+    return requireDataMap(response).map(BarberProfileModel.fromJson);
   }
 }

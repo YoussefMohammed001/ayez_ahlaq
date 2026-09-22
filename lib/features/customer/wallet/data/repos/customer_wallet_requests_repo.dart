@@ -5,11 +5,13 @@ import '../../domain/entities/transfer_account.dart';
 import '../../domain/entities/wallet_request.dart';
 import '../../domain/entities/wallet_request_page.dart';
 import '../../domain/entities/wallet_request_type.dart';
+import '../../domain/entities/withdraw_method.dart';
 import '../../domain/repos/i_customer_wallet_requests_repo.dart';
 import '../apis/customer_wallet_requests_api.dart';
 import '../models/transfer_account_model.dart';
 import '../models/wallet_request_model.dart';
 import '../models/wallet_request_page_model.dart';
+import '../models/withdraw_method_model.dart';
 
 class CustomerWalletRequestsRepo implements ICustomerWalletRequestsRepo {
   final CustomerWalletRequestsApi _api;
@@ -23,6 +25,17 @@ class CustomerWalletRequestsRepo implements ICustomerWalletRequestsRepo {
       final data = response['data'] as List? ?? const [];
       return data
           .map((json) => TransferAccountModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<WithdrawMethod>>> getWithdrawMethods() async {
+    final result = await _api.getWithdrawMethods();
+    return result.map((response) {
+      final data = response['data'] as List? ?? const [];
+      return data
+          .map((json) => WithdrawMethodModel.fromJson(json as Map<String, dynamic>))
           .toList();
     });
   }
@@ -47,6 +60,8 @@ class CustomerWalletRequestsRepo implements ICustomerWalletRequestsRepo {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
     String? note,
     String? filePath,
   }) async {
@@ -54,6 +69,8 @@ class CustomerWalletRequestsRepo implements ICustomerWalletRequestsRepo {
       type: type.toApi(),
       amount: amount,
       transferAccountId: transferAccountId,
+      withdrawMethodId: withdrawMethodId,
+      withdrawAccount: withdrawAccount,
       note: note,
       filePath: filePath,
     );

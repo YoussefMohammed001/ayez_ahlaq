@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../../core/error/failure.dart';
+import '../../../../../../core/network/response_guard.dart';
 import '../../domain/entities/storefront_order.dart';
 import '../../domain/entities/storefront_order_status.dart';
 import '../../domain/repos/i_barber_storefront_orders_repo.dart';
@@ -20,13 +21,13 @@ class BarberStorefrontOrdersRepo implements IBarberStorefrontOrdersRepo {
   @override
   Future<Either<Failure, StorefrontOrder>> getOrder(int id) async {
     final result = await _api.getOrder(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
   Future<Either<Failure, StorefrontOrder>> acceptOrder(int id) async {
     final result = await _api.acceptOrder(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -35,7 +36,7 @@ class BarberStorefrontOrdersRepo implements IBarberStorefrontOrdersRepo {
     String reason,
   ) async {
     final result = await _api.rejectOrder(id, reason);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -44,7 +45,7 @@ class BarberStorefrontOrdersRepo implements IBarberStorefrontOrdersRepo {
     StorefrontOrderStatus status,
   ) async {
     final result = await _api.advanceStatus(id, status);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   List<StorefrontOrder> _mapList(dynamic response) {
@@ -56,9 +57,7 @@ class BarberStorefrontOrdersRepo implements IBarberStorefrontOrdersRepo {
         .toList();
   }
 
-  StorefrontOrder _mapOne(dynamic response) {
-    return StorefrontOrderModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, StorefrontOrder> _mapOne(dynamic response) {
+    return requireDataMap(response).map(StorefrontOrderModel.fromJson);
   }
 }

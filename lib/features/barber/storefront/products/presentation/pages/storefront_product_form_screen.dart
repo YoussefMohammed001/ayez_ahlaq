@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../core/helpers/alerts.dart';
+import '../../../../../../core/network/constants/endpoints.dart';
 import '../../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../../core/widgets/authorized_network_image.dart';
 import '../../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../../core/extensions/ext_theme.dart';
 import '../../../../../../generated/l10n.dart';
@@ -49,6 +51,12 @@ class _StorefrontProductFormScreenState
     final saved = _isEditing
         ? await cubit.updateProduct(widget.product!.id, request)
         : await cubit.createProduct(request);
+
+    if (saved && _isEditing && _images.isNotEmpty) {
+      await AuthorizedNetworkImage.evict(
+        EndPoints.barberStorefrontProductImage(widget.product!.id),
+      );
+    }
 
     if (!mounted) return;
 

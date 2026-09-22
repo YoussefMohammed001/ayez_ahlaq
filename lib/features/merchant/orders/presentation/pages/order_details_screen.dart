@@ -5,6 +5,7 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/widgets/status_badge.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/purchase_order.dart';
 import '../manager/merchant_orders_cubit.dart';
 import '../manager/merchant_orders_state.dart';
@@ -37,33 +38,37 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MerchantOrdersCubit, MerchantOrdersState>(
-      builder: (context, state) {
-        final current = state.orders.firstWhere(
-          (o) => o.id == widget.order.id,
-          orElse: () => widget.order,
-        );
+    return BusyErrorListener<MerchantOrdersCubit, MerchantOrdersState>(
+      isBusy: (state) => state.updatingOrderId != null,
+      errorMessage: (state) => state.errorMessage,
+      child: BlocBuilder<MerchantOrdersCubit, MerchantOrdersState>(
+        builder: (context, state) {
+          final current = state.orders.firstWhere(
+            (o) => o.id == widget.order.id,
+            orElse: () => widget.order,
+          );
 
-        return Scaffold(
-          appBar: AppTopBar(title: current.code),
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-              children: [
-                _buildHeader(context, current),
-                SectionTitle(title: S().orderedItems),
-                OrderItemsCard(order: current),
-                SizedBox(height: 16.h),
-                SectionTitle(title: S().orderInfoTitle),
-                OrderInfoCard(order: current),
-                SizedBox(height: 20.h),
-                OrderActions(order: current),
-              ],
+          return Scaffold(
+            appBar: AppTopBar(title: current.code),
+            body: RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                children: [
+                  _buildHeader(context, current),
+                  SectionTitle(title: S().orderedItems),
+                  OrderItemsCard(order: current),
+                  SizedBox(height: 16.h),
+                  SectionTitle(title: S().orderInfoTitle),
+                  OrderInfoCard(order: current),
+                  SizedBox(height: 20.h),
+                  OrderActions(order: current),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -71,7 +76,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Row(
       children: [
         AvatarCircle(
-          initials: order.shopName.isEmpty ? S().avatarFallback : order.shopName.substring(0, 1),
+          initials: order.shopName.isEmpty
+              ? S().avatarFallback
+              : order.shopName.substring(0, 1),
           size: 52.r,
         ),
         SizedBox(width: 12.w),

@@ -121,5 +121,41 @@ class Booking extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, code, status, totalPrice, nextStatuses];
+  List<Object?> get props => [
+    id,
+    code,
+    status,
+    barberId,
+    barberName,
+    customerId,
+    customerName,
+    customerPhone,
+    serviceTypeId,
+    serviceLabel,
+    haircutStyleId,
+    styleName,
+    basePrice,
+    styleDelta,
+    addonsTotal,
+    totalPrice,
+    durationMinutes,
+    bookingDate,
+    slotTime,
+    paymentMethod,
+    note,
+    autoSelect,
+    walkIn,
+    queuePosition,
+    decisionDeadline,
+    createdAt,
+    confirmedAt,
+    completedAt,
+    cancelledAt,
+    cancelReason,
+    nextStatuses,
+    addons,
+    adjustments,
+    adjustmentsTotal,
+    billingLocked,
+  ];
 }

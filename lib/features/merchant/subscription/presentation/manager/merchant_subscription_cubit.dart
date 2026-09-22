@@ -43,21 +43,19 @@ class MerchantSubscriptionCubit extends Cubit<MerchantSubscriptionState> {
     );
   }
 
-  Future<bool> subscribe(int planId) async {
+  Future<bool?> subscribe(int planId) async {
     emit(state.copyWith(subscribingPlanId: planId));
 
     final result = await _subscribe(planId);
 
     final failure = result.fold((failure) => failure, (_) => null);
     if (failure != null) {
-      emit(
-        state.copyWith(clearSubscribingPlanId: true, errorMessage: failure.message),
-      );
-      return false;
+      emit(state.copyWith(clearSubscribingPlanId: true, errorMessage: failure.message));
+      return null;
     }
 
     emit(state.copyWith(clearSubscribingPlanId: true));
     await load();
-    return true;
+    return result.fold((_) => null, (subscribeResult) => subscribeResult.activated);
   }
 }

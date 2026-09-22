@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../../../../shared/auth/data/models/auth_session_model.dart';
@@ -32,20 +33,19 @@ class MerchantAuthRepo implements IMerchantAuthRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> verifyRegisterOtp(
+  Future<Either<Failure, AuthSession>> verifyRegisterOtp(
     String phone,
     String otp,
   ) async {
     final result = await _api.verifyRegisterOtp(phone, otp);
-    return result.map((_) => unit);
+    return _persist(result, phone);
   }
 
   @override
   Future<Either<Failure, String>> resendRegisterOtp(String phone) async {
     final result = await _api.resendRegisterOtp(phone);
     return result.map(
-      (response) =>
-          response['message'] as String? ?? S().otpResentMessage,
+      (response) => response['message'] as String? ?? S().otpResentMessage,
     );
   }
 
@@ -84,9 +84,8 @@ class MerchantAuthRepo implements IMerchantAuthRepo {
     Either<Failure, dynamic> result,
     String phone,
   ) async {
-    final session = result.map(
-      (response) =>
-          AuthSessionModel.fromJson(response['data'] as Map<String, dynamic>),
+    final session = result.flatMap(
+      (response) => requireDataMap(response).map(AuthSessionModel.fromJson),
     );
 
     await session.fold(

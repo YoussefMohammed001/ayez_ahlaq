@@ -76,6 +76,31 @@ class BarberBookingApi {
     );
   }
 
+  Future<Either<Failure, dynamic>> getWalkInOptions() {
+    return _networkService.getData(
+      endPoint: EndPoints.barberBookingWalkinOptions,
+    );
+  }
+
+  Future<Either<Failure, dynamic>> getUnresolvedBookings({
+    required int page,
+    required int size,
+  }) {
+    return _networkService.getData(
+      endPoint: EndPoints.barberBookingUnresolved,
+      queryParameters: {'page': page, 'size': size},
+    );
+  }
+
+  Future<Either<Failure, dynamic>> settleBookings(
+    List<Map<String, dynamic>> items,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.barberBookingSettle,
+      data: {'items': items},
+    );
+  }
+
   Future<Either<Failure, dynamic>> createWalkIn({
     required int barberId,
     required int serviceTypeId,

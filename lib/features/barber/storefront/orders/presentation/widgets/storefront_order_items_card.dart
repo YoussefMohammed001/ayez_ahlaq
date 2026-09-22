@@ -5,7 +5,7 @@ import '../../../../../../core/extensions/ext_theme.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../domain/entities/storefront_fulfillment_type.dart';
 import '../../domain/entities/storefront_order.dart';
-import '../../domain/entities/storefront_order_item.dart';
+import 'storefront_order_item_row.dart';
 
 class StorefrontOrderItemsCard extends StatelessWidget {
   final StorefrontOrder order;
@@ -18,7 +18,7 @@ class StorefrontOrderItemsCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 14.w),
       child: Column(
         children: [
-          for (final item in order.items) _buildItemRow(context, item),
+          for (final item in order.items) StorefrontOrderItemRow(item: item),
           if (order.fulfillmentType == StorefrontFulfillmentType.delivery)
             _buildTotalRow(
               context,
@@ -50,53 +50,6 @@ class StorefrontOrderItemsCard extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildItemRow(BuildContext context, StorefrontOrderItem item) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 12.h),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: context.colorScheme.outline)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              item.productName,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: context.colorScheme.onSurface,
-              ),
-            ),
-          ),
-          SizedBox(width: 10.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${item.quantity} × ${S().currencyEgp(item.unitPrice)}',
-                textDirection: TextDirection.ltr,
-                style: TextStyle(
-                  fontSize: 11.5.sp,
-                  color: context.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              SizedBox(height: 2.h),
-              Text(
-                S().currencyEgp(item.lineTotal),
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: context.semantic.accentSoft,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
           ),
         ],
       ),

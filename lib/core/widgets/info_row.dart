@@ -7,6 +7,7 @@ class InfoRow extends StatelessWidget {
   final String label;
   final String value;
   final bool showDivider;
+  final bool verified;
 
   const InfoRow({
     super.key,
@@ -14,6 +15,7 @@ class InfoRow extends StatelessWidget {
     required this.label,
     required this.value,
     this.showDivider = true,
+    this.verified = false,
   });
 
   @override
@@ -43,14 +45,29 @@ class InfoRow extends StatelessWidget {
           ),
           SizedBox(width: 12.w),
           Expanded(
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 12.5.sp,
-                color: context.colorScheme.onSurface,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: Text(
+                    value,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 12.5.sp,
+                      color: context.colorScheme.onSurface,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                if (verified) ...[
+                  SizedBox(width: 6.w),
+                  Icon(
+                    Icons.verified_rounded,
+                    size: 15.r,
+                    color: context.semantic.success,
+                  ),
+                ],
+              ],
             ),
           ),
         ],

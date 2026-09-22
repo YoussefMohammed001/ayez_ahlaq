@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/helpers/alerts.dart';
 import '../../core/helpers/show_confirm_dialog.dart';
 import '../../core/extensions/ext_theme.dart';
 import '../../core/theme/heading_styles.dart';
@@ -10,7 +11,7 @@ class BlockingGate extends StatelessWidget {
   final String title;
   final WidgetBuilder builder;
   final WidgetBuilder blockedBuilder;
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   const BlockingGate({
     super.key,
@@ -30,7 +31,11 @@ class BlockingGate extends StatelessWidget {
       icon: Icons.logout_rounded,
     );
 
-    if (confirmed) onLogout();
+    if (!confirmed) return;
+
+    await showLoading();
+    await onLogout();
+    hideLoading();
   }
 
   @override

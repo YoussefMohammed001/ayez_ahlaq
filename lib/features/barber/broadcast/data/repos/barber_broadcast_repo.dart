@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/broadcast_page.dart';
 import '../../domain/repos/i_barber_broadcast_repo.dart';
 import '../apis/barber_broadcast_api.dart';
@@ -26,9 +27,8 @@ class BarberBroadcastRepo implements IBarberBroadcastRepo {
     required int size,
   }) async {
     final result = await _api.list(page: page, size: size);
-    return result.map(
-      (response) =>
-          BroadcastPageModel.fromJson(response['data'] as Map<String, dynamic>),
+    return result.flatMap(
+      (response) => requireDataMap(response).map(BroadcastPageModel.fromJson),
     );
   }
 }

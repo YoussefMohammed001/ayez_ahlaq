@@ -31,8 +31,9 @@ class BarberSubscriptionState extends Equatable {
       status: status ?? this.status,
       subscription: subscription ?? this.subscription,
       plans: plans ?? this.plans,
-      subscribingPlanId:
-          clearSubscribingPlanId ? null : subscribingPlanId ?? this.subscribingPlanId,
+      subscribingPlanId: clearSubscribingPlanId
+          ? null
+          : subscribingPlanId ?? this.subscribingPlanId,
       errorMessage: errorMessage,
     );
   }

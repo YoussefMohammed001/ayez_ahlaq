@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../shared/payment_methods/payment_method_tile.dart';
 import '../../../../../shared/widgets/success_screen_args.dart';
 import '../manager/booking_flow_cubit.dart';
 import '../manager/booking_flow_state.dart';
 import '../widgets/booking_addons_picker_field.dart';
 import '../widgets/booking_drinks_picker_field.dart';
-import '../widgets/summary_row.dart';
+import '../widgets/booking_payment_methods_row.dart';
+import '../widgets/booking_summary_card.dart';
 
 class BookingSummaryScreen extends StatefulWidget {
   const BookingSummaryScreen({super.key});
@@ -32,6 +32,37 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
   void dispose() {
     _noteController.dispose();
     super.dispose();
+  }
+
+  Future<void> _confirmAndSubmit(BuildContext context, BookingFlowCubit cubit) async {
+    final hasSameDayBooking = await cubit.hasSameDayBooking();
+    if (hasSameDayBooking && context.mounted) {
+      final proceed = await showConfirmDialog(
+        context,
+        title: S().sameDayBookingWarningTitle,
+        message: S().sameDayBookingWarningMessage,
+        confirmLabel: S().confirmBooking,
+        icon: Icons.warning_amber_rounded,
+        isDestructive: false,
+      );
+      if (!proceed) return;
+    }
+
+    if (!context.mounted) return;
+
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().confirmBooking,
+      message: S().confirmBookingMessage,
+      confirmLabel: S().confirmBooking,
+      icon: Icons.event_available_rounded,
+      isDestructive: false,
+    );
+
+    if (!confirmed) return;
+
+    cubit.setNote(_noteController.text.trim());
+    cubit.submit();
   }
 
   @override
@@ -62,28 +93,7 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
                   children: [
-                    AppCard(
-                      child: Column(
-                        children: [
-                          SummaryRow(label: S().serviceLabel, value: state.serviceName ?? ''),
-                          if (state.styleName != null)
-                            SummaryRow(label: S().styleLabel, value: state.styleName!),
-                          SummaryRow(
-                            label: S().barberLabel,
-                            value: state.barberName ?? S().autoSelectBarber,
-                          ),
-                          SummaryRow(
-                            label: S().bookingDateLabel,
-                            value: '${state.date ?? ''} · ${state.slotTime ?? ''}',
-                          ),
-                          SummaryRow(
-                            label: S().orderTotal,
-                            value: S().currencyEgp(state.totalPrice),
-                            emphasize: true,
-                          ),
-                        ],
-                      ),
-                    ),
+                    BookingSummaryCard(state: state),
                     if (state.shopDetail!.drinks.isNotEmpty) ...[
                       SectionTitle(title: S().drinksTitle),
                       BookingDrinksPickerField(
@@ -101,20 +111,10 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                       ),
                     ],
                     SectionTitle(title: S().paymentMethodsSectionTitle),
-                    Row(
-                      children: [
-                        for (final method in state.shopDetail!.paymentMethods) ...[
-                          Expanded(
-                            child: PaymentMethodTile(
-                              method: method,
-                              selected: state.paymentMethod == method.code,
-                              onTap: () => cubit.setPaymentMethod(method.code),
-                            ),
-                          ),
-                          if (method != state.shopDetail!.paymentMethods.last)
-                            SizedBox(width: 10.w),
-                        ],
-                      ],
+                    BookingPaymentMethodsRow(
+                      methods: state.shopDetail!.paymentMethods,
+                      selectedCode: state.paymentMethod,
+                      onSelected: cubit.setPaymentMethod,
                     ),
                     SectionTitle(title: S().walkInNoteLabel),
                     AppTextField(
@@ -130,10 +130,7 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                 child: PrimaryCtaButton(
                   label: S().confirmBooking,
                   isLoading: state.status == BookingFlowStatus.submitting,
-                  onPressed: () {
-                    cubit.setNote(_noteController.text.trim());
-                    cubit.submit();
-                  },
+                  onPressed: () => _confirmAndSubmit(context, cubit),
                 ),
               ),
             ],

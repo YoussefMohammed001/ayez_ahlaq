@@ -4,15 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
-import '../../../../../core/widgets/primary_cta_button.dart';
-import '../../../../../shared/widgets/attachments/attachment_source_sheet.dart';
-import '../../../../../shared/widgets/forms/withdraw_note_composer.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../shared/widgets/documents/document_file_picker.dart';
+import '../../../../../shared/widgets/documents/pick_attachment_flow.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../manager/create_wallet_request_cubit.dart';
 import '../manager/create_wallet_request_state.dart';
 import '../widgets/wallet_request_form_fields.dart';
+import '../widgets/wallet_request_submit_button.dart';
 
 class CreateCustomerWalletRequestScreen extends StatefulWidget {
   const CreateCustomerWalletRequestScreen({super.key});
@@ -31,12 +29,18 @@ class _CreateCustomerWalletRequestScreenState
   WalletRequestType _type = WalletRequestType.deposit;
   String? _filePath;
   int? _transferAccountId;
+  int? _withdrawMethodId;
   bool _showTransferAccountError = false;
+  bool _showWithdrawMethodError = false;
+
+  bool get _isDeposit => _type == WalletRequestType.deposit;
 
   @override
   void initState() {
     super.initState();
-    context.read<CreateWalletRequestCubit>().loadTransferAccounts();
+    final cubit = context.read<CreateWalletRequestCubit>();
+    cubit.loadTransferAccounts();
+    cubit.loadWithdrawMethods();
   }
 
   @override
@@ -48,36 +52,29 @@ class _CreateCustomerWalletRequestScreenState
   }
 
   Future<void> _pickAttachment() async {
-    final source = await AttachmentSourceSheet.show(context, allowFiles: false);
-    if (source == null) return;
+    final path = await PickAttachmentFlow.run(context);
+    if (path != null) setState(() => _filePath = path);
+  }
 
-    final picked = await DocumentFilePicker.pick(source);
-    if (picked == null) return;
-
-    if (picked.exceedsMaxSize) {
-      showError(S().documentTooLarge(DocumentFilePicker.maxSizeInMB));
-      return;
-    }
-
-    if (picked.isUnsupportedType) {
-      showError(S().documentUnsupportedType);
-      return;
-    }
-
-    setState(() => _filePath = picked.path);
+  bool _hasValidationErrors(CreateWalletRequestCubit cubit) {
+    setState(() {
+      _showTransferAccountError = _isDeposit &&
+          cubit.state.transferAccounts.isNotEmpty &&
+          _transferAccountId == null;
+      _showWithdrawMethodError = !_isDeposit &&
+          cubit.state.withdrawMethods.isNotEmpty &&
+          _withdrawMethodId == null;
+    });
+    return !_formKey.currentState!.validate() ||
+        _showTransferAccountError ||
+        _showWithdrawMethodError;
   }
 
   Future<void> _submit() async {
     final cubit = context.read<CreateWalletRequestCubit>();
-    final requiresTransferAccount = cubit.state.transferAccounts.isNotEmpty;
+    if (_hasValidationErrors(cubit)) return;
 
-    setState(() {
-      _showTransferAccountError = requiresTransferAccount && _transferAccountId == null;
-    });
-
-    if (!_formKey.currentState!.validate() || _showTransferAccountError) return;
-
-    if (_filePath == null) {
+    if (_isDeposit && _filePath == null) {
       showError(S().walletRequestAttachmentRequired);
       return;
     }
@@ -85,14 +82,14 @@ class _CreateCustomerWalletRequestScreenState
     final amount = int.tryParse(_amountController.text.trim()) ?? 0;
     final note = _noteController.text.trim();
 
-    final withdrawAccount = _withdrawAccountController.text.trim();
-
     final created = await cubit.submit(
       type: _type,
       amount: amount,
-      transferAccountId: _transferAccountId,
-      note: WithdrawNoteComposer.compose(note: note, account: withdrawAccount),
-      filePath: _filePath,
+      transferAccountId: _isDeposit ? _transferAccountId : null,
+      withdrawMethodId: _isDeposit ? null : _withdrawMethodId,
+      withdrawAccount: _isDeposit ? null : _withdrawAccountController.text.trim(),
+      note: note.isEmpty ? null : note,
+      filePath: _isDeposit ? _filePath : null,
     );
 
     if (!mounted) return;
@@ -132,13 +129,16 @@ class _CreateCustomerWalletRequestScreenState
                   _showTransferAccountError = false;
                 }),
                 showTransferAccountError: _showTransferAccountError,
+                withdrawMethods: state.withdrawMethods,
+                selectedWithdrawMethodId: _withdrawMethodId,
+                onWithdrawMethodChanged: (id) => setState(() {
+                  _withdrawMethodId = id;
+                  _showWithdrawMethodError = false;
+                }),
+                showWithdrawMethodError: _showWithdrawMethodError,
               ),
               SizedBox(height: 20.h),
-              PrimaryCtaButton(
-                label: S().submitWalletRequest,
-                isLoading: state.status == CreateWalletRequestStatus.submitting,
-                onPressed: _submit,
-              ),
+              WalletRequestSubmitButton(status: state.status, onPressed: _submit),
             ],
           ),
         ),

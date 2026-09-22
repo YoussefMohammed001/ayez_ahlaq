@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -64,7 +65,12 @@ class _MerchantBroadcastListScreenState
           onPressed: _openCreate,
         ),
       ),
-      body: BlocBuilder<MerchantBroadcastListCubit, MerchantBroadcastListState>(
+      body: BlocConsumer<MerchantBroadcastListCubit, MerchantBroadcastListState>(
+        listenWhen: (previous, current) =>
+            current.status == MerchantBroadcastListStatus.success &&
+            current.errorMessage != null &&
+            current.errorMessage != previous.errorMessage,
+        listener: (context, state) => showError(state.errorMessage!),
         builder: (context, state) {
           if (state.status == MerchantBroadcastListStatus.loading) {
             return const ListSkeleton();

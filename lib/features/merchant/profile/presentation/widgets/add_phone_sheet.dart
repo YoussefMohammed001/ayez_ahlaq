@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
@@ -50,13 +49,7 @@ class _AddPhoneSheetState extends State<AddPhoneSheet> {
 
     if (!mounted) return;
 
-    if (added) {
-      Navigator.of(context).pop();
-      return;
-    }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
+    if (added) Navigator.of(context).pop();
   }
 
   @override

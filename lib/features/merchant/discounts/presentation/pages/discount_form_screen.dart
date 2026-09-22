@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../domain/entities/discount.dart';
+import '../../../products/presentation/manager/merchant_products_cubit.dart';
 import '../manager/discount_form_controllers.dart';
 import '../manager/merchant_discounts_cubit.dart';
 import '../manager/merchant_discounts_state.dart';
@@ -42,9 +42,9 @@ class _DiscountFormScreenState extends State<DiscountFormScreen> {
   Future<void> _refreshDiscount() async {
     setState(() => _isLoading = true);
 
-    final fresh = await context
-        .read<MerchantDiscountsCubit>()
-        .refreshDiscount(widget.discount!.id);
+    final fresh = await context.read<MerchantDiscountsCubit>().refreshDiscount(
+      widget.discount!.id,
+    );
 
     if (!mounted) return;
 
@@ -75,20 +75,15 @@ class _DiscountFormScreenState extends State<DiscountFormScreen> {
     if (!mounted) return;
 
     if (saved) {
+      context.read<MerchantProductsCubit>().loadProducts();
       context.pop();
-      return;
     }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(
-        title: _isEditing ? S().editDiscount : S().newDiscount,
-      ),
+      appBar: AppTopBar(title: _isEditing ? S().editDiscount : S().newDiscount),
       body: _isLoading ? const ListSkeleton() : _buildForm(),
     );
   }
@@ -102,9 +97,8 @@ class _DiscountFormScreenState extends State<DiscountFormScreen> {
           SectionTitle(title: S().discountType),
           ScopeSelector(
             value: _controllers.scope,
-            onChanged: (value) => setState(
-              () => _controllers.onScopeChanged(value),
-            ),
+            onChanged: (value) =>
+                setState(() => _controllers.onScopeChanged(value)),
           ),
           DiscountFormFields(
             controllers: _controllers,

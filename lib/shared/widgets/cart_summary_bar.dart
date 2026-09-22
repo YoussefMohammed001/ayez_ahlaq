@@ -23,6 +23,7 @@ class CartSummaryBar extends StatelessWidget {
     final scheme = context.colorScheme;
 
     return Container(
+      height: 120.h,
       padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 16.h),
       decoration: BoxDecoration(
         color: scheme.surfaceContainer,
@@ -38,7 +39,10 @@ class CartSummaryBar extends StatelessWidget {
                 children: [
                   Text(
                     '${S().productsCount} $itemCount',
-                    style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
+                    style: TextStyle(
+                      fontSize: 11.5.sp,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                   Text(
                     S().currencyEgp(subtotal),

@@ -19,7 +19,7 @@ class EarningsBreakdownCard extends StatelessWidget {
           InfoRow(
             icon: Icons.receipt_long_outlined,
             label: S().avgTicketLabel,
-            value: '${earnings.avgTicket}',
+            value: S().currencyEgp(earnings.avgTicket),
           ),
           InfoRow(
             icon: Icons.groups_outlined,
@@ -34,12 +34,12 @@ class EarningsBreakdownCard extends StatelessWidget {
           InfoRow(
             icon: Icons.shopping_bag_outlined,
             label: S().supplierSpendLabel,
-            value: '${earnings.supplierSpendThisMonth}',
+            value: S().currencyEgp(earnings.supplierSpendThisMonth),
           ),
           InfoRow(
             icon: Icons.account_balance_wallet_outlined,
             label: S().netThisMonthLabel,
-            value: '${earnings.netThisMonth}',
+            value: S().currencyEgp(earnings.netThisMonth),
             showDivider: false,
           ),
         ],

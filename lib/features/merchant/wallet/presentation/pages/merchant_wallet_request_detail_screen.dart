@@ -69,6 +69,9 @@ class _MerchantWalletRequestDetailScreenState
     if (cancelled) {
       showSuccess(S().walletRequestCancelledSuccess);
       context.pop();
+    } else {
+      final message = cubit.state.errorMessage;
+      if (message != null) showError(message);
     }
   }
 

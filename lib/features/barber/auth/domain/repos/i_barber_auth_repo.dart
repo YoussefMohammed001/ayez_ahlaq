@@ -12,7 +12,10 @@ abstract class IBarberAuthRepo {
 
   Future<Either<Failure, Unit>> register(BarberRegisterRequest request);
 
-  Future<Either<Failure, Unit>> verifyRegisterOtp(String phone, String otp);
+  Future<Either<Failure, AuthSession>> verifyRegisterOtp(
+    String phone,
+    String otp,
+  );
 
   Future<Either<Failure, String>> resendRegisterOtp(String phone);
 

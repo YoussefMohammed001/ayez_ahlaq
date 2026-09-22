@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/barber_service.dart';
 import '../../domain/entities/own_service.dart';
 import '../../domain/entities/service_catalog_item.dart';
@@ -33,7 +34,7 @@ class BarberServicesRepo implements IBarberServicesRepo {
     final result = await _api.createService(
       BarberServiceModel.toCreateJson(service),
     );
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -44,7 +45,7 @@ class BarberServicesRepo implements IBarberServicesRepo {
       service.id,
       BarberServiceModel.toUpdateJson(service),
     );
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -67,7 +68,7 @@ class BarberServicesRepo implements IBarberServicesRepo {
     final result = await _api.createOwnService(
       OwnServiceModel.toCreateJson(name, description),
     );
-    return result.map(_mapOwnOne);
+    return result.flatMap(_mapOwnOne);
   }
 
   @override
@@ -83,8 +84,8 @@ class BarberServicesRepo implements IBarberServicesRepo {
         .toList();
   }
 
-  OwnService _mapOwnOne(dynamic response) {
-    return OwnServiceModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, OwnService> _mapOwnOne(dynamic response) {
+    return requireDataMap(response).map(OwnServiceModel.fromJson);
   }
 
   List<ServiceCatalogItem> _mapCatalog(dynamic response) {
@@ -101,7 +102,7 @@ class BarberServicesRepo implements IBarberServicesRepo {
         .toList();
   }
 
-  BarberService _mapOne(dynamic response) {
-    return BarberServiceModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, BarberService> _mapOne(dynamic response) {
+    return requireDataMap(response).map(BarberServiceModel.fromJson);
   }
 }

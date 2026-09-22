@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../../core/error/failure.dart';
+import '../../../../../../core/network/response_guard.dart';
 import '../../domain/entities/storefront_product.dart';
 import '../../domain/repos/i_barber_storefront_products_repo.dart';
 import '../apis/barber_storefront_products_api.dart';
@@ -22,7 +23,7 @@ class BarberStorefrontProductsRepo implements IBarberStorefrontProductsRepo {
     StorefrontProductFormRequest request,
   ) async {
     final result = await _api.createProduct(request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -31,7 +32,7 @@ class BarberStorefrontProductsRepo implements IBarberStorefrontProductsRepo {
     StorefrontProductFormRequest request,
   ) async {
     final result = await _api.updateProduct(id, request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -46,7 +47,7 @@ class BarberStorefrontProductsRepo implements IBarberStorefrontProductsRepo {
     int quantity,
   ) async {
     final result = await _api.setStock(id, quantity);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   List<StorefrontProduct> _mapList(dynamic response) {
@@ -58,9 +59,7 @@ class BarberStorefrontProductsRepo implements IBarberStorefrontProductsRepo {
         .toList();
   }
 
-  StorefrontProduct _mapOne(dynamic response) {
-    return StorefrontProductModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, StorefrontProduct> _mapOne(dynamic response) {
+    return requireDataMap(response).map(StorefrontProductModel.fromJson);
   }
 }

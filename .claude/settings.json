@@ -116,7 +116,27 @@
       "Bash(curl -s -X PUT https://gobeeeg.com/ayezAhlaqApi/api/merchant/discount/25/close -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Iiwicm9sZSI6Ik1FUkNIQU5UIiwiaWF0IjoxNzg5MjkwNjM1LCJleHAiOjE3ODkzNzcwMzV9.VnvmJLFP3FJvWoKRNafadwWCy7fFMHYA0Lh9CfF7nc4' -H 'X-Client: MOBILE')",
       "Bash(curl -s -X POST https://gobeeeg.com/ayezAhlaqApi/api/barber/discount -H 'Authorization: Bearer __TRACKED_VAR__' -H 'X-Client: MOBILE' -H 'Content-Type: application/json' -d '{\"name\":\"final customer test\",\"scope\":\"BUY_X_GET_Y\",\"targetProductId\":42,\"buyQuantity\":2,\"rewardType\":\"FREE\",\"rewardQuantity\":1}')",
       "Bash(curl -s -X PUT https://gobeeeg.com/ayezAhlaqApi/api/customer/cart -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg5MjkwNjIxLCJleHAiOjE3ODkzNzcwMjF9.U7s20BtDz7O1GnZfop_EuTf_acbeew2PA8r2byLtd1Y' -H 'X-Client: MOBILE' -H 'Content-Type: application/json' -d '{\"shopId\":3,\"items\":[{\"productId\":42,\"quantity\":6}]}')",
-      "Bash(curl -s -X PUT https://gobeeeg.com/ayezAhlaqApi/api/customer/order/55/cancel -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg5MjkwNjIxLCJleHAiOjE3ODkzNzcwMjF9.U7s20BtDz7O1GnZfop_EuTf_acbeew2PA8r2byLtd1Y' -H 'X-Client: MOBILE')"
+      "Bash(curl -s -X PUT https://gobeeeg.com/ayezAhlaqApi/api/customer/order/55/cancel -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg5MjkwNjIxLCJleHAiOjE3ODkzNzcwMjF9.U7s20BtDz7O1GnZfop_EuTf_acbeew2PA8r2byLtd1Y' -H 'X-Client: MOBILE')",
+      "Bash(python3 -c \"import json,sys;d=json.load\\(sys.stdin\\);print\\(d['data']['status'], d['data']['nextStatuses']\\)\")",
+      "Bash(python3)",
+      "Bash(xargs -I{} echo {})",
+      "Bash(curl -s -X POST https://gobeeeg.com/ayezAhlaqApi/api/merchant/register/verifyOtp -H 'Content-Type: application/json' -d '{\"phoneNumber\":\"0112642700\",\"otp\":\"703460\"}')",
+      "Bash(tee /private/tmp/claude-501/-Users-youssefmohamednaeem-StudioProjects-ayez-ahlaq/0bc74f68-5ad4-4fd9-b423-3ada35e69ad0/scratchpad/flutter_run.log)",
+      "Bash(ps -p 11264,11668 -o pid,pcpu,etime,command)",
+      "Bash(find / -maxdepth 6 -iname \"*pasted*\" -mmin -120)",
+      "Bash(find / -maxdepth 6 -iname \"*clipboard*\" -mmin -120)",
+      "Read(//private/var/folders/**)",
+      "Bash(sips -g pixelWidth -g pixelHeight android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp)",
+      "Bash(pip3 install *)",
+      "Bash(sips -g all assets/images/app_icon.png)",
+      "Bash(sips -c 2 2 --cropOffset 10 10 assets/images/app_icon.png --out /private/tmp/claude-501/-Users-youssefmohamednaeem-StudioProjects-ayez-ahlaq/0bc74f68-5ad4-4fd9-b423-3ada35e69ad0/scratchpad/colorcheck/corner.png)",
+      "Bash(xxd /private/tmp/claude-501/-Users-youssefmohamednaeem-StudioProjects-ayez-ahlaq/0bc74f68-5ad4-4fd9-b423-3ada35e69ad0/scratchpad/colorcheck/corner.png)",
+      "Bash(git restore *)",
+      "Bash(git clean *)",
+      "Bash(curl -sI --max-time 5 https://storage.googleapis.com)",
+      "Bash(kill 48990 48988)",
+      "Bash(lipo -info /Users/youssefmohamednaeem/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Flutter)",
+      "Bash(echo \"PID: $!\")"
     ],
     "additionalDirectories": [
       "/private/tmp"

@@ -11,9 +11,11 @@ class Subscription extends Equatable {
   final DateTime? nextRenewalDate;
   final bool autoCharge;
   final SubscriptionQuota? employees;
+  final SubscriptionQuota? ownServices;
   final SubscriptionQuota? notificationsAll;
   final SubscriptionQuota? notificationsZone;
   final SubscriptionQuota? products;
+  final SubscriptionQuota? drinks;
   final SubscriptionQuota? ownCategories;
 
   const Subscription({
@@ -26,9 +28,11 @@ class Subscription extends Equatable {
     this.nextRenewalDate,
     required this.autoCharge,
     this.employees,
+    this.ownServices,
     this.notificationsAll,
     this.notificationsZone,
     this.products,
+    this.drinks,
     this.ownCategories,
   });
 
@@ -43,9 +47,11 @@ class Subscription extends Equatable {
     nextRenewalDate,
     autoCharge,
     employees,
+    ownServices,
     notificationsAll,
     notificationsZone,
     products,
+    drinks,
     ownCategories,
   ];
 }

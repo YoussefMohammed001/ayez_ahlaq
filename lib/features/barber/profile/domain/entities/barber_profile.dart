@@ -45,8 +45,10 @@ class BarberProfile extends Equatable {
     owner,
     active,
     servesClients,
+    mustChangePassword,
     rating,
     ratingCount,
+    address,
     latitude,
     longitude,
   ];

@@ -11,6 +11,7 @@ import '../manager/barber_documents_state.dart';
 import '../widgets/document_row.dart';
 import '../widgets/documents_summary_card.dart';
 import '../../../../../shared/widgets/documents/documents_blocked_notice.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/documents/document_file_picker.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -33,59 +34,63 @@ class _BarberDocumentsScreenState extends State<BarberDocumentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: widget.blocking ? null : AppTopBar(title: S().myDocuments),
-      body: BlocBuilder<BarberDocumentsCubit, BarberDocumentsState>(
-        builder: (context, state) {
-          if (state.status == DocumentsStatus.loading &&
-              state.documents.isEmpty) {
-            return const ListSkeleton();
-          }
+    return BusyErrorListener<BarberDocumentsCubit, BarberDocumentsState>(
+      isBusy: (state) => state.busyIds.isNotEmpty,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: widget.blocking ? null : AppTopBar(title: S().myDocuments),
+        body: BlocBuilder<BarberDocumentsCubit, BarberDocumentsState>(
+          builder: (context, state) {
+            if (state.status == DocumentsStatus.loading &&
+                state.documents.isEmpty) {
+              return const ListSkeleton();
+            }
 
-          if (state.status == DocumentsStatus.failure &&
-              state.documents.isEmpty) {
-            return AppErrorState(
-              message: state.errorMessage,
-              onRetry: context.read<BarberDocumentsCubit>().loadDocuments,
-            );
-          }
+            if (state.status == DocumentsStatus.failure &&
+                state.documents.isEmpty) {
+              return AppErrorState(
+                message: state.errorMessage,
+                onRetry: context.read<BarberDocumentsCubit>().loadDocuments,
+              );
+            }
 
-          if (state.documents.isEmpty) {
-            return AppEmptyState(
-              icon: Icons.folder_outlined,
-              title: S().noDocuments,
-              message: S().noDocumentsMessage,
-            );
-          }
+            if (state.documents.isEmpty) {
+              return AppEmptyState(
+                icon: Icons.folder_outlined,
+                title: S().noDocuments,
+                message: S().noDocumentsMessage,
+              );
+            }
 
-          return RefreshIndicator(
-            onRefresh: context.read<BarberDocumentsCubit>().loadDocuments,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-              children: [
-                if (widget.blocking) const DocumentsBlockedNotice(),
-                DocumentsSummaryCard(state: state),
-                Text(
-                  S().documentsNote(DocumentFilePicker.maxSizeInMB),
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: context.colorScheme.onSurfaceVariant,
-                    height: 1.8,
+            return RefreshIndicator(
+              onRefresh: context.read<BarberDocumentsCubit>().loadDocuments,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+                children: [
+                  if (widget.blocking) const DocumentsBlockedNotice(),
+                  DocumentsSummaryCard(state: state),
+                  Text(
+                    S().documentsNote(DocumentFilePicker.maxSizeInMB),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: context.colorScheme.onSurfaceVariant,
+                      height: 1.8,
+                    ),
                   ),
-                ),
-                SizedBox(height: 14.h),
-                for (final document in state.documents)
-                  DocumentRow(
-                    document: document,
-                    isBusy: state.isBusy(document.id),
-                    onUpload: () => DocumentActions.upload(context, document),
-                    onView: () => DocumentActions.view(context, document),
-                    onDelete: () => DocumentActions.delete(context, document),
-                  ),
-              ],
-            ),
-          );
-        },
+                  SizedBox(height: 14.h),
+                  for (final document in state.documents)
+                    DocumentRow(
+                      document: document,
+                      isBusy: state.isBusy(document.id),
+                      onUpload: () => DocumentActions.upload(context, document),
+                      onView: () => DocumentActions.view(context, document),
+                      onDelete: () => DocumentActions.delete(context, document),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -20,77 +20,94 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(shopName) => "بتحجز في ${shopName}";
+  static String m0(type) => "حساب ${type}";
 
-  static String m1(count) => "${count} مستلم";
+  static String m1(shopName) => "بتحجز في ${shopName}";
 
-  static String m2(limit) =>
+  static String m2(count) => "${count} مستلم";
+
+  static String m3(limit) =>
       "الفئات العامة بيحددها الأدمن، وتقدر تضيف لحد ${limit} فئات خاصة بيك.";
 
-  static String m3(planName, price) =>
+  static String m4(planName, price) =>
       "هتشترك في باقة \"${planName}\" بسعر ${price} ج. متأكد؟";
 
-  static String m4(amount) => "هتبعت طلب بمبلغ ${amount} ج. متأكد؟";
+  static String m5(amount) => "هتبعت طلب بمبلغ ${amount} ج. متأكد؟";
 
-  static String m5(amount) => "${amount} ج";
+  static String m6(amount) => "${amount} ج";
 
-  static String m6(days) => "قبل ${days} أيام";
+  static String m7(date) => "آخر طلب: ${date}";
 
-  static String m7(size) => "الملف كبير أوي — أقصى حجم ${size} ميجا";
+  static String m8(count) => "${count} طلب";
 
-  static String m8(count) => "لسه ناقص ${count} مستندات مطلوبة";
+  static String m9(days) => "قبل ${days} أيام";
 
-  static String m9(size) =>
+  static String m10(size) => "الملف كبير أوي — أقصى حجم ${size} ميجا";
+
+  static String m11(count) => "لسه ناقص ${count} مستندات مطلوبة";
+
+  static String m12(size) =>
       "الأدمن هو اللي بيحدد المستندات المطلوبة. ارفع صورة أو ملف PDF لكل واحد، أقصى حجم ${size} ميجا.";
 
-  static String m10(uploaded, total) => "اترفع ${uploaded} من ${total}";
+  static String m13(uploaded, total) => "اترفع ${uploaded} من ${total}";
 
-  static String m11(clients) => "${clients} عميل";
+  static String m14(clients) => "${clients} عميل";
 
-  static String m12(status) => "تغيير الحالة إلى \"${status}\"";
+  static String m15(count) => "عندك ${count} طلب حلاقة منزلية بانتظار الرد";
 
-  static String m13(count, limit) => "فئاتي (${count}/${limit})";
+  static String m16(newPrice, oldPrice) =>
+      "المحل عايز ياخد ${oldPrice} بدل ${newPrice}. وافق أو لغي الطلب.";
 
-  static String m14(percent, price) =>
+  static String m17(price) => "يبدأ من ${price} جنيه";
+
+  static String m18(count) => "ناقصك ${count} مستندات مطلوبة";
+
+  static String m19(status) => "تغيير الحالة إلى \"${status}\"";
+
+  static String m20(count, limit) => "فئاتي (${count}/${limit})";
+
+  static String m21(percent, price) =>
       "دلوقتي فيه خصم ${percent}٪ على المنتج ده، سعره بقى ${price}";
 
-  static String m15(count) => "عندك ${count} طلب جديد على متجرك";
+  static String m22(count) => "عندك ${count} طلب جديد على متجرك";
 
-  static String m16(percent) => "خصم الطلب (${percent}٪)";
+  static String m23(percent) => "خصم الطلب (${percent}٪)";
 
-  static String m17(price) => "سعر المنتج اتغيّر، دلوقتي ${price}";
+  static String m24(price) => "سعر المنتج اتغيّر، دلوقتي ${price}";
 
-  static String m18(price, stock, min) =>
+  static String m25(price, stock, min) =>
       "${price} ج · مخزون ${stock} · حد أدنى ${min}";
 
-  static String m19(used, cap) => "${used} من ${cap}";
+  static String m26(used, cap) => "${used} من ${cap}";
 
-  static String m20(rank) => "الترتيب #${rank}";
+  static String m27(rank) => "الترتيب #${rank}";
 
-  static String m21(barberName) => "إزاي كانت تجربتك مع ${barberName}؟";
+  static String m28(barberName) => "إزاي كانت تجربتك مع ${barberName}؟";
 
-  static String m22(shopName) => "إزاي كانت تجربتك مع ${shopName}؟";
+  static String m29(shopName) => "إزاي كانت تجربتك مع ${shopName}؟";
 
-  static String m23(name) => "الحلاق المسؤول: ${name}";
+  static String m30(name) => "الحلاق المسؤول: ${name}";
 
-  static String m24(count) => "${count} تقييم";
+  static String m31(count) => "${count} تقييم";
 
-  static String m25(price, duration) => "${price} جنيه · ${duration} دقيقة";
+  static String m32(price, duration) => "${price} جنيه · ${duration} دقيقة";
 
-  static String m26(count) => "العرض هيبان لـ ${count} صالون";
+  static String m33(count) => "تم اختيار ${count}";
 
-  static String m27(amount) =>
+  static String m34(count) => "العرض هيبان لـ ${count} صالون";
+
+  static String m35(amount) =>
       "هيتخصم ${amount} من محفظتك وتفضل مروّج لمدة 30 يوم.";
 
-  static String m28(days) => "فاضل ${days} يوم";
+  static String m36(days) => "فاضل ${days} يوم";
 
-  static String m29(amount) => "محفظتك ناقصة ${amount}، اشحن الأول";
+  static String m37(amount) => "محفظتك ناقصة ${amount}، اشحن الأول";
 
-  static String m30(count) => "${count} قطعة";
+  static String m38(count) => "${count} قطعة";
 
-  static String m31(percent) => "خصم ${percent}٪";
+  static String m39(percent) => "خصم ${percent}٪";
 
-  static String m32(amount) => "المتاح: ${amount} ج";
+  static String m40(amount) => "المتاح: ${amount} ج";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -98,9 +115,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "aboutAppBody": MessageLookupByLibrary.simpleMessage(
       "عايز أحلق — منصة بيع بالجملة بتوصّل تجار مستلزمات الحلاقة بالصالونات.",
     ),
+    "acceptHomeServiceRequest": MessageLookupByLibrary.simpleMessage(
+      "قبول الطلب",
+    ),
     "acceptOrder": MessageLookupByLibrary.simpleMessage("قبول الطلب"),
     "accountDeleted": MessageLookupByLibrary.simpleMessage("تم حذف الحساب"),
+    "accountManagementSection": MessageLookupByLibrary.simpleMessage(
+      "إدارة الحساب",
+    ),
     "accountSection": MessageLookupByLibrary.simpleMessage("الحساب"),
+    "accountTypeBadge": m0,
     "activateMemberConfirm": MessageLookupByLibrary.simpleMessage(
       "السماح لهذا العضو بتسجيل الدخول مرة أخرى؟",
     ),
@@ -113,7 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "activeProducts": MessageLookupByLibrary.simpleMessage("منتجات نشطة"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
     "addAction": MessageLookupByLibrary.simpleMessage("+ إضافة"),
-    "addAdjustment": MessageLookupByLibrary.simpleMessage("ضيف سطر"),
+    "addAdjustment": MessageLookupByLibrary.simpleMessage("ضيف إضافة أو خصم"),
     "addDrink": MessageLookupByLibrary.simpleMessage("ضيف مشروب"),
     "addMemberTitle": MessageLookupByLibrary.simpleMessage("إضافة عضو فريق"),
     "addOwnServiceTitle": MessageLookupByLibrary.simpleMessage(
@@ -143,9 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addressRequired": MessageLookupByLibrary.simpleMessage("اكتب العنوان"),
     "address_required": MessageLookupByLibrary.simpleMessage("العنوان مطلوب"),
     "adjustmentAmount": MessageLookupByLibrary.simpleMessage("المبلغ"),
-    "adjustmentAmountHint": MessageLookupByLibrary.simpleMessage(
-      "30 أو -20 للخصم",
-    ),
+    "adjustmentAmountHint": MessageLookupByLibrary.simpleMessage("30"),
     "adjustmentAmountRequired": MessageLookupByLibrary.simpleMessage(
       "اكتب مبلغ صحيح",
     ),
@@ -156,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "adjustmentLabelRequired": MessageLookupByLibrary.simpleMessage(
       "اكتب سبب السطر",
     ),
+    "adjustmentTypeAddition": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "adjustmentTypeDiscount": MessageLookupByLibrary.simpleMessage("خصم"),
     "allOrders": MessageLookupByLibrary.simpleMessage("كل الطلبات"),
     "allShops": MessageLookupByLibrary.simpleMessage("كل الصالونات"),
     "alreadyHaveAccountLogin": MessageLookupByLibrary.simpleMessage(
@@ -202,6 +226,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "availabilityLabel": MessageLookupByLibrary.simpleMessage("متاح للحجز"),
     "availablePlansTitle": MessageLookupByLibrary.simpleMessage(
       "الباقات المتاحة",
+    ),
+    "availableServicesSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "الخدمات المتاحة",
     ),
     "avatarFallback": MessageLookupByLibrary.simpleMessage("؟"),
     "avgTicketLabel": MessageLookupByLibrary.simpleMessage("متوسط الفاتورة"),
@@ -259,7 +286,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "bookingStatusRejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "bookingStatusUpcoming": MessageLookupByLibrary.simpleMessage("قادم"),
     "bookingSummaryTitle": MessageLookupByLibrary.simpleMessage("ملخص الحجز"),
-    "bookingWithShopLabel": m0,
+    "bookingWithShopLabel": m1,
+    "bookingsAndServicesSection": MessageLookupByLibrary.simpleMessage(
+      "الحجوزات والخدمات",
+    ),
     "bookingsHistoryTab": MessageLookupByLibrary.simpleMessage("السجل"),
     "bookingsPastTab": MessageLookupByLibrary.simpleMessage("السابقة"),
     "bookingsPendingTab": MessageLookupByLibrary.simpleMessage(
@@ -267,6 +297,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "bookingsQueueTab": MessageLookupByLibrary.simpleMessage("طابور اليوم"),
     "bookingsTitle": MessageLookupByLibrary.simpleMessage("الحجوزات"),
+    "bookingsUnresolvedTab": MessageLookupByLibrary.simpleMessage(
+      "لم يتم حسمها",
+    ),
     "bookingsUpcomingTab": MessageLookupByLibrary.simpleMessage("الجاية"),
     "brand": MessageLookupByLibrary.simpleMessage("الماركة"),
     "brandHint": MessageLookupByLibrary.simpleMessage("مثلاً: Wahl"),
@@ -282,7 +315,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "broadcastNote": MessageLookupByLibrary.simpleMessage(
       "أرسل إشعارًا فوريًا لعملائك.",
     ),
-    "broadcastRecipientCount": m1,
+    "broadcastRecipientCount": m2,
+    "broadcastRejectionReasonLabel": MessageLookupByLibrary.simpleMessage(
+      "سبب الرفض",
+    ),
     "broadcastScopeAll": MessageLookupByLibrary.simpleMessage("كل العملاء"),
     "broadcastScopeMine": MessageLookupByLibrary.simpleMessage("عملائي فقط"),
     "broadcastScopeZone": MessageLookupByLibrary.simpleMessage("منطقتي فقط"),
@@ -318,6 +354,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "cancelBooking": MessageLookupByLibrary.simpleMessage("إلغاء الحجز"),
     "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
+    "cancelOrderConfirmAction": MessageLookupByLibrary.simpleMessage(
+      "إلغاء الطلب",
+    ),
+    "cancelOrderConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "مش هتقدر ترجّع الطلب ده تاني بعد الإلغاء.",
+    ),
+    "cancelOrderConfirmTitle": MessageLookupByLibrary.simpleMessage(
+      "إلغاء الطلب؟",
+    ),
     "cancelWalletRequestAction": MessageLookupByLibrary.simpleMessage(
       "إلغاء الطلب",
     ),
@@ -329,13 +374,19 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cartEmpty": MessageLookupByLibrary.simpleMessage("سلتك فارغة"),
     "cartTitle": MessageLookupByLibrary.simpleMessage("السلة"),
-    "categoriesNote": m2,
+    "categoriesNote": m3,
     "category": MessageLookupByLibrary.simpleMessage("الفئة"),
     "categoryGlobal": MessageLookupByLibrary.simpleMessage("عام"),
     "categoryImage": MessageLookupByLibrary.simpleMessage("صورة الفئة"),
     "categoryOwn": MessageLookupByLibrary.simpleMessage("خاصة"),
     "changeAccountType": MessageLookupByLibrary.simpleMessage(
-      "مش أنا؟ غيّر نوع الحساب",
+      "غيّر نوع الحساب",
+    ),
+    "changeMoneyPinAction": MessageLookupByLibrary.simpleMessage(
+      "تغيير الرقم السري",
+    ),
+    "changeMoneyPinTitle": MessageLookupByLibrary.simpleMessage(
+      "تغيير الرقم السري",
     ),
     "changePassword": MessageLookupByLibrary.simpleMessage("تغيير كلمة السر"),
     "changePlanAction": MessageLookupByLibrary.simpleMessage("غيّر للباقة دي"),
@@ -366,6 +417,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "choose_image_source": MessageLookupByLibrary.simpleMessage(
       "اختار مصدر الصورة",
     ),
+    "clearCartConfirm": MessageLookupByLibrary.simpleMessage("تفريغ"),
+    "clearCartMessage": MessageLookupByLibrary.simpleMessage(
+      "هيتم حذف كل المنتجات من السلة دي.",
+    ),
+    "clearCartTitle": MessageLookupByLibrary.simpleMessage("تفريغ السلة؟"),
     "clientsLast7DaysLabel": MessageLookupByLibrary.simpleMessage("آخر 7 أيام"),
     "clientsThisMonthLabel": MessageLookupByLibrary.simpleMessage("هذا الشهر"),
     "clientsTodayLabel": MessageLookupByLibrary.simpleMessage("اليوم"),
@@ -377,19 +433,38 @@ class MessageLookup extends MessageLookupByLibrary {
     "closeTimeLabel": MessageLookupByLibrary.simpleMessage("لحد"),
     "closedDiscounts": MessageLookupByLibrary.simpleMessage("عروض منتهية"),
     "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+    "confirmBillMessage": MessageLookupByLibrary.simpleMessage(
+      "راجع بيانات الفاتورة الجديدة قبل الحفظ",
+    ),
+    "confirmBillNewTotal": MessageLookupByLibrary.simpleMessage(
+      "الإجمالي الجديد",
+    ),
+    "confirmBillNoChanges": MessageLookupByLibrary.simpleMessage(
+      "مفيش مشروبات أو إضافات على الفاتورة",
+    ),
+    "confirmBillSave": MessageLookupByLibrary.simpleMessage("تأكيد وحفظ"),
+    "confirmBillTitle": MessageLookupByLibrary.simpleMessage(
+      "تأكيد تعديل الفاتورة",
+    ),
     "confirmBooking": MessageLookupByLibrary.simpleMessage("تأكيد الحجز"),
+    "confirmBookingMessage": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد إنك عايز تأكد الحجز ده؟",
+    ),
+    "confirmMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
+      "تأكيد الرقم السري الجديد",
+    ),
     "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة السر",
     ),
     "confirmReject": MessageLookupByLibrary.simpleMessage("تأكيد الرفض"),
-    "confirmSubscribeMessage": m3,
+    "confirmSubscribeMessage": m4,
     "confirmSubscribeTitle": MessageLookupByLibrary.simpleMessage(
       "تأكيد الاشتراك",
     ),
     "confirmWalletRequestDepositTitle": MessageLookupByLibrary.simpleMessage(
       "تأكيد الإيداع",
     ),
-    "confirmWalletRequestMessage": m4,
+    "confirmWalletRequestMessage": m5,
     "confirmWalletRequestWithdrawTitle": MessageLookupByLibrary.simpleMessage(
       "تأكيد السحب",
     ),
@@ -417,7 +492,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "createWalletRequestTitle": MessageLookupByLibrary.simpleMessage(
       "طلب محفظة جديد",
     ),
-    "currencyEgp": m5,
+    "currencyEgp": m6,
+    "currentMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
+      "الرقم السري الحالي",
+    ),
     "currentPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة السر الحالية",
     ),
@@ -434,6 +512,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "customerLabelOptional": MessageLookupByLibrary.simpleMessage(
       "العميل (اختياري)",
     ),
+    "customerLastOrderAt": m7,
+    "customerOrderCount": m8,
     "customerOrdersTitle": MessageLookupByLibrary.simpleMessage("طلباتي"),
     "customerPhoneLabel": MessageLookupByLibrary.simpleMessage("رقم العميل"),
     "customerPhoneLabelOptional": MessageLookupByLibrary.simpleMessage(
@@ -441,6 +521,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "customerShellPlaceholder": MessageLookupByLibrary.simpleMessage(
       "تمام، اتسجلت! باقي أجزاء التطبيق جاية قريب.",
+    ),
+    "customerTotalSpend": MessageLookupByLibrary.simpleMessage("إجمالي الشراء"),
+    "customersSearchHint": MessageLookupByLibrary.simpleMessage(
+      "دوّر بالاسم أو رقم الموبايل",
     ),
     "dailyBreakdownTitle": MessageLookupByLibrary.simpleMessage("آخر 7 أيام"),
     "dashboardTitle": MessageLookupByLibrary.simpleMessage("الرئيسية"),
@@ -451,7 +535,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dayThursday": MessageLookupByLibrary.simpleMessage("الخميس"),
     "dayTuesday": MessageLookupByLibrary.simpleMessage("التلات"),
     "dayWednesday": MessageLookupByLibrary.simpleMessage("الأربع"),
-    "daysAgo": m6,
+    "daysAgo": m9,
     "decisionDeadlineLabel": MessageLookupByLibrary.simpleMessage(
       "آخر موعد للرد",
     ),
@@ -506,6 +590,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deliveredThisMonth": MessageLookupByLibrary.simpleMessage(
       "اتسلّم الشهر ده",
     ),
+    "deliveryAddressRequired": MessageLookupByLibrary.simpleMessage(
+      "اكتب عنوان التوصيل الأول",
+    ),
     "deliveryFeeHint": MessageLookupByLibrary.simpleMessage("مثال: 25"),
     "deliveryFeeLabel": MessageLookupByLibrary.simpleMessage("رسم التوصيل"),
     "deliveryFeeOrderLabel": MessageLookupByLibrary.simpleMessage(
@@ -552,6 +639,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "منتجات عليها خصم",
     ),
     "discountsTitle": MessageLookupByLibrary.simpleMessage("العروض والخصومات"),
+    "distanceLabel": MessageLookupByLibrary.simpleMessage("المسافة"),
     "documentAddedByAdmin": MessageLookupByLibrary.simpleMessage(
       "مرفوع من الأدمن",
     ),
@@ -566,7 +654,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "documentOptional": MessageLookupByLibrary.simpleMessage("اختياري"),
     "documentRequired": MessageLookupByLibrary.simpleMessage("مطلوب"),
-    "documentTooLarge": m7,
+    "documentTooLarge": m10,
     "documentUnsupportedType": MessageLookupByLibrary.simpleMessage(
       "الملفات المسموحة صور أو PDF بس",
     ),
@@ -586,8 +674,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "documentsBlockedTitle": MessageLookupByLibrary.simpleMessage(
       "مستندات مطلوبة",
     ),
-    "documentsMissingRequired": m8,
-    "documentsNote": m9,
+    "documentsMissingRequired": m11,
+    "documentsNote": m12,
     "documentsOptionalMessage": MessageLookupByLibrary.simpleMessage(
       "اختيارية — ارفعها في أي وقت",
     ),
@@ -597,7 +685,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "documentsPendingReview": MessageLookupByLibrary.simpleMessage(
       "حسابك تحت المراجعة لحد ما الأدمن يوافق على مستنداتك.",
     ),
-    "documentsProgress": m10,
+    "documentsProgress": m13,
     "documentsRequestedMessage": MessageLookupByLibrary.simpleMessage(
       "الأدمن مستني منك ترفع ملفات",
     ),
@@ -620,7 +708,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "قايمة مشروبات المحل اللي بتتضاف على فاتورة الزبون",
     ),
     "drinksTitle": MessageLookupByLibrary.simpleMessage("المشروبات"),
-    "earningsClientsLine": m11,
+    "earningsClientsLine": m14,
     "earningsLast7Days": MessageLookupByLibrary.simpleMessage("آخر 7 أيام"),
     "earningsThisMonth": MessageLookupByLibrary.simpleMessage("هذا الشهر"),
     "earningsTitle": MessageLookupByLibrary.simpleMessage("الأرباح"),
@@ -631,6 +719,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "editCategory": MessageLookupByLibrary.simpleMessage("تعديل الفئة"),
     "editDiscount": MessageLookupByLibrary.simpleMessage("تعديل العرض"),
     "editDrink": MessageLookupByLibrary.simpleMessage("تعديل المشروب"),
+    "editHomeServicePriceAction": MessageLookupByLibrary.simpleMessage(
+      "تعديل السعر",
+    ),
     "editMemberTitle": MessageLookupByLibrary.simpleMessage("تعديل العضو"),
     "editMyInfo": MessageLookupByLibrary.simpleMessage("تعديل بياناتي"),
     "editProduct": MessageLookupByLibrary.simpleMessage("تعديل المنتج"),
@@ -705,6 +796,109 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "homeNoQueueToday": MessageLookupByLibrary.simpleMessage(
       "مفيش حجوزات في الطابور النهاردة",
+    ),
+    "homeServiceAddressRequired": MessageLookupByLibrary.simpleMessage(
+      "حدد العنوان والموقع الأول",
+    ),
+    "homeServiceAwaitingPriceConfirmation":
+        MessageLookupByLibrary.simpleMessage(
+          "بانتظار موافقة العميل على السعر الجديد قبل قبول الطلب",
+        ),
+    "homeServiceCancelConfirm": MessageLookupByLibrary.simpleMessage(
+      "تأكيد الإلغاء",
+    ),
+    "homeServiceCancelMessage": MessageLookupByLibrary.simpleMessage(
+      "متأكد إنك عايز تلغي طلب الحلاقة المنزلية؟",
+    ),
+    "homeServiceCancelRequest": MessageLookupByLibrary.simpleMessage(
+      "إلغاء الطلب",
+    ),
+    "homeServiceCancelTitle": MessageLookupByLibrary.simpleMessage(
+      "إلغاء الطلب",
+    ),
+    "homeServiceCardDisabledHint": MessageLookupByLibrary.simpleMessage(
+      "فعّلها عشان توصل لعملاء جدد في البيت",
+    ),
+    "homeServiceCardEnabledHint": MessageLookupByLibrary.simpleMessage(
+      "مفعّلة — عدّل السعر أو المواعيد",
+    ),
+    "homeServiceConfirmNewPrice": MessageLookupByLibrary.simpleMessage(
+      "موافقة على السعر الجديد",
+    ),
+    "homeServiceHoursCta": MessageLookupByLibrary.simpleMessage(
+      "مواعيد الحلاقة المنزلية",
+    ),
+    "homeServiceHoursTitle": MessageLookupByLibrary.simpleMessage(
+      "مواعيد الحلاقة المنزلية",
+    ),
+    "homeServiceNote": MessageLookupByLibrary.simpleMessage(
+      "فعّل الخدمة دي عشان تقدر توصل لعملاء عايزين حلاقة في البيت. حدد السعر الأساسي، وأي ملاحظات، وبعدين مواعيد توفرك.",
+    ),
+    "homeServiceNoteHint": MessageLookupByLibrary.simpleMessage(
+      "مثال: يشمل قصة وذقن فقط",
+    ),
+    "homeServiceNoteLabel": MessageLookupByLibrary.simpleMessage(
+      "ملاحظة (اختياري)",
+    ),
+    "homeServiceOffLabel": MessageLookupByLibrary.simpleMessage("غير مفعّلة"),
+    "homeServiceOffered": MessageLookupByLibrary.simpleMessage(
+      "الحلاقة المنزلية",
+    ),
+    "homeServicePendingCount": m15,
+    "homeServicePriceChangedMessage": m16,
+    "homeServicePriceChangedTitle": MessageLookupByLibrary.simpleMessage(
+      "السعر اتغيّر",
+    ),
+    "homeServicePriceConfirmed": MessageLookupByLibrary.simpleMessage(
+      "تمت الموافقة على السعر",
+    ),
+    "homeServicePriceHint": MessageLookupByLibrary.simpleMessage("مثال: 150"),
+    "homeServicePriceLabel": MessageLookupByLibrary.simpleMessage(
+      "السعر الأساسي",
+    ),
+    "homeServicePriceRequired": MessageLookupByLibrary.simpleMessage(
+      "اكتب سعر صحيح",
+    ),
+    "homeServiceRequestCancelled": MessageLookupByLibrary.simpleMessage(
+      "تم إلغاء الطلب",
+    ),
+    "homeServiceRequestCreated": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال طلب الحلاقة المنزلية",
+    ),
+    "homeServiceRequestDetailTitle": MessageLookupByLibrary.simpleMessage(
+      "تفاصيل الطلب",
+    ),
+    "homeServiceRequestNoteHint": MessageLookupByLibrary.simpleMessage(
+      "مثال: الدور السادس بدون أسانسير",
+    ),
+    "homeServiceRequestTitle": MessageLookupByLibrary.simpleMessage(
+      "طلب حلاقة منزلية",
+    ),
+    "homeServiceRequestsTitle": MessageLookupByLibrary.simpleMessage(
+      "طلبات الحلاقة المنزلية",
+    ),
+    "homeServiceSettingsSaved": MessageLookupByLibrary.simpleMessage(
+      "اتحفظت إعدادات الحلاقة المنزلية",
+    ),
+    "homeServiceSettingsTitle": MessageLookupByLibrary.simpleMessage(
+      "الحلاقة المنزلية",
+    ),
+    "homeServiceShopListTitle": MessageLookupByLibrary.simpleMessage(
+      "الحلاقة المنزلية",
+    ),
+    "homeServiceStartingPrice": m17,
+    "homeServiceStatusAccepted": MessageLookupByLibrary.simpleMessage("مقبول"),
+    "homeServiceStatusCancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
+    "homeServiceStatusDone": MessageLookupByLibrary.simpleMessage("تم"),
+    "homeServiceStatusOnTheWay": MessageLookupByLibrary.simpleMessage(
+      "الحلاق في الطريق",
+    ),
+    "homeServiceStatusPending": MessageLookupByLibrary.simpleMessage(
+      "بانتظار الموافقة",
+    ),
+    "homeServiceStatusRejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
+    "homeServiceSubmitRequest": MessageLookupByLibrary.simpleMessage(
+      "إرسال الطلب",
     ),
     "hoursSaved": MessageLookupByLibrary.simpleMessage("اتحفظت مواعيد العمل"),
     "identityLockedAction": MessageLookupByLibrary.simpleMessage(
@@ -816,6 +1010,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberTaglineOptionalLabel": MessageLookupByLibrary.simpleMessage(
       "الوصف (اختياري)",
     ),
+    "menuTitle": MessageLookupByLibrary.simpleMessage("القائمة"),
     "merchant": MessageLookupByLibrary.simpleMessage("تاجر"),
     "merchantDashboardNote": MessageLookupByLibrary.simpleMessage(
       "كل عملاؤك هنا حلاقين وصالونات مسجلة على المنصة — البيع بالجملة بس.",
@@ -835,12 +1030,100 @@ class MessageLookup extends MessageLookupByLibrary {
       "ارفع المستندات المطلوبة عشان نفعّل حسابك.",
     ),
     "missingDocsTitle": MessageLookupByLibrary.simpleMessage("مستندات ناقصة"),
+    "missingDocumentsHomeCount": m18,
+    "moneyAmountHint": MessageLookupByLibrary.simpleMessage("أدخل المبلغ"),
+    "moneyAmountLabel": MessageLookupByLibrary.simpleMessage("المبلغ"),
+    "moneyDayOfMonthLabel": MessageLookupByLibrary.simpleMessage("يوم الشهر"),
+    "moneyDayOfWeekLabel": MessageLookupByLibrary.simpleMessage("يوم الأسبوع"),
+    "moneyDeleteItemMessage": MessageLookupByLibrary.simpleMessage(
+      "متأكد إنك عايز تحذف العملية دي؟",
+    ),
+    "moneyDeleteItemTitle": MessageLookupByLibrary.simpleMessage(
+      "حذف العملية المتكررة",
+    ),
+    "moneyDescriptionHint": MessageLookupByLibrary.simpleMessage("الوصف"),
+    "moneyDirectionAdd": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "moneyDirectionLabel": MessageLookupByLibrary.simpleMessage("النوع"),
+    "moneyDirectionSubtract": MessageLookupByLibrary.simpleMessage("خصم"),
+    "moneyEditItem": MessageLookupByLibrary.simpleMessage(
+      "تعديل العملية المتكررة",
+    ),
+    "moneyFrequencyDaily": MessageLookupByLibrary.simpleMessage("يومي"),
+    "moneyFrequencyLabel": MessageLookupByLibrary.simpleMessage("التكرار"),
+    "moneyFrequencyMonthly": MessageLookupByLibrary.simpleMessage("شهري"),
+    "moneyFrequencyWeekly": MessageLookupByLibrary.simpleMessage("أسبوعي"),
+    "moneyLedgerTitle": MessageLookupByLibrary.simpleMessage("سجل الحركات"),
+    "moneyManagerTitle": MessageLookupByLibrary.simpleMessage("إدارة الأموال"),
+    "moneyNet": MessageLookupByLibrary.simpleMessage("الصافي"),
+    "moneyNewEntry": MessageLookupByLibrary.simpleMessage("حركة جديدة"),
+    "moneyNewItem": MessageLookupByLibrary.simpleMessage("عملية متكررة جديدة"),
+    "moneyNoEntries": MessageLookupByLibrary.simpleMessage("لسه مفيش حركات"),
+    "moneyNoItems": MessageLookupByLibrary.simpleMessage(
+      "لسه مفيش عمليات متكررة",
+    ),
+    "moneyNoPendingOccurrences": MessageLookupByLibrary.simpleMessage(
+      "مفيش عمليات محتاجة تأكيد دلوقتي",
+    ),
+    "moneyOccurrenceConfirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+    "moneyOccurrenceDismiss": MessageLookupByLibrary.simpleMessage("تجاهل"),
+    "moneyPendingOccurrences": MessageLookupByLibrary.simpleMessage(
+      "عمليات محتاجة تأكيد",
+    ),
+    "moneyPinChanged": MessageLookupByLibrary.simpleMessage(
+      "تم تغيير الرقم السري",
+    ),
+    "moneyPinConfirmAction": MessageLookupByLibrary.simpleMessage("دخول"),
+    "moneyPinEnterTitle": MessageLookupByLibrary.simpleMessage(
+      "ادخل الرقم السري عشان تشوف إيراداتك",
+    ),
+    "moneyPinForgotAction": MessageLookupByLibrary.simpleMessage(
+      "نسيت الرقم السري؟",
+    ),
+    "moneyPinNotMatch": MessageLookupByLibrary.simpleMessage(
+      "الرقم السري الجديد مش متطابق",
+    ),
+    "moneyPinResetConfirmAction": MessageLookupByLibrary.simpleMessage(
+      "إرسال الطلب",
+    ),
+    "moneyPinResetConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "هنبعت طلب لفريق الإدارة، هتقدر تحط رقم سري جديد بعد الموافقة عليه.",
+    ),
+    "moneyPinResetConfirmTitle": MessageLookupByLibrary.simpleMessage(
+      "طلب إعادة تعيين الرقم السري",
+    ),
+    "moneyPinResetPendingMessage": MessageLookupByLibrary.simpleMessage(
+      "طلبك تحت مراجعة فريق الإدارة، هتوصلك رسالة لما يتم حسم الطلب.",
+    ),
+    "moneyPinResetPendingTitle": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال طلب إعادة التعيين",
+    ),
+    "moneyPinResetRejectedTitle": MessageLookupByLibrary.simpleMessage(
+      "تم رفض طلب إعادة التعيين",
+    ),
+    "moneyPinSetupAction": MessageLookupByLibrary.simpleMessage(
+      "حفظ الرقم السري",
+    ),
+    "moneyPinSetupTitle": MessageLookupByLibrary.simpleMessage(
+      "اعمل رقم سري لحماية بيانات إيراداتك",
+    ),
+    "moneyRecurringItemsTitle": MessageLookupByLibrary.simpleMessage(
+      "العمليات المتكررة",
+    ),
+    "moneyTotalAdded": MessageLookupByLibrary.simpleMessage("إجمالي المضاف"),
+    "moneyTotalSubtracted": MessageLookupByLibrary.simpleMessage(
+      "إجمالي المخصوم",
+    ),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("إيرادات الشهر"),
     "moreSection": MessageLookupByLibrary.simpleMessage("أخرى"),
-    "moveStatusTo": m12,
+    "moveStatusTo": m19,
     "myCategories": MessageLookupByLibrary.simpleMessage("فئات منتجاتي"),
-    "myCategoriesCount": m13,
+    "myCategoriesCount": m20,
+    "myCustomers": MessageLookupByLibrary.simpleMessage("عملائي"),
+    "myCustomersSubtitle": MessageLookupByLibrary.simpleMessage(
+      "الحلاقين والصالونات اللي طلبوا من متجرك",
+    ),
     "myDocuments": MessageLookupByLibrary.simpleMessage("مستنداتي"),
+    "nameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
     "name_invalid_characters": MessageLookupByLibrary.simpleMessage(
       "الاسم فيه حروف غير مسموحة",
     ),
@@ -868,9 +1151,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "مثلاً: عروض النخبة",
     ),
     "newDiscount": MessageLookupByLibrary.simpleMessage("عرض جديد"),
-    "newDiscountSinceOrderLabel": m14,
+    "newDiscountSinceOrderLabel": m21,
+    "newMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
+      "الرقم السري الجديد",
+    ),
     "newPassword": MessageLookupByLibrary.simpleMessage("كلمة السر الجديدة"),
-    "newStorefrontOrdersCount": m15,
+    "newStorefrontOrdersCount": m22,
     "nextRenewalLabel": MessageLookupByLibrary.simpleMessage("التجديد القادم"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "معندكش حساب؟ سجّل تاجر جديد",
@@ -891,6 +1177,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا توجد حجوزات لسه",
     ),
     "noBookingsYet": MessageLookupByLibrary.simpleMessage("لسه معملتش أي حجز"),
+    "noCustomersYet": MessageLookupByLibrary.simpleMessage("لسه مفيش عملاء"),
     "noDiscountsYet": MessageLookupByLibrary.simpleMessage("لسه مفيش عروض"),
     "noDocuments": MessageLookupByLibrary.simpleMessage("مفيش مستندات مطلوبة"),
     "noDocumentsMessage": MessageLookupByLibrary.simpleMessage(
@@ -905,6 +1192,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noFavoritesYet": MessageLookupByLibrary.simpleMessage(
       "لسه معملتش أي حلاق مفضّل",
+    ),
+    "noHomeServiceRequestsYet": MessageLookupByLibrary.simpleMessage(
+      "لسه معملتش طلبات حلاقة منزلية",
+    ),
+    "noHomeServiceShopsYet": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد محلات بتقدم الحلاقة المنزلية حاليًا",
     ),
     "noInternet": MessageLookupByLibrary.simpleMessage("مفيش اتصال بالإنترنت"),
     "noInternetConnection": MessageLookupByLibrary.simpleMessage(
@@ -923,6 +1216,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPendingBookings": MessageLookupByLibrary.simpleMessage(
       "لا توجد حجوزات بانتظار الموافقة",
     ),
+    "noPendingHomeServiceRequests": MessageLookupByLibrary.simpleMessage(
+      "مفيش طلبات حلاقة منزلية بانتظار الرد",
+    ),
     "noProductsYet": MessageLookupByLibrary.simpleMessage("لسه مفيش منتجات"),
     "noReviewsYet": MessageLookupByLibrary.simpleMessage("لسه مفيش تقييمات"),
     "noShopsYet": MessageLookupByLibrary.simpleMessage(
@@ -936,6 +1232,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noTeamMembersYet": MessageLookupByLibrary.simpleMessage(
       "لا يوجد أعضاء في الفريق بعد",
+    ),
+    "noUnresolvedBookings": MessageLookupByLibrary.simpleMessage(
+      "لا توجد حجوزات محتاجة حسم",
     ),
     "noUpcomingBookingsHint": MessageLookupByLibrary.simpleMessage(
       "معندكش حجوزات جاية دلوقتي",
@@ -972,7 +1271,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "عنوان التوصيل",
     ),
     "orderDiscountLabel": MessageLookupByLibrary.simpleMessage("خصم الطلب"),
-    "orderDiscountWithPercentLabel": m16,
+    "orderDiscountWithPercentLabel": m23,
     "orderFulfilmentTypeLabel": MessageLookupByLibrary.simpleMessage(
       "طريقة الاستلام",
     ),
@@ -1066,9 +1365,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "phone_number_must_contain_only_digits":
         MessageLookupByLibrary.simpleMessage("رقم الموبايل لازم يكون أرقام بس"),
     "placeOrder": MessageLookupByLibrary.simpleMessage("إرسال الطلب"),
+    "placeOrderConfirmAction": MessageLookupByLibrary.simpleMessage("إرسال"),
+    "placeOrderConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "هترسل الطلب ده للمورد، متأكد؟",
+    ),
+    "placeOrderConfirmTitle": MessageLookupByLibrary.simpleMessage(
+      "تأكيد الطلب",
+    ),
     "planStatusActive": MessageLookupByLibrary.simpleMessage("مفعّلة"),
+    "planStatusPaused": MessageLookupByLibrary.simpleMessage("متوقفة مؤقتًا"),
     "planStatusPending": MessageLookupByLibrary.simpleMessage(
       "في انتظار الموافقة",
+    ),
+    "planStatusUnknown": MessageLookupByLibrary.simpleMessage(
+      "حالة غير معروفة",
     ),
     "pleaseCheckYourConnectionAndTryAgain":
         MessageLookupByLibrary.simpleMessage(
@@ -1077,7 +1387,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_enter_a_valid_phone_number": MessageLookupByLibrary.simpleMessage(
       "اكتب رقم موبايل صحيح",
     ),
-    "priceChangedSinceOrderLabel": m17,
+    "priceChangedSinceOrderLabel": m24,
     "product": MessageLookupByLibrary.simpleMessage("المنتج"),
     "productDescription": MessageLookupByLibrary.simpleMessage("وصف المنتج"),
     "productDescriptionHint": MessageLookupByLibrary.simpleMessage(
@@ -1088,7 +1398,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "المنتج ده هيظهر للحلاقين في متجر المستلزمات، ومش هيظهر للعملاء العاديين.",
     ),
     "productImages": MessageLookupByLibrary.simpleMessage("صور المنتج"),
-    "productMetaLine": m18,
+    "productMetaLine": m25,
     "productName": MessageLookupByLibrary.simpleMessage("اسم المنتج"),
     "productNameHint": MessageLookupByLibrary.simpleMessage(
       "مثلاً: وكس تثبيت قوي - عبوة صالونات",
@@ -1101,12 +1411,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsNote": MessageLookupByLibrary.simpleMessage(
       "المنتجات اللي بتعرضها هنا بتظهر للحلاقين في متجر المستلزمات.",
     ),
+    "profileDetailsTitle": MessageLookupByLibrary.simpleMessage(
+      "بيانات الحساب",
+    ),
     "publishProduct": MessageLookupByLibrary.simpleMessage("نشر المنتج"),
     "purchasesSection": MessageLookupByLibrary.simpleMessage("المشتريات"),
     "queueEmpty": MessageLookupByLibrary.simpleMessage("الطابور فارغ"),
     "queuePositionLabel": MessageLookupByLibrary.simpleMessage(
       "الترتيب في الطابور",
     ),
+    "quickActionsTitle": MessageLookupByLibrary.simpleMessage("إجراءات سريعة"),
+    "quotaDrinks": MessageLookupByLibrary.simpleMessage("المشروبات"),
     "quotaEmployees": MessageLookupByLibrary.simpleMessage("الموظفين"),
     "quotaNotificationsAll": MessageLookupByLibrary.simpleMessage(
       "الإشعارات (للكل)",
@@ -1117,9 +1432,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "quotaOwnCategories": MessageLookupByLibrary.simpleMessage(
       "التصنيفات الخاصة",
     ),
+    "quotaOwnServices": MessageLookupByLibrary.simpleMessage("الخدمات الخاصة"),
     "quotaProducts": MessageLookupByLibrary.simpleMessage("المنتجات"),
     "quotaUnlimited": MessageLookupByLibrary.simpleMessage("غير محدود"),
-    "quotaUsedOfCap": m19,
+    "quotaUsedOfCap": m26,
     "quoteAllShops": MessageLookupByLibrary.simpleMessage("كل الصالونات"),
     "quoteAppliedTitle": MessageLookupByLibrary.simpleMessage(
       "الخصومات اللي اشتغلت",
@@ -1152,12 +1468,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "quoteUnitAfterDiscount": MessageLookupByLibrary.simpleMessage(
       "سعر القطعة بعد الخصم",
     ),
-    "rankLabel": m20,
-    "rateBarberSubtitle": m21,
+    "rankLabel": m27,
+    "rateBarberSubtitle": m28,
     "rateBarberTitle": MessageLookupByLibrary.simpleMessage("قيّم الحلاق"),
     "rateBooking": MessageLookupByLibrary.simpleMessage("قيّم الحجز"),
     "rateNoteHint": MessageLookupByLibrary.simpleMessage("اكتب رأيك (اختياري)"),
-    "rateShopSubtitle": m22,
+    "rateShopSubtitle": m29,
     "rateShopTitle": MessageLookupByLibrary.simpleMessage("قيّم المحل"),
     "rateShopToo": MessageLookupByLibrary.simpleMessage("قيّم المحل كمان"),
     "ratingLabel": MessageLookupByLibrary.simpleMessage("التقييم"),
@@ -1187,6 +1503,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "سجّل واحجز حلاقتك واشتري منتجات العناية من أقرب صالون ليك.",
     ),
     "rejectBooking": MessageLookupByLibrary.simpleMessage("رفض الحجز"),
+    "rejectHomeServiceRequest": MessageLookupByLibrary.simpleMessage(
+      "رفض الطلب",
+    ),
     "rejectOrder": MessageLookupByLibrary.simpleMessage("رفض الطلب"),
     "rejectReason": MessageLookupByLibrary.simpleMessage("سبب الرفض"),
     "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
@@ -1217,9 +1536,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "resetPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "إعادة تعيين كلمة المرور",
     ),
-    "responsibleBarber": m23,
+    "responsibleBarber": m30,
     "retry": MessageLookupByLibrary.simpleMessage("حاول تاني"),
-    "reviewsCount": m24,
+    "reviewsCount": m31,
     "reviewsTitle": MessageLookupByLibrary.simpleMessage("التقييمات"),
     "rewardAmount": MessageLookupByLibrary.simpleMessage("مبلغ ثابت"),
     "rewardFree": MessageLookupByLibrary.simpleMessage("مجانًا"),
@@ -1227,6 +1546,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "rewardQuantityLabel": MessageLookupByLibrary.simpleMessage("خد كام قطعة؟"),
     "rewardTypeLabel": MessageLookupByLibrary.simpleMessage("نوع المكافأة"),
     "runningLowProducts": MessageLookupByLibrary.simpleMessage("قربوا يخلصوا"),
+    "sameDayBookingWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "متأكد إنك عايز تحجز معاد تاني النهاردة؟",
+    ),
+    "sameDayBookingWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "عندك حلاقة النهاردة already",
+    ),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("حفظ التعديلات"),
     "saveNewPassword": MessageLookupByLibrary.simpleMessage("حفظ كلمة السر"),
@@ -1246,6 +1571,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "seats": MessageLookupByLibrary.simpleMessage("المقاعد"),
     "seeAll": MessageLookupByLibrary.simpleMessage("عرض الكل"),
+    "selectFulfillmentRequired": MessageLookupByLibrary.simpleMessage(
+      "اختار طريقة الاستلام الأول",
+    ),
     "selectStarsError": MessageLookupByLibrary.simpleMessage(
       "اختار عدد النجوم الأول",
     ),
@@ -1271,7 +1599,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "المدة (دقايق)",
     ),
     "serviceLabel": MessageLookupByLibrary.simpleMessage("الخدمة"),
-    "serviceMetaLine": m25,
+    "serviceMetaLine": m32,
     "servicePopularLabel": MessageLookupByLibrary.simpleMessage("الأكثر طلبًا"),
     "servicePriceHint": MessageLookupByLibrary.simpleMessage("مثلاً ١٠٠"),
     "servicePriceLabel": MessageLookupByLibrary.simpleMessage("السعر"),
@@ -1282,6 +1610,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "setNewPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "كلمة سر جديدة",
     ),
+    "settleApprove": MessageLookupByLibrary.simpleMessage("موافقة"),
+    "settleCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "settleCancelReasonHint": MessageLookupByLibrary.simpleMessage(
+      "سبب الإلغاء",
+    ),
+    "settleSelectedCount": m33,
+    "settleSubmitAction": MessageLookupByLibrary.simpleMessage(
+      "تنفيذ القرارات",
+    ),
+    "settleSuccess": MessageLookupByLibrary.simpleMessage("تم حسم الحجوزات"),
     "shareDocument": MessageLookupByLibrary.simpleMessage("مشاركة"),
     "shopDetailTitle": MessageLookupByLibrary.simpleMessage("تفاصيل الصالون"),
     "shopLabel": MessageLookupByLibrary.simpleMessage("الصالون"),
@@ -1297,7 +1635,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "العرض هيبان لكل الصالونات",
     ),
-    "shopsSelectedHint": m26,
+    "shopsSelectedHint": m34,
     "shopsTitle": MessageLookupByLibrary.simpleMessage("الصالونات"),
     "signIn": MessageLookupByLibrary.simpleMessage("دخول"),
     "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
@@ -1308,6 +1646,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "حصل خطأ، حاول تاني",
     ),
+    "sponsoredLabel": MessageLookupByLibrary.simpleMessage("ترويج"),
     "sponsorshipActive": MessageLookupByLibrary.simpleMessage("الترويج شغال"),
     "sponsorshipBarberSubtitle": MessageLookupByLibrary.simpleMessage(
       "خلي محلك يظهر في أول قايمة الزباين",
@@ -1316,16 +1655,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تفعيل الترويج",
     ),
     "sponsorshipBuy": MessageLookupByLibrary.simpleMessage("فعّل الترويج شهر"),
-    "sponsorshipConfirmMessage": m27,
+    "sponsorshipConfirmMessage": m35,
     "sponsorshipConfirmTitle": MessageLookupByLibrary.simpleMessage(
       "تفعيل الترويج",
     ),
-    "sponsorshipDaysLeft": m28,
+    "sponsorshipDaysLeft": m36,
     "sponsorshipEndsAt": MessageLookupByLibrary.simpleMessage("بينتهي في"),
     "sponsorshipInactive": MessageLookupByLibrary.simpleMessage(
       "الترويج مش شغال",
     ),
-    "sponsorshipInsufficient": m29,
+    "sponsorshipInsufficient": m37,
     "sponsorshipMerchantSubtitle": MessageLookupByLibrary.simpleMessage(
       "خلي منتجاتك تظهر في أول متجر الحلاقين",
     ),
@@ -1354,7 +1693,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stockQuantity": MessageLookupByLibrary.simpleMessage(
       "الكمية المتاحة في المخزن",
     ),
-    "stockUnits": m30,
+    "stockUnits": m38,
     "storeAndSalesSection": MessageLookupByLibrary.simpleMessage("متجرك"),
     "storeOrdersTitle": MessageLookupByLibrary.simpleMessage(
       "طلبات التوريد الخاصة بي",
@@ -1438,7 +1777,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "التطبيق ده لسه تحت التطوير",
     ),
     "underReview": MessageLookupByLibrary.simpleMessage("تحت المراجعة"),
-    "unitDiscountPercentLabel": m31,
+    "unitDiscountPercentLabel": m39,
     "unitPrice": MessageLookupByLibrary.simpleMessage("سعر الوحدة (جنيه)"),
     "upcomingBookingsTitle": MessageLookupByLibrary.simpleMessage(
       "حجوزاتك الجاية",
@@ -1479,19 +1818,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "walkInConfirmEdit": MessageLookupByLibrary.simpleMessage("تعديل"),
     "walkInConfirmTitle": MessageLookupByLibrary.simpleMessage("مراجعة الطلب"),
     "walkInConfirmTotalLabel": MessageLookupByLibrary.simpleMessage(
-      "إجمالي الإضافات",
+      "إجمالي الفاتورة",
     ),
     "walkInNoteHint": MessageLookupByLibrary.simpleMessage("مثال: مستعجل"),
     "walkInNoteLabel": MessageLookupByLibrary.simpleMessage("ملاحظة (اختياري)"),
     "walkInPickerAddMore": MessageLookupByLibrary.simpleMessage("إضافة"),
     "walkInPickerDone": MessageLookupByLibrary.simpleMessage("تم الاختيار"),
-    "walkInPickerNoneSelected": MessageLookupByLibrary.simpleMessage("لا يوجد"),
+    "walkInPickerNoneSelected": MessageLookupByLibrary.simpleMessage(
+      "اضغط للإضافة",
+    ),
     "walkInSlotTimeLabel": MessageLookupByLibrary.simpleMessage("الميعاد"),
     "walkInSlotTimeNow": MessageLookupByLibrary.simpleMessage("دلوقتي"),
     "walkInSlotTimeSpecific": MessageLookupByLibrary.simpleMessage(
       "تحديد ميعاد",
     ),
-    "walletAvailableLabel": m32,
+    "walletAvailableLabel": m40,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage("الرصيد الحالي"),
     "walletRequestAmountHint": MessageLookupByLibrary.simpleMessage(
       "أدخل المبلغ",
@@ -1545,8 +1886,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("المحفظة"),
     "weak_password": MessageLookupByLibrary.simpleMessage("كلمة السر ضعيفة"),
+    "weekdayFriday": MessageLookupByLibrary.simpleMessage("الجمعة"),
+    "weekdayMonday": MessageLookupByLibrary.simpleMessage("الإثنين"),
+    "weekdaySaturday": MessageLookupByLibrary.simpleMessage("السبت"),
+    "weekdaySunday": MessageLookupByLibrary.simpleMessage("الأحد"),
+    "weekdayThursday": MessageLookupByLibrary.simpleMessage("الخميس"),
+    "weekdayTuesday": MessageLookupByLibrary.simpleMessage("الثلاثاء"),
+    "weekdayWednesday": MessageLookupByLibrary.simpleMessage("الأربعاء"),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("أهلاً بيك 👋"),
     "welcome_message": MessageLookupByLibrary.simpleMessage("أهلاً بيك"),
+    "whatsappSupport": MessageLookupByLibrary.simpleMessage(
+      "تواصل معنا واتساب",
+    ),
     "whatsapp_error": MessageLookupByLibrary.simpleMessage(
       "مش قادر أفتح واتساب",
     ),
@@ -1564,6 +1915,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "withdrawMethodLabel": MessageLookupByLibrary.simpleMessage(
       "هتستلم بأي طريقة؟",
+    ),
+    "withdrawMethodRequired": MessageLookupByLibrary.simpleMessage(
+      "لازم تختار طريقة الاستلام",
     ),
     "workingHoursTitle": MessageLookupByLibrary.simpleMessage("مواعيد العمل"),
     "yesterday": MessageLookupByLibrary.simpleMessage("أمبارح"),

@@ -105,6 +105,25 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
     await _refreshQuote();
   }
 
+  Future<void> clearCart() async {
+    if (state.cart.isEmpty) return;
+
+    emit(state.copyWith(isUpdatingCart: true));
+
+    final result = await _putCart(const {});
+
+    result.fold(
+      (failure) => emit(state.copyWith(isUpdatingCart: false, errorMessage: failure.message)),
+      (cart) => emit(state.copyWith(
+        isUpdatingCart: false,
+        cart: cart,
+        fulfillmentType: state.resolvedFulfillmentType(cart),
+      )),
+    );
+
+    await _refreshQuote();
+  }
+
   Future<void> setFulfillmentType(FulfillmentType? type) async {
     if (type == FulfillmentType.delivery && !state.cart.deliveryOffered) return;
     emit(state.copyWith(fulfillmentType: type, clearFulfillmentType: type == null));

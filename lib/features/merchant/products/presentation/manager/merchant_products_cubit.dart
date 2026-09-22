@@ -100,12 +100,17 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
   }
 
   Future<void> removeProduct(int id) async {
-    final previous = state.products;
+    final removed = state.products.where((p) => p.id == id).firstOrNull;
     emit(state.copyWith(products: state.products.without(id)));
 
     final result = await _deleteProduct(id);
 
-    result.leftMap((failure) => _revert(previous, failure));
+    result.leftMap((failure) {
+      if (removed != null && !state.products.any((p) => p.id == id)) {
+        emit(state.copyWith(products: [removed, ...state.products]));
+      }
+      emit(state.copyWith(errorMessage: failure.message));
+    });
   }
 
   Future<void> setStock(int id, int quantity) async {

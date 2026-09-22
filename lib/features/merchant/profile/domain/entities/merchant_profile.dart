@@ -45,8 +45,17 @@ class MerchantProfile extends Equatable {
     businessName,
     ownerName,
     phoneNumber,
+    phoneE164,
+    email,
+    userName,
     active,
+    mustChangePassword,
+    categoryLimit,
+    zoneId,
+    zoneName,
+    createdAt,
     latitude,
     longitude,
+    address,
   ];
 }

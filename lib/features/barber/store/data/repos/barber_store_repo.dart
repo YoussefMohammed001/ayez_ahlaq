@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/cart.dart';
 import '../../domain/entities/fulfillment_type.dart';
 import '../../domain/entities/store_merchant.dart';
@@ -36,7 +37,7 @@ class BarberStoreRepo implements IBarberStoreRepo {
   @override
   Future<Either<Failure, Cart>> getCart() async {
     final result = await _api.getCart();
-    return result.map(_mapCart);
+    return result.flatMap(_mapCart);
   }
 
   @override
@@ -48,7 +49,7 @@ class BarberStoreRepo implements IBarberStoreRepo {
           .map((e) => {'productId': e.key, 'quantity': e.value})
           .toList(),
     });
-    return result.map(_mapCart);
+    return result.flatMap(_mapCart);
   }
 
   @override
@@ -64,7 +65,7 @@ class BarberStoreRepo implements IBarberStoreRepo {
           .toList(),
       if (fulfillmentType != null) 'fulfillmentType': fulfillmentType.toApi(),
     });
-    return result.map(_mapQuote);
+    return result.flatMap(_mapQuote);
   }
 
   @override
@@ -82,8 +83,10 @@ class BarberStoreRepo implements IBarberStoreRepo {
       if (deliveryLng != null) 'deliveryLng': deliveryLng,
       if (note != null) 'note': note,
     });
-    return result.map<(StoreOrder, String)>(
-      (response) => (_mapOrder(response), response['message'] as String? ?? ''),
+    return result.flatMap<(StoreOrder, String)>(
+      (response) => _mapOrder(
+        response,
+      ).map((order) => (order, response['message'] as String? ?? '')),
     );
   }
 
@@ -96,7 +99,7 @@ class BarberStoreRepo implements IBarberStoreRepo {
   @override
   Future<Either<Failure, StoreOrder>> getOrderById(int id) async {
     final result = await _api.getOrderById(id);
-    return result.map(_mapOrder);
+    return result.flatMap(_mapOrder);
   }
 
   @override
@@ -126,15 +129,15 @@ class BarberStoreRepo implements IBarberStoreRepo {
     );
   }
 
-  StoreOrder _mapOrder(dynamic response) {
-    return StoreOrderModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, StoreOrder> _mapOrder(dynamic response) {
+    return requireDataMap(response).map(StoreOrderModel.fromJson);
   }
 
-  Cart _mapCart(dynamic response) {
-    return CartModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, Cart> _mapCart(dynamic response) {
+    return requireDataMap(response).map(CartModel.fromJson);
   }
 
-  StoreQuote _mapQuote(dynamic response) {
-    return StoreQuoteModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, StoreQuote> _mapQuote(dynamic response) {
+    return requireDataMap(response).map(StoreQuoteModel.fromJson);
   }
 }

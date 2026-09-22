@@ -11,6 +11,7 @@ import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_brand_header.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_footer_prompt.dart';
+import '../../../../../shared/auth/presentation/widgets/change_account_type_button.dart';
 import '../manager/customer_auth_cubit.dart';
 import '../manager/customer_auth_state.dart';
 import '../../../../../generated/l10n.dart';
@@ -68,6 +69,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                 AuthBrandHeader(
                   title: S().welcomeBack,
                   subtitle: S().loginSubtitleCustomer,
+                  accountTypeLabel: S().accountTypeBadge(S().customer),
                 ),
                 SizedBox(height: 26.h),
                 AppCard(
@@ -84,7 +86,8 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                   label: S().noAccountRegisterCustomer,
                   onTap: () => context.push(Routes.customerRegisterScreen),
                 ),
-                AuthFooterPrompt(
+                SizedBox(height: 10.h),
+                ChangeAccountTypeButton(
                   label: S().changeAccountType,
                   onTap: () => context.go(Routes.userTypeScreen),
                 ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
@@ -75,13 +74,7 @@ class _DrinkFormSheetState extends State<DrinkFormSheet> {
 
     if (!mounted) return;
 
-    if (saved) {
-      Navigator.of(context).pop();
-      return;
-    }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
+    if (saved) Navigator.of(context).pop();
   }
 
   @override

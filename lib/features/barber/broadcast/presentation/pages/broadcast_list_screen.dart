@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -59,7 +60,12 @@ class _BroadcastListScreenState extends State<BroadcastListScreen> {
           onPressed: _openCreate,
         ),
       ),
-      body: BlocBuilder<BroadcastListCubit, BroadcastListState>(
+      body: BlocConsumer<BroadcastListCubit, BroadcastListState>(
+        listenWhen: (previous, current) =>
+            current.status == BroadcastListStatus.success &&
+            current.errorMessage != null &&
+            current.errorMessage != previous.errorMessage,
+        listener: (context, state) => showError(state.errorMessage!),
         builder: (context, state) {
           if (state.status == BroadcastListStatus.loading) {
             return const ListSkeleton();

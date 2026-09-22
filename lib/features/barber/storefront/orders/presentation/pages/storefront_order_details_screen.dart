@@ -7,6 +7,7 @@ import '../../../../../../core/widgets/section_title.dart';
 import '../../../../../../core/widgets/status_badge.dart';
 import '../../../../../../core/extensions/ext_theme.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/storefront_order.dart';
 import '../manager/barber_storefront_orders_cubit.dart';
 import '../manager/barber_storefront_orders_state.dart';
@@ -39,33 +40,41 @@ class _StorefrontOrderDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
-      builder: (context, state) {
-        final current = state.orders.firstWhere(
-          (o) => o.id == widget.order.id,
-          orElse: () => widget.order,
-        );
+    return BusyErrorListener<
+      BarberStorefrontOrdersCubit,
+      BarberStorefrontOrdersState
+    >(
+      isBusy: (state) => state.updatingOrderId != null,
+      errorMessage: (state) => state.errorMessage,
+      child:
+          BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
+            builder: (context, state) {
+              final current = state.orders.firstWhere(
+                (o) => o.id == widget.order.id,
+                orElse: () => widget.order,
+              );
 
-        return Scaffold(
-          appBar: AppTopBar(title: current.code),
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-              children: [
-                _buildHeader(context, current),
-                SectionTitle(title: S().orderedItems),
-                StorefrontOrderItemsCard(order: current),
-                SizedBox(height: 16.h),
-                SectionTitle(title: S().orderInfoTitle),
-                StorefrontOrderInfoCard(order: current),
-                SizedBox(height: 20.h),
-                StorefrontOrderActions(order: current),
-              ],
-            ),
+              return Scaffold(
+                appBar: AppTopBar(title: current.code),
+                body: RefreshIndicator(
+                  onRefresh: _refresh,
+                  child: ListView(
+                    padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                    children: [
+                      _buildHeader(context, current),
+                      SectionTitle(title: S().orderedItems),
+                      StorefrontOrderItemsCard(order: current),
+                      SizedBox(height: 16.h),
+                      SectionTitle(title: S().orderInfoTitle),
+                      StorefrontOrderInfoCard(order: current),
+                      SizedBox(height: 20.h),
+                      StorefrontOrderActions(order: current),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-        );
-      },
     );
   }
 

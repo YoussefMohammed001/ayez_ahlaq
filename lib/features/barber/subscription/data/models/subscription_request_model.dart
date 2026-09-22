@@ -33,7 +33,9 @@ class SubscriptionRequestModel extends SubscriptionRequest {
       decisionNote: json['decisionNote'] as String?,
       decidedByName: json['decidedByName'] as String?,
       decidedAt: DateTime.tryParse(json['decidedAt'] as String? ?? ''),
-      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+      createdAt:
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+          DateTime.now(),
     );
   }
 }

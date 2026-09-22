@@ -35,25 +35,21 @@ class CustomerShopDetailCubit extends Cubit<CustomerShopDetailState> {
     final detail = state.detail;
     if (detail == null) return;
 
-    final target = detail.barbers.cast<ShopBarber>().firstWhere(
-      (b) => b.owner,
-      orElse: () => detail.barbers.firstWhere((b) => b.id == barberId),
-    );
-    final targetId = target.id;
+    final target = detail.barbers.cast<ShopBarber>().firstWhere((b) => b.id == barberId);
     final currentlyFavorite = target.favorite;
 
     final updatedBarbers = detail.barbers
-        .map((b) => b.id == targetId ? b.copyWith(favorite: !currentlyFavorite) : b)
+        .map((b) => b.id == barberId ? b.copyWith(favorite: !currentlyFavorite) : b)
         .toList();
     emit(state.copyWith(detail: detail.copyWith(barbers: updatedBarbers)));
 
     final result = currentlyFavorite
-        ? await _removeFavorite(targetId)
-        : await _addFavorite(targetId);
+        ? await _removeFavorite(barberId)
+        : await _addFavorite(barberId);
 
     result.fold((failure) {
       final revertedBarbers = detail.barbers
-          .map((b) => b.id == targetId ? b.copyWith(favorite: currentlyFavorite) : b)
+          .map((b) => b.id == barberId ? b.copyWith(favorite: currentlyFavorite) : b)
           .toList();
       emit(
         state.copyWith(

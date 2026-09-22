@@ -5,9 +5,12 @@ import '../entities/transfer_account.dart';
 import '../entities/wallet_request.dart';
 import '../entities/wallet_request_page.dart';
 import '../entities/wallet_request_type.dart';
+import '../entities/withdraw_method.dart';
 
 abstract class ICustomerWalletRequestsRepo {
   Future<Either<Failure, List<TransferAccount>>> getTransferAccounts();
+
+  Future<Either<Failure, List<WithdrawMethod>>> getWithdrawMethods();
 
   Future<Either<Failure, WalletRequestPage>> getWalletRequests({
     required int page,
@@ -20,6 +23,8 @@ abstract class ICustomerWalletRequestsRepo {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
     String? note,
     String? filePath,
   });

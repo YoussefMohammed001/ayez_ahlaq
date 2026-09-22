@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/network/constants/endpoints.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/authorized_network_image.dart';
@@ -62,6 +61,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         : await cubit.createProduct(request);
 
     if (saved && _isEditing && _images.isNotEmpty) {
+      for (final imageId in _currentImageIds(cubit.state)) {
+        await AuthorizedNetworkImage.evict(
+          EndPoints.merchantProductImageById(widget.product!.id, imageId),
+        );
+      }
       await AuthorizedNetworkImage.evict(
         EndPoints.merchantProductImage(widget.product!.id),
       );
@@ -69,13 +73,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     if (!mounted) return;
 
-    if (saved) {
-      context.pop();
-      return;
-    }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
+    if (saved) context.pop();
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -60,7 +61,12 @@ class _BarberWalletRequestsScreenState
           onPressed: _openCreate,
         ),
       ),
-      body: BlocBuilder<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+      body: BlocConsumer<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+        listenWhen: (previous, current) =>
+            current.status == WalletRequestsListStatus.success &&
+            current.errorMessage != null &&
+            current.errorMessage != previous.errorMessage,
+        listener: (context, state) => showError(state.errorMessage!),
         builder: (context, state) {
           if (state.status == WalletRequestsListStatus.loading) {
             return const ListSkeleton();

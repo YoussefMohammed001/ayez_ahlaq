@@ -23,8 +23,7 @@ class BarberVerifyOtpScreen extends StatelessWidget {
         body: BlocConsumer<BarberAuthCubit, BarberAuthState>(
           listener: (context, state) {
             if (state.status == BarberAuthStatus.authenticated) {
-              context.read<BarberAuthCubit>().resetStatus();
-              context.go(Routes.barberLoginScreen);
+              context.go(Routes.barberShell);
             }
             if (state.status == BarberAuthStatus.otpResent &&
                 state.infoMessage != null) {

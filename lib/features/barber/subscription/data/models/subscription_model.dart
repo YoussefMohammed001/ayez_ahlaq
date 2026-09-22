@@ -12,9 +12,11 @@ class SubscriptionModel extends Subscription {
     super.nextRenewalDate,
     required super.autoCharge,
     super.employees,
+    super.ownServices,
     super.notificationsAll,
     super.notificationsZone,
     super.products,
+    super.drinks,
     super.ownCategories,
   });
 
@@ -25,14 +27,26 @@ class SubscriptionModel extends Subscription {
       planName: json['planName'] as String?,
       fee: json['fee'] as int? ?? 0,
       status: json['status'] as String?,
-      cycleStartedAt: DateTime.tryParse(json['cycleStartedAt'] as String? ?? ''),
-      nextRenewalDate: DateTime.tryParse(json['nextRenewalDate'] as String? ?? ''),
+      cycleStartedAt: DateTime.tryParse(
+        json['cycleStartedAt'] as String? ?? '',
+      ),
+      nextRenewalDate: DateTime.tryParse(
+        json['nextRenewalDate'] as String? ?? '',
+      ),
       autoCharge: json['autoCharge'] as bool? ?? false,
       employees: SubscriptionQuotaModel.fromJsonOrNull(json['employees']),
-      notificationsAll: SubscriptionQuotaModel.fromJsonOrNull(json['notificationsAll']),
-      notificationsZone: SubscriptionQuotaModel.fromJsonOrNull(json['notificationsZone']),
+      ownServices: SubscriptionQuotaModel.fromJsonOrNull(json['ownServices']),
+      notificationsAll: SubscriptionQuotaModel.fromJsonOrNull(
+        json['notificationsAll'],
+      ),
+      notificationsZone: SubscriptionQuotaModel.fromJsonOrNull(
+        json['notificationsZone'],
+      ),
       products: SubscriptionQuotaModel.fromJsonOrNull(json['products']),
-      ownCategories: SubscriptionQuotaModel.fromJsonOrNull(json['ownCategories']),
+      drinks: SubscriptionQuotaModel.fromJsonOrNull(json['drinks']),
+      ownCategories: SubscriptionQuotaModel.fromJsonOrNull(
+        json['ownCategories'],
+      ),
     );
   }
 }

@@ -18,12 +18,25 @@ class CartQuoteCard extends StatelessWidget {
         opacity: isUpdating ? 0.5 : 1,
         child: Column(
           children: [
+            if (quote.hasProductDiscount)
+              _buildRow(
+                context,
+                S().quoteGrossTotal,
+                S().currencyEgp(quote.grossSubtotal),
+              ),
             _buildRow(context, S().orderTotal, S().currencyEgp(quote.subtotal)),
             if (quote.orderDiscount > 0)
               _buildRow(
                 context,
                 S().orderDiscountLabel,
                 '-${S().currencyEgp(quote.orderDiscount)}',
+              ),
+            if (quote.discountTotal > 0)
+              _buildRow(
+                context,
+                S().quoteSavings,
+                S().currencyEgp(quote.discountTotal),
+                highlight: true,
               ),
             if (quote.deliveryFee > 0)
               _buildRow(context, S().deliveryFeeOrderLabel, S().currencyEgp(quote.deliveryFee)),
@@ -40,7 +53,13 @@ class CartQuoteCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(BuildContext context, String label, String value, {bool emphasize = false}) {
+  Widget _buildRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool emphasize = false,
+    bool highlight = false,
+  }) {
     final scheme = context.colorScheme;
 
     return Padding(
@@ -60,8 +79,12 @@ class CartQuoteCard extends StatelessWidget {
             value,
             style: TextStyle(
               fontSize: emphasize ? 17.sp : 13.sp,
-              fontWeight: emphasize ? FontWeight.w800 : FontWeight.w600,
-              color: emphasize ? context.semantic.accentSoft : scheme.onSurface,
+              fontWeight: emphasize || highlight ? FontWeight.w800 : FontWeight.w600,
+              color: emphasize
+                  ? context.semantic.accentSoft
+                  : highlight
+                  ? context.semantic.success
+                  : scheme.onSurface,
             ),
           ),
         ],

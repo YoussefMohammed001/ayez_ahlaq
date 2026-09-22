@@ -734,10 +734,10 @@ class S {
     );
   }
 
-  /// `Not you? Change account type`
+  /// `Change account type`
   String get changeAccountType {
     return Intl.message(
-      'Not you? Change account type',
+      'Change account type',
       name: 'changeAccountType',
       desc: '',
       args: [],
@@ -831,6 +831,16 @@ class S {
       name: 'loginSubtitleBarber',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `{type} account`
+  String accountTypeBadge(String type) {
+    return Intl.message(
+      '$type account',
+      name: 'accountTypeBadge',
+      desc: '',
+      args: [type],
     );
   }
 
@@ -959,6 +969,16 @@ class S {
     return Intl.message('Home', name: 'dashboardTitle', desc: '', args: []);
   }
 
+  /// `Quick actions`
+  String get quickActionsTitle {
+    return Intl.message(
+      'Quick actions',
+      name: 'quickActionsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `See all`
   String get seeAll {
     return Intl.message('See all', name: 'seeAll', desc: '', args: []);
@@ -1049,6 +1069,16 @@ class S {
     return Intl.message(
       'Available payment methods',
       name: 'paymentMethodsSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available services`
+  String get availableServicesSectionTitle {
+    return Intl.message(
+      'Available services',
+      name: 'availableServicesSectionTitle',
       desc: '',
       args: [],
     );
@@ -1279,6 +1309,36 @@ class S {
     return Intl.message(
       'Confirm booking',
       name: 'confirmBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to confirm this booking?`
+  String get confirmBookingMessage {
+    return Intl.message(
+      'Are you sure you want to confirm this booking?',
+      name: 'confirmBookingMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You already have a booking today`
+  String get sameDayBookingWarningTitle {
+    return Intl.message(
+      'You already have a booking today',
+      name: 'sameDayBookingWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to book another appointment for today?`
+  String get sameDayBookingWarningMessage {
+    return Intl.message(
+      'Are you sure you want to book another appointment for today?',
+      name: 'sameDayBookingWarningMessage',
       desc: '',
       args: [],
     );
@@ -1589,6 +1649,16 @@ class S {
     return Intl.message(
       'You have $count new orders on your store',
       name: 'newStorefrontOrdersCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count} required documents are missing`
+  String missingDocumentsHomeCount(Object count) {
+    return Intl.message(
+      '$count required documents are missing',
+      name: 'missingDocumentsHomeCount',
       desc: '',
       args: [count],
     );
@@ -2389,6 +2459,76 @@ class S {
     );
   }
 
+  /// `My customers`
+  String get myCustomers {
+    return Intl.message(
+      'My customers',
+      name: 'myCustomers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barbers and salons who ordered from your store`
+  String get myCustomersSubtitle {
+    return Intl.message(
+      'Barbers and salons who ordered from your store',
+      name: 'myCustomersSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search by name or phone`
+  String get customersSearchHint {
+    return Intl.message(
+      'Search by name or phone',
+      name: 'customersSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No customers yet`
+  String get noCustomersYet {
+    return Intl.message(
+      'No customers yet',
+      name: 'noCustomersYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} orders`
+  String customerOrderCount(Object count) {
+    return Intl.message(
+      '$count orders',
+      name: 'customerOrderCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Total spend`
+  String get customerTotalSpend {
+    return Intl.message(
+      'Total spend',
+      name: 'customerTotalSpend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last order: {date}`
+  String customerLastOrderAt(Object date) {
+    return Intl.message(
+      'Last order: $date',
+      name: 'customerLastOrderAt',
+      desc: '',
+      args: [date],
+    );
+  }
+
   /// `Offers and discounts`
   String get discountsTitle {
     return Intl.message(
@@ -2964,6 +3104,56 @@ class S {
     );
   }
 
+  /// `Confirm bill changes`
+  String get confirmBillTitle {
+    return Intl.message(
+      'Confirm bill changes',
+      name: 'confirmBillTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review the new bill details before saving`
+  String get confirmBillMessage {
+    return Intl.message(
+      'Review the new bill details before saving',
+      name: 'confirmBillMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No drinks or extras on this bill`
+  String get confirmBillNoChanges {
+    return Intl.message(
+      'No drinks or extras on this bill',
+      name: 'confirmBillNoChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New total`
+  String get confirmBillNewTotal {
+    return Intl.message(
+      'New total',
+      name: 'confirmBillNewTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm & save`
+  String get confirmBillSave {
+    return Intl.message(
+      'Confirm & save',
+      name: 'confirmBillSave',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Extras and discounts`
   String get billAdjustments {
     return Intl.message(
@@ -2974,10 +3164,10 @@ class S {
     );
   }
 
-  /// `Add a line`
+  /// `Add a charge or discount`
   String get addAdjustment {
     return Intl.message(
-      'Add a line',
+      'Add a charge or discount',
       name: 'addAdjustment',
       desc: '',
       args: [],
@@ -3004,11 +3194,26 @@ class S {
     return Intl.message('Amount', name: 'adjustmentAmount', desc: '', args: []);
   }
 
-  /// `30, or -20 for a discount`
+  /// `30`
   String get adjustmentAmountHint {
+    return Intl.message('30', name: 'adjustmentAmountHint', desc: '', args: []);
+  }
+
+  /// `Addition`
+  String get adjustmentTypeAddition {
     return Intl.message(
-      '30, or -20 for a discount',
-      name: 'adjustmentAmountHint',
+      'Addition',
+      name: 'adjustmentTypeAddition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discount`
+  String get adjustmentTypeDiscount {
+    return Intl.message(
+      'Discount',
+      name: 'adjustmentTypeDiscount',
       desc: '',
       args: [],
     );
@@ -3377,6 +3582,16 @@ class S {
   /// `Support`
   String get supportSection {
     return Intl.message('Support', name: 'supportSection', desc: '', args: []);
+  }
+
+  /// `Contact us on WhatsApp`
+  String get whatsappSupport {
+    return Intl.message(
+      'Contact us on WhatsApp',
+      name: 'whatsappSupport',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Edit my info`
@@ -4439,6 +4654,46 @@ class S {
     );
   }
 
+  /// `Menu`
+  String get menuTitle {
+    return Intl.message('Menu', name: 'menuTitle', desc: '', args: []);
+  }
+
+  /// `Account Management`
+  String get accountManagementSection {
+    return Intl.message(
+      'Account Management',
+      name: 'accountManagementSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings & Services`
+  String get bookingsAndServicesSection {
+    return Intl.message(
+      'Bookings & Services',
+      name: 'bookingsAndServicesSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Details`
+  String get profileDetailsTitle {
+    return Intl.message(
+      'Account Details',
+      name: 'profileDetailsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get nameLabel {
+    return Intl.message('Name', name: 'nameLabel', desc: '', args: []);
+  }
+
   /// `Shop`
   String get shopSection {
     return Intl.message('Shop', name: 'shopSection', desc: '', args: []);
@@ -4874,6 +5129,111 @@ class S {
     );
   }
 
+  /// `Clear cart?`
+  String get clearCartTitle {
+    return Intl.message(
+      'Clear cart?',
+      name: 'clearCartTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All items in this cart will be removed.`
+  String get clearCartMessage {
+    return Intl.message(
+      'All items in this cart will be removed.',
+      name: 'clearCartMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear`
+  String get clearCartConfirm {
+    return Intl.message('Clear', name: 'clearCartConfirm', desc: '', args: []);
+  }
+
+  /// `Confirm order`
+  String get placeOrderConfirmTitle {
+    return Intl.message(
+      'Confirm order',
+      name: 'placeOrderConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This order will be sent to the supplier. Continue?`
+  String get placeOrderConfirmMessage {
+    return Intl.message(
+      'This order will be sent to the supplier. Continue?',
+      name: 'placeOrderConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get placeOrderConfirmAction {
+    return Intl.message(
+      'Send',
+      name: 'placeOrderConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a fulfilment option first`
+  String get selectFulfillmentRequired {
+    return Intl.message(
+      'Choose a fulfilment option first',
+      name: 'selectFulfillmentRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a delivery address first`
+  String get deliveryAddressRequired {
+    return Intl.message(
+      'Enter a delivery address first',
+      name: 'deliveryAddressRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel order?`
+  String get cancelOrderConfirmTitle {
+    return Intl.message(
+      'Cancel order?',
+      name: 'cancelOrderConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You won't be able to undo this once the order is cancelled.`
+  String get cancelOrderConfirmMessage {
+    return Intl.message(
+      'You won\'t be able to undo this once the order is cancelled.',
+      name: 'cancelOrderConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel order`
+  String get cancelOrderConfirmAction {
+    return Intl.message(
+      'Cancel order',
+      name: 'cancelOrderConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Wallet`
   String get walletTitle {
     return Intl.message('Wallet', name: 'walletTitle', desc: '', args: []);
@@ -5024,6 +5384,16 @@ class S {
     return Intl.message(
       'How do you want to receive it?',
       name: 'withdrawMethodLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose a withdrawal method`
+  String get withdrawMethodRequired {
+    return Intl.message(
+      'Please choose a withdrawal method',
+      name: 'withdrawMethodRequired',
       desc: '',
       args: [],
     );
@@ -5279,6 +5649,501 @@ class S {
     );
   }
 
+  /// `Money Manager`
+  String get moneyManagerTitle {
+    return Intl.message(
+      'Money Manager',
+      name: 'moneyManagerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set a PIN to protect your revenue data`
+  String get moneyPinSetupTitle {
+    return Intl.message(
+      'Set a PIN to protect your revenue data',
+      name: 'moneyPinSetupTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your PIN to view your revenue`
+  String get moneyPinEnterTitle {
+    return Intl.message(
+      'Enter your PIN to view your revenue',
+      name: 'moneyPinEnterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save PIN`
+  String get moneyPinSetupAction {
+    return Intl.message(
+      'Save PIN',
+      name: 'moneyPinSetupAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get moneyPinConfirmAction {
+    return Intl.message(
+      'Continue',
+      name: 'moneyPinConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change PIN`
+  String get changeMoneyPinTitle {
+    return Intl.message(
+      'Change PIN',
+      name: 'changeMoneyPinTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change PIN`
+  String get changeMoneyPinAction {
+    return Intl.message(
+      'Change PIN',
+      name: 'changeMoneyPinAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current PIN`
+  String get currentMoneyPinLabel {
+    return Intl.message(
+      'Current PIN',
+      name: 'currentMoneyPinLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New PIN`
+  String get newMoneyPinLabel {
+    return Intl.message(
+      'New PIN',
+      name: 'newMoneyPinLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm new PIN`
+  String get confirmMoneyPinLabel {
+    return Intl.message(
+      'Confirm new PIN',
+      name: 'confirmMoneyPinLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New PIN doesn't match`
+  String get moneyPinNotMatch {
+    return Intl.message(
+      'New PIN doesn\'t match',
+      name: 'moneyPinNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PIN changed`
+  String get moneyPinChanged {
+    return Intl.message(
+      'PIN changed',
+      name: 'moneyPinChanged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot your PIN?`
+  String get moneyPinForgotAction {
+    return Intl.message(
+      'Forgot your PIN?',
+      name: 'moneyPinForgotAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request a PIN reset`
+  String get moneyPinResetConfirmTitle {
+    return Intl.message(
+      'Request a PIN reset',
+      name: 'moneyPinResetConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We'll send a reset request to the admin team. You'll be able to set a new PIN once it's approved.`
+  String get moneyPinResetConfirmMessage {
+    return Intl.message(
+      'We\'ll send a reset request to the admin team. You\'ll be able to set a new PIN once it\'s approved.',
+      name: 'moneyPinResetConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send request`
+  String get moneyPinResetConfirmAction {
+    return Intl.message(
+      'Send request',
+      name: 'moneyPinResetConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset request sent`
+  String get moneyPinResetPendingTitle {
+    return Intl.message(
+      'Reset request sent',
+      name: 'moneyPinResetPendingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your request is being reviewed by the admin team. You'll be notified once it's resolved.`
+  String get moneyPinResetPendingMessage {
+    return Intl.message(
+      'Your request is being reviewed by the admin team. You\'ll be notified once it\'s resolved.',
+      name: 'moneyPinResetPendingMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset request rejected`
+  String get moneyPinResetRejectedTitle {
+    return Intl.message(
+      'Reset request rejected',
+      name: 'moneyPinResetRejectedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total added`
+  String get moneyTotalAdded {
+    return Intl.message(
+      'Total added',
+      name: 'moneyTotalAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total subtracted`
+  String get moneyTotalSubtracted {
+    return Intl.message(
+      'Total subtracted',
+      name: 'moneyTotalSubtracted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Net`
+  String get moneyNet {
+    return Intl.message('Net', name: 'moneyNet', desc: '', args: []);
+  }
+
+  /// `Needs confirmation`
+  String get moneyPendingOccurrences {
+    return Intl.message(
+      'Needs confirmation',
+      name: 'moneyPendingOccurrences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing needs confirmation right now`
+  String get moneyNoPendingOccurrences {
+    return Intl.message(
+      'Nothing needs confirmation right now',
+      name: 'moneyNoPendingOccurrences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get moneyOccurrenceConfirm {
+    return Intl.message(
+      'Confirm',
+      name: 'moneyOccurrenceConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get moneyOccurrenceDismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'moneyOccurrenceDismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ledger`
+  String get moneyLedgerTitle {
+    return Intl.message('Ledger', name: 'moneyLedgerTitle', desc: '', args: []);
+  }
+
+  /// `No entries yet`
+  String get moneyNoEntries {
+    return Intl.message(
+      'No entries yet',
+      name: 'moneyNoEntries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New entry`
+  String get moneyNewEntry {
+    return Intl.message('New entry', name: 'moneyNewEntry', desc: '', args: []);
+  }
+
+  /// `Recurring items`
+  String get moneyRecurringItemsTitle {
+    return Intl.message(
+      'Recurring items',
+      name: 'moneyRecurringItemsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No recurring items yet`
+  String get moneyNoItems {
+    return Intl.message(
+      'No recurring items yet',
+      name: 'moneyNoItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New recurring item`
+  String get moneyNewItem {
+    return Intl.message(
+      'New recurring item',
+      name: 'moneyNewItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit recurring item`
+  String get moneyEditItem {
+    return Intl.message(
+      'Edit recurring item',
+      name: 'moneyEditItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get moneyDescriptionHint {
+    return Intl.message(
+      'Description',
+      name: 'moneyDescriptionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get moneyAmountLabel {
+    return Intl.message('Amount', name: 'moneyAmountLabel', desc: '', args: []);
+  }
+
+  /// `Enter the amount`
+  String get moneyAmountHint {
+    return Intl.message(
+      'Enter the amount',
+      name: 'moneyAmountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get moneyDirectionLabel {
+    return Intl.message(
+      'Type',
+      name: 'moneyDirectionLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get moneyDirectionAdd {
+    return Intl.message('Add', name: 'moneyDirectionAdd', desc: '', args: []);
+  }
+
+  /// `Subtract`
+  String get moneyDirectionSubtract {
+    return Intl.message(
+      'Subtract',
+      name: 'moneyDirectionSubtract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Frequency`
+  String get moneyFrequencyLabel {
+    return Intl.message(
+      'Frequency',
+      name: 'moneyFrequencyLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily`
+  String get moneyFrequencyDaily {
+    return Intl.message(
+      'Daily',
+      name: 'moneyFrequencyDaily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get moneyFrequencyWeekly {
+    return Intl.message(
+      'Weekly',
+      name: 'moneyFrequencyWeekly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get moneyFrequencyMonthly {
+    return Intl.message(
+      'Monthly',
+      name: 'moneyFrequencyMonthly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day of week`
+  String get moneyDayOfWeekLabel {
+    return Intl.message(
+      'Day of week',
+      name: 'moneyDayOfWeekLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day of month`
+  String get moneyDayOfMonthLabel {
+    return Intl.message(
+      'Day of month',
+      name: 'moneyDayOfMonthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete recurring item`
+  String get moneyDeleteItemTitle {
+    return Intl.message(
+      'Delete recurring item',
+      name: 'moneyDeleteItemTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this item?`
+  String get moneyDeleteItemMessage {
+    return Intl.message(
+      'Are you sure you want to delete this item?',
+      name: 'moneyDeleteItemMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sunday`
+  String get weekdaySunday {
+    return Intl.message('Sunday', name: 'weekdaySunday', desc: '', args: []);
+  }
+
+  /// `Monday`
+  String get weekdayMonday {
+    return Intl.message('Monday', name: 'weekdayMonday', desc: '', args: []);
+  }
+
+  /// `Tuesday`
+  String get weekdayTuesday {
+    return Intl.message('Tuesday', name: 'weekdayTuesday', desc: '', args: []);
+  }
+
+  /// `Wednesday`
+  String get weekdayWednesday {
+    return Intl.message(
+      'Wednesday',
+      name: 'weekdayWednesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thursday`
+  String get weekdayThursday {
+    return Intl.message(
+      'Thursday',
+      name: 'weekdayThursday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friday`
+  String get weekdayFriday {
+    return Intl.message('Friday', name: 'weekdayFriday', desc: '', args: []);
+  }
+
+  /// `Saturday`
+  String get weekdaySaturday {
+    return Intl.message(
+      'Saturday',
+      name: 'weekdaySaturday',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reviews`
   String get reviewsTitle {
     return Intl.message('Reviews', name: 'reviewsTitle', desc: '', args: []);
@@ -5414,6 +6279,21 @@ class S {
     return Intl.message('Active', name: 'planStatusActive', desc: '', args: []);
   }
 
+  /// `Paused`
+  String get planStatusPaused {
+    return Intl.message('Paused', name: 'planStatusPaused', desc: '', args: []);
+  }
+
+  /// `Unknown status`
+  String get planStatusUnknown {
+    return Intl.message(
+      'Unknown status',
+      name: 'planStatusUnknown',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Next renewal`
   String get nextRenewalLabel {
     return Intl.message(
@@ -5464,6 +6344,16 @@ class S {
     );
   }
 
+  /// `Own services`
+  String get quotaOwnServices {
+    return Intl.message(
+      'Own services',
+      name: 'quotaOwnServices',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Notifications (all)`
   String get quotaNotificationsAll {
     return Intl.message(
@@ -5487,6 +6377,11 @@ class S {
   /// `Products`
   String get quotaProducts {
     return Intl.message('Products', name: 'quotaProducts', desc: '', args: []);
+  }
+
+  /// `Drinks`
+  String get quotaDrinks {
+    return Intl.message('Drinks', name: 'quotaDrinks', desc: '', args: []);
   }
 
   /// `Own categories`
@@ -5839,6 +6734,16 @@ class S {
     );
   }
 
+  /// `Rejection reason`
+  String get broadcastRejectionReasonLabel {
+    return Intl.message(
+      'Rejection reason',
+      name: 'broadcastRejectionReasonLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `My storefront`
   String get storefrontProductsTitle {
     return Intl.message(
@@ -6004,6 +6909,76 @@ class S {
     return Intl.message(
       'History',
       name: 'bookingsHistoryTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unresolved`
+  String get bookingsUnresolvedTab {
+    return Intl.message(
+      'Unresolved',
+      name: 'bookingsUnresolvedTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No unresolved bookings`
+  String get noUnresolvedBookings {
+    return Intl.message(
+      'No unresolved bookings',
+      name: 'noUnresolvedBookings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approve`
+  String get settleApprove {
+    return Intl.message('Approve', name: 'settleApprove', desc: '', args: []);
+  }
+
+  /// `Cancel`
+  String get settleCancel {
+    return Intl.message('Cancel', name: 'settleCancel', desc: '', args: []);
+  }
+
+  /// `Reason for cancelling`
+  String get settleCancelReasonHint {
+    return Intl.message(
+      'Reason for cancelling',
+      name: 'settleCancelReasonHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} selected`
+  String settleSelectedCount(Object count) {
+    return Intl.message(
+      '$count selected',
+      name: 'settleSelectedCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Apply decisions`
+  String get settleSubmitAction {
+    return Intl.message(
+      'Apply decisions',
+      name: 'settleSubmitAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings settled`
+  String get settleSuccess {
+    return Intl.message(
+      'Bookings settled',
+      name: 'settleSuccess',
       desc: '',
       args: [],
     );
@@ -6299,10 +7274,10 @@ class S {
     );
   }
 
-  /// `None`
+  /// `Tap to add`
   String get walkInPickerNoneSelected {
     return Intl.message(
-      'None',
+      'Tap to add',
       name: 'walkInPickerNoneSelected',
       desc: '',
       args: [],
@@ -6344,10 +7319,10 @@ class S {
     return Intl.message('Edit', name: 'walkInConfirmEdit', desc: '', args: []);
   }
 
-  /// `Extras total`
+  /// `Total`
   String get walkInConfirmTotalLabel {
     return Intl.message(
-      'Extras total',
+      'Total',
       name: 'walkInConfirmTotalLabel',
       desc: '',
       args: [],
@@ -7377,6 +8352,481 @@ class S {
   /// `View`
   String get view {
     return Intl.message('View', name: 'view', desc: '', args: []);
+  }
+
+  /// `Home service`
+  String get homeServiceSettingsTitle {
+    return Intl.message(
+      'Home service',
+      name: 'homeServiceSettingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn this on to reach customers who want a haircut at home. Set your base price, any notes, then your availability.`
+  String get homeServiceNote {
+    return Intl.message(
+      'Turn this on to reach customers who want a haircut at home. Set your base price, any notes, then your availability.',
+      name: 'homeServiceNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service`
+  String get homeServiceOffered {
+    return Intl.message(
+      'Home service',
+      name: 'homeServiceOffered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not enabled`
+  String get homeServiceOffLabel {
+    return Intl.message(
+      'Not enabled',
+      name: 'homeServiceOffLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Base price`
+  String get homeServicePriceLabel {
+    return Intl.message(
+      'Base price',
+      name: 'homeServicePriceLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. 150`
+  String get homeServicePriceHint {
+    return Intl.message(
+      'e.g. 150',
+      name: 'homeServicePriceHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid price`
+  String get homeServicePriceRequired {
+    return Intl.message(
+      'Enter a valid price',
+      name: 'homeServicePriceRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (optional)`
+  String get homeServiceNoteLabel {
+    return Intl.message(
+      'Note (optional)',
+      name: 'homeServiceNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. Haircut and beard trim only`
+  String get homeServiceNoteHint {
+    return Intl.message(
+      'e.g. Haircut and beard trim only',
+      name: 'homeServiceNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service settings saved`
+  String get homeServiceSettingsSaved {
+    return Intl.message(
+      'Home service settings saved',
+      name: 'homeServiceSettingsSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service hours`
+  String get homeServiceHoursCta {
+    return Intl.message(
+      'Home service hours',
+      name: 'homeServiceHoursCta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service hours`
+  String get homeServiceHoursTitle {
+    return Intl.message(
+      'Home service hours',
+      name: 'homeServiceHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enabled — edit price or hours`
+  String get homeServiceCardEnabledHint {
+    return Intl.message(
+      'Enabled — edit price or hours',
+      name: 'homeServiceCardEnabledHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn it on to reach new customers at home`
+  String get homeServiceCardDisabledHint {
+    return Intl.message(
+      'Turn it on to reach new customers at home',
+      name: 'homeServiceCardDisabledHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have {count} home service requests awaiting a reply`
+  String homeServicePendingCount(Object count) {
+    return Intl.message(
+      'You have $count home service requests awaiting a reply',
+      name: 'homeServicePendingCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Sponsored`
+  String get sponsoredLabel {
+    return Intl.message(
+      'Sponsored',
+      name: 'sponsoredLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starting from {price} EGP`
+  String homeServiceStartingPrice(Object price) {
+    return Intl.message(
+      'Starting from $price EGP',
+      name: 'homeServiceStartingPrice',
+      desc: '',
+      args: [price],
+    );
+  }
+
+  /// `Home service`
+  String get homeServiceShopListTitle {
+    return Intl.message(
+      'Home service',
+      name: 'homeServiceShopListTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No shops offer home service right now`
+  String get noHomeServiceShopsYet {
+    return Intl.message(
+      'No shops offer home service right now',
+      name: 'noHomeServiceShopsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service request`
+  String get homeServiceRequestTitle {
+    return Intl.message(
+      'Home service request',
+      name: 'homeServiceRequestTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set the address and location first`
+  String get homeServiceAddressRequired {
+    return Intl.message(
+      'Set the address and location first',
+      name: 'homeServiceAddressRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. 6th floor, no elevator`
+  String get homeServiceRequestNoteHint {
+    return Intl.message(
+      'e.g. 6th floor, no elevator',
+      name: 'homeServiceRequestNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit request`
+  String get homeServiceSubmitRequest {
+    return Intl.message(
+      'Submit request',
+      name: 'homeServiceSubmitRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service request sent`
+  String get homeServiceRequestCreated {
+    return Intl.message(
+      'Home service request sent',
+      name: 'homeServiceRequestCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home service requests`
+  String get homeServiceRequestsTitle {
+    return Intl.message(
+      'Home service requests',
+      name: 'homeServiceRequestsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't made any home service requests yet`
+  String get noHomeServiceRequestsYet {
+    return Intl.message(
+      'You haven\'t made any home service requests yet',
+      name: 'noHomeServiceRequestsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request details`
+  String get homeServiceRequestDetailTitle {
+    return Intl.message(
+      'Request details',
+      name: 'homeServiceRequestDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price changed`
+  String get homeServicePriceChangedTitle {
+    return Intl.message(
+      'Price changed',
+      name: 'homeServicePriceChangedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The shop wants {newPrice} instead of {oldPrice}. Confirm or cancel the request.`
+  String homeServicePriceChangedMessage(Object newPrice, Object oldPrice) {
+    return Intl.message(
+      'The shop wants $newPrice instead of $oldPrice. Confirm or cancel the request.',
+      name: 'homeServicePriceChangedMessage',
+      desc: '',
+      args: [newPrice, oldPrice],
+    );
+  }
+
+  /// `Confirm new price`
+  String get homeServiceConfirmNewPrice {
+    return Intl.message(
+      'Confirm new price',
+      name: 'homeServiceConfirmNewPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price confirmed`
+  String get homeServicePriceConfirmed {
+    return Intl.message(
+      'Price confirmed',
+      name: 'homeServicePriceConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel request`
+  String get homeServiceCancelRequest {
+    return Intl.message(
+      'Cancel request',
+      name: 'homeServiceCancelRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel request`
+  String get homeServiceCancelTitle {
+    return Intl.message(
+      'Cancel request',
+      name: 'homeServiceCancelTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel this home service request?`
+  String get homeServiceCancelMessage {
+    return Intl.message(
+      'Are you sure you want to cancel this home service request?',
+      name: 'homeServiceCancelMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm cancellation`
+  String get homeServiceCancelConfirm {
+    return Intl.message(
+      'Confirm cancellation',
+      name: 'homeServiceCancelConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request cancelled`
+  String get homeServiceRequestCancelled {
+    return Intl.message(
+      'Request cancelled',
+      name: 'homeServiceRequestCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awaiting approval`
+  String get homeServiceStatusPending {
+    return Intl.message(
+      'Awaiting approval',
+      name: 'homeServiceStatusPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accepted`
+  String get homeServiceStatusAccepted {
+    return Intl.message(
+      'Accepted',
+      name: 'homeServiceStatusAccepted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barber on the way`
+  String get homeServiceStatusOnTheWay {
+    return Intl.message(
+      'Barber on the way',
+      name: 'homeServiceStatusOnTheWay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get homeServiceStatusDone {
+    return Intl.message(
+      'Done',
+      name: 'homeServiceStatusDone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected`
+  String get homeServiceStatusRejected {
+    return Intl.message(
+      'Rejected',
+      name: 'homeServiceStatusRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get homeServiceStatusCancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'homeServiceStatusCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Distance`
+  String get distanceLabel {
+    return Intl.message('Distance', name: 'distanceLabel', desc: '', args: []);
+  }
+
+  /// `No home service requests awaiting a reply`
+  String get noPendingHomeServiceRequests {
+    return Intl.message(
+      'No home service requests awaiting a reply',
+      name: 'noPendingHomeServiceRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for the customer to confirm the new price before you can accept`
+  String get homeServiceAwaitingPriceConfirmation {
+    return Intl.message(
+      'Waiting for the customer to confirm the new price before you can accept',
+      name: 'homeServiceAwaitingPriceConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept request`
+  String get acceptHomeServiceRequest {
+    return Intl.message(
+      'Accept request',
+      name: 'acceptHomeServiceRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reject request`
+  String get rejectHomeServiceRequest {
+    return Intl.message(
+      'Reject request',
+      name: 'rejectHomeServiceRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit price`
+  String get editHomeServicePriceAction {
+    return Intl.message(
+      'Edit price',
+      name: 'editHomeServicePriceAction',
+      desc: '',
+      args: [],
+    );
   }
 }
 

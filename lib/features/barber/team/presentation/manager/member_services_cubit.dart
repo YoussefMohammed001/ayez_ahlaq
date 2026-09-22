@@ -122,16 +122,21 @@ class MemberServicesCubit extends Cubit<MemberServicesState> {
     final memberId = state.memberId;
     if (memberId == null) return;
 
-    final previous = state.services;
+    final removed = state.services.where((s) => s.id == id).firstOrNull;
 
-    emit(state.copyWith(services: state.services.where((s) => s.id != id).toList()));
+    emit(
+      state.copyWith(
+        services: state.services.where((s) => s.id != id).toList(),
+      ),
+    );
 
     final result = await _deleteService(memberId, id);
 
-    result.leftMap(
-      (failure) => emit(
-        state.copyWith(services: previous, errorMessage: failure.message),
-      ),
-    );
+    result.leftMap((failure) {
+      if (removed != null && !state.services.any((s) => s.id == id)) {
+        emit(state.copyWith(services: [...state.services, removed]));
+      }
+      emit(state.copyWith(errorMessage: failure.message));
+    });
   }
 }

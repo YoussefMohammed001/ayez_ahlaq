@@ -15,6 +15,8 @@ class ActiveDiscount extends Equatable {
 
   bool get isPercent => rewardType == 'PERCENT';
 
+  bool get isFree => rewardType == 'FREE';
+
   @override
   List<Object?> get props => [discountId, name, rewardType, rewardValue];
 }

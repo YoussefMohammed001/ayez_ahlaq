@@ -38,5 +38,14 @@ class MerchantNotification extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, type, title, body, createdAt, seen];
+  List<Object?> get props => [
+    id,
+    type,
+    referenceType,
+    referenceId,
+    title,
+    body,
+    createdAt,
+    seen,
+  ];
 }

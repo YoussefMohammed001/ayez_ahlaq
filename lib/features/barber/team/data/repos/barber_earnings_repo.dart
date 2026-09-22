@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/earnings.dart';
 import '../../domain/entities/member_client.dart';
 import '../../domain/repos/i_barber_earnings_repo.dart';
@@ -15,19 +16,17 @@ class BarberEarningsRepo implements IBarberEarningsRepo {
   @override
   Future<Either<Failure, Earnings>> getEarnings() async {
     final result = await _api.getEarnings();
-    return result.map(
-      (response) =>
-          EarningsModel.fromJson(response['data'] as Map<String, dynamic>),
-    );
+    return result.flatMap(_mapEarnings);
   }
 
   @override
   Future<Either<Failure, Earnings>> getMemberEarnings(int memberId) async {
     final result = await _api.getMemberEarnings(memberId);
-    return result.map(
-      (response) =>
-          EarningsModel.fromJson(response['data'] as Map<String, dynamic>),
-    );
+    return result.flatMap(_mapEarnings);
+  }
+
+  Either<Failure, Earnings> _mapEarnings(dynamic response) {
+    return requireDataMap(response).map(EarningsModel.fromJson);
   }
 
   @override

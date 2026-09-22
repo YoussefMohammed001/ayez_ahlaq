@@ -25,6 +25,6 @@ class BroadcastStatusChip extends StatelessWidget {
     BroadcastStatus.pending => BadgeTone.closed,
     BroadcastStatus.approved => BadgeTone.open,
     BroadcastStatus.rejected => BadgeTone.danger,
-    BroadcastStatus.other => BadgeTone.muted,
+    BroadcastStatus.other => BadgeTone.closed,
   };
 }

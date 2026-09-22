@@ -4,6 +4,8 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/subscription.dart';
+import '../../domain/entities/subscription_status.dart';
+import 'subscription_status_label.dart';
 
 class SubscriptionHomeCard extends StatelessWidget {
   final Subscription subscription;
@@ -14,7 +16,6 @@ class SubscriptionHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final semantic = context.semantic;
 
     if (!subscription.hasSubscription) {
       return AppCard(
@@ -35,8 +36,7 @@ class SubscriptionHomeCard extends StatelessWidget {
       );
     }
 
-    final isPending = subscription.status == 'PENDING';
-    final statusColor = isPending ? semantic.warning : semantic.success;
+    final statusColor = SubscriptionStatus.fromApi(subscription.status).colorOf(context);
 
     return AppCard(
       onTap: onTap,

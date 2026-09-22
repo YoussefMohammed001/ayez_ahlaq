@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../booking/presentation/widgets/barber_status_badge.dart';
 import '../../domain/entities/shop_barber.dart';
 
 class ShopBarberRow extends StatelessWidget {
   final ShopBarber barber;
+  final bool showDivider;
 
-  const ShopBarberRow({super.key, required this.barber});
+  const ShopBarberRow({
+    super.key,
+    required this.barber,
+    required this.showDivider,
+  });
 
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
 
-    return AppCard(
-      margin: EdgeInsets.only(bottom: 10.h),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 12.h),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: showDivider ? scheme.outline : Colors.transparent),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,46 +41,32 @@ class ShopBarberRow extends StatelessWidget {
               children: [
                 Text(
                   barber.name,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13.5.sp,
-                    fontWeight: FontWeight.w700,
-                    color: scheme.onSurface,
-                  ),
+                  style: TextStyle(fontSize: 14.5.sp, fontWeight: FontWeight.w700, color: scheme.onSurface),
                 ),
-                SizedBox(height: 4.h),
+                if ((barber.tagline ?? '').isNotEmpty) ...[
+                  SizedBox(height: 2.h),
+                  Text(
+                    barber.tagline!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                  ),
+                ],
+                SizedBox(height: 6.h),
                 Row(
                   children: [
                     Icon(Icons.star_rounded, size: 14.r, color: context.semantic.accentSoft),
                     SizedBox(width: 3.w),
                     Text(
                       '${barber.rating.toStringAsFixed(1)} (${barber.ratingCount})',
-                      style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                      style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
                     ),
+                    SizedBox(width: 8.w),
+                    BarberStatusBadge(available: barber.available),
                   ],
                 ),
-                if (barber.services.isNotEmpty) ...[
-                  SizedBox(height: 8.h),
-                  Wrap(
-                    spacing: 6.w,
-                    runSpacing: 6.h,
-                    children: barber.services
-                        .map(
-                          (service) => Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                              color: scheme.surfaceContainerHighest,
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            child: Text(
-                              '${service.name} · ${service.price}',
-                              style: TextStyle(fontSize: 10.5.sp, color: scheme.onSurfaceVariant),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
               ],
             ),
           ),

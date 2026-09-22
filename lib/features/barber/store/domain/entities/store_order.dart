@@ -82,5 +82,26 @@ class StoreOrder extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, code, status, total, grandTotal];
+  List<Object?> get props => [
+    id,
+    code,
+    status,
+    merchantId,
+    merchantName,
+    fulfillmentType,
+    note,
+    rejectionReason,
+    total,
+    orderDiscount,
+    deliveryFee,
+    grandTotal,
+    items,
+    orderDate,
+    acceptedAt,
+    rejectedAt,
+    deliveredAt,
+    deliveryAddress,
+    deliveryLat,
+    deliveryLng,
+  ];
 }

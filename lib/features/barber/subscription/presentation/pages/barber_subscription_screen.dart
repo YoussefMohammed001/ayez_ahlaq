@@ -11,7 +11,9 @@ import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/subscription_plan.dart';
+import '../../domain/entities/subscription_status.dart';
 import '../manager/barber_subscription_cubit.dart';
 import '../manager/barber_subscription_state.dart';
 import '../widgets/current_subscription_card.dart';
@@ -35,61 +37,74 @@ class BarberSubscriptionScreen extends StatelessWidget {
     final cubit = context.read<BarberSubscriptionCubit>();
     final succeeded = await cubit.subscribe(plan.id);
 
-    if (!context.mounted) return;
+    if (!context.mounted || !succeeded) return;
 
-    if (!succeeded) {
-      showError(cubit.state.errorMessage ?? S().somethingWentWrong);
-      return;
-    }
-
-    final activated = cubit.state.subscription?.status != 'PENDING';
-    showSuccess(activated ? S().subscriptionActivated : S().subscriptionRequestSentPending);
+    final activated =
+        SubscriptionStatus.fromApi(cubit.state.subscription?.status) ==
+        SubscriptionStatus.active;
+    showSuccess(
+      activated
+          ? S().subscriptionActivated
+          : S().subscriptionRequestSentPending,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: S().subscriptionTitle),
-      body: BlocBuilder<BarberSubscriptionCubit, BarberSubscriptionState>(
-        builder: (context, state) {
-          final cubit = context.read<BarberSubscriptionCubit>();
-          final subscription = state.subscription;
+    return BusyErrorListener<BarberSubscriptionCubit, BarberSubscriptionState>(
+      isBusy: (state) => state.subscribingPlanId != null,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(title: S().subscriptionTitle),
+        body: BlocBuilder<BarberSubscriptionCubit, BarberSubscriptionState>(
+          builder: (context, state) {
+            final cubit = context.read<BarberSubscriptionCubit>();
+            final subscription = state.subscription;
 
-          if (state.status == BarberSubscriptionStatus.loading && subscription == null) {
-            return const ListSkeleton();
-          }
+            if (state.status == BarberSubscriptionStatus.loading &&
+                subscription == null) {
+              return const ListSkeleton();
+            }
 
-          if (state.status == BarberSubscriptionStatus.failure && subscription == null) {
-            return RefreshableStateView(
-              onRefresh: cubit.load,
-              child: AppErrorState(message: state.errorMessage, onRetry: cubit.load),
-            );
-          }
-
-          if (subscription == null) return const SizedBox.shrink();
-
-          return RefreshIndicator(
-            onRefresh: cubit.load,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-              children: [
-                CurrentSubscriptionCard(subscription: subscription),
-                SectionTitle(
-                  title: S().availablePlansTitle,
-                  actionLabel: S().subscriptionRequestsTitle,
-                  onAction: () => context.push(Routes.barberSubscriptionRequestsScreen),
+            if (state.status == BarberSubscriptionStatus.failure &&
+                subscription == null) {
+              return RefreshableStateView(
+                onRefresh: cubit.load,
+                child: AppErrorState(
+                  message: state.errorMessage,
+                  onRetry: cubit.load,
                 ),
-                for (final plan in state.plans)
-                  SubscriptionPlanCard(
-                    plan: plan,
-                    isCurrentPlan: subscription.hasSubscription && subscription.planId == plan.id,
-                    isSubscribing: state.subscribingPlanId == plan.id,
-                    onSubscribe: () => _subscribe(context, plan),
+              );
+            }
+
+            if (subscription == null) return const SizedBox.shrink();
+
+            return RefreshIndicator(
+              onRefresh: cubit.load,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+                children: [
+                  CurrentSubscriptionCard(subscription: subscription),
+                  SectionTitle(
+                    title: S().availablePlansTitle,
+                    actionLabel: S().subscriptionRequestsTitle,
+                    onAction: () =>
+                        context.push(Routes.barberSubscriptionRequestsScreen),
                   ),
-              ],
-            ),
-          );
-        },
+                  for (final plan in state.plans)
+                    SubscriptionPlanCard(
+                      plan: plan,
+                      isCurrentPlan:
+                          subscription.hasSubscription &&
+                          subscription.planId == plan.id,
+                      isSubscribing: state.subscribingPlanId == plan.id,
+                      onSubscribe: () => _subscribe(context, plan),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

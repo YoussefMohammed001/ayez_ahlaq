@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../shared/widgets/settings/language_sheet.dart';
 import '../../../../../shared/widgets/settings/theme_sheet.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/menu_section.dart';
 import '../../domain/entities/merchant_profile.dart';
 import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
+import '../../../../../shared/support/presentation/manager/support_cubit.dart';
+import '../../../../../shared/support/presentation/widgets/whatsapp_menu_row.dart';
 import '../../../../../generated/l10n.dart';
 
 class ProfileAdminMenu extends StatelessWidget {
   final MerchantProfile? profile;
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   const ProfileAdminMenu({
     super.key,
@@ -30,7 +34,11 @@ class ProfileAdminMenu extends StatelessWidget {
       icon: Icons.logout_rounded,
     );
 
-    if (confirmed) onLogout();
+    if (!confirmed) return;
+
+    await showLoading();
+    await onLogout();
+    hideLoading();
   }
 
   @override
@@ -59,6 +67,11 @@ class ProfileAdminMenu extends StatelessWidget {
 
   List<MenuRow> _buildBusinessRows(BuildContext context) {
     return [
+      MenuRow(
+        icon: Icons.people_outline_rounded,
+        label: S().myCustomers,
+        onTap: () => context.push(Routes.merchantCustomersScreen),
+      ),
       MenuRow(
         icon: Icons.local_offer_outlined,
         label: S().discountsTitle,
@@ -157,12 +170,17 @@ class ProfileAdminMenu extends StatelessWidget {
   }
 
   List<MenuRow> _buildSupportRows(BuildContext context) {
+    final whatsappRow = WhatsappMenuRow.build(
+      context.watch<SupportCubit>().state.info,
+    );
+
     return [
       MenuRow(
         icon: Icons.info_outline_rounded,
         label: S().aboutApp,
         onTap: () => context.push(Routes.aboutScreen),
       ),
+      if (whatsappRow != null) whatsappRow,
       MenuRow(
         icon: Icons.logout_rounded,
         label: S().logout,

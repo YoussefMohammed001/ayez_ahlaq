@@ -9,6 +9,7 @@ import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/wallet_request.dart';
 import '../../domain/entities/wallet_request_status.dart';
 import '../../domain/use_cases/get_wallet_request_attachment_use_case.dart';
@@ -23,13 +24,16 @@ class WalletRequestDetailScreen extends StatelessWidget {
   const WalletRequestDetailScreen({super.key, required this.request});
 
   Future<void> _viewAttachment(BuildContext context) async {
-    final bytes = await sl<GetWalletRequestAttachmentUseCase>().call(request.id);
+    final bytes = await sl<GetWalletRequestAttachmentUseCase>().call(
+      request.id,
+    );
 
     if (!context.mounted) return;
 
     bytes.fold(
       (failure) => showError(failure.message),
-      (data) => context.push(Routes.barberWalletRequestAttachmentScreen, extra: data),
+      (data) =>
+          context.push(Routes.barberWalletRequestAttachmentScreen, extra: data),
     );
   }
 
@@ -57,30 +61,34 @@ class WalletRequestDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: request.code),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-        children: [
-          WalletRequestInfoCard(request: request),
-          if (request.hasAttachment) ...[
-            SizedBox(height: 14.h),
-            WalletRequestAttachmentTile(
-              attachmentName: request.attachmentName,
-              onTap: () => _viewAttachment(context),
-            ),
-          ],
-          if (request.status == WalletRequestStatus.pending) ...[
-            SizedBox(height: 20.h),
-            BlocBuilder<BarberWalletRequestsCubit, BarberWalletRequestsState>(
-              builder: (context, state) => PrimaryCtaButton(
-                label: S().cancelWalletRequestAction,
-                isLoading: state.isCancelling(request.id),
-                onPressed: () => _cancel(context),
+    return BusyErrorListener<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+      isBusy: (state) => state.isCancelling(request.id),
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(title: request.code),
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+          children: [
+            WalletRequestInfoCard(request: request),
+            if (request.hasAttachment) ...[
+              SizedBox(height: 14.h),
+              WalletRequestAttachmentTile(
+                attachmentName: request.attachmentName,
+                onTap: () => _viewAttachment(context),
               ),
-            ),
+            ],
+            if (request.status == WalletRequestStatus.pending) ...[
+              SizedBox(height: 20.h),
+              BlocBuilder<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+                builder: (context, state) => PrimaryCtaButton(
+                  label: S().cancelWalletRequestAction,
+                  isLoading: state.isCancelling(request.id),
+                  onPressed: () => _cancel(context),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

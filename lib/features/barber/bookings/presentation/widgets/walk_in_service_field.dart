@@ -3,17 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/helpers/validators.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../services/domain/entities/barber_service.dart';
+import '../../domain/entities/walk_in_option.dart';
 import 'walk_in_dropdown_field.dart';
 
 class WalkInServiceField extends StatelessWidget {
-  final List<BarberService> services;
+  final List<WalkInOption> options;
   final int? value;
   final ValueChanged<int?> onChanged;
 
   const WalkInServiceField({
     super.key,
-    required this.services,
+    required this.options,
     required this.value,
     required this.onChanged,
   });
@@ -21,7 +21,8 @@ class WalkInServiceField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final selected = services.any((s) => s.id == value) ? value : null;
+    final selected =
+        options.any((o) => o.serviceTypeId == value) ? value : null;
 
     return WalkInDropdownField<int>(
       value: selected,
@@ -29,11 +30,11 @@ class WalkInServiceField extends StatelessWidget {
       onChanged: onChanged,
       validator: (v) => Validators.validateDropdown(v, S().chooseServiceRequired),
       items: [
-        for (final service in services)
+        for (final option in options)
           DropdownMenuItem(
-            value: service.id,
+            value: option.serviceTypeId,
             child: Text(
-              service.name,
+              option.name,
               style: TextStyle(fontSize: 13.5.sp, color: scheme.onSurface),
             ),
           ),

@@ -7,6 +7,7 @@ import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/widgets/status_badge.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/booking.dart';
 import '../manager/bookings_cubit.dart';
 import '../manager/bookings_state.dart';
@@ -37,40 +38,47 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
   Booking _resolve(BookingsState state) {
     final all = [...state.pending, ...state.queue, ...state.history];
-    return all.firstWhere((b) => b.id == widget.booking.id, orElse: () => widget.booking);
+    return all.firstWhere(
+      (b) => b.id == widget.booking.id,
+      orElse: () => widget.booking,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsCubit, BookingsState>(
-      builder: (context, state) {
-        final current = _resolve(state);
+    return BusyErrorListener<BookingsCubit, BookingsState>(
+      isBusy: (state) => state.updatingBookingId != null,
+      errorMessage: (state) => state.errorMessage,
+      child: BlocBuilder<BookingsCubit, BookingsState>(
+        builder: (context, state) {
+          final current = _resolve(state);
 
-        return Scaffold(
-          appBar: AppTopBar(title: current.code),
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-              children: [
-                _buildHeader(context, current),
-                SectionTitle(title: S().bookingDetailsTitle),
-                BookingInfoCard(booking: current),
-                if (!current.billingLocked) ...[
-                  SizedBox(height: 12.h),
-                  OutlinedButton.icon(
-                    onPressed: () => EditBillSheet.show(context, current),
-                    icon: Icon(Icons.receipt_long_outlined, size: 18.r),
-                    label: Text(S().editBillAction),
-                  ),
+          return Scaffold(
+            appBar: AppTopBar(title: current.code),
+            body: RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                children: [
+                  _buildHeader(context, current),
+                  SectionTitle(title: S().bookingDetailsTitle),
+                  BookingInfoCard(booking: current),
+                  if (!current.billingLocked) ...[
+                    SizedBox(height: 12.h),
+                    OutlinedButton.icon(
+                      onPressed: () => EditBillSheet.show(context, current),
+                      icon: Icon(Icons.receipt_long_outlined, size: 18.r),
+                      label: Text(S().editBillAction),
+                    ),
+                  ],
+                  SizedBox(height: 20.h),
+                  BookingActions(booking: current),
                 ],
-                SizedBox(height: 20.h),
-                BookingActions(booking: current),
-              ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -108,7 +116,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                 SizedBox(height: 4.h),
                 Text(
                   booking.barberName,
-                  style: TextStyle(fontSize: 11.sp, color: context.semantic.info),
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    color: context.semantic.info,
+                  ),
                 ),
               ],
             ],

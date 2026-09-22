@@ -10,6 +10,7 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../../../shared/widgets/location_blocked_notice.dart';
 import '../../../../../shared/widgets/location_notes.dart';
 import '../../domain/entities/barber_profile.dart';
@@ -91,49 +92,49 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
     if (saved) {
       showSuccess(S().locationSaved);
       if (!widget.blocking) context.pop();
-      return;
     }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: widget.blocking ? null : AppTopBar(title: S().locationTitle),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-        children: [
-          if (widget.blocking) const LocationBlockedNotice(),
-          const LocationNotes(),
-          SizedBox(height: 16.h),
-          PrimaryCtaButton(
-            label: S().useCurrentLocation,
-            isLoading: _isLocating,
-            onPressed: _useCurrentLocation,
-          ),
-          if (_latitude != null && _longitude != null) ...[
-            SizedBox(height: 10.h),
-            Text(
-              '${_latitude!.toStringAsFixed(5)}, ${_longitude!.toStringAsFixed(5)}',
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: context.colorScheme.onSurfaceVariant,
+    return BusyErrorListener<BarberProfileCubit, BarberProfileState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: widget.blocking ? null : AppTopBar(title: S().locationTitle),
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+          children: [
+            if (widget.blocking) const LocationBlockedNotice(),
+            const LocationNotes(),
+            SizedBox(height: 16.h),
+            PrimaryCtaButton(
+              label: S().useCurrentLocation,
+              isLoading: _isLocating,
+              onPressed: _useCurrentLocation,
+            ),
+            if (_latitude != null && _longitude != null) ...[
+              SizedBox(height: 10.h),
+              Text(
+                '${_latitude!.toStringAsFixed(5)}, ${_longitude!.toStringAsFixed(5)}',
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+            SectionTitle(title: S().addressLabel),
+            AppTextField(controller: _addressController, hint: S().addressHint),
+            SizedBox(height: 20.h),
+            BlocBuilder<BarberProfileCubit, BarberProfileState>(
+              builder: (context, state) => PrimaryCtaButton(
+                label: S().save,
+                isLoading: state.isSubmitting,
+                onPressed: _submit,
               ),
             ),
           ],
-          SectionTitle(title: S().addressLabel),
-          AppTextField(controller: _addressController, hint: S().addressHint),
-          SizedBox(height: 20.h),
-          BlocBuilder<BarberProfileCubit, BarberProfileState>(
-            builder: (context, state) => PrimaryCtaButton(
-              label: S().save,
-              isLoading: state.isSubmitting,
-              onPressed: _submit,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

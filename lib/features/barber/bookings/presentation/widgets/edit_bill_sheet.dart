@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/di/services_locator.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
@@ -15,6 +16,7 @@ import '../../domain/entities/booking_drink.dart';
 import '../manager/bookings_cubit.dart';
 import '../manager/bookings_state.dart';
 import 'bill_adjustments_field.dart';
+import 'bill_confirm_dialog.dart';
 import 'walk_in_drinks_field.dart';
 
 class EditBillSheet extends StatefulWidget {
@@ -73,15 +75,26 @@ class _EditBillSheetState extends State<EditBillSheet> {
   }
 
   Future<void> _submit() async {
-    final cubit = context.read<BookingsCubit>();
+    final adjustments = _adjustments
+        .where((a) => a.label.isNotEmpty || a.amount != 0)
+        .toList();
 
+    final confirmed = await BillConfirmDialog.showFor(
+      context,
+      booking: widget.booking,
+      drinks: _drinks.value,
+      addons: _addons,
+      adjustments: adjustments,
+    );
+
+    if (!confirmed || !mounted) return;
+
+    final cubit = context.read<BookingsCubit>();
     final saved = await cubit.updateBilling(
       id: widget.booking.id,
       drinks: _drinks.value,
       addons: _addons,
-      adjustments: _adjustments
-          .where((a) => a.label.isNotEmpty || a.amount != 0)
-          .toList(),
+      adjustments: adjustments,
     );
 
     if (!mounted) return;
@@ -89,11 +102,7 @@ class _EditBillSheetState extends State<EditBillSheet> {
     if (saved) {
       showSuccess(S().billSaved);
       Navigator.of(context).pop();
-      return;
     }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
   }
 
   @override
@@ -113,15 +122,18 @@ class _EditBillSheetState extends State<EditBillSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SectionTitle(title: S().editBillTitle),
+              Text(S().editBillTitle, style: HeadingStyles.h4),
+              SizedBox(height: 4.h),
+              Divider(color: context.colorScheme.outline, height: 1),
               SectionTitle(title: S().drinksTitle),
               WalkInDrinksField(drinks: _drinks),
+              SizedBox(height: 12.h),
               SectionTitle(title: S().billAdjustments),
               BillAdjustmentsField(
                 adjustments: _adjustments,
                 onChanged: (adjustments) => _adjustments = adjustments,
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 20.h),
               BlocBuilder<BookingsCubit, BookingsState>(
                 builder: (_, state) => PrimaryCtaButton(
                   label: S().save,

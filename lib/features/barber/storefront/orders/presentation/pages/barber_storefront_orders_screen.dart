@@ -46,21 +46,31 @@ class BarberStorefrontOrdersScreen extends StatelessWidget {
   }
 
   Widget _buildFilters() {
-    return BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
+    return BlocBuilder<
+      BarberStorefrontOrdersCubit,
+      BarberStorefrontOrdersState
+    >(
       builder: (context, state) => FilterChipRow<StorefrontOrderStatus>(
         options: StorefrontOrderStatus.values,
         selected: state.filter,
         allLabel: S().filterAll,
         labelBuilder: (status) => status.label,
+        countBuilder: (status) => status == StorefrontOrderStatus.pending
+            ? state.orders.where((o) => o.status.needsDecision).length
+            : 0,
         onSelected: context.read<BarberStorefrontOrdersCubit>().applyFilter,
       ),
     );
   }
 
   Widget _buildBody() {
-    return BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
+    return BlocBuilder<
+      BarberStorefrontOrdersCubit,
+      BarberStorefrontOrdersState
+    >(
       builder: (context, state) {
-        if (state.status == StorefrontOrdersStatus.loading &&
+        if ((state.status == StorefrontOrdersStatus.initial ||
+                state.status == StorefrontOrdersStatus.loading) &&
             state.orders.isEmpty) {
           return const ListSkeleton(showLeading: false);
         }

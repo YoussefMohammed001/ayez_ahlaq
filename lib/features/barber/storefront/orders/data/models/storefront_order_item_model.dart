@@ -6,6 +6,7 @@ class StorefrontOrderItemModel extends StorefrontOrderItem {
     required super.productName,
     required super.quantity,
     required super.unitPrice,
+    required super.unitDiscount,
     required super.lineTotal,
   });
 
@@ -15,6 +16,7 @@ class StorefrontOrderItemModel extends StorefrontOrderItem {
       productName: json['productName'] as String? ?? '',
       quantity: (json['quantity'] as num?)?.toInt() ?? 0,
       unitPrice: (json['unitPrice'] as num?)?.toInt() ?? 0,
+      unitDiscount: (json['unitDiscount'] as num?)?.toInt() ?? 0,
       lineTotal: (json['lineTotal'] as num?)?.toInt() ?? 0,
     );
   }

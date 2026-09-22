@@ -4,78 +4,23 @@ import '../../../shops/domain/entities/shop_drink.dart';
 import '../../../shops/domain/entities/shop_detail.dart';
 import '../../domain/use_cases/create_booking_use_case.dart';
 import '../../domain/use_cases/get_booking_slots_use_case.dart';
+import '../../domain/use_cases/get_bookings_use_case.dart';
 import 'booking_flow_extras.dart';
+import 'booking_flow_selection_mixin.dart';
 import 'booking_flow_state.dart';
+import 'same_day_booking_checker.dart';
 
-class BookingFlowCubit extends Cubit<BookingFlowState> {
-  final GetBookingSlotsUseCase _getSlots;
+class BookingFlowCubit extends Cubit<BookingFlowState> with BookingFlowSelectionMixin {
+  @override
+  final GetBookingSlotsUseCase getSlots;
   final CreateBookingUseCase _createBooking;
+  final GetBookingsUseCase _getBookings;
 
-  BookingFlowCubit(this._getSlots, this._createBooking) : super(const BookingFlowState());
+  BookingFlowCubit(this.getSlots, this._createBooking, this._getBookings)
+    : super(const BookingFlowState());
 
   void startFlow(ShopDetail shopDetail) {
     emit(BookingFlowState(shopDetail: shopDetail));
-  }
-
-  void selectService({
-    required int serviceTypeId,
-    required String serviceName,
-    required int price,
-  }) {
-    emit(
-      state.copyWith(
-        serviceTypeId: serviceTypeId,
-        serviceName: serviceName,
-        servicePrice: price,
-        clearStyle: true,
-        clearBarber: true,
-      ),
-    );
-  }
-
-  void selectStyle({int? haircutStyleId, String? styleName, int priceDelta = 0}) {
-    if (haircutStyleId == null) {
-      emit(state.copyWith(clearStyle: true));
-      return;
-    }
-    emit(
-      state.copyWith(
-        haircutStyleId: haircutStyleId,
-        styleName: styleName,
-        styleDelta: priceDelta,
-      ),
-    );
-  }
-
-  void selectBarber({int? barberId, String? barberName}) {
-    emit(
-      state.copyWith(
-        autoSelect: barberId == null,
-        barberId: barberId,
-        barberName: barberName,
-        clearBarber: barberId == null,
-      ),
-    );
-  }
-
-  Future<void> loadSlots(String date) async {
-    final serviceTypeId = state.serviceTypeId;
-    if (serviceTypeId == null) return;
-
-    emit(state.copyWith(status: BookingFlowStatus.loadingSlots, date: date));
-
-    final result = await _getSlots(
-      shopId: state.shopDetail!.shop.id,
-      serviceTypeId: serviceTypeId,
-      date: date,
-    );
-
-    result.fold(
-      (failure) => emit(
-        state.copyWith(status: BookingFlowStatus.failure, errorMessage: failure.message),
-      ),
-      (slots) => emit(state.copyWith(status: BookingFlowStatus.slotsLoaded, slots: slots)),
-    );
   }
 
   void selectSlotTime(String slotTime) {
@@ -103,6 +48,17 @@ class BookingFlowCubit extends Cubit<BookingFlowState> {
       state.copyWith(
         drinks: BookingFlowExtras.withDrink(state.drinks, drink, quantity),
       ),
+    );
+  }
+
+  Future<bool> hasSameDayBooking() async {
+    final date = state.date;
+    if (date == null) return false;
+
+    final result = await _getBookings();
+    return result.fold(
+      (_) => false,
+      (bookings) => SameDayBookingChecker.hasConflict(bookings, date),
     );
   }
 

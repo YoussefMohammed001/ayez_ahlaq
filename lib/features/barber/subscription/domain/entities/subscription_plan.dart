@@ -5,9 +5,11 @@ class SubscriptionPlan extends Equatable {
   final String name;
   final int price;
   final int? employeeCap;
+  final int? ownServiceCap;
   final int? notificationQuotaAll;
   final int? notificationQuotaZone;
   final int? productCap;
+  final int? drinkCap;
   final int? ownCategoryCap;
   final int? notificationOveragePrice;
   final DateTime? availableUntil;
@@ -17,9 +19,11 @@ class SubscriptionPlan extends Equatable {
     required this.name,
     required this.price,
     this.employeeCap,
+    this.ownServiceCap,
     this.notificationQuotaAll,
     this.notificationQuotaZone,
     this.productCap,
+    this.drinkCap,
     this.ownCategoryCap,
     this.notificationOveragePrice,
     this.availableUntil,
@@ -31,9 +35,11 @@ class SubscriptionPlan extends Equatable {
     name,
     price,
     employeeCap,
+    ownServiceCap,
     notificationQuotaAll,
     notificationQuotaZone,
     productCap,
+    drinkCap,
     ownCategoryCap,
     notificationOveragePrice,
     availableUntil,

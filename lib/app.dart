@@ -18,6 +18,7 @@ import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
 import 'core/widgets/offline_banner.dart';
 import 'generated/l10n.dart';
+import 'shared/support/presentation/manager/support_cubit.dart';
 
 class AyezAhlaqApp extends StatefulWidget {
   const AyezAhlaqApp({super.key});
@@ -105,5 +106,8 @@ class _AyezAhlaqAppState extends State<AyezAhlaqApp> {
 
   final _providers = [
     BlocProvider<AppCubit>(create: (context) => AppCubit()..checkConnection()),
+    BlocProvider<SupportCubit>(
+      create: (context) => sl<SupportCubit>()..loadSupportInfo(),
+    ),
   ];
 }

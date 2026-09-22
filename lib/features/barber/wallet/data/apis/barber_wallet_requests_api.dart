@@ -13,6 +13,10 @@ class BarberWalletRequestsApi {
     return _networkService.getData(endPoint: EndPoints.barberTransferAccount);
   }
 
+  Future<Either<Failure, dynamic>> getWithdrawMethods() {
+    return _networkService.getData(endPoint: EndPoints.barberWithdrawMethods);
+  }
+
   Future<Either<Failure, dynamic>> getWalletRequests({
     required int page,
     required int size,
@@ -33,6 +37,8 @@ class BarberWalletRequestsApi {
     required String type,
     required int amount,
     int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
     String? note,
     String? filePath,
   }) async {
@@ -43,6 +49,9 @@ class BarberWalletRequestsApi {
         'amount': amount.toString(),
         if (transferAccountId != null)
           'transferAccountId': transferAccountId.toString(),
+        if (withdrawMethodId != null)
+          'withdrawMethodId': withdrawMethodId.toString(),
+        if (withdrawAccount != null) 'withdrawAccount': withdrawAccount,
         if (note != null) 'note': note,
         if (filePath != null) 'file': await MultipartFile.fromFile(filePath),
       }),

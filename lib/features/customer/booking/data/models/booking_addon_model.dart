@@ -13,8 +13,8 @@ class BookingAddonModel extends BookingAddon {
     return BookingAddonModel(
       productId: (json['productId'] as num?)?.toInt() ?? 0,
       quantity: (json['quantity'] as num?)?.toInt() ?? 0,
-      name: json['name'] as String?,
-      price: (json['price'] as num?)?.toInt(),
+      name: json['productName'] as String?,
+      price: (json['unitPrice'] as num?)?.toInt(),
       drinkId: (json['drinkId'] as num?)?.toInt(),
     );
   }

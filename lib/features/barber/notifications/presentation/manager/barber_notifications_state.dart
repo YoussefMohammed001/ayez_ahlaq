@@ -10,6 +10,7 @@ class BarberNotificationsState extends Equatable {
   final bool hasMore;
   final int unseenCount;
   final String? errorMessage;
+  final bool isMarkingRead;
 
   const BarberNotificationsState({
     this.status = NotificationsStatus.initial,
@@ -18,6 +19,7 @@ class BarberNotificationsState extends Equatable {
     this.hasMore = false,
     this.unseenCount = 0,
     this.errorMessage,
+    this.isMarkingRead = false,
   });
 
   BarberNotificationsState copyWith({
@@ -27,6 +29,7 @@ class BarberNotificationsState extends Equatable {
     bool? hasMore,
     int? unseenCount,
     String? errorMessage,
+    bool? isMarkingRead,
   }) {
     return BarberNotificationsState(
       status: status ?? this.status,
@@ -35,6 +38,7 @@ class BarberNotificationsState extends Equatable {
       hasMore: hasMore ?? this.hasMore,
       unseenCount: unseenCount ?? this.unseenCount,
       errorMessage: errorMessage,
+      isMarkingRead: isMarkingRead ?? this.isMarkingRead,
     );
   }
 
@@ -46,5 +50,6 @@ class BarberNotificationsState extends Equatable {
     hasMore,
     unseenCount,
     errorMessage,
+    isMarkingRead,
   ];
 }

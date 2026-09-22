@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:app_badge_plus/app_badge_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ import 'package:ayez_ahlaq/features/barber/notifications/presentation/manager/ba
 import '../../shared/user_type.dart';
 import '../routes/app_routes.dart';
 
+@pragma('vm:entry-point')
 Future<void> backgroundHandler(RemoteMessage message) async {
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp();
@@ -177,7 +179,7 @@ class NotificationService {
     );
   }
 
-  void _showNotification(RemoteMessage message) async {
+  Future<void> _showNotification(RemoteMessage message) async {
     const DarwinNotificationDetails iOSDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
@@ -191,7 +193,7 @@ class NotificationService {
           channelDescription: _channel.description,
           enableVibration: true,
           playSound: true,
-          icon: 'ic_notification',
+          icon: '@mipmap/ic_launcher',
           importance: Importance.high,
           priority: Priority.max,
         );
@@ -213,10 +215,12 @@ class NotificationService {
   void _configureNotificationListeners() {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       log('📲 onMessage: ${message.data}');
-      if (message.notification == null) {
-        _showNotification(message);
+      try {
+        await _showNotification(message);
+      } catch (e, st) {
+        log('Error showing local notification: $e\n$st');
       }
       _refreshUnseenNotifications();
     });
@@ -228,22 +232,35 @@ class NotificationService {
     });
   }
 
-  void _refreshUnseenNotifications() {
+  Future<void> _refreshUnseenNotifications() async {
     try {
+      int unseenCount;
       switch (UserHelpers.userType) {
         case UserType.merchant:
-          sl<MerchantNotificationsCubit>().refreshUnseenCount();
+          final cubit = sl<MerchantNotificationsCubit>();
+          await cubit.refreshUnseenCount();
+          unseenCount = cubit.state.unseenCount;
           break;
         case UserType.barber:
-          sl<BarberNotificationsCubit>().refreshUnseenCount();
+          final cubit = sl<BarberNotificationsCubit>();
+          await cubit.refreshUnseenCount();
+          unseenCount = cubit.state.unseenCount;
           break;
         case UserType.customer:
-          sl<CustomerNotificationsCubit>().refreshUnseenCount();
+          final cubit = sl<CustomerNotificationsCubit>();
+          await cubit.refreshUnseenCount();
+          unseenCount = cubit.state.unseenCount;
           break;
       }
+      await _updateBadge(unseenCount);
     } catch (e, st) {
       log("Error refreshing unseen notifications: $e\n$st");
     }
+  }
+
+  Future<void> _updateBadge(int count) async {
+    if (!await AppBadgePlus.isSupported()) return;
+    await AppBadgePlus.updateBadge(count);
   }
 
   void handleNotificationTap(RemoteMessage message) {

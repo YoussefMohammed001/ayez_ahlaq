@@ -8,7 +8,11 @@ class SubscriptionQuotaRow extends StatelessWidget {
   final String label;
   final SubscriptionQuota quota;
 
-  const SubscriptionQuotaRow({super.key, required this.label, required this.quota});
+  const SubscriptionQuotaRow({
+    super.key,
+    required this.label,
+    required this.quota,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,11 @@ class SubscriptionQuotaRow extends StatelessWidget {
           ),
           Text(
             valueLabel,
-            style: TextStyle(fontSize: 12.5.sp, fontWeight: FontWeight.w700, color: scheme.onSurface),
+            style: TextStyle(
+              fontSize: 12.5.sp,
+              fontWeight: FontWeight.w700,
+              color: scheme.onSurface,
+            ),
           ),
         ],
       ),

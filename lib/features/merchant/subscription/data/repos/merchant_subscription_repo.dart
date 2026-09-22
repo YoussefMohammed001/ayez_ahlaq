@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/subscribe_result.dart';
 import '../../domain/entities/subscription.dart';
 import '../../domain/entities/subscription_plan.dart';
@@ -18,8 +19,8 @@ class MerchantSubscriptionRepo implements IMerchantSubscriptionRepo {
   @override
   Future<Either<Failure, Subscription>> getSubscription() async {
     final result = await _api.getSubscription();
-    return result.map(
-      (response) => SubscriptionModel.fromJson(response['data'] as Map<String, dynamic>),
+    return result.flatMap(
+      (response) => requireDataMap(response).map(SubscriptionModel.fromJson),
     );
   }
 
@@ -37,8 +38,8 @@ class MerchantSubscriptionRepo implements IMerchantSubscriptionRepo {
   @override
   Future<Either<Failure, SubscribeResult>> subscribe(int planId) async {
     final result = await _api.subscribe(planId);
-    return result.map(
-      (response) => SubscribeResultModel.fromJson(response['data'] as Map<String, dynamic>),
+    return result.flatMap(
+      (response) => requireDataMap(response).map(SubscribeResultModel.fromJson),
     );
   }
 

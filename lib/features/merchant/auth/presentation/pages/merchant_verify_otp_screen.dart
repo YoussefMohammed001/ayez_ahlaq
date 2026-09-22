@@ -23,8 +23,7 @@ class MerchantVerifyOtpScreen extends StatelessWidget {
         body: BlocConsumer<MerchantAuthCubit, MerchantAuthState>(
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
-              context.read<MerchantAuthCubit>().resetStatus();
-              context.go(Routes.loginScreen);
+              context.go(Routes.merchantShell);
             }
             if (state.status == AuthStatus.otpResent &&
                 state.infoMessage != null) {

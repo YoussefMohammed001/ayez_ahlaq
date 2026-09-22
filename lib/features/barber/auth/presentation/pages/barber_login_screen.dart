@@ -11,6 +11,7 @@ import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_brand_header.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_footer_prompt.dart';
+import '../../../../../shared/auth/presentation/widgets/change_account_type_button.dart';
 import '../manager/barber_auth_cubit.dart';
 import '../manager/barber_auth_state.dart';
 import '../../../../../generated/l10n.dart';
@@ -68,6 +69,7 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
                 AuthBrandHeader(
                   title: S().welcomeBack,
                   subtitle: S().loginSubtitleBarber,
+                  accountTypeLabel: S().accountTypeBadge(S().barber),
                 ),
                 SizedBox(height: 26.h),
                 AppCard(
@@ -83,7 +85,8 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
                   label: S().noAccountRegisterBarber,
                   onTap: () => context.push(Routes.barberRegisterScreen),
                 ),
-                AuthFooterPrompt(
+                SizedBox(height: 10.h),
+                ChangeAccountTypeButton(
                   label: S().changeAccountType,
                   onTap: () => context.go(Routes.userTypeScreen),
                 ),

@@ -33,16 +33,15 @@ class MerchantSubscriptionScreen extends StatelessWidget {
     if (!confirmed || !context.mounted) return;
 
     final cubit = context.read<MerchantSubscriptionCubit>();
-    final succeeded = await cubit.subscribe(plan.id);
+    final activated = await cubit.subscribe(plan.id);
 
     if (!context.mounted) return;
 
-    if (!succeeded) {
+    if (activated == null) {
       showError(cubit.state.errorMessage ?? S().somethingWentWrong);
       return;
     }
 
-    final activated = cubit.state.subscription?.status != 'PENDING';
     showSuccess(activated ? S().subscriptionActivated : S().subscriptionRequestSentPending);
   }
 

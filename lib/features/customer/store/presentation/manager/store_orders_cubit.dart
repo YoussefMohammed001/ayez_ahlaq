@@ -23,6 +23,10 @@ class StoreOrdersCubit extends Cubit<StoreOrdersState> {
     );
   }
 
+  void applyFilter(StoreOrderStatus? status) {
+    emit(state.copyWith(filter: status, clearFilter: status == null));
+  }
+
   Future<void> cancelOrder(int id) async {
     emit(state.copyWith(cancellingId: id));
 

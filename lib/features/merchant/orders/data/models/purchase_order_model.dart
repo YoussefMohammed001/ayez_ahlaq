@@ -55,9 +55,7 @@ class PurchaseOrderModel extends PurchaseOrder {
       grandTotal:
           (json['grandTotal'] as num?)?.toInt() ?? total + deliveryFee,
       status: OrderStatus.fromApi(json['status'] as String?),
-      fulfilmentType: FulfilmentType.fromApi(
-        json['fulfillmentType'] as String? ?? json['fulfilmentType'] as String?,
-      ),
+      fulfilmentType: FulfilmentType.fromApi(json['fulfillmentType'] as String?),
       nextStatuses:
           next.map((e) => OrderStatus.fromApi(e as String?)).toList(),
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),

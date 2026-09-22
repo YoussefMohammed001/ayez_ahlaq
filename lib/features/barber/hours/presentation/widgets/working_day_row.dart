@@ -22,13 +22,13 @@ class WorkingDayRow extends StatelessWidget {
   });
 
   static const _dayNames = [
+    _DayName.sunday,
     _DayName.monday,
     _DayName.tuesday,
     _DayName.wednesday,
     _DayName.thursday,
     _DayName.friday,
     _DayName.saturday,
-    _DayName.sunday,
   ];
 
   String _label() => _dayNames[day.dayOfWeek % 7].label();

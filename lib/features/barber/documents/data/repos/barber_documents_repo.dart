@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/barber_document.dart';
 import '../../domain/repos/i_barber_documents_repo.dart';
 import '../apis/barber_documents_api.dart';
@@ -23,7 +24,7 @@ class BarberDocumentsRepo implements IBarberDocumentsRepo {
     String filePath,
   ) async {
     final result = await _api.uploadDocumentFile(id, filePath);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -47,9 +48,7 @@ class BarberDocumentsRepo implements IBarberDocumentsRepo {
         .toList();
   }
 
-  BarberDocument _mapOne(dynamic response) {
-    return BarberDocumentModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, BarberDocument> _mapOne(dynamic response) {
+    return requireDataMap(response).map(BarberDocumentModel.fromJson);
   }
 }

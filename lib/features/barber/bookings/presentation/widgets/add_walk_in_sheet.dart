@@ -5,11 +5,13 @@ import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../services/presentation/manager/barber_services_cubit.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/booking_addon.dart';
 import '../../domain/entities/booking_drink.dart';
 import '../manager/bookings_cubit.dart';
-import 'walk_in_confirm_sheet.dart';
+import '../manager/bookings_state.dart';
+import '../manager/walk_in_options_cubit.dart';
+import 'walk_in_confirm_sheet_launcher.dart';
 import 'walk_in_extras_fields.dart';
 import 'walk_in_assignment_fields.dart';
 import 'walk_in_customer_fields.dart';
@@ -59,11 +61,16 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
     return text.isEmpty ? null : text;
   }
 
-  void _reviewAndSubmit() {
+  void _reviewAndSubmit(BookingsState state) {
+    if (state.isSubmittingWalkIn) return;
     if (!_formKey.currentState!.validate()) return;
+
+    final options = context.read<WalkInOptionsCubit>().state.options;
 
     showWalkInConfirmSheet(
       context,
+      option: options.where((o) => o.serviceTypeId == _serviceId).firstOrNull,
+      barberId: _barberId,
       drinks: _drinks.value,
       addons: _addons.value,
       onConfirm: _confirm,
@@ -71,13 +78,17 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
   }
 
   Future<void> _confirm(BuildContext sheetContext) async {
-    final services = context.read<BarberServicesCubit>().state.services;
-    final selected = services.firstWhere((s) => s.id == _serviceId);
+    final barberId = _barberId;
+    final serviceTypeId = _serviceId;
+    if (barberId == null || serviceTypeId == null) {
+      showError(S().somethingWentWrong);
+      return;
+    }
     final bookingsCubit = context.read<BookingsCubit>();
-
+    if (bookingsCubit.state.isSubmittingWalkIn) return;
     final saved = await bookingsCubit.createWalkIn(
-      barberId: _barberId!,
-      serviceTypeId: selected.catalogId,
+      barberId: barberId,
+      serviceTypeId: serviceTypeId,
       customerName: _textOrNull(_nameController),
       customerPhone: _textOrNull(_phoneController),
       slotTime: _slotTime,
@@ -92,49 +103,51 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
     if (saved) {
       Navigator.of(sheetContext).pop();
       if (mounted) Navigator.of(context).pop();
-      return;
     }
-
-    final message = bookingsCubit.state.errorMessage;
-    if (message != null) showError(message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return WalkInSheetContainer(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SectionTitle(title: S().addWalkInTitle),
-            WalkInAssignmentFields(
-              isOwner: widget.isOwner,
-              serviceId: _serviceId,
-              barberId: _barberId,
-              onServiceChanged: (value) => setState(() => _serviceId = value),
-              onBarberChanged: (value) => setState(() => _barberId = value),
-            ),
-            WalkInCustomerFields(
-              nameController: _nameController,
-              phoneController: _phoneController,
-              noteController: _noteController,
-            ),
-            WalkInExtrasFields(
-              slotTime: _slotTime,
-              onSlotTimeChanged: (value) => setState(() => _slotTime = value),
-              drinks: _drinks,
-              addons: _addons,
-            ),
-            SizedBox(height: 20.h),
-            PrimaryCtaButton(
-              label: S().addWalkInAction,
-              onPressed: _reviewAndSubmit,
-            ),
-          ],
+    return BusyErrorListener<BookingsCubit, BookingsState>(
+      isBusy: (state) => state.isSubmittingWalkIn,
+      errorMessage: (state) => state.errorMessage,
+      child: WalkInSheetContainer(child: Form(key: _formKey, child: _buildFields())),
+    );
+  }
+
+  Widget _buildFields() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(title: S().addWalkInTitle),
+        WalkInAssignmentFields(
+          isOwner: widget.isOwner,
+          serviceId: _serviceId,
+          barberId: _barberId,
+          onServiceChanged: (value) => setState(() => _serviceId = value),
+          onBarberChanged: (value) => setState(() => _barberId = value),
         ),
-      ),
+        WalkInCustomerFields(
+          nameController: _nameController,
+          phoneController: _phoneController,
+          noteController: _noteController,
+        ),
+        WalkInExtrasFields(
+          slotTime: _slotTime,
+          onSlotTimeChanged: (value) => setState(() => _slotTime = value),
+          drinks: _drinks,
+          addons: _addons,
+        ),
+        SizedBox(height: 20.h),
+        BlocBuilder<BookingsCubit, BookingsState>(
+          builder: (context, state) => PrimaryCtaButton(
+            label: S().addWalkInAction,
+            isLoading: state.isSubmittingWalkIn,
+            onPressed: () => _reviewAndSubmit(state),
+          ),
+        ),
+      ],
     );
   }
 }

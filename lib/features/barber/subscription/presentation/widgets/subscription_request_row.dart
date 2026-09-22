@@ -25,7 +25,9 @@ class SubscriptionRequestRow extends StatelessWidget {
       'REJECTED' => S().requestStatusRejected,
       _ => S().requestStatusPending,
     };
-    final typeLabel = request.type == 'RENEW' ? S().requestTypeRenew : S().requestTypeSubscribe;
+    final typeLabel = request.type == 'RENEW'
+        ? S().requestTypeRenew
+        : S().requestTypeSubscribe;
 
     return AppCard(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -40,7 +42,11 @@ class SubscriptionRequestRow extends StatelessWidget {
                   '${request.planName} · $typeLabel',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: scheme.onSurface),
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w700,
+                    color: scheme.onSurface,
+                  ),
                 ),
               ),
               Container(
@@ -51,7 +57,11 @@ class SubscriptionRequestRow extends StatelessWidget {
                 ),
                 child: Text(
                   statusLabel,
-                  style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w700, color: statusColor),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w700,
+                    color: statusColor,
+                  ),
                 ),
               ),
             ],
@@ -62,19 +72,29 @@ class SubscriptionRequestRow extends StatelessWidget {
             children: [
               Text(
                 request.code,
-                style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
               Text(
                 RelativeDateLabel.format(request.createdAt),
-                style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
-          if (request.decisionNote != null && request.decisionNote!.isNotEmpty) ...[
+          if (request.decisionNote != null &&
+              request.decisionNote!.isNotEmpty) ...[
             SizedBox(height: 6.h),
             Text(
               request.decisionNote!,
-              style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
+              style: TextStyle(
+                fontSize: 11.5.sp,
+                color: scheme.onSurfaceVariant,
+              ),
             ),
           ],
         ],

@@ -8,6 +8,7 @@ import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/merchant_product.dart';
 import '../manager/merchant_products_cubit.dart';
 import '../manager/merchant_products_state.dart';
@@ -37,26 +38,30 @@ class MerchantProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ProductsHeader(),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 4.h, 20.w, 10.h),
-              child: Text(
-                S().productsNote,
-                style: font12w400.copyWith(
-                  color: context.colorScheme.onSurfaceVariant,
+    return BusyErrorListener<MerchantProductsCubit, MerchantProductsState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const ProductsHeader(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20.w, 4.h, 20.w, 10.h),
+                child: Text(
+                  S().productsNote,
+                  style: font12w400.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ),
-            ),
-            5.hSpace,
-            const ProductCategoryFilter(),
-            10.hSpace,
-            Expanded(child: _buildBody()),
-          ],
+              5.hSpace,
+              const ProductCategoryFilter(),
+              10.hSpace,
+              Expanded(child: _buildBody()),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/merchant_category.dart';
 import '../../domain/repos/i_merchant_categories_repo.dart';
 import '../apis/merchant_categories_api.dart';
@@ -29,7 +30,7 @@ class MerchantCategoriesRepo implements IMerchantCategoriesRepo {
     CategoryFormRequest request,
   ) async {
     final result = await _api.createCategory(request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -38,7 +39,7 @@ class MerchantCategoriesRepo implements IMerchantCategoriesRepo {
     CategoryFormRequest request,
   ) async {
     final result = await _api.updateCategory(id, request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -56,9 +57,7 @@ class MerchantCategoriesRepo implements IMerchantCategoriesRepo {
         .toList();
   }
 
-  MerchantCategory _mapOne(dynamic response) {
-    return MerchantCategoryModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, MerchantCategory> _mapOne(dynamic response) {
+    return requireDataMap(response).map(MerchantCategoryModel.fromJson);
   }
 }

@@ -12,6 +12,11 @@ class WalletRequest extends Equatable {
   final WalletRequestType type;
   final int amount;
   final String? note;
+  final int? transferAccountId;
+  final String? transferAccount;
+  final int? withdrawMethodId;
+  final String? withdrawMethod;
+  final String? withdrawAccount;
   final bool hasAttachment;
   final String? attachmentName;
   final WalletRequestStatus status;
@@ -30,6 +35,11 @@ class WalletRequest extends Equatable {
     required this.type,
     required this.amount,
     this.note,
+    this.transferAccountId,
+    this.transferAccount,
+    this.withdrawMethodId,
+    this.withdrawMethod,
+    this.withdrawAccount,
     required this.hasAttachment,
     this.attachmentName,
     required this.status,
@@ -50,6 +60,11 @@ class WalletRequest extends Equatable {
     type,
     amount,
     note,
+    transferAccountId,
+    transferAccount,
+    withdrawMethodId,
+    withdrawMethod,
+    withdrawAccount,
     hasAttachment,
     attachmentName,
     status,

@@ -6,11 +6,13 @@ import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/merchant_phones_cubit.dart';
 import '../manager/merchant_phones_state.dart';
 import '../widgets/add_phone_sheet.dart';
 import '../widgets/phone_row.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
+import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
 class MerchantPhonesScreen extends StatelessWidget {
@@ -31,35 +33,39 @@ class MerchantPhonesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(
-        title: S().extraPhones,
-        trailing: IconButton(
-          icon: Icon(
-            Icons.add,
-            color: context.semantic.accentStrong,
-            size: 22.r,
+    return BusyErrorListener<MerchantPhonesCubit, MerchantPhonesState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(
+          title: S().extraPhones,
+          trailing: IconButton(
+            icon: Icon(
+              Icons.add,
+              color: context.semantic.accentStrong,
+              size: 22.r,
+            ),
+            onPressed: () => AddPhoneSheet.show(context),
           ),
-          onPressed: () => AddPhoneSheet.show(context),
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 0),
-            child: Text(
-              S().extraPhonesNote,
-              style: TextStyle(
-                fontSize: 12.5.sp,
-                color: context.colorScheme.onSurfaceVariant,
-                height: 1.8,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 0),
+              child: Text(
+                S().extraPhonesNote,
+                style: TextStyle(
+                  fontSize: 12.5.sp,
+                  color: context.colorScheme.onSurfaceVariant,
+                  height: 1.8,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16.h),
-          Expanded(child: _buildBody()),
-        ],
+            SizedBox(height: 16.h),
+            Expanded(child: _buildBody()),
+          ],
+        ),
       ),
     );
   }
@@ -87,16 +93,21 @@ class MerchantPhonesScreen extends StatelessWidget {
           );
         }
 
-        return ListView.builder(
-          padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
-          itemCount: state.phones.length,
-          itemBuilder: (_, index) {
-            final phone = state.phones[index];
-            return PhoneRow(
-              phone: phone,
-              onRemove: () => _confirmRemove(context, phone.id),
-            );
-          },
+        return RefreshableStateView(
+          onRefresh: context.read<MerchantPhonesCubit>().loadPhones,
+          child: ListView.builder(
+            padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: state.phones.length,
+            itemBuilder: (_, index) {
+              final phone = state.phones[index];
+              return PhoneRow(
+                phone: phone,
+                onRemove: () => _confirmRemove(context, phone.id),
+              );
+            },
+          ),
         );
       },
     );

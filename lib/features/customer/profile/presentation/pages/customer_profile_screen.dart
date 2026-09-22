@@ -78,6 +78,7 @@ class CustomerProfileScreen extends StatelessWidget {
             label: S().contact,
             value: profile.phoneNumber,
             showDivider: profile.email != null,
+            verified: profile.active,
           ),
           if (profile.email != null)
             InfoRow(

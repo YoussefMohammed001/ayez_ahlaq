@@ -58,6 +58,17 @@ class StoreLineItemRow extends StatelessWidget {
                       '${item.quantity} × ${S().currencyEgp(item.effectiveUnitPrice)}',
                       style: TextStyle(fontSize: 11.5.sp, color: context.colorScheme.onSurfaceVariant),
                     ),
+                    if (item.unitDiscountPercent != null) ...[
+                      SizedBox(width: 4.w),
+                      Text(
+                        S().unitDiscountPercentLabel(item.unitDiscountPercent!),
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w700,
+                          color: context.semantic.success,
+                        ),
+                      ),
+                    ],
                   ],
                 )
               else

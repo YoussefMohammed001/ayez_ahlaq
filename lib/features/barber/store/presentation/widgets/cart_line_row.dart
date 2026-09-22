@@ -54,6 +54,17 @@ class CartLineRow extends StatelessWidget {
                         S().currencyEgp(line.netUnitPrice),
                         style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
                       ),
+                      if (line.unitDiscountPercent != null) ...[
+                        SizedBox(width: 4.w),
+                        Text(
+                          S().unitDiscountPercentLabel(line.unitDiscountPercent!),
+                          style: TextStyle(
+                            fontSize: 10.5.sp,
+                            fontWeight: FontWeight.w700,
+                            color: context.semantic.success,
+                          ),
+                        ),
+                      ],
                     ],
                   )
                 else

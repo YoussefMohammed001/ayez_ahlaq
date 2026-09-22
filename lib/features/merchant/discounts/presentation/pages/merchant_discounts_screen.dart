@@ -9,6 +9,8 @@ import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
+import '../../../products/presentation/manager/merchant_products_cubit.dart';
 import '../manager/merchant_discounts_cubit.dart';
 import '../manager/merchant_discounts_state.dart';
 import '../widgets/discount_card.dart';
@@ -41,94 +43,103 @@ class _MerchantDiscountsScreenState extends State<MerchantDiscountsScreen> {
       icon: Icons.local_offer_outlined,
     );
 
-    if (confirmed) await cubit.closeDiscount(id);
+    if (!confirmed) return;
+
+    await cubit.closeDiscount(id);
+    if (context.mounted) context.read<MerchantProductsCubit>().loadProducts();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(
-        title: S().discountsTitle,
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.calculate_outlined,
-                color: context.colorScheme.onSurfaceVariant,
-                size: 21.r,
+    return BusyErrorListener<MerchantDiscountsCubit, MerchantDiscountsState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(
+          title: S().discountsTitle,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.calculate_outlined,
+                  color: context.colorScheme.onSurfaceVariant,
+                  size: 21.r,
+                ),
+                tooltip: S().quoteTitle,
+                onPressed: () =>
+                    context.push(Routes.merchantDiscountQuoteScreen),
               ),
-              tooltip: S().quoteTitle,
-              onPressed: () =>
-                  context.push(Routes.merchantDiscountQuoteScreen),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: context.semantic.accentStrong,
-                size: 22.r,
+              IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: context.semantic.accentStrong,
+                  size: 22.r,
+                ),
+                onPressed: () =>
+                    context.push(Routes.merchantDiscountFormScreen),
               ),
-              onPressed: () => context.push(Routes.merchantDiscountFormScreen),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      body: BlocBuilder<MerchantDiscountsCubit, MerchantDiscountsState>(
-        builder: (context, state) {
-          if (state.status == DiscountsStatus.loading &&
-              state.discounts.isEmpty) {
-            return const ListSkeleton(showLeading: false);
-          }
+        body: BlocBuilder<MerchantDiscountsCubit, MerchantDiscountsState>(
+          builder: (context, state) {
+            if (state.status == DiscountsStatus.loading &&
+                state.discounts.isEmpty) {
+              return const ListSkeleton(showLeading: false);
+            }
 
-          if (state.status == DiscountsStatus.failure &&
-              state.discounts.isEmpty) {
-            return RefreshableStateView(
+            if (state.status == DiscountsStatus.failure &&
+                state.discounts.isEmpty) {
+              return RefreshableStateView(
+                onRefresh: context.read<MerchantDiscountsCubit>().loadDiscounts,
+                child: AppErrorState(
+                  message: state.errorMessage,
+                  onRetry: context.read<MerchantDiscountsCubit>().loadDiscounts,
+                ),
+              );
+            }
+
+            if (state.discounts.isEmpty) {
+              return RefreshableStateView(
+                onRefresh: context.read<MerchantDiscountsCubit>().loadDiscounts,
+                child: AppEmptyState(
+                  icon: Icons.local_offer_outlined,
+                  title: S().noDiscountsYet,
+                  actionLabel: S().newDiscount,
+                  onAction: () =>
+                      context.push(Routes.merchantDiscountFormScreen),
+                ),
+              );
+            }
+
+            return RefreshIndicator(
               onRefresh: context.read<MerchantDiscountsCubit>().loadDiscounts,
-              child: AppErrorState(
-                message: state.errorMessage,
-                onRetry: context.read<MerchantDiscountsCubit>().loadDiscounts,
-              ),
-            );
-          }
-
-          if (state.discounts.isEmpty) {
-            return RefreshableStateView(
-              onRefresh: context.read<MerchantDiscountsCubit>().loadDiscounts,
-              child: AppEmptyState(
-                icon: Icons.local_offer_outlined,
-                title: S().noDiscountsYet,
-                actionLabel: S().newDiscount,
-                onAction: () => context.push(Routes.merchantDiscountFormScreen),
-              ),
-            );
-          }
-
-          return RefreshIndicator(
-            onRefresh: context.read<MerchantDiscountsCubit>().loadDiscounts,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-              children: [
-                if (state.liveDiscounts.isNotEmpty) ...[
-                  SectionTitle(title: S().liveDiscounts),
-                  for (final discount in state.liveDiscounts)
-                    DiscountCard(
-                      discount: discount,
-                      onClose: () => _confirmClose(context, discount.id),
-                      onTap: () => context.push(
-                        Routes.merchantDiscountFormScreen,
-                        extra: discount,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                children: [
+                  if (state.liveDiscounts.isNotEmpty) ...[
+                    SectionTitle(title: S().liveDiscounts),
+                    for (final discount in state.liveDiscounts)
+                      DiscountCard(
+                        discount: discount,
+                        onClose: () => _confirmClose(context, discount.id),
+                        onTap: () => context.push(
+                          Routes.merchantDiscountFormScreen,
+                          extra: discount,
+                        ),
                       ),
-                    ),
+                  ],
+                  if (state.closedDiscounts.isNotEmpty) ...[
+                    SectionTitle(title: S().closedDiscounts),
+                    for (final discount in state.closedDiscounts)
+                      DiscountCard(discount: discount),
+                  ],
                 ],
-                if (state.closedDiscounts.isNotEmpty) ...[
-                  SectionTitle(title: S().closedDiscounts),
-                  for (final discount in state.closedDiscounts)
-                    DiscountCard(discount: discount),
-                ],
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

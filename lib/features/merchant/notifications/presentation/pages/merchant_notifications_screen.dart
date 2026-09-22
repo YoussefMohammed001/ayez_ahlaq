@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
@@ -8,6 +9,7 @@ import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/merchant_notifications_cubit.dart';
 import '../manager/merchant_notifications_state.dart';
+import '../services/merchant_notification_tap_router.dart';
 import '../widgets/notification_row.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
@@ -22,11 +24,13 @@ class MerchantNotificationsScreen extends StatefulWidget {
 class _MerchantNotificationsScreenState
     extends State<MerchantNotificationsScreen> {
   final _scrollController = ScrollController();
+  final _tapRouter = const MerchantNotificationTapRouter();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    context.read<MerchantNotificationsCubit>().loadNotifications();
   }
 
   @override
@@ -71,7 +75,12 @@ class _MerchantNotificationsScreenState
         ),
       ),
       body:
-          BlocBuilder<MerchantNotificationsCubit, MerchantNotificationsState>(
+          BlocConsumer<MerchantNotificationsCubit, MerchantNotificationsState>(
+            listenWhen: (previous, current) =>
+                current.status == NotificationsStatus.success &&
+                current.errorMessage != null &&
+                current.errorMessage != previous.errorMessage,
+            listener: (context, state) => showError(state.errorMessage!),
             builder: (context, state) {
               if (state.status == NotificationsStatus.loading) {
                 return const ListSkeleton();
@@ -117,9 +126,12 @@ class _MerchantNotificationsScreenState
                     final notification = state.notifications[index];
                     return NotificationRow(
                       notification: notification,
-                      onTap: () => context
-                          .read<MerchantNotificationsCubit>()
-                          .markRead(notification.id),
+                      onTap: () {
+                        context
+                            .read<MerchantNotificationsCubit>()
+                            .markRead(notification.id);
+                        _tapRouter.handle(context, notification);
+                      },
                     );
                   },
                 ),

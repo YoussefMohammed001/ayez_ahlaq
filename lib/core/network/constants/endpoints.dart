@@ -1,4 +1,6 @@
 class EndPoints {
+  static const String support = 'support';
+
   static const String customerRegister = 'customer/register';
   static const String customerRegisterVerifyOtp = 'customer/register/verifyOtp';
   static const String customerRegisterResendOtp = 'customer/register/resendOtp';
@@ -16,6 +18,16 @@ class EndPoints {
   static const String customerBooking = 'customer/booking';
   static String customerBookingById(int id) => 'customer/booking/$id';
   static String customerBookingCancel(int id) => 'customer/booking/$id/cancel';
+
+  static const String customerHomeServiceShop = 'customer/homeService/shop';
+  static String customerHomeServiceHours(int shopId) =>
+      'customer/homeService/hours/$shopId';
+  static const String customerHomeService = 'customer/homeService';
+  static String customerHomeServiceById(int id) => 'customer/homeService/$id';
+  static String customerHomeServiceConfirmPrice(int id) =>
+      'customer/homeService/$id/confirmPrice';
+  static String customerHomeServiceCancel(int id) =>
+      'customer/homeService/$id/cancel';
 
   static const String customerRating = 'customer/rating';
 
@@ -54,6 +66,8 @@ class EndPoints {
 
   static const String customerWallet = 'customer/wallet';
   static const String customerTransferAccount = 'customer/transferAccount';
+  static const String customerWithdrawMethods =
+      'customer/transferAccount/withdrawMethods';
   static const String customerWalletRequests = 'customer/walletRequests';
   static String customerWalletRequestById(int id) =>
       'customer/walletRequests/$id';
@@ -84,6 +98,20 @@ class EndPoints {
   static const String barberPaymentMethod = 'barber/paymentMethod';
 
   static const String barberHours = 'barber/hours';
+
+  static const String barberHomeService = 'barber/homeService';
+  static const String barberHomeServiceHours = 'barber/homeService/hours';
+  static const String barberHomeServiceRequest = 'barber/homeService/request';
+  static String barberHomeServiceRequestById(int id) =>
+      'barber/homeService/request/$id';
+  static String barberHomeServiceRequestPrice(int id) =>
+      'barber/homeService/request/$id/price';
+  static String barberHomeServiceRequestAccept(int id) =>
+      'barber/homeService/request/$id/accept';
+  static String barberHomeServiceRequestReject(int id) =>
+      'barber/homeService/request/$id/reject';
+  static String barberHomeServiceRequestStatus(int id) =>
+      'barber/homeService/request/$id/status';
 
   static const String barberServiceCatalog = 'barber/service/catalog';
   static const String barberService = 'barber/service';
@@ -123,12 +151,30 @@ class EndPoints {
 
   static const String barberWallet = 'barber/wallet';
   static const String barberTransferAccount = 'barber/transferAccount';
+  static const String barberWithdrawMethods =
+      'barber/transferAccount/withdrawMethods';
   static const String barberWalletRequests = 'barber/walletRequests';
   static String barberWalletRequestById(int id) => 'barber/walletRequests/$id';
   static String barberWalletRequestAttachment(int id) =>
       'barber/walletRequests/$id/attachment';
   static String barberWalletRequestCancel(int id) =>
       'barber/walletRequests/$id/cancel';
+
+  static const String barberMoneyItem = 'barber/money/item';
+  static String barberMoneyItemById(int id) => 'barber/money/item/$id';
+  static const String barberMoneyEntry = 'barber/money/entry';
+  static const String barberMoneySummary = 'barber/money/summary';
+  static const String barberMoneyOccurrencePending =
+      'barber/money/occurrence/pending';
+  static String barberMoneyOccurrenceConfirm(int id) =>
+      'barber/money/occurrence/$id/confirm';
+  static String barberMoneyOccurrenceDismiss(int id) =>
+      'barber/money/occurrence/$id/dismiss';
+
+  static const String barberMoneyPin = 'barber/moneyPin';
+  static const String barberMoneyPinVerify = 'barber/moneyPin/verify';
+  static const String barberMoneyPinResetRequest =
+      'barber/moneyPin/resetRequest';
 
   static const String barberReview = 'barber/review';
 
@@ -140,6 +186,10 @@ class EndPoints {
   static String barberBookingReject(int id) => 'barber/booking/$id/reject';
   static String barberBookingStatus(int id) => 'barber/booking/$id/status';
   static const String barberBookingWalkin = 'barber/booking/walkin';
+  static const String barberBookingWalkinOptions =
+      'barber/booking/walkin/options';
+  static const String barberBookingUnresolved = 'barber/booking/unresolved';
+  static const String barberBookingSettle = 'barber/booking/settle';
   static String barberBookingBilling(int id) => 'barber/booking/$id/billing';
 
   static const String barberInvite = 'barber/invite';
@@ -195,6 +245,10 @@ class EndPoints {
   static String barberStorefrontOrderStatus(int id) =>
       'barber/storefront/order/$id/status';
 
+  static const String barberDiscount = 'barber/discount';
+  static String barberDiscountById(int id) => 'barber/discount/$id';
+  static String barberDiscountClose(int id) => 'barber/discount/$id/close';
+
   static const String merchantMe = 'merchant';
   static const String merchantProfile = 'merchant/profile';
   static const String merchantLocation = 'merchant/location';
@@ -230,6 +284,8 @@ class EndPoints {
   static String merchantDiscountById(int id) => 'merchant/discount/$id';
   static String merchantDiscountClose(int id) => 'merchant/discount/$id/close';
 
+  static const String merchantCustomer = 'merchant/customer';
+
   static const String merchantAttachment = 'merchant/attachment';
   static String merchantAttachmentFile(int id) =>
       'merchant/attachment/$id/file';
@@ -259,6 +315,8 @@ class EndPoints {
 
   static const String merchantWallet = 'merchant/wallet';
   static const String merchantTransferAccount = 'merchant/transferAccount';
+  static const String merchantWithdrawMethods =
+      'merchant/transferAccount/withdrawMethods';
   static const String merchantWalletRequests = 'merchant/walletRequests';
   static String merchantWalletRequestById(int id) =>
       'merchant/walletRequests/$id';

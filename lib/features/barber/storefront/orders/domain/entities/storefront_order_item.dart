@@ -5,6 +5,7 @@ class StorefrontOrderItem extends Equatable {
   final String productName;
   final int quantity;
   final int unitPrice;
+  final int unitDiscount;
   final int lineTotal;
 
   const StorefrontOrderItem({
@@ -12,9 +13,21 @@ class StorefrontOrderItem extends Equatable {
     required this.productName,
     required this.quantity,
     required this.unitPrice,
+    required this.unitDiscount,
     required this.lineTotal,
   });
 
+  bool get hasUnitDiscount => unitDiscount > 0;
+
+  int get effectiveUnitPrice => unitPrice - unitDiscount;
+
   @override
-  List<Object?> get props => [productId, quantity, lineTotal];
+  List<Object?> get props => [
+    productId,
+    productName,
+    quantity,
+    unitPrice,
+    unitDiscount,
+    lineTotal,
+  ];
 }

@@ -1,17 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
+import '../../../../../shared/location/current_position_resolver.dart';
 import '../../domain/use_cases/get_shops_use_case.dart';
 import 'customer_shops_state.dart';
 
 class CustomerShopsCubit extends Cubit<CustomerShopsState> {
   final GetShopsUseCase _getShops;
+  final CurrentPositionResolver _positionResolver;
 
-  CustomerShopsCubit(this._getShops) : super(const CustomerShopsState());
+  CustomerShopsCubit(this._getShops, this._positionResolver)
+      : super(const CustomerShopsState());
 
   Future<void> loadShops() async {
     emit(state.copyWith(status: CustomerShopsStatus.loading));
 
-    final position = await _resolveCurrentPosition();
+    final position = await _positionResolver.resolve();
 
     final result = await _getShops(
       lat: position?.latitude,
@@ -33,24 +35,5 @@ class CustomerShopsCubit extends Cubit<CustomerShopsState> {
         ),
       ),
     );
-  }
-
-  Future<Position?> _resolveCurrentPosition() async {
-    try {
-      if (!await Geolocator.isLocationServiceEnabled()) return null;
-
-      var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        return null;
-      }
-
-      return await Geolocator.getCurrentPosition();
-    } catch (_) {
-      return null;
-    }
   }
 }

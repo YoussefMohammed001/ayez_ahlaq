@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../../services/data/models/barber_service_model.dart';
 import '../../../services/data/models/service_catalog_item_model.dart';
 import '../../../services/domain/entities/barber_service.dart';
@@ -37,7 +38,7 @@ class BarberTeamServicesRepo implements IBarberTeamServicesRepo {
       memberId,
       BarberServiceModel.toCreateJson(service),
     );
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -50,7 +51,7 @@ class BarberTeamServicesRepo implements IBarberTeamServicesRepo {
       service.id,
       BarberServiceModel.toUpdateJson(service),
     );
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -78,7 +79,7 @@ class BarberTeamServicesRepo implements IBarberTeamServicesRepo {
         .toList();
   }
 
-  BarberService _mapOne(dynamic response) {
-    return BarberServiceModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, BarberService> _mapOne(dynamic response) {
+    return requireDataMap(response).map(BarberServiceModel.fromJson);
   }
 }

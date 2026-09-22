@@ -43,5 +43,18 @@ class Discount extends Equatable {
   bool get isAllShops => shops.isEmpty;
 
   @override
-  List<Object?> get props => [id, name, scope, active, liveNow, summary];
+  List<Object?> get props => [
+    id,
+    name,
+    scope,
+    active,
+    liveNow,
+    summary,
+    rewardValue,
+    targetProductId,
+    buyQuantity,
+    rewardQuantity,
+    minOrderTotal,
+    shops,
+  ];
 }

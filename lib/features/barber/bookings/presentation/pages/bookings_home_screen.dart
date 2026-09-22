@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/theme/heading_styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/di/services_locator.dart';
+import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
+import '../manager/unresolved_bookings_cubit.dart';
 import '../widgets/walk_in_sheet_launcher.dart';
 import 'history_bookings_view.dart';
 import 'pending_bookings_view.dart';
 import 'queue_bookings_view.dart';
+import 'unresolved_bookings_view.dart';
 
 class BookingsHomeScreen extends StatefulWidget {
   const BookingsHomeScreen({super.key});
@@ -15,7 +19,7 @@ class BookingsHomeScreen extends StatefulWidget {
 
 class _BookingsHomeScreenState extends State<BookingsHomeScreen>
     with SingleTickerProviderStateMixin {
-  late final _controller = TabController(length: 3, vsync: this)
+  late final _controller = TabController(length: 4, vsync: this)
     ..addListener(() => setState(() {}));
 
   @override
@@ -27,26 +31,30 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(S().bookingsTitle,
-            style: HeadingStyles.h4),
+      appBar: AppTopBar(
+        title: S().bookingsTitle,
+        viewLeading: false,
         bottom: TabBar(
           controller: _controller,
-          isScrollable: false,
+          isScrollable: true,
           tabs: [
             Tab(text: S().bookingsPendingTab),
             Tab(text: S().bookingsQueueTab),
+            Tab(text: S().bookingsUnresolvedTab),
             Tab(text: S().bookingsHistoryTab),
           ],
         ),
       ),
       body: TabBarView(
         controller: _controller,
-        children: const [
-          PendingBookingsView(),
-          QueueBookingsView(),
-          HistoryBookingsView(),
+        children: [
+          const PendingBookingsView(),
+          const QueueBookingsView(),
+          BlocProvider(
+            create: (_) => sl<UnresolvedBookingsCubit>(),
+            child: const UnresolvedBookingsView(),
+          ),
+          const HistoryBookingsView(),
         ],
       ),
       floatingActionButton: FloatingActionButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/theme/heading_styles.dart';
+import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../widgets/cart_icon_button.dart';
 import 'barber_store_merchants_screen.dart';
@@ -31,9 +31,9 @@ class _StoreHomeScreenState extends State<StoreHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S().storeTitle, style: HeadingStyles.h4),
-        actions: const [CartIconButton()],
+      appBar: AppTopBar(
+        title: S().storeTitle,
+        trailing: const CartIconButton(),
         bottom: TabBar(
           controller: _controller,
           tabs: [

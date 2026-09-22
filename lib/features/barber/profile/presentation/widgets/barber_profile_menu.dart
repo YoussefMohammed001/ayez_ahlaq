@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/menu_section.dart';
-import '../../../../../shared/widgets/settings/language_sheet.dart';
-import '../../../../../shared/widgets/settings/theme_sheet.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
+import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../domain/entities/barber_profile.dart';
 import '../../../../../generated/l10n.dart';
-import 'barber_shop_menu_sections.dart';
 
 class BarberProfileMenu extends StatelessWidget {
   final BarberProfile? profile;
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   const BarberProfileMenu({super.key, this.profile, required this.onLogout});
 
@@ -26,62 +25,77 @@ class BarberProfileMenu extends StatelessWidget {
       icon: Icons.logout_rounded,
     );
 
-    if (confirmed) onLogout();
+    if (!confirmed) return;
+
+    await showLoading();
+    await onLogout();
+    hideLoading();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return MenuSection(
+      title: S().menuTitle,
       children: [
-        BarberShopMenuSections(profile: profile),
-        MenuSection(
-          title: S().appSettings,
-          children: [
-            MenuRow(
-              icon: Icons.notifications_none_rounded,
-              label: S().notifications,
-              trailing: const BarberUnseenNotificationsBadge(),
-              onTap: () => context.push(Routes.barberNotificationsScreen),
-            ),
-            MenuRow(
-              icon: Icons.brightness_6_rounded,
-              label: S().theme,
-              onTap: () => ThemeSheet.show(context),
-            ),
-            MenuRow(
-              icon: Icons.language_rounded,
-              label: S().language,
-              onTap: () => LanguageSheet.show(context),
-            ),
-            MenuRow(
-              icon: Icons.lock_outline_rounded,
-              label: S().changePassword,
-              onTap: () => context.push(Routes.barberChangePasswordScreen),
-            ),
-          ],
+        MenuRow(
+          icon: Icons.manage_accounts_outlined,
+          label: S().accountManagementSection,
+          onTap: () => context.push(Routes.barberAccountMenuScreen),
         ),
-        MenuSection(
-          title: S().supportSection,
-          children: [
-            MenuRow(
-              icon: Icons.info_outline_rounded,
-              label: S().aboutApp,
-              onTap: () => context.push(Routes.aboutScreen),
-            ),
-            MenuRow(
-              icon: Icons.logout_rounded,
-              label: S().logout,
-              danger: true,
-              showChevron: false,
-              onTap: () => _confirmLogout(context),
-            ),
-            MenuRow(
-              icon: Icons.delete_forever_rounded,
-              label: S().deleteAccount,
-              danger: true,
-              onTap: () => context.push(Routes.barberDeleteAccountScreen),
-            ),
-          ],
+        MenuRow(
+          icon: Icons.storefront_outlined,
+          label: S().shopSection,
+          trailing: const MissingDocumentsBadge(),
+          onTap: () =>
+              context.push(Routes.barberShopMenuScreen, extra: profile),
+        ),
+        MenuRow(
+          icon: Icons.point_of_sale_outlined,
+          label: S().storeAndSalesSection,
+          onTap: () => context.push(Routes.barberStoreAndSalesMenuScreen),
+        ),
+        MenuRow(
+          icon: Icons.shopping_bag_outlined,
+          label: S().purchasesSection,
+          onTap: () => context.push(Routes.barberPurchasesMenuScreen),
+        ),
+        MenuRow(
+          icon: Icons.account_balance_outlined,
+          label: S().financialSection,
+          onTap: () => context.push(Routes.barberFinancialMenuScreen),
+        ),
+        MenuRow(
+          icon: Icons.star_border_rounded,
+          label: S().reviewsTitle,
+          onTap: () => context.push(Routes.barberReviewsScreen),
+        ),
+        MenuRow(
+          icon: Icons.campaign_outlined,
+          label: S().sendBroadcast,
+          onTap: () => context.push(Routes.barberBroadcastListScreen),
+        ),
+        MenuRow(
+          icon: Icons.notifications_none_rounded,
+          label: S().notifications,
+          trailing: const BarberUnseenNotificationsBadge(),
+          onTap: () => context.push(Routes.barberNotificationsScreen),
+        ),
+        MenuRow(
+          icon: Icons.settings_outlined,
+          label: S().appSettings,
+          onTap: () => context.push(Routes.barberAppSettingsMenuScreen),
+        ),
+        MenuRow(
+          icon: Icons.info_outline_rounded,
+          label: S().supportSection,
+          onTap: () => context.push(Routes.barberSupportMenuScreen),
+        ),
+        MenuRow(
+          icon: Icons.logout_rounded,
+          label: S().logout,
+          danger: true,
+          showChevron: false,
+          onTap: () => _confirmLogout(context),
         ),
       ],
     );

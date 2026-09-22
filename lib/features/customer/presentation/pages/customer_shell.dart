@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/widgets/flat_bottom_nav_bar.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
-import '../../../../core/widgets/notched_bottom_nav_bar.dart';
 import '../../booking/presentation/manager/my_bookings_cubit.dart';
 import '../../favorites/presentation/manager/favorites_cubit.dart';
 import '../../favorites/presentation/pages/favorites_screen.dart';
@@ -12,7 +12,6 @@ import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../store/presentation/manager/store_orders_cubit.dart';
 import '../../store/presentation/pages/my_store_orders_screen.dart';
 import '../../../../generated/l10n.dart';
-import '../widgets/customer_booking_fab.dart';
 import 'customer_dashboard_screen.dart';
 
 class CustomerShell extends StatefulWidget {
@@ -45,23 +44,19 @@ class _CustomerShellState extends State<CustomerShell> {
     context.read<MyBookingsCubit>().loadBookings();
   }
 
-  void _goToHomeTab() => setState(() => _index = 0);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _index,
         children: [
-          const CustomerDashboardScreen(),
+          CustomerDashboardScreen(onGoToTab: (i) => setState(() => _index = i)),
           const MyStoreOrdersScreen(),
           const FavoritesScreen(),
           CustomerProfileScreen(onLogout: widget.onLogout),
         ],
       ),
-      floatingActionButton: CustomerBookingFab(onPressed: _goToHomeTab),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: NotchedBottomNavBar(
+      bottomNavigationBar: FlatBottomNavBar(
         items: _tabs,
         currentIndex: _index,
         onTap: (i) => setState(() => _index = i),

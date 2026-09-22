@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/team_member.dart';
 import '../../domain/entities/team_member_detail.dart';
 import '../../domain/repos/i_barber_team_repo.dart';
@@ -29,13 +30,13 @@ class BarberTeamRepo implements IBarberTeamRepo {
       'phoneNumber': phoneNumber,
       if (tagline != null) 'tagline': tagline,
     });
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
   Future<Either<Failure, TeamMemberDetail>> getMember(int id) async {
     final result = await _api.getMember(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -48,7 +49,7 @@ class BarberTeamRepo implements IBarberTeamRepo {
       'name': name,
       'tagline': tagline,
     });
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -57,19 +58,19 @@ class BarberTeamRepo implements IBarberTeamRepo {
     bool available,
   ) async {
     final result = await _api.setAvailability(id, available);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
   Future<Either<Failure, TeamMemberDetail>> blockMember(int id) async {
     final result = await _api.blockMember(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
   Future<Either<Failure, TeamMemberDetail>> activateMember(int id) async {
     final result = await _api.activateMember(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -85,9 +86,7 @@ class BarberTeamRepo implements IBarberTeamRepo {
         .toList();
   }
 
-  TeamMemberDetail _mapOne(dynamic response) {
-    return TeamMemberDetailModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, TeamMemberDetail> _mapOne(dynamic response) {
+    return requireDataMap(response).map(TeamMemberDetailModel.fromJson);
   }
 }

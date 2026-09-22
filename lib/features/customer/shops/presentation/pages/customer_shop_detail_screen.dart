@@ -10,15 +10,12 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
-import '../../../../../core/widgets/section_title.dart';
-import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../booking/presentation/manager/booking_flow_cubit.dart';
-import '../../domain/entities/shop_barber.dart';
 import '../../domain/entities/shop_detail.dart';
 import '../manager/customer_shop_detail_cubit.dart';
 import '../manager/customer_shop_detail_state.dart';
-import '../widgets/shop_barber_row.dart';
+import '../widgets/shop_detail_body.dart';
 
 class CustomerShopDetailScreen extends StatefulWidget {
   final int shopId;
@@ -44,40 +41,20 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
         Future<void> reload() => cubit.loadShopDetail(widget.shopId);
         final detail = state.detail;
 
-        final owner = detail == null || detail.barbers.isEmpty
-            ? null
-            : detail.barbers.cast<ShopBarber>().firstWhere(
-                (b) => b.owner,
-                orElse: () => detail.barbers.first,
-              );
-
         return Scaffold(
           appBar: AppTopBar(
             title: S().shopDetailTitle,
             trailing: detail == null
                 ? null
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (owner != null)
-                        IconButton(
-                          icon: Icon(
-                            owner.favorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                            color: owner.favorite ? context.semantic.warning : null,
-                          ),
-                          onPressed: () => cubit.toggleFavorite(owner.id),
-                        ),
-                      IconButton(
-                        icon: const Icon(Icons.storefront_outlined),
-                        onPressed: () => context.push(
-                          Routes.customerStoreProductsScreen,
-                          extra: widget.shopId,
-                        ),
-                      ),
-                    ],
+                : IconButton(
+                    icon: const Icon(Icons.storefront_outlined),
+                    onPressed: () => context.push(
+                      Routes.customerStoreProductsScreen,
+                      extra: widget.shopId,
+                    ),
                   ),
           ),
-          body: _buildBody(state, detail, reload),
+          body: _buildBody(state, detail, reload, cubit.toggleFavorite),
           bottomNavigationBar: detail == null
               ? null
               : Padding(
@@ -102,6 +79,7 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
     CustomerShopDetailState state,
     ShopDetail? detail,
     Future<void> Function() reload,
+    ValueChanged<int> onToggleFavorite,
   ) {
     if (state.status == CustomerShopDetailStatus.loading && detail == null) {
       return const ListSkeleton();
@@ -123,73 +101,7 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
 
     return RefreshIndicator(
       onRefresh: reload,
-      child: _ShopDetailBody(detail: detail),
-    );
-  }
-}
-
-class _ShopDetailBody extends StatelessWidget {
-  final ShopDetail detail;
-
-  const _ShopDetailBody({required this.detail});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-
-    return ListView(
-      padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-      children: [
-        Text(
-          detail.shop.name,
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w800, color: scheme.onSurface),
-        ),
-        SizedBox(height: 6.h),
-        Row(
-          children: [
-            Icon(Icons.star_rounded, size: 16.r, color: context.semantic.accentSoft),
-            SizedBox(width: 4.w),
-            Text(
-              '${detail.shop.rating.toStringAsFixed(1)} (${detail.shop.ratingCount})',
-              style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurfaceVariant),
-            ),
-          ],
-        ),
-        if (detail.shop.address != null && detail.shop.address!.isNotEmpty) ...[
-          SizedBox(height: 6.h),
-          Text(
-            detail.shop.address!,
-            style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurfaceVariant),
-          ),
-        ],
-        SectionTitle(title: S().barbersSectionTitle),
-        if (detail.barbers.isEmpty)
-          AppEmptyState(icon: Icons.content_cut_rounded, title: S().noBarbersYet, compact: true)
-        else
-          ...detail.barbers.map((barber) => ShopBarberRow(barber: barber)),
-        if (detail.paymentMethods.isNotEmpty) ...[
-          SectionTitle(title: S().paymentMethodsSectionTitle),
-          Wrap(
-            spacing: 8.w,
-            runSpacing: 8.h,
-            children: detail.paymentMethods
-                .map(
-                  (method) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                    decoration: BoxDecoration(
-                      color: scheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Text(
-                      method.label,
-                      style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
-      ],
+      child: ShopDetailBody(detail: detail, onToggleFavorite: onToggleFavorite),
     );
   }
 }

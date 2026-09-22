@@ -1,36 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_paths.dart';
-import '../../../../core/widgets/app_top_bar.dart';
-import '../../../../shared/widgets/notifications_icon_button.dart';
-import '../../../../generated/l10n.dart';
-import '../../notifications/presentation/widgets/customer_unseen_notifications_badge.dart';
+import '../../../../core/widgets/refreshable_state_view.dart';
+import '../../booking/presentation/manager/my_bookings_cubit.dart';
+import '../../profile/presentation/manager/customer_profile_cubit.dart';
+import '../../profile/presentation/manager/customer_profile_state.dart';
+import '../../shops/presentation/manager/customer_shops_cubit.dart';
+import '../../store/presentation/manager/store_orders_cubit.dart';
+import '../widgets/customer_home_greeting.dart';
 import '../widgets/dashboard_orders_section.dart';
 import '../widgets/nearest_shops_section.dart';
+import '../widgets/quick_actions_section.dart';
 import '../widgets/upcoming_bookings_section.dart';
 
 class CustomerDashboardScreen extends StatelessWidget {
-  const CustomerDashboardScreen({super.key});
+  final ValueChanged<int> onGoToTab;
+
+  const CustomerDashboardScreen({super.key, required this.onGoToTab});
+
+  Future<void> _refresh(BuildContext context) async {
+    await Future.wait([
+      context.read<CustomerProfileCubit>().loadProfile(),
+      context.read<MyBookingsCubit>().loadBookings(),
+      context.read<CustomerShopsCubit>().loadShops(),
+      context.read<StoreOrdersCubit>().loadOrders(),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(
-        viewLeading: false,
-        title: S().dashboardTitle,
-        trailing: NotificationsIconButton(
-          badge: const CustomerUnseenNotificationsBadge(),
-          onTap: () => context.push(Routes.customerNotificationsScreen),
+      body: SafeArea(
+        child: RefreshableStateView(
+          onRefresh: () => _refresh(context),
+          child: ListView(
+            padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              BlocBuilder<CustomerProfileCubit, CustomerProfileState>(
+                builder: (context, state) => CustomerHomeGreeting(
+                  name: state.profile?.name ?? '',
+                  onAvatarTap: () => onGoToTab(3),
+                  onNotificationsTap: () =>
+                      context.push(Routes.customerNotificationsScreen),
+                ),
+              ),
+              SizedBox(height: 18.h),
+              const QuickActionsSection(),
+              const UpcomingBookingsSection(),
+              const NearestShopsSection(),
+              const DashboardOrdersSection(),
+            ],
+          ),
         ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-        children: const [
-          UpcomingBookingsSection(),
-          NearestShopsSection(),
-          DashboardOrdersSection(),
-        ],
       ),
     );
   }

@@ -14,7 +14,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
 class MerchantProfileScreen extends StatelessWidget {
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   const MerchantProfileScreen({super.key, required this.onLogout});
 
@@ -103,6 +103,7 @@ class MerchantProfileScreen extends StatelessWidget {
             label: S().contact,
             value: profile.phoneNumber,
             showDivider: hasEmail,
+            verified: profile.active,
           ),
           if (hasEmail)
             InfoRow(

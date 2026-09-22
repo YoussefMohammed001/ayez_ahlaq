@@ -6,6 +6,7 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/booking.dart';
 import '../../domain/entities/booking_addon.dart';
+import 'booking_adjustments_section.dart';
 
 class BookingInfoCard extends StatelessWidget {
   final Booking booking;
@@ -45,6 +46,8 @@ class BookingInfoCard extends StatelessWidget {
             ),
           if (drinks.isNotEmpty) _buildExtrasSection(context, S().drinksTitle, drinks),
           if (products.isNotEmpty) _buildExtrasSection(context, S().addonsLabel, products),
+          if (booking.adjustments.isNotEmpty)
+            BookingAdjustmentsSection(adjustments: booking.adjustments),
           if ((booking.note ?? '').isNotEmpty)
             _buildRow(context, S().walkInNoteLabel, booking.note!),
         ],

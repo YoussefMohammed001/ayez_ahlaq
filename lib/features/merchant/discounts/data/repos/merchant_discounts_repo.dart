@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/discount.dart';
 import '../../domain/entities/discount_quote.dart';
 import '../../domain/entities/discount_shop.dart';
@@ -24,7 +25,7 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
   @override
   Future<Either<Failure, Discount>> getDiscountById(int id) async {
     final result = await _api.getDiscountById(id);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -45,7 +46,7 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
     DiscountRequest request,
   ) async {
     final result = await _api.createDiscount(request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -54,7 +55,7 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
     DiscountRequest request,
   ) async {
     final result = await _api.updateDiscount(id, request);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -70,8 +71,8 @@ class MerchantDiscountsRepo implements IMerchantDiscountsRepo {
         .toList();
   }
 
-  Discount _mapOne(dynamic response) {
-    return DiscountModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, Discount> _mapOne(dynamic response) {
+    return requireDataMap(response).map(DiscountModel.fromJson);
   }
 
   @override

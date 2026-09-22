@@ -199,6 +199,7 @@ class BookingsCubit extends Cubit<BookingsState> {
             clearUpdatingBookingId: true,
             pending: _replace(state.pending, booking),
             queue: _replace(state.queue, booking),
+            history: _replace(state.history, booking),
           ),
         );
         return true;

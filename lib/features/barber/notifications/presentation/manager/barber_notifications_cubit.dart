@@ -79,11 +79,15 @@ class BarberNotificationsCubit extends Cubit<BarberNotificationsState> {
   }
 
   Future<void> markAllRead() async {
+    emit(state.copyWith(isMarkingRead: true, errorMessage: null));
     final result = await _markAllSeen();
     result.fold(
-      (_) {},
+      (failure) => emit(
+        state.copyWith(isMarkingRead: false, errorMessage: failure.message),
+      ),
       (_) => emit(
         state.copyWith(
+          isMarkingRead: false,
           notifications:
               state.notifications.map((n) => n.copyWith(seen: true)).toList(),
           unseenCount: 0,

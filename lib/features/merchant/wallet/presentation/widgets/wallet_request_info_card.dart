@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/app_date_time.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/info_row.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -43,6 +44,26 @@ class WalletRequestInfoCard extends StatelessWidget {
                 ? S().walletRequestTypeDeposit
                 : S().walletRequestTypeWithdraw,
           ),
+          if (isDeposit && request.transferAccount != null)
+            InfoRow(
+              icon: Icons.account_balance_wallet_outlined,
+              label: S().transferAccountLabel,
+              value: request.transferAccount!,
+            ),
+          if (!isDeposit && request.withdrawMethod != null)
+            InfoRow(
+              icon: Icons.account_balance_wallet_outlined,
+              label: S().withdrawMethodLabel,
+              value: request.withdrawMethod!,
+            ),
+          if (!isDeposit &&
+              request.withdrawAccount != null &&
+              request.withdrawAccount!.isNotEmpty)
+            InfoRow(
+              icon: Icons.numbers_rounded,
+              label: S().withdrawAccountLabel,
+              value: request.withdrawAccount!,
+            ),
           if (request.note != null && request.note!.isNotEmpty)
             InfoRow(
               icon: Icons.notes_rounded,
@@ -65,7 +86,7 @@ class WalletRequestInfoCard extends StatelessWidget {
             InfoRow(
               icon: Icons.event_available_outlined,
               label: S().walletRequestDecidedAtLabel,
-              value: request.decidedAt!.toLocal().toString(),
+              value: AppDateTime.formatDateTime(request.decidedAt!),
               showDivider: false,
             ),
         ],

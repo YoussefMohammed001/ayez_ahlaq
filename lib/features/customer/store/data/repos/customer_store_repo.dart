@@ -69,7 +69,7 @@ class CustomerStoreRepo implements ICustomerStoreRepo {
     final result = await _api.getOrders();
     return result.map<List<StoreOrder>>(
       (response) => (response['data'] as List<dynamic>? ?? [])
-          .map((e) => StoreOrderModel.fromJson(e as Map<String, dynamic>))
+          .map<StoreOrder>((e) => StoreOrderModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }

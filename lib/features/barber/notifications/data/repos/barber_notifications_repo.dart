@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/notification_page.dart';
 import '../../domain/repos/i_barber_notifications_repo.dart';
 import '../apis/barber_notifications_api.dart';
@@ -16,21 +17,19 @@ class BarberNotificationsRepo implements IBarberNotificationsRepo {
     required int size,
   }) async {
     final result = await _api.getNotifications(page: page, size: size);
-    return result.map(
-      (response) => NotificationPageModel.fromJson(
-        response['data'] as Map<String, dynamic>,
-      ),
+    return result.flatMap(
+      (response) =>
+          requireDataMap(response).map(NotificationPageModel.fromJson),
     );
   }
 
   @override
   Future<Either<Failure, int>> getUnseenCount() async {
     final result = await _api.getUnseenCount();
-    return result.map(
-      (response) =>
-          ((response['data'] as Map<String, dynamic>)['count'] as num?)
-              ?.toInt() ??
-          0,
+    return result.flatMap(
+      (response) => requireDataMap(
+        response,
+      ).map((data) => (data['count'] as num?)?.toInt() ?? 0),
     );
   }
 

@@ -70,7 +70,13 @@ class ShopRow extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.chevron_right, size: 20.r, color: scheme.onSurfaceVariant),
+          Icon(
+            Directionality.of(context) == TextDirection.rtl
+                ? Icons.chevron_left
+                : Icons.chevron_right,
+            size: 20.r,
+            color: scheme.onSurfaceVariant,
+          ),
         ],
       ),
     );

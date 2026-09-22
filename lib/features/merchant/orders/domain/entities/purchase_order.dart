@@ -110,5 +110,20 @@ class PurchaseOrder extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, code, status, total, nextStatuses];
+  List<Object?> get props => [
+    id,
+    code,
+    status,
+    items,
+    total,
+    grandTotal,
+    deliveryFee,
+    nextStatuses,
+    rejectionReason,
+    cancellationNote,
+    acceptedAt,
+    rejectedAt,
+    deliveredAt,
+    cancelledAt,
+  ];
 }

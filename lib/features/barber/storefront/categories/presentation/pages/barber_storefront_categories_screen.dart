@@ -6,7 +6,9 @@ import '../../../../../../core/widgets/app_error_state.dart';
 import '../../../../../../core/widgets/section_title.dart';
 import '../../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../../core/widgets/list_skeleton.dart';
+import '../../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/barber_storefront_categories_cubit.dart';
 import '../manager/barber_storefront_categories_state.dart';
 import '../widgets/add_storefront_category_sheet.dart';
@@ -30,54 +32,71 @@ class BarberStorefrontCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<
+    return BusyErrorListener<
       BarberStorefrontCategoriesCubit,
       BarberStorefrontCategoriesState
     >(
-      builder: (context, state) {
-        if (state.status == StorefrontCategoriesStatus.loading &&
-            state.assignable.isEmpty) {
-          return const ListSkeleton();
-        }
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child:
+          BlocBuilder<
+            BarberStorefrontCategoriesCubit,
+            BarberStorefrontCategoriesState
+          >(
+            builder: (context, state) {
+              if (state.status == StorefrontCategoriesStatus.loading &&
+                  state.assignable.isEmpty) {
+                return const ListSkeleton();
+              }
 
-        if (state.status == StorefrontCategoriesStatus.failure &&
-            state.assignable.isEmpty) {
-          return AppErrorState(
-            message: state.errorMessage,
-            onRetry: context
-                .read<BarberStorefrontCategoriesCubit>()
-                .loadCategories,
-          );
-        }
+              if (state.status == StorefrontCategoriesStatus.failure &&
+                  state.assignable.isEmpty) {
+                return AppErrorState(
+                  message: state.errorMessage,
+                  onRetry: context
+                      .read<BarberStorefrontCategoriesCubit>()
+                      .loadCategories,
+                );
+              }
 
-        return ListView(
-          padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-          children: [
-            SectionTitle(
-              title: S().myCategories,
-              actionLabel: S().addAction,
-              onAction: () => AddStorefrontCategorySheet.show(context),
-            ),
-            if (state.own.isEmpty)
-              AppEmptyState(
-                icon: Icons.category_outlined,
-                title: S().noOwnCategories,
-                compact: true,
-              )
-            else
-              for (final category in state.own)
-                StorefrontCategoryRow(
-                  category: category,
-                  onEdit: () =>
-                      AddStorefrontCategorySheet.show(context, editing: category),
-                  onRemove: () => _confirmRemove(context, category.id),
+              return RefreshableStateView(
+                onRefresh: context
+                    .read<BarberStorefrontCategoriesCubit>()
+                    .loadCategories,
+                child: ListView(
+                  padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    SectionTitle(
+                      title: S().myCategories,
+                      actionLabel: S().addAction,
+                      onAction: () => AddStorefrontCategorySheet.show(context),
+                    ),
+                    if (state.own.isEmpty)
+                      AppEmptyState(
+                        icon: Icons.category_outlined,
+                        title: S().noOwnCategories,
+                        compact: true,
+                      )
+                    else
+                      for (final category in state.own)
+                        StorefrontCategoryRow(
+                          category: category,
+                          onEdit: () => AddStorefrontCategorySheet.show(
+                            context,
+                            editing: category,
+                          ),
+                          onRemove: () => _confirmRemove(context, category.id),
+                        ),
+                    SectionTitle(title: S().globalCategories),
+                    for (final category in state.globalCategories)
+                      StorefrontCategoryRow(category: category),
+                  ],
                 ),
-            SectionTitle(title: S().globalCategories),
-            for (final category in state.globalCategories)
-              StorefrontCategoryRow(category: category),
-          ],
-        );
-      },
+              );
+            },
+          ),
     );
   }
 }

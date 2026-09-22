@@ -34,7 +34,7 @@ class DailyEarningRow extends StatelessWidget {
           ),
           SizedBox(width: 10.w),
           Text(
-            '${day.amount}',
+            S().currencyEgp(day.amount),
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w800,

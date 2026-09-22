@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/drink.dart';
 import '../../domain/repos/i_barber_drinks_repo.dart';
 import '../apis/barber_drinks_api.dart';
@@ -19,7 +20,7 @@ class BarberDrinksRepo implements IBarberDrinksRepo {
   @override
   Future<Either<Failure, Drink>> createDrink(String name, int price) async {
     final result = await _api.createDrink(name, price);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -30,7 +31,7 @@ class BarberDrinksRepo implements IBarberDrinksRepo {
     bool active,
   ) async {
     final result = await _api.updateDrink(id, name, price, active);
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -46,7 +47,7 @@ class BarberDrinksRepo implements IBarberDrinksRepo {
         .toList();
   }
 
-  Drink _mapOne(dynamic response) {
-    return DrinkModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, Drink> _mapOne(dynamic response) {
+    return requireDataMap(response).map(DrinkModel.fromJson);
   }
 }

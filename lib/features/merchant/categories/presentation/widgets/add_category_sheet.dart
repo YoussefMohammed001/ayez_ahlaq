@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/network/constants/endpoints.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/authorized_network_image.dart';
@@ -59,6 +58,7 @@ class _AddCategorySheetState extends State<AddCategorySheet> {
     final request = CategoryFormRequest(
       name: name,
       sortOrder: widget.category?.sortOrder ?? 0,
+      active: widget.category?.active ?? true,
       imagePath: _images.isEmpty ? null : _images.first.path,
     );
 
@@ -74,13 +74,7 @@ class _AddCategorySheetState extends State<AddCategorySheet> {
 
     if (!mounted) return;
 
-    if (saved) {
-      Navigator.of(context).pop();
-      return;
-    }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
+    if (saved) Navigator.of(context).pop();
   }
 
   @override

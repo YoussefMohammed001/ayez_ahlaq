@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../generated/l10n.dart';
@@ -35,7 +36,12 @@ class _MyBookingsScreenState extends State<MyBookingsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: context.colorScheme.onSurface),
+          onPressed: () {
+            if (context.canPop()) context.pop();
+          },
+        ),
         title: Text(S().bookingsTitle, style: HeadingStyles.h4),
         bottom: TabBar(
           controller: _controller,

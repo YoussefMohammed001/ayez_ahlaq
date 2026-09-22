@@ -27,6 +27,9 @@ class CartLine extends Equatable {
 
   bool get hasUnitDiscount => unitDiscount > 0;
 
+  int? get unitDiscountPercent =>
+      unitPrice > 0 ? ((unitDiscount / unitPrice) * 100).round() : null;
+
   @override
   List<Object?> get props => [
     productId,

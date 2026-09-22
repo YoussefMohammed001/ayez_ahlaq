@@ -23,6 +23,11 @@ class StoreOrderItem extends Equatable {
 
   int get effectiveUnitPrice => unitPrice - unitDiscount;
 
+  int get grossTotal => unitPrice * quantity;
+
+  int? get unitDiscountPercent =>
+      unitPrice > 0 ? ((unitDiscount / unitPrice) * 100).round() : null;
+
   @override
   List<Object?> get props => [
     productId,

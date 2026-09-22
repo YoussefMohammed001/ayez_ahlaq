@@ -24,16 +24,17 @@ import '../../subscription/presentation/manager/merchant_subscription_cubit.dart
 import '../../../../generated/l10n.dart';
 
 class MerchantShell extends StatefulWidget {
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
+  final int initialIndex;
 
-  const MerchantShell({super.key, required this.onLogout});
+  const MerchantShell({super.key, required this.onLogout, this.initialIndex = 0});
 
   @override
   State<MerchantShell> createState() => _MerchantShellState();
 }
 
 class _MerchantShellState extends State<MerchantShell> {
-  int _index = 0;
+  late int _index = widget.initialIndex;
 
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.home_rounded, S().tabDashboard),

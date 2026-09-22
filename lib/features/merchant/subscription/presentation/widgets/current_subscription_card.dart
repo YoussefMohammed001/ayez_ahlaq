@@ -4,7 +4,9 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/subscription.dart';
+import '../../domain/entities/subscription_status.dart';
 import 'subscription_quota_row.dart';
+import 'subscription_status_label.dart';
 
 class CurrentSubscriptionCard extends StatelessWidget {
   final Subscription subscription;
@@ -14,7 +16,6 @@ class CurrentSubscriptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final semantic = context.semantic;
 
     if (!subscription.hasSubscription) {
       return AppCard(
@@ -33,9 +34,9 @@ class CurrentSubscriptionCard extends StatelessWidget {
       );
     }
 
-    final isPending = subscription.status == 'PENDING';
-    final statusColor = isPending ? semantic.warning : semantic.success;
-    final statusLabel = isPending ? S().planStatusPending : S().planStatusActive;
+    final status = SubscriptionStatus.fromApi(subscription.status);
+    final statusColor = status.colorOf(context);
+    final statusLabel = status.label;
 
     final quotas = <MapEntry<String, dynamic>>[
       if (subscription.employees != null)

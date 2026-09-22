@@ -2,7 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/use_cases/get_barber_subscription_requests_use_case.dart';
 import 'barber_subscription_requests_state.dart';
 
-class BarberSubscriptionRequestsCubit extends Cubit<BarberSubscriptionRequestsState> {
+class BarberSubscriptionRequestsCubit
+    extends Cubit<BarberSubscriptionRequestsState> {
   final GetBarberSubscriptionRequestsUseCase _getRequests;
 
   BarberSubscriptionRequestsCubit(this._getRequests)

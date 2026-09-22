@@ -4,7 +4,10 @@ import '../entities/booking.dart';
 import '../entities/booking_addon.dart';
 import '../entities/booking_adjustment.dart';
 import '../entities/booking_drink.dart';
+import '../entities/booking_settle_item.dart';
 import '../entities/booking_status.dart';
+import '../entities/unresolved_bookings_page.dart';
+import '../entities/walk_in_option.dart';
 
 abstract class IBarberBookingRepo {
   Future<Either<Failure, List<Booking>>> getBookings({
@@ -13,6 +16,13 @@ abstract class IBarberBookingRepo {
   });
 
   Future<Either<Failure, List<Booking>>> getPendingBookings();
+
+  Future<Either<Failure, UnresolvedBookingsPage>> getUnresolvedBookings({
+    required int page,
+    required int size,
+  });
+
+  Future<Either<Failure, Unit>> settleBookings(List<BookingSettleItem> items);
 
   Future<Either<Failure, List<Booking>>> getQueue(String date);
 
@@ -23,6 +33,8 @@ abstract class IBarberBookingRepo {
   Future<Either<Failure, Booking>> rejectBooking(int id, String reason);
 
   Future<Either<Failure, Booking>> advanceStatus(int id, BookingStatus status);
+
+  Future<Either<Failure, List<WalkInOption>>> getWalkInOptions();
 
   Future<Either<Failure, Booking>> createWalkIn({
     required int barberId,

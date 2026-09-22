@@ -8,6 +8,7 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/sponsorship/sponsorship_state.dart';
 import '../../../../../shared/sponsorship/sponsorship_view.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/barber_sponsorship_cubit.dart';
 
 class BarberSponsorshipScreen extends StatelessWidget {
@@ -28,26 +29,24 @@ class BarberSponsorshipScreen extends StatelessWidget {
 
     final bought = await cubit.buySponsorship();
 
-    if (bought) {
-      showSuccess(S().sponsorshipBought);
-      return;
-    }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
+    if (bought) showSuccess(S().sponsorshipBought);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: S().sponsorshipTitle),
-      body: BlocBuilder<BarberSponsorshipCubit, SponsorshipState>(
-        builder: (context, state) => SponsorshipView(
-          state: state,
-          subtitle: S().sponsorshipBarberSubtitle,
-          onRetry: context.read<BarberSponsorshipCubit>().loadSponsorship,
-          onBuy: () => _buy(context, state.sponsorship?.monthlyPrice ?? 0),
-          onTopUp: () => context.push(Routes.barberWalletScreen),
+    return BusyErrorListener<BarberSponsorshipCubit, SponsorshipState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(title: S().sponsorshipTitle),
+        body: BlocBuilder<BarberSponsorshipCubit, SponsorshipState>(
+          builder: (context, state) => SponsorshipView(
+            state: state,
+            subtitle: S().sponsorshipBarberSubtitle,
+            onRetry: context.read<BarberSponsorshipCubit>().loadSponsorship,
+            onBuy: () => _buy(context, state.sponsorship?.monthlyPrice ?? 0),
+            onTopUp: () => context.push(Routes.barberWalletScreen),
+          ),
         ),
       ),
     );

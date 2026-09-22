@@ -6,6 +6,7 @@ import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/auth/presentation/widgets/delete_account_view.dart';
+import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/barber_profile_cubit.dart';
 import '../manager/barber_profile_state.dart';
 
@@ -21,21 +22,21 @@ class BarberDeleteAccountScreen extends StatelessWidget {
     if (deleted) {
       showSuccess(S().accountDeleted);
       context.go(Routes.userTypeScreen);
-      return;
     }
-
-    final message = cubit.state.errorMessage;
-    if (message != null) showError(message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: S().deleteAccount),
-      body: BlocBuilder<BarberProfileCubit, BarberProfileState>(
-        builder: (context, state) => DeleteAccountView(
-          isSubmitting: state.isSubmitting,
-          onConfirm: (password) => _confirm(context, password),
+    return BusyErrorListener<BarberProfileCubit, BarberProfileState>(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: Scaffold(
+        appBar: AppTopBar(title: S().deleteAccount),
+        body: BlocBuilder<BarberProfileCubit, BarberProfileState>(
+          builder: (context, state) => DeleteAccountView(
+            isSubmitting: state.isSubmitting,
+            onConfirm: (password) => _confirm(context, password),
+          ),
         ),
       ),
     );

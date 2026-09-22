@@ -9,6 +9,8 @@ class StoreQuoteModel extends StoreQuote {
     required super.total,
     required super.deliveryFee,
     required super.grandTotal,
+    super.grossSubtotal,
+    super.discountTotal,
   });
 
   factory StoreQuoteModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,8 @@ class StoreQuoteModel extends StoreQuote {
       total: (json['total'] as num?)?.toInt() ?? 0,
       deliveryFee: (json['deliveryFee'] as num?)?.toInt() ?? 0,
       grandTotal: (json['grandTotal'] as num?)?.toInt() ?? 0,
+      grossSubtotal: (json['grossSubtotal'] as num?)?.toInt() ?? 0,
+      discountTotal: (json['discountTotal'] as num?)?.toInt() ?? 0,
     );
   }
 }

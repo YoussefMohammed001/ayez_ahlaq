@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../domain/entities/merchant_phone.dart';
 import '../../domain/entities/merchant_profile.dart';
@@ -17,7 +18,7 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
   @override
   Future<Either<Failure, MerchantProfile>> getProfile() async {
     final result = await _api.getProfile();
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -31,7 +32,7 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
       'ownerName': ownerName,
       if (email != null && email.isNotEmpty) 'email': email,
     });
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -45,7 +46,7 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
       'longitude': longitude,
       'address': address,
     });
-    return result.map(_mapOne);
+    return result.flatMap(_mapOne);
   }
 
   @override
@@ -76,9 +77,8 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
     String? label,
   ) async {
     final result = await _api.addPhone(phone, label);
-    return result.map(
-      (response) =>
-          MerchantPhoneModel.fromJson(response['data'] as Map<String, dynamic>),
+    return result.flatMap(
+      (response) => requireDataMap(response).map(MerchantPhoneModel.fromJson),
     );
   }
 
@@ -88,10 +88,8 @@ class MerchantProfileRepo implements IMerchantProfileRepo {
     return result.map((_) => unit);
   }
 
-  MerchantProfile _mapOne(dynamic response) {
-    return MerchantProfileModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  Either<Failure, MerchantProfile> _mapOne(dynamic response) {
+    return requireDataMap(response).map(MerchantProfileModel.fromJson);
   }
 
   @override

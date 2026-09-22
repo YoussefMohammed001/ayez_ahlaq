@@ -8,6 +8,8 @@ class StoreQuote extends Equatable {
   final int total;
   final int deliveryFee;
   final int grandTotal;
+  final int grossSubtotal;
+  final int discountTotal;
 
   const StoreQuote({
     required this.lines,
@@ -16,6 +18,8 @@ class StoreQuote extends Equatable {
     required this.total,
     required this.deliveryFee,
     required this.grandTotal,
+    this.grossSubtotal = 0,
+    this.discountTotal = 0,
   });
 
   static const empty = StoreQuote(
@@ -27,6 +31,8 @@ class StoreQuote extends Equatable {
     grandTotal: 0,
   );
 
+  bool get hasProductDiscount => discountTotal > 0;
+
   @override
   List<Object?> get props => [
     lines,
@@ -35,5 +41,7 @@ class StoreQuote extends Equatable {
     total,
     deliveryFee,
     grandTotal,
+    grossSubtotal,
+    discountTotal,
   ];
 }

@@ -8,13 +8,15 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? trailing;
   final bool viewLeading;
+  final PreferredSizeWidget? bottom;
 
   const AppTopBar({super.key, required this.title, this.trailing,
   this.viewLeading = true,
+  this.bottom,
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(56.h);
+  Size get preferredSize => Size.fromHeight(56.h + (bottom?.preferredSize.height ?? 0));
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       ) : SizedBox(),
       title: Text(title, style: HeadingStyles.h4),
       actions: trailing == null ? null : [trailing!, SizedBox(width: 8.w)],
+      bottom: bottom,
     );
   }
 }

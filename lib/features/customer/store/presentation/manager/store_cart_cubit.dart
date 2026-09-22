@@ -89,6 +89,27 @@ class StoreCartCubit extends Cubit<StoreCartState> {
     );
   }
 
+  Future<void> clearCart() async {
+    if (state.cart.isEmpty) return;
+
+    emit(state.copyWith(isUpdatingCart: true));
+
+    final result = await _putCart(const {});
+
+    result.fold(
+      (failure) => emit(
+        state.copyWith(isUpdatingCart: false, errorMessage: failure.message),
+      ),
+      (cart) => emit(
+        state.copyWith(
+          isUpdatingCart: false,
+          cart: cart,
+          fulfillmentType: _resolveFulfillmentType(cart),
+        ),
+      ),
+    );
+  }
+
   void setFulfillmentType(StoreFulfillmentType? type) {
     if (type == StoreFulfillmentType.delivery && !state.cart.deliveryOffered) {
       return;

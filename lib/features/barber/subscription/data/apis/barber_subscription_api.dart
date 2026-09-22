@@ -23,6 +23,8 @@ class BarberSubscriptionApi {
   }
 
   Future<Either<Failure, dynamic>> getRequests() {
-    return _networkService.getData(endPoint: EndPoints.barberSubscriptionRequest);
+    return _networkService.getData(
+      endPoint: EndPoints.barberSubscriptionRequest,
+    );
   }
 }

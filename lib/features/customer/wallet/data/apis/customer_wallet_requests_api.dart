@@ -13,6 +13,10 @@ class CustomerWalletRequestsApi {
     return _networkService.getData(endPoint: EndPoints.customerTransferAccount);
   }
 
+  Future<Either<Failure, dynamic>> getWithdrawMethods() {
+    return _networkService.getData(endPoint: EndPoints.customerWithdrawMethods);
+  }
+
   Future<Either<Failure, dynamic>> getWalletRequests({
     required int page,
     required int size,
@@ -33,6 +37,8 @@ class CustomerWalletRequestsApi {
     required String type,
     required int amount,
     int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
     String? note,
     String? filePath,
   }) async {
@@ -43,6 +49,9 @@ class CustomerWalletRequestsApi {
         'amount': amount.toString(),
         if (transferAccountId != null)
           'transferAccountId': transferAccountId.toString(),
+        if (withdrawMethodId != null)
+          'withdrawMethodId': withdrawMethodId.toString(),
+        if (withdrawAccount != null) 'withdrawAccount': withdrawAccount,
         if (note != null) 'note': note,
         if (filePath != null) 'file': await MultipartFile.fromFile(filePath),
       }),

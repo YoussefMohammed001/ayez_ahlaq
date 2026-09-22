@@ -9,6 +9,7 @@ import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
+import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../shared/widgets/cart_summary_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/store_cart_cubit.dart';
@@ -50,6 +51,7 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
       );
 
       if (!confirmed) return;
+      await cubit.clearCart();
     }
 
     cubit.setQuantity(productId, minOrderQty, quantity);
@@ -98,23 +100,28 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
       return AppEmptyState(icon: Icons.storefront_outlined, title: S().noProductsYet);
     }
 
-    return ListView.builder(
-      padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
-      itemCount: products.length,
-      itemBuilder: (_, index) {
-        final product = products[index];
-        final quantity = state.cart.sellerId == widget.shopId
-            ? state.quantityFor(product.id)
-            : 0;
+    return RefreshableStateView(
+      onRefresh: () => cubit.openShop(widget.shopId),
+      child: ListView.builder(
+        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: products.length,
+        itemBuilder: (_, index) {
+          final product = products[index];
+          final quantity = state.cart.sellerId == widget.shopId
+              ? state.quantityFor(product.id)
+              : 0;
 
-        return StoreProductRow(
-          shopId: widget.shopId,
-          product: product,
-          quantity: quantity,
-          isUpdating: state.isUpdatingCart,
-          onQuantityChanged: (q) => _setQuantity(context, product.id, product.minOrderQty, q),
-        );
-      },
+          return StoreProductRow(
+            shopId: widget.shopId,
+            product: product,
+            quantity: quantity,
+            isUpdating: state.isUpdatingCart,
+            onQuantityChanged: (q) => _setQuantity(context, product.id, product.minOrderQty, q),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
+import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/merchant_wallet.dart';
 import '../../domain/repos/i_merchant_wallet_repo.dart';
 import '../apis/merchant_wallet_api.dart';
@@ -13,10 +14,10 @@ class MerchantWalletRepo implements IMerchantWalletRepo {
   @override
   Future<Either<Failure, MerchantWallet>> getWallet() async {
     final result = await _api.getWallet();
-    return result.map(_mapWallet);
+    return result.flatMap(_mapWallet);
   }
 
-  MerchantWallet _mapWallet(dynamic response) {
-    return MerchantWalletModel.fromJson(response['data'] as Map<String, dynamic>);
+  Either<Failure, MerchantWallet> _mapWallet(dynamic response) {
+    return requireDataMap(response).map(MerchantWalletModel.fromJson);
   }
 }

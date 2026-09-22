@@ -12,6 +12,7 @@ import '../../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../../core/extensions/ext_theme.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/storefront_product.dart';
 import '../manager/barber_storefront_products_cubit.dart';
 import '../manager/barber_storefront_products_state.dart';
@@ -37,35 +38,46 @@ class BarberStorefrontProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const StorefrontProductsHeader(),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 4.h, 20.w, 10.h),
-            child: Text(
-              S().storefrontProductsNote,
-              style: font12w400.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
+    return BusyErrorListener<
+      BarberStorefrontProductsCubit,
+      BarberStorefrontProductsState
+    >(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const StorefrontProductsHeader(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.w, 4.h, 20.w, 10.h),
+              child: Text(
+                S().storefrontProductsNote,
+                style: font12w400.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
-          ),
-          5.hSpace,
-          const StorefrontProductCategoryFilter(),
-          10.hSpace,
-          Expanded(child: _buildBody()),
-        ],
+            5.hSpace,
+            const StorefrontProductCategoryFilter(),
+            10.hSpace,
+            Expanded(child: _buildBody()),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildBody() {
-    return BlocBuilder<BarberStorefrontProductsCubit, BarberStorefrontProductsState>(
+    return BlocBuilder<
+      BarberStorefrontProductsCubit,
+      BarberStorefrontProductsState
+    >(
       builder: (context, state) {
         final cubit = context.read<BarberStorefrontProductsCubit>();
 
-        if (state.status == StorefrontProductsStatus.loading) {
+        if (state.status == StorefrontProductsStatus.initial ||
+            state.status == StorefrontProductsStatus.loading) {
           return const ListSkeleton();
         }
 

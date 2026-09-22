@@ -10,7 +10,7 @@ class ActiveDiscountModel extends ActiveDiscount {
 
   factory ActiveDiscountModel.fromJson(Map<String, dynamic> json) {
     return ActiveDiscountModel(
-      discountId: json['discountId'] as int,
+      discountId: (json['discountId'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
       rewardType: json['rewardType'] as String? ?? '',
       rewardValue: json['rewardValue'] as num?,

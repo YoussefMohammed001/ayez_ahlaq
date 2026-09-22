@@ -9,8 +9,11 @@ class BarberSubscriptionCubit extends Cubit<BarberSubscriptionState> {
   final GetBarberSubscriptionPlansUseCase _getPlans;
   final SubscribeBarberUseCase _subscribe;
 
-  BarberSubscriptionCubit(this._getSubscription, this._getPlans, this._subscribe)
-    : super(const BarberSubscriptionState());
+  BarberSubscriptionCubit(
+    this._getSubscription,
+    this._getPlans,
+    this._subscribe,
+  ) : super(const BarberSubscriptionState());
 
   Future<void> load() async {
     emit(state.copyWith(status: BarberSubscriptionStatus.loading));

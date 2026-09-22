@@ -9,7 +9,10 @@ abstract class IMerchantAuthRepo {
 
   Future<Either<Failure, Unit>> register(RegisterRequest request);
 
-  Future<Either<Failure, Unit>> verifyRegisterOtp(String phone, String otp);
+  Future<Either<Failure, AuthSession>> verifyRegisterOtp(
+    String phone,
+    String otp,
+  );
 
   Future<Either<Failure, String>> resendRegisterOtp(String phone);
 

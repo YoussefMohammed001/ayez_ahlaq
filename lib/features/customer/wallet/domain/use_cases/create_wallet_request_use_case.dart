@@ -13,12 +13,16 @@ class CreateWalletRequestUseCase {
     required WalletRequestType type,
     required int amount,
     int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
     String? note,
     String? filePath,
   }) => _repo.createWalletRequest(
     type: type,
     amount: amount,
     transferAccountId: transferAccountId,
+    withdrawMethodId: withdrawMethodId,
+    withdrawAccount: withdrawAccount,
     note: note,
     filePath: filePath,
   );

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
-import '../../../../../core/widgets/primary_cta_button.dart';
-import '../../../../../shared/widgets/attachments/attachment_source_sheet.dart';
-import '../../../../../shared/widgets/forms/withdraw_note_composer.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../shared/widgets/documents/document_file_picker.dart';
+import '../../../../../shared/widgets/documents/pick_attachment_flow.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../manager/create_wallet_request_cubit.dart';
 import '../manager/create_wallet_request_state.dart';
-import '../widgets/wallet_request_form_fields.dart';
+import '../manager/merchant_wallet_cubit.dart';
+import '../widgets/wallet_request_confirm_dialog.dart';
+import '../widgets/wallet_request_form_body.dart';
 
 class CreateMerchantWalletRequestScreen extends StatefulWidget {
   const CreateMerchantWalletRequestScreen({super.key});
@@ -32,12 +29,18 @@ class _CreateMerchantWalletRequestScreenState
   WalletRequestType _type = WalletRequestType.deposit;
   String? _filePath;
   int? _transferAccountId;
+  int? _withdrawMethodId;
   bool _showTransferAccountError = false;
+  bool _showWithdrawMethodError = false;
+
+  bool get _isDeposit => _type == WalletRequestType.deposit;
 
   @override
   void initState() {
     super.initState();
-    context.read<CreateWalletRequestCubit>().loadTransferAccounts();
+    context.read<CreateWalletRequestCubit>()
+      ..loadTransferAccounts()
+      ..loadWithdrawMethods();
   }
 
   @override
@@ -48,72 +51,62 @@ class _CreateMerchantWalletRequestScreenState
     super.dispose();
   }
 
-  Future<void> _pickAttachment() async {
-    final source = await AttachmentSourceSheet.show(context, allowFiles: false);
-    if (source == null) return;
+  void _onTransferAccountChanged(int id) => setState(() {
+    _transferAccountId = id;
+    _showTransferAccountError = false;
+  });
 
-    final picked = await DocumentFilePicker.pick(source);
-    if (picked == null) return;
+  void _onWithdrawMethodChanged(int id) => setState(() {
+    _withdrawMethodId = id;
+    _showWithdrawMethodError = false;
+  });
 
-    if (picked.exceedsMaxSize) {
-      showError(S().documentTooLarge(DocumentFilePicker.maxSizeInMB));
-      return;
-    }
-
-    if (picked.isUnsupportedType) {
-      showError(S().documentUnsupportedType);
-      return;
-    }
-
-    setState(() => _filePath = picked.path);
+  bool _hasValidationErrors(CreateWalletRequestCubit cubit) {
+    setState(() {
+      _showTransferAccountError = _isDeposit &&
+          cubit.state.transferAccounts.isNotEmpty &&
+          _transferAccountId == null;
+      _showWithdrawMethodError = !_isDeposit &&
+          cubit.state.withdrawMethods.isNotEmpty &&
+          _withdrawMethodId == null;
+    });
+    return !_formKey.currentState!.validate() ||
+        _showTransferAccountError ||
+        _showWithdrawMethodError;
   }
 
   Future<void> _submit() async {
     final cubit = context.read<CreateWalletRequestCubit>();
-    final requiresTransferAccount = cubit.state.transferAccounts.isNotEmpty;
+    if (_hasValidationErrors(cubit)) return;
 
-    setState(() {
-      _showTransferAccountError = requiresTransferAccount && _transferAccountId == null;
-    });
-
-    if (!_formKey.currentState!.validate() || _showTransferAccountError) return;
-
-    if (_filePath == null) {
+    if (_isDeposit && _filePath == null) {
       showError(S().walletRequestAttachmentRequired);
       return;
     }
 
     final amount = int.tryParse(_amountController.text.trim()) ?? 0;
-    final note = _noteController.text.trim();
-
-    final withdrawAccount = _withdrawAccountController.text.trim();
-
-    final confirmed = await showConfirmDialog(
+    final confirmed = await WalletRequestConfirmDialog.show(
       context,
-      title: _type == WalletRequestType.deposit
-          ? S().confirmWalletRequestDepositTitle
-          : S().confirmWalletRequestWithdrawTitle,
-      message: S().confirmWalletRequestMessage(S().currencyEgp(amount)),
-      confirmLabel: _type == WalletRequestType.deposit
-          ? S().walletRequestTypeDeposit
-          : S().walletRequestTypeWithdraw,
-      icon: Icons.account_balance_wallet_outlined,
-      isDestructive: _type == WalletRequestType.withdraw,
+      isDeposit: _isDeposit,
+      amount: amount,
     );
     if (!confirmed || !mounted) return;
 
+    final note = _noteController.text.trim();
     final created = await cubit.submit(
       type: _type,
       amount: amount,
-      transferAccountId: _transferAccountId,
-      note: WithdrawNoteComposer.compose(note: note, account: withdrawAccount),
-      filePath: _filePath,
+      transferAccountId: _isDeposit ? _transferAccountId : null,
+      withdrawMethodId: _isDeposit ? null : _withdrawMethodId,
+      withdrawAccount: _isDeposit ? null : _withdrawAccountController.text.trim(),
+      note: note.isEmpty ? null : note,
+      filePath: _isDeposit ? _filePath : null,
     );
-
     if (!mounted) return;
 
     if (created) {
       showSuccess(S().walletRequestCreatedSuccess);
+      context.read<MerchantWalletCubit>().loadWallet();
       context.pop();
       return;
     }
@@ -129,32 +122,25 @@ class _CreateMerchantWalletRequestScreenState
       body: Form(
         key: _formKey,
         child: BlocBuilder<CreateWalletRequestCubit, CreateWalletRequestState>(
-          builder: (context, state) => ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-            children: [
-              WalletRequestFormFields(
-                amountController: _amountController,
-                noteController: _noteController,
-                withdrawAccountController: _withdrawAccountController,
-                type: _type,
-                onTypeChanged: (type) => setState(() => _type = type),
-                filePath: _filePath,
-                onPickAttachment: _pickAttachment,
-                transferAccounts: state.transferAccounts,
-                selectedTransferAccountId: _transferAccountId,
-                onTransferAccountChanged: (id) => setState(() {
-                  _transferAccountId = id;
-                  _showTransferAccountError = false;
-                }),
-                showTransferAccountError: _showTransferAccountError,
-              ),
-              SizedBox(height: 20.h),
-              PrimaryCtaButton(
-                label: S().submitWalletRequest,
-                isLoading: state.status == CreateWalletRequestStatus.submitting,
-                onPressed: _submit,
-              ),
-            ],
+          builder: (context, state) => WalletRequestFormBody(
+            state: state,
+            amountController: _amountController,
+            noteController: _noteController,
+            withdrawAccountController: _withdrawAccountController,
+            type: _type,
+            onTypeChanged: (type) => setState(() => _type = type),
+            filePath: _filePath,
+            onPickAttachment: () async {
+              final path = await PickAttachmentFlow.run(context);
+              if (path != null) setState(() => _filePath = path);
+            },
+            selectedTransferAccountId: _transferAccountId,
+            onTransferAccountChanged: _onTransferAccountChanged,
+            showTransferAccountError: _showTransferAccountError,
+            selectedWithdrawMethodId: _withdrawMethodId,
+            onWithdrawMethodChanged: _onWithdrawMethodChanged,
+            showWithdrawMethodError: _showWithdrawMethodError,
+            onSubmit: _submit,
           ),
         ),
       ),

@@ -14,11 +14,13 @@ import '../../profile/presentation/pages/barber_force_change_password_screen.dar
 import '../../profile/presentation/pages/barber_location_screen.dart';
 import '../../profile/presentation/pages/barber_profile_screen.dart';
 import '../../../../shared/widgets/blocking_gate.dart';
+import '../../documents/presentation/manager/barber_documents_cubit.dart';
 import '../../services/presentation/manager/barber_services_cubit.dart';
 import '../../store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
 import '../../storefront/delivery/presentation/manager/barber_storefront_delivery_cubit.dart';
 import '../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
+import '../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../../storefront/presentation/pages/storefront_home_screen.dart';
 import '../../subscription/presentation/manager/barber_subscription_cubit.dart';
 import '../../team/presentation/manager/earnings_cubit.dart';
@@ -26,16 +28,17 @@ import '../widgets/barber_store_fab.dart';
 import '../../../../generated/l10n.dart';
 
 class BarberShell extends StatefulWidget {
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
+  final int initialIndex;
 
-  const BarberShell({super.key, required this.onLogout});
+  const BarberShell({super.key, required this.onLogout, this.initialIndex = 0});
 
   @override
   State<BarberShell> createState() => _BarberShellState();
 }
 
 class _BarberShellState extends State<BarberShell> {
-  int _index = 0;
+  late int _index = widget.initialIndex;
 
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.home_rounded, S().tabHome),
@@ -48,8 +51,10 @@ class _BarberShellState extends State<BarberShell> {
   void initState() {
     super.initState();
     context.read<BarberProfileCubit>().loadProfile();
+    context.read<BarberDocumentsCubit>().loadDocuments();
     context.read<BarberServicesCubit>().loadServices();
     context.read<BarberStoreMerchantsCubit>().loadMerchants();
+    context.read<BarberStorefrontProductsCubit>().loadProducts();
     context.read<BarberStorefrontCategoriesCubit>().loadCategories();
     context.read<BarberStorefrontDeliveryCubit>().loadDelivery();
     context.read<BarberStorefrontOrdersCubit>().loadOrders();

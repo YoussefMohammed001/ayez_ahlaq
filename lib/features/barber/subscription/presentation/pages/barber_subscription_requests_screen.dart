@@ -18,45 +18,52 @@ class BarberSubscriptionRequestsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppTopBar(title: S().subscriptionRequestsTitle),
-      body: BlocBuilder<BarberSubscriptionRequestsCubit, BarberSubscriptionRequestsState>(
-        builder: (context, state) {
-          final cubit = context.read<BarberSubscriptionRequestsCubit>();
+      body:
+          BlocBuilder<
+            BarberSubscriptionRequestsCubit,
+            BarberSubscriptionRequestsState
+          >(
+            builder: (context, state) {
+              final cubit = context.read<BarberSubscriptionRequestsCubit>();
 
-          if (state.status == BarberSubscriptionRequestsStatus.loading &&
-              state.requests.isEmpty) {
-            return const ListSkeleton();
-          }
+              if (state.status == BarberSubscriptionRequestsStatus.loading &&
+                  state.requests.isEmpty) {
+                return const ListSkeleton();
+              }
 
-          if (state.status == BarberSubscriptionRequestsStatus.failure &&
-              state.requests.isEmpty) {
-            return RefreshableStateView(
-              onRefresh: cubit.loadRequests,
-              child: AppErrorState(message: state.errorMessage, onRetry: cubit.loadRequests),
-            );
-          }
+              if (state.status == BarberSubscriptionRequestsStatus.failure &&
+                  state.requests.isEmpty) {
+                return RefreshableStateView(
+                  onRefresh: cubit.loadRequests,
+                  child: AppErrorState(
+                    message: state.errorMessage,
+                    onRetry: cubit.loadRequests,
+                  ),
+                );
+              }
 
-          if (state.requests.isEmpty) {
-            return RefreshableStateView(
-              onRefresh: cubit.loadRequests,
-              child: AppEmptyState(
-                icon: Icons.history_rounded,
-                title: S().noSubscriptionRequests,
-              ),
-            );
-          }
+              if (state.requests.isEmpty) {
+                return RefreshableStateView(
+                  onRefresh: cubit.loadRequests,
+                  child: AppEmptyState(
+                    icon: Icons.history_rounded,
+                    title: S().noSubscriptionRequests,
+                  ),
+                );
+              }
 
-          return RefreshIndicator(
-            onRefresh: cubit.loadRequests,
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-              children: [
-                for (final request in state.requests)
-                  SubscriptionRequestRow(request: request),
-              ],
-            ),
-          );
-        },
-      ),
+              return RefreshIndicator(
+                onRefresh: cubit.loadRequests,
+                child: ListView(
+                  padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+                  children: [
+                    for (final request in state.requests)
+                      SubscriptionRequestRow(request: request),
+                  ],
+                ),
+              );
+            },
+          ),
     );
   }
 }

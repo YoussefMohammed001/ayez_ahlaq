@@ -27,6 +27,6 @@ class WalletRequestStatusChip extends StatelessWidget {
     WalletRequestStatus.approved => BadgeTone.open,
     WalletRequestStatus.rejected => BadgeTone.danger,
     WalletRequestStatus.cancelled => BadgeTone.muted,
-    WalletRequestStatus.other => BadgeTone.muted,
+    WalletRequestStatus.other => BadgeTone.closed,
   };
 }

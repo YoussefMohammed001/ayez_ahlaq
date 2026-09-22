@@ -15,7 +15,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 
 class BarberProfileScreen extends StatelessWidget {
-  final VoidCallback onLogout;
+  final Future<void> Function() onLogout;
 
   const BarberProfileScreen({super.key, required this.onLogout});
 
@@ -107,6 +107,7 @@ class BarberProfileScreen extends StatelessWidget {
             label: S().contact,
             value: profile.phoneNumber,
             showDivider: false,
+            verified: profile.active,
           ),
         ],
       ),

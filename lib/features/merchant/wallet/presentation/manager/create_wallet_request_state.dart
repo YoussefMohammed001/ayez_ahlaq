@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/transfer_account.dart';
 import '../../domain/entities/wallet_request.dart';
+import '../../domain/entities/withdraw_method.dart';
 
 enum CreateWalletRequestStatus { initial, submitting, success, failure }
 
@@ -12,6 +13,7 @@ class CreateWalletRequestState extends Equatable {
   final String? errorMessage;
   final TransferAccountsStatus transferAccountsStatus;
   final List<TransferAccount> transferAccounts;
+  final List<WithdrawMethod> withdrawMethods;
 
   const CreateWalletRequestState({
     this.status = CreateWalletRequestStatus.initial,
@@ -19,6 +21,7 @@ class CreateWalletRequestState extends Equatable {
     this.errorMessage,
     this.transferAccountsStatus = TransferAccountsStatus.initial,
     this.transferAccounts = const [],
+    this.withdrawMethods = const [],
   });
 
   CreateWalletRequestState copyWith({
@@ -27,6 +30,7 @@ class CreateWalletRequestState extends Equatable {
     String? errorMessage,
     TransferAccountsStatus? transferAccountsStatus,
     List<TransferAccount>? transferAccounts,
+    List<WithdrawMethod>? withdrawMethods,
   }) {
     return CreateWalletRequestState(
       status: status ?? this.status,
@@ -34,6 +38,7 @@ class CreateWalletRequestState extends Equatable {
       errorMessage: errorMessage,
       transferAccountsStatus: transferAccountsStatus ?? this.transferAccountsStatus,
       transferAccounts: transferAccounts ?? this.transferAccounts,
+      withdrawMethods: withdrawMethods ?? this.withdrawMethods,
     );
   }
 
@@ -44,5 +49,6 @@ class CreateWalletRequestState extends Equatable {
     errorMessage,
     transferAccountsStatus,
     transferAccounts,
+    withdrawMethods,
   ];
 }
