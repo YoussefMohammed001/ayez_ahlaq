@@ -136,7 +136,16 @@
       "Bash(curl -sI --max-time 5 https://storage.googleapis.com)",
       "Bash(kill 48990 48988)",
       "Bash(lipo -info /Users/youssefmohamednaeem/flutter/bin/cache/artifacts/engine/ios/Flutter.xcframework/ios-arm64_x86_64-simulator/Flutter.framework/Flutter)",
-      "Bash(echo \"PID: $!\")"
+      "Bash(echo \"PID: $!\")",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(pip3 show *)",
+      "Bash(brew list *)",
+      "Bash(grep -oE '1//[A-Za-z0-9_-]{20,}')",
+      "Bash(grep -oE 'AIza[A-Za-z0-9_-]{20,}')",
+      "Bash(grep -oE 'sk-[A-Za-z0-9_-]{20,}')"
     ],
     "additionalDirectories": [
       "/private/tmp"
