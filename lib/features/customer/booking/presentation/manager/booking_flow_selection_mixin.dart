@@ -50,17 +50,27 @@ mixin BookingFlowSelectionMixin on Cubit<BookingFlowState> {
     );
   }
 
+  int _slotsRequestId = 0;
+
   Future<void> loadSlots(String date) async {
     final serviceTypeId = state.serviceTypeId;
     if (serviceTypeId == null) return;
 
-    emit(state.copyWith(status: BookingFlowStatus.loadingSlots, date: date));
+    final requestId = ++_slotsRequestId;
+    emit(
+      state.copyWith(
+        status: BookingFlowStatus.loadingSlots,
+        date: date,
+        clearSlots: true,
+      ),
+    );
 
     final result = await getSlots(
       shopId: state.shopDetail!.shop.id,
       serviceTypeId: serviceTypeId,
       date: date,
     );
+    if (requestId != _slotsRequestId) return;
 
     result.fold(
       (failure) => emit(

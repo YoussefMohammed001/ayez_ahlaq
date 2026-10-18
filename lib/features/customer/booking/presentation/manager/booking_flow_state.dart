@@ -92,6 +92,7 @@ class BookingFlowState extends Equatable {
     List<BookingDrink>? drinks,
     bool clearBarber = false,
     bool clearStyle = false,
+    bool clearSlots = false,
   }) {
     return BookingFlowState(
       status: status ?? this.status,
@@ -108,10 +109,10 @@ class BookingFlowState extends Equatable {
       barberName: clearBarber ? null : (barberName ?? this.barberName),
       autoSelect: autoSelect ?? this.autoSelect,
       date: date ?? this.date,
-      slotTime: slotTime ?? this.slotTime,
+      slotTime: clearSlots ? null : (slotTime ?? this.slotTime),
       paymentMethod: paymentMethod ?? this.paymentMethod,
       note: note ?? this.note,
-      slots: slots ?? this.slots,
+      slots: clearSlots ? null : (slots ?? this.slots),
       createdBooking: createdBooking ?? this.createdBooking,
       successMessage: successMessage ?? this.successMessage,
       errorMessage: errorMessage,

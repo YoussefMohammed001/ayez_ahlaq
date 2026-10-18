@@ -930,7 +930,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable:** none
 
-- [ ] [Rule C] **High** — `BookingFlowSelectionMixin.loadSlots` (`lib/features/customer/booking/presentation/manager/booking_flow_selection_mixin.dart:53`) has no latest-request guard and does not clear `slots`/`slotTime` when the date changes. A slow response for date A that lands after the user picked date B shows A's slots under B, and `selectSlotTime` then books the wrong day.
+- [x] [Rule C] **High** — `BookingFlowSelectionMixin.loadSlots` (`lib/features/customer/booking/presentation/manager/booking_flow_selection_mixin.dart:53`) has no latest-request guard and does not clear `slots`/`slotTime` when the date changes. A slow response for date A that lands after the user picked date B shows A's slots under B, and `selectSlotTime` then books the wrong day.
 
 ### Screen: MyBookingsScreen (`lib/features/customer/booking/presentation/pages/my_bookings_screen.dart`)
 *user: customer · verified: read · route: `Routes.customerBookingsScreen`*
