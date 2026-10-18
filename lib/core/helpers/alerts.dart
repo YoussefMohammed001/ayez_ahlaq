@@ -1,53 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '/core/routes/app_routes.dart';
 import '/core/theme/styles.dart';
+import 'loading_overlay.dart';
 
-bool _isLoading = false;
+Future<void> showLoading({bool canDismiss = false}) =>
+    LoadingOverlay.show(canDismiss: canDismiss);
 
-Future<void> showLoading({bool canDismiss = false}) async {
-  if (_isLoading) return;
-  _isLoading = true;
-
-  final completer = Completer<void>();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    final context = rootNavigatorKey.currentState?.context;
-    if (context == null) {
-      completer.complete();
-      return;
-    }
-
-    showDialog(
-      context: context,
-      barrierDismissible: canDismiss,
-      builder: (context) {
-        return Center(
-          child: SpinKitDualRing(
-            color: Theme.of(context).primaryColor,
-            size: 50.h,
-          ),
-        );
-      },
-    );
-    completer.complete();
-  });
-
-  return completer.future;
-}
-
-void hideLoading() {
-  if (!_isLoading) return;
-  _isLoading = false;
-
-  final navigatorState = rootNavigatorKey.currentState;
-  if (navigatorState == null) return;
-
-  if (navigatorState.canPop()) {
-    navigatorState.pop();
-  }
-}
+void hideLoading() => LoadingOverlay.hide();
 
 void showSuccess(String message, {bool canDismiss = true}) {
   WidgetsBinding.instance.addPostFrameCallback((_) {

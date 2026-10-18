@@ -34,8 +34,11 @@ class BlockingGate extends StatelessWidget {
     if (!confirmed) return;
 
     await showLoading();
-    await onLogout();
-    hideLoading();
+    try {
+      await onLogout();
+    } finally {
+      hideLoading();
+    }
   }
 
   @override

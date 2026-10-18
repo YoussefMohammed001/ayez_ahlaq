@@ -132,8 +132,12 @@ class BarberShopPhotoAvatar extends StatelessWidget {
     final cubit = context.read<BarberProfileCubit>();
 
     await showLoading();
-    final success = await cubit.deleteProfileImage();
-    hideLoading();
+    final bool success;
+    try {
+      success = await cubit.deleteProfileImage();
+    } finally {
+      hideLoading();
+    }
 
     if (!context.mounted) return;
 

@@ -20,8 +20,12 @@ class BarberShopPhotoPicker {
     final cubit = context.read<BarberProfileCubit>();
 
     await showLoading();
-    final success = await cubit.uploadProfileImage(file.path);
-    hideLoading();
+    final bool success;
+    try {
+      success = await cubit.uploadProfileImage(file.path);
+    } finally {
+      hideLoading();
+    }
 
     if (!context.mounted) return;
 

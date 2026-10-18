@@ -35,7 +35,10 @@ class BarberLogout {
     if (!confirmed) return;
 
     await showLoading();
-    await onLogout();
-    hideLoading();
+    try {
+      await onLogout();
+    } finally {
+      hideLoading();
+    }
   }
 }
