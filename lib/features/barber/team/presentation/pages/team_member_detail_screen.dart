@@ -85,7 +85,7 @@ class TeamMemberDetailScreen extends StatelessWidget {
                 member == null) {
               return AppErrorState(
                 message: state.errorMessage,
-                onRetry: () => cubit.loadMember(state.member?.id ?? 0),
+                onRetry: cubit.reload,
               );
             }
 

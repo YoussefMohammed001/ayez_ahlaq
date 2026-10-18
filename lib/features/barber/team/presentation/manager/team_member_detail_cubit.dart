@@ -28,10 +28,14 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
     this._updatePermissions,
   ) : super(const TeamMemberDetailState());
 
+  int? _requestedMemberId;
+
   Future<void> loadMember(int id) async {
+    _requestedMemberId = id;
     emit(const TeamMemberDetailState(status: TeamMemberDetailStatus.loading));
 
     final result = await _getMember(id);
+    if (_requestedMemberId != id) return;
 
     result.fold(
       (failure) => emit(
@@ -44,6 +48,11 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
         state.copyWith(status: TeamMemberDetailStatus.success, member: member),
       ),
     );
+  }
+
+  Future<void> reload() async {
+    final id = _requestedMemberId;
+    if (id != null) await loadMember(id);
   }
 
   Future<bool> updateMember(String name, String tagline) async {
