@@ -76,6 +76,8 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
   }
 
   Future<void> setQuantity(int productId, int minOrderQty, int quantity) async {
+    if (state.isUpdatingCart) return;
+
     final clamped = quantity <= 0
         ? 0
         : (quantity < minOrderQty ? minOrderQty : quantity);
@@ -106,7 +108,7 @@ class BarberStoreCartCubit extends Cubit<BarberStoreCartState> {
   }
 
   Future<void> clearCart() async {
-    if (state.cart.isEmpty) return;
+    if (state.cart.isEmpty || state.isUpdatingCart) return;
 
     emit(state.copyWith(isUpdatingCart: true));
 

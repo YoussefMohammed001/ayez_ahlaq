@@ -1084,7 +1084,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable (incl. sheets/dialogs):** `POST barber/store/quote` (BarberStoreCartCubit.clearCart); `POST barber/cart/checkout` (BarberStoreCartCubit.submitOrder); `POST barber/store/quote` (BarberStoreCartCubit.setQuantity)
 
-- [ ] [Rule B] **High** — `BarberStoreCartCubit.setQuantity` (`lib/features/barber/store/presentation/manager/barber_store_cart_cubit.dart:78`) has the same lost-update race as the customer cart (no guard on `isUpdatingCart`) and additionally chains `_refreshQuote` (`POST barber/store/quote`) after every change.
+- [x] [Rule B] **High** — `BarberStoreCartCubit.setQuantity` (`lib/features/barber/store/presentation/manager/barber_store_cart_cubit.dart:78`) has the same lost-update race as the customer cart (no guard on `isUpdatingCart`) and additionally chains `_refreshQuote` (`POST barber/store/quote`) after every change.
 - [ ] [Rule D] **Low** — File is 176 lines (limit 150): extract the summary/fulfilment sections into widgets.
 
 ### Screen: BarberStoreFeedScreen (`lib/features/barber/store/presentation/pages/barber_store_feed_screen.dart`)
@@ -1286,7 +1286,7 @@ No issues found.
 - `GET customer/shop/:shopId/storefront` (StoreCartCubit.openShop · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT customer/cart` (StoreCartCubit.clearCart); `PUT customer/cart` (StoreCartCubit.setQuantity)
 
-- [ ] [Rule B] **High** — `StoreCartCubit.setQuantity` (`lib/features/customer/store/presentation/manager/store_cart_cubit.dart:67`) rebuilds the whole cart from `state.cart` and sends `PUT customer/cart` without checking `isUpdatingCart`. Two quick taps both start from the same stale cart → lost update / wrong quantity. Same cubit is used by product-details and feed-details screens. Add an in-flight guard (queue or ignore) in the cubit.
+- [x] [Rule B] **High** — `StoreCartCubit.setQuantity` (`lib/features/customer/store/presentation/manager/store_cart_cubit.dart:67`) rebuilds the whole cart from `state.cart` and sends `PUT customer/cart` without checking `isUpdatingCart`. Two quick taps both start from the same stale cart → lost update / wrong quantity. Same cubit is used by product-details and feed-details screens. Add an in-flight guard (queue or ignore) in the cubit.
 - [ ] [Rule C] **Medium** — `StoreCartCubit.openShop` (`lib/features/customer/store/presentation/manager/store_cart_cubit.dart:42`) has no latest-request guard and always follows the storefront request with `GET customer/cart` (the cart is already in memory and only changes through this cubit).
 
 ### Screen: MerchantCategoriesScreen (`lib/features/merchant/categories/presentation/pages/merchant_categories_screen.dart`)
