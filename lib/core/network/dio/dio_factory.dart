@@ -1,7 +1,6 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:ayez_ahlaq/core/helpers/safe_print.dart';
 import '../../cache/preferences_storage/preferences_storage.dart';
 import '../../constants/strings.dart';
 import 'package:ayez_ahlaq/env/env.dart';
@@ -39,24 +38,18 @@ class DioFactory {
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(AnalyticsInterceptor(() => sl<ApiAnalyticsTracker>()));
 
-    final bool debugEnabled = _isDebugEnabled(storage);
-    safePrint("hahahahahaa $debugEnabled");
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-      ),
-    );
-    if (debugEnabled) {
+    if (isDevEnvironment()) {
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestBody: true,
+          requestHeader: true,
+          responseBody: true,
+        ),
+      );
       ChuckerFlutter.showOnRelease = true;
       dio.interceptors.add(ChuckerDioInterceptor());
     }
 
     return dio;
-  }
-
-  static bool _isDebugEnabled(PreferencesStorage storage) {
-    return isDevEnvironment();
   }
 }
