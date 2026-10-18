@@ -8,6 +8,7 @@ import '../../../storefront/products/presentation/manager/barber_storefront_prod
 import '../manager/bookings_cubit.dart';
 import '../manager/walk_in_options_cubit.dart';
 import 'add_walk_in_sheet.dart';
+import '../../../../../core/session/session_scope.dart';
 
 Future<void> showAddWalkInSheet(BuildContext context) {
   final profile = context.read<BarberProfileCubit>().state.profile;
@@ -21,7 +22,7 @@ Future<void> showAddWalkInSheet(BuildContext context) {
       providers: [
         BlocProvider.value(value: context.read<BookingsCubit>()),
         BlocProvider.value(value: context.read<BarberStorefrontProductsCubit>()),
-        BlocProvider.value(value: sl<BarberDrinksCubit>()..loadDrinks()),
+        BlocProvider.value(value: SessionScope.cubit<BarberDrinksCubit>()..loadDrinks()),
         BlocProvider(create: (_) => sl<WalkInOptionsCubit>()..loadOptions()),
         BlocProvider(create: (_) => sl<ShopHaircutStylesCubit>()..loadHaircutStyles()),
       ],

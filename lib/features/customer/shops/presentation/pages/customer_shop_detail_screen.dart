@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/di/services_locator.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_empty_state.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -17,6 +16,7 @@ import '../../domain/entities/shop_detail.dart';
 import '../manager/customer_shop_detail_cubit.dart';
 import '../manager/customer_shop_detail_state.dart';
 import '../widgets/shop_detail_body.dart';
+import '../../../../../core/session/session_scope.dart';
 
 class CustomerShopDetailScreen extends StatefulWidget {
   final int shopId;
@@ -67,7 +67,7 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
                     child: PrimaryCtaButton(
                       label: S().bookNow,
                       onPressed: () => GuestGuard.run(context, () {
-                        sl<BookingFlowCubit>().startFlow(detail);
+                        SessionScope.cubit<BookingFlowCubit>().startFlow(detail);
                         context.push(Routes.customerChooseServiceScreen);
                       }),
                     ),

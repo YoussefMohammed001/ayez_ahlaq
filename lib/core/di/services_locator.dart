@@ -854,7 +854,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetCustomerUnseenNotificationsCountUseCase(sl()));
     sl.registerLazySingleton(() => MarkAllCustomerNotificationsSeenUseCase(sl()));
     sl.registerLazySingleton(() => MarkCustomerNotificationClickedUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => CustomerNotificationsCubit(sl(), sl(), sl(), sl()),
     );
     sl.registerLazySingleton(() => CustomerNotificationRouter());
@@ -927,7 +927,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => customer_booking.GetBookingUseCase(sl()));
     sl.registerLazySingleton(() => CancelBookingUseCase(sl()));
     sl.registerLazySingleton(() => RateBookingUseCase(sl()));
-    sl.registerLazySingleton(() => BookingFlowCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => BookingFlowCubit(sl(), sl(), sl()));
     sl.registerFactory(() => MyBookingsCubit(sl()));
     sl.registerFactory(() => BookingDetailCubit(sl(), sl(), sl()));
   }
@@ -938,7 +938,7 @@ class ServicesLocator {
       () => CustomerPaymentMethodsRepo(sl()),
     );
     sl.registerLazySingleton(() => GetEnabledPaymentMethodsUseCase(sl()));
-    sl.registerLazySingleton(() => PaymentMethodsCubit(sl()));
+    sl.registerFactory(() => PaymentMethodsCubit(sl()));
   }
 
   void _customerStore() {
@@ -1047,7 +1047,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => UploadDocumentFileUseCase(sl()));
     sl.registerLazySingleton(() => DeleteDocumentFileUseCase(sl()));
     sl.registerLazySingleton(() => DownloadDocumentFileUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => MerchantDocumentsCubit(sl(), sl(), sl(), sl()),
     );
   }
@@ -1120,7 +1120,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => UpdateMerchantLocationUseCase(sl()));
     sl.registerLazySingleton(() => ChangePasswordUseCase(sl()));
     sl.registerLazySingleton(() => DeleteMerchantAccountUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => MerchantProfileCubit(sl(), sl(), sl(), sl(), sl()),
     );
     sl.registerLazySingleton(() => GetPhonesUseCase(sl()));
@@ -1148,7 +1148,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetUnseenNotificationsCountUseCase(sl()));
     sl.registerLazySingleton(() => MarkAllNotificationsSeenUseCase(sl()));
     sl.registerLazySingleton(() => MarkNotificationClickedUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => MerchantNotificationsCubit(sl(), sl(), sl(), sl()),
     );
   }
@@ -1316,7 +1316,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => CreateDrinkUseCase(sl()));
     sl.registerLazySingleton(() => UpdateDrinkUseCase(sl()));
     sl.registerLazySingleton(() => DeleteDrinkUseCase(sl()));
-    sl.registerLazySingleton(() => BarberDrinksCubit(sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => BarberDrinksCubit(sl(), sl(), sl(), sl()));
   }
 
   void _barberDiscounts() {
@@ -1421,7 +1421,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => barber.UploadDocumentFileUseCase(sl()));
     sl.registerLazySingleton(() => barber.DeleteDocumentFileUseCase(sl()));
     sl.registerLazySingleton(() => barber.DownloadDocumentFileUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => BarberDocumentsCubit(sl(), sl(), sl(), sl()),
     );
   }
@@ -1686,7 +1686,7 @@ class ServicesLocator {
       () => barber.MarkAllNotificationsSeenUseCase(sl()),
     );
     sl.registerLazySingleton(() => barber.MarkNotificationClickedUseCase(sl()));
-    sl.registerLazySingleton(
+    sl.registerFactory(
       () => BarberNotificationsCubit(sl(), sl(), sl(), sl()),
     );
   }

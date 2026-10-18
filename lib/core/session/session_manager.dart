@@ -7,6 +7,7 @@ import '../helpers/alerts.dart';
 import '../routes/app_routes.dart';
 import '../routes/route_paths.dart';
 import 'session_events.dart';
+import 'session_scope.dart';
 
 class SessionManager {
   final SecureStorage storage;
@@ -42,6 +43,7 @@ class SessionManager {
   }
 
   Future<void> _clearSession() async {
+    SessionScope.reset();
     final language = preferencesStorage.getCurrentLanguage();
     await storage.deleteAll();
     await preferencesStorage.clear();

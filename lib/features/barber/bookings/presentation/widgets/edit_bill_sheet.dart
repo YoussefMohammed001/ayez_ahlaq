@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/di/services_locator.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
@@ -19,6 +18,7 @@ import 'bill_adjustments_field.dart';
 import 'bill_confirm_dialog.dart';
 import 'edit_bill_title.dart';
 import 'walk_in_drinks_field.dart';
+import '../../../../../core/session/session_scope.dart';
 
 class EditBillSheet extends StatefulWidget {
   final Booking booking;
@@ -33,7 +33,7 @@ class EditBillSheet extends StatefulWidget {
       builder: (_) => MultiBlocProvider(
         providers: [
           BlocProvider.value(value: context.read<BookingsCubit>()),
-          BlocProvider.value(value: sl<BarberDrinksCubit>()..loadDrinks()),
+          BlocProvider.value(value: SessionScope.cubit<BarberDrinksCubit>()..loadDrinks()),
         ],
         child: EditBillSheet(booking: booking),
       ),

@@ -283,123 +283,92 @@ import '../../features/user_type/presentation/pages/user_type_screen.dart';
 import '../analytics/analytics_route_observer.dart';
 import '../analytics/i_analytics_service.dart';
 import '../di/services_locator.dart';
+import '../session/session_scope.dart';
 import 'route_observer.dart';
 import 'route_paths.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = ChuckerFlutter.navigatorKey;
 final CustomGoRouterObserver customGoRouterObserver = CustomGoRouterObserver();
 
-final MerchantProductsCubit _productsCubit = sl<MerchantProductsCubit>();
-final MerchantOrdersCubit _ordersCubit = sl<MerchantOrdersCubit>();
-final MerchantDashboardCubit _dashboardCubit = sl<MerchantDashboardCubit>();
-final MerchantProfileCubit _profileCubit = sl<MerchantProfileCubit>();
-final MerchantAuthCubit _authCubit = sl<MerchantAuthCubit>();
-final MerchantCategoriesCubit _categoriesCubit = sl<MerchantCategoriesCubit>();
-final MerchantDiscountsCubit _discountsCubit = sl<MerchantDiscountsCubit>();
-final MerchantCustomersCubit _customersCubit = sl<MerchantCustomersCubit>();
-final MerchantPhonesCubit _phonesCubit = sl<MerchantPhonesCubit>();
-final MerchantDeliveryCubit _deliveryCubit = sl<MerchantDeliveryCubit>();
-final MerchantDocumentsCubit _documentsCubit = sl<MerchantDocumentsCubit>();
-final MerchantNotificationsCubit _notificationsCubit =
-    sl<MerchantNotificationsCubit>();
-final CustomerAuthCubit _customerAuthCubit = sl<CustomerAuthCubit>();
-final CustomerShopsCubit _customerShopsCubit = sl<CustomerShopsCubit>();
-final HomeServiceShopsCubit _homeServiceShopsCubit =
-    sl<HomeServiceShopsCubit>();
-final HomeServiceRequestFormCubit _homeServiceRequestFormCubit =
-    sl<HomeServiceRequestFormCubit>();
-final HomeServiceRequestsCubit _homeServiceRequestsCubit =
-    sl<HomeServiceRequestsCubit>();
-final HomeServiceRequestDetailCubit _homeServiceRequestDetailCubit =
-    sl<HomeServiceRequestDetailCubit>();
-final CustomerProfileCubit _customerProfileCubit = sl<CustomerProfileCubit>();
-final CustomerShopDetailCubit _customerShopDetailCubit =
-    sl<CustomerShopDetailCubit>();
-final BookingFlowCubit _bookingFlowCubit = sl<BookingFlowCubit>();
-final MyBookingsCubit _myBookingsCubit = sl<MyBookingsCubit>();
-final BookingDetailCubit _customerBookingDetailCubit = sl<BookingDetailCubit>();
-final StoreCartCubit _customerStoreCartCubit = sl<StoreCartCubit>();
-final StoreOrdersCubit _customerStoreOrdersCubit = sl<StoreOrdersCubit>();
-final CustomerStoreFeedCubit _customerStoreFeedCubit = sl<CustomerStoreFeedCubit>();
-final PaymentMethodsCubit _customerPaymentMethodsCubit =
-    sl<PaymentMethodsCubit>();
-final FavoritesCubit _customerFavoritesCubit = sl<FavoritesCubit>();
-final InvitePreviewCubit _customerInvitePreviewCubit = sl<InvitePreviewCubit>();
-final CustomerNotificationsCubit _customerNotificationsCubit =
-    sl<CustomerNotificationsCubit>();
-final BarberAuthCubit _barberAuthCubit = sl<BarberAuthCubit>();
-final BarberProfileCubit _barberProfileCubit = sl<BarberProfileCubit>();
-final BarberHoursCubit _barberHoursCubit = sl<BarberHoursCubit>();
-final HomeServiceSettingsCubit _homeServiceSettingsCubit =
-    sl<HomeServiceSettingsCubit>();
-final HomeServiceHoursCubit _homeServiceHoursCubit =
-    sl<HomeServiceHoursCubit>();
-final barber_hsr.HomeServiceRequestsCubit _barberHomeServiceRequestsCubit =
-    sl<barber_hsr.HomeServiceRequestsCubit>();
-final HomeServiceBroadcastCubit _homeServiceBroadcastCubit =
-    sl<HomeServiceBroadcastCubit>();
-final BarberDrinksCubit _barberDrinksCubit = sl<BarberDrinksCubit>();
-final BarberDiscountsCubit _barberDiscountsCubit = sl<BarberDiscountsCubit>();
-final BarberSponsorshipCubit _barberSponsorshipCubit =
-    sl<BarberSponsorshipCubit>();
-final MerchantSponsorshipCubit _merchantSponsorshipCubit =
-    sl<MerchantSponsorshipCubit>();
-final BarberServicesCubit _barberServicesCubit = sl<BarberServicesCubit>();
-final OwnServicesCubit _ownServicesCubit = sl<OwnServicesCubit>();
-final ShopHaircutStylesCubit _shopHaircutStylesCubit =
-    sl<ShopHaircutStylesCubit>();
-final BarberDocumentsCubit _barberDocumentsCubit = sl<BarberDocumentsCubit>();
-final BarberStoreMerchantsCubit _barberStoreMerchantsCubit =
-    sl<BarberStoreMerchantsCubit>();
-final BarberStoreFeedCubit _barberStoreFeedCubit = sl<BarberStoreFeedCubit>();
-final BarberStoreCartCubit _barberStoreCartCubit = sl<BarberStoreCartCubit>();
-final BarberStoreOrdersCubit _barberStoreOrdersCubit =
-    sl<BarberStoreOrdersCubit>();
-final BarberStorefrontProductsCubit _barberStorefrontProductsCubit =
-    sl<BarberStorefrontProductsCubit>();
-final BarberStorefrontCategoriesCubit _barberStorefrontCategoriesCubit =
-    sl<BarberStorefrontCategoriesCubit>();
-final BarberStorefrontDeliveryCubit _barberStorefrontDeliveryCubit =
-    sl<BarberStorefrontDeliveryCubit>();
-final BarberStorefrontOrdersCubit _barberStorefrontOrdersCubit =
-    sl<BarberStorefrontOrdersCubit>();
-final BarberWalletCubit _barberWalletCubit = sl<BarberWalletCubit>();
-final BarberWalletRequestsCubit _barberWalletRequestsCubit =
-    sl<BarberWalletRequestsCubit>();
-final CustomerWalletCubit _customerWalletCubit = sl<CustomerWalletCubit>();
-final CustomerWalletRequestsCubit _customerWalletRequestsCubit =
-    sl<CustomerWalletRequestsCubit>();
-final BarberReviewsCubit _barberReviewsCubit = sl<BarberReviewsCubit>();
-final BarberInviteCubit _barberInviteCubit = sl<BarberInviteCubit>();
-final BarberSubscriptionCubit _barberSubscriptionCubit =
-    sl<BarberSubscriptionCubit>();
-final BarberSubscriptionRequestsCubit _barberSubscriptionRequestsCubit =
-    sl<BarberSubscriptionRequestsCubit>();
-final BarberBroadcastCubit _barberBroadcastCubit = sl<BarberBroadcastCubit>();
-final BroadcastListCubit _barberBroadcastListCubit = sl<BroadcastListCubit>();
-final MerchantSubscriptionCubit _merchantSubscriptionCubit =
-    sl<MerchantSubscriptionCubit>();
-final MerchantSubscriptionRequestsCubit _merchantSubscriptionRequestsCubit =
-    sl<MerchantSubscriptionRequestsCubit>();
-final MerchantBroadcastCubit _merchantBroadcastCubit =
-    sl<MerchantBroadcastCubit>();
-final MerchantBroadcastListCubit _merchantBroadcastListCubit =
-    sl<MerchantBroadcastListCubit>();
-final MerchantWalletCubit _merchantWalletCubit = sl<MerchantWalletCubit>();
-final MerchantWalletRequestsCubit _merchantWalletRequestsCubit =
-    sl<MerchantWalletRequestsCubit>();
-final BarberNotificationsCubit _barberNotificationsCubit =
-    sl<BarberNotificationsCubit>();
-final BarberTeamCubit _barberTeamCubit = sl<BarberTeamCubit>();
-final TeamMemberDetailCubit _teamMemberDetailCubit =
-    sl<TeamMemberDetailCubit>();
-final MemberHoursCubit _memberHoursCubit = sl<MemberHoursCubit>();
-final MemberServicesCubit _memberServicesCubit = sl<MemberServicesCubit>();
-final MemberEarningsCubit _memberEarningsCubit = sl<MemberEarningsCubit>();
-final MemberClientsCubit _memberClientsCubit = sl<MemberClientsCubit>();
-final EarningsCubit _earningsCubit = sl<EarningsCubit>();
-final BookingsCubit _bookingsCubit = sl<BookingsCubit>();
-final MoneyPinCubit _moneyPinCubit = sl<MoneyPinCubit>();
+MerchantProductsCubit get _productsCubit => SessionScope.cubit<MerchantProductsCubit>();
+MerchantOrdersCubit get _ordersCubit => SessionScope.cubit<MerchantOrdersCubit>();
+MerchantDashboardCubit get _dashboardCubit => SessionScope.cubit<MerchantDashboardCubit>();
+MerchantProfileCubit get _profileCubit => SessionScope.cubit<MerchantProfileCubit>();
+MerchantAuthCubit get _authCubit => SessionScope.cubit<MerchantAuthCubit>();
+MerchantCategoriesCubit get _categoriesCubit => SessionScope.cubit<MerchantCategoriesCubit>();
+MerchantDiscountsCubit get _discountsCubit => SessionScope.cubit<MerchantDiscountsCubit>();
+MerchantCustomersCubit get _customersCubit => SessionScope.cubit<MerchantCustomersCubit>();
+MerchantPhonesCubit get _phonesCubit => SessionScope.cubit<MerchantPhonesCubit>();
+MerchantDeliveryCubit get _deliveryCubit => SessionScope.cubit<MerchantDeliveryCubit>();
+MerchantDocumentsCubit get _documentsCubit => SessionScope.cubit<MerchantDocumentsCubit>();
+MerchantNotificationsCubit get _notificationsCubit => SessionScope.cubit<MerchantNotificationsCubit>();
+CustomerAuthCubit get _customerAuthCubit => SessionScope.cubit<CustomerAuthCubit>();
+CustomerShopsCubit get _customerShopsCubit => SessionScope.cubit<CustomerShopsCubit>();
+HomeServiceShopsCubit get _homeServiceShopsCubit => SessionScope.cubit<HomeServiceShopsCubit>();
+HomeServiceRequestFormCubit get _homeServiceRequestFormCubit => SessionScope.cubit<HomeServiceRequestFormCubit>();
+HomeServiceRequestsCubit get _homeServiceRequestsCubit => SessionScope.cubit<HomeServiceRequestsCubit>();
+HomeServiceRequestDetailCubit get _homeServiceRequestDetailCubit => SessionScope.cubit<HomeServiceRequestDetailCubit>();
+CustomerProfileCubit get _customerProfileCubit => SessionScope.cubit<CustomerProfileCubit>();
+CustomerShopDetailCubit get _customerShopDetailCubit => SessionScope.cubit<CustomerShopDetailCubit>();
+BookingFlowCubit get _bookingFlowCubit => SessionScope.cubit<BookingFlowCubit>();
+MyBookingsCubit get _myBookingsCubit => SessionScope.cubit<MyBookingsCubit>();
+BookingDetailCubit get _customerBookingDetailCubit => SessionScope.cubit<BookingDetailCubit>();
+StoreCartCubit get _customerStoreCartCubit => SessionScope.cubit<StoreCartCubit>();
+StoreOrdersCubit get _customerStoreOrdersCubit => SessionScope.cubit<StoreOrdersCubit>();
+CustomerStoreFeedCubit get _customerStoreFeedCubit => SessionScope.cubit<CustomerStoreFeedCubit>();
+PaymentMethodsCubit get _customerPaymentMethodsCubit => SessionScope.cubit<PaymentMethodsCubit>();
+FavoritesCubit get _customerFavoritesCubit => SessionScope.cubit<FavoritesCubit>();
+InvitePreviewCubit get _customerInvitePreviewCubit => SessionScope.cubit<InvitePreviewCubit>();
+CustomerNotificationsCubit get _customerNotificationsCubit => SessionScope.cubit<CustomerNotificationsCubit>();
+BarberAuthCubit get _barberAuthCubit => SessionScope.cubit<BarberAuthCubit>();
+BarberProfileCubit get _barberProfileCubit => SessionScope.cubit<BarberProfileCubit>();
+BarberHoursCubit get _barberHoursCubit => SessionScope.cubit<BarberHoursCubit>();
+HomeServiceSettingsCubit get _homeServiceSettingsCubit => SessionScope.cubit<HomeServiceSettingsCubit>();
+HomeServiceHoursCubit get _homeServiceHoursCubit => SessionScope.cubit<HomeServiceHoursCubit>();
+barber_hsr.HomeServiceRequestsCubit get _barberHomeServiceRequestsCubit => SessionScope.cubit<barber_hsr.HomeServiceRequestsCubit>();
+HomeServiceBroadcastCubit get _homeServiceBroadcastCubit => SessionScope.cubit<HomeServiceBroadcastCubit>();
+BarberDrinksCubit get _barberDrinksCubit => SessionScope.cubit<BarberDrinksCubit>();
+BarberDiscountsCubit get _barberDiscountsCubit => SessionScope.cubit<BarberDiscountsCubit>();
+BarberSponsorshipCubit get _barberSponsorshipCubit => SessionScope.cubit<BarberSponsorshipCubit>();
+MerchantSponsorshipCubit get _merchantSponsorshipCubit => SessionScope.cubit<MerchantSponsorshipCubit>();
+BarberServicesCubit get _barberServicesCubit => SessionScope.cubit<BarberServicesCubit>();
+OwnServicesCubit get _ownServicesCubit => SessionScope.cubit<OwnServicesCubit>();
+ShopHaircutStylesCubit get _shopHaircutStylesCubit => SessionScope.cubit<ShopHaircutStylesCubit>();
+BarberDocumentsCubit get _barberDocumentsCubit => SessionScope.cubit<BarberDocumentsCubit>();
+BarberStoreMerchantsCubit get _barberStoreMerchantsCubit => SessionScope.cubit<BarberStoreMerchantsCubit>();
+BarberStoreFeedCubit get _barberStoreFeedCubit => SessionScope.cubit<BarberStoreFeedCubit>();
+BarberStoreCartCubit get _barberStoreCartCubit => SessionScope.cubit<BarberStoreCartCubit>();
+BarberStoreOrdersCubit get _barberStoreOrdersCubit => SessionScope.cubit<BarberStoreOrdersCubit>();
+BarberStorefrontProductsCubit get _barberStorefrontProductsCubit => SessionScope.cubit<BarberStorefrontProductsCubit>();
+BarberStorefrontCategoriesCubit get _barberStorefrontCategoriesCubit => SessionScope.cubit<BarberStorefrontCategoriesCubit>();
+BarberStorefrontDeliveryCubit get _barberStorefrontDeliveryCubit => SessionScope.cubit<BarberStorefrontDeliveryCubit>();
+BarberStorefrontOrdersCubit get _barberStorefrontOrdersCubit => SessionScope.cubit<BarberStorefrontOrdersCubit>();
+BarberWalletCubit get _barberWalletCubit => SessionScope.cubit<BarberWalletCubit>();
+BarberWalletRequestsCubit get _barberWalletRequestsCubit => SessionScope.cubit<BarberWalletRequestsCubit>();
+CustomerWalletCubit get _customerWalletCubit => SessionScope.cubit<CustomerWalletCubit>();
+CustomerWalletRequestsCubit get _customerWalletRequestsCubit => SessionScope.cubit<CustomerWalletRequestsCubit>();
+BarberReviewsCubit get _barberReviewsCubit => SessionScope.cubit<BarberReviewsCubit>();
+BarberInviteCubit get _barberInviteCubit => SessionScope.cubit<BarberInviteCubit>();
+BarberSubscriptionCubit get _barberSubscriptionCubit => SessionScope.cubit<BarberSubscriptionCubit>();
+BarberSubscriptionRequestsCubit get _barberSubscriptionRequestsCubit => SessionScope.cubit<BarberSubscriptionRequestsCubit>();
+BarberBroadcastCubit get _barberBroadcastCubit => SessionScope.cubit<BarberBroadcastCubit>();
+BroadcastListCubit get _barberBroadcastListCubit => SessionScope.cubit<BroadcastListCubit>();
+MerchantSubscriptionCubit get _merchantSubscriptionCubit => SessionScope.cubit<MerchantSubscriptionCubit>();
+MerchantSubscriptionRequestsCubit get _merchantSubscriptionRequestsCubit => SessionScope.cubit<MerchantSubscriptionRequestsCubit>();
+MerchantBroadcastCubit get _merchantBroadcastCubit => SessionScope.cubit<MerchantBroadcastCubit>();
+MerchantBroadcastListCubit get _merchantBroadcastListCubit => SessionScope.cubit<MerchantBroadcastListCubit>();
+MerchantWalletCubit get _merchantWalletCubit => SessionScope.cubit<MerchantWalletCubit>();
+MerchantWalletRequestsCubit get _merchantWalletRequestsCubit => SessionScope.cubit<MerchantWalletRequestsCubit>();
+BarberNotificationsCubit get _barberNotificationsCubit => SessionScope.cubit<BarberNotificationsCubit>();
+BarberTeamCubit get _barberTeamCubit => SessionScope.cubit<BarberTeamCubit>();
+TeamMemberDetailCubit get _teamMemberDetailCubit => SessionScope.cubit<TeamMemberDetailCubit>();
+MemberHoursCubit get _memberHoursCubit => SessionScope.cubit<MemberHoursCubit>();
+MemberServicesCubit get _memberServicesCubit => SessionScope.cubit<MemberServicesCubit>();
+MemberEarningsCubit get _memberEarningsCubit => SessionScope.cubit<MemberEarningsCubit>();
+MemberClientsCubit get _memberClientsCubit => SessionScope.cubit<MemberClientsCubit>();
+EarningsCubit get _earningsCubit => SessionScope.cubit<EarningsCubit>();
+BookingsCubit get _bookingsCubit => SessionScope.cubit<BookingsCubit>();
+MoneyPinCubit get _moneyPinCubit => SessionScope.cubit<MoneyPinCubit>();
 
 final routes = GoRouter(
   initialLocation: Routes.splashScreen,
@@ -1606,8 +1575,6 @@ Future<void> _handleLogout() async {
 }
 
 Future<void> _handleBarberLogout() async {
-  _moneyPinCubit.lock();
-  _barberProfileCubit.reset();
   await _barberAuthCubit.logout();
   rootNavigatorKey.currentContext?.go(Routes.barberLoginScreen);
 }

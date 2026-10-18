@@ -25,6 +25,7 @@ import 'package:ayez_ahlaq/features/customer/notifications/presentation/manager/
 import 'package:ayez_ahlaq/features/barber/notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../shared/user_type.dart';
 import '../routes/app_routes.dart';
+import '../session/session_scope.dart';
 
 @pragma('vm:entry-point')
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -247,17 +248,17 @@ class NotificationService {
       int unseenCount;
       switch (UserHelpers.userType) {
         case UserType.merchant:
-          final cubit = sl<MerchantNotificationsCubit>();
+          final cubit = SessionScope.cubit<MerchantNotificationsCubit>();
           await cubit.refreshUnseenCount();
           unseenCount = cubit.state.unseenCount;
           break;
         case UserType.barber:
-          final cubit = sl<BarberNotificationsCubit>();
+          final cubit = SessionScope.cubit<BarberNotificationsCubit>();
           await cubit.refreshUnseenCount();
           unseenCount = cubit.state.unseenCount;
           break;
         case UserType.customer:
-          final cubit = sl<CustomerNotificationsCubit>();
+          final cubit = SessionScope.cubit<CustomerNotificationsCubit>();
           await cubit.refreshUnseenCount();
           unseenCount = cubit.state.unseenCount;
           break;
