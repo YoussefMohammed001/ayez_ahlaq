@@ -11,6 +11,13 @@ class Earnings extends Equatable {
   final num avgTicket;
   final num supplierSpendThisMonth;
   final num netThisMonth;
+  final num productsToday;
+  final num productsLast7Days;
+  final num productsThisMonth;
+  final int productOrdersThisMonth;
+  final num totalThisMonth;
+  final num tillAddedThisMonth;
+  final num tillSubtractedThisMonth;
   final List<DailyEarning> dailyLast7;
 
   const Earnings({
@@ -23,6 +30,13 @@ class Earnings extends Equatable {
     required this.avgTicket,
     required this.supplierSpendThisMonth,
     required this.netThisMonth,
+    this.productsToday = 0,
+    this.productsLast7Days = 0,
+    this.productsThisMonth = 0,
+    this.productOrdersThisMonth = 0,
+    this.totalThisMonth = 0,
+    this.tillAddedThisMonth = 0,
+    this.tillSubtractedThisMonth = 0,
     required this.dailyLast7,
   });
 
@@ -36,6 +50,13 @@ class Earnings extends Equatable {
       avgTicket = 0,
       supplierSpendThisMonth = 0,
       netThisMonth = 0,
+      productsToday = 0,
+      productsLast7Days = 0,
+      productsThisMonth = 0,
+      productOrdersThisMonth = 0,
+      totalThisMonth = 0,
+      tillAddedThisMonth = 0,
+      tillSubtractedThisMonth = 0,
       dailyLast7 = const [];
 
   @override
@@ -49,6 +70,13 @@ class Earnings extends Equatable {
     avgTicket,
     supplierSpendThisMonth,
     netThisMonth,
+    productsToday,
+    productsLast7Days,
+    productsThisMonth,
+    productOrdersThisMonth,
+    totalThisMonth,
+    tillAddedThisMonth,
+    tillSubtractedThisMonth,
     dailyLast7,
   ];
 }

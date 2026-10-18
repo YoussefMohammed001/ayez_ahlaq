@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/network/constants/endpoints.dart';
-import '../../../../../core/widgets/authorized_network_image.dart';
-import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/widgets/network_image_with_app_icon_fallback.dart';
 import '../../domain/entities/store_product.dart';
 
 class StoreProductThumbnail extends StatelessWidget {
@@ -20,31 +19,12 @@ class StoreProductThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final corner = BorderRadius.circular(radius ?? 10);
-
-    if (!product.hasImage) {
-      return _buildPlaceholder(context, corner);
-    }
-
-    return ClipRRect(
-      borderRadius: corner,
-      child: AuthorizedNetworkImage(
-        endPoint: EndPoints.barberStoreMerchantProductImage(merchantId, product.id),
-        width: size,
-        height: size,
-        placeholderBuilder: (context) => _buildPlaceholder(context, corner),
-      ),
-    );
-  }
-
-  Widget _buildPlaceholder(BuildContext context, BorderRadius corner) {
-    final scheme = context.colorScheme;
-    return Container(
+    return NetworkImageWithAppIconFallback(
+      endPoint: EndPoints.barberStoreMerchantProductImage(merchantId, product.id),
+      hasImage: product.hasImage,
       width: size,
       height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: scheme.surfaceContainerHighest, borderRadius: corner),
-      child: Icon(Icons.inventory_2_outlined, size: size * 0.5, color: scheme.onSurfaceVariant),
+      borderRadius: BorderRadius.circular(radius ?? 10),
     );
   }
 }

@@ -67,8 +67,7 @@ class BookingFlowState extends Equatable {
   int get drinksTotal =>
       drinks.fold(0, (sum, drink) => sum + (drink.price ?? 0) * drink.quantity);
 
-  int get totalPrice =>
-      servicePrice + styleDelta + addonsTotal + drinksTotal;
+  int get totalPrice => servicePrice + styleDelta + addonsTotal + drinksTotal;
 
   BookingFlowState copyWith({
     BookingFlowStatus? status,
@@ -100,7 +99,9 @@ class BookingFlowState extends Equatable {
       serviceTypeId: serviceTypeId ?? this.serviceTypeId,
       serviceName: serviceName ?? this.serviceName,
       servicePrice: servicePrice ?? this.servicePrice,
-      haircutStyleId: clearStyle ? null : (haircutStyleId ?? this.haircutStyleId),
+      haircutStyleId: clearStyle
+          ? null
+          : (haircutStyleId ?? this.haircutStyleId),
       styleName: clearStyle ? null : (styleName ?? this.styleName),
       styleDelta: clearStyle ? 0 : (styleDelta ?? this.styleDelta),
       barberId: clearBarber ? null : (barberId ?? this.barberId),

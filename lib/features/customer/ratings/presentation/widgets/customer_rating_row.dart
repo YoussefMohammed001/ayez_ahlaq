@@ -4,7 +4,7 @@ import '../../../../../core/helpers/relative_date_label.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../booking/domain/entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 import '../../domain/entities/customer_rating.dart';
 
 class CustomerRatingRow extends StatelessWidget {
@@ -16,9 +16,7 @@ class CustomerRatingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
     final isBarber = rating.target == RatingTarget.barber;
-    final title = isBarber
-        ? rating.barberName ?? S().rateBarberTitle
-        : rating.shopName ?? S().rateShopTitle;
+    final label = isBarber ? S().barberRatingLabel : S().shopRatingLabel;
 
     return AppCard(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -28,11 +26,25 @@ class CustomerRatingRow extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: scheme.onSurface),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      rating.targetName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      label,
+                      style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                    ),
+                  ],
                 ),
               ),
               Row(

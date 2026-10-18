@@ -8,6 +8,7 @@ import '../../../../core/widgets/primary_cta_button.dart';
 import '../../../../generated/l10n.dart';
 import '../../../widgets/resend_button.dart';
 import 'auth_brand_header.dart';
+import '../../../../core/helpers/clear_fields_after_submit.dart';
 
 class OtpVerificationView extends StatefulWidget {
   final String phone;
@@ -27,13 +28,25 @@ class OtpVerificationView extends StatefulWidget {
   State<OtpVerificationView> createState() => _OtpVerificationViewState();
 }
 
-class _OtpVerificationViewState extends State<OtpVerificationView> {
+class _OtpVerificationViewState extends State<OtpVerificationView>
+    with ClearFieldsAfterSubmit<OtpVerificationView> {
   final _controller = TextEditingController();
+
+  @override
+  List<TextEditingController> get fieldsToClear => [_controller];
+
+  @override
+  bool isSubmittingOf(OtpVerificationView widget) => widget.isSubmitting;
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _resend() {
+    clearFields();
+    widget.onResend!();
   }
 
   void _submit() {
@@ -76,7 +89,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
               ),
               if (widget.onResend != null) ...[
                 SizedBox(height: 14.h),
-                ResendButton(onResend: widget.onResend!),
+                ResendButton(onResend: _resend),
               ],
             ],
           ),

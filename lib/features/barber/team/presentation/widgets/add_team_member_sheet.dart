@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../profile/domain/entities/barber_permissions.dart';
+import 'member_permissions_section.dart';
 
 class AddTeamMemberSheet extends StatefulWidget {
-  final bool isSubmitting;
-  final Future<void> Function(String name, String phone, String? tagline) onSubmit;
+  final Future<void> Function(
+    String name,
+    String phone,
+    String? tagline,
+    BarberPermissions permissions,
+  ) onSubmit;
 
-  const AddTeamMemberSheet({
-    super.key,
-    required this.isSubmitting,
-    required this.onSubmit,
-  });
+  const AddTeamMemberSheet({super.key, required this.onSubmit});
 
   static Future<void> show(
     BuildContext context, {
-    required bool isSubmitting,
-    required Future<void> Function(String name, String phone, String? tagline) onSubmit,
+    required Future<void> Function(
+      String name,
+      String phone,
+      String? tagline,
+      BarberPermissions permissions,
+    ) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) =>
-          AddTeamMemberSheet(isSubmitting: isSubmitting, onSubmit: onSubmit),
+      builder: (_) => AddTeamMemberSheet(onSubmit: onSubmit),
     );
   }
 
@@ -39,6 +45,8 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _taglineController = TextEditingController();
+  BarberPermissions _permissions = BarberPermissions.none;
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -49,7 +57,9 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (_submitting || !_formKey.currentState!.validate()) return;
+
+    setState(() => _submitting = true);
 
     final tagline = _taglineController.text.trim();
 
@@ -57,9 +67,12 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
       _nameController.text.trim(),
       _phoneController.text.trim(),
       tagline.isEmpty ? null : tagline,
+      _permissions,
     );
 
-    if (mounted) Navigator.of(context).pop();
+    if (!mounted) return;
+    setState(() => _submitting = false);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -91,18 +104,21 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
                   controller: _phoneController,
                   hint: S().memberPhoneHint,
                   isNumber: true,
-                  validator: (v) =>
-                      (v ?? '').trim().isEmpty ? S().memberPhoneLabel : null,
+                  validator: Validators.validateEgyptianPhoneNumber,
                 ),
                 SectionTitle(title: S().memberTaglineOptionalLabel),
                 AppTextField(
                   controller: _taglineController,
                   hint: S().memberTaglineHint,
                 ),
-                SizedBox(height: 20.h),
+                MemberPermissionsSection(
+                  permissions: _permissions,
+                  onChanged: (value) => setState(() => _permissions = value),
+                ),
+                SizedBox(height: 12.h),
                 PrimaryCtaButton(
                   label: S().save,
-                  isLoading: widget.isSubmitting,
+                  isLoading: _submitting,
                   onPressed: _submit,
                 ),
               ],

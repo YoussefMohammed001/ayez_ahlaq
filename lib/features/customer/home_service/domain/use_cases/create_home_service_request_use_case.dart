@@ -9,16 +9,22 @@ class CreateHomeServiceRequestUseCase {
   CreateHomeServiceRequestUseCase(this._repo);
 
   Future<Either<Failure, HomeServiceRequest>> call({
-    required int shopId,
+    int? shopId,
+    bool anyNearby = false,
     required String address,
     required double lat,
     required double lng,
     String? note,
+    required String date,
+    required String time,
   }) => _repo.createRequest(
     shopId: shopId,
+    anyNearby: anyNearby,
     address: address,
     lat: lat,
     lng: lng,
     note: note,
+    date: date,
+    time: time,
   );
 }

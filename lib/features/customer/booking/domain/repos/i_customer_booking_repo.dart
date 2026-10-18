@@ -4,7 +4,7 @@ import '../entities/booking_addon.dart';
 import '../entities/booking_drink.dart';
 import '../entities/booking_slots.dart';
 import '../entities/customer_booking.dart';
-import '../entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 
 abstract class ICustomerBookingRepo {
   Future<Either<Failure, BookingSlots>> getSlots({

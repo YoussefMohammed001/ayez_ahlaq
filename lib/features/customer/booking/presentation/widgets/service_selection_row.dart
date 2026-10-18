@@ -34,7 +34,9 @@ class ServiceSelectionRow extends StatelessWidget {
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.circle_outlined,
                   size: 22.r,
-                  color: selected ? context.semantic.accentStrong : scheme.onSurfaceVariant,
+                  color: selected
+                      ? context.semantic.accentStrong
+                      : scheme.onSurfaceVariant,
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
@@ -57,13 +59,19 @@ class ServiceSelectionRow extends StatelessWidget {
                           service.description!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                       SizedBox(height: 4.h),
                       Text(
                         '${service.durationMinutes} ${S().minutesUnit}',
-                        style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: scheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),

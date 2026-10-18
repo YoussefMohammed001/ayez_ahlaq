@@ -8,5 +8,6 @@ class CancelBookingUseCase {
 
   CancelBookingUseCase(this._repo);
 
-  Future<Either<Failure, CustomerBooking>> call(int id) => _repo.cancelBooking(id);
+  Future<Either<Failure, CustomerBooking>> call(int id) =>
+      _repo.cancelBooking(id);
 }

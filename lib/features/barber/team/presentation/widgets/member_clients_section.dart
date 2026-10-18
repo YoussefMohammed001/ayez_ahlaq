@@ -35,7 +35,7 @@ class MemberClientsSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SectionTitle(title: S().memberClientsTitle),
+                Expanded(child: SectionTitle(title: S().memberClientsTitle)),
                 TextButton(
                   onPressed: () => _pickDateRange(context, state),
                   child: Text(

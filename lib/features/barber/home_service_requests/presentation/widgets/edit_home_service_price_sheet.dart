@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
@@ -44,15 +45,19 @@ class _EditHomeServicePriceSheetState
   }
 
   Future<void> _submit() async {
-    final cubit = context.read<HomeServiceRequestsCubit>();
+    final adjustments =
+        _adjustments.where((a) => a.label.isNotEmpty || a.amount != 0).toList();
 
-    await cubit.updatePrice(
-      widget.request.id,
-      _adjustments.where((a) => a.label.isNotEmpty || a.amount != 0).toList(),
-    );
+    if (adjustments.isEmpty) {
+      showError(S().addAtLeastOneAdjustment);
+      return;
+    }
+
+    final cubit = context.read<HomeServiceRequestsCubit>();
+    final saved = await cubit.updatePrice(widget.request.id, adjustments);
 
     if (!mounted) return;
-    Navigator.of(context).pop();
+    if (saved) Navigator.of(context).pop();
   }
 
   @override

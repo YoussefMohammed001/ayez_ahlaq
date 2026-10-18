@@ -40,7 +40,10 @@ class HomeServicePriceConfirmationBanner extends StatelessWidget {
               S().currencyEgp(basePrice),
               S().currencyEgp(finalPrice),
             ),
-            style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: context.colorScheme.onSurfaceVariant,
+            ),
           ),
           SizedBox(height: 12.h),
           PrimaryCtaButton(

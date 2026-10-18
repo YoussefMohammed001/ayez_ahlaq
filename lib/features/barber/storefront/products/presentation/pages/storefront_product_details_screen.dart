@@ -9,9 +9,11 @@ import '../../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../../core/extensions/ext_theme.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/storefront_product.dart';
 import '../manager/barber_storefront_products_cubit.dart';
 import '../manager/barber_storefront_products_state.dart';
+import '../widgets/edit_stock_sheet.dart';
 import '../widgets/storefront_product_detail_info.dart';
 import '../widgets/storefront_product_thumbnail.dart';
 
@@ -19,6 +21,16 @@ class StorefrontProductDetailsScreen extends StatelessWidget {
   final int productId;
 
   const StorefrontProductDetailsScreen({super.key, required this.productId});
+
+  void _openEditStock(BuildContext context, StorefrontProduct product) {
+    final cubit = context.read<BarberStorefrontProductsCubit>();
+
+    EditStockSheet.show(
+      context,
+      currentStock: product.stock,
+      onSubmit: (quantity) => cubit.setStock(product.id, quantity),
+    );
+  }
 
   Future<void> _confirmRemove(BuildContext context) async {
     final cubit = context.read<BarberStorefrontProductsCubit>();
@@ -39,52 +51,62 @@ class StorefrontProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BarberStorefrontProductsCubit, BarberStorefrontProductsState>(
-      builder: (context, state) {
-        final product = _find(state.products);
+    return BusyErrorListener<
+      BarberStorefrontProductsCubit,
+      BarberStorefrontProductsState
+    >(
+      isBusy: (state) => state.isSubmitting,
+      errorMessage: (state) => state.errorMessage,
+      child: BlocBuilder<BarberStorefrontProductsCubit, BarberStorefrontProductsState>(
+        builder: (context, state) {
+          final product = _find(state.products);
 
-        if (product == null) {
+          if (product == null) {
+            return Scaffold(
+              appBar: AppTopBar(title: S().productDetails),
+              body: AppEmptyState(
+                icon: Icons.inventory_2_outlined,
+                title: S().noProductsYet,
+              ),
+            );
+          }
+
           return Scaffold(
-            appBar: AppTopBar(title: S().productDetails),
-            body: AppEmptyState(
-              icon: Icons.inventory_2_outlined,
-              title: S().noProductsYet,
+            appBar: AppTopBar(
+              title: S().productDetails,
+              trailing: IconButton(
+                icon: Icon(Icons.delete_outline, color: context.semantic.warning),
+                onPressed: () => _confirmRemove(context),
+              ),
+            ),
+            body: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
+              children: [
+                Center(
+                  child: StorefrontProductThumbnail(
+                    product: product,
+                    size: 220.h,
+                    radius: 18.r,
+                  ),
+                ),
+                SizedBox(height: 18.h),
+                StorefrontProductDetailInfo(
+                  product: product,
+                  onEditStock: () => _openEditStock(context, product),
+                ),
+                SizedBox(height: 24.h),
+                PrimaryCtaButton(
+                  label: S().editProduct,
+                  onPressed: () => context.push(
+                    Routes.barberStorefrontProductFormScreen,
+                    extra: product,
+                  ),
+                ),
+              ],
             ),
           );
-        }
-
-        return Scaffold(
-          appBar: AppTopBar(
-            title: S().productDetails,
-            trailing: IconButton(
-              icon: Icon(Icons.delete_outline, color: context.semantic.warning),
-              onPressed: () => _confirmRemove(context),
-            ),
-          ),
-          body: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
-            children: [
-              Center(
-                child: StorefrontProductThumbnail(
-                  product: product,
-                  size: 220.h,
-                  radius: 18.r,
-                ),
-              ),
-              SizedBox(height: 18.h),
-              StorefrontProductDetailInfo(product: product),
-              SizedBox(height: 24.h),
-              PrimaryCtaButton(
-                label: S().editProduct,
-                onPressed: () => context.push(
-                  Routes.barberStorefrontProductFormScreen,
-                  extra: product,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 

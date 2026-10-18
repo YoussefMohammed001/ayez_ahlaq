@@ -1,8 +1,10 @@
+import '../../features/barber/money/presentation/widgets/money_pin_lock_on_exit.dart';
 import 'dart:typed_data';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets/app_top_bar.dart';
 import '../../env/env.dart';
 import '../../features/customer/auth/presentation/manager/customer_auth_cubit.dart';
 import '../../features/customer/auth/presentation/pages/customer_login_screen.dart';
@@ -34,12 +36,15 @@ import '../../features/customer/presentation/pages/customer_shell.dart';
 import '../../features/customer/profile/presentation/manager/customer_profile_cubit.dart';
 import '../../features/customer/shops/presentation/pages/customer_shop_detail_screen.dart';
 import '../../features/customer/shops/presentation/pages/browse_shops_screen.dart';
-import '../../features/customer/home_service/domain/entities/home_service_shop.dart';
+import '../../features/customer/home_service/domain/entities/home_service_request.dart';
 import '../../features/customer/home_service/presentation/manager/home_service_shops_cubit.dart';
 import '../../features/customer/home_service/presentation/manager/home_service_request_form_cubit.dart';
 import '../../features/customer/home_service/presentation/manager/home_service_requests_cubit.dart';
 import '../../features/customer/home_service/presentation/manager/home_service_request_detail_cubit.dart';
+import '../../features/customer/home_service/presentation/pages/home_service_date_time_screen.dart';
 import '../../features/customer/home_service/presentation/pages/home_service_shop_list_screen.dart';
+import '../../features/customer/home_service/presentation/pages/home_service_shop_list_args.dart';
+import '../../features/customer/home_service/presentation/pages/home_service_request_args.dart';
 import '../../features/customer/home_service/presentation/pages/home_service_request_screen.dart';
 import '../../features/customer/home_service/presentation/pages/home_service_requests_screen.dart';
 import '../../features/customer/home_service/presentation/pages/home_service_request_detail_screen.dart';
@@ -57,6 +62,7 @@ import '../../features/customer/booking/presentation/pages/my_bookings_screen.da
 import '../../features/customer/store/domain/entities/store_order.dart'
     as customer_store;
 import '../../features/customer/payment_methods/presentation/manager/payment_methods_cubit.dart';
+import '../../features/customer/store/presentation/manager/customer_store_feed_cubit.dart';
 import '../../features/customer/store/presentation/manager/store_cart_cubit.dart';
 import '../../features/customer/store/presentation/manager/store_orders_cubit.dart';
 import '../../features/customer/store/presentation/pages/my_store_orders_screen.dart';
@@ -64,6 +70,12 @@ import '../../features/customer/store/presentation/pages/store_cart_screen.dart'
 import '../../features/customer/store/presentation/pages/store_order_details_screen.dart'
     as customer_store;
 import '../../features/customer/store/presentation/pages/store_products_screen.dart';
+import '../../features/customer/store/presentation/pages/store_feed_product_details_args.dart'
+    as customer_feed;
+import '../../features/customer/store/presentation/pages/store_feed_product_details_screen.dart'
+    as customer_feed;
+import '../../features/customer/store/presentation/pages/store_product_details_args.dart';
+import '../../features/customer/store/presentation/pages/store_product_details_screen.dart';
 import '../../features/customer/favorites/presentation/manager/favorites_cubit.dart';
 import '../../features/customer/favorites/presentation/manager/invite_preview_cubit.dart';
 import '../../features/customer/favorites/presentation/pages/enter_invite_code_screen.dart';
@@ -87,6 +99,7 @@ import '../../features/customer/ratings/presentation/manager/customer_ratings_cu
 import '../../features/customer/ratings/presentation/pages/customer_ratings_screen.dart';
 import '../../features/barber/auth/presentation/manager/barber_auth_cubit.dart';
 import '../../features/barber/auth/presentation/pages/barber_login_screen.dart';
+import '../../features/barber/auth/presentation/pages/barber_role_screen.dart';
 import '../../features/barber/bookings/domain/entities/booking.dart';
 import '../../features/barber/bookings/presentation/manager/bookings_cubit.dart';
 import '../../features/barber/bookings/presentation/pages/booking_detail_screen.dart';
@@ -101,6 +114,9 @@ import '../../features/barber/home_service/presentation/pages/home_service_hours
 import '../../features/barber/home_service_requests/presentation/manager/home_service_requests_cubit.dart' as barber_hsr;
 import '../../features/barber/home_service_requests/presentation/pages/home_service_requests_screen.dart' as barber_hsr;
 import '../../features/barber/home_service_requests/presentation/pages/home_service_request_detail_screen.dart' as barber_hsr;
+import '../../features/barber/home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
+import '../../features/barber/home_service_broadcast/presentation/pages/home_service_broadcast_screen.dart';
+import '../../features/barber/home_service_broadcast/presentation/pages/home_service_broadcast_detail_screen.dart';
 import '../../features/barber/drinks/presentation/manager/barber_drinks_cubit.dart';
 import '../../features/barber/discounts/domain/entities/barber_discount.dart';
 import '../../features/barber/discounts/presentation/manager/barber_discounts_cubit.dart';
@@ -124,7 +140,9 @@ import '../../features/barber/profile/presentation/pages/barber_app_settings_men
 import '../../features/barber/profile/presentation/pages/barber_support_menu_screen.dart';
 import '../../features/barber/services/presentation/manager/barber_services_cubit.dart';
 import '../../features/barber/services/presentation/manager/own_services_cubit.dart';
+import '../../features/barber/services/presentation/manager/shop_haircut_styles_cubit.dart';
 import '../../features/barber/services/presentation/pages/barber_services_screen.dart';
+import '../../features/barber/services/presentation/pages/haircut_style_pricing_screen.dart';
 import '../../features/barber/documents/presentation/manager/barber_documents_cubit.dart';
 import '../../features/barber/documents/presentation/helpers/document_view_args.dart'
     as barber_documents;
@@ -166,12 +184,16 @@ import '../../features/merchant/wallet/presentation/pages/wallet_request_attachm
 import '../../features/barber/store/domain/entities/store_merchant.dart';
 import '../../features/barber/store/domain/entities/store_order.dart';
 import '../../features/barber/store/presentation/manager/barber_store_cart_cubit.dart';
+import '../../features/barber/store/presentation/manager/barber_store_feed_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_orders_cubit.dart';
 import '../../features/barber/store/presentation/pages/barber_store_cart_screen.dart';
 import '../../features/barber/store/presentation/pages/store_home_screen.dart';
+import '../../features/barber/store/presentation/pages/barber_store_merchants_screen.dart';
 import '../../features/barber/store/presentation/pages/barber_store_order_details_screen.dart';
 import '../../features/barber/store/presentation/pages/barber_store_products_screen.dart';
+import '../../features/barber/store/presentation/pages/store_feed_product_details_args.dart';
+import '../../features/barber/store/presentation/pages/store_feed_product_details_screen.dart';
 import '../../features/barber/storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
 import '../../features/barber/storefront/delivery/presentation/manager/barber_storefront_delivery_cubit.dart';
 import '../../features/barber/storefront/orders/domain/entities/storefront_order.dart';
@@ -258,6 +280,8 @@ import '../../features/merchant/profile/presentation/pages/merchant_phones_scree
 import '../../features/merchant/profile/presentation/pages/edit_profile_screen.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
 import '../../features/user_type/presentation/pages/user_type_screen.dart';
+import '../analytics/analytics_route_observer.dart';
+import '../analytics/i_analytics_service.dart';
 import '../di/services_locator.dart';
 import 'route_observer.dart';
 import 'route_paths.dart';
@@ -296,6 +320,7 @@ final MyBookingsCubit _myBookingsCubit = sl<MyBookingsCubit>();
 final BookingDetailCubit _customerBookingDetailCubit = sl<BookingDetailCubit>();
 final StoreCartCubit _customerStoreCartCubit = sl<StoreCartCubit>();
 final StoreOrdersCubit _customerStoreOrdersCubit = sl<StoreOrdersCubit>();
+final CustomerStoreFeedCubit _customerStoreFeedCubit = sl<CustomerStoreFeedCubit>();
 final PaymentMethodsCubit _customerPaymentMethodsCubit =
     sl<PaymentMethodsCubit>();
 final FavoritesCubit _customerFavoritesCubit = sl<FavoritesCubit>();
@@ -311,6 +336,8 @@ final HomeServiceHoursCubit _homeServiceHoursCubit =
     sl<HomeServiceHoursCubit>();
 final barber_hsr.HomeServiceRequestsCubit _barberHomeServiceRequestsCubit =
     sl<barber_hsr.HomeServiceRequestsCubit>();
+final HomeServiceBroadcastCubit _homeServiceBroadcastCubit =
+    sl<HomeServiceBroadcastCubit>();
 final BarberDrinksCubit _barberDrinksCubit = sl<BarberDrinksCubit>();
 final BarberDiscountsCubit _barberDiscountsCubit = sl<BarberDiscountsCubit>();
 final BarberSponsorshipCubit _barberSponsorshipCubit =
@@ -319,9 +346,12 @@ final MerchantSponsorshipCubit _merchantSponsorshipCubit =
     sl<MerchantSponsorshipCubit>();
 final BarberServicesCubit _barberServicesCubit = sl<BarberServicesCubit>();
 final OwnServicesCubit _ownServicesCubit = sl<OwnServicesCubit>();
+final ShopHaircutStylesCubit _shopHaircutStylesCubit =
+    sl<ShopHaircutStylesCubit>();
 final BarberDocumentsCubit _barberDocumentsCubit = sl<BarberDocumentsCubit>();
 final BarberStoreMerchantsCubit _barberStoreMerchantsCubit =
     sl<BarberStoreMerchantsCubit>();
+final BarberStoreFeedCubit _barberStoreFeedCubit = sl<BarberStoreFeedCubit>();
 final BarberStoreCartCubit _barberStoreCartCubit = sl<BarberStoreCartCubit>();
 final BarberStoreOrdersCubit _barberStoreOrdersCubit =
     sl<BarberStoreOrdersCubit>();
@@ -375,7 +405,10 @@ final routes = GoRouter(
   initialLocation: Routes.splashScreen,
   navigatorKey: rootNavigatorKey,
   debugLogDiagnostics: isDevEnvironment(),
-  observers: [customGoRouterObserver],
+  observers: [
+    customGoRouterObserver,
+    AnalyticsRouteObserver(() => sl<IAnalyticsService>()),
+  ],
   routes: [
     GoRoute(
       path: Routes.splashScreen,
@@ -441,9 +474,7 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.customerSupportMenuScreen,
-      builder: (_, state) => CustomerSupportMenuScreen(
-        onLogout: state.extra as VoidCallback,
-      ),
+      builder: (_, __) => const CustomerSupportMenuScreen(),
     ),
     GoRoute(
       path: Routes.barberDeleteAccountScreen,
@@ -556,6 +587,8 @@ final routes = GoRouter(
         providers: [
           BlocProvider.value(value: _customerShopsCubit),
           BlocProvider.value(value: _customerStoreOrdersCubit),
+          BlocProvider.value(value: _customerStoreFeedCubit),
+          BlocProvider.value(value: _customerStoreCartCubit),
           BlocProvider.value(value: _customerFavoritesCubit),
           BlocProvider.value(value: _customerProfileCubit),
           BlocProvider.value(value: _customerNotificationsCubit),
@@ -579,18 +612,30 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.customerHomeServiceDateTimeScreen,
+      builder: (_, __) => const HomeServiceDateTimeScreen(),
+    ),
+    GoRoute(
       path: Routes.customerHomeServiceShopListScreen,
-      builder: (_, __) => BlocProvider.value(
+      builder: (_, state) => BlocProvider.value(
         value: _homeServiceShopsCubit,
-        child: const HomeServiceShopListScreen(),
+        child: HomeServiceShopListScreen(
+          args: state.extra as HomeServiceShopListArgs,
+        ),
       ),
     ),
     GoRoute(
       path: Routes.customerHomeServiceRequestScreen,
-      builder: (_, state) => BlocProvider.value(
-        value: _homeServiceRequestFormCubit,
-        child: HomeServiceRequestScreen(shop: state.extra as HomeServiceShop),
-      ),
+      builder: (_, state) {
+        final extra = state.extra;
+        return BlocProvider.value(
+          value: _homeServiceRequestFormCubit,
+          child: HomeServiceRequestScreen(
+            requestArgs: extra is HomeServiceRequestArgs ? extra : null,
+            retryRequest: extra is HomeServiceRequest ? extra : null,
+          ),
+        );
+      },
     ),
     GoRoute(
       path: Routes.customerHomeServiceRequestsScreen,
@@ -643,8 +688,11 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.customerBookingsScreen,
-      builder: (_, __) => BlocProvider.value(
-        value: _myBookingsCubit,
+      builder: (_, __) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _myBookingsCubit),
+          BlocProvider.value(value: _homeServiceRequestsCubit),
+        ],
         child: const MyBookingsScreen(),
       ),
     ),
@@ -662,6 +710,24 @@ final routes = GoRouter(
       builder: (_, state) => BlocProvider.value(
         value: _customerStoreCartCubit,
         child: StoreProductsScreen(shopId: state.extra as int),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreProductDetailsScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerStoreCartCubit,
+        child: StoreProductDetailsScreen(
+          args: state.extra as StoreProductDetailsArgs,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.customerStoreFeedProductDetailsScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _customerStoreCartCubit,
+        child: customer_feed.StoreFeedProductDetailsScreen(
+          args: state.extra as customer_feed.StoreFeedProductDetailsArgs,
+        ),
       ),
     ),
     GoRoute(
@@ -716,6 +782,10 @@ final routes = GoRouter(
       ),
     ),
     GoRoute(
+      path: Routes.barberRoleScreen,
+      builder: (_, __) => const BarberRoleScreen(),
+    ),
+    GoRoute(
       path: Routes.barberLoginScreen,
       builder: (_, __) => BlocProvider.value(
         value: _barberAuthCubit,
@@ -730,6 +800,7 @@ final routes = GoRouter(
           BlocProvider.value(value: _barberDocumentsCubit),
           BlocProvider.value(value: _barberServicesCubit),
           BlocProvider.value(value: _ownServicesCubit),
+          BlocProvider.value(value: _shopHaircutStylesCubit),
           BlocProvider.value(value: _barberStoreMerchantsCubit),
           BlocProvider.value(value: _barberStoreCartCubit),
           BlocProvider.value(value: _barberNotificationsCubit),
@@ -740,6 +811,7 @@ final routes = GoRouter(
           BlocProvider.value(value: _barberStorefrontOrdersCubit),
           BlocProvider.value(value: _homeServiceSettingsCubit),
           BlocProvider.value(value: _barberHomeServiceRequestsCubit),
+          BlocProvider.value(value: _homeServiceBroadcastCubit),
           BlocProvider.value(value: _earningsCubit),
           BlocProvider.value(value: _barberSubscriptionCubit),
           BlocProvider.value(value: _moneyPinCubit),
@@ -785,6 +857,27 @@ final routes = GoRouter(
         child: barber_hsr.HomeServiceRequestDetailScreen(
           requestId: state.extra as int,
         ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberHomeServiceBroadcastScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _homeServiceBroadcastCubit..loadBroadcasts(),
+        child: const HomeServiceBroadcastScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberHomeServiceBroadcastDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _homeServiceBroadcastCubit,
+        child: HomeServiceBroadcastDetailScreen(candidateId: state.extra as int),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberHomeServiceBroadcastRequestDetailScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _homeServiceBroadcastCubit,
+        child: HomeServiceBroadcastDetailScreen(requestId: state.extra as int),
       ),
     ),
     GoRoute(
@@ -890,8 +983,16 @@ final routes = GoRouter(
         providers: [
           BlocProvider.value(value: _barberServicesCubit),
           BlocProvider.value(value: _ownServicesCubit),
+          BlocProvider.value(value: _barberProfileCubit),
         ],
         child: const BarberServicesScreen(),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberHaircutStylePricingScreen,
+      builder: (_, __) => BlocProvider.value(
+        value: _shopHaircutStylesCubit,
+        child: const HaircutStylePricingScreen(),
       ),
     ),
     GoRoute(
@@ -908,13 +1009,38 @@ final routes = GoRouter(
       path: Routes.barberStoreMerchantsScreen,
       builder: (_, state) => MultiBlocProvider(
         providers: [
+          BlocProvider.value(value: _barberStoreFeedCubit..load()),
           BlocProvider.value(
             value: _barberStoreMerchantsCubit..loadMerchants(),
           ),
           BlocProvider.value(value: _barberStoreCartCubit),
-          BlocProvider.value(value: _barberStoreOrdersCubit..loadOrders()),
+          BlocProvider.value(value: _barberStoreOrdersCubit),
         ],
         child: StoreHomeScreen(initialTabIndex: state.extra as int? ?? 0),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberStoreMerchantsBrowseScreen,
+      builder: (_, __) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: _barberStoreMerchantsCubit..loadMerchants(),
+          ),
+          BlocProvider.value(value: _barberStoreCartCubit),
+        ],
+        child: Scaffold(
+          appBar: AppTopBar(title: S().storeBrowseMerchantsCta),
+          body: const BarberStoreMerchantsScreen(),
+        ),
+      ),
+    ),
+    GoRoute(
+      path: Routes.barberStoreFeedProductDetailsScreen,
+      builder: (_, state) => BlocProvider.value(
+        value: _barberStoreCartCubit,
+        child: StoreFeedProductDetailsScreen(
+          args: state.extra as StoreFeedProductDetailsArgs,
+        ),
       ),
     ),
     GoRoute(
@@ -951,7 +1077,10 @@ final routes = GoRouter(
       path: Routes.barberWalletScreen,
       builder: (_, __) => BlocProvider.value(
         value: _barberWalletCubit..loadWallet(),
-        child: const BarberWalletScreen(),
+        child: MoneyPinLockOnExit(
+          pinCubit: _moneyPinCubit,
+          child: const BarberWalletScreen(),
+        ),
       ),
     ),
     GoRoute(
@@ -1011,7 +1140,10 @@ final routes = GoRouter(
       path: Routes.barberMoneyHomeScreen,
       builder: (_, __) => BlocProvider(
         create: (_) => sl<MoneyHomeCubit>()..load(),
-        child: const MoneyHomeScreen(),
+        child: MoneyPinLockOnExit(
+          pinCubit: _moneyPinCubit,
+          child: const MoneyHomeScreen(),
+        ),
       ),
     ),
     GoRoute(
@@ -1165,7 +1297,10 @@ final routes = GoRouter(
       path: Routes.barberEarningsScreen,
       builder: (_, __) => BlocProvider.value(
         value: _earningsCubit..loadEarnings(),
-        child: const EarningsScreen(),
+        child: MoneyPinLockOnExit(
+          pinCubit: _moneyPinCubit,
+          child: const EarningsScreen(),
+        ),
       ),
     ),
     GoRoute(
@@ -1174,6 +1309,7 @@ final routes = GoRouter(
         providers: [
           BlocProvider.value(value: _bookingsCubit),
           BlocProvider.value(value: _barberServicesCubit),
+          BlocProvider.value(value: _barberProfileCubit),
         ],
         child: BookingDetailScreen(booking: state.extra as Booking),
       ),
@@ -1470,6 +1606,8 @@ Future<void> _handleLogout() async {
 }
 
 Future<void> _handleBarberLogout() async {
+  _moneyPinCubit.lock();
+  _barberProfileCubit.reset();
   await _barberAuthCubit.logout();
   rootNavigatorKey.currentContext?.go(Routes.barberLoginScreen);
 }

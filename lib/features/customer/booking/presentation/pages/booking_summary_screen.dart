@@ -16,6 +16,7 @@ import '../manager/booking_flow_state.dart';
 import '../widgets/booking_addons_picker_field.dart';
 import '../widgets/booking_drinks_picker_field.dart';
 import '../widgets/booking_payment_methods_row.dart';
+import '../widgets/same_day_booking_warning.dart';
 import '../widgets/booking_summary_card.dart';
 
 class BookingSummaryScreen extends StatefulWidget {
@@ -34,29 +35,32 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
     super.dispose();
   }
 
-  Future<void> _confirmAndSubmit(BuildContext context, BookingFlowCubit cubit) async {
+  Future<void> _confirmAndSubmit(
+    BuildContext context,
+    BookingFlowCubit cubit,
+  ) async {
     final hasSameDayBooking = await cubit.hasSameDayBooking();
-    if (hasSameDayBooking && context.mounted) {
-      final proceed = await showConfirmDialog(
-        context,
-        title: S().sameDayBookingWarningTitle,
-        message: S().sameDayBookingWarningMessage,
-        confirmLabel: S().confirmBooking,
-        icon: Icons.warning_amber_rounded,
-        isDestructive: false,
-      );
-      if (!proceed) return;
-    }
-
     if (!context.mounted) return;
 
     final confirmed = await showConfirmDialog(
       context,
       title: S().confirmBooking,
       message: S().confirmBookingMessage,
-      confirmLabel: S().confirmBooking,
+      confirmLabel: hasSameDayBooking
+          ? S().sameDayBookingConfirmLabel
+          : S().confirmBooking,
       icon: Icons.event_available_rounded,
       isDestructive: false,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (hasSameDayBooking) ...[
+            SameDayBookingWarning(date: cubit.state.date ?? ''),
+            SizedBox(height: 10.h),
+          ],
+          BookingSummaryCard(state: cubit.state),
+        ],
+      ),
     );
 
     if (!confirmed) return;
@@ -80,7 +84,8 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
               ),
             );
           }
-          if (state.status == BookingFlowStatus.failure && state.errorMessage != null) {
+          if (state.status == BookingFlowStatus.failure &&
+              state.errorMessage != null) {
             showError(state.errorMessage!);
           }
         },

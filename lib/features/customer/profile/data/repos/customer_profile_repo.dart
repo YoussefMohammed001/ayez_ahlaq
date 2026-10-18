@@ -16,8 +16,9 @@ class CustomerProfileRepo implements ICustomerProfileRepo {
   Future<Either<Failure, CustomerProfile>> getProfile() async {
     final result = await _api.getProfile();
     return result.map(
-      (response) =>
-          CustomerProfileModel.fromJson(response['data'] as Map<String, dynamic>),
+      (response) => CustomerProfileModel.fromJson(
+        response['data'] as Map<String, dynamic>,
+      ),
     );
   }
 

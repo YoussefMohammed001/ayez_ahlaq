@@ -58,10 +58,16 @@ class FirstRunEmptyState extends StatelessWidget {
             if (ctaChild != null) ...[24.hSpace, ctaChild!],
             if (ctaChild == null && ctaLabel != null && onCta != null) ...[
               24.hSpace,
-              AppButton(
-                text: ctaLabel!,
-                onPressed: onCta,
-                prefixIcon: Icon(Icons.add, color: cs.onPrimary, size: 20.r),
+              SizedBox(
+                width: double.infinity,
+                child: AppButton(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 20.w
+                  ),
+                  text: ctaLabel!,
+                  onPressed: onCta,
+                  prefixIcon: Icon(Icons.add, color: cs.onPrimary, size: 20.r),
+                ),
               ),
             ],
           ],

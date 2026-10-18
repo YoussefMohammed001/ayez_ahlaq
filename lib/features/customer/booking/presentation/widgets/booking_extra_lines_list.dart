@@ -31,7 +31,9 @@ class BookingExtraLinesList extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  line.isDrink ? Icons.local_cafe_outlined : Icons.shopping_bag_outlined,
+                  line.isDrink
+                      ? Icons.local_cafe_outlined
+                      : Icons.shopping_bag_outlined,
                   size: 14.r,
                   color: scheme.onSurfaceVariant,
                 ),
@@ -44,7 +46,12 @@ class BookingExtraLinesList extends StatelessWidget {
                     style: font12w400.copyWith(color: scheme.onSurface),
                   ),
                 ),
-                if (line.price != null)
+                if (line.lineTotal != null)
+                  Text(
+                    S().currencyEgp(line.lineTotal!),
+                    style: font12w400.copyWith(color: scheme.onSurfaceVariant),
+                  )
+                else if (line.price != null)
                   Text(
                     S().currencyEgp(line.price! * line.quantity),
                     style: font12w400.copyWith(color: scheme.onSurfaceVariant),

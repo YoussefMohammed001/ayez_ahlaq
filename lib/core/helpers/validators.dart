@@ -18,10 +18,6 @@ class Validators {
 
   static bool isNotValidPassword(String password) => !isValidPassword(password);
 
-  static bool isSaudiPhoneNumberValid(String phoneNumber) {
-    return RegExp(r'^05[0-9]{8}$').hasMatch(phoneNumber);
-  }
-
   static bool isValidSaudiID(String id) {
     if (!RegExp(r'^[12]\d{9}$').hasMatch(id)) return false;
     int sum = 0;
@@ -39,36 +35,25 @@ class Validators {
     return checkDigit == calculatedCheck;
   }
 
-  static String? validatePhoneNumber(String? value, {bool isRequired = true}) {
-    final s = S();
-
-    if (value == null || value.isEmpty) {
-      return isRequired ? s.phone_number_is_required : null;
-    }
-    final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
-
-    if (!RegExp(r'^\d+$').hasMatch(digitsOnly)) {
-      return s.phone_number_must_contain_only_digits;
-    }
-
-    if (digitsOnly.startsWith('00')) {
-      return s.phone_number_cannot_start_with_double_zero;
-    }
-
-    if (digitsOnly.startsWith('0')) {
-      return s.remove_leading_zero;
-    }
-    if (digitsOnly.length < 10 || digitsOnly.length > 15) {
-      return s.please_enter_a_valid_phone_number;
-    }
-
-    return null;
-  }
-
   static bool isEgyptianPhoneNumberValid(String phone) {
     final digitsOnly = phone.replaceAll(RegExp(r'[^\d]'), '');
 
-    return RegExp(r'^01[0-2,5][0-9]{8}$').hasMatch(digitsOnly);
+    return RegExp(r'^01[0125][0-9]{8}$').hasMatch(digitsOnly);
+  }
+
+  static String? validateEgyptianPhoneNumber(
+    String? value, {
+    bool isRequired = true,
+  }) {
+    if (value == null || value.trim().isEmpty) {
+      return isRequired ? S().phone_number_is_required : null;
+    }
+
+    if (!isEgyptianPhoneNumberValid(value.trim())) {
+      return S().please_enter_a_valid_phone_number;
+    }
+
+    return null;
   }
 
   static String? validateName(

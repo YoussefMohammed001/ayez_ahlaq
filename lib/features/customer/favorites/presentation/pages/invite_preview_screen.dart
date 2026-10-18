@@ -46,7 +46,11 @@ class _InvitePreviewScreenState extends State<InvitePreviewScreen> {
 
     if (cubit.state.status == InvitePreviewStatus.added) {
       showSuccess(S().addedToFavorites);
-      context.go(Routes.customerFavoritesScreen);
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go(Routes.customerShell);
+      }
     } else if (cubit.state.errorMessage != null) {
       showError(cubit.state.errorMessage!);
     }

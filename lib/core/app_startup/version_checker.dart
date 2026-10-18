@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../constants/strings.dart';
 import '../crash_reporting/vso_crash_reporting_manager.dart';
 import '../helpers/safe_print.dart';
 import '../di/services_locator.dart';
@@ -63,9 +64,11 @@ class VersionChecker {
   }
 
   void _launchStore() {
+    if (Platform.isIOS && AppStrings.iosAppStoreId.isEmpty) return;
+
     final url = Platform.isAndroid
-        ? "https://play.google.com/store/apps/details?id=com.cic.tmg.ksa.eservice"
-        : "https://apps.apple.com/eg/app/tmgsa/id6748066824";
+        ? AppStrings.androidStoreUrl
+        : AppStrings.iosStoreUrl;
     launchUrl(Uri.parse(url));
   }
 }

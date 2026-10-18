@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_password_field.dart';
@@ -121,9 +122,7 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
           controller: _phoneController,
           hint: '01001234567',
           isNumber: true,
-          validator: (v) => (v == null || v.trim().length < 10)
-              ? S().please_enter_a_valid_phone_number
-              : null,
+          validator: Validators.validateEgyptianPhoneNumber,
         ),
       ),
       LabeledField(

@@ -6,6 +6,7 @@ class BookingAddonModel extends BookingAddon {
     required super.quantity,
     super.name,
     super.price,
+    super.unitDiscount,
     super.lineTotal,
     super.drinkId,
   });
@@ -16,6 +17,7 @@ class BookingAddonModel extends BookingAddon {
       quantity: (json['quantity'] as num?)?.toInt() ?? 0,
       name: json['productName'] as String? ?? json['name'] as String?,
       price: (json['unitPrice'] as num?)?.toInt() ?? (json['price'] as num?)?.toInt(),
+      unitDiscount: (json['unitDiscount'] as num?)?.toInt(),
       lineTotal: (json['lineTotal'] as num?)?.toInt(),
       drinkId: (json['drinkId'] as num?)?.toInt(),
     );

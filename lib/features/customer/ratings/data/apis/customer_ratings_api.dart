@@ -11,4 +11,26 @@ class CustomerRatingsApi {
   Future<Either<Failure, dynamic>> getRatings() {
     return _networkService.getData(endPoint: EndPoints.customerRating);
   }
+
+  Future<Either<Failure, dynamic>> getPendingVisitRating() {
+    return _networkService.getData(endPoint: EndPoints.customerRatingPending);
+  }
+
+  Future<Either<Failure, dynamic>> submitOrderRating(
+    Map<String, dynamic> body,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRatingOrder,
+      data: body,
+    );
+  }
+
+  Future<Either<Failure, dynamic>> submitVisitRating(
+    Map<String, dynamic> body,
+  ) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRatingVisit,
+      data: body,
+    );
+  }
 }

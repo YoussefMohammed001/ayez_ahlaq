@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/app_card.dart';
-import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/widgets/badge_tone.dart';
 import '../../../../../core/widgets/info_row.dart';
 import '../../../../../core/widgets/status_badge.dart';
@@ -10,6 +9,8 @@ import '../../domain/entities/barber_profile.dart';
 import '../manager/barber_profile_cubit.dart';
 import '../manager/barber_profile_state.dart';
 import '../widgets/barber_profile_menu.dart';
+import '../widgets/team_member_profile_menu.dart';
+import '../widgets/barber_shop_photo_avatar.dart';
 import '../widgets/serves_clients_card.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -44,7 +45,10 @@ class BarberProfileScreen extends StatelessWidget {
                   const ServesClientsCard(),
                 ],
                 SizedBox(height: 18.h),
-                BarberProfileMenu(profile: state.profile, onLogout: onLogout),
+                if (state.profile?.isTeamMember ?? false)
+                  TeamMemberProfileMenu(profile: state.profile, onLogout: onLogout)
+                else
+                  BarberProfileMenu(profile: state.profile, onLogout: onLogout),
                 SizedBox(height: 24.h),
               ],
             );
@@ -59,9 +63,9 @@ class BarberProfileScreen extends StatelessWidget {
 
     return Column(
       children: [
-        AvatarCircle(
+        BarberShopPhotoAvatar(
           initials: name.isEmpty ? S().avatarFallback : name.substring(0, 1),
-          size: 84.r,
+          canEdit: profile?.owner ?? false,
         ),
         SizedBox(height: 10.h),
         Text(

@@ -20,11 +20,9 @@ class BookingDrinksPickerField extends StatelessWidget {
   });
 
   int _quantityFor(BuildContext context, int drinkId) {
-    final match = context
-        .read<BookingFlowCubit>()
-        .state
-        .drinks
-        .where((d) => d.drinkId == drinkId);
+    final match = context.read<BookingFlowCubit>().state.drinks.where(
+      (d) => d.drinkId == drinkId,
+    );
     return match.isEmpty ? 0 : match.first.quantity;
   }
 
@@ -39,7 +37,9 @@ class BookingDrinksPickerField extends StatelessWidget {
             quantity: drink.quantity,
             price: drink.price ?? 0,
             onRemove: () {
-              final shopDrink = shopDrinks.firstWhere((d) => d.id == drink.drinkId);
+              final shopDrink = shopDrinks.firstWhere(
+                (d) => d.id == drink.drinkId,
+              );
               onQuantityChanged(shopDrink, 0);
             },
           ),

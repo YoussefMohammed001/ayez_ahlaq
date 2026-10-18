@@ -28,7 +28,6 @@ class AuthNavigationService {
       return;
     }
 
-
     final mustChangePassword = sl<PreferencesStorage>().getBoolean(
       key: PreferencesKeys.userMustChangePassword,
     );
@@ -39,9 +38,6 @@ class AuthNavigationService {
     }
 
     if (!context.mounted) return;
-
-
-
 
     if (!context.mounted) return;
 

@@ -17,6 +17,16 @@ class CustomerNotificationTapRouter {
         }
         context.push(Routes.customerBookingsScreen);
         return;
+      case 'homeService':
+        if (referenceId != null) {
+          context.push(
+            Routes.customerHomeServiceRequestDetailScreen,
+            extra: referenceId,
+          );
+          return;
+        }
+        context.push(Routes.customerHomeServiceRequestsScreen);
+        return;
       case 'shop':
         if (referenceId != null) {
           context.push(Routes.customerShopDetailScreen, extra: referenceId);

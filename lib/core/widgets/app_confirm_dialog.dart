@@ -11,6 +11,7 @@ class AppConfirmDialog extends StatelessWidget {
   final String? cancelLabel;
   final IconData icon;
   final bool isDestructive;
+  final Widget? content;
 
   const AppConfirmDialog({
     super.key,
@@ -20,6 +21,7 @@ class AppConfirmDialog extends StatelessWidget {
     this.cancelLabel,
     this.icon = Icons.help_outline_rounded,
     this.isDestructive = true,
+    this.content,
   });
 
   @override
@@ -62,6 +64,10 @@ class AppConfirmDialog extends StatelessWidget {
                 height: 1.7,
               ),
             ),
+            if (content != null) ...[
+              SizedBox(height: 14.h),
+              Flexible(child: SingleChildScrollView(child: content)),
+            ],
             SizedBox(height: 22.h),
             Row(
               children: [

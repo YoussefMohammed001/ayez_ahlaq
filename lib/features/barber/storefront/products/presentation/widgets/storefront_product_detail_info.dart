@@ -11,8 +11,13 @@ import 'active_discount_label.dart';
 
 class StorefrontProductDetailInfo extends StatelessWidget {
   final StorefrontProduct product;
+  final VoidCallback? onEditStock;
 
-  const StorefrontProductDetailInfo({super.key, required this.product});
+  const StorefrontProductDetailInfo({
+    super.key,
+    required this.product,
+    this.onEditStock,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +63,13 @@ class StorefrontProductDetailInfo extends StatelessWidget {
             label: S().category,
             value: product.categoryName!,
           ),
-        InfoRow(
-          icon: Icons.inventory_2_outlined,
-          label: S().stockQuantity,
-          value: '${product.stock}',
+        GestureDetector(
+          onTap: onEditStock,
+          child: InfoRow(
+            icon: Icons.inventory_2_outlined,
+            label: S().stockQuantity,
+            value: '${product.stock}',
+          ),
         ),
         InfoRow(
           icon: Icons.shopping_basket_outlined,

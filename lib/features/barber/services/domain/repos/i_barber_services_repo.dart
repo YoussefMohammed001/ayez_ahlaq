@@ -3,6 +3,7 @@ import '../../../../../core/error/failure.dart';
 import '../entities/barber_service.dart';
 import '../entities/own_service.dart';
 import '../entities/service_catalog_item.dart';
+import '../entities/shop_haircut_style.dart';
 
 abstract class IBarberServicesRepo {
   Future<Either<Failure, List<ServiceCatalogItem>>> getCatalog();
@@ -23,4 +24,12 @@ abstract class IBarberServicesRepo {
   );
 
   Future<Either<Failure, Unit>> deleteOwnService(int id);
+
+  Future<Either<Failure, List<ShopHaircutStyle>>> getHaircutStyles();
+
+  Future<Either<Failure, ShopHaircutStyle>> updateHaircutStyle(
+    int id, {
+    required int priceDelta,
+    required bool active,
+  });
 }

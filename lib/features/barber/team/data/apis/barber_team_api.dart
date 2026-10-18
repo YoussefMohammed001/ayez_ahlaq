@@ -45,6 +45,16 @@ class BarberTeamApi {
     return _networkService.deleteData(endPoint: EndPoints.barberTeamPermanent(id));
   }
 
+  Future<Either<Failure, dynamic>> updatePermissions(
+    int id,
+    Map<String, dynamic> body,
+  ) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberTeamPermissions(id),
+      data: body,
+    );
+  }
+
   Future<Either<Failure, dynamic>> activateMember(int id) {
     return _networkService.putData(
       endPoint: EndPoints.barberTeamActivate(id),

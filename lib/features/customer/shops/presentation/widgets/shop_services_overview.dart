@@ -38,7 +38,11 @@ class ShopServicesOverview extends StatelessWidget {
               ),
               child: Text(
                 '${service.name} · ${service.price}',
-                style: TextStyle(fontSize: 11.5.sp, fontWeight: FontWeight.w600, color: scheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 11.5.sp,
+                  fontWeight: FontWeight.w600,
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
             ),
           )

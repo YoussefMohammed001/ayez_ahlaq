@@ -59,10 +59,11 @@ class HomeServiceRequestActions extends StatelessWidget {
               context.read<HomeServiceRequestsCubit>().accept(request.id),
         ),
         SizedBox(height: 10.h),
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: context.semantic.warning,
+            foregroundColor: context.colorScheme.surfaceContainerLowest,
             minimumSize: Size.fromHeight(52.h),
-            side: BorderSide(color: context.colorScheme.outline),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14.r),
             ),
@@ -71,7 +72,6 @@ class HomeServiceRequestActions extends StatelessWidget {
           child: Text(
             S().rejectHomeServiceRequest,
             style: TextStyle(
-              color: context.semantic.warning,
               fontWeight: FontWeight.w700,
               fontSize: 15.sp,
             ),

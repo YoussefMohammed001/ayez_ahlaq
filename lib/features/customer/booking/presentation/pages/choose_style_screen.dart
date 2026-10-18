@@ -13,12 +13,15 @@ import '../manager/booking_flow_cubit.dart';
 class ChooseStyleScreen extends StatelessWidget {
   const ChooseStyleScreen({super.key});
 
-  void _proceed(BuildContext context) => context.push(Routes.customerChooseBarberScreen);
+  void _proceed(BuildContext context) =>
+      context.push(Routes.customerChooseBarberScreen);
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<BookingFlowCubit>();
-    final styles = cubit.state.shopDetail!.haircutStyles;
+    final styles = cubit.state.shopDetail!.haircutStyles
+        .where((style) => style.appliesTo(cubit.state.serviceTypeId))
+        .toList();
 
     return Scaffold(
       appBar: AppTopBar(title: S().chooseStyleTitle),
@@ -52,7 +55,9 @@ class ChooseStyleScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          style.priceDelta > 0 ? '+${style.priceDelta}' : '${style.priceDelta}',
+                          style.priceDelta > 0
+                              ? '+${style.priceDelta}'
+                              : '${style.priceDelta}',
                           style: TextStyle(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w700,

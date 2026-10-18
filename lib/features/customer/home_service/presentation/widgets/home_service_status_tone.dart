@@ -9,5 +9,6 @@ extension HomeServiceStatusTone on HomeServiceRequestStatus {
     HomeServiceRequestStatus.done => BadgeTone.muted,
     HomeServiceRequestStatus.rejected => BadgeTone.danger,
     HomeServiceRequestStatus.cancelled => BadgeTone.danger,
+    HomeServiceRequestStatus.expired => BadgeTone.muted,
   };
 }

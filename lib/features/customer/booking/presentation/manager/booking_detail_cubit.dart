@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 import '../../domain/use_cases/cancel_booking_use_case.dart';
 import '../../domain/use_cases/get_booking_use_case.dart';
 import '../../domain/use_cases/rate_booking_use_case.dart';
@@ -13,14 +13,25 @@ class BookingDetailCubit extends Cubit<BookingDetailState> {
   BookingDetailCubit(this._getBooking, this._cancelBooking, this._rateBooking)
     : super(const BookingDetailState());
 
-  Future<void> loadBooking(int id) async {
-    emit(state.copyWith(status: BookingDetailStatus.loading));
+  int? _requestedBookingId;
+
+  Future<void> loadBooking(int id, {bool isRefresh = false}) async {
+    _requestedBookingId = id;
+    emit(
+      isRefresh
+          ? state.copyWith(status: BookingDetailStatus.loading)
+          : const BookingDetailState(status: BookingDetailStatus.loading),
+    );
 
     final result = await _getBooking(id);
+    if (_requestedBookingId != id) return;
 
     result.fold(
       (failure) => emit(
-        state.copyWith(status: BookingDetailStatus.failure, errorMessage: failure.message),
+        state.copyWith(
+          status: BookingDetailStatus.failure,
+          errorMessage: failure.message,
+        ),
       ),
       (booking) => emit(
         state.copyWith(status: BookingDetailStatus.success, booking: booking),
@@ -35,11 +46,19 @@ class BookingDetailCubit extends Cubit<BookingDetailState> {
 
     return result.fold(
       (failure) {
-        emit(state.copyWith(isCancelling: false, errorMessage: failure.message));
+        emit(
+          state.copyWith(isCancelling: false, errorMessage: failure.message),
+        );
         return false;
       },
       (booking) {
-        emit(state.copyWith(isCancelling: false, booking: booking, errorMessage: null));
+        emit(
+          state.copyWith(
+            isCancelling: false,
+            booking: booking,
+            errorMessage: null,
+          ),
+        );
         return true;
       },
     );

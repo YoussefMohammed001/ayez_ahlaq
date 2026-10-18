@@ -1,4 +1,10 @@
 enum PreferencesKeys {
+  reviewPromptCount,
+  lastReviewPromptAt,
+  governorate,
+  positiveActionCount,
+  lastLatitude,
+  lastLongitude,
   currentLanguage,
   fcmToken,
   uuid,
@@ -26,4 +32,5 @@ enum PreferencesKeys {
   userAccountType,
   adminApproved,
   missingDocumentsCount,
+  barberAccountKind,
 }

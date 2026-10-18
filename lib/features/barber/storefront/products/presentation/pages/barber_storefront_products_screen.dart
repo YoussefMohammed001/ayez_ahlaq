@@ -84,17 +84,17 @@ class BarberStorefrontProductsScreen extends StatelessWidget {
         if (state.status == StorefrontProductsStatus.failure &&
             state.products.isEmpty) {
           return RefreshableStateView(
-            onRefresh: cubit.loadProducts,
+            onRefresh: () => cubit.loadProducts(force: true),
             child: AppErrorState(
               message: state.errorMessage,
-              onRetry: cubit.loadProducts,
+              onRetry: () => cubit.loadProducts(force: true),
             ),
           );
         }
 
         if (state.products.isEmpty) {
           return RefreshableStateView(
-            onRefresh: cubit.loadProducts,
+            onRefresh: () => cubit.loadProducts(force: true),
             child: AppEmptyState(
               icon: Icons.inventory_2_outlined,
               title: S().noProductsYet,
@@ -107,7 +107,7 @@ class BarberStorefrontProductsScreen extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: cubit.loadProducts,
+          onRefresh: () => cubit.loadProducts(force: true),
           child: _buildList(context, state.visibleProducts),
         );
       },

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/widgets/app_password_field.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/widgets/location_picker_field.dart';
 import '../../data/requests/barber_register_request.dart';
 
 class BarberRegisterForm extends StatefulWidget {
@@ -29,6 +32,8 @@ class _BarberRegisterFormState extends State<BarberRegisterForm> {
   final _shopNameController = TextEditingController();
   final _areaController = TextEditingController();
   final _addressController = TextEditingController();
+  double? _latitude;
+  double? _longitude;
 
   @override
   void dispose() {
@@ -43,6 +48,10 @@ class _BarberRegisterFormState extends State<BarberRegisterForm> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
+    if (_latitude == null || _longitude == null) {
+      showError(S().locationRequiredFromMap);
+      return;
+    }
 
     widget.onSubmit(
       BarberRegisterRequest(
@@ -52,6 +61,8 @@ class _BarberRegisterFormState extends State<BarberRegisterForm> {
         shopName: _shopNameController.text.trim(),
         area: _areaController.text.trim(),
         address: _addressController.text.trim(),
+        latitude: _latitude,
+        longitude: _longitude,
       ),
     );
   }
@@ -78,9 +89,7 @@ class _BarberRegisterFormState extends State<BarberRegisterForm> {
               controller: _phoneController,
               hint: '01001234567',
               isNumber: true,
-              validator: (v) => (v == null || v.trim().length < 10)
-                  ? S().please_enter_a_valid_phone_number
-                  : null,
+              validator: Validators.validateEgyptianPhoneNumber,
             ),
           ),
           LabeledField(
@@ -112,10 +121,15 @@ class _BarberRegisterFormState extends State<BarberRegisterForm> {
           ),
           LabeledField(
             label: S().address,
-            child: AppTextField(
-              controller: _addressController,
-              hint: S().addressHint,
-              validator: (v) =>
+            child: LocationPickerField(
+              addressController: _addressController,
+              latitude: _latitude,
+              longitude: _longitude,
+              onLocationPicked: (lat, lng) => setState(() {
+                _latitude = lat;
+                _longitude = lng;
+              }),
+              addressValidator: (v) =>
                   (v == null || v.trim().isEmpty) ? S().addressRequired : null,
             ),
           ),

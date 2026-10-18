@@ -15,7 +15,9 @@ class BarberSubscriptionCubit extends Cubit<BarberSubscriptionState> {
     this._subscribe,
   ) : super(const BarberSubscriptionState());
 
-  Future<void> load() async {
+  Future<void> load({bool force = false}) async {
+    if (!force && state.status == BarberSubscriptionStatus.success) return;
+
     emit(state.copyWith(status: BarberSubscriptionStatus.loading));
 
     final subscriptionResult = await _getSubscription();

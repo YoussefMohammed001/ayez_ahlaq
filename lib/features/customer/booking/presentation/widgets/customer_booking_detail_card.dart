@@ -32,7 +32,10 @@ class CustomerBookingDetailCard extends StatelessWidget {
                   color: context.colorScheme.onSurface,
                 ),
               ),
-              StatusBadge(label: booking.status.label, tone: booking.status.tone),
+              StatusBadge(
+                label: booking.status.label,
+                tone: booking.status.tone,
+              ),
             ],
           ),
           SizedBox(height: 12.h),
@@ -47,6 +50,17 @@ class CustomerBookingDetailCard extends StatelessWidget {
             '${booking.bookingDate} · ${AppDateTime.formatHour(booking.slotTime)}',
           ),
           _row(context, S().paymentMethodLabel, booking.paymentMethod),
+          _row(
+            context,
+            S().bookingBasePriceLabel,
+            S().currencyEgp(booking.basePrice),
+          ),
+          if (booking.styleDelta != 0)
+            _row(
+              context,
+              S().bookingStyleDeltaLabel,
+              S().currencyEgp(booking.styleDelta),
+            ),
           BookingExtrasSummary(addons: booking.addons),
           _row(context, S().orderTotal, S().currencyEgp(booking.totalPrice)),
           if (booking.queuePosition != null)
@@ -69,7 +83,10 @@ class CustomerBookingDetailCard extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: context.colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
           Expanded(

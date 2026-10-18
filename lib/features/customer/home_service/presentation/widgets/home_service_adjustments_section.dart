@@ -20,7 +20,10 @@ class HomeServiceAdjustmentsSection extends StatelessWidget {
         children: [
           Text(
             S().billAdjustments,
-            style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: context.colorScheme.onSurfaceVariant,
+            ),
           ),
           SizedBox(height: 4.h),
           for (final adjustment in adjustments) _buildRow(context, adjustment),
@@ -41,7 +44,10 @@ class HomeServiceAdjustmentsSection extends StatelessWidget {
               adjustment.label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 12.5.sp, color: context.colorScheme.onSurface),
+              style: TextStyle(
+                fontSize: 12.5.sp,
+                color: context.colorScheme.onSurface,
+              ),
             ),
           ),
           Text(
@@ -50,7 +56,9 @@ class HomeServiceAdjustmentsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 12.5.sp,
               fontWeight: FontWeight.w600,
-              color: isDiscount ? context.semantic.success : context.colorScheme.onSurface,
+              color: isDiscount
+                  ? context.semantic.success
+                  : context.colorScheme.onSurface,
             ),
           ),
         ],

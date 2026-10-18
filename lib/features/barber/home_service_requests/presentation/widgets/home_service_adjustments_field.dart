@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../bookings/presentation/widgets/adjustment_type_toggle.dart';
 import '../../domain/entities/home_service_request_adjustment.dart';
 import 'home_service_adjustment_row.dart';
 
@@ -31,6 +31,9 @@ class _HomeServiceAdjustmentsFieldState
   void initState() {
     super.initState();
     _rows = widget.adjustments.map(HomeServiceAdjustmentRow.fromEntity).toList();
+    for (final row in _rows) {
+      _listen(row);
+    }
   }
 
   @override
@@ -41,10 +44,17 @@ class _HomeServiceAdjustmentsFieldState
     super.dispose();
   }
 
+  void _listen(HomeServiceAdjustmentRow row) {
+    row.labelController.addListener(_emit);
+    row.amountController.addListener(_emit);
+  }
+
   void _emit() => widget.onChanged(_rows.map((r) => r.toEntity()).toList());
 
   void _add() {
-    setState(() => _rows = [..._rows, HomeServiceAdjustmentRow.empty()]);
+    final row = HomeServiceAdjustmentRow.empty();
+    _listen(row);
+    setState(() => _rows = [..._rows, row]);
     _emit();
   }
 
@@ -60,51 +70,67 @@ class _HomeServiceAdjustmentsFieldState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var i = 0; i < _rows.length; i++)
-          Padding(
-            padding: EdgeInsets.only(bottom: 8.h),
-            child: Row(
+        for (var i = 0; i < _rows.length; i++) ...[
+          Container(
+            padding: EdgeInsets.all(12.r),
+            decoration: BoxDecoration(
+              border: Border.all(color: context.colorScheme.outline),
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 3,
-                  child: AppTextField(
-                    controller: _rows[i].labelController,
-                    hint: S().adjustmentLabelHint,
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[i].labelController,
+                        hint: S().adjustmentLabelHint,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => _remove(i),
+                      icon: Icon(
+                        Icons.close_rounded,
+                        size: 18.r,
+                        color: context.semantic.warning,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _rows[i].amountController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      signed: true,
+                SizedBox(height: 10.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: _rows[i].isDiscountNotifier,
+                        builder: (context, isDiscount, _) {
+                          return AdjustmentTypeToggle(
+                            isDiscount: isDiscount,
+                            onChanged: (value) {
+                              _rows[i].isDiscountNotifier.value = value;
+                              _emit();
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
-                    ],
-                    style: TextStyle(
-                      color: context.colorScheme.onSurface,
-                      fontSize: 13.5.sp,
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[i].amountController,
+                        hint: S().adjustmentAmountHint,
+                        isNumber: true,
+                      ),
                     ),
-                    decoration: InputDecoration(
-                      hintText: S().adjustmentAmountHint,
-                    ),
-                    onTapOutside: (_) =>
-                        FocusManager.instance.primaryFocus?.unfocus(),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => _remove(i),
-                  icon: Icon(
-                    Icons.close_rounded,
-                    size: 18.r,
-                    color: context.semantic.warning,
-                  ),
+                  ],
                 ),
               ],
             ),
           ),
+          if (i != _rows.length - 1) SizedBox(height: 10.h),
+        ],
+        SizedBox(height: 12.h),
         TextButton.icon(
           onPressed: _add,
           icon: Icon(Icons.add_rounded, size: 18.r),

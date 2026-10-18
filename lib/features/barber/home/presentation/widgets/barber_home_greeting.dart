@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/theme/styles.dart';
-import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../shared/widgets/notifications_icon_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
+import '../../../profile/presentation/widgets/barber_shop_photo_avatar.dart';
 
 class BarberHomeGreeting extends StatelessWidget {
   final String shopName;
@@ -55,9 +55,12 @@ class BarberHomeGreeting extends StatelessWidget {
         SizedBox(width: 14.w),
         GestureDetector(
           onTap: onAvatarTap,
-          child: AvatarCircle(
-            initials: shopName.isEmpty ? S().avatarFallback : shopName.substring(0, 1),
-            size: 44.r,
+          child: BarberShopPhotoAvatar(
+            initials: shopName.isEmpty
+                ? S().avatarFallback
+                : shopName.substring(0, 1),
+            canEdit: false,
+            size: 44,
           ),
         ),
       ],

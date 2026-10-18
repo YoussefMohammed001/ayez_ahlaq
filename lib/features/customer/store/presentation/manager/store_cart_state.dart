@@ -3,6 +3,7 @@ import '../../domain/entities/shop_storefront.dart';
 import '../../domain/entities/store_cart.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../../domain/entities/store_order.dart';
+import '../../domain/entities/store_product.dart';
 
 enum StoreCartStatus { initial, loading, success, failure }
 
@@ -21,6 +22,8 @@ class StoreCartState extends Equatable {
   final StoreOrder? placedOrder;
   final String? placedOrderMessage;
   final String? errorMessage;
+  final String search;
+  final int? categoryId;
 
   const StoreCartState({
     this.status = StoreCartStatus.initial,
@@ -37,9 +40,22 @@ class StoreCartState extends Equatable {
     this.placedOrder,
     this.placedOrderMessage,
     this.errorMessage,
+    this.search = '',
+    this.categoryId,
   });
 
   bool get isEmpty => cart.isEmpty;
+
+  List<StoreProduct> get filteredProducts {
+    final products = storefront?.products ?? const [];
+    return products.where((product) {
+      final matchesCategory = categoryId == null || product.categoryId == categoryId;
+      final matchesSearch = search.isEmpty ||
+          product.name.toLowerCase().contains(search.toLowerCase()) ||
+          (product.brand ?? '').toLowerCase().contains(search.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }).toList();
+  }
 
   bool get isDelivery => fulfillmentType == StoreFulfillmentType.delivery;
 
@@ -73,6 +89,9 @@ class StoreCartState extends Equatable {
     StoreOrder? placedOrder,
     String? placedOrderMessage,
     String? errorMessage,
+    String? search,
+    int? categoryId,
+    bool clearCategoryId = false,
   }) {
     return StoreCartState(
       status: status ?? this.status,
@@ -91,6 +110,8 @@ class StoreCartState extends Equatable {
       placedOrder: placedOrder ?? this.placedOrder,
       placedOrderMessage: placedOrderMessage ?? this.placedOrderMessage,
       errorMessage: errorMessage,
+      search: search ?? this.search,
+      categoryId: clearCategoryId ? null : (categoryId ?? this.categoryId),
     );
   }
 
@@ -110,5 +131,7 @@ class StoreCartState extends Equatable {
     placedOrder,
     placedOrderMessage,
     errorMessage,
+    search,
+    categoryId,
   ];
 }

@@ -14,6 +14,7 @@ class AuthorizedNetworkImage extends StatefulWidget {
   final double height;
   final BoxFit fit;
   final WidgetBuilder placeholderBuilder;
+  final WidgetBuilder? loadingBuilder;
 
   const AuthorizedNetworkImage({
     super.key,
@@ -21,6 +22,7 @@ class AuthorizedNetworkImage extends StatefulWidget {
     required this.width,
     required this.height,
     required this.placeholderBuilder,
+    this.loadingBuilder,
     this.fit = BoxFit.cover,
   });
 
@@ -49,6 +51,10 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
       builder: (context, snapshot) {
         final token = snapshot.data;
 
+        if (snapshot.connectionState != ConnectionState.done) {
+          return (widget.loadingBuilder ?? widget.placeholderBuilder)(context);
+        }
+
         if (token == null || token.isEmpty) {
           return widget.placeholderBuilder(context);
         }
@@ -62,7 +68,8 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
           width: widget.width,
           height: widget.height,
           fit: widget.fit,
-          placeholder: (context, _) => widget.placeholderBuilder(context),
+          placeholder: (context, _) =>
+              (widget.loadingBuilder ?? widget.placeholderBuilder)(context),
           errorWidget: (context, _, __) => widget.placeholderBuilder(context),
         );
       },

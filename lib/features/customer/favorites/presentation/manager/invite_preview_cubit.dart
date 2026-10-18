@@ -13,7 +13,7 @@ class InvitePreviewCubit extends Cubit<InvitePreviewState> {
     : super(const InvitePreviewState());
 
   Future<void> loadPreview(String code) async {
-    emit(state.copyWith(status: InvitePreviewStatus.loading));
+    emit(const InvitePreviewState(status: InvitePreviewStatus.loading));
 
     final result = await _getPreview(code);
 

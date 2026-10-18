@@ -17,6 +17,7 @@ class BookingExtrasSummary extends StatelessWidget {
             name: addon.name,
             quantity: addon.quantity,
             price: addon.price,
+            lineTotal: addon.lineTotal,
             isDrink: addon.isDrink,
           ),
       ],

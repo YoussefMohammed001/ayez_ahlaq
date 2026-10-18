@@ -134,6 +134,7 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
         for (final line in state.cart.lines)
           CartLineRow(
             line: line,
+            disabled: state.isUpdatingCart,
             onQuantityChanged: (quantity) => cubit.setQuantity(
               line.productId,
               line.minOrderQty,

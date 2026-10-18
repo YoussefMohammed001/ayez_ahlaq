@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/extensions/text_controller_ext.dart';
 import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/booking_addon.dart';
 import '../../domain/entities/booking_drink.dart';
+import '../../../services/presentation/manager/shop_haircut_styles_cubit.dart';
 import '../manager/bookings_cubit.dart';
 import '../manager/bookings_state.dart';
 import '../manager/walk_in_options_cubit.dart';
@@ -16,6 +17,7 @@ import 'walk_in_extras_fields.dart';
 import 'walk_in_assignment_fields.dart';
 import 'walk_in_customer_fields.dart';
 import 'walk_in_sheet_container.dart';
+import 'walk_in_submit_button.dart';
 
 const _walkInPaymentMethod = 'CASH';
 
@@ -38,6 +40,7 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
   final _drinks = ValueNotifier<List<BookingDrink>>(const []);
   int? _serviceId;
   int? _barberId;
+  int? _styleId;
   String? _slotTime;
 
   @override
@@ -56,11 +59,6 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
     super.dispose();
   }
 
-  String? _textOrNull(TextEditingController controller) {
-    final text = controller.text.trim();
-    return text.isEmpty ? null : text;
-  }
-
   void _reviewAndSubmit(BookingsState state) {
     if (state.isSubmittingWalkIn) return;
     if (!_formKey.currentState!.validate()) return;
@@ -71,6 +69,7 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
       context,
       option: options.where((o) => o.serviceTypeId == _serviceId).firstOrNull,
       barberId: _barberId,
+      style: context.read<ShopHaircutStylesCubit>().state.styleById(_styleId),
       drinks: _drinks.value,
       addons: _addons.value,
       onConfirm: _confirm,
@@ -89,11 +88,12 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
     final saved = await bookingsCubit.createWalkIn(
       barberId: barberId,
       serviceTypeId: serviceTypeId,
-      customerName: _textOrNull(_nameController),
-      customerPhone: _textOrNull(_phoneController),
+      haircutStyleId: _styleId,
+      customerName: _nameController.textOrNull,
+      customerPhone: _phoneController.textOrNull,
       slotTime: _slotTime,
       paymentMethod: _walkInPaymentMethod,
-      note: _textOrNull(_noteController),
+      note: _noteController.textOrNull,
       addons: _addons.value,
       drinks: _drinks.value,
     );
@@ -125,7 +125,12 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
           isOwner: widget.isOwner,
           serviceId: _serviceId,
           barberId: _barberId,
-          onServiceChanged: (value) => setState(() => _serviceId = value),
+          styleId: _styleId,
+          onStyleChanged: (value) => setState(() => _styleId = value),
+          onServiceChanged: (value) => setState(() {
+            _serviceId = value;
+            _styleId = null;
+          }),
           onBarberChanged: (value) => setState(() => _barberId = value),
         ),
         WalkInCustomerFields(
@@ -140,13 +145,7 @@ class _AddWalkInSheetState extends State<AddWalkInSheet> {
           addons: _addons,
         ),
         SizedBox(height: 20.h),
-        BlocBuilder<BookingsCubit, BookingsState>(
-          builder: (context, state) => PrimaryCtaButton(
-            label: S().addWalkInAction,
-            isLoading: state.isSubmittingWalkIn,
-            onPressed: () => _reviewAndSubmit(state),
-          ),
-        ),
+        WalkInSubmitButton(onSubmit: _reviewAndSubmit),
       ],
     );
   }

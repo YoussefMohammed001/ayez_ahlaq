@@ -7,28 +7,19 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 
 class OwnServiceFormSheet extends StatefulWidget {
-  final bool isSubmitting;
   final Future<bool> Function(String name, String description) onSubmit;
 
-  const OwnServiceFormSheet({
-    super.key,
-    required this.isSubmitting,
-    required this.onSubmit,
-  });
+  const OwnServiceFormSheet({super.key, required this.onSubmit});
 
   static Future<void> show(
     BuildContext context, {
-    required bool isSubmitting,
     required Future<bool> Function(String name, String description) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => OwnServiceFormSheet(
-        isSubmitting: isSubmitting,
-        onSubmit: onSubmit,
-      ),
+      builder: (_) => OwnServiceFormSheet(onSubmit: onSubmit),
     );
   }
 
@@ -40,6 +31,7 @@ class _OwnServiceFormSheetState extends State<OwnServiceFormSheet> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -49,14 +41,18 @@ class _OwnServiceFormSheetState extends State<OwnServiceFormSheet> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (_submitting || !_formKey.currentState!.validate()) return;
+
+    setState(() => _submitting = true);
 
     final saved = await widget.onSubmit(
       _nameController.text.trim(),
       _descriptionController.text.trim(),
     );
 
-    if (saved && mounted) Navigator.of(context).pop();
+    if (!mounted) return;
+    setState(() => _submitting = false);
+    if (saved) Navigator.of(context).pop();
   }
 
   @override
@@ -97,7 +93,7 @@ class _OwnServiceFormSheetState extends State<OwnServiceFormSheet> {
                 SizedBox(height: 20.h),
                 PrimaryCtaButton(
                   label: S().save,
-                  isLoading: widget.isSubmitting,
+                  isLoading: _submitting,
                   onPressed: _submit,
                 ),
               ],

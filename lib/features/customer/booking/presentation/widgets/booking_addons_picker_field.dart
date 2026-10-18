@@ -20,11 +20,9 @@ class BookingAddonsPickerField extends StatelessWidget {
   });
 
   int _quantityFor(BuildContext context, int productId) {
-    final match = context
-        .read<BookingFlowCubit>()
-        .state
-        .addons
-        .where((a) => a.productId == productId);
+    final match = context.read<BookingFlowCubit>().state.addons.where(
+      (a) => a.productId == productId,
+    );
     return match.isEmpty ? 0 : match.first.quantity;
   }
 
@@ -39,7 +37,9 @@ class BookingAddonsPickerField extends StatelessWidget {
             quantity: addon.quantity,
             price: addon.price ?? 0,
             onRemove: () {
-              final shopAddon = shopAddons.firstWhere((a) => a.id == addon.productId);
+              final shopAddon = shopAddons.firstWhere(
+                (a) => a.id == addon.productId,
+              );
               onQuantityChanged(shopAddon, 0);
             },
           ),

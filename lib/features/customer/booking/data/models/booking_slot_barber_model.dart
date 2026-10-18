@@ -13,7 +13,9 @@ class BookingSlotBarberModel extends BookingSlotBarber {
       barberId: (json['barberId'] as num?)?.toInt() ?? 0,
       barberName: json['barberName'] as String? ?? '',
       durationMinutes: (json['durationMinutes'] as num?)?.toInt() ?? 0,
-      slots: (json['slots'] as List<dynamic>? ?? []).map((e) => e as String).toList(),
+      slots: (json['slots'] as List<dynamic>? ?? [])
+          .map((e) => e as String)
+          .toList(),
     );
   }
 }

@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/widgets/app_empty_state.dart';
-import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
-import '../../../../../core/widgets/list_skeleton.dart';
-import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/home_service_requests_cubit.dart';
-import '../manager/home_service_requests_state.dart';
-import '../widgets/home_service_request_row.dart';
+import '../widgets/home_service_requests_tab_view.dart';
 
 class HomeServiceRequestsScreen extends StatefulWidget {
   const HomeServiceRequestsScreen({super.key});
@@ -21,8 +13,7 @@ class HomeServiceRequestsScreen extends StatefulWidget {
       _HomeServiceRequestsScreenState();
 }
 
-class _HomeServiceRequestsScreenState
-    extends State<HomeServiceRequestsScreen> {
+class _HomeServiceRequestsScreenState extends State<HomeServiceRequestsScreen> {
   @override
   void initState() {
     super.initState();
@@ -33,55 +24,7 @@ class _HomeServiceRequestsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppTopBar(title: S().homeServiceRequestsTitle),
-      body: BlocBuilder<HomeServiceRequestsCubit, HomeServiceRequestsState>(
-        builder: (context, state) {
-          final cubit = context.read<HomeServiceRequestsCubit>();
-
-          if (state.status == HomeServiceRequestsStatus.loading &&
-              state.requests.isEmpty) {
-            return const ListSkeleton();
-          }
-
-          if (state.status == HomeServiceRequestsStatus.failure &&
-              state.requests.isEmpty) {
-            return RefreshableStateView(
-              onRefresh: cubit.loadRequests,
-              child: AppErrorState(
-                message: state.errorMessage,
-                onRetry: cubit.loadRequests,
-              ),
-            );
-          }
-
-          if (state.requests.isEmpty) {
-            return RefreshableStateView(
-              onRefresh: cubit.loadRequests,
-              child: AppEmptyState(
-                icon: Icons.home_repair_service_outlined,
-                title: S().noHomeServiceRequestsYet,
-              ),
-            );
-          }
-
-          return RefreshIndicator(
-            onRefresh: cubit.loadRequests,
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-              itemCount: state.requests.length,
-              itemBuilder: (_, index) {
-                final request = state.requests[index];
-                return HomeServiceRequestRow(
-                  request: request,
-                  onTap: () => context.push(
-                    Routes.customerHomeServiceRequestDetailScreen,
-                    extra: request.id,
-                  ),
-                );
-              },
-            ),
-          );
-        },
-      ),
+      body: const HomeServiceRequestsTabView(),
     );
   }
 }

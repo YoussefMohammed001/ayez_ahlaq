@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
+import '../../ratings/presentation/widgets/merchant_rating_prompt.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_paths.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
 import '../../../../core/widgets/notched_bottom_nav_bar.dart';
-import '../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../bookings/presentation/pages/bookings_home_screen.dart';
 import '../../home/presentation/pages/barber_home_screen.dart';
-import '../../notifications/presentation/manager/barber_notifications_cubit.dart';
-import '../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../profile/presentation/manager/barber_profile_state.dart';
 import '../../profile/presentation/pages/barber_force_change_password_screen.dart';
 import '../../profile/presentation/pages/barber_location_screen.dart';
 import '../../profile/presentation/pages/barber_profile_screen.dart';
 import '../../../../shared/widgets/blocking_gate.dart';
-import '../../documents/presentation/manager/barber_documents_cubit.dart';
-import '../../services/presentation/manager/barber_services_cubit.dart';
-import '../../store/presentation/manager/barber_store_merchants_cubit.dart';
-import '../../storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
-import '../../storefront/delivery/presentation/manager/barber_storefront_delivery_cubit.dart';
-import '../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
-import '../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../../storefront/presentation/pages/storefront_home_screen.dart';
-import '../../subscription/presentation/manager/barber_subscription_cubit.dart';
-import '../../team/presentation/manager/earnings_cubit.dart';
+import '../widgets/barber_data_loader.dart';
 import '../widgets/barber_store_fab.dart';
+import 'barber_team_member_shell.dart';
+import '../../auth/domain/entities/barber_account_kind.dart';
+import '../../profile/domain/entities/barber_profile.dart';
+import '../../profile/presentation/manager/barber_profile_cubit.dart';
+import '../../../../core/helpers/user_helpers.dart';
 import '../../../../generated/l10n.dart';
 
 class BarberShell extends StatefulWidget {
@@ -39,6 +34,8 @@ class BarberShell extends StatefulWidget {
 
 class _BarberShellState extends State<BarberShell> {
   late int _index = widget.initialIndex;
+  bool _ratingPromptScheduled = false;
+  bool _ownerDataLoaded = false;
 
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.home_rounded, S().tabHome),
@@ -50,20 +47,41 @@ class _BarberShellState extends State<BarberShell> {
   @override
   void initState() {
     super.initState();
-    context.read<BarberProfileCubit>().loadProfile();
-    context.read<BarberDocumentsCubit>().loadDocuments();
-    context.read<BarberServicesCubit>().loadServices();
-    context.read<BarberStoreMerchantsCubit>().loadMerchants();
-    context.read<BarberStorefrontProductsCubit>().loadProducts();
-    context.read<BarberStorefrontCategoriesCubit>().loadCategories();
-    context.read<BarberStorefrontDeliveryCubit>().loadDelivery();
-    context.read<BarberStorefrontOrdersCubit>().loadOrders();
-    context.read<BarberNotificationsCubit>().refreshUnseenCount();
-    context.read<EarningsCubit>().loadEarnings();
-    context.read<BookingsCubit>().loadPending();
-    context.read<BookingsCubit>().loadQueue();
-    context.read<BookingsCubit>().loadHistory();
-    context.read<BarberSubscriptionCubit>().load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      BarberDataLoader.loadCommon(context);
+      if (!UserHelpers.barberAccountKind.isTeamMember) {
+        _loadOwnerData();
+      }
+    });
+  }
+
+  void _loadOwnerData() {
+    if (_ownerDataLoaded) return;
+    _ownerDataLoaded = true;
+    BarberDataLoader.loadOwner(context);
+  }
+
+  void _syncAccountKind(BarberProfile profile) {
+    final actual = profile.isTeamMember
+        ? BarberAccountKind.teamMember
+        : BarberAccountKind.owner;
+    if (UserHelpers.barberAccountKind != actual) {
+      UserHelpers.setBarberAccountKind(actual);
+    }
+    if (profile.owner && !_ownerDataLoaded) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _loadOwnerData();
+      });
+    }
+  }
+
+  void _scheduleRatingPrompt(bool canShow) {
+    if (!canShow || _ratingPromptScheduled) return;
+    _ratingPromptScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) MerchantRatingPrompt.checkAndShow(context);
+    });
   }
 
   @override
@@ -72,6 +90,15 @@ class _BarberShellState extends State<BarberShell> {
       buildWhen: (previous, current) => previous.profile != current.profile,
       builder: (context, profileState) {
         final profile = profileState.profile;
+        if (profile != null) _syncAccountKind(profile);
+        final isTeamMember =
+            profile?.isTeamMember ?? UserHelpers.barberAccountKind.isTeamMember;
+        _scheduleRatingPrompt(
+          profile != null &&
+              !isTeamMember &&
+              !profile.mustChangePassword &&
+              !profile.needsLocation,
+        );
         return BlockingGate(
           isBlocked: profile != null && profile.mustChangePassword,
           title: S().forceChangePasswordTitle,
@@ -83,7 +110,9 @@ class _BarberShellState extends State<BarberShell> {
             onLogout: widget.onLogout,
             blockedBuilder: (_) =>
                 BarberLocationScreen(profile: profile, blocking: true),
-            builder: (_) => _buildShell(),
+            builder: (_) => isTeamMember
+                ? BarberTeamMemberShell(onLogout: widget.onLogout)
+                : _buildShell(),
           ),
         );
       },

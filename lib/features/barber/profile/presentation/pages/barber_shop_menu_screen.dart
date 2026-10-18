@@ -44,6 +44,11 @@ class BarberShopMenuScreen extends StatelessWidget {
           label: S().teamTitle,
           onTap: () => context.push(Routes.barberTeamScreen),
         ),
+        MenuRow(
+          icon: Icons.home_repair_service_outlined,
+          label: S().homeServiceSettingsTitle,
+          onTap: () => context.push(Routes.barberHomeServiceSettingsScreen),
+        ),
       ],
     );
   }

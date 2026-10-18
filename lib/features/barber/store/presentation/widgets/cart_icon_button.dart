@@ -17,17 +17,22 @@ class CartIconButton extends StatelessWidget {
           previous.cart.itemCount != current.cart.itemCount,
       builder: (context, state) {
         return IconButton(
-          icon: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              const Icon(Icons.shopping_cart_outlined),
-              if (state.cart.itemCount > 0)
-                Positioned(
-                  top: -4.r,
-                  right: -4.r,
-                  child: CountBadge(count: state.cart.itemCount),
-                ),
-            ],
+          icon: SizedBox(
+            width: 30.r,
+            height: 30.r,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                const Icon(Icons.shopping_cart_outlined),
+                if (state.cart.itemCount > 0)
+                  PositionedDirectional(
+                    top: -4.r,
+                    end: -4.r,
+                    child: CountBadge(count: state.cart.itemCount),
+                  ),
+              ],
+            ),
           ),
           onPressed: () {
             context.read<BarberStoreCartCubit>().loadCart();

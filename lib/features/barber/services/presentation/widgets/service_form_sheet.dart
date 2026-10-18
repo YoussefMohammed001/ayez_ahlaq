@@ -12,13 +12,11 @@ import 'service_form_fields.dart';
 class ServiceFormSheet extends StatefulWidget {
   final List<ServiceCatalogItem> catalog;
   final BarberService? existing;
-  final bool isSubmitting;
   final Future<bool> Function(BarberService service) onSubmit;
 
   const ServiceFormSheet({
     super.key,
     required this.catalog,
-    required this.isSubmitting,
     required this.onSubmit,
     this.existing,
   });
@@ -26,7 +24,6 @@ class ServiceFormSheet extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required List<ServiceCatalogItem> catalog,
-    required bool isSubmitting,
     required Future<bool> Function(BarberService service) onSubmit,
     BarberService? existing,
   }) {
@@ -36,7 +33,6 @@ class ServiceFormSheet extends StatefulWidget {
       backgroundColor: Colors.transparent,
       builder: (_) => ServiceFormSheet(
         catalog: catalog,
-        isSubmitting: isSubmitting,
         onSubmit: onSubmit,
         existing: existing,
       ),
@@ -57,6 +53,7 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
   );
   int? _catalogId;
   late bool _popular;
+  bool _submitting = false;
 
   @override
   void initState() {
@@ -73,7 +70,11 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
   }
 
   Future<void> _submit() async {
-    if (_catalogId == null || !_formKey.currentState!.validate()) return;
+    if (_submitting || _catalogId == null || !_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _submitting = true);
 
     final existing = widget.existing;
     final catalogItem = existing == null
@@ -93,7 +94,9 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
       ),
     );
 
-    if (saved && mounted) Navigator.of(context).pop();
+    if (!mounted) return;
+    setState(() => _submitting = false);
+    if (saved) Navigator.of(context).pop();
   }
 
   @override
@@ -135,7 +138,7 @@ class _ServiceFormSheetState extends State<ServiceFormSheet> {
                 SizedBox(height: 20.h),
                 PrimaryCtaButton(
                   label: S().save,
-                  isLoading: widget.isSubmitting,
+                  isLoading: _submitting,
                   onPressed: _submit,
                 ),
               ],

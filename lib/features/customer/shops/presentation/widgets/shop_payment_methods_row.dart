@@ -25,7 +25,10 @@ class ShopPaymentMethodsRow extends StatelessWidget {
               ),
               child: Text(
                 method.label,
-                style: TextStyle(fontSize: 11.5.sp, color: scheme.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 11.5.sp,
+                  color: scheme.onSurfaceVariant,
+                ),
               ),
             ),
           )

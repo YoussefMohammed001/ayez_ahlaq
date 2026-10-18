@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/services_locator.dart';
 import '../../../drinks/presentation/manager/barber_drinks_cubit.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
+import '../../../services/presentation/manager/shop_haircut_styles_cubit.dart';
 import '../../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../manager/bookings_cubit.dart';
 import '../manager/walk_in_options_cubit.dart';
@@ -20,8 +21,9 @@ Future<void> showAddWalkInSheet(BuildContext context) {
       providers: [
         BlocProvider.value(value: context.read<BookingsCubit>()),
         BlocProvider.value(value: context.read<BarberStorefrontProductsCubit>()),
-        BlocProvider(create: (_) => sl<BarberDrinksCubit>()),
+        BlocProvider.value(value: sl<BarberDrinksCubit>()..loadDrinks()),
         BlocProvider(create: (_) => sl<WalkInOptionsCubit>()..loadOptions()),
+        BlocProvider(create: (_) => sl<ShopHaircutStylesCubit>()..loadHaircutStyles()),
       ],
       child: AddWalkInSheet(isOwner: isOwner, ownBarberId: profile?.id),
     ),

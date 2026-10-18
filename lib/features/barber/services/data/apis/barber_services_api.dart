@@ -45,4 +45,18 @@ class BarberServicesApi {
   Future<Either<Failure, dynamic>> deleteOwnService(int id) {
     return _networkService.deleteData(endPoint: EndPoints.barberOwnServiceById(id));
   }
+
+  Future<Either<Failure, dynamic>> getHaircutStyles() {
+    return _networkService.getData(endPoint: EndPoints.barberHaircutStyle);
+  }
+
+  Future<Either<Failure, dynamic>> updateHaircutStyle(
+    int id,
+    Map<String, dynamic> body,
+  ) {
+    return _networkService.putData(
+      endPoint: EndPoints.barberHaircutStyleById(id),
+      data: body,
+    );
+  }
 }

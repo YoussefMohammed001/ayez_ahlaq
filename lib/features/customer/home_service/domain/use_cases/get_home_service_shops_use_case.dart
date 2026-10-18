@@ -9,7 +9,9 @@ class GetHomeServiceShopsUseCase {
   GetHomeServiceShopsUseCase(this._repo);
 
   Future<Either<Failure, List<HomeServiceShop>>> call({
+    required String date,
+    required String time,
     double? lat,
     double? lng,
-  }) => _repo.getShops(lat: lat, lng: lng);
+  }) => _repo.getShops(date: date, time: time, lat: lat, lng: lng);
 }

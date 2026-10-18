@@ -12,6 +12,7 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../booking/presentation/manager/booking_flow_cubit.dart';
+import '../../../../../shared/guest/guest_guard.dart';
 import '../../domain/entities/shop_detail.dart';
 import '../manager/customer_shop_detail_cubit.dart';
 import '../manager/customer_shop_detail_state.dart';
@@ -23,7 +24,8 @@ class CustomerShopDetailScreen extends StatefulWidget {
   const CustomerShopDetailScreen({super.key, required this.shopId});
 
   @override
-  State<CustomerShopDetailScreen> createState() => _CustomerShopDetailScreenState();
+  State<CustomerShopDetailScreen> createState() =>
+      _CustomerShopDetailScreenState();
 }
 
 class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
@@ -38,7 +40,8 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
     return BlocBuilder<CustomerShopDetailCubit, CustomerShopDetailState>(
       builder: (context, state) {
         final cubit = context.read<CustomerShopDetailCubit>();
-        Future<void> reload() => cubit.loadShopDetail(widget.shopId);
+        Future<void> reload() =>
+            cubit.loadShopDetail(widget.shopId, isRefresh: true);
         final detail = state.detail;
 
         return Scaffold(
@@ -63,10 +66,10 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
                     top: false,
                     child: PrimaryCtaButton(
                       label: S().bookNow,
-                      onPressed: () {
+                      onPressed: () => GuestGuard.run(context, () {
                         sl<BookingFlowCubit>().startFlow(detail);
                         context.push(Routes.customerChooseServiceScreen);
-                      },
+                      }),
                     ),
                   ),
                 ),
@@ -95,13 +98,21 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
     if (detail == null) {
       return RefreshableStateView(
         onRefresh: reload,
-        child: AppEmptyState(icon: Icons.storefront_outlined, title: S().noShopsYet),
+        child: AppEmptyState(
+          icon: Icons.storefront_outlined,
+          title: S().noShopsYet,
+        ),
       );
     }
 
     return RefreshIndicator(
       onRefresh: reload,
-      child: ShopDetailBody(detail: detail, onToggleFavorite: onToggleFavorite),
+      child: ShopDetailBody(
+        detail: detail,
+        onToggleFavorite: (id) =>
+            GuestGuard.run(context, () => onToggleFavorite(id)),
+        onViewOnMap: context.read<CustomerShopDetailCubit>().openShopOnMap,
+      ),
     );
   }
 }

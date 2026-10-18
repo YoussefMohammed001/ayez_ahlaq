@@ -16,18 +16,21 @@ class CountBadge extends StatelessWidget {
     final background = color ?? context.colorScheme.error;
 
     return Container(
-      constraints: BoxConstraints(minWidth: 20.r),
-      height: 20.r,
-      padding: EdgeInsets.symmetric(horizontal: 6.w),
-      alignment: Alignment.center,
+      constraints: BoxConstraints(minWidth: 16.r, minHeight: 16.r),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.circular(8.r),
       ),
-      child: Text(
-        count > 99 ? '99+' : '$count',
-        style: font12w600.copyWith(
-          color: context.colorScheme.surfaceContainerLowest,
+      child: Center(
+        widthFactor: 1,
+        heightFactor: 1,
+        child: Text(
+          count > 99 ? '99+' : '$count',
+          style: font10w600.copyWith(
+            color: context.colorScheme.surfaceContainerLowest,
+            height: 1.1,
+          ),
         ),
       ),
     );

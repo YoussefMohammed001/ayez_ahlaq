@@ -7,6 +7,7 @@ import '../../../../core/widgets/app_password_field.dart';
 import '../../../../core/widgets/labeled_field.dart';
 import '../../../../core/widgets/primary_cta_button.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../core/helpers/clear_fields_after_submit.dart';
 
 class DeleteAccountView extends StatefulWidget {
   final bool isSubmitting;
@@ -22,9 +23,19 @@ class DeleteAccountView extends StatefulWidget {
   State<DeleteAccountView> createState() => _DeleteAccountViewState();
 }
 
-class _DeleteAccountViewState extends State<DeleteAccountView> {
+class _DeleteAccountViewState extends State<DeleteAccountView>
+    with ClearFieldsAfterSubmit<DeleteAccountView> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
+
+  @override
+  List<TextEditingController> get fieldsToClear => [_passwordController];
+
+  @override
+  GlobalKey<FormState> get clearableFormKey => _formKey;
+
+  @override
+  bool isSubmittingOf(DeleteAccountView widget) => widget.isSubmitting;
 
   @override
   void dispose() {

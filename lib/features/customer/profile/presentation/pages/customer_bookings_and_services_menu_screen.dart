@@ -21,17 +21,17 @@ class CustomerBookingsAndServicesMenuScreen extends StatelessWidget {
         MenuRow(
           icon: Icons.home_repair_service_outlined,
           label: S().homeServiceShopListTitle,
-          onTap: () => context.push(Routes.customerHomeServiceShopListScreen),
+          onTap: () => context.push(Routes.customerHomeServiceDateTimeScreen),
+        ),
+        MenuRow(
+          icon: Icons.list_alt_outlined,
+          label: S().homeServiceRequestsTitle,
+          onTap: () => context.push(Routes.customerHomeServiceRequestsScreen),
         ),
         MenuRow(
           icon: Icons.account_balance_wallet_outlined,
           label: S().walletTitle,
           onTap: () => context.push(Routes.customerWalletScreen),
-        ),
-        MenuRow(
-          icon: Icons.star_border_rounded,
-          label: S().reviewsTitle,
-          onTap: () => context.push(Routes.customerRatingsScreen),
         ),
       ],
     );

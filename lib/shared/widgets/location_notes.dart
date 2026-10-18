@@ -19,16 +19,6 @@ class LocationNotes extends StatelessWidget {
             color: context.colorScheme.onSurfaceVariant,
           ),
         ),
-        SizedBox(height: 6.h),
-        Text(
-          S().locationTestVersionNote,
-          style: TextStyle(
-            fontSize: 11.5.sp,
-            height: 1.7,
-            fontStyle: FontStyle.italic,
-            color: context.semantic.warning,
-          ),
-        ),
       ],
     );
   }

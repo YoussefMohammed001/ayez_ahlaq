@@ -22,6 +22,8 @@ enum BookingStatus {
     _ => BookingStatus.pending,
   };
 
+  bool get closesBooking => this == done || this == noShow;
+
   String toApi() => switch (this) {
     BookingStatus.pending => 'PENDING',
     BookingStatus.confirmed => 'CONFIRMED',

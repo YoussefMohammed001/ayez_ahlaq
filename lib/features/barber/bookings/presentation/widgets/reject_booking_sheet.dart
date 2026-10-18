@@ -30,6 +30,7 @@ class RejectBookingSheet extends StatefulWidget {
 
 class _RejectBookingSheetState extends State<RejectBookingSheet> {
   final _controller = TextEditingController();
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -37,11 +38,15 @@ class _RejectBookingSheetState extends State<RejectBookingSheet> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final reason = _controller.text.trim();
-    if (reason.isEmpty) return;
+    if (_submitting || reason.isEmpty) return;
 
-    context.read<BookingsCubit>().rejectBooking(widget.bookingId, reason);
+    setState(() => _submitting = true);
+
+    await context.read<BookingsCubit>().rejectBooking(widget.bookingId, reason);
+
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -69,7 +74,11 @@ class _RejectBookingSheetState extends State<RejectBookingSheet> {
             decoration: AppInputDecoration.build(context, S().rejectReasonHint),
           ),
           SizedBox(height: 16.h),
-          PrimaryCtaButton(label: S().confirmReject, onPressed: _submit),
+          PrimaryCtaButton(
+            label: S().confirmReject,
+            isLoading: _submitting,
+            onPressed: _submit,
+          ),
         ],
       ),
     );

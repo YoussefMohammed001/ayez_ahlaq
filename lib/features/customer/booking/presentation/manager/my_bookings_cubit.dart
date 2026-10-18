@@ -14,7 +14,10 @@ class MyBookingsCubit extends Cubit<MyBookingsState> {
 
     result.fold(
       (failure) => emit(
-        state.copyWith(status: MyBookingsStatus.failure, errorMessage: failure.message),
+        state.copyWith(
+          status: MyBookingsStatus.failure,
+          errorMessage: failure.message,
+        ),
       ),
       (bookings) => emit(
         state.copyWith(status: MyBookingsStatus.success, bookings: bookings),

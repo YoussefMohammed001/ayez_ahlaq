@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../profile/domain/entities/barber_permissions.dart';
 
 class TeamMemberDetail extends Equatable {
   final int id;
@@ -10,6 +11,7 @@ class TeamMemberDetail extends Equatable {
   final bool mustChangePassword;
   final double rating;
   final int ratingCount;
+  final BarberPermissions permissions;
 
   const TeamMemberDetail({
     required this.id,
@@ -21,9 +23,14 @@ class TeamMemberDetail extends Equatable {
     required this.mustChangePassword,
     required this.rating,
     required this.ratingCount,
+    this.permissions = BarberPermissions.none,
   });
 
-  TeamMemberDetail copyWith({bool? available, bool? active}) {
+  TeamMemberDetail copyWith({
+    bool? available,
+    bool? active,
+    BarberPermissions? permissions,
+  }) {
     return TeamMemberDetail(
       id: id,
       name: name,
@@ -34,6 +41,7 @@ class TeamMemberDetail extends Equatable {
       mustChangePassword: mustChangePassword,
       rating: rating,
       ratingCount: ratingCount,
+      permissions: permissions ?? this.permissions,
     );
   }
 
@@ -48,5 +56,6 @@ class TeamMemberDetail extends Equatable {
     mustChangePassword,
     rating,
     ratingCount,
+    permissions,
   ];
 }

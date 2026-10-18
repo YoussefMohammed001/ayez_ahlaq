@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../theme/heading_styles.dart';
 import '../../core/extensions/ext_theme.dart';
+import '../helpers/user_helpers.dart';
+import '../routes/route_paths.dart';
+import '../../shared/user_type.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -18,6 +21,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(56.h + (bottom?.preferredSize.height ?? 0));
 
+  String get _homeShellRoute => switch (UserHelpers.userType) {
+    UserType.customer => Routes.customerShell,
+    UserType.barber => Routes.barberShell,
+    UserType.merchant => Routes.merchantShell,
+  };
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -29,7 +38,11 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
           color: context.colorScheme.onSurface,
         ),
         onPressed: () {
-          if (context.canPop()) context.pop();
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(_homeShellRoute);
+          }
         },
       ) : SizedBox(),
       title: Text(title, style: HeadingStyles.h4),

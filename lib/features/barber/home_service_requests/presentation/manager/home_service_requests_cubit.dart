@@ -64,37 +64,43 @@ class HomeServiceRequestsCubit extends Cubit<HomeServiceRequestsState> {
     );
   }
 
-  Future<void> updatePrice(
+  Future<bool> updatePrice(
     int id,
     List<HomeServiceRequestAdjustment> adjustments,
   ) => _mutate(id, () => _updatePrice(id, adjustments));
 
-  Future<void> accept(int id) => _mutate(id, () => _acceptRequest(id));
+  Future<bool> accept(int id) => _mutate(id, () => _acceptRequest(id));
 
-  Future<void> reject(int id, String reason) =>
+  Future<bool> reject(int id, String reason) =>
       _mutate(id, () => _rejectRequest(id, reason));
 
-  Future<void> advanceStatus(int id, HomeServiceRequestStatus status) =>
+  Future<bool> advanceStatus(int id, HomeServiceRequestStatus status) =>
       _mutate(id, () => _updateStatus(id, status));
 
-  Future<void> _mutate(int id, Future<dynamic> Function() action) async {
+  Future<bool> _mutate(int id, Future<dynamic> Function() action) async {
     emit(state.copyWith(updatingRequestId: id));
 
     final result = await action();
 
-    result.fold(
-      (failure) => emit(
-        state.copyWith(
-          clearUpdatingRequestId: true,
-          errorMessage: failure.message,
-        ),
-      ),
-      (request) => emit(
-        state.copyWith(
-          clearUpdatingRequestId: true,
-          requests: _replace(state.requests, request),
-        ),
-      ),
+    return result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            clearUpdatingRequestId: true,
+            errorMessage: failure.message,
+          ),
+        );
+        return false;
+      },
+      (request) {
+        emit(
+          state.copyWith(
+            clearUpdatingRequestId: true,
+            requests: _replace(state.requests, request),
+          ),
+        );
+        return true;
+      },
     );
   }
 

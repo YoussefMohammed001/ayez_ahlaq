@@ -14,7 +14,10 @@ class DashboardEmptyHint extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Text(
         message,
-        style: TextStyle(fontSize: 12.5.sp, color: context.colorScheme.onSurfaceVariant),
+        style: TextStyle(
+          fontSize: 12.5.sp,
+          color: context.colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }

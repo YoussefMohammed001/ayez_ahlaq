@@ -1,3 +1,4 @@
+import '../../domain/entities/barber_permissions.dart';
 import '../../domain/entities/barber_profile.dart';
 
 class BarberProfileModel extends BarberProfile {
@@ -8,6 +9,7 @@ class BarberProfileModel extends BarberProfile {
     required super.shopId,
     required super.shopName,
     required super.owner,
+    super.permissions,
     required super.active,
     required super.servesClients,
     required super.mustChangePassword,
@@ -26,6 +28,7 @@ class BarberProfileModel extends BarberProfile {
       shopId: (json['shopId'] as num?)?.toInt() ?? 0,
       shopName: json['shopName'] as String? ?? '',
       owner: json['owner'] as bool? ?? false,
+      permissions: permissionsFrom(json['permissions']),
       active: json['active'] as bool? ?? false,
       servesClients: json['servesClients'] as bool? ?? true,
       mustChangePassword: json['mustChangePassword'] as bool? ?? false,
@@ -34,6 +37,15 @@ class BarberProfileModel extends BarberProfile {
       address: json['address'] as String?,
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
+    );
+  }
+
+  static BarberPermissions permissionsFrom(dynamic json) {
+    if (json is! Map<String, dynamic>) return BarberPermissions.none;
+    return BarberPermissions(
+      canViewRevenue: json['canViewRevenue'] as bool? ?? false,
+      canCloseBookings: json['canCloseBookings'] as bool? ?? false,
+      canMarkPaid: json['canMarkPaid'] as bool? ?? false,
     );
   }
 }

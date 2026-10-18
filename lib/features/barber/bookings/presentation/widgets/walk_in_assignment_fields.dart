@@ -6,11 +6,14 @@ import '../manager/walk_in_options_cubit.dart';
 import '../manager/walk_in_options_state.dart';
 import 'walk_in_barber_field.dart';
 import 'walk_in_service_field.dart';
+import 'walk_in_style_field.dart';
 
 class WalkInAssignmentFields extends StatelessWidget {
   final bool isOwner;
   final int? serviceId;
   final int? barberId;
+  final int? styleId;
+  final ValueChanged<int?> onStyleChanged;
   final ValueChanged<int?> onServiceChanged;
   final ValueChanged<int?> onBarberChanged;
 
@@ -19,6 +22,8 @@ class WalkInAssignmentFields extends StatelessWidget {
     required this.isOwner,
     required this.serviceId,
     required this.barberId,
+    required this.styleId,
+    required this.onStyleChanged,
     required this.onServiceChanged,
     required this.onBarberChanged,
   });
@@ -37,6 +42,11 @@ class WalkInAssignmentFields extends StatelessWidget {
               options: state.options,
               value: serviceId,
               onChanged: onServiceChanged,
+            ),
+            WalkInStyleField(
+              serviceId: serviceId,
+              value: styleId,
+              onChanged: onStyleChanged,
             ),
             if (isOwner) ...[
               SectionTitle(title: S().walkInBarberLabel),

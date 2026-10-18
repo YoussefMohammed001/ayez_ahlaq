@@ -56,7 +56,8 @@ class BarberDrinksScreen extends StatelessWidget {
             }
 
             return RefreshableStateView(
-              onRefresh: context.read<BarberDrinksCubit>().loadDrinks,
+              onRefresh: () =>
+                  context.read<BarberDrinksCubit>().loadDrinks(force: true),
               child: ListView(
                 padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
                 physics: const NeverScrollableScrollPhysics(),

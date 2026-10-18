@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../core/widgets/menu_section.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../domain/entities/barber_profile.dart';
+import 'barber_logout.dart';
 import '../../../../../generated/l10n.dart';
 
 class BarberProfileMenu extends StatelessWidget {
@@ -15,22 +14,6 @@ class BarberProfileMenu extends StatelessWidget {
   final Future<void> Function() onLogout;
 
   const BarberProfileMenu({super.key, this.profile, required this.onLogout});
-
-  Future<void> _confirmLogout(BuildContext context) async {
-    final confirmed = await showConfirmDialog(
-      context,
-      title: S().logoutTitle,
-      message: S().logoutConfirm,
-      confirmLabel: S().logoutTitle,
-      icon: Icons.logout_rounded,
-    );
-
-    if (!confirmed) return;
-
-    await showLoading();
-    await onLogout();
-    hideLoading();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +73,7 @@ class BarberProfileMenu extends StatelessWidget {
           label: S().supportSection,
           onTap: () => context.push(Routes.barberSupportMenuScreen),
         ),
-        MenuRow(
-          icon: Icons.logout_rounded,
-          label: S().logout,
-          danger: true,
-          showChevron: false,
-          onTap: () => _confirmLogout(context),
-        ),
+        BarberLogout.row(context, onLogout),
       ],
     );
   }

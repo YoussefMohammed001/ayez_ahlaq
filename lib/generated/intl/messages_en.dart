@@ -54,70 +54,84 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m14(clients) => "${clients} clients";
 
-  static String m15(count) =>
+  static String m15(delta) => "Price delta: ${delta} EGP";
+
+  static String m16(count) =>
+      "You have ${count} home service invitations awaiting a reply";
+
+  static String m17(count) =>
       "You have ${count} home service requests awaiting a reply";
 
-  static String m16(newPrice, oldPrice) =>
+  static String m18(newPrice, oldPrice) =>
       "The shop wants ${newPrice} instead of ${oldPrice}. Confirm or cancel the request.";
 
-  static String m17(price) => "Starting from ${price} EGP";
+  static String m19(price) => "Starting from ${price} EGP";
 
-  static String m18(count) => "${count} required documents are missing";
+  static String m20(count) => "${count} required documents are missing";
 
-  static String m19(status) => "Move status to \"${status}\"";
+  static String m21(status) => "Move status to \"${status}\"";
 
-  static String m20(count, limit) => "My categories (${count}/${limit})";
+  static String m22(count, limit) => "My categories (${count}/${limit})";
 
-  static String m21(percent, price) =>
+  static String m23(percent, price) =>
       "This product now has a ${percent}% discount, priced at ${price}";
 
-  static String m22(count) => "You have ${count} new orders on your store";
+  static String m24(count) => "You have ${count} new orders on your store";
 
-  static String m23(percent) => "Order discount (${percent}%)";
+  static String m25(percent) => "Order discount (${percent}%)";
 
-  static String m24(price) => "Product price changed, now ${price}";
+  static String m26(price) => "Product price changed, now ${price}";
 
-  static String m25(price, stock, min) =>
+  static String m27(price, stock, min) =>
       "${price} EGP · stock ${stock} · min ${min}";
 
-  static String m26(used, cap) => "${used} of ${cap}";
+  static String m28(amount) => "Products: ${amount} EGP";
 
-  static String m27(rank) => "Rank #${rank}";
+  static String m29(used, cap) => "${used} of ${cap}";
 
-  static String m28(barberName) =>
+  static String m30(rank) => "Rank #${rank}";
+
+  static String m31(barberName) =>
       "How was your experience with ${barberName}?";
 
-  static String m29(shopName) => "How was your experience with ${shopName}?";
+  static String m32(shopName) => "How was your experience with ${shopName}?";
 
-  static String m30(name) => "Responsible barber: ${name}";
+  static String m33(name) => "Responsible barber: ${name}";
 
-  static String m31(count) => "${count} reviews";
+  static String m34(count) => "${count} reviews";
 
-  static String m32(price, duration) => "${price} EGP · ${duration} min";
+  static String m35(date) =>
+      "You already have another booking on ${date}. It may be for you or a friend. Do you want to book again?";
 
-  static String m33(count) => "${count} selected";
+  static String m36(price, duration) => "${price} EGP · ${duration} min";
 
-  static String m34(count) => "The offer applies to ${count} salons";
+  static String m37(count) => "${count} selected";
 
-  static String m35(amount) =>
+  static String m38(count) => "The offer applies to ${count} salons";
+
+  static String m39(amount) =>
       "${amount} will be charged from your wallet and you stay promoted for 30 days.";
 
-  static String m36(days) => "${days} days left";
+  static String m40(days) => "${days} days left";
 
-  static String m37(amount) =>
+  static String m41(amount) =>
       "Your wallet is short by ${amount}, top up first";
 
-  static String m38(count) => "${count} units";
+  static String m42(count) => "${count} units";
 
-  static String m39(percent) => "${percent}% off";
+  static String m43(percent) => "${percent}% off";
 
-  static String m40(amount) => "Available: ${amount} EGP";
+  static String m44(merchantName) => "View ${merchantName}\'s store";
+
+  static String m45(shopName) => "View ${shopName}\'s page";
+
+  static String m46(amount) => "Available: ${amount} EGP";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutApp": MessageLookupByLibrary.simpleMessage("About the app"),
     "aboutAppBody": MessageLookupByLibrary.simpleMessage(
-      "Ayez Ahlaq — a wholesale platform connecting barber supply merchants with salons.",
+      "Ayez Ahlaq — book your haircut at the nearest salon in seconds, choosing the barber, service and time that suit you.",
     ),
     "acceptHomeServiceRequest": MessageLookupByLibrary.simpleMessage(
       "Accept request",
@@ -143,6 +157,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "addAction": MessageLookupByLibrary.simpleMessage("+ Add"),
     "addAdjustment": MessageLookupByLibrary.simpleMessage(
       "Add a charge or discount",
+    ),
+    "addAtLeastOneAdjustment": MessageLookupByLibrary.simpleMessage(
+      "Add at least one charge or discount",
     ),
     "addDrink": MessageLookupByLibrary.simpleMessage("Add a drink"),
     "addMemberTitle": MessageLookupByLibrary.simpleMessage("Add team member"),
@@ -259,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "barberOrdersSubtitle": MessageLookupByLibrary.simpleMessage(
       "All the orders you received from salons",
     ),
+    "barberRatingLabel": MessageLookupByLibrary.simpleMessage("Barber rating"),
     "barbersSectionTitle": MessageLookupByLibrary.simpleMessage("Barbers"),
     "billAdjustments": MessageLookupByLibrary.simpleMessage(
       "Extras and discounts",
@@ -278,6 +296,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "blockMemberTitle": MessageLookupByLibrary.simpleMessage("Block member"),
     "blockedLabel": MessageLookupByLibrary.simpleMessage("Blocked"),
     "bookNow": MessageLookupByLibrary.simpleMessage("Book now"),
+    "bookingBasePriceLabel": MessageLookupByLibrary.simpleMessage(
+      "Service price",
+    ),
     "bookingCancelledMessage": MessageLookupByLibrary.simpleMessage(
       "Booking cancelled",
     ),
@@ -287,6 +308,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "bookingDateLabel": MessageLookupByLibrary.simpleMessage("Date and time"),
     "bookingDetailsTitle": MessageLookupByLibrary.simpleMessage(
       "Booking details",
+    ),
+    "bookingSlotPassedMessage": MessageLookupByLibrary.simpleMessage(
+      "This booking time has passed and can no longer be cancelled",
     ),
     "bookingStatusActive": MessageLookupByLibrary.simpleMessage("In progress"),
     "bookingStatusCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
@@ -299,6 +323,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "bookingStatusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "bookingStatusUpcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
+    "bookingStyleDeltaLabel": MessageLookupByLibrary.simpleMessage(
+      "Style price",
+    ),
     "bookingSummaryTitle": MessageLookupByLibrary.simpleMessage(
       "Booking summary",
     ),
@@ -354,6 +381,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "broadcastZoneUnavailable": MessageLookupByLibrary.simpleMessage(
       "Your zone is not set yet, so this will be sent to all customers",
     ),
+    "browseAsGuest": MessageLookupByLibrary.simpleMessage("Browse as guest"),
     "businessName": MessageLookupByLibrary.simpleMessage("Business name"),
     "businessNameHint": MessageLookupByLibrary.simpleMessage(
       "e.g. Golden Supplies",
@@ -398,6 +426,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeAccountType": MessageLookupByLibrary.simpleMessage(
       "Change account type",
     ),
+    "changeLocationOnMap": MessageLookupByLibrary.simpleMessage(
+      "Change location on the map",
+    ),
     "changeMoneyPinAction": MessageLookupByLibrary.simpleMessage("Change PIN"),
     "changeMoneyPinTitle": MessageLookupByLibrary.simpleMessage("Change PIN"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change password"),
@@ -406,6 +437,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "chooseAccountType": MessageLookupByLibrary.simpleMessage(
       "Choose your account type",
+    ),
+    "chooseBarberRole": MessageLookupByLibrary.simpleMessage(
+      "Choose your account type so we can show the right screens",
     ),
     "chooseBarberTitle": MessageLookupByLibrary.simpleMessage(
       "Choose a barber",
@@ -468,6 +502,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmBookingMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to confirm this booking?",
     ),
+    "confirmLocation": MessageLookupByLibrary.simpleMessage("Confirm location"),
     "confirmMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm new PIN",
     ),
@@ -755,6 +790,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "editCategory": MessageLookupByLibrary.simpleMessage("Edit category"),
     "editDiscount": MessageLookupByLibrary.simpleMessage("Edit offer"),
     "editDrink": MessageLookupByLibrary.simpleMessage("Edit drink"),
+    "editHaircutStylePriceTitle": MessageLookupByLibrary.simpleMessage(
+      "Style price",
+    ),
     "editHomeServicePriceAction": MessageLookupByLibrary.simpleMessage(
       "Edit price",
     ),
@@ -762,6 +800,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "editMyInfo": MessageLookupByLibrary.simpleMessage("Edit my info"),
     "editProduct": MessageLookupByLibrary.simpleMessage("Edit product"),
     "editServiceTitle": MessageLookupByLibrary.simpleMessage("Edit service"),
+    "editStockTitle": MessageLookupByLibrary.simpleMessage("Edit stock"),
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "emailOptional": MessageLookupByLibrary.simpleMessage("Email (optional)"),
     "email_invalid": MessageLookupByLibrary.simpleMessage(
@@ -770,6 +809,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "email_required": MessageLookupByLibrary.simpleMessage("Email is required"),
     "emptyDefaultTitle": MessageLookupByLibrary.simpleMessage(
       "Nothing here yet",
+    ),
+    "enableLocationAction": MessageLookupByLibrary.simpleMessage(
+      "Enable location",
     ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterInviteCodeTitle": MessageLookupByLibrary.simpleMessage(
@@ -786,6 +828,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "everythingFine": MessageLookupByLibrary.simpleMessage(
       "All good — nothing needs action",
+    ),
+    "extraPhoneFallbackLabel": MessageLookupByLibrary.simpleMessage(
+      "Extra number",
     ),
     "extraPhones": MessageLookupByLibrary.simpleMessage("Extra phone numbers"),
     "extraPhonesNote": MessageLookupByLibrary.simpleMessage(
@@ -827,7 +872,40 @@ class MessageLookup extends MessageLookupByLibrary {
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
     "grandTotalLabel": MessageLookupByLibrary.simpleMessage("Grand total"),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
+    "guestLoginMessage": MessageLookupByLibrary.simpleMessage(
+      "You need an account to use this feature. Sign in or create one in a few seconds",
+    ),
+    "guestLoginTitle": MessageLookupByLibrary.simpleMessage(
+      "Sign in to continue",
+    ),
+    "guestName": MessageLookupByLibrary.simpleMessage("Guest"),
+    "guestPlaceholderSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Sign in to see your orders, favorites and account",
+    ),
+    "guestPlaceholderTitle": MessageLookupByLibrary.simpleMessage(
+      "You\'re browsing as a guest",
+    ),
+    "haircutStyleActiveLabel": MessageLookupByLibrary.simpleMessage("Bookable"),
+    "haircutStyleNotPricedYet": MessageLookupByLibrary.simpleMessage(
+      "Not priced yet",
+    ),
+    "haircutStylePriceDeltaHint": MessageLookupByLibrary.simpleMessage(
+      "e.g. 20 or -10",
+    ),
+    "haircutStylePriceDeltaInvalid": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid number (negative allowed)",
+    ),
+    "haircutStylePriceDeltaLabel": MessageLookupByLibrary.simpleMessage(
+      "Price delta (EGP)",
+    ),
+    "haircutStylePriceDeltaLine": m15,
+    "haircutStylePriceUpdated": MessageLookupByLibrary.simpleMessage(
+      "Style price updated",
+    ),
     "haircutStylesSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Haircut styles",
+    ),
+    "haircutStylesTitle": MessageLookupByLibrary.simpleMessage(
       "Haircut styles",
     ),
     "homeAllClear": MessageLookupByLibrary.simpleMessage("No pending bookings"),
@@ -840,8 +918,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeServiceAddressRequired": MessageLookupByLibrary.simpleMessage(
       "Set the address and location first",
     ),
+    "homeServiceAnyNearbyCta": MessageLookupByLibrary.simpleMessage(
+      "Request any nearby barber",
+    ),
+    "homeServiceAnyNearbyDescription": MessageLookupByLibrary.simpleMessage(
+      "We\'ll send your request to nearby barbers and the first one available will accept it.",
+    ),
+    "homeServiceAnyNearbyTitle": MessageLookupByLibrary.simpleMessage(
+      "Any available barber",
+    ),
     "homeServiceAwaitingPriceConfirmation": MessageLookupByLibrary.simpleMessage(
       "Waiting for the customer to confirm the new price before you can accept",
+    ),
+    "homeServiceBroadcastAccept": MessageLookupByLibrary.simpleMessage(
+      "Accept",
+    ),
+    "homeServiceBroadcastDetailTitle": MessageLookupByLibrary.simpleMessage(
+      "Invitation details",
+    ),
+    "homeServiceBroadcastInboxTitle": MessageLookupByLibrary.simpleMessage(
+      "Home service invitations",
+    ),
+    "homeServiceBroadcastPendingCount": m16,
+    "homeServiceBroadcastReject": MessageLookupByLibrary.simpleMessage(
+      "Reject",
+    ),
+    "homeServiceBroadcastRejectConfirm": MessageLookupByLibrary.simpleMessage(
+      "Confirm rejection",
+    ),
+    "homeServiceBroadcastRejectMessage": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to reject this home service invitation?",
+    ),
+    "homeServiceBroadcastRejectTitle": MessageLookupByLibrary.simpleMessage(
+      "Reject invitation",
     ),
     "homeServiceCancelConfirm": MessageLookupByLibrary.simpleMessage(
       "Confirm cancellation",
@@ -864,6 +973,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeServiceConfirmNewPrice": MessageLookupByLibrary.simpleMessage(
       "Confirm new price",
     ),
+    "homeServiceDateLabel": MessageLookupByLibrary.simpleMessage("Date"),
+    "homeServiceDateTimeLabel": MessageLookupByLibrary.simpleMessage(
+      "Date and time",
+    ),
+    "homeServiceDateTimeMustBeFuture": MessageLookupByLibrary.simpleMessage(
+      "Choose a date and time in the future",
+    ),
+    "homeServiceDateTimeRequired": MessageLookupByLibrary.simpleMessage(
+      "Choose a date and time first",
+    ),
+    "homeServiceDateTimeStepSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Pick a date and time, then we\'ll show you who\'s available.",
+    ),
+    "homeServiceDateTimeStepTitle": MessageLookupByLibrary.simpleMessage(
+      "When do you need a barber?",
+    ),
     "homeServiceHoursCta": MessageLookupByLibrary.simpleMessage(
       "Home service hours",
     ),
@@ -881,8 +1006,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "homeServiceOffLabel": MessageLookupByLibrary.simpleMessage("Not enabled"),
     "homeServiceOffered": MessageLookupByLibrary.simpleMessage("Home service"),
-    "homeServicePendingCount": m15,
-    "homeServicePriceChangedMessage": m16,
+    "homeServicePendingCount": m17,
+    "homeServicePriceChangedMessage": m18,
     "homeServicePriceChangedTitle": MessageLookupByLibrary.simpleMessage(
       "Price changed",
     ),
@@ -891,6 +1016,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "homeServicePriceHint": MessageLookupByLibrary.simpleMessage("e.g. 150"),
     "homeServicePriceLabel": MessageLookupByLibrary.simpleMessage("Base price"),
+    "homeServicePricePending": MessageLookupByLibrary.simpleMessage(
+      "Price pending",
+    ),
     "homeServicePriceRequired": MessageLookupByLibrary.simpleMessage(
       "Enter a valid price",
     ),
@@ -909,8 +1037,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeServiceRequestTitle": MessageLookupByLibrary.simpleMessage(
       "Home service request",
     ),
+    "homeServiceRequestsTab": MessageLookupByLibrary.simpleMessage(
+      "Home service",
+    ),
     "homeServiceRequestsTitle": MessageLookupByLibrary.simpleMessage(
       "Home service requests",
+    ),
+    "homeServiceRetryRequest": MessageLookupByLibrary.simpleMessage(
+      "Retry request",
     ),
     "homeServiceSettingsSaved": MessageLookupByLibrary.simpleMessage(
       "Home service settings saved",
@@ -921,7 +1055,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeServiceShopListTitle": MessageLookupByLibrary.simpleMessage(
       "Home service",
     ),
-    "homeServiceStartingPrice": m17,
+    "homeServiceShopNoteLabel": MessageLookupByLibrary.simpleMessage("Note"),
+    "homeServiceStartingPrice": m19,
     "homeServiceStatusAccepted": MessageLookupByLibrary.simpleMessage(
       "Accepted",
     ),
@@ -929,6 +1064,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Cancelled",
     ),
     "homeServiceStatusDone": MessageLookupByLibrary.simpleMessage("Done"),
+    "homeServiceStatusExpired": MessageLookupByLibrary.simpleMessage("Expired"),
     "homeServiceStatusOnTheWay": MessageLookupByLibrary.simpleMessage(
       "Barber on the way",
     ),
@@ -941,6 +1077,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeServiceSubmitRequest": MessageLookupByLibrary.simpleMessage(
       "Submit request",
     ),
+    "homeServiceTimeLabel": MessageLookupByLibrary.simpleMessage("Time"),
     "hoursSaved": MessageLookupByLibrary.simpleMessage("Working hours saved"),
     "identityLockedAction": MessageLookupByLibrary.simpleMessage(
       "Your name and business name can\'t be changed after activation",
@@ -983,6 +1120,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "kmUnit": MessageLookupByLibrary.simpleMessage("km"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "latestOrders": MessageLookupByLibrary.simpleMessage("Latest orders"),
+    "linkOpenError": MessageLookupByLibrary.simpleMessage(
+      "Could not open the link",
+    ),
     "listSeparator": MessageLookupByLibrary.simpleMessage(", "),
     "liveDiscounts": MessageLookupByLibrary.simpleMessage("Live offers"),
     "locationBlockedHeadline": MessageLookupByLibrary.simpleMessage(
@@ -997,14 +1137,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationPermissionDenied": MessageLookupByLibrary.simpleMessage(
       "Location permission is required",
     ),
+    "locationRequiredFromMap": MessageLookupByLibrary.simpleMessage(
+      "Pick the location on the map first",
+    ),
     "locationSaved": MessageLookupByLibrary.simpleMessage("Location saved"),
     "locationServiceDisabled": MessageLookupByLibrary.simpleMessage(
       "Please enable location services",
     ),
-    "locationTestVersionNote": MessageLookupByLibrary.simpleMessage(
-      "Test version: for now you can only send your current device location. Picking a location on the map is coming soon.",
-    ),
+    "locationSettingLabel": MessageLookupByLibrary.simpleMessage("Location"),
+    "locationSettingOff": MessageLookupByLibrary.simpleMessage("Off"),
+    "locationSettingOn": MessageLookupByLibrary.simpleMessage("On"),
     "locationTitle": MessageLookupByLibrary.simpleMessage("Shop location"),
+    "locationUnavailableMessage": MessageLookupByLibrary.simpleMessage(
+      "We couldn\'t find your location. Make sure GPS is on and try again",
+    ),
+    "locationUnresolvedMessage": MessageLookupByLibrary.simpleMessage(
+      "Make sure GPS is on and try again to see distances",
+    ),
+    "locationUnresolvedTitle": MessageLookupByLibrary.simpleMessage(
+      "We couldn\'t find your location",
+    ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginSubtitle": MessageLookupByLibrary.simpleMessage(
       "Sign in with your merchant account to manage products and orders",
@@ -1015,17 +1167,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginSubtitleCustomer": MessageLookupByLibrary.simpleMessage(
       "Sign in to book your barber and order your favorite products",
     ),
+    "loginSubtitleTeamMember": MessageLookupByLibrary.simpleMessage(
+      "Sign in with the account your shop owner created for you",
+    ),
     "logout": MessageLookupByLibrary.simpleMessage("Log out"),
     "logoutConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to log out?",
     ),
     "logoutTitle": MessageLookupByLibrary.simpleMessage("Log out"),
     "management": MessageLookupByLibrary.simpleMessage("Management"),
+    "mapPickerTitle": MessageLookupByLibrary.simpleMessage(
+      "Select location on map",
+    ),
     "markAllRead": MessageLookupByLibrary.simpleMessage("Mark all as read"),
     "memberActivated": MessageLookupByLibrary.simpleMessage(
       "Member re-activated",
     ),
     "memberAdded": MessageLookupByLibrary.simpleMessage("Team member added"),
+    "memberAddedPermissionsFailed": MessageLookupByLibrary.simpleMessage(
+      "The member was added but the permissions were not saved. Edit them from the member page",
+    ),
     "memberBlocked": MessageLookupByLibrary.simpleMessage("Member blocked"),
     "memberClientsDateRangeAction": MessageLookupByLibrary.simpleMessage(
       "Change period",
@@ -1046,6 +1207,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberHoursTitle": MessageLookupByLibrary.simpleMessage("Working hours"),
     "memberNameHint": MessageLookupByLibrary.simpleMessage("e.g. Karim"),
     "memberNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "memberPermissionsTitle": MessageLookupByLibrary.simpleMessage(
+      "Member permissions",
+    ),
     "memberPhoneHint": MessageLookupByLibrary.simpleMessage("e.g. 01111111111"),
     "memberPhoneLabel": MessageLookupByLibrary.simpleMessage("Phone number"),
     "memberSaved": MessageLookupByLibrary.simpleMessage("Member details saved"),
@@ -1062,6 +1226,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "merchantHint": MessageLookupByLibrary.simpleMessage(
       "Sell barber supplies wholesale to salons",
+    ),
+    "merchantRatingTitle": MessageLookupByLibrary.simpleMessage(
+      "How was your order?",
     ),
     "message_required": MessageLookupByLibrary.simpleMessage(
       "Message is required",
@@ -1081,7 +1248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "missingDocsTitle": MessageLookupByLibrary.simpleMessage(
       "Missing documents",
     ),
-    "missingDocumentsHomeCount": m18,
+    "missingDocumentsHomeCount": m20,
     "moneyAmountHint": MessageLookupByLibrary.simpleMessage("Enter the amount"),
     "moneyAmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
     "moneyDayOfMonthLabel": MessageLookupByLibrary.simpleMessage(
@@ -1164,9 +1331,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "monthRevenue": MessageLookupByLibrary.simpleMessage("Month revenue"),
     "moreSection": MessageLookupByLibrary.simpleMessage("More"),
-    "moveStatusTo": m19,
+    "moveMapToChooseLocation": MessageLookupByLibrary.simpleMessage(
+      "Move the map to choose a spot",
+    ),
+    "moveStatusTo": m21,
     "myCategories": MessageLookupByLibrary.simpleMessage("My categories"),
-    "myCategoriesCount": m20,
+    "myCategoriesCount": m22,
     "myCustomers": MessageLookupByLibrary.simpleMessage("My customers"),
     "myCustomersSubtitle": MessageLookupByLibrary.simpleMessage(
       "Barbers and salons who ordered from your store",
@@ -1188,6 +1358,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "national_id_required": MessageLookupByLibrary.simpleMessage(
       "National ID is required",
     ),
+    "nearbyLocationOffMessage": MessageLookupByLibrary.simpleMessage(
+      "Turn on location to see barbers near you",
+    ),
+    "nearbyLocationOffTitle": MessageLookupByLibrary.simpleMessage(
+      "Location is off",
+    ),
     "nearestShopsTitle": MessageLookupByLibrary.simpleMessage(
       "Nearest salons to you",
     ),
@@ -1200,10 +1376,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "e.g. Premium offers",
     ),
     "newDiscount": MessageLookupByLibrary.simpleMessage("New offer"),
-    "newDiscountSinceOrderLabel": m21,
+    "newDiscountSinceOrderLabel": m23,
     "newMoneyPinLabel": MessageLookupByLibrary.simpleMessage("New PIN"),
     "newPassword": MessageLookupByLibrary.simpleMessage("New password"),
-    "newStorefrontOrdersCount": m22,
+    "newStorefrontOrdersCount": m24,
     "nextRenewalLabel": MessageLookupByLibrary.simpleMessage("Next renewal"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Don\'t have an account? Register as a merchant",
@@ -1242,8 +1418,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "noFavoritesYet": MessageLookupByLibrary.simpleMessage(
       "You haven\'t favorited any barber yet",
     ),
+    "noHaircutStylesYet": MessageLookupByLibrary.simpleMessage(
+      "No styles in the catalog yet",
+    ),
+    "noHomeServiceBroadcastsYet": MessageLookupByLibrary.simpleMessage(
+      "No home service invitations right now",
+    ),
     "noHomeServiceRequestsYet": MessageLookupByLibrary.simpleMessage(
       "You haven\'t made any home service requests yet",
+    ),
+    "noHomeServiceShopsAtThisTime": MessageLookupByLibrary.simpleMessage(
+      "No shops are available at this time",
     ),
     "noHomeServiceShopsYet": MessageLookupByLibrary.simpleMessage(
       "No shops offer home service right now",
@@ -1270,6 +1455,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPendingHomeServiceRequests": MessageLookupByLibrary.simpleMessage(
       "No home service requests awaiting a reply",
     ),
+    "noPlacesFound": MessageLookupByLibrary.simpleMessage("No results found"),
     "noProductsYet": MessageLookupByLibrary.simpleMessage("No products yet"),
     "noReviewsYet": MessageLookupByLibrary.simpleMessage("No reviews yet"),
     "noShopsYet": MessageLookupByLibrary.simpleMessage(
@@ -1277,6 +1463,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noSlotsAvailable": MessageLookupByLibrary.simpleMessage(
       "No slots available on this day",
+    ),
+    "noStoreProductsYet": MessageLookupByLibrary.simpleMessage(
+      "No products available right now",
     ),
     "noSubscriptionRequests": MessageLookupByLibrary.simpleMessage(
       "No requests yet",
@@ -1324,7 +1513,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderDiscountLabel": MessageLookupByLibrary.simpleMessage(
       "Order discount",
     ),
-    "orderDiscountWithPercentLabel": m23,
+    "orderDiscountWithPercentLabel": m25,
     "orderFulfilmentTypeLabel": MessageLookupByLibrary.simpleMessage(
       "Fulfilment type",
     ),
@@ -1340,6 +1529,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Rejection reason",
     ),
     "orderTotal": MessageLookupByLibrary.simpleMessage("Total"),
+    "orderedBeforeLabel": MessageLookupByLibrary.simpleMessage(
+      "Ordered before",
+    ),
     "orderedItems": MessageLookupByLibrary.simpleMessage("Ordered items"),
     "otpRequired": MessageLookupByLibrary.simpleMessage("Enter the full code"),
     "otpResentMessage": MessageLookupByLibrary.simpleMessage(
@@ -1417,6 +1609,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "percentAboveMax": MessageLookupByLibrary.simpleMessage(
       "Percentage cannot exceed 100%",
     ),
+    "permissionCloseBookings": MessageLookupByLibrary.simpleMessage(
+      "Close bookings",
+    ),
+    "permissionCloseBookingsHint": MessageLookupByLibrary.simpleMessage(
+      "Finishes bookings (done / no-show), edits the bill and settles unresolved ones",
+    ),
+    "permissionMarkPaid": MessageLookupByLibrary.simpleMessage(
+      "Confirm payment received",
+    ),
+    "permissionMarkPaidHint": MessageLookupByLibrary.simpleMessage(
+      "Confirms the money was collected after a booking is done",
+    ),
+    "permissionMarkPaidNeedsClose": MessageLookupByLibrary.simpleMessage(
+      "Requires the close bookings permission first",
+    ),
+    "permissionViewRevenue": MessageLookupByLibrary.simpleMessage(
+      "View revenue",
+    ),
+    "permissionViewRevenueHint": MessageLookupByLibrary.simpleMessage(
+      "Sees their own earnings and daily report",
+    ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Label (optional)"),
     "phoneLabelHint": MessageLookupByLibrary.simpleMessage("e.g. Sales line"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
@@ -1431,6 +1644,12 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Phone number must contain digits only",
         ),
+    "pickLocationOnMap": MessageLookupByLibrary.simpleMessage(
+      "Pick location on the map",
+    ),
+    "pickLocationTitle": MessageLookupByLibrary.simpleMessage(
+      "Select location",
+    ),
     "placeOrder": MessageLookupByLibrary.simpleMessage("Place order"),
     "placeOrderConfirmAction": MessageLookupByLibrary.simpleMessage("Send"),
     "placeOrderConfirmMessage": MessageLookupByLibrary.simpleMessage(
@@ -1452,7 +1671,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_enter_a_valid_phone_number": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid phone number",
     ),
-    "priceChangedSinceOrderLabel": m24,
+    "priceChangedSinceOrderLabel": m26,
+    "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy policy"),
     "product": MessageLookupByLibrary.simpleMessage("Product"),
     "productDescription": MessageLookupByLibrary.simpleMessage(
       "Product description",
@@ -1465,7 +1685,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This product appears only in the supplies store inside the barbers\' app, not to regular customers.",
     ),
     "productImages": MessageLookupByLibrary.simpleMessage("Product images"),
-    "productMetaLine": m25,
+    "productMetaLine": m27,
     "productName": MessageLookupByLibrary.simpleMessage("Product name"),
     "productNameHint": MessageLookupByLibrary.simpleMessage(
       "e.g. Strong hold wax - salon pack",
@@ -1473,10 +1693,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "productNameRequired": MessageLookupByLibrary.simpleMessage(
       "Enter the product name",
     ),
+    "productOrdersThisMonthLabel": MessageLookupByLibrary.simpleMessage(
+      "Product orders this month",
+    ),
     "productRequired": MessageLookupByLibrary.simpleMessage("Choose a product"),
+    "productsAmountLine": m28,
     "productsCount": MessageLookupByLibrary.simpleMessage("Products"),
     "productsNote": MessageLookupByLibrary.simpleMessage(
       "What you list here is only visible to barbers in their supplies store",
+    ),
+    "productsThisMonthLabel": MessageLookupByLibrary.simpleMessage(
+      "Product revenue this month",
     ),
     "profileDetailsTitle": MessageLookupByLibrary.simpleMessage(
       "Account Details",
@@ -1502,7 +1729,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "quotaOwnServices": MessageLookupByLibrary.simpleMessage("Own services"),
     "quotaProducts": MessageLookupByLibrary.simpleMessage("Products"),
     "quotaUnlimited": MessageLookupByLibrary.simpleMessage("Unlimited"),
-    "quotaUsedOfCap": m26,
+    "quotaUsedOfCap": m29,
     "quoteAllShops": MessageLookupByLibrary.simpleMessage("All shops"),
     "quoteAppliedTitle": MessageLookupByLibrary.simpleMessage(
       "Discounts that fired",
@@ -1539,14 +1766,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "quoteUnitAfterDiscount": MessageLookupByLibrary.simpleMessage(
       "Unit price after discount",
     ),
-    "rankLabel": m27,
-    "rateBarberSubtitle": m28,
+    "rankLabel": m30,
+    "rateBarberSubtitle": m31,
     "rateBarberTitle": MessageLookupByLibrary.simpleMessage("Rate the barber"),
     "rateBooking": MessageLookupByLibrary.simpleMessage("Rate booking"),
+    "rateHomeService": MessageLookupByLibrary.simpleMessage(
+      "Rate home service",
+    ),
     "rateNoteHint": MessageLookupByLibrary.simpleMessage(
       "Write your feedback (optional)",
     ),
-    "rateShopSubtitle": m29,
+    "rateShopSubtitle": m32,
     "rateShopTitle": MessageLookupByLibrary.simpleMessage("Rate the shop"),
     "rateShopToo": MessageLookupByLibrary.simpleMessage("Rate the shop too"),
     "ratingLabel": MessageLookupByLibrary.simpleMessage("Rating"),
@@ -1615,9 +1845,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "resetPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Reset password",
     ),
-    "responsibleBarber": m30,
+    "responsibleBarber": m33,
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
-    "reviewsCount": m31,
+    "reviewsCount": m34,
     "reviewsTitle": MessageLookupByLibrary.simpleMessage("Reviews"),
     "rewardAmount": MessageLookupByLibrary.simpleMessage("Fixed amount"),
     "rewardFree": MessageLookupByLibrary.simpleMessage("Free"),
@@ -1627,12 +1857,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "rewardTypeLabel": MessageLookupByLibrary.simpleMessage("Reward type"),
     "runningLowProducts": MessageLookupByLibrary.simpleMessage("Running low"),
-    "sameDayBookingWarningMessage": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to book another appointment for today?",
+    "sameDayBookingConfirmLabel": MessageLookupByLibrary.simpleMessage(
+      "Yes, book again",
     ),
-    "sameDayBookingWarningTitle": MessageLookupByLibrary.simpleMessage(
-      "You already have a booking today",
-    ),
+    "sameDayBookingWarningMessage": m35,
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("Save changes"),
     "saveNewPassword": MessageLookupByLibrary.simpleMessage("Save password"),
@@ -1650,6 +1878,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "scopeProductHint": MessageLookupByLibrary.simpleMessage(
       "A percentage or amount off a single product",
     ),
+    "searchPlaceHint": MessageLookupByLibrary.simpleMessage(
+      "Search for a place or address",
+    ),
+    "searchingAddress": MessageLookupByLibrary.simpleMessage(
+      "Finding the address...",
+    ),
     "seats": MessageLookupByLibrary.simpleMessage("Seats"),
     "seeAll": MessageLookupByLibrary.simpleMessage("See all"),
     "selectFulfillmentRequired": MessageLookupByLibrary.simpleMessage(
@@ -1657,6 +1891,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectStarsError": MessageLookupByLibrary.simpleMessage(
       "Select a star rating first",
+    ),
+    "selectedLocationLabel": MessageLookupByLibrary.simpleMessage(
+      "Selected location",
     ),
     "sendBroadcast": MessageLookupByLibrary.simpleMessage("Send notification"),
     "sendCode": MessageLookupByLibrary.simpleMessage("Send code"),
@@ -1680,7 +1917,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Duration (minutes)",
     ),
     "serviceLabel": MessageLookupByLibrary.simpleMessage("Service"),
-    "serviceMetaLine": m32,
+    "serviceMetaLine": m36,
     "servicePopularLabel": MessageLookupByLibrary.simpleMessage(
       "Most requested",
     ),
@@ -1696,7 +1933,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settleCancelReasonHint": MessageLookupByLibrary.simpleMessage(
       "Reason for cancelling",
     ),
-    "settleSelectedCount": m33,
+    "settleSelectedCount": m37,
     "settleSubmitAction": MessageLookupByLibrary.simpleMessage(
       "Apply decisions",
     ),
@@ -1710,6 +1947,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter the shop name",
     ),
     "shopOwner": MessageLookupByLibrary.simpleMessage("Shop owner"),
+    "shopOwnerHint": MessageLookupByLibrary.simpleMessage(
+      "Manage the shop, team and earnings",
+    ),
+    "shopPhotoDeleteMessage": MessageLookupByLibrary.simpleMessage(
+      "The shop photo will be removed from your profile. You can upload another one anytime.",
+    ),
+    "shopPhotoDeleteTitle": MessageLookupByLibrary.simpleMessage(
+      "Delete shop photo",
+    ),
+    "shopPhotoDeleted": MessageLookupByLibrary.simpleMessage(
+      "Shop photo deleted",
+    ),
+    "shopPhotoEditTitle": MessageLookupByLibrary.simpleMessage("Shop photo"),
+    "shopPhotoRemove": MessageLookupByLibrary.simpleMessage("Remove photo"),
+    "shopPhotoReplace": MessageLookupByLibrary.simpleMessage("Change photo"),
+    "shopPhotoUpdated": MessageLookupByLibrary.simpleMessage(
+      "Shop photo updated",
+    ),
+    "shopRatingLabel": MessageLookupByLibrary.simpleMessage("Shop rating"),
     "shopSection": MessageLookupByLibrary.simpleMessage("Shop"),
     "shops": MessageLookupByLibrary.simpleMessage("Salons"),
     "shopsAllHint": MessageLookupByLibrary.simpleMessage(
@@ -1718,7 +1974,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "The offer will apply to all salons",
     ),
-    "shopsSelectedHint": m34,
+    "shopsSelectedHint": m38,
     "shopsTitle": MessageLookupByLibrary.simpleMessage("Salons"),
     "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
@@ -1742,16 +1998,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "sponsorshipBuy": MessageLookupByLibrary.simpleMessage(
       "Promote for a month",
     ),
-    "sponsorshipConfirmMessage": m35,
+    "sponsorshipConfirmMessage": m39,
     "sponsorshipConfirmTitle": MessageLookupByLibrary.simpleMessage(
       "Activate promotion",
     ),
-    "sponsorshipDaysLeft": m36,
+    "sponsorshipDaysLeft": m40,
     "sponsorshipEndsAt": MessageLookupByLibrary.simpleMessage("Ends on"),
     "sponsorshipInactive": MessageLookupByLibrary.simpleMessage(
       "Promotion is off",
     ),
-    "sponsorshipInsufficient": m37,
+    "sponsorshipInsufficient": m41,
     "sponsorshipMerchantSubtitle": MessageLookupByLibrary.simpleMessage(
       "Put your products at the top of the barbers\' store",
     ),
@@ -1782,12 +2038,28 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "stockQuantity": MessageLookupByLibrary.simpleMessage("Available stock"),
-    "stockUnits": m38,
+    "stockQuantityHint": MessageLookupByLibrary.simpleMessage("e.g. 20"),
+    "stockUnits": m42,
+    "stockUpdated": MessageLookupByLibrary.simpleMessage("Stock updated"),
     "storeAndSalesSection": MessageLookupByLibrary.simpleMessage("Your Store"),
+    "storeBrowseMerchantsCta": MessageLookupByLibrary.simpleMessage(
+      "Browse suppliers",
+    ),
+    "storeFeedSearchHint": MessageLookupByLibrary.simpleMessage(
+      "Search products or brands",
+    ),
     "storeOrdersTitle": MessageLookupByLibrary.simpleMessage(
       "My supply orders",
     ),
-    "storeTitle": MessageLookupByLibrary.simpleMessage("Suppliers store"),
+    "storeSortNewest": MessageLookupByLibrary.simpleMessage("Newest"),
+    "storeSortPriceAsc": MessageLookupByLibrary.simpleMessage(
+      "Price: low to high",
+    ),
+    "storeSortPriceDesc": MessageLookupByLibrary.simpleMessage(
+      "Price: high to low",
+    ),
+    "storeSortRelevant": MessageLookupByLibrary.simpleMessage("Most relevant"),
+    "storeTitle": MessageLookupByLibrary.simpleMessage("Store"),
     "storefrontCategoriesTitle": MessageLookupByLibrary.simpleMessage(
       "Storefront categories",
     ),
@@ -1847,16 +2119,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabServices": MessageLookupByLibrary.simpleMessage("Services"),
     "tabStore": MessageLookupByLibrary.simpleMessage("Store"),
     "teamMember": MessageLookupByLibrary.simpleMessage("Team member"),
+    "teamMemberAccountHint": MessageLookupByLibrary.simpleMessage(
+      "Your shop owner creates your account and sends you the temporary password",
+    ),
+    "teamMemberHint": MessageLookupByLibrary.simpleMessage(
+      "Follow your bookings and do your daily work",
+    ),
     "teamTitle": MessageLookupByLibrary.simpleMessage("Team"),
+    "termsAndConditions": MessageLookupByLibrary.simpleMessage(
+      "Terms and conditions",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "tiktok_error": MessageLookupByLibrary.simpleMessage(
       "Could not open TikTok",
     ),
+    "tillAddedLabel": MessageLookupByLibrary.simpleMessage("Till additions"),
+    "tillSubtractedLabel": MessageLookupByLibrary.simpleMessage(
+      "Till withdrawals",
+    ),
     "today": MessageLookupByLibrary.simpleMessage("Today"),
     "topProducts": MessageLookupByLibrary.simpleMessage("Most stocked"),
     "totalStockUnits": MessageLookupByLibrary.simpleMessage("Total units"),
+    "totalThisMonthLabel": MessageLookupByLibrary.simpleMessage(
+      "Total this month",
+    ),
     "transferAccountAccountNumber": MessageLookupByLibrary.simpleMessage(
       "Number",
     ),
@@ -1870,8 +2158,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "This app is still under development",
     ),
     "underReview": MessageLookupByLibrary.simpleMessage("Under review"),
-    "unitDiscountPercentLabel": m39,
+    "unitDiscountPercentLabel": m43,
     "unitPrice": MessageLookupByLibrary.simpleMessage("Unit price (EGP)"),
+    "unnamedLocation": MessageLookupByLibrary.simpleMessage(
+      "Location selected on map",
+    ),
     "upcomingBookingsTitle": MessageLookupByLibrary.simpleMessage(
       "Your upcoming bookings",
     ),
@@ -1903,6 +2194,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "view": MessageLookupByLibrary.simpleMessage("View"),
     "viewCart": MessageLookupByLibrary.simpleMessage("View cart"),
     "viewDocument": MessageLookupByLibrary.simpleMessage("View"),
+    "viewMerchantStore": m44,
+    "viewOnMap": MessageLookupByLibrary.simpleMessage("View on map"),
+    "viewShopProfile": m45,
+    "visitRatingTitle": MessageLookupByLibrary.simpleMessage(
+      "How was your visit?",
+    ),
     "walkInAddonsLabel": MessageLookupByLibrary.simpleMessage(
       "Add-ons (optional)",
     ),
@@ -1925,7 +2222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walkInSlotTimeSpecific": MessageLookupByLibrary.simpleMessage(
       "Pick a time",
     ),
-    "walletAvailableLabel": m40,
+    "walletAvailableLabel": m46,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage(
       "Current balance",
     ),

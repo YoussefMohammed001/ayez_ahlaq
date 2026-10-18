@@ -12,7 +12,9 @@ class BarberStorefrontDeliveryCubit
   BarberStorefrontDeliveryCubit(this._getDelivery, this._updateDelivery)
     : super(const BarberStorefrontDeliveryState());
 
-  Future<void> loadDelivery() async {
+  Future<void> loadDelivery({bool force = false}) async {
+    if (!force && state.status == StorefrontDeliveryStatus.success) return;
+
     emit(state.copyWith(status: StorefrontDeliveryStatus.loading));
 
     final result = await _getDelivery();

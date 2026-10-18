@@ -32,7 +32,9 @@ class HomeServiceRequestRow extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  request.shopName,
+                  request.anyNearby
+                      ? S().homeServiceAnyNearbyTitle
+                      : request.shopName ?? '',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 13.5.sp,
@@ -64,9 +66,14 @@ class HomeServiceRequestRow extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StatusBadge(label: request.status.label, tone: request.status.tone),
+              StatusBadge(
+                label: request.status.label,
+                tone: request.status.tone,
+              ),
               Text(
-                S().currencyEgp(total),
+                total == null
+                    ? S().homeServicePricePending
+                    : S().currencyEgp(total),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: context.semantic.accentSoft,

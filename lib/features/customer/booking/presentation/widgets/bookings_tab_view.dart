@@ -39,7 +39,10 @@ class BookingsTabView extends StatelessWidget {
     if (bookings.isEmpty) {
       return RefreshableStateView(
         onRefresh: onRefresh,
-        child: AppEmptyState(icon: Icons.event_note_outlined, title: S().noBookingsYet),
+        child: AppEmptyState(
+          icon: Icons.event_note_outlined,
+          title: S().noBookingsYet,
+        ),
       );
     }
 
@@ -50,7 +53,10 @@ class BookingsTabView extends StatelessWidget {
         itemCount: bookings.length,
         itemBuilder: (_, index) {
           final booking = bookings[index];
-          return CustomerBookingRow(booking: booking, onTap: () => onTapBooking(booking.id));
+          return CustomerBookingRow(
+            booking: booking,
+            onTap: () => onTapBooking(booking.id),
+          );
         },
       ),
     );

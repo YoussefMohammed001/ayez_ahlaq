@@ -32,6 +32,7 @@ class RejectStorefrontOrderSheet extends StatefulWidget {
 class _RejectStorefrontOrderSheetState
     extends State<RejectStorefrontOrderSheet> {
   final _controller = TextEditingController();
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -39,13 +40,17 @@ class _RejectStorefrontOrderSheetState
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final reason = _controller.text.trim();
-    if (reason.isEmpty) return;
+    if (_submitting || reason.isEmpty) return;
 
-    context
+    setState(() => _submitting = true);
+
+    await context
         .read<BarberStorefrontOrdersCubit>()
         .rejectOrder(widget.orderId, reason);
+
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -73,7 +78,11 @@ class _RejectStorefrontOrderSheetState
             decoration: AppInputDecoration.build(context, S().rejectReasonHint),
           ),
           SizedBox(height: 16.h),
-          PrimaryCtaButton(label: S().confirmReject, onPressed: _submit),
+          PrimaryCtaButton(
+            label: S().confirmReject,
+            isLoading: _submitting,
+            onPressed: _submit,
+          ),
         ],
       ),
     );

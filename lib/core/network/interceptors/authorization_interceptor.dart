@@ -41,7 +41,10 @@ class AuthorizationInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == HttpCodes.unauthorized) {
+    final hadToken = err.requestOptions.headers.containsKey(
+      HttpHeadersKeys.authorization,
+    );
+    if (hadToken && err.response?.statusCode == HttpCodes.unauthorized) {
       sessionManager.emitUnauthorized();
     }
     handler.next(err);

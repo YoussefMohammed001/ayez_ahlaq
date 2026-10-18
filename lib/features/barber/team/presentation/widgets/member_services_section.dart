@@ -24,7 +24,6 @@ class MemberServicesSection extends StatelessWidget {
     return ServiceFormSheet.show(
       context,
       catalog: state.catalog,
-      isSubmitting: state.isSubmitting,
       existing: existing,
       onSubmit: (service) => existing == null
           ? cubit.createService(service)

@@ -5,6 +5,7 @@ import '../../../../core/routes/route_paths.dart';
 import '../../../../core/widgets/section_title.dart';
 import '../../../../core/extensions/ext_theme.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../shared/guest/guest_guard.dart';
 import 'quick_action_item.dart';
 
 class QuickActionsSection extends StatelessWidget {
@@ -29,15 +30,20 @@ class QuickActionsSection extends StatelessWidget {
                 child: QuickActionItem(
                   icon: Icons.home_repair_service_outlined,
                   label: S().homeServiceShopListTitle,
-                  onTap: () =>
-                      context.push(Routes.customerHomeServiceShopListScreen),
+                  onTap: () => GuestGuard.run(
+                    context,
+                    () => context.push(Routes.customerHomeServiceDateTimeScreen),
+                  ),
                 ),
               ),
               Expanded(
                 child: QuickActionItem(
                   icon: Icons.event_note_outlined,
                   label: S().bookingsTitle,
-                  onTap: () => context.push(Routes.customerBookingsScreen),
+                  onTap: () => GuestGuard.run(
+                    context,
+                    () => context.push(Routes.customerBookingsScreen),
+                  ),
                 ),
               ),
             ],

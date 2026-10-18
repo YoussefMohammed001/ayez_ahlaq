@@ -12,5 +12,6 @@ class GetBookingSlotsUseCase {
     required int shopId,
     required int serviceTypeId,
     required String date,
-  }) => _repo.getSlots(shopId: shopId, serviceTypeId: serviceTypeId, date: date);
+  }) =>
+      _repo.getSlots(shopId: shopId, serviceTypeId: serviceTypeId, date: date);
 }

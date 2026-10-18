@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'store_merchant_phone.dart';
 
 class StoreMerchant extends Equatable {
   final int id;
@@ -10,6 +11,7 @@ class StoreMerchant extends Equatable {
   final bool deliveryOffered;
   final int deliveryFee;
   final int? freeDeliveryOver;
+  final List<StoreMerchantPhone> phones;
 
   const StoreMerchant({
     required this.id,
@@ -21,6 +23,7 @@ class StoreMerchant extends Equatable {
     required this.deliveryOffered,
     required this.deliveryFee,
     this.freeDeliveryOver,
+    this.phones = const [],
   });
 
   @override
@@ -34,5 +37,6 @@ class StoreMerchant extends Equatable {
     deliveryOffered,
     deliveryFee,
     freeDeliveryOver,
+    phones,
   ];
 }

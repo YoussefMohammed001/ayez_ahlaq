@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../../core/notifications/notification_router.dart';
-import '../../../../../core/routes/route_paths.dart';
 import '../../../../../shared/user_type.dart';
+import '../../domain/entities/customer_notification.dart';
+import 'customer_notification_tap_router.dart';
 
 class CustomerNotificationRouter implements NotificationRouter {
+  final CustomerNotificationTapRouter _tapRouter =
+      const CustomerNotificationTapRouter();
+
   @override
   void route({
     required String type,
@@ -14,6 +17,17 @@ class CustomerNotificationRouter implements NotificationRouter {
   }) {
     if (role != UserType.customer) return;
 
-    context.go(Routes.customerNotificationsScreen);
+    _tapRouter.handle(
+      context,
+      CustomerNotification(
+        id: 0,
+        type: type,
+        referenceType: type,
+        referenceId: typeId,
+        title: '',
+        body: '',
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 }

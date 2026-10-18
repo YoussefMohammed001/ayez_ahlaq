@@ -19,35 +19,48 @@ class TimePickerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-        decoration: BoxDecoration(
-          border: Border.all(color: cs.tertiary.withValues(alpha: 0.25)),
-          borderRadius: 8.bRadius,
+    final hasValue = time != '--:--' && time.isNotEmpty;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: font12w500.copyWith(color: cs.tertiary.withValues(alpha: 0.7)),
         ),
-        child: Row(
-          children: [
-            Icon(Icons.access_time_rounded, size: 14.r, color: cs.primary),
-            6.wSpace,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: font10w500.copyWith(
-                      color: cs.tertiary.withValues(alpha: 0.7),
-                    ),
-                  ),
-                  Text(time, style: font13w700.copyWith(color: cs.onSurface)),
-                ],
+        8.hSpace,
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: hasValue
+                    ? cs.primary.withValues(alpha: 0.5)
+                    : cs.tertiary.withValues(alpha: 0.25),
               ),
             ),
-          ],
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    time,
+                    style: font14w400.copyWith(
+                      color: hasValue ? cs.onSurface : Theme.of(context).hintColor,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.access_time_rounded,
+                  size: 16.r,
+                  color: hasValue ? cs.primary : cs.tertiary.withValues(alpha: 0.5),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

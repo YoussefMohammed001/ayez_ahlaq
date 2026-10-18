@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/helpers/relative_date_label.dart';
 import '../../../../../core/widgets/app_card.dart';
-import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/extensions/ext_theme.dart';
-import '../../../../../generated/l10n.dart';
+import '../../../shops/presentation/widgets/shop_avatar.dart';
 import '../../domain/entities/favorite_barber.dart';
 
 class FavoriteBarberRow extends StatelessWidget {
@@ -12,6 +11,7 @@ class FavoriteBarberRow extends StatelessWidget {
   final bool isRemoving;
   final VoidCallback onTap;
   final VoidCallback onRemove;
+  final VoidCallback? onShopTap;
 
   const FavoriteBarberRow({
     super.key,
@@ -19,6 +19,7 @@ class FavoriteBarberRow extends StatelessWidget {
     required this.isRemoving,
     required this.onTap,
     required this.onRemove,
+    this.onShopTap,
   });
 
   @override
@@ -30,10 +31,9 @@ class FavoriteBarberRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          AvatarCircle(
-            initials: favorite.barberName.isEmpty
-                ? S().avatarFallback
-                : favorite.barberName.substring(0, 1),
+          ShopAvatar(
+            shopId: favorite.shopId,
+            shopName: favorite.barberName,
             size: 48.r,
           ),
           SizedBox(width: 12.w),
@@ -73,6 +73,19 @@ class FavoriteBarberRow extends StatelessWidget {
               ],
             ),
           ),
+          if (onShopTap != null)
+            InkWell(
+              onTap: onShopTap,
+              borderRadius: BorderRadius.circular(8.r),
+              child: Padding(
+                padding: EdgeInsets.all(4.w),
+                child: Icon(
+                  Icons.storefront_outlined,
+                  size: 20.r,
+                  color: context.semantic.accentSoft,
+                ),
+              ),
+            ),
           isRemoving
               ? SizedBox(
                   width: 20.r,

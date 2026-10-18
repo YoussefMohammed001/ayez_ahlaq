@@ -4,7 +4,7 @@ import '../../domain/entities/booking_addon.dart';
 import '../../domain/entities/booking_drink.dart';
 import '../../domain/entities/booking_slots.dart';
 import '../../domain/entities/customer_booking.dart';
-import '../../domain/entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 import '../../domain/repos/i_customer_booking_repo.dart';
 import '../apis/customer_booking_api.dart';
 import '../models/booking_slots_model.dart';
@@ -89,8 +89,9 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
     final result = await _api.getBooking(id);
 
     return result.map(
-      (response) =>
-          CustomerBookingModel.fromJson(response['data'] as Map<String, dynamic>),
+      (response) => CustomerBookingModel.fromJson(
+        response['data'] as Map<String, dynamic>,
+      ),
     );
   }
 
@@ -99,8 +100,9 @@ class CustomerBookingRepo implements ICustomerBookingRepo {
     final result = await _api.cancelBooking(id);
 
     return result.map(
-      (response) =>
-          CustomerBookingModel.fromJson(response['data'] as Map<String, dynamic>),
+      (response) => CustomerBookingModel.fromJson(
+        response['data'] as Map<String, dynamic>,
+      ),
     );
   }
 

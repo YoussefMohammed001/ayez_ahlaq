@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/user_helpers.dart';
+import '../widgets/barber_login_footer.dart';
+import '../../../../../core/extensions/ext_text_controllers.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_password_field.dart';
@@ -10,7 +14,6 @@ import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/labeled_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../shared/auth/presentation/widgets/auth_brand_header.dart';
-import '../../../../../shared/auth/presentation/widgets/auth_footer_prompt.dart';
 import '../../../../../shared/auth/presentation/widgets/change_account_type_button.dart';
 import '../manager/barber_auth_cubit.dart';
 import '../manager/barber_auth_state.dart';
@@ -35,6 +38,12 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
     super.dispose();
   }
 
+  void _openAndReset(String route) {
+    [_identifierController, _passwordController].clearAll();
+    _formKey.currentState?.reset();
+    context.push(route);
+  }
+
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -46,6 +55,8 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isTeamMember = UserHelpers.barberAccountKind.isTeamMember;
+
     return Scaffold(
       body: SafeArea(
         child: BlocListener<BarberAuthCubit, BarberAuthState>(
@@ -58,6 +69,7 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
             }
             if (state.status == BarberAuthStatus.failure &&
                 state.errorMessage != null) {
+              _passwordController.clear();
               showError(state.errorMessage!);
             }
           },
@@ -68,8 +80,12 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
               children: [
                 AuthBrandHeader(
                   title: S().welcomeBack,
-                  subtitle: S().loginSubtitleBarber,
-                  accountTypeLabel: S().accountTypeBadge(S().barber),
+                  subtitle: isTeamMember
+                      ? S().loginSubtitleTeamMember
+                      : S().loginSubtitleBarber,
+                  accountTypeLabel: S().accountTypeBadge(
+                    isTeamMember ? S().teamMember : S().barber,
+                  ),
                 ),
                 SizedBox(height: 26.h),
                 AppCard(
@@ -77,18 +93,16 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
                   child: Column(children: _buildFormFields()),
                 ),
                 SizedBox(height: 18.h),
-                AuthFooterPrompt(
-                  label: S().forgotPassword,
-                  onTap: () => context.push(Routes.barberForgotPasswordScreen),
-                ),
-                AuthFooterPrompt(
-                  label: S().noAccountRegisterBarber,
-                  onTap: () => context.push(Routes.barberRegisterScreen),
+                BarberLoginFooter(
+                  isTeamMember: isTeamMember,
+                  onForgotPassword: () =>
+                      _openAndReset(Routes.barberForgotPasswordScreen),
+                  onRegister: () => _openAndReset(Routes.barberRegisterScreen),
                 ),
                 SizedBox(height: 10.h),
                 ChangeAccountTypeButton(
                   label: S().changeAccountType,
-                  onTap: () => context.go(Routes.userTypeScreen),
+                  onTap: () => context.go(Routes.barberRoleScreen),
                 ),
               ],
             ),
@@ -106,6 +120,7 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
           controller: _identifierController,
           hint: '01001234567',
           isNumber: true,
+          validator: Validators.validateEgyptianPhoneNumber,
         ),
       ),
       LabeledField(

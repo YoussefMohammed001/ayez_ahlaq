@@ -6,7 +6,7 @@ class AssetsManager {
 
   /// >>>>>>>>>>>>>. Png Images
   static const String splashIcon = 'app_logo';
-  static const String errorImage = 'splash_icon';
+  static const String errorImage = 'app_icon';
 
   static const String alertError = 'alert_error';
   static const String back = 'back';

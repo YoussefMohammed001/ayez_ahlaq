@@ -9,5 +9,6 @@ extension HomeServiceStatusLabel on HomeServiceRequestStatus {
     HomeServiceRequestStatus.done => S().homeServiceStatusDone,
     HomeServiceRequestStatus.rejected => S().homeServiceStatusRejected,
     HomeServiceRequestStatus.cancelled => S().homeServiceStatusCancelled,
+    HomeServiceRequestStatus.expired => S().homeServiceStatusExpired,
   };
 }

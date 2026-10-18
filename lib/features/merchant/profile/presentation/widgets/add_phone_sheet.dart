@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
@@ -72,9 +73,7 @@ class _AddPhoneSheetState extends State<AddPhoneSheet> {
               controller: _phoneController,
               hint: '01112223334',
               isNumber: true,
-              validator: (v) => (v == null || v.trim().length < 10)
-                  ? S().please_enter_a_valid_phone_number
-                  : null,
+              validator: Validators.validateEgyptianPhoneNumber,
             ),
             SectionTitle(title: S().phoneLabel),
             AppTextField(

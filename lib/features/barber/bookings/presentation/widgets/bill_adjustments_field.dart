@@ -128,9 +128,17 @@ class _BillAdjustmentsFieldState extends State<BillAdjustmentsField> {
           ),
           if (i != _rows.length - 1) SizedBox(height: 10.h),
         ],
-        SizedBox(height: 12.h),
-        TextButton.icon(
+        if (_rows.isNotEmpty) SizedBox(height: 10.h),
+        OutlinedButton.icon(
           onPressed: _add,
+          style: OutlinedButton.styleFrom(
+            minimumSize: Size.fromHeight(46.h),
+            foregroundColor: context.semantic.accentStrong,
+            side: BorderSide(color: context.semantic.accentStrong),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+          ),
           icon: Icon(Icons.add_rounded, size: 18.r),
           label: Text(S().addAdjustment, style: font12w600),
         ),

@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/di/services_locator.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
+import '../../../../../core/widgets/sheet_grabber.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../drinks/presentation/manager/barber_drinks_cubit.dart';
 import '../../domain/entities/booking.dart';
@@ -17,6 +17,7 @@ import '../manager/bookings_cubit.dart';
 import '../manager/bookings_state.dart';
 import 'bill_adjustments_field.dart';
 import 'bill_confirm_dialog.dart';
+import 'edit_bill_title.dart';
 import 'walk_in_drinks_field.dart';
 
 class EditBillSheet extends StatefulWidget {
@@ -32,7 +33,7 @@ class EditBillSheet extends StatefulWidget {
       builder: (_) => MultiBlocProvider(
         providers: [
           BlocProvider.value(value: context.read<BookingsCubit>()),
-          BlocProvider(create: (_) => sl<BarberDrinksCubit>()),
+          BlocProvider.value(value: sl<BarberDrinksCubit>()..loadDrinks()),
         ],
         child: EditBillSheet(booking: booking),
       ),
@@ -122,12 +123,11 @@ class _EditBillSheetState extends State<EditBillSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(S().editBillTitle, style: HeadingStyles.h4),
-              SizedBox(height: 4.h),
-              Divider(color: context.colorScheme.outline, height: 1),
+              const SheetGrabber(),
+              const EditBillTitle(),
+              SizedBox(height: 6.h),
               SectionTitle(title: S().drinksTitle),
               WalkInDrinksField(drinks: _drinks),
-              SizedBox(height: 12.h),
               SectionTitle(title: S().billAdjustments),
               BillAdjustmentsField(
                 adjustments: _adjustments,

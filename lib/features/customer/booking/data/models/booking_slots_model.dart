@@ -14,7 +14,9 @@ class BookingSlotsModel extends BookingSlots {
       date: json['date'] as String? ?? '',
       serviceTypeId: (json['serviceTypeId'] as num?)?.toInt() ?? 0,
       perBarber: (json['perBarber'] as List<dynamic>? ?? [])
-          .map((e) => BookingSlotBarberModel.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) => BookingSlotBarberModel.fromJson(e as Map<String, dynamic>),
+          )
           .toList(),
       anyBarberSlots: (json['anyBarberSlots'] as List<dynamic>? ?? [])
           .map((e) => e as String)

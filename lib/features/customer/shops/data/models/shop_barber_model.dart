@@ -50,7 +50,9 @@ class ShopBarberModel extends ShopBarber {
       viaInvite: json['viaInvite'] as bool? ?? false,
       owner: json['owner'] as bool? ?? false,
       services: (json['services'] as List<dynamic>? ?? [])
-          .map((e) => ShopBarberServiceModel.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) => ShopBarberServiceModel.fromJson(e as Map<String, dynamic>),
+          )
           .toList(),
     );
   }

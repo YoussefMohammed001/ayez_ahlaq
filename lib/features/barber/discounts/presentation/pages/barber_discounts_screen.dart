@@ -46,7 +46,7 @@ class _BarberDiscountsScreenState extends State<BarberDiscountsScreen> {
 
     await cubit.closeDiscount(id);
     if (context.mounted) {
-      context.read<BarberStorefrontProductsCubit>().loadProducts();
+      context.read<BarberStorefrontProductsCubit>().loadProducts(force: true);
     }
   }
 

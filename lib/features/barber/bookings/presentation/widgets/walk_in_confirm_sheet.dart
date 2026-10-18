@@ -9,6 +9,8 @@ import '../../domain/entities/booking_drink.dart';
 class WalkInConfirmSheet extends StatelessWidget {
   final String serviceName;
   final int servicePrice;
+  final String? styleName;
+  final int styleDelta;
   final List<BookingDrink> drinks;
   final List<BookingAddon> addons;
   final bool isLoading;
@@ -18,6 +20,8 @@ class WalkInConfirmSheet extends StatelessWidget {
     super.key,
     required this.serviceName,
     required this.servicePrice,
+    this.styleName,
+    this.styleDelta = 0,
     required this.drinks,
     required this.addons,
     required this.isLoading,
@@ -26,6 +30,7 @@ class WalkInConfirmSheet extends StatelessWidget {
 
   int get _total =>
       servicePrice +
+      styleDelta +
       drinks.fold<int>(0, (sum, d) => sum + (d.price ?? 0) * d.quantity) +
       addons.fold<int>(0, (sum, a) => sum + (a.price ?? 0) * a.quantity);
 
@@ -49,6 +54,7 @@ class WalkInConfirmSheet extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           _row(context, serviceName, 1, servicePrice),
+          if (styleName != null) _row(context, styleName!, 1, styleDelta),
           for (final drink in drinks) _row(context, drink.name ?? '', drink.quantity, drink.price ?? 0),
           for (final addon in addons) _row(context, addon.name ?? '', addon.quantity, addon.price ?? 0),
           Divider(height: 24.h, color: scheme.outline),

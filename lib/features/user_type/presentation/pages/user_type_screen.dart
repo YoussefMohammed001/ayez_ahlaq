@@ -24,7 +24,7 @@ class UserTypeScreen extends StatelessWidget {
     }
 
     if (type == UserType.barber) {
-      context.go(Routes.barberLoginScreen);
+      context.go(Routes.barberRoleScreen);
       return;
     }
 

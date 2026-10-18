@@ -4,6 +4,8 @@ import '../../../../core/helpers/user_helpers.dart';
 import '../../../../core/routes/route_paths.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/ext_theme.dart';
+import '../../../../core/di/services_locator.dart';
+import '../../../../shared/analytics/user_analytics_sync.dart';
 import '../../../../shared/user_type.dart';
 import '../widgets/splash_body.dart';
 
@@ -36,7 +38,11 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _resolveDestination() async {
     final results = await Future.wait([
       UserHelpers.isLoggedIn(),
-      _intro.forward().orCancel.then<bool>((_) => true).catchError((_) => false),
+      _intro
+          .forward()
+          .orCancel
+          .then<bool>((_) => true)
+          .catchError((_) => false),
       Future.delayed(const Duration(milliseconds: 1200), () => true),
     ]);
 
@@ -48,6 +54,11 @@ class _SplashScreenState extends State<SplashScreen>
     }
 
     final isLoggedIn = results.first;
+    if (!isLoggedIn && UserHelpers.userType == UserType.customer) {
+      context.go(Routes.customerShell);
+      return;
+    }
+
     if (!isLoggedIn) {
       context.go(switch (UserHelpers.userType) {
         UserType.barber => Routes.barberLoginScreen,
@@ -56,6 +67,8 @@ class _SplashScreenState extends State<SplashScreen>
       });
       return;
     }
+
+    sl<UserAnalyticsSync>().identify(UserHelpers.userType);
 
     context.go(switch (UserHelpers.userType) {
       UserType.barber => Routes.barberShell,

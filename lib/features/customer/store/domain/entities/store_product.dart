@@ -8,6 +8,7 @@ class StoreProduct extends Equatable {
   final String? categoryName;
   final String? description;
   final int price;
+  final int effectivePrice;
   final int minOrderQty;
   final int stock;
   final bool hasImage;
@@ -16,6 +17,7 @@ class StoreProduct extends Equatable {
     required this.id,
     required this.name,
     required this.price,
+    required this.effectivePrice,
     required this.minOrderQty,
     required this.stock,
     required this.hasImage,
@@ -27,6 +29,11 @@ class StoreProduct extends Equatable {
 
   bool get isOutOfStock => stock <= 0;
 
+  bool get isDiscounted => effectivePrice < price;
+
+  int get discountPercent =>
+      price <= 0 ? 0 : (((price - effectivePrice) / price) * 100).round();
+
   @override
   List<Object?> get props => [
     id,
@@ -36,6 +43,7 @@ class StoreProduct extends Equatable {
     categoryName,
     description,
     price,
+    effectivePrice,
     minOrderQty,
     stock,
     hasImage,

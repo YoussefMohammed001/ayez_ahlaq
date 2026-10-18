@@ -29,14 +29,17 @@ class DashboardOrdersSection extends StatelessWidget {
               actionLabel: S().seeAll,
               onAction: () => context.push(Routes.customerStoreOrdersScreen),
             ),
-            if (state.status == StoreOrdersStatus.loading && state.orders.isEmpty)
+            if (state.status == StoreOrdersStatus.loading &&
+                state.orders.isEmpty)
               const ListSkeleton(itemCount: 2)
             else
               ...recent.map(
                 (order) => StoreOrderRow(
                   order: order,
-                  onTap: () =>
-                      context.push(Routes.customerStoreOrderDetailScreen, extra: order),
+                  onTap: () => context.push(
+                    Routes.customerStoreOrderDetailScreen,
+                    extra: order,
+                  ),
                 ),
               ),
           ],

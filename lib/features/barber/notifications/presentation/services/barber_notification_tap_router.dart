@@ -11,6 +11,19 @@ class BarberNotificationTapRouter {
       case 'booking':
         context.go(Routes.barberShell, extra: 1); // BarberShell tab 1 = bookings
         return;
+      case 'homeService':
+        final requestId = int.tryParse(notification.referenceId ?? '');
+        if (requestId == null) return;
+        context.push(Routes.barberHomeServiceRequestDetailScreen, extra: requestId);
+        return;
+      case 'homeServiceBroadcast':
+        final requestId = int.tryParse(notification.referenceId ?? '');
+        if (requestId == null) return;
+        context.push(
+          Routes.barberHomeServiceBroadcastRequestDetailScreen,
+          extra: requestId,
+        );
+        return;
       case 'walletRequests':
         context.push(Routes.barberWalletRequestsScreen);
         return;

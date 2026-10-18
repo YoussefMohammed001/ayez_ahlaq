@@ -8,6 +8,7 @@ class HomeServiceRequestDetailState extends Equatable {
   final HomeServiceRequest? request;
   final bool isConfirmingPrice;
   final bool isCancelling;
+  final bool isRating;
   final String? errorMessage;
 
   const HomeServiceRequestDetailState({
@@ -15,6 +16,7 @@ class HomeServiceRequestDetailState extends Equatable {
     this.request,
     this.isConfirmingPrice = false,
     this.isCancelling = false,
+    this.isRating = false,
     this.errorMessage,
   });
 
@@ -23,6 +25,7 @@ class HomeServiceRequestDetailState extends Equatable {
     HomeServiceRequest? request,
     bool? isConfirmingPrice,
     bool? isCancelling,
+    bool? isRating,
     String? errorMessage,
   }) {
     return HomeServiceRequestDetailState(
@@ -30,6 +33,7 @@ class HomeServiceRequestDetailState extends Equatable {
       request: request ?? this.request,
       isConfirmingPrice: isConfirmingPrice ?? this.isConfirmingPrice,
       isCancelling: isCancelling ?? this.isCancelling,
+      isRating: isRating ?? this.isRating,
       errorMessage: errorMessage,
     );
   }
@@ -40,6 +44,7 @@ class HomeServiceRequestDetailState extends Equatable {
     request,
     isConfirmingPrice,
     isCancelling,
+    isRating,
     errorMessage,
   ];
 }

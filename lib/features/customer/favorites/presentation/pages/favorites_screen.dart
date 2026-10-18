@@ -74,6 +74,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     Routes.customerShopDetailScreen,
                     extra: favorite.shopId,
                   ),
+                  onShopTap: () => context.push(
+                    Routes.customerStoreProductsScreen,
+                    extra: favorite.shopId,
+                  ),
                   onRemove: () => cubit.removeFavorite(favorite.barberId),
                 );
               },

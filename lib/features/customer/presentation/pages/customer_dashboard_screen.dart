@@ -9,6 +9,8 @@ import '../../profile/presentation/manager/customer_profile_cubit.dart';
 import '../../profile/presentation/manager/customer_profile_state.dart';
 import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../store/presentation/manager/store_orders_cubit.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../shared/guest/guest_guard.dart';
 import '../widgets/customer_home_greeting.dart';
 import '../widgets/dashboard_orders_section.dart';
 import '../widgets/nearest_shops_section.dart';
@@ -17,15 +19,22 @@ import '../widgets/upcoming_bookings_section.dart';
 
 class CustomerDashboardScreen extends StatelessWidget {
   final ValueChanged<int> onGoToTab;
+  final bool isGuest;
 
-  const CustomerDashboardScreen({super.key, required this.onGoToTab});
+  const CustomerDashboardScreen({
+    super.key,
+    required this.onGoToTab,
+    required this.isGuest,
+  });
 
   Future<void> _refresh(BuildContext context) async {
     await Future.wait([
-      context.read<CustomerProfileCubit>().loadProfile(),
-      context.read<MyBookingsCubit>().loadBookings(),
       context.read<CustomerShopsCubit>().loadShops(),
-      context.read<StoreOrdersCubit>().loadOrders(),
+      if (!isGuest) ...[
+        context.read<CustomerProfileCubit>().loadProfile(),
+        context.read<MyBookingsCubit>().loadBookings(),
+        context.read<StoreOrdersCubit>().loadOrders(),
+      ],
     ]);
   }
 
@@ -42,17 +51,19 @@ class CustomerDashboardScreen extends StatelessWidget {
             children: [
               BlocBuilder<CustomerProfileCubit, CustomerProfileState>(
                 builder: (context, state) => CustomerHomeGreeting(
-                  name: state.profile?.name ?? '',
-                  onAvatarTap: () => onGoToTab(3),
-                  onNotificationsTap: () =>
-                      context.push(Routes.customerNotificationsScreen),
+                  name: isGuest ? S().guestName : state.profile?.name ?? '',
+                  onAvatarTap: () => onGoToTab(4),
+                  onNotificationsTap: () => GuestGuard.run(
+                    context,
+                    () => context.push(Routes.customerNotificationsScreen),
+                  ),
                 ),
               ),
               SizedBox(height: 18.h),
               const QuickActionsSection(),
-              const UpcomingBookingsSection(),
+              if (!isGuest) const UpcomingBookingsSection(),
               const NearestShopsSection(),
-              const DashboardOrdersSection(),
+              if (!isGuest) const DashboardOrdersSection(),
             ],
           ),
         ),

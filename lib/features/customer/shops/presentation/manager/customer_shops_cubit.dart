@@ -1,19 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../shared/location/current_position_resolver.dart';
+import '../../../../../shared/location/domain/use_cases/get_current_location_use_case.dart';
 import '../../domain/use_cases/get_shops_use_case.dart';
 import 'customer_shops_state.dart';
 
 class CustomerShopsCubit extends Cubit<CustomerShopsState> {
   final GetShopsUseCase _getShops;
-  final CurrentPositionResolver _positionResolver;
+  final GetCurrentLocationUseCase _getCurrentLocation;
 
-  CustomerShopsCubit(this._getShops, this._positionResolver)
-      : super(const CustomerShopsState());
+  CustomerShopsCubit(this._getShops, this._getCurrentLocation)
+    : super(const CustomerShopsState());
 
   Future<void> loadShops() async {
     emit(state.copyWith(status: CustomerShopsStatus.loading));
 
-    final position = await _positionResolver.resolve();
+    final position = (await _getCurrentLocation()).point;
 
     final result = await _getShops(
       lat: position?.latitude,
@@ -30,7 +30,9 @@ class CustomerShopsCubit extends Cubit<CustomerShopsState> {
       (shops) => emit(
         state.copyWith(
           status: CustomerShopsStatus.success,
-          shops: shops,
+          shops: position == null
+              ? shops
+              : shops.map((shop) => shop.withDistanceFrom(position)).toList(),
           sortedByDistance: position != null,
         ),
       ),

@@ -19,7 +19,9 @@ class BarberDrinksCubit extends Cubit<BarberDrinksState> {
     this._deleteDrink,
   ) : super(const BarberDrinksState());
 
-  Future<void> loadDrinks() async {
+  Future<void> loadDrinks({bool force = false}) async {
+    if (!force && state.status == BarberDrinksStatus.success) return;
+
     emit(state.copyWith(status: BarberDrinksStatus.loading));
 
     final result = await _getDrinks();

@@ -46,15 +46,18 @@ class _MerchantShellState extends State<MerchantShell> {
   @override
   void initState() {
     super.initState();
-    context.read<MerchantDashboardCubit>().loadDashboard();
-    context.read<MerchantProductsCubit>().loadProducts();
-    context.read<MerchantOrdersCubit>().loadOrders();
-    context.read<MerchantProfileCubit>().loadProfile();
-    context.read<MerchantCategoriesCubit>().loadCategories();
-    context.read<MerchantDiscountsCubit>().loadDiscounts();
-    context.read<MerchantDocumentsCubit>().loadDocuments();
-    context.read<MerchantNotificationsCubit>().refreshUnseenCount();
-    context.read<MerchantSubscriptionCubit>().load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<MerchantDashboardCubit>().loadDashboard();
+      context.read<MerchantProductsCubit>().loadProducts();
+      context.read<MerchantOrdersCubit>().loadOrders();
+      context.read<MerchantProfileCubit>().loadProfile();
+      context.read<MerchantCategoriesCubit>().loadCategories();
+      context.read<MerchantDiscountsCubit>().loadDiscounts();
+      context.read<MerchantDocumentsCubit>().loadDocuments();
+      context.read<MerchantNotificationsCubit>().refreshUnseenCount();
+      context.read<MerchantSubscriptionCubit>().load();
+    });
   }
 
   void _goToTab(int index) => setState(() => _index = index);

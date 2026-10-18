@@ -22,7 +22,9 @@ class BarberServicesCubit extends Cubit<BarberServicesState> {
     this._deleteService,
   ) : super(const BarberServicesState());
 
-  Future<void> loadServices() async {
+  Future<void> loadServices({bool force = false}) async {
+    if (!force && state.status == BarberServicesStatus.success) return;
+
     emit(state.copyWith(status: BarberServicesStatus.loading));
 
     final catalogResult = await _getCatalog();

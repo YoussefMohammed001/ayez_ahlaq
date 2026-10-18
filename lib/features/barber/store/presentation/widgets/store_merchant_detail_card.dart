@@ -66,6 +66,14 @@ class StoreMerchantDetailCard extends StatelessWidget {
             label: S().contact,
             value: merchant.phoneNumber,
           ),
+          for (final phone in merchant.phones)
+            InfoRow(
+              icon: Icons.phone_forwarded_outlined,
+              label: phone.label?.isNotEmpty ?? false
+                  ? phone.label!
+                  : S().extraPhoneFallbackLabel,
+              value: phone.phoneNumber,
+            ),
           InfoRow(
             icon: Icons.inventory_2_outlined,
             label: S().productsCount,

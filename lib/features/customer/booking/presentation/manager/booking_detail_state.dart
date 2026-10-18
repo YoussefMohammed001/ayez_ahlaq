@@ -35,5 +35,11 @@ class BookingDetailState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, booking, isCancelling, isRating, errorMessage];
+  List<Object?> get props => [
+    status,
+    booking,
+    isCancelling,
+    isRating,
+    errorMessage,
+  ];
 }

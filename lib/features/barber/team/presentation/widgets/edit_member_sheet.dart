@@ -9,31 +9,24 @@ import '../../domain/entities/team_member_detail.dart';
 
 class EditMemberSheet extends StatefulWidget {
   final TeamMemberDetail member;
-  final bool isSubmitting;
   final Future<bool> Function(String name, String tagline) onSubmit;
 
   const EditMemberSheet({
     super.key,
     required this.member,
-    required this.isSubmitting,
     required this.onSubmit,
   });
 
   static Future<void> show(
     BuildContext context, {
     required TeamMemberDetail member,
-    required bool isSubmitting,
     required Future<bool> Function(String name, String tagline) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => EditMemberSheet(
-        member: member,
-        isSubmitting: isSubmitting,
-        onSubmit: onSubmit,
-      ),
+      builder: (_) => EditMemberSheet(member: member, onSubmit: onSubmit),
     );
   }
 
@@ -46,6 +39,7 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
   late final _nameController = TextEditingController(text: widget.member.name);
   late final _taglineController =
       TextEditingController(text: widget.member.tagline);
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -55,14 +49,18 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (_submitting || !_formKey.currentState!.validate()) return;
+
+    setState(() => _submitting = true);
 
     final saved = await widget.onSubmit(
       _nameController.text.trim(),
       _taglineController.text.trim(),
     );
 
-    if (saved && mounted) Navigator.of(context).pop();
+    if (!mounted) return;
+    setState(() => _submitting = false);
+    if (saved) Navigator.of(context).pop();
   }
 
   @override
@@ -97,7 +95,7 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
                 SizedBox(height: 20.h),
                 PrimaryCtaButton(
                   label: S().save,
-                  isLoading: widget.isSubmitting,
+                  isLoading: _submitting,
                   onPressed: _submit,
                 ),
               ],

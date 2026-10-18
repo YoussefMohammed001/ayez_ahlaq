@@ -4,7 +4,8 @@ enum HomeServiceRequestStatus {
   onTheWay,
   done,
   rejected,
-  cancelled;
+  cancelled,
+  expired;
 
   static HomeServiceRequestStatus fromApi(String? value) => switch (value) {
     'PENDING' => HomeServiceRequestStatus.pending,
@@ -13,13 +14,17 @@ enum HomeServiceRequestStatus {
     'DONE' => HomeServiceRequestStatus.done,
     'REJECTED' => HomeServiceRequestStatus.rejected,
     'CANCELLED' => HomeServiceRequestStatus.cancelled,
+    'EXPIRED' => HomeServiceRequestStatus.expired,
     _ => HomeServiceRequestStatus.pending,
   };
 
   bool get isPast =>
       this == HomeServiceRequestStatus.done ||
       this == HomeServiceRequestStatus.rejected ||
-      this == HomeServiceRequestStatus.cancelled;
+      this == HomeServiceRequestStatus.cancelled ||
+      this == HomeServiceRequestStatus.expired;
 
   bool get isCancellable => this == HomeServiceRequestStatus.pending;
+
+  bool get isRetryable => this == HomeServiceRequestStatus.expired;
 }

@@ -12,6 +12,10 @@ class CustomerBooking extends Equatable {
   final String barberName;
   final String serviceLabel;
   final String? styleName;
+  final int basePrice;
+  final int styleDelta;
+  final int addonsTotal;
+  final int addonsDiscount;
   final int totalPrice;
   final String bookingDate;
   final String slotTime;
@@ -39,6 +43,10 @@ class CustomerBooking extends Equatable {
     required this.ratedBarber,
     required this.ratedShop,
     this.styleName,
+    this.basePrice = 0,
+    this.styleDelta = 0,
+    this.addonsTotal = 0,
+    this.addonsDiscount = 0,
     this.note,
     this.queuePosition,
     this.peopleAhead,
@@ -56,6 +64,10 @@ class CustomerBooking extends Equatable {
       barberName: barberName,
       serviceLabel: serviceLabel,
       styleName: styleName,
+      basePrice: basePrice,
+      styleDelta: styleDelta,
+      addonsTotal: addonsTotal,
+      addonsDiscount: addonsDiscount,
       totalPrice: totalPrice,
       bookingDate: bookingDate,
       slotTime: slotTime,
@@ -69,6 +81,31 @@ class CustomerBooking extends Equatable {
     );
   }
 
+  DateTime? get startsAt => DateTime.tryParse('${bookingDate}T$slotTime');
+
+  bool get hasStarted {
+    final start = startsAt;
+    return start != null && !DateTime.now().isBefore(start);
+  }
+
+  bool get canCancel => status.isCancellable && !hasStarted;
+
+  bool get isSlotMissed => status.isCancellable && hasStarted;
+
   @override
-  List<Object?> get props => [id, code, status, totalPrice, queuePosition, peopleAhead, ratedBarber, ratedShop, addons];
+  List<Object?> get props => [
+    id,
+    code,
+    status,
+    basePrice,
+    styleDelta,
+    addonsTotal,
+    addonsDiscount,
+    totalPrice,
+    queuePosition,
+    peopleAhead,
+    ratedBarber,
+    ratedShop,
+    addons,
+  ];
 }

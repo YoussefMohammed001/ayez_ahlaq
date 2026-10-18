@@ -50,7 +50,9 @@ class _BarberDocumentsScreenState extends State<BarberDocumentsScreen> {
                 state.documents.isEmpty) {
               return AppErrorState(
                 message: state.errorMessage,
-                onRetry: context.read<BarberDocumentsCubit>().loadDocuments,
+                onRetry: () => context
+                    .read<BarberDocumentsCubit>()
+                    .loadDocuments(force: true),
               );
             }
 
@@ -63,7 +65,9 @@ class _BarberDocumentsScreenState extends State<BarberDocumentsScreen> {
             }
 
             return RefreshIndicator(
-              onRefresh: context.read<BarberDocumentsCubit>().loadDocuments,
+              onRefresh: () => context
+                  .read<BarberDocumentsCubit>()
+                  .loadDocuments(force: true),
               child: ListView(
                 padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
                 children: [

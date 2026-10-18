@@ -9,6 +9,7 @@ Future<bool> showConfirmDialog(
   String? cancelLabel,
   IconData icon = Icons.help_outline_rounded,
   bool isDestructive = true,
+  Widget? content,
 }) async {
   final result = await showDialog<bool>(
     context: context,
@@ -19,6 +20,7 @@ Future<bool> showConfirmDialog(
       cancelLabel: cancelLabel,
       icon: icon,
       isDestructive: isDestructive,
+      content: content,
     ),
   );
 

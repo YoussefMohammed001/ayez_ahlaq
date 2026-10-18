@@ -23,13 +23,18 @@ class SummaryRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurfaceVariant),
+          ),
           Text(
             value,
             style: TextStyle(
               fontSize: emphasize ? 15.sp : 13.sp,
               fontWeight: FontWeight.w700,
-              color: emphasize ? context.semantic.accentStrong : scheme.onSurface,
+              color: emphasize
+                  ? context.semantic.accentStrong
+                  : scheme.onSurface,
             ),
           ),
         ],

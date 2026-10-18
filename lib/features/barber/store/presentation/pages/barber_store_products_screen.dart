@@ -7,13 +7,13 @@ import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
+import '../../../../../core/widgets/cart_icon_button.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
-import '../../../../../shared/widgets/cart_summary_bar.dart';
 import '../widgets/store_merchant_detail_card.dart';
 import '../widgets/store_product_row.dart';
 
@@ -60,66 +60,75 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppTopBar(title: widget.merchant.businessName),
-      body: BlocConsumer<BarberStoreCartCubit, BarberStoreCartState>(
-        listenWhen: (previous, current) =>
-            current.errorMessage != null && current.errorMessage != previous.errorMessage,
-        listener: (context, state) => showError(state.errorMessage!),
-        builder: (context, state) {
-          final cubit = context.read<BarberStoreCartCubit>();
+    return BlocConsumer<BarberStoreCartCubit, BarberStoreCartState>(
+      listenWhen: (previous, current) =>
+          current.errorMessage != null && current.errorMessage != previous.errorMessage,
+      listener: (context, state) => showError(state.errorMessage!),
+      builder: (context, state) {
+        final cubit = context.read<BarberStoreCartCubit>();
 
-          if (state.status == BarberStoreCartStatus.loading) {
-            return const ListSkeleton();
-          }
-
-          if (state.status == BarberStoreCartStatus.failure) {
-            return AppErrorState(
-              message: state.errorMessage,
-              onRetry: () => cubit.openMerchant(widget.merchant),
-            );
-          }
-
-          return Column(
-            children: [
-              StoreMerchantDetailCard(merchant: widget.merchant),
-              Expanded(
-                child: RefreshableStateView(
-                  onRefresh: () => cubit.openMerchant(widget.merchant),
-                  child: ListView.builder(
-                    padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.products.length,
-                    itemBuilder: (_, index) {
-                      final product = state.products[index];
-                      return StoreProductRow(
-                        merchantId: widget.merchant.id,
-                        product: product,
-                        quantity: state.quantityFor(product.id),
-                        isUpdating: state.isUpdatingCart,
-                        onQuantityChanged: (quantity) => _setQuantity(
-                          context,
-                          product.id,
-                          product.minOrderQty,
-                          quantity,
-                        ),
-                      );
-                    },
+        return Scaffold(
+          appBar: AppTopBar(
+            title: widget.merchant.businessName,
+            trailing: state.cart.isEmpty
+                ? null
+                : CartIconButton(
+                    itemCount: state.cart.itemCount,
+                    onPressed: () => context.push(Routes.barberStoreCartScreen),
                   ),
-                ),
-              ),
-              if (!state.cart.isEmpty)
-                CartSummaryBar(
-                  itemCount: state.cart.itemCount,
-                  subtotal: state.cart.subtotal,
-                  actionLabel: S().viewCart,
-                  onPressed: () => context.push(Routes.barberStoreCartScreen),
-                ),
-            ],
-          );
-        },
-      ),
+          ),
+          body: _buildBody(context, state, cubit),
+        );
+      },
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    BarberStoreCartState state,
+    BarberStoreCartCubit cubit,
+  ) {
+    if (state.status == BarberStoreCartStatus.loading) {
+      return const ListSkeleton();
+    }
+
+    if (state.status == BarberStoreCartStatus.failure) {
+      return AppErrorState(
+        message: state.errorMessage,
+        onRetry: () => cubit.openMerchant(widget.merchant),
+      );
+    }
+
+    return Column(
+      children: [
+        StoreMerchantDetailCard(merchant: widget.merchant),
+        Expanded(
+          child: RefreshableStateView(
+            onRefresh: () => cubit.openMerchant(widget.merchant),
+            child: ListView.builder(
+              padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: state.products.length,
+              itemBuilder: (_, index) {
+                final product = state.products[index];
+                return StoreProductRow(
+                  merchantId: widget.merchant.id,
+                  product: product,
+                  quantity: state.quantityFor(product.id),
+                  isUpdating: state.isUpdatingCart,
+                  onQuantityChanged: (quantity) => _setQuantity(
+                    context,
+                    product.id,
+                    product.minOrderQty,
+                    quantity,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

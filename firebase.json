@@ -72,5 +72,13 @@
         }
       }
     }
+  },
+  "hosting": {
+    "public": "landing",
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "cleanUrls": true
   }
 }

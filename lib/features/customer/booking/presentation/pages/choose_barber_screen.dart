@@ -14,14 +14,17 @@ import '../widgets/booking_context_pill.dart';
 class ChooseBarberScreen extends StatelessWidget {
   const ChooseBarberScreen({super.key});
 
-  void _proceed(BuildContext context) => context.push(Routes.customerChooseTimeScreen);
+  void _proceed(BuildContext context) =>
+      context.push(Routes.customerChooseTimeScreen);
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<BookingFlowCubit>();
     final state = cubit.state;
     final barbers = state.shopDetail!.barbers
-        .where((b) => b.services.any((s) => s.serviceTypeId == state.serviceTypeId))
+        .where(
+          (b) => b.services.any((s) => s.serviceTypeId == state.serviceTypeId),
+        )
         .toList();
 
     return Scaffold(
@@ -41,7 +44,11 @@ class ChooseBarberScreen extends StatelessWidget {
             },
             child: Row(
               children: [
-                Icon(Icons.auto_awesome_rounded, size: 22.r, color: context.semantic.accentStrong),
+                Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 22.r,
+                  color: context.semantic.accentStrong,
+                ),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
@@ -58,7 +65,10 @@ class ChooseBarberScreen extends StatelessWidget {
                       SizedBox(height: 4.h),
                       Text(
                         S().autoSelectBarberHint,
-                        style: TextStyle(fontSize: 11.5.sp, color: context.colorScheme.onSurfaceVariant),
+                        style: TextStyle(
+                          fontSize: 11.5.sp,
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),
@@ -70,7 +80,10 @@ class ChooseBarberScreen extends StatelessWidget {
             BarberSelectionRow(
               barber: barber,
               onTap: () {
-                cubit.selectBarber(barberId: barber.id, barberName: barber.name);
+                cubit.selectBarber(
+                  barberId: barber.id,
+                  barberName: barber.name,
+                );
                 _proceed(context);
               },
             ),

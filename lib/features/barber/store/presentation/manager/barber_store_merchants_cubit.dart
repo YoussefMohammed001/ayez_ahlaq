@@ -8,7 +8,9 @@ class BarberStoreMerchantsCubit extends Cubit<BarberStoreMerchantsState> {
   BarberStoreMerchantsCubit(this._getMerchants)
       : super(const BarberStoreMerchantsState());
 
-  Future<void> loadMerchants() async {
+  Future<void> loadMerchants({bool force = false}) async {
+    if (!force && state.status == BarberStoreMerchantsStatus.success) return;
+
     emit(state.copyWith(status: BarberStoreMerchantsStatus.loading));
 
     final result = await _getMerchants();

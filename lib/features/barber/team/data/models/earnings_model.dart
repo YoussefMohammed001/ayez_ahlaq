@@ -12,6 +12,13 @@ class EarningsModel extends Earnings {
     required super.avgTicket,
     required super.supplierSpendThisMonth,
     required super.netThisMonth,
+    super.productsToday,
+    super.productsLast7Days,
+    super.productsThisMonth,
+    super.productOrdersThisMonth,
+    super.totalThisMonth,
+    super.tillAddedThisMonth,
+    super.tillSubtractedThisMonth,
     required super.dailyLast7,
   });
 
@@ -28,6 +35,13 @@ class EarningsModel extends Earnings {
       avgTicket: (json['avgTicket'] as num?) ?? 0,
       supplierSpendThisMonth: (json['supplierSpendThisMonth'] as num?) ?? 0,
       netThisMonth: (json['netThisMonth'] as num?) ?? 0,
+      productsToday: (json['productsToday'] as num?) ?? 0,
+      productsLast7Days: (json['productsLast7Days'] as num?) ?? 0,
+      productsThisMonth: (json['productsThisMonth'] as num?) ?? 0,
+      productOrdersThisMonth: (json['productOrdersThisMonth'] as num?)?.toInt() ?? 0,
+      totalThisMonth: (json['totalThisMonth'] as num?) ?? 0,
+      tillAddedThisMonth: (json['tillAddedThisMonth'] as num?) ?? 0,
+      tillSubtractedThisMonth: (json['tillSubtractedThisMonth'] as num?) ?? 0,
       dailyLast7: daily
           .map((e) => DailyEarningModel.fromJson(e as Map<String, dynamic>))
           .toList(),

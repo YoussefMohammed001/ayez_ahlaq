@@ -1,0 +1,23 @@
+@font-face{font-family:Tajawal;font-weight:400;src:url(fonts/Tajawal-Regular.ttf)}
+@font-face{font-family:Tajawal;font-weight:700;src:url(fonts/Tajawal-Bold.ttf)}
+@font-face{font-family:Tajawal;font-weight:800;src:url(fonts/Tajawal-ExtraBold.ttf)}
+:root{--bg:#1c1916;--surface:#26221d;--line:#3a342c;--text:#f4efe6;--muted:#b8ad9c;--accent:#c6982f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tajawal,system-ui,sans-serif;line-height:1.8}
+.hero{text-align:center;padding:64px 16px 40px;max-width:720px;margin:0 auto}
+.logo{border-radius:26px;border:1px solid var(--line)}
+h1{font-size:2.6rem;font-weight:800;margin:20px 0 0;color:var(--accent)}
+.subtitle{font-size:1.4rem;font-weight:700;margin:4px 0 0}
+.lead{color:var(--muted);font-size:1.1rem;margin:16px 0 28px}
+.stores{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.store{display:flex;flex-direction:column;min-width:170px;padding:10px 22px;border-radius:14px;background:var(--accent);color:var(--bg);text-decoration:none;line-height:1.4}
+.store small{font-size:.8rem}
+.store strong{font-size:1.2rem}
+.store.disabled{background:var(--surface);color:var(--muted);border:1px solid var(--line);pointer-events:none}
+main{display:grid;gap:16px;max-width:720px;margin:0 auto;padding:0 16px 40px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 24px}
+h2{margin:0 0 8px;font-size:1.25rem;color:var(--accent)}
+ul{margin:0;padding-inline-start:20px;color:var(--text)}
+footer{text-align:center;padding:24px 16px 48px;color:var(--muted);font-size:.9rem}
+nav{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+nav a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line)}

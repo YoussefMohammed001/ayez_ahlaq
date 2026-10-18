@@ -5,17 +5,23 @@ class RemoteConfigValues {
   final String iosVersion;
   final bool isCriticalAndroid;
   final bool isCriticalIos;
+  final int reviewDevApiBuildAndroid;
+  final int reviewDevApiBuildIos;
 
   RemoteConfigValues({
     required this.androidVersion,
     required this.iosVersion,
     required this.isCriticalAndroid,
     required this.isCriticalIos,
+    this.reviewDevApiBuildAndroid = 0,
+    this.reviewDevApiBuildIos = 0,
   });
 }
 
 abstract class IRemoteConfigService {
   Future<RemoteConfigValues> fetchConfig();
+
+  Future<RemoteConfigValues> cachedConfig();
 }
 
 class FirebaseRemoteConfigService implements IRemoteConfigService {
@@ -30,11 +36,27 @@ class FirebaseRemoteConfigService implements IRemoteConfigService {
     );
     await remoteConfig.fetchAndActivate();
 
+    return _read(remoteConfig);
+  }
+
+  @override
+  Future<RemoteConfigValues> cachedConfig() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.ensureInitialized();
+
+    return _read(remoteConfig);
+  }
+
+  RemoteConfigValues _read(FirebaseRemoteConfig remoteConfig) {
     return RemoteConfigValues(
       androidVersion: remoteConfig.getString('android_app_version'),
       iosVersion: remoteConfig.getString('ios_app_version'),
       isCriticalAndroid: remoteConfig.getBool('critical_android'),
       isCriticalIos: remoteConfig.getBool('critical_ios'),
+      reviewDevApiBuildAndroid: remoteConfig.getInt(
+        'review_dev_api_build_android',
+      ),
+      reviewDevApiBuildIos: remoteConfig.getInt('review_dev_api_build_ios'),
     );
   }
 }

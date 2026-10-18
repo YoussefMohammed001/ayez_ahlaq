@@ -13,7 +13,10 @@ class CustomerShopsRepo implements ICustomerShopsRepo {
   CustomerShopsRepo(this._api);
 
   @override
-  Future<Either<Failure, List<Shop>>> getShops({double? lat, double? lng}) async {
+  Future<Either<Failure, List<Shop>>> getShops({
+    double? lat,
+    double? lng,
+  }) async {
     final result = await _api.getShops(lat: lat, lng: lng);
 
     return result.map(

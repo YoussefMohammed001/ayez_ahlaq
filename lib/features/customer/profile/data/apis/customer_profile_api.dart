@@ -18,10 +18,7 @@ class CustomerProfileApi {
   ) {
     return _networkService.putData(
       endPoint: EndPoints.customerPassword,
-      data: {
-        'currentPassword': currentPassword,
-        'newPassword': newPassword,
-      },
+      data: {'currentPassword': currentPassword, 'newPassword': newPassword},
     );
   }
 

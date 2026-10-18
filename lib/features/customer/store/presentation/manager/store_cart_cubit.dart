@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/helpers/user_helpers.dart';
 import '../../domain/entities/store_cart.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import '../../domain/entities/store_order.dart';
@@ -22,6 +23,8 @@ class StoreCartCubit extends Cubit<StoreCartState> {
   ) : super(const StoreCartState());
 
   Future<void> loadCart() async {
+    if (await UserHelpers.isGuest()) return;
+
     final result = await _getCart();
     result.fold(
       (failure) => emit(state.copyWith(errorMessage: failure.message)),
@@ -41,7 +44,11 @@ class StoreCartCubit extends Cubit<StoreCartState> {
       return;
     }
 
-    emit(state.copyWith(status: StoreCartStatus.loading));
+    emit(
+      state.storefront?.shopId == shopId
+          ? state.copyWith(status: StoreCartStatus.loading)
+          : StoreCartState(status: StoreCartStatus.loading, cart: state.cart),
+    );
 
     final result = await _getStorefront(shopId);
 
@@ -134,6 +141,12 @@ class StoreCartCubit extends Cubit<StoreCartState> {
   }
 
   void setNote(String note) => emit(state.copyWith(note: note));
+
+  void search(String query) => emit(state.copyWith(search: query));
+
+  void filterByCategory(int? categoryId) => emit(
+    state.copyWith(categoryId: categoryId, clearCategoryId: categoryId == null),
+  );
 
   Future<StoreOrder?> submitOrder() async {
     if (state.cart.isEmpty) return null;

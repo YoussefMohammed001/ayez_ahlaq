@@ -21,7 +21,10 @@ class ShopBarbersList extends StatelessWidget {
       child: Column(
         children: [
           for (final (index, barber) in barbers.indexed)
-            ShopBarberRow(barber: barber, showDivider: index != barbers.length - 1),
+            ShopBarberRow(
+              barber: barber,
+              showDivider: index != barbers.length - 1,
+            ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import '../../../../generated/l10n.dart';
 import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../shops/presentation/manager/customer_shops_state.dart';
 import '../../shops/presentation/widgets/shop_row.dart';
+import '../../../../shared/location/presentation/widgets/nearby_location_banner.dart';
 import 'dashboard_empty_hint.dart';
 
 class NearestShopsSection extends StatelessWidget {
@@ -27,7 +28,14 @@ class NearestShopsSection extends StatelessWidget {
               actionLabel: S().seeAll,
               onAction: () => context.push(Routes.customerBrowseShopsScreen),
             ),
-            if (state.status == CustomerShopsStatus.loading && state.shops.isEmpty)
+            NearbyLocationBanner(
+              locationResolved:
+                  state.sortedByDistance ||
+                  state.status != CustomerShopsStatus.success,
+              onEnabled: context.read<CustomerShopsCubit>().loadShops,
+            ),
+            if (state.status == CustomerShopsStatus.loading &&
+                state.shops.isEmpty)
               const ListSkeleton(itemCount: 3)
             else if (nearest.isEmpty)
               DashboardEmptyHint(message: S().noShopsYet)
@@ -35,7 +43,14 @@ class NearestShopsSection extends StatelessWidget {
               ...nearest.map(
                 (shop) => ShopRow(
                   shop: shop,
-                  onTap: () => context.push(Routes.customerShopDetailScreen, extra: shop.id),
+                  onTap: () => context.push(
+                    Routes.customerShopDetailScreen,
+                    extra: shop.id,
+                  ),
+                  onShopTap: () => context.push(
+                    Routes.customerStoreProductsScreen,
+                    extra: shop.id,
+                  ),
                 ),
               ),
           ],

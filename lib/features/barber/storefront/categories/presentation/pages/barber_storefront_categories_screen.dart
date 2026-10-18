@@ -60,9 +60,9 @@ class BarberStorefrontCategoriesScreen extends StatelessWidget {
               }
 
               return RefreshableStateView(
-                onRefresh: context
+                onRefresh: () => context
                     .read<BarberStorefrontCategoriesCubit>()
-                    .loadCategories,
+                    .loadCategories(force: true),
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
                   physics: const NeverScrollableScrollPhysics(),

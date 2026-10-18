@@ -14,9 +14,11 @@ class MyBookingsState extends Equatable {
     this.errorMessage,
   });
 
-  List<CustomerBooking> get upcoming => bookings.where((b) => !b.status.isPast).toList();
+  List<CustomerBooking> get upcoming =>
+      bookings.where((b) => !b.status.isPast).toList();
 
-  List<CustomerBooking> get past => bookings.where((b) => b.status.isPast).toList();
+  List<CustomerBooking> get past =>
+      bookings.where((b) => b.status.isPast).toList();
 
   MyBookingsState copyWith({
     MyBookingsStatus? status,

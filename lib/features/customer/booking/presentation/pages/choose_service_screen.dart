@@ -51,7 +51,14 @@ class ChooseServiceScreen extends StatelessWidget {
                   serviceName: service.name,
                   price: service.price,
                 );
-                context.push(Routes.customerChooseStyleScreen);
+                final hasStyles = state.shopDetail!.haircutStyles.any(
+                  (style) => style.appliesTo(service.serviceTypeId),
+                );
+                context.push(
+                  hasStyles
+                      ? Routes.customerChooseStyleScreen
+                      : Routes.customerChooseBarberScreen,
+                );
               },
             ),
         ],

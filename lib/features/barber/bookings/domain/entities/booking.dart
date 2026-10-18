@@ -19,6 +19,7 @@ class Booking extends Equatable {
   final int basePrice;
   final int styleDelta;
   final int addonsTotal;
+  final int addonsDiscount;
   final int totalPrice;
   final int durationMinutes;
   final String bookingDate;
@@ -54,6 +55,7 @@ class Booking extends Equatable {
     required this.basePrice,
     required this.styleDelta,
     required this.addonsTotal,
+    this.addonsDiscount = 0,
     required this.totalPrice,
     required this.durationMinutes,
     required this.bookingDate,
@@ -97,6 +99,7 @@ class Booking extends Equatable {
       basePrice: basePrice,
       styleDelta: styleDelta,
       addonsTotal: addonsTotal,
+      addonsDiscount: addonsDiscount,
       totalPrice: totalPrice,
       durationMinutes: durationMinutes,
       bookingDate: bookingDate,
@@ -137,6 +140,7 @@ class Booking extends Equatable {
     basePrice,
     styleDelta,
     addonsTotal,
+    addonsDiscount,
     totalPrice,
     durationMinutes,
     bookingDate,

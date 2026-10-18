@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../../../shared/location/domain/entities/geo_point.dart';
 
 class HomeServiceShop extends Equatable {
   final int id;
@@ -32,6 +33,29 @@ class HomeServiceShop extends Equatable {
     this.homeServiceNote,
     required this.hasProfileImage,
   });
+
+  bool get hasCoordinates => latitude != 0 || longitude != 0;
+
+  HomeServiceShop withDistanceFrom(GeoPoint origin) {
+    if (distanceKm != null || !hasCoordinates) return this;
+
+    return HomeServiceShop(
+      id: id,
+      name: name,
+      area: area,
+      address: address,
+      latitude: latitude,
+      longitude: longitude,
+      rating: rating,
+      ratingCount: ratingCount,
+      distanceKm: origin.distanceKmTo(GeoPoint(latitude, longitude)),
+      favorite: favorite,
+      sponsored: sponsored,
+      homeServicePrice: homeServicePrice,
+      homeServiceNote: homeServiceNote,
+      hasProfileImage: hasProfileImage,
+    );
+  }
 
   @override
   List<Object?> get props => [

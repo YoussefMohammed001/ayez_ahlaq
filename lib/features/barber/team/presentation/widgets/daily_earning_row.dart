@@ -16,31 +16,43 @@ class DailyEarningRow extends StatelessWidget {
 
     return AppCard(
       margin: EdgeInsets.only(bottom: 8.h),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Text(
-              day.date,
-              style: TextStyle(
-                fontSize: 12.5.sp,
-                fontWeight: FontWeight.w600,
-                color: scheme.onSurface,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  day.date,
+                  style: TextStyle(
+                    fontSize: 12.5.sp,
+                    fontWeight: FontWeight.w600,
+                    color: scheme.onSurface,
+                  ),
+                ),
               ),
+              Text(
+                S().earningsClientsLine(day.clients),
+                style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                S().currencyEgp(day.amount),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w800,
+                  color: context.semantic.accentSoft,
+                ),
+              ),
+            ],
+          ),
+          if (day.productAmount != 0) ...[
+            SizedBox(height: 4.h),
+            Text(
+              S().productsAmountLine(day.productAmount),
+              style: TextStyle(fontSize: 10.5.sp, color: scheme.onSurfaceVariant),
             ),
-          ),
-          Text(
-            S().earningsClientsLine(day.clients),
-            style: TextStyle(fontSize: 11.sp, color: scheme.onSurfaceVariant),
-          ),
-          SizedBox(width: 10.w),
-          Text(
-            S().currencyEgp(day.amount),
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w800,
-              color: context.semantic.accentSoft,
-            ),
-          ),
+          ],
         ],
       ),
     );

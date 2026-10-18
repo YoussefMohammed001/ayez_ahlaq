@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/constants/endpoints.dart';
 import '../../../../../core/network/dio/network_service.dart';
@@ -41,5 +42,24 @@ class BarberProfileApi {
       endPoint: EndPoints.barberMe,
       data: {'password': password},
     );
+  }
+
+  Future<Either<Failure, dynamic>> uploadProfileImage(String filePath) async {
+    return _networkService.uploadFile(
+      endPoint: EndPoints.barberProfileImage,
+      formData: FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath),
+      }),
+    );
+  }
+
+  Future<Either<Failure, dynamic>> getProfileImage() {
+    return _networkService.getImageData(
+      endPoint: EndPoints.barberProfileImage,
+    );
+  }
+
+  Future<Either<Failure, dynamic>> deleteProfileImage() {
+    return _networkService.deleteData(endPoint: EndPoints.barberProfileImage);
   }
 }

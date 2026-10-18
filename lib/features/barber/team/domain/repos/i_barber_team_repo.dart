@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import '../../../profile/domain/entities/barber_permissions.dart';
 import '../../../../../core/error/failure.dart';
 import '../entities/team_member.dart';
 import '../entities/team_member_detail.dart';
@@ -28,6 +29,11 @@ abstract class IBarberTeamRepo {
   Future<Either<Failure, TeamMemberDetail>> blockMember(int id);
 
   Future<Either<Failure, TeamMemberDetail>> activateMember(int id);
+
+  Future<Either<Failure, BarberPermissions>> updatePermissions(
+    int id,
+    BarberPermissions permissions,
+  );
 
   Future<Either<Failure, Unit>> deleteMemberPermanently(int id);
 }

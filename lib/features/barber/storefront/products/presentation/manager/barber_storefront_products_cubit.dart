@@ -26,7 +26,9 @@ class BarberStorefrontProductsCubit
     this._setStock,
   ) : super(const BarberStorefrontProductsState());
 
-  Future<void> loadProducts() async {
+  Future<void> loadProducts({bool force = false}) async {
+    if (!force && state.status == StorefrontProductsStatus.success) return;
+
     emit(state.copyWith(status: StorefrontProductsStatus.loading));
 
     final result = await _getProducts();
@@ -121,19 +123,37 @@ class BarberStorefrontProductsCubit
     });
   }
 
-  Future<void> setStock(int id, int quantity) async {
+  Future<bool> setStock(int id, int quantity) async {
     final previous = state.products;
+
+    emit(state.copyWith(isSubmitting: true));
 
     final result = await _setStock(id, quantity);
 
-    result.fold(
-      (failure) => _revert(previous, failure),
-      (product) =>
-          emit(state.copyWith(products: state.products.replace(product))),
+    return result.fold(
+      (failure) {
+        _revert(previous, failure);
+        return false;
+      },
+      (product) {
+        emit(
+          state.copyWith(
+            isSubmitting: false,
+            products: state.products.replace(product),
+          ),
+        );
+        return true;
+      },
     );
   }
 
   void _revert(List<StorefrontProduct> previous, Failure failure) {
-    emit(state.copyWith(products: previous, errorMessage: failure.message));
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        products: previous,
+        errorMessage: failure.message,
+      ),
+    );
   }
 }

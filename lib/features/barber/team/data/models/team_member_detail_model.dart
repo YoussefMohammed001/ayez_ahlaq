@@ -1,3 +1,4 @@
+import '../../../profile/data/models/barber_profile_model.dart';
 import '../../domain/entities/team_member_detail.dart';
 
 class TeamMemberDetailModel extends TeamMemberDetail {
@@ -11,6 +12,7 @@ class TeamMemberDetailModel extends TeamMemberDetail {
     required super.mustChangePassword,
     required super.rating,
     required super.ratingCount,
+    super.permissions,
   });
 
   factory TeamMemberDetailModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class TeamMemberDetailModel extends TeamMemberDetail {
       mustChangePassword: json['mustChangePassword'] as bool? ?? false,
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
       ratingCount: (json['ratingCount'] as num?)?.toInt() ?? 0,
+      permissions: BarberProfileModel.permissionsFrom(json['permissions']),
     );
   }
 }

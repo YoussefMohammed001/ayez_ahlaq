@@ -27,7 +27,8 @@ class UpcomingBookingsSection extends StatelessWidget {
               actionLabel: S().seeAll,
               onAction: () => context.push(Routes.customerBookingsScreen),
             ),
-            if (state.status == MyBookingsStatus.loading && state.bookings.isEmpty)
+            if (state.status == MyBookingsStatus.loading &&
+                state.bookings.isEmpty)
               const ListSkeleton(itemCount: 2)
             else if (upcoming.isEmpty)
               DashboardEmptyHint(message: S().noUpcomingBookingsHint)
@@ -35,8 +36,10 @@ class UpcomingBookingsSection extends StatelessWidget {
               ...upcoming.map(
                 (booking) => CustomerBookingRow(
                   booking: booking,
-                  onTap: () =>
-                      context.push(Routes.customerBookingDetailScreen, extra: booking.id),
+                  onTap: () => context.push(
+                    Routes.customerBookingDetailScreen,
+                    extra: booking.id,
+                  ),
                 ),
               ),
           ],

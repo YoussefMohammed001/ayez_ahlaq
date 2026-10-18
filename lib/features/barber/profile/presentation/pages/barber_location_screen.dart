@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
-import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../../../shared/widgets/location_blocked_notice.dart';
 import '../../../../../shared/widgets/location_notes.dart';
+import '../../../../../shared/widgets/location_picker_field.dart';
 import '../../domain/entities/barber_profile.dart';
 import '../manager/barber_profile_cubit.dart';
 import '../manager/barber_profile_state.dart';
@@ -33,7 +31,6 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
   );
   double? _latitude;
   double? _longitude;
-  bool _isLocating = false;
 
   @override
   void initState() {
@@ -46,35 +43,6 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
   void dispose() {
     _addressController.dispose();
     super.dispose();
-  }
-
-  Future<void> _useCurrentLocation() async {
-    setState(() => _isLocating = true);
-
-    try {
-      if (!await Geolocator.isLocationServiceEnabled()) {
-        throw S().locationServiceDisabled;
-      }
-
-      var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        throw S().locationPermissionDenied;
-      }
-
-      final position = await Geolocator.getCurrentPosition();
-      setState(() {
-        _latitude = position.latitude;
-        _longitude = position.longitude;
-      });
-    } catch (e) {
-      if (mounted) showError(e is String ? e : S().somethingWentWrong);
-    } finally {
-      if (mounted) setState(() => _isLocating = false);
-    }
   }
 
   Future<void> _submit() async {
@@ -108,23 +76,16 @@ class _BarberLocationScreenState extends State<BarberLocationScreen> {
             if (widget.blocking) const LocationBlockedNotice(),
             const LocationNotes(),
             SizedBox(height: 16.h),
-            PrimaryCtaButton(
-              label: S().useCurrentLocation,
-              isLoading: _isLocating,
-              onPressed: _useCurrentLocation,
-            ),
-            if (_latitude != null && _longitude != null) ...[
-              SizedBox(height: 10.h),
-              Text(
-                '${_latitude!.toStringAsFixed(5)}, ${_longitude!.toStringAsFixed(5)}',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: context.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
             SectionTitle(title: S().addressLabel),
-            AppTextField(controller: _addressController, hint: S().addressHint),
+            LocationPickerField(
+              addressController: _addressController,
+              latitude: _latitude,
+              longitude: _longitude,
+              onLocationPicked: (lat, lng) => setState(() {
+                _latitude = lat;
+                _longitude = lng;
+              }),
+            ),
             SizedBox(height: 20.h),
             BlocBuilder<BarberProfileCubit, BarberProfileState>(
               builder: (context, state) => PrimaryCtaButton(

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../../core/notifications/notification_router.dart';
-import '../../../../../core/routes/route_paths.dart';
 import '../../../../../shared/user_type.dart';
+import '../../domain/entities/barber_notification.dart';
+import 'barber_notification_tap_router.dart';
 
 class BarberNotificationRouter implements NotificationRouter {
+  final BarberNotificationTapRouter _tapRouter =
+      const BarberNotificationTapRouter();
+
   @override
   void route({
     required String type,
@@ -14,6 +17,17 @@ class BarberNotificationRouter implements NotificationRouter {
   }) {
     if (role != UserType.barber) return;
 
-    context.go(Routes.barberNotificationsScreen);
+    _tapRouter.handle(
+      context,
+      BarberNotification(
+        id: 0,
+        type: type,
+        referenceType: type,
+        referenceId: typeId,
+        title: '',
+        body: '',
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 }

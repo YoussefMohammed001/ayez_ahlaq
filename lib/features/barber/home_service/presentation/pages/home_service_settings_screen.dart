@@ -118,6 +118,12 @@ class _HomeServiceSettingsScreenState
                       onPressed: () =>
                           context.push(Routes.barberHomeServiceHoursScreen),
                     ),
+                    SizedBox(height: 10.h),
+                    PrimaryCtaButton(
+                      label: S().homeServiceRequestsTitle,
+                      onPressed: () =>
+                          context.push(Routes.barberHomeServiceRequestsScreen),
+                    ),
                   ],
                   SizedBox(height: 26.h),
                   PrimaryCtaButton(

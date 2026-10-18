@@ -24,7 +24,15 @@ class NotificationsIconButton extends StatelessWidget {
             size: 26.r,
             color: context.colorScheme.onSurface,
           ),
-          Positioned(right: -4.w, top: -4.h, child: badge),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: FractionalTranslation(
+                translation: const Offset(0.4, -0.4),
+                child: badge,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -7,6 +7,9 @@ import '../../constants/strings.dart';
 import 'package:ayez_ahlaq/env/env.dart';
 import '../constants/content_types.dart';
 import '../constants/http_headers.dart';
+import '../../analytics/analytics_interceptor.dart';
+import '../../analytics/api_analytics_tracker.dart';
+import '../../di/services_locator.dart';
 import '../interceptors/authorization_interceptor.dart';
 
 class DioFactory {
@@ -34,19 +37,20 @@ class DioFactory {
     );
 
     dio.interceptors.add(authInterceptor);
+    dio.interceptors.add(AnalyticsInterceptor(() => sl<ApiAnalyticsTracker>()));
 
     final bool debugEnabled = _isDebugEnabled(storage);
     safePrint("hahahahahaa $debugEnabled");
+    dio.interceptors.add(
+      PrettyDioLogger(
+        requestBody: true,
+        requestHeader: true,
+        responseBody: true,
+      ),
+    );
     if (debugEnabled) {
       ChuckerFlutter.showOnRelease = true;
       dio.interceptors.add(ChuckerDioInterceptor());
-      dio.interceptors.add(
-        PrettyDioLogger(
-          requestBody: true,
-          requestHeader: true,
-          responseBody: true,
-        ),
-      );
     }
 
     return dio;

@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../../../core/widgets/app_empty_state.dart';
-import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
-import '../../../../../core/widgets/list_skeleton.dart';
-import '../../../../../core/widgets/refreshable_state_view.dart';
-import '../../../../../shared/widgets/cart_summary_bar.dart';
+import '../../../../../core/widgets/cart_icon_button.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../shared/guest/guest_guard.dart';
 import '../manager/store_cart_cubit.dart';
 import '../manager/store_cart_state.dart';
-import '../widgets/store_product_row.dart';
+import '../widgets/store_filters_bar.dart';
+import '../widgets/store_products_list.dart';
+import 'store_product_details_args.dart';
 
 class StoreProductsScreen extends StatefulWidget {
   final int shopId;
@@ -26,10 +24,25 @@ class StoreProductsScreen extends StatefulWidget {
 }
 
 class _StoreProductsScreenState extends State<StoreProductsScreen> {
+  final _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     context.read<StoreCartCubit>().openShop(widget.shopId);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _openProductDetails(int productId) {
+    context.push(
+      Routes.customerStoreProductDetailsScreen,
+      extra: StoreProductDetailsArgs(shopId: widget.shopId, productId: productId),
+    );
   }
 
   Future<void> _setQuantity(
@@ -38,6 +51,9 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
     int minOrderQty,
     int quantity,
   ) async {
+    if (!await GuestGuard.ensureLoggedIn(context)) return;
+    if (!context.mounted) return;
+
     final cubit = context.read<StoreCartCubit>();
     final cart = cubit.state.cart;
 
@@ -68,60 +84,32 @@ class _StoreProductsScreenState extends State<StoreProductsScreen> {
         final storefront = state.storefront;
 
         return Scaffold(
-          appBar: AppTopBar(title: storefront?.shopName ?? S().storeTitle),
-          body: _buildBody(context, state, cubit),
-          bottomNavigationBar: state.isEmpty
-              ? null
-              : CartSummaryBar(
-                  itemCount: state.cart.itemCount,
-                  subtotal: state.cart.subtotal,
-                  actionLabel: S().viewCart,
-                  onPressed: () => context.push(Routes.customerStoreCartScreen),
+          appBar: AppTopBar(
+            title: storefront?.shopName ?? S().storeTitle,
+            trailing: state.isEmpty
+                ? null
+                : CartIconButton(
+                    itemCount: state.cart.itemCount,
+                    onPressed: () => context.push(Routes.customerStoreCartScreen),
+                  ),
+          ),
+          body: Column(
+            children: [
+              if (storefront != null) StoreFiltersBar(searchController: _searchController),
+              Expanded(
+                child: StoreProductsList(
+                  shopId: widget.shopId,
+                  state: state,
+                  cubit: cubit,
+                  onQuantityChanged: _setQuantity,
+                  onOpenProduct: _openProductDetails,
                 ),
+              ),
+            ],
+          ),
         );
       },
     );
   }
 
-  Widget _buildBody(BuildContext context, StoreCartState state, StoreCartCubit cubit) {
-    if (state.status == StoreCartStatus.loading) {
-      return const ListSkeleton();
-    }
-
-    if (state.status == StoreCartStatus.failure && state.storefront == null) {
-      return AppErrorState(
-        message: state.errorMessage,
-        onRetry: () => cubit.openShop(widget.shopId),
-      );
-    }
-
-    final products = state.storefront?.products ?? const [];
-    if (products.isEmpty) {
-      return AppEmptyState(icon: Icons.storefront_outlined, title: S().noProductsYet);
-    }
-
-    return RefreshableStateView(
-      onRefresh: () => cubit.openShop(widget.shopId),
-      child: ListView.builder(
-        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 12.h),
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (_, index) {
-          final product = products[index];
-          final quantity = state.cart.sellerId == widget.shopId
-              ? state.quantityFor(product.id)
-              : 0;
-
-          return StoreProductRow(
-            shopId: widget.shopId,
-            product: product,
-            quantity: quantity,
-            isUpdating: state.isUpdatingCart,
-            onQuantityChanged: (q) => _setQuantity(context, product.id, product.minOrderQty, q),
-          );
-        },
-      ),
-    );
-  }
 }

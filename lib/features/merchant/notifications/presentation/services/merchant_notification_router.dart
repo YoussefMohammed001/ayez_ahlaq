@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../../core/notifications/notification_router.dart';
-import '../../../../../core/routes/route_paths.dart';
 import '../../../../../shared/user_type.dart';
+import '../../domain/entities/merchant_notification.dart';
+import 'merchant_notification_tap_router.dart';
 
 class MerchantNotificationRouter implements NotificationRouter {
+  final MerchantNotificationTapRouter _tapRouter =
+      const MerchantNotificationTapRouter();
+
   @override
   void route({
     required String type,
@@ -14,6 +17,17 @@ class MerchantNotificationRouter implements NotificationRouter {
   }) {
     if (role != UserType.merchant) return;
 
-    context.go(Routes.merchantNotificationsScreen);
+    _tapRouter.handle(
+      context,
+      MerchantNotification(
+        id: 0,
+        type: type,
+        referenceType: type,
+        referenceId: typeId,
+        title: '',
+        body: '',
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 }

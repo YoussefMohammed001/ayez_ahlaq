@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import '../../../profile/data/models/barber_profile_model.dart';
+import '../../../profile/domain/entities/barber_permissions.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/team_member.dart';
@@ -71,6 +73,21 @@ class BarberTeamRepo implements IBarberTeamRepo {
   Future<Either<Failure, TeamMemberDetail>> activateMember(int id) async {
     final result = await _api.activateMember(id);
     return result.flatMap(_mapOne);
+  }
+
+  @override
+  Future<Either<Failure, BarberPermissions>> updatePermissions(
+    int id,
+    BarberPermissions permissions,
+  ) async {
+    final result = await _api.updatePermissions(id, {
+      'canViewRevenue': permissions.canViewRevenue,
+      'canCloseBookings': permissions.canCloseBookings,
+      'canMarkPaid': permissions.canMarkPaid,
+    });
+    return result.map(
+      (response) => BarberProfileModel.permissionsFrom(response['data']),
+    );
   }
 
   @override

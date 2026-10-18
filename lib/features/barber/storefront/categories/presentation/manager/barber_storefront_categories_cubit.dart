@@ -20,7 +20,9 @@ class BarberStorefrontCategoriesCubit
     this._deleteCategory,
   ) : super(const BarberStorefrontCategoriesState());
 
-  Future<void> loadCategories() async {
+  Future<void> loadCategories({bool force = false}) async {
+    if (!force && state.status == StorefrontCategoriesStatus.success) return;
+
     emit(state.copyWith(status: StorefrontCategoriesStatus.loading));
 
     final result = await _getAssignable();

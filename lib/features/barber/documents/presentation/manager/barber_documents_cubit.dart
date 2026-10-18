@@ -42,7 +42,9 @@ class BarberDocumentsCubit extends Cubit<BarberDocumentsState> {
     );
   }
 
-  Future<void> loadDocuments() async {
+  Future<void> loadDocuments({bool force = false}) async {
+    if (!force && state.status == DocumentsStatus.success) return;
+
     emit(state.copyWith(status: DocumentsStatus.loading));
 
     final result = await _getDocuments();

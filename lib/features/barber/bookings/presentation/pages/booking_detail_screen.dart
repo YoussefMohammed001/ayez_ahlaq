@@ -9,6 +9,7 @@ import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/booking.dart';
+import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../manager/bookings_cubit.dart';
 import '../manager/bookings_state.dart';
 import '../widgets/booking_actions.dart';
@@ -52,6 +53,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       child: BlocBuilder<BookingsCubit, BookingsState>(
         builder: (context, state) {
           final current = _resolve(state);
+          final canEditBill = context.select<BarberProfileCubit, bool>(
+            (cubit) => cubit.state.profile?.canCloseBookings ?? false,
+          );
 
           return Scaffold(
             appBar: AppTopBar(title: current.code),
@@ -63,7 +67,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                   _buildHeader(context, current),
                   SectionTitle(title: S().bookingDetailsTitle),
                   BookingInfoCard(booking: current),
-                  if (!current.billingLocked) ...[
+                  if (!current.billingLocked && canEditBill) ...[
                     SizedBox(height: 12.h),
                     OutlinedButton.icon(
                       onPressed: () => EditBillSheet.show(context, current),

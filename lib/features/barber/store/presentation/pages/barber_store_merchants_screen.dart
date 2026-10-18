@@ -40,20 +40,23 @@ class _BarberStoreMerchantsScreenState extends State<BarberStoreMerchantsScreen>
 
           if (state.status == BarberStoreMerchantsStatus.failure && state.merchants.isEmpty) {
             return RefreshableStateView(
-              onRefresh: cubit.loadMerchants,
-              child: AppErrorState(message: state.errorMessage, onRetry: cubit.loadMerchants),
+              onRefresh: () => cubit.loadMerchants(force: true),
+              child: AppErrorState(
+                message: state.errorMessage,
+                onRetry: () => cubit.loadMerchants(force: true),
+              ),
             );
           }
 
           if (state.merchants.isEmpty) {
             return RefreshableStateView(
-              onRefresh: cubit.loadMerchants,
+              onRefresh: () => cubit.loadMerchants(force: true),
               child: AppEmptyState(icon: Icons.storefront_outlined, title: S().noMerchantsYet),
             );
           }
 
           return RefreshIndicator(
-            onRefresh: cubit.loadMerchants,
+            onRefresh: () => cubit.loadMerchants(force: true),
             child: ListView.builder(
               padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
               itemCount: state.merchants.length,

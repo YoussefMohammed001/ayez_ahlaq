@@ -14,14 +14,14 @@ class AppCubit extends Cubit<AppState> {
   }
 
   StreamSubscription? _subscription;
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode = ThemeMode.light;
   bool isOffline = false;
 
   void _initTheme() {
     final saved = sl<PreferencesStorage>().getString(
       key: PreferencesKeys.themeMode,
     );
-    themeMode = saved == 'light' ? ThemeMode.light : ThemeMode.dark;
+    themeMode = saved == 'dark' ? ThemeMode.dark : ThemeMode.light;
     emit(ThemeChangedState(themeMode));
   }
 

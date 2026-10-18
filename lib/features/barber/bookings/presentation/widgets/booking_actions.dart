@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../domain/entities/booking.dart';
 import '../manager/bookings_cubit.dart';
 import 'booking_status_label.dart';
@@ -22,13 +23,24 @@ class BookingActions extends StatelessWidget {
       return _buildTerminalNote(context);
     }
 
+    final isUpdating = context.select<BookingsCubit, bool>(
+      (cubit) => cubit.state.updatingBookingId == booking.id,
+    );
+    final canClose = context.select<BarberProfileCubit, bool>(
+      (cubit) => cubit.state.profile?.canCloseBookings ?? false,
+    );
+    final allowedStatuses = booking.nextStatuses.where(
+      (next) => canClose || !next.closesBooking,
+    );
+
     return Column(
       children: [
-        for (final next in booking.nextStatuses)
+        for (final next in allowedStatuses)
           Padding(
             padding: EdgeInsets.only(bottom: 10.h),
             child: PrimaryCtaButton(
               label: S().moveStatusTo(next.label),
+              isLoading: isUpdating,
               onPressed: () =>
                   context.read<BookingsCubit>().advanceStatus(booking.id, next),
             ),
@@ -38,10 +50,15 @@ class BookingActions extends StatelessWidget {
   }
 
   Widget _buildDecisionButtons(BuildContext context) {
+    final isUpdating = context.select<BookingsCubit, bool>(
+      (cubit) => cubit.state.updatingBookingId == booking.id,
+    );
+
     return Column(
       children: [
         PrimaryCtaButton(
           label: S().confirmBooking,
+          isLoading: isUpdating,
           onPressed: () =>
               context.read<BookingsCubit>().confirmBooking(booking.id),
         ),

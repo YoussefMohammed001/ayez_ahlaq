@@ -13,6 +13,7 @@ import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 import '../../../../../shared/support/presentation/manager/support_cubit.dart';
 import '../../../../../shared/support/presentation/widgets/whatsapp_menu_row.dart';
+import 'package:ayez_ahlaq/shared/support/presentation/widgets/legal_menu_rows.dart';
 import '../../../../../generated/l10n.dart';
 
 class ProfileAdminMenu extends StatelessWidget {
@@ -145,6 +146,12 @@ class ProfileAdminMenu extends StatelessWidget {
         label: S().changePassword,
         onTap: () => context.push(Routes.merchantChangePasswordScreen),
       ),
+      MenuRow(
+        icon: Icons.delete_forever_rounded,
+        label: S().deleteAccount,
+        danger: true,
+        onTap: () => context.push(Routes.merchantDeleteAccountScreen),
+      ),
     ];
   }
 
@@ -181,18 +188,13 @@ class ProfileAdminMenu extends StatelessWidget {
         onTap: () => context.push(Routes.aboutScreen),
       ),
       if (whatsappRow != null) whatsappRow,
+      ...LegalMenuRows.build(),
       MenuRow(
         icon: Icons.logout_rounded,
         label: S().logout,
         danger: true,
         showChevron: false,
         onTap: () => _confirmLogout(context),
-      ),
-      MenuRow(
-        icon: Icons.delete_forever_rounded,
-        label: S().deleteAccount,
-        danger: true,
-        onTap: () => context.push(Routes.merchantDeleteAccountScreen),
       ),
     ];
   }

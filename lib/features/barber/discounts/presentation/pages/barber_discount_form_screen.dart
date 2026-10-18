@@ -75,7 +75,7 @@ class _BarberDiscountFormScreenState extends State<BarberDiscountFormScreen> {
     if (!mounted) return;
 
     if (saved) {
-      context.read<BarberStorefrontProductsCubit>().loadProducts();
+      context.read<BarberStorefrontProductsCubit>().loadProducts(force: true);
       context.pop();
     }
   }

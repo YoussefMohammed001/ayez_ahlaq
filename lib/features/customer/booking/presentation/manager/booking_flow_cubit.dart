@@ -10,7 +10,8 @@ import 'booking_flow_selection_mixin.dart';
 import 'booking_flow_state.dart';
 import 'same_day_booking_checker.dart';
 
-class BookingFlowCubit extends Cubit<BookingFlowState> with BookingFlowSelectionMixin {
+class BookingFlowCubit extends Cubit<BookingFlowState>
+    with BookingFlowSelectionMixin {
   @override
   final GetBookingSlotsUseCase getSlots;
   final CreateBookingUseCase _createBooking;
@@ -86,7 +87,10 @@ class BookingFlowCubit extends Cubit<BookingFlowState> with BookingFlowSelection
 
     result.fold(
       (failure) => emit(
-        state.copyWith(status: BookingFlowStatus.failure, errorMessage: failure.message),
+        state.copyWith(
+          status: BookingFlowStatus.failure,
+          errorMessage: failure.message,
+        ),
       ),
       (result) => emit(
         state.copyWith(

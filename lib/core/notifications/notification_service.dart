@@ -58,6 +58,9 @@ class NotificationNavigator {
 }
 
 class NotificationService {
+  static const int _apnsMaxAttempts = 25;
+  static const Duration _apnsRetryDelay = Duration(milliseconds: 200);
+
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -101,13 +104,19 @@ class NotificationService {
     log('🔔 Notification permission: ${settings.authorizationStatus}');
   }
 
+  Future<String?> _waitForApnsToken() async {
+    for (var attempt = 0; attempt < _apnsMaxAttempts; attempt++) {
+      final token = await FirebaseMessaging.instance.getAPNSToken();
+      if (token != null) return token;
+      await Future.delayed(_apnsRetryDelay);
+    }
+    return null;
+  }
+
   Future<void> _saveFcmToken() async {
     if (Platform.isIOS) {
-      String? apnsToken;
-      while (apnsToken == null) {
-        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        await Future.delayed(const Duration(milliseconds: 200));
-      }
+      final apnsToken = await _waitForApnsToken();
+      if (apnsToken == null) return;
       log('🍎 APNs token: $apnsToken');
     }
 
@@ -152,7 +161,7 @@ class NotificationService {
 
   Future<void> _initLocalNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_notification');
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
@@ -193,7 +202,8 @@ class NotificationService {
           channelDescription: _channel.description,
           enableVibration: true,
           playSound: true,
-          icon: '@mipmap/ic_launcher',
+          icon: '@drawable/ic_notification',
+          color: const Color(0xFFC6982F),
           importance: Importance.high,
           priority: Priority.max,
         );

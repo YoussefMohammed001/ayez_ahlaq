@@ -1,36 +1,39 @@
 import 'package:equatable/equatable.dart';
-import '../../../booking/domain/entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 
 class CustomerRating extends Equatable {
   final int id;
-  final int bookingId;
   final RatingTarget target;
+  final int targetId;
+  final String targetName;
   final int stars;
   final String? note;
-  final String? barberName;
-  final String? shopName;
+  final int? bookingId;
+  final int? homeServiceRequestId;
   final DateTime? createdAt;
 
   const CustomerRating({
     required this.id,
-    required this.bookingId,
     required this.target,
+    required this.targetId,
+    required this.targetName,
     required this.stars,
     this.note,
-    this.barberName,
-    this.shopName,
+    this.bookingId,
+    this.homeServiceRequestId,
     this.createdAt,
   });
 
   @override
   List<Object?> get props => [
     id,
-    bookingId,
     target,
+    targetId,
+    targetName,
     stars,
     note,
-    barberName,
-    shopName,
+    bookingId,
+    homeServiceRequestId,
     createdAt,
   ];
 }

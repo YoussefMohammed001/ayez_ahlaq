@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
@@ -47,9 +48,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       body: BlocBuilder<BookingDetailCubit, BookingDetailState>(
         builder: (context, state) {
           final cubit = context.read<BookingDetailCubit>();
-          Future<void> reload() => cubit.loadBooking(widget.bookingId);
+          Future<void> reload() =>
+              cubit.loadBooking(widget.bookingId, isRefresh: true);
 
-          if (state.status == BookingDetailStatus.loading && state.booking == null) {
+          if (state.status == BookingDetailStatus.loading &&
+              state.booking == null) {
             return const ListSkeleton();
           }
 
@@ -57,7 +60,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
           if (state.status == BookingDetailStatus.failure && booking == null) {
             return RefreshableStateView(
               onRefresh: reload,
-              child: AppErrorState(message: state.errorMessage, onRetry: reload),
+              child: AppErrorState(
+                message: state.errorMessage,
+                onRetry: reload,
+              ),
             );
           }
 
@@ -69,15 +75,38 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
               padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
               children: [
                 CustomerBookingDetailCard(booking: booking),
-                if (booking.status.isCancellable) ...[
+                if (booking.isSlotMissed) ...[
+                  SizedBox(height: 20.h),
+                  Text(
+                    S().bookingSlotPassedMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: context.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+                if (booking.canCancel) ...[
                   SizedBox(height: 20.h),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.semantic.warning,
+                      foregroundColor:
+                          context.colorScheme.surfaceContainerLowest,
+                      minimumSize: Size.fromHeight(52.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                      ),
+                    ),
                     onPressed: state.isCancelling ? null : _cancel,
                     child: state.isCancelling
                         ? SizedBox(
                             width: 18.r,
                             height: 18.r,
-                            child: const CircularProgressIndicator(strokeWidth: 2),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: context.colorScheme.surfaceContainerLowest,
+                            ),
                           )
                         : Text(S().cancelBooking),
                   ),

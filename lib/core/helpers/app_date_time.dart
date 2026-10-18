@@ -118,7 +118,10 @@ class AppDateTime {
       hourStr = convertArabicNumbersToEnglish(hourStr);
       final dateTime = DateTime.parse("$dateStr $hourStr:00");
       final utcDateTime = dateTime.toUtc();
-      final formatted = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(utcDateTime);
+      final formatted = DateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss",
+        "en",
+      ).format(utcDateTime);
       return "$formatted+0000";
     } catch (e) {
       safePrint("Error combining date/hour: $e");

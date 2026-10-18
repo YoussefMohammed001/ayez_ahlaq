@@ -1,7 +1,25 @@
+import '../analytics/api_analytics_tracker.dart';
+import '../analytics/firebase_analytics_service.dart';
+import '../analytics/i_analytics_service.dart';
+import '../review/review_prompt_service.dart';
+import '../../shared/analytics/user_analytics_sync.dart';
+import '../../shared/location/domain/use_cases/resolve_governorate_use_case.dart';
+import '../../shared/location/data/device_position_source.dart';
+import '../../shared/location/data/external_maps_launcher.dart';
+import '../../shared/location/data/location_repo.dart';
+import '../../shared/location/data/place_geocoder.dart';
+import '../../shared/location/domain/repos/i_location_repo.dart';
+import '../../shared/location/domain/use_cases/get_current_location_use_case.dart';
+import '../../shared/location/domain/use_cases/get_location_availability_use_case.dart';
+import '../../shared/location/domain/use_cases/open_in_maps_use_case.dart';
+import '../../shared/location/domain/use_cases/open_location_settings_use_case.dart';
+import '../../shared/location/domain/use_cases/resolve_place_use_case.dart';
+import '../../shared/location/domain/use_cases/search_places_use_case.dart';
+import '../../shared/location/presentation/manager/location_status_cubit.dart';
+import '../../shared/location/presentation/manager/map_location_picker_cubit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../shared/location/current_position_resolver.dart';
 import '../../shared/support/data/apis/support_api.dart';
 import '../../shared/support/data/repos/support_repo.dart';
 import '../../shared/support/domain/repos/i_support_repo.dart';
@@ -51,6 +69,8 @@ import '../../features/customer/home_service/domain/repos/i_customer_home_servic
 import '../../features/customer/home_service/domain/use_cases/get_home_service_shops_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/get_home_service_shop_hours_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/create_home_service_request_use_case.dart';
+import '../../features/customer/home_service/domain/use_cases/rate_home_service_request_use_case.dart';
+import '../../features/customer/home_service/domain/use_cases/retry_home_service_request_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/get_my_home_service_requests_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/get_home_service_request_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/confirm_home_service_price_use_case.dart';
@@ -79,6 +99,7 @@ import '../../features/customer/store/domain/repos/i_customer_store_repo.dart';
 import '../../features/customer/store/domain/use_cases/cancel_store_order_use_case.dart'
     as customer_store;
 import '../../features/customer/store/domain/use_cases/get_storefront_use_case.dart';
+import '../../features/customer/store/domain/use_cases/get_store_feed_use_case.dart';
 import '../../features/customer/store/domain/use_cases/get_store_orders_use_case.dart'
     as customer_store;
 import '../../features/customer/store/domain/use_cases/get_cart_use_case.dart'
@@ -87,6 +108,7 @@ import '../../features/customer/store/domain/use_cases/put_cart_use_case.dart'
     as customer_store;
 import '../../features/customer/store/domain/use_cases/checkout_cart_use_case.dart'
     as customer_store;
+import '../../features/customer/store/presentation/manager/customer_store_feed_cubit.dart';
 import '../../features/customer/store/presentation/manager/store_cart_cubit.dart';
 import '../../features/customer/store/presentation/manager/store_orders_cubit.dart';
 import '../../features/customer/payment_methods/data/apis/customer_payment_methods_api.dart';
@@ -124,9 +146,14 @@ import '../../features/barber/auth/presentation/manager/barber_auth_cubit.dart';
 import '../../features/barber/profile/data/apis/barber_profile_api.dart';
 import '../../features/barber/profile/data/repos/barber_profile_repo.dart';
 import '../../features/barber/profile/domain/repos/i_barber_profile_repo.dart';
+import '../../features/barber/profile/data/local/barber_profile_image_cache.dart';
+import '../../features/barber/profile/domain/use_cases/delete_barber_profile_image_use_case.dart';
+import '../../features/barber/profile/domain/use_cases/get_barber_profile_image_use_case.dart';
 import '../../features/barber/profile/domain/use_cases/get_barber_profile_use_case.dart';
+import '../../features/barber/profile/domain/use_cases/get_cached_barber_profile_image_use_case.dart';
 import '../../features/barber/profile/domain/use_cases/update_barber_location_use_case.dart';
 import '../../features/barber/profile/domain/use_cases/update_serves_clients_use_case.dart';
+import '../../features/barber/profile/domain/use_cases/upload_barber_profile_image_use_case.dart';
 import '../../features/barber/discounts/data/apis/barber_discounts_api.dart';
 import '../../features/barber/discounts/data/repos/barber_discounts_repo.dart';
 import '../../features/barber/discounts/domain/repos/i_barber_discounts_repo.dart';
@@ -191,6 +218,14 @@ import '../../features/barber/home_service_requests/domain/use_cases/reject_home
 import '../../features/barber/home_service_requests/domain/use_cases/update_home_service_request_price_use_case.dart';
 import '../../features/barber/home_service_requests/domain/use_cases/update_home_service_request_status_use_case.dart';
 import '../../features/barber/home_service_requests/presentation/manager/home_service_requests_cubit.dart' as barber_hsr;
+import '../../features/barber/home_service_broadcast/data/apis/barber_home_service_broadcast_api.dart';
+import '../../features/barber/home_service_broadcast/data/repos/barber_home_service_broadcast_repo.dart';
+import '../../features/barber/home_service_broadcast/domain/repos/i_barber_home_service_broadcast_repo.dart';
+import '../../features/barber/home_service_broadcast/domain/use_cases/accept_home_service_broadcast_use_case.dart';
+import '../../features/barber/home_service_broadcast/domain/use_cases/get_home_service_broadcast_for_request_use_case.dart';
+import '../../features/barber/home_service_broadcast/domain/use_cases/get_home_service_broadcasts_use_case.dart';
+import '../../features/barber/home_service_broadcast/domain/use_cases/reject_home_service_broadcast_use_case.dart';
+import '../../features/barber/home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
 import '../../features/barber/services/data/apis/barber_services_api.dart';
 import '../../features/barber/services/data/repos/barber_services_repo.dart';
 import '../../features/barber/services/domain/repos/i_barber_services_repo.dart';
@@ -201,9 +236,12 @@ import '../../features/barber/services/domain/use_cases/delete_own_service_use_c
 import '../../features/barber/services/domain/use_cases/get_barber_services_use_case.dart';
 import '../../features/barber/services/domain/use_cases/get_own_services_use_case.dart';
 import '../../features/barber/services/domain/use_cases/get_service_catalog_use_case.dart';
+import '../../features/barber/services/domain/use_cases/get_shop_haircut_styles_use_case.dart';
 import '../../features/barber/services/domain/use_cases/update_barber_service_use_case.dart';
+import '../../features/barber/services/domain/use_cases/update_shop_haircut_style_use_case.dart';
 import '../../features/barber/services/presentation/manager/barber_services_cubit.dart';
 import '../../features/barber/services/presentation/manager/own_services_cubit.dart';
+import '../../features/barber/services/presentation/manager/shop_haircut_styles_cubit.dart';
 import '../../features/barber/documents/data/apis/barber_documents_api.dart';
 import '../../features/barber/documents/data/repos/barber_documents_repo.dart';
 import '../../features/barber/documents/domain/repos/i_barber_documents_repo.dart';
@@ -217,10 +255,15 @@ import '../../features/barber/documents/domain/use_cases/upload_document_file_us
     as barber;
 import '../../features/barber/documents/presentation/manager/barber_documents_cubit.dart';
 import '../../features/barber/store/data/apis/barber_store_api.dart';
+import '../../features/barber/store/data/apis/barber_store_feed_api.dart';
 import '../../features/barber/store/data/repos/barber_store_repo.dart';
+import '../../features/barber/store/data/repos/barber_store_feed_repo.dart';
 import '../../features/barber/store/domain/repos/i_barber_store_repo.dart';
+import '../../features/barber/store/domain/repos/i_barber_store_feed_repo.dart';
 import '../../features/barber/store/domain/use_cases/cancel_store_order_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_merchant_products_use_case.dart';
+import '../../features/barber/store/domain/use_cases/get_store_categories_use_case.dart';
+import '../../features/barber/store/domain/use_cases/get_store_feed_products_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_store_merchants_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_store_order_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_store_orders_use_case.dart';
@@ -229,6 +272,7 @@ import '../../features/barber/store/domain/use_cases/get_cart_use_case.dart';
 import '../../features/barber/store/domain/use_cases/get_quote_use_case.dart';
 import '../../features/barber/store/domain/use_cases/put_cart_use_case.dart';
 import '../../features/barber/store/presentation/manager/barber_store_cart_cubit.dart';
+import '../../features/barber/store/presentation/manager/barber_store_feed_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../features/barber/store/presentation/manager/barber_store_orders_cubit.dart';
 import '../../features/barber/storefront/products/data/apis/barber_storefront_products_api.dart';
@@ -307,6 +351,12 @@ import '../../features/barber/money/presentation/manager/money_home_cubit.dart';
 import '../../features/barber/money/presentation/manager/money_items_cubit.dart';
 import '../../features/barber/money/presentation/manager/money_entries_cubit.dart';
 import '../../features/barber/wallet/presentation/manager/create_wallet_request_cubit.dart';
+import '../../features/barber/ratings/data/apis/barber_ratings_api.dart';
+import '../../features/barber/ratings/data/repos/barber_ratings_repo.dart';
+import '../../features/barber/ratings/domain/repos/i_barber_ratings_repo.dart';
+import '../../features/barber/ratings/domain/use_cases/get_pending_merchant_rating_use_case.dart';
+import '../../features/barber/ratings/domain/use_cases/submit_merchant_rating_use_case.dart';
+import '../../features/barber/ratings/presentation/manager/pending_merchant_rating_cubit.dart';
 import '../../features/barber/reviews/data/apis/barber_reviews_api.dart';
 import '../../features/barber/reviews/data/repos/barber_reviews_repo.dart';
 import '../../features/barber/reviews/domain/repos/i_barber_reviews_repo.dart';
@@ -404,6 +454,9 @@ import '../../features/customer/ratings/data/apis/customer_ratings_api.dart';
 import '../../features/customer/ratings/data/repos/customer_ratings_repo.dart';
 import '../../features/customer/ratings/domain/repos/i_customer_ratings_repo.dart';
 import '../../features/customer/ratings/domain/use_cases/get_customer_ratings_use_case.dart';
+import '../../features/customer/ratings/domain/use_cases/get_pending_visit_rating_use_case.dart';
+import '../../features/customer/ratings/domain/use_cases/submit_visit_rating_use_case.dart';
+import '../../features/customer/ratings/presentation/manager/pending_visit_rating_cubit.dart';
 import '../../features/customer/ratings/presentation/manager/customer_ratings_cubit.dart';
 import '../../features/barber/bookings/data/apis/barber_booking_api.dart';
 import '../../features/barber/bookings/data/repos/barber_booking_repo.dart';
@@ -436,6 +489,7 @@ import '../../features/barber/team/domain/repos/i_barber_team_repo.dart';
 import '../../features/barber/team/domain/repos/i_barber_team_hours_repo.dart';
 import '../../features/barber/team/domain/repos/i_barber_team_services_repo.dart';
 import '../../features/barber/team/domain/use_cases/activate_team_member_use_case.dart';
+import '../../features/barber/team/domain/use_cases/update_member_permissions_use_case.dart';
 import '../../features/barber/team/domain/use_cases/add_team_member_use_case.dart';
 import '../../features/barber/team/domain/use_cases/block_team_member_use_case.dart';
 import '../../features/barber/team/domain/use_cases/delete_team_member_permanently_use_case.dart';
@@ -650,6 +704,7 @@ class ServicesLocator {
     _barberHomeService();
     _barberHomeServiceHours();
     _barberHomeServiceRequests();
+    _barberHomeServiceBroadcast();
     _barberServices();
     _barberDocuments();
     _barberStore();
@@ -661,6 +716,7 @@ class ServicesLocator {
     _barberWalletRequests();
     _barberMoney();
     _barberReviews();
+    _barberRatings();
     _barberInvite();
     _barberSubscription();
     _barberTeam();
@@ -679,6 +735,31 @@ class ServicesLocator {
     sl.registerLazySingleton<ISupportRepo>(() => SupportRepo(sl()));
     sl.registerLazySingleton(() => GetSupportInfoUseCase(sl()));
     sl.registerLazySingleton(() => SupportCubit(sl()));
+    _location();
+    _analytics();
+  }
+
+  void _analytics() {
+    sl.registerLazySingleton<IAnalyticsService>(() => FirebaseAnalyticsService());
+    sl.registerLazySingleton(() => ReviewPromptService(sl(), sl()));
+    sl.registerLazySingleton(() => UserAnalyticsSync(sl(), sl(), sl(), sl()));
+    sl.registerLazySingleton(() => ApiAnalyticsTracker(sl(), sl(), sl()));
+  }
+
+  void _location() {
+    sl.registerLazySingleton(() => DevicePositionSource(sl()));
+    sl.registerLazySingleton(() => PlaceGeocoder());
+    sl.registerLazySingleton(() => ExternalMapsLauncher());
+    sl.registerLazySingleton(() => OpenInMapsUseCase(sl()));
+    sl.registerLazySingleton<ILocationRepo>(() => LocationRepo(sl(), sl(), sl()));
+    sl.registerLazySingleton(() => GetCurrentLocationUseCase(sl()));
+    sl.registerLazySingleton(() => GetLocationAvailabilityUseCase(sl()));
+    sl.registerLazySingleton(() => OpenLocationSettingsUseCase(sl()));
+    sl.registerLazySingleton(() => ResolvePlaceUseCase(sl()));
+    sl.registerLazySingleton(() => ResolveGovernorateUseCase(sl()));
+    sl.registerLazySingleton(() => SearchPlacesUseCase(sl()));
+    sl.registerFactory(() => LocationStatusCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => MapLocationPickerCubit(sl(), sl(), sl()));
   }
 
   void _initCrashReporting() {
@@ -805,7 +886,6 @@ class ServicesLocator {
   }
 
   void _customerShops() {
-    sl.registerLazySingleton(() => CurrentPositionResolver());
     sl.registerLazySingleton(() => CustomerShopsApi(sl()));
     sl.registerLazySingleton<ICustomerShopsRepo>(
       () => CustomerShopsRepo(sl()),
@@ -813,7 +893,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetShopsUseCase(sl()));
     sl.registerLazySingleton(() => GetShopDetailUseCase(sl()));
     sl.registerFactory(() => CustomerShopsCubit(sl(), sl()));
-    sl.registerFactory(() => CustomerShopDetailCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => CustomerShopDetailCubit(sl(), sl(), sl(), sl(), sl()));
   }
 
   void _customerHomeService() {
@@ -824,14 +904,16 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetHomeServiceShopsUseCase(sl()));
     sl.registerLazySingleton(() => GetHomeServiceShopHoursUseCase(sl()));
     sl.registerLazySingleton(() => CreateHomeServiceRequestUseCase(sl()));
+    sl.registerLazySingleton(() => RetryHomeServiceRequestUseCase(sl()));
     sl.registerLazySingleton(() => GetMyHomeServiceRequestsUseCase(sl()));
     sl.registerLazySingleton(() => GetHomeServiceRequestUseCase(sl()));
     sl.registerLazySingleton(() => ConfirmHomeServicePriceUseCase(sl()));
     sl.registerLazySingleton(() => CancelHomeServiceRequestUseCase(sl()));
+    sl.registerLazySingleton(() => RateHomeServiceRequestUseCase(sl()));
     sl.registerFactory(() => HomeServiceShopsCubit(sl(), sl()));
-    sl.registerFactory(() => HomeServiceRequestFormCubit(sl()));
+    sl.registerFactory(() => HomeServiceRequestFormCubit(sl(), sl()));
     sl.registerFactory(() => HomeServiceRequestsCubit(sl()));
-    sl.registerFactory(() => HomeServiceRequestDetailCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => HomeServiceRequestDetailCubit(sl(), sl(), sl(), sl()));
   }
 
   void _customerBooking() {
@@ -870,8 +952,10 @@ class ServicesLocator {
     sl.registerLazySingleton(() => customer_store.CheckoutCartUseCase(sl()));
     sl.registerLazySingleton(() => customer_store.GetStoreOrdersUseCase(sl()));
     sl.registerLazySingleton(() => customer_store.CancelStoreOrderUseCase(sl()));
+    sl.registerLazySingleton(() => GetStoreFeedUseCase(sl(), sl()));
     sl.registerFactory(() => StoreCartCubit(sl(), sl(), sl(), sl()));
     sl.registerFactory(() => StoreOrdersCubit(sl(), sl()));
+    sl.registerFactory(() => CustomerStoreFeedCubit(sl()));
   }
 
   void _customerWallet() {
@@ -907,6 +991,9 @@ class ServicesLocator {
     sl.registerLazySingleton(() => CustomerRatingsApi(sl()));
     sl.registerLazySingleton<ICustomerRatingsRepo>(() => CustomerRatingsRepo(sl()));
     sl.registerLazySingleton(() => GetCustomerRatingsUseCase(sl()));
+    sl.registerLazySingleton(() => GetPendingVisitRatingUseCase(sl()));
+    sl.registerLazySingleton(() => SubmitVisitRatingUseCase(sl()));
+    sl.registerFactory(() => PendingVisitRatingCubit(sl(), sl()));
     sl.registerFactory(() => CustomerRatingsCubit(sl()));
   }
 
@@ -1185,15 +1272,32 @@ class ServicesLocator {
 
   void _barberProfile() {
     sl.registerLazySingleton(() => BarberProfileApi(sl()));
+    sl.registerLazySingleton(() => BarberProfileImageCache());
     sl.registerLazySingleton<IBarberProfileRepo>(
-      () => BarberProfileRepo(sl(), sl()),
+      () => BarberProfileRepo(sl(), sl(), sl()),
     );
     sl.registerLazySingleton(() => GetBarberProfileUseCase(sl()));
     sl.registerLazySingleton(() => UpdateBarberLocationUseCase(sl()));
     sl.registerLazySingleton(() => UpdateServesClientsUseCase(sl()));
     sl.registerLazySingleton(() => ChangeBarberPasswordUseCase(sl()));
     sl.registerLazySingleton(() => DeleteBarberAccountUseCase(sl()));
-    sl.registerFactory(() => BarberProfileCubit(sl(), sl(), sl(), sl(), sl()));
+    sl.registerLazySingleton(() => UploadBarberProfileImageUseCase(sl()));
+    sl.registerLazySingleton(() => GetBarberProfileImageUseCase(sl()));
+    sl.registerLazySingleton(() => GetCachedBarberProfileImageUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteBarberProfileImageUseCase(sl()));
+    sl.registerFactory(
+      () => BarberProfileCubit(
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+        sl(),
+      ),
+    );
   }
 
   void _barberPaymentMethods() {
@@ -1212,7 +1316,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => CreateDrinkUseCase(sl()));
     sl.registerLazySingleton(() => UpdateDrinkUseCase(sl()));
     sl.registerLazySingleton(() => DeleteDrinkUseCase(sl()));
-    sl.registerFactory(() => BarberDrinksCubit(sl(), sl(), sl(), sl()));
+    sl.registerLazySingleton(() => BarberDrinksCubit(sl(), sl(), sl(), sl()));
   }
 
   void _barberDiscounts() {
@@ -1262,6 +1366,20 @@ class ServicesLocator {
     );
   }
 
+  void _barberHomeServiceBroadcast() {
+    sl.registerLazySingleton(() => BarberHomeServiceBroadcastApi(sl()));
+    sl.registerLazySingleton<IBarberHomeServiceBroadcastRepo>(
+      () => BarberHomeServiceBroadcastRepo(sl()),
+    );
+    sl.registerLazySingleton(() => GetHomeServiceBroadcastsUseCase(sl()));
+    sl.registerLazySingleton(() => GetHomeServiceBroadcastForRequestUseCase(sl()));
+    sl.registerLazySingleton(() => AcceptHomeServiceBroadcastUseCase(sl()));
+    sl.registerLazySingleton(() => RejectHomeServiceBroadcastUseCase(sl()));
+    sl.registerFactory(
+      () => HomeServiceBroadcastCubit(sl(), sl(), sl(), sl()),
+    );
+  }
+
   void _barberHomeServiceHours() {
     sl.registerLazySingleton(() => BarberHomeServiceHoursApi(sl()));
     sl.registerLazySingleton<IBarberHomeServiceHoursRepo>(
@@ -1285,10 +1403,13 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetOwnServicesUseCase(sl()));
     sl.registerLazySingleton(() => CreateOwnServiceUseCase(sl()));
     sl.registerLazySingleton(() => DeleteOwnServiceUseCase(sl()));
+    sl.registerLazySingleton(() => GetShopHaircutStylesUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateShopHaircutStyleUseCase(sl()));
     sl.registerFactory(
       () => BarberServicesCubit(sl(), sl(), sl(), sl(), sl()),
     );
     sl.registerFactory(() => OwnServicesCubit(sl(), sl(), sl()));
+    sl.registerFactory(() => ShopHaircutStylesCubit(sl(), sl()));
   }
 
   void _barberDocuments() {
@@ -1308,8 +1429,14 @@ class ServicesLocator {
   void _barberStore() {
     sl.registerLazySingleton(() => BarberStoreApi(sl()));
     sl.registerLazySingleton<IBarberStoreRepo>(() => BarberStoreRepo(sl()));
+    sl.registerLazySingleton(() => BarberStoreFeedApi(sl()));
+    sl.registerLazySingleton<IBarberStoreFeedRepo>(
+      () => BarberStoreFeedRepo(sl()),
+    );
     sl.registerLazySingleton(() => GetStoreMerchantsUseCase(sl()));
     sl.registerLazySingleton(() => GetMerchantProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetStoreFeedProductsUseCase(sl()));
+    sl.registerLazySingleton(() => GetStoreCategoriesUseCase(sl()));
     sl.registerLazySingleton(() => GetCartUseCase(sl()));
     sl.registerLazySingleton(() => PutCartUseCase(sl()));
     sl.registerLazySingleton(() => GetQuoteUseCase(sl()));
@@ -1318,6 +1445,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetStoreOrderUseCase(sl()));
     sl.registerLazySingleton(() => CancelStoreOrderUseCase(sl()));
     sl.registerFactory(() => BarberStoreMerchantsCubit(sl()));
+    sl.registerFactory(() => BarberStoreFeedCubit(sl(), sl()));
     sl.registerFactory(
       () => BarberStoreCartCubit(sl(), sl(), sl(), sl(), sl()),
     );
@@ -1435,6 +1563,14 @@ class ServicesLocator {
     sl.registerFactory(() => MoneyEntriesCubit(sl(), sl()));
   }
 
+  void _barberRatings() {
+    sl.registerLazySingleton(() => BarberRatingsApi(sl()));
+    sl.registerLazySingleton<IBarberRatingsRepo>(() => BarberRatingsRepo(sl()));
+    sl.registerLazySingleton(() => GetPendingMerchantRatingUseCase(sl()));
+    sl.registerLazySingleton(() => SubmitMerchantRatingUseCase(sl()));
+    sl.registerFactory(() => PendingMerchantRatingCubit(sl(), sl()));
+  }
+
   void _barberReviews() {
     sl.registerLazySingleton(() => BarberReviewsApi(sl()));
     sl.registerLazySingleton<IBarberReviewsRepo>(() => BarberReviewsRepo(sl()));
@@ -1473,10 +1609,11 @@ class ServicesLocator {
     sl.registerLazySingleton(() => SetMemberAvailabilityUseCase(sl()));
     sl.registerLazySingleton(() => BlockTeamMemberUseCase(sl()));
     sl.registerLazySingleton(() => ActivateTeamMemberUseCase(sl()));
+    sl.registerLazySingleton(() => UpdateMemberPermissionsUseCase(sl()));
     sl.registerLazySingleton(() => DeleteTeamMemberPermanentlyUseCase(sl()));
-    sl.registerFactory(() => BarberTeamCubit(sl(), sl()));
+    sl.registerFactory(() => BarberTeamCubit(sl(), sl(), sl()));
     sl.registerFactory(
-      () => TeamMemberDetailCubit(sl(), sl(), sl(), sl(), sl(), sl()),
+      () => TeamMemberDetailCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl()),
     );
 
     sl.registerLazySingleton(() => BarberTeamHoursApi(sl()));

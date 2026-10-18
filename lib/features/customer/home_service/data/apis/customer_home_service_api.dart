@@ -8,12 +8,20 @@ class CustomerHomeServiceApi {
 
   CustomerHomeServiceApi(this._networkService);
 
-  Future<Either<Failure, dynamic>> getShops({double? lat, double? lng}) {
+  Future<Either<Failure, dynamic>> getShops({
+    required String date,
+    required String time,
+    double? lat,
+    double? lng,
+  }) {
     return _networkService.getData(
       endPoint: EndPoints.customerHomeServiceShop,
-      queryParameters: lat == null || lng == null
-          ? null
-          : {'lat': lat, 'lng': lng},
+      queryParameters: {
+        'date': date,
+        'time': time,
+        if (lat != null) 'lat': lat,
+        if (lng != null) 'lng': lng,
+      },
     );
   }
 
@@ -24,20 +32,50 @@ class CustomerHomeServiceApi {
   }
 
   Future<Either<Failure, dynamic>> createRequest({
-    required int shopId,
+    int? shopId,
+    bool anyNearby = false,
     required String address,
     required double lat,
     required double lng,
     String? note,
+    required String date,
+    required String time,
   }) {
     return _networkService.postData(
       endPoint: EndPoints.customerHomeService,
       data: {
-        'shopId': shopId,
+        if (anyNearby) 'anyNearby': true else 'shopId': shopId,
         'address': address,
         'lat': lat,
         'lng': lng,
         'note': note,
+        'date': date,
+        'time': time,
+      },
+    );
+  }
+
+  Future<Either<Failure, dynamic>> retryRequest({
+    required int id,
+    int? shopId,
+    bool anyNearby = false,
+    required String address,
+    required double lat,
+    required double lng,
+    String? note,
+    required String date,
+    required String time,
+  }) {
+    return _networkService.putData(
+      endPoint: EndPoints.customerHomeServiceRetry(id),
+      data: {
+        if (anyNearby) 'anyNearby': true else 'shopId': shopId,
+        'address': address,
+        'lat': lat,
+        'lng': lng,
+        'note': note,
+        'date': date,
+        'time': time,
       },
     );
   }
@@ -61,6 +99,13 @@ class CustomerHomeServiceApi {
   Future<Either<Failure, dynamic>> cancel(int id) {
     return _networkService.putData(
       endPoint: EndPoints.customerHomeServiceCancel(id),
+    );
+  }
+
+  Future<Either<Failure, dynamic>> rate(Map<String, dynamic> body) {
+    return _networkService.postData(
+      endPoint: EndPoints.customerRating,
+      data: body,
     );
   }
 }

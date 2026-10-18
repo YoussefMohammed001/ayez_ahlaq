@@ -5,6 +5,8 @@ class BookingAddon extends Equatable {
   final int quantity;
   final String? name;
   final int? price;
+  final int? unitDiscount;
+  final int? lineTotal;
   final int? drinkId;
 
   const BookingAddon({
@@ -12,11 +14,21 @@ class BookingAddon extends Equatable {
     required this.quantity,
     this.name,
     this.price,
+    this.unitDiscount,
+    this.lineTotal,
     this.drinkId,
   });
 
   bool get isDrink => drinkId != null;
 
   @override
-  List<Object?> get props => [productId, quantity, name, price, drinkId];
+  List<Object?> get props => [
+    productId,
+    quantity,
+    name,
+    price,
+    unitDiscount,
+    lineTotal,
+    drinkId,
+  ];
 }

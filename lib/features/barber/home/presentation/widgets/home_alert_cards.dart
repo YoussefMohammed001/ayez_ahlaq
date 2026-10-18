@@ -7,11 +7,14 @@ import '../../../documents/presentation/manager/barber_documents_cubit.dart';
 import '../../../documents/presentation/manager/barber_documents_state.dart';
 import '../../../home_service/presentation/manager/home_service_settings_cubit.dart';
 import '../../../home_service/presentation/manager/home_service_settings_state.dart';
+import '../../../home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
+import '../../../home_service_broadcast/presentation/manager/home_service_broadcast_state.dart';
 import '../../../home_service_requests/presentation/manager/home_service_requests_cubit.dart';
 import '../../../home_service_requests/presentation/manager/home_service_requests_state.dart';
 import '../../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
 import '../../../storefront/orders/presentation/manager/barber_storefront_orders_state.dart';
 import 'home_documents_card.dart';
+import 'home_service_broadcast_card.dart';
 import 'home_service_card.dart';
 import 'home_storefront_orders_card.dart';
 
@@ -47,6 +50,20 @@ class HomeAlertCards extends StatelessWidget {
               child: HomeDocumentsCard(
                 missingCount: state.missingRequiredCount,
                 onTap: () => context.push(Routes.barberDocumentsScreen),
+              ),
+            );
+          },
+        ),
+        BlocBuilder<HomeServiceBroadcastCubit, HomeServiceBroadcastState>(
+          builder: (context, state) {
+            final pendingCount = state.broadcasts.length;
+            if (pendingCount == 0) return const SizedBox.shrink();
+            return Padding(
+              padding: EdgeInsets.only(bottom: 14.h),
+              child: HomeServiceBroadcastCard(
+                pendingCount: pendingCount,
+                onTap: () =>
+                    context.push(Routes.barberHomeServiceBroadcastScreen),
               ),
             );
           },

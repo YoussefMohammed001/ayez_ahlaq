@@ -7,10 +7,10 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/customer_booking.dart';
-import '../../domain/entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
+import '../../../../../shared/widgets/star_picker_row.dart';
 import '../manager/booking_detail_cubit.dart';
 import '../manager/booking_detail_state.dart';
-import 'star_picker_row.dart';
 
 class RateBookingSheet extends StatefulWidget {
   final CustomerBooking booking;
@@ -61,7 +61,8 @@ class _RateBookingSheetState extends State<RateBookingSheet> {
     if (!mounted) return;
 
     if (!success) {
-      if (cubit.state.errorMessage != null) showError(cubit.state.errorMessage!);
+      if (cubit.state.errorMessage != null)
+        showError(cubit.state.errorMessage!);
       return;
     }
 
@@ -93,7 +94,9 @@ class _RateBookingSheetState extends State<RateBookingSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionTitle(title: isBarber ? S().rateBarberTitle : S().rateShopTitle),
+          SectionTitle(
+            title: isBarber ? S().rateBarberTitle : S().rateShopTitle,
+          ),
           Text(
             isBarber
                 ? S().rateBarberSubtitle(widget.booking.barberName)
@@ -101,7 +104,10 @@ class _RateBookingSheetState extends State<RateBookingSheet> {
             style: TextStyle(fontSize: 12.5.sp),
           ),
           SizedBox(height: 18.h),
-          StarPickerRow(stars: _stars, onChanged: (s) => setState(() => _stars = s)),
+          StarPickerRow(
+            stars: _stars,
+            onChanged: (s) => setState(() => _stars = s),
+          ),
           SizedBox(height: 18.h),
           TextField(
             controller: _noteController,

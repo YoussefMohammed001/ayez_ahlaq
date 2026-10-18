@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widgets/option_tile.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../shared/widgets/delivery_location_field.dart';
+import '../../../../../shared/widgets/location_picker_field.dart';
 import '../../domain/entities/store_cart.dart';
 import '../../domain/entities/store_fulfillment_type.dart';
 import 'store_fulfillment_type_label.dart';
@@ -51,7 +51,7 @@ class StoreFulfillmentSection extends StatelessWidget {
         ),
         if (isDelivery) ...[
           SectionTitle(title: S().orderDeliveryAddressLabel),
-          DeliveryLocationField(
+          LocationPickerField(
             addressController: addressController,
             latitude: deliveryLat,
             longitude: deliveryLng,

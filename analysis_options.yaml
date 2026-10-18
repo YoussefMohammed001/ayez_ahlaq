@@ -13,6 +13,9 @@ analyzer:
   exclude:
     - lib/app_idea_prototype/**
     - lib/generated/**
+    - build/**
+    - android/**
+    - ios/**
 
 linter:
   # The lint rules applied to this project can be customized in the

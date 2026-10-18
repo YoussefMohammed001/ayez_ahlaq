@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../shared/guest/guest_browse_button.dart';
+import '../../../../../core/extensions/ext_text_controllers.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/helpers/validators.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_password_field.dart';
@@ -35,6 +38,12 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
     super.dispose();
   }
 
+  void _openAndReset(String route) {
+    [_identifierController, _passwordController].clearAll();
+    _formKey.currentState?.reset();
+    context.push(route);
+  }
+
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -58,6 +67,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
             }
             if (state.status == CustomerAuthStatus.failure &&
                 state.errorMessage != null) {
+              _passwordController.clear();
               showError(state.errorMessage!);
             }
           },
@@ -80,11 +90,11 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                 AuthFooterPrompt(
                   label: S().forgotPassword,
                   onTap: () =>
-                      context.push(Routes.customerForgotPasswordScreen),
+                      _openAndReset(Routes.customerForgotPasswordScreen),
                 ),
                 AuthFooterPrompt(
                   label: S().noAccountRegisterCustomer,
-                  onTap: () => context.push(Routes.customerRegisterScreen),
+                  onTap: () => _openAndReset(Routes.customerRegisterScreen),
                 ),
                 SizedBox(height: 10.h),
                 ChangeAccountTypeButton(
@@ -107,6 +117,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
           controller: _identifierController,
           hint: '01001234567',
           isNumber: true,
+          validator: Validators.validateEgyptianPhoneNumber,
         ),
       ),
       LabeledField(
@@ -127,6 +138,8 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
           onPressed: _submit,
         ),
       ),
+      SizedBox(height: 10.h),
+      const GuestBrowseButton(),
     ];
   }
 }

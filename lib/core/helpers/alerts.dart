@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_router/go_router.dart';
 import '/core/routes/app_routes.dart';
 import '/core/theme/styles.dart';
 
@@ -94,14 +93,28 @@ void _showAlert({
     context: context,
     barrierDismissible: canDismiss,
     barrierColor: Colors.transparent,
-    builder: (context) {
+    builder: (dialogContext) {
       Future.delayed(const Duration(milliseconds: 2500), () {
-        if (context.mounted) context.pop();
+        if (dialogContext.mounted) _dismissAlert(dialogContext);
       });
 
       return _PillToastAlert(alertType: alertType, message: message);
     },
   );
+}
+
+void _dismissAlert(BuildContext dialogContext) {
+  if (!dialogContext.mounted) return;
+
+  final route = ModalRoute.of(dialogContext);
+  if (route == null || !route.isActive) return;
+
+  final navigator = Navigator.of(dialogContext, rootNavigator: true);
+  if (route.isCurrent) {
+    navigator.pop();
+    return;
+  }
+  navigator.removeRoute(route);
 }
 
 class _PillToastAlert extends StatefulWidget {

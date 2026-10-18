@@ -8,11 +8,13 @@ import '../../domain/entities/cart_line.dart';
 class CartLineRow extends StatelessWidget {
   final CartLine line;
   final ValueChanged<int> onQuantityChanged;
+  final bool disabled;
 
   const CartLineRow({
     super.key,
     required this.line,
     required this.onQuantityChanged,
+    this.disabled = false,
   });
 
   @override
@@ -84,6 +86,7 @@ class CartLineRow extends StatelessWidget {
             quantity: line.quantity,
             minQuantity: line.minOrderQty,
             onChanged: onQuantityChanged,
+            disabled: disabled,
           ),
           SizedBox(width: 12.w),
           Text(

@@ -1,4 +1,5 @@
 import 'package:ayez_ahlaq/shared/user_type.dart';
+import '../../features/barber/auth/domain/entities/barber_account_kind.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
 import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '../cache/secure_storage/secure_storage.dart';
@@ -49,6 +50,19 @@ class UserHelpers {
     return UserType.values.firstWhere(
       (e) => e.name == raw,
       orElse: () => UserType.customer,
+    );
+  }
+
+  static BarberAccountKind get barberAccountKind {
+    return BarberAccountKind.fromName(
+      sl<PreferencesStorage>().getString(key: PreferencesKeys.barberAccountKind),
+    );
+  }
+
+  static Future<void> setBarberAccountKind(BarberAccountKind kind) {
+    return sl<PreferencesStorage>().putString(
+      key: PreferencesKeys.barberAccountKind,
+      value: kind.name,
     );
   }
 

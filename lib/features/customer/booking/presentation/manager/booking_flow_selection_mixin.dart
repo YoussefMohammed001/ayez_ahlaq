@@ -21,7 +21,11 @@ mixin BookingFlowSelectionMixin on Cubit<BookingFlowState> {
     );
   }
 
-  void selectStyle({int? haircutStyleId, String? styleName, int priceDelta = 0}) {
+  void selectStyle({
+    int? haircutStyleId,
+    String? styleName,
+    int priceDelta = 0,
+  }) {
     if (haircutStyleId == null) {
       emit(state.copyWith(clearStyle: true));
       return;
@@ -60,9 +64,14 @@ mixin BookingFlowSelectionMixin on Cubit<BookingFlowState> {
 
     result.fold(
       (failure) => emit(
-        state.copyWith(status: BookingFlowStatus.failure, errorMessage: failure.message),
+        state.copyWith(
+          status: BookingFlowStatus.failure,
+          errorMessage: failure.message,
+        ),
       ),
-      (slots) => emit(state.copyWith(status: BookingFlowStatus.slotsLoaded, slots: slots)),
+      (slots) => emit(
+        state.copyWith(status: BookingFlowStatus.slotsLoaded, slots: slots),
+      ),
     );
   }
 }

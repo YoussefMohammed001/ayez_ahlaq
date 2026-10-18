@@ -28,14 +28,24 @@ class EndPoints {
       'customer/homeService/$id/confirmPrice';
   static String customerHomeServiceCancel(int id) =>
       'customer/homeService/$id/cancel';
+  static String customerHomeServiceRetry(int id) =>
+      'customer/homeService/$id/retry';
 
   static const String customerRating = 'customer/rating';
+  static const String customerRatingPending = 'customer/rating/pending';
+  static const String customerRatingVisit = 'customer/rating/visit';
+  static const String customerRatingOrder = 'customer/rating/order';
 
-  static String customerShopStorefront(int shopId) => 'customer/shop/$shopId/storefront';
+  static String customerShopProfileImage(int shopId) =>
+      'customer/shop/$shopId/profileImage';
+  static String customerShopStorefront(int shopId) =>
+      'customer/shop/$shopId/storefront';
   static String customerShopStorefrontProductImage(int shopId, int productId) =>
       'customer/shop/$shopId/storefront/product/$productId/image';
-  static String customerShopStorefrontCategoryImage(int shopId, int categoryId) =>
-      'customer/shop/$shopId/storefront/category/$categoryId/image';
+  static String customerShopStorefrontCategoryImage(
+    int shopId,
+    int categoryId,
+  ) => 'customer/shop/$shopId/storefront/category/$categoryId/image';
 
   static const String customerCart = 'customer/cart';
   static const String customerCartCheckout = 'customer/cart/checkout';
@@ -46,7 +56,8 @@ class EndPoints {
   static const String customerPaymentMethod = 'customer/paymentMethod';
 
   static const String customerFavorite = 'customer/favorite';
-  static String customerFavoriteById(int barberId) => 'customer/favorite/$barberId';
+  static String customerFavoriteById(int barberId) =>
+      'customer/favorite/$barberId';
   static String customerFavoriteInvite(String inviteCode) =>
       'customer/favorite/invite/$inviteCode';
 
@@ -113,6 +124,15 @@ class EndPoints {
   static String barberHomeServiceRequestStatus(int id) =>
       'barber/homeService/request/$id/status';
 
+  static const String barberHomeServiceBroadcast =
+      'barber/homeService/broadcast';
+  static String barberHomeServiceBroadcastRequest(int requestId) =>
+      'barber/homeService/broadcast/request/$requestId';
+  static String barberHomeServiceBroadcastAccept(int broadcastId) =>
+      'barber/homeService/broadcast/$broadcastId/accept';
+  static String barberHomeServiceBroadcastReject(int broadcastId) =>
+      'barber/homeService/broadcast/$broadcastId/reject';
+
   static const String barberServiceCatalog = 'barber/service/catalog';
   static const String barberService = 'barber/service';
   static String barberServiceById(int id) => 'barber/service/$id';
@@ -121,8 +141,10 @@ class EndPoints {
 
   static const String barberTeam = 'barber/team';
   static String barberTeamById(int id) => 'barber/team/$id';
-  static String barberTeamAvailability(int id) => 'barber/team/$id/availability';
+  static String barberTeamAvailability(int id) =>
+      'barber/team/$id/availability';
   static String barberTeamActivate(int id) => 'barber/team/$id/activate';
+  static String barberTeamPermissions(int id) => 'barber/team/$id/permissions';
   static String barberTeamPermanent(int id) => 'barber/team/$id/permanent';
   static String barberTeamMemberEarnings(int id) => 'barber/team/$id/earnings';
   static String barberTeamMemberClients(int id) => 'barber/team/$id/clients';
@@ -134,14 +156,25 @@ class EndPoints {
       'barber/team/$id/service/$serviceId';
   static const String barberEarnings = 'barber/earnings';
 
+  static const String barberHaircutStyle = 'barber/haircutStyle';
+  static String barberHaircutStyleById(int id) => 'barber/haircutStyle/$id';
+
   static const String barberAttachment = 'barber/attachment';
   static String barberAttachmentFile(int id) => 'barber/attachment/$id/file';
+
+  static const String barberProfileImage = 'barber/profileImage';
 
   static const String barberStoreMerchant = 'barber/store/merchant';
   static String barberStoreMerchantProducts(int merchantId) =>
       'barber/store/merchant/$merchantId/product';
-  static String barberStoreMerchantProductImage(int merchantId, int productId) =>
-      'barber/store/merchant/$merchantId/product/$productId/image';
+  static String barberStoreMerchantProductImage(
+    int merchantId,
+    int productId,
+  ) => 'barber/store/merchant/$merchantId/product/$productId/image';
+  static const String barberStoreProduct = 'barber/store/product';
+  static String barberStoreProductImage(int productId) =>
+      'barber/store/product/$productId/image';
+  static const String barberStoreCategory = 'barber/store/category';
   static const String barberCart = 'barber/cart';
   static const String barberCartCheckout = 'barber/cart/checkout';
   static const String barberStoreQuote = 'barber/store/quote';
@@ -177,6 +210,8 @@ class EndPoints {
       'barber/moneyPin/resetRequest';
 
   static const String barberReview = 'barber/review';
+  static const String barberRatingPending = 'barber/rating/pending';
+  static const String barberRatingMerchant = 'barber/rating/merchant';
 
   static const String barberBooking = 'barber/booking';
   static const String barberBookingPending = 'barber/booking/pending';

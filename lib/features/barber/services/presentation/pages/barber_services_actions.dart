@@ -18,7 +18,6 @@ class BarberServicesActions {
     return ServiceFormSheet.show(
       context,
       catalog: cubit.state.catalog,
-      isSubmitting: cubit.state.isSubmitting,
       existing: existing,
       onSubmit: (service) => existing == null
           ? cubit.createService(service)
@@ -52,22 +51,16 @@ class BarberServicesActions {
 
   Future<void> openOwnServiceForm(BuildContext context) {
     final ownCubit = context.read<OwnServicesCubit>();
-    final servicesCubit = context.read<BarberServicesCubit>();
 
     return OwnServiceFormSheet.show(
       context,
-      isSubmitting: ownCubit.state.isSubmitting,
-      onSubmit: (name, description) async {
-        final created = await ownCubit.createOwnService(name, description);
-        if (created) await servicesCubit.loadServices();
-        return created;
-      },
+      onSubmit: (name, description) => ownCubit.createOwnService(name, description),
     );
   }
 
   Future<void> refresh(BuildContext context) async {
     await Future.wait([
-      context.read<BarberServicesCubit>().loadServices(),
+      context.read<BarberServicesCubit>().loadServices(force: true),
       context.read<OwnServicesCubit>().loadOwnServices(),
     ]);
   }

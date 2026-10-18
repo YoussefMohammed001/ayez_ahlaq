@@ -30,6 +30,7 @@ class RejectHomeServiceSheet extends StatefulWidget {
 
 class _RejectHomeServiceSheetState extends State<RejectHomeServiceSheet> {
   final _controller = TextEditingController();
+  bool _submitting = false;
 
   @override
   void dispose() {
@@ -37,12 +38,22 @@ class _RejectHomeServiceSheetState extends State<RejectHomeServiceSheet> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final reason = _controller.text.trim();
-    if (reason.isEmpty) return;
+    if (_submitting || reason.isEmpty) return;
 
-    context.read<HomeServiceRequestsCubit>().reject(widget.requestId, reason);
-    Navigator.of(context).pop();
+    setState(() => _submitting = true);
+
+    final rejected = await context
+        .read<HomeServiceRequestsCubit>()
+        .reject(widget.requestId, reason);
+
+    if (!mounted) return;
+    if (rejected) {
+      Navigator.of(context).pop();
+    } else {
+      setState(() => _submitting = false);
+    }
   }
 
   @override
@@ -69,7 +80,11 @@ class _RejectHomeServiceSheetState extends State<RejectHomeServiceSheet> {
             decoration: AppInputDecoration.build(context, S().rejectReasonHint),
           ),
           SizedBox(height: 16.h),
-          PrimaryCtaButton(label: S().confirmReject, onPressed: _submit),
+          PrimaryCtaButton(
+            label: S().confirmReject,
+            isLoading: _submitting,
+            onPressed: _submit,
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
-import '../entities/rating_target.dart';
+import '../../../../../shared/rating_target.dart';
 import '../repos/i_customer_booking_repo.dart';
 
 class RateBookingUseCase {

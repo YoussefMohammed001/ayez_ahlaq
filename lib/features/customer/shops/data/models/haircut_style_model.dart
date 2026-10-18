@@ -5,6 +5,7 @@ class HaircutStyleModel extends HaircutStyle {
     required super.id,
     required super.name,
     required super.priceDelta,
+    super.serviceTypeId,
   });
 
   factory HaircutStyleModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +13,7 @@ class HaircutStyleModel extends HaircutStyle {
       id: (json['id'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
       priceDelta: (json['priceDelta'] as num?)?.toInt() ?? 0,
+      serviceTypeId: (json['serviceTypeId'] as num?)?.toInt(),
     );
   }
 }

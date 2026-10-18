@@ -33,19 +33,44 @@ class HomeServiceRequestDetailCard extends StatelessWidget {
                   color: context.colorScheme.onSurface,
                 ),
               ),
-              StatusBadge(label: request.status.label, tone: request.status.tone),
+              StatusBadge(
+                label: request.status.label,
+                tone: request.status.tone,
+              ),
             ],
           ),
           SizedBox(height: 12.h),
-          _row(context, S().shopsTitle, request.shopName),
+          _row(
+            context,
+            S().shopsTitle,
+            request.anyNearby
+                ? S().homeServiceAnyNearbyTitle
+                : request.shopName ?? '',
+          ),
+          if ((request.date ?? '').isNotEmpty)
+            _row(context, S().homeServiceDateLabel, request.date!),
+          if ((request.time ?? '').isNotEmpty)
+            _row(context, S().homeServiceTimeLabel, _shortTime(request.time!)),
           _row(context, S().address, request.address),
           if ((request.note ?? '').isNotEmpty)
             _row(context, S().homeServiceNoteLabel, request.note!),
           HomeServiceAdjustmentsSection(adjustments: request.adjustments),
-          _row(context, S().orderTotal, S().currencyEgp(total)),
+          _row(
+            context,
+            S().orderTotal,
+            total == null
+                ? S().homeServicePricePending
+                : S().currencyEgp(total),
+          ),
         ],
       ),
     );
+  }
+
+  String _shortTime(String time) {
+    final parts = time.split(':');
+    if (parts.length < 2) return time;
+    return '${parts[0]}:${parts[1]}';
   }
 
   Widget _row(BuildContext context, String label, String value) {
@@ -57,7 +82,10 @@ class HomeServiceRequestDetailCard extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(fontSize: 12.sp, color: context.colorScheme.onSurfaceVariant),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: context.colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
           Expanded(

@@ -4,11 +4,13 @@ import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/barber_service.dart';
 import '../../domain/entities/own_service.dart';
 import '../../domain/entities/service_catalog_item.dart';
+import '../../domain/entities/shop_haircut_style.dart';
 import '../../domain/repos/i_barber_services_repo.dart';
 import '../apis/barber_services_api.dart';
 import '../models/barber_service_model.dart';
 import '../models/own_service_model.dart';
 import '../models/service_catalog_item_model.dart';
+import '../models/shop_haircut_style_model.dart';
 
 class BarberServicesRepo implements IBarberServicesRepo {
   final BarberServicesApi _api;
@@ -75,6 +77,39 @@ class BarberServicesRepo implements IBarberServicesRepo {
   Future<Either<Failure, Unit>> deleteOwnService(int id) async {
     final result = await _api.deleteOwnService(id);
     return result.map((_) => unit);
+  }
+
+  @override
+  Future<Either<Failure, List<ShopHaircutStyle>>> getHaircutStyles() async {
+    final result = await _api.getHaircutStyles();
+    return result.map(_mapHaircutStyles);
+  }
+
+  @override
+  Future<Either<Failure, ShopHaircutStyle>> updateHaircutStyle(
+    int id, {
+    required int priceDelta,
+    required bool active,
+  }) async {
+    final result = await _api.updateHaircutStyle(id, {
+      'priceDelta': priceDelta,
+      'active': active,
+    });
+    return result.flatMap(_mapHaircutStyle);
+  }
+
+  List<ShopHaircutStyle> _mapHaircutStyles(dynamic response) {
+    final data = response['data'] as List? ?? const [];
+    return data
+        .map(
+          (json) =>
+              ShopHaircutStyleModel.fromJson(json as Map<String, dynamic>),
+        )
+        .toList();
+  }
+
+  Either<Failure, ShopHaircutStyle> _mapHaircutStyle(dynamic response) {
+    return requireDataMap(response).map(ShopHaircutStyleModel.fromJson);
   }
 
   List<OwnService> _mapOwnServices(dynamic response) {

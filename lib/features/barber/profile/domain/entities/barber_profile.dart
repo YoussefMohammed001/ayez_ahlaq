@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'barber_permissions.dart';
 
 class BarberProfile extends Equatable {
   final int id;
@@ -7,6 +8,7 @@ class BarberProfile extends Equatable {
   final int shopId;
   final String shopName;
   final bool owner;
+  final BarberPermissions permissions;
   final bool active;
   final bool servesClients;
   final bool mustChangePassword;
@@ -23,6 +25,7 @@ class BarberProfile extends Equatable {
     required this.shopId,
     required this.shopName,
     required this.owner,
+    this.permissions = BarberPermissions.none,
     required this.active,
     required this.servesClients,
     required this.mustChangePassword,
@@ -33,7 +36,15 @@ class BarberProfile extends Equatable {
     this.longitude,
   });
 
-  bool get needsLocation => latitude == null || longitude == null;
+  bool get isTeamMember => !owner;
+
+  bool get needsLocation => owner && (latitude == null || longitude == null);
+
+  bool get canViewRevenue => owner || permissions.canViewRevenue;
+
+  bool get canCloseBookings => owner || permissions.canCloseBookings;
+
+  bool get canMarkPaid => owner || permissions.canMarkPaid;
 
   @override
   List<Object?> get props => [
@@ -43,6 +54,7 @@ class BarberProfile extends Equatable {
     shopId,
     shopName,
     owner,
+    permissions,
     active,
     servesClients,
     mustChangePassword,

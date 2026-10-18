@@ -16,6 +16,7 @@ import '../widgets/member_clients_section.dart';
 import '../widgets/member_earnings_section.dart';
 import '../widgets/member_hours_section.dart';
 import '../widgets/member_info_card.dart';
+import '../widgets/member_permissions_section.dart';
 import '../widgets/member_services_section.dart';
 
 class TeamMemberDetailScreen extends StatelessWidget {
@@ -27,7 +28,6 @@ class TeamMemberDetailScreen extends StatelessWidget {
     EditMemberSheet.show(
       context,
       member: member,
-      isSubmitting: cubit.state.isSubmitting,
       onSubmit: (name, tagline) async {
         final saved = await cubit.updateMember(name, tagline);
         if (saved) showSuccess(S().memberSaved);
@@ -117,6 +117,10 @@ class TeamMemberDetailScreen extends StatelessWidget {
                 MemberInfoCard(
                   member: member,
                   onAvailabilityChanged: cubit.setAvailability,
+                ),
+                MemberPermissionsSection(
+                  permissions: member.permissions,
+                  onChanged: cubit.setPermissions,
                 ),
                 MemberActionsMenu(
                   member: member,

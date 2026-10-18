@@ -28,6 +28,8 @@ class Routes {
   static const String customerBookingSummaryScreen = '/customer/booking/summary';
   static const String customerBookingsScreen = '/customer/bookings';
   static const String customerBookingDetailScreen = '/customer/bookings/detail';
+  static const String customerHomeServiceDateTimeScreen =
+      '/customer/homeService/dateTime';
   static const String customerHomeServiceShopListScreen =
       '/customer/homeService/shops';
   static const String customerHomeServiceRequestScreen =
@@ -37,6 +39,10 @@ class Routes {
   static const String customerHomeServiceRequestDetailScreen =
       '/customer/homeService/requests/detail';
   static const String customerStoreProductsScreen = '/customer/store/products';
+  static const String customerStoreProductDetailsScreen =
+      '/customer/store/products/details';
+  static const String customerStoreFeedProductDetailsScreen =
+      '/customer/store/feed/product';
   static const String customerStoreCartScreen = '/customer/store/cart';
   static const String customerStoreOrdersScreen = '/customer/store/orders';
   static const String customerStoreOrderDetailScreen = '/customer/store/order';
@@ -61,6 +67,7 @@ class Routes {
       '/customer/profile/menu/settings';
   static const String customerSupportMenuScreen = '/customer/profile/menu/support';
 
+  static const String barberRoleScreen = '/barber/role';
   static const String barberLoginScreen = '/barber/login';
   static const String barberRegisterScreen = '/barber/register';
   static const String barberVerifyOtpScreen = '/barber/register/verify';
@@ -78,12 +85,20 @@ class Routes {
       '/barber/homeService/requests';
   static const String barberHomeServiceRequestDetailScreen =
       '/barber/homeService/requests/detail';
+  static const String barberHomeServiceBroadcastScreen =
+      '/barber/homeService/broadcast';
+  static const String barberHomeServiceBroadcastDetailScreen =
+      '/barber/homeService/broadcast/detail';
+  static const String barberHomeServiceBroadcastRequestDetailScreen =
+      '/barber/homeService/broadcast/requestDetail';
   static const String barberDrinksScreen = '/barber/drinks';
   static const String barberLocationScreen = '/barber/profile/location';
   static const String barberChangePasswordScreen =
       '/barber/profile/password';
   static const String barberDocumentsScreen = '/barber/profile/documents';
   static const String barberServicesScreen = '/barber/profile/services';
+  static const String barberHaircutStylePricingScreen =
+      '/barber/profile/services/haircutStyles';
   static const String barberDocumentViewerScreen =
       '/barber/profile/documents/view';
   static const String barberShopMenuScreen = '/barber/profile/menu/shop';
@@ -100,6 +115,9 @@ class Routes {
   static const String barberProfileDetailsScreen =
       '/barber/profile/details';
   static const String barberStoreMerchantsScreen = '/barber/store';
+  static const String barberStoreMerchantsBrowseScreen = '/barber/store/merchants';
+  static const String barberStoreFeedProductDetailsScreen =
+      '/barber/store/feed/product';
   static const String barberStoreProductsScreen = '/barber/store/products';
   static const String barberStoreCartScreen = '/barber/store/cart';
   static const String barberStoreOrderDetailsScreen = '/barber/store/order';

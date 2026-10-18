@@ -28,7 +28,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
   }
 
   void _loadSlots() {
-    final formatted = DateFormat('yyyy-MM-dd').format(_selectedDate);
+    final formatted = DateFormat('yyyy-MM-dd', 'en').format(_selectedDate);
     context.read<BookingFlowCubit>().loadSlots(formatted);
   }
 
@@ -55,7 +55,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
             child: OutlinedButton.icon(
               onPressed: _pickDate,
               icon: const Icon(Icons.calendar_today_rounded),
-              label: Text(DateFormat('yyyy-MM-dd').format(_selectedDate)),
+              label: Text(DateFormat('yyyy-MM-dd', 'en').format(_selectedDate)),
             ),
           ),
           Expanded(
@@ -66,13 +66,18 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                 }
 
                 final perBarber = state.slots?.perBarber ?? const [];
-                final matches = perBarber.where((b) => b.barberId == state.barberId);
+                final matches = perBarber.where(
+                  (b) => b.barberId == state.barberId,
+                );
                 final slots = state.autoSelect
                     ? state.slots?.anyBarberSlots ?? const []
                     : (matches.isEmpty ? const [] : matches.first.slots);
 
                 if (slots.isEmpty) {
-                  return AppEmptyState(icon: Icons.event_busy_rounded, title: S().noSlotsAvailable);
+                  return AppEmptyState(
+                    icon: Icons.event_busy_rounded,
+                    title: S().noSlotsAvailable,
+                  );
                 }
 
                 return GridView.builder(
@@ -111,7 +116,11 @@ class _SlotChip extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _SlotChip({required this.label, required this.selected, required this.onTap});
+  const _SlotChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

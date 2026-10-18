@@ -6,6 +6,7 @@ import '../../../../core/widgets/labeled_field.dart';
 import '../../../../core/widgets/primary_cta_button.dart';
 import '../../../../generated/l10n.dart';
 import 'auth_brand_header.dart';
+import '../../../../core/helpers/clear_fields_after_submit.dart';
 
 class SetNewPasswordView extends StatefulWidget {
   final bool isSubmitting;
@@ -21,10 +22,23 @@ class SetNewPasswordView extends StatefulWidget {
   State<SetNewPasswordView> createState() => _SetNewPasswordViewState();
 }
 
-class _SetNewPasswordViewState extends State<SetNewPasswordView> {
+class _SetNewPasswordViewState extends State<SetNewPasswordView>
+    with ClearFieldsAfterSubmit<SetNewPasswordView> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
+
+  @override
+  List<TextEditingController> get fieldsToClear => [
+    _passwordController,
+    _confirmController,
+  ];
+
+  @override
+  GlobalKey<FormState> get clearableFormKey => _formKey;
+
+  @override
+  bool isSubmittingOf(SetNewPasswordView widget) => widget.isSubmitting;
 
   @override
   void dispose() {

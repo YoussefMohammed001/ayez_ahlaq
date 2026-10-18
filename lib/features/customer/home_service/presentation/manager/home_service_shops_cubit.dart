@@ -1,21 +1,31 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../shared/location/current_position_resolver.dart';
+import '../../../../../shared/location/domain/use_cases/get_current_location_use_case.dart';
 import '../../domain/use_cases/get_home_service_shops_use_case.dart';
 import 'home_service_shops_state.dart';
 
 class HomeServiceShopsCubit extends Cubit<HomeServiceShopsState> {
   final GetHomeServiceShopsUseCase _getShops;
-  final CurrentPositionResolver _positionResolver;
+  final GetCurrentLocationUseCase _getCurrentLocation;
 
-  HomeServiceShopsCubit(this._getShops, this._positionResolver)
-      : super(const HomeServiceShopsState());
+  HomeServiceShopsCubit(this._getShops, this._getCurrentLocation)
+    : super(const HomeServiceShopsState());
 
-  Future<void> loadShops() async {
-    emit(state.copyWith(status: HomeServiceShopsStatus.loading));
+  Future<void> loadShops({
+    required String date,
+    required String time,
+    bool isRefresh = false,
+  }) async {
+    emit(
+      isRefresh
+          ? state.copyWith(status: HomeServiceShopsStatus.loading)
+          : const HomeServiceShopsState(status: HomeServiceShopsStatus.loading),
+    );
 
-    final position = await _positionResolver.resolve();
+    final position = (await _getCurrentLocation()).point;
 
     final result = await _getShops(
+      date: date,
+      time: time,
       lat: position?.latitude,
       lng: position?.longitude,
     );
@@ -30,7 +40,9 @@ class HomeServiceShopsCubit extends Cubit<HomeServiceShopsState> {
       (shops) => emit(
         state.copyWith(
           status: HomeServiceShopsStatus.success,
-          shops: shops,
+          shops: position == null
+              ? shops
+              : shops.map((shop) => shop.withDistanceFrom(position)).toList(),
           sortedByDistance: position != null,
         ),
       ),

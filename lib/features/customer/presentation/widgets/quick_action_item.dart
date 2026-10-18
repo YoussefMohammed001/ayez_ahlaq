@@ -33,7 +33,11 @@ class QuickActionItem extends StatelessWidget {
                   color: context.semantic.accentStrong.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, size: 22.r, color: context.semantic.accentStrong),
+                child: Icon(
+                  icon,
+                  size: 22.r,
+                  color: context.semantic.accentStrong,
+                ),
               ),
               SizedBox(height: 6.h),
               Text(

@@ -21,6 +21,8 @@ import '../../../money/presentation/manager/money_pin_state.dart';
 import '../../../money/presentation/widgets/money_locked_grid.dart';
 import '../../../home_service/presentation/manager/home_service_settings_cubit.dart';
 import '../../../home_service_requests/presentation/manager/home_service_requests_cubit.dart';
+import '../../../home_service_requests/presentation/manager/home_service_requests_state.dart';
+import '../../../home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
 import '../widgets/barber_home_greeting.dart';
 import '../widgets/home_alert_cards.dart';
 import '../widgets/home_earnings_grid.dart';
@@ -42,6 +44,7 @@ class BarberHomeScreen extends StatelessWidget {
       context.read<BarberStorefrontOrdersCubit>().loadOrders(),
       context.read<HomeServiceSettingsCubit>().loadSettings(),
       context.read<HomeServiceRequestsCubit>().loadPending(),
+      context.read<HomeServiceBroadcastCubit>().loadBroadcasts(),
       context.read<BarberDocumentsCubit>().loadDocuments(),
     ]);
   }
@@ -69,8 +72,25 @@ class BarberHomeScreen extends StatelessWidget {
                 BlocBuilder<MoneyPinCubit, MoneyPinState>(
                   builder: (context, pinState) {
                     if (pinState.stage != MoneyPinStage.unlocked) {
-                      return MoneyLockedGrid(
-                        onTap: () => context.push(Routes.barberEarningsPinScreen),
+                      return BlocBuilder<BookingsCubit, BookingsState>(
+                        builder: (context, bookingsState) {
+                          return BlocBuilder<HomeServiceRequestsCubit,
+                              HomeServiceRequestsState>(
+                            builder: (context, homeServiceState) {
+                              return MoneyLockedGrid(
+                                pendingBookingsCount: bookingsState.pending.length,
+                                homeServiceRequestsCount:
+                                    homeServiceState.requests.length,
+                                queueCount: bookingsState.queue.length,
+                                onPendingBookingsTap: () => onGoToTab(1),
+                                onHomeServiceTap: () => context.push(
+                                  Routes.barberHomeServiceRequestsScreen,
+                                ),
+                                onQueueTap: () => onGoToTab(1),
+                              );
+                            },
+                          );
+                        },
                       );
                     }
                     return BlocBuilder<EarningsCubit, EarningsState>(
