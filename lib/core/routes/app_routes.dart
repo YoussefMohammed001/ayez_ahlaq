@@ -1571,15 +1571,18 @@ Widget _merchantProviders({required Widget child}) {
 
 Future<void> _handleLogout() async {
   await _authCubit.logout();
+  SessionScope.reset();
   rootNavigatorKey.currentContext?.go(Routes.loginScreen);
 }
 
 Future<void> _handleBarberLogout() async {
   await _barberAuthCubit.logout();
+  SessionScope.reset();
   rootNavigatorKey.currentContext?.go(Routes.barberLoginScreen);
 }
 
 Future<void> _handleCustomerLogout() async {
   await _customerAuthCubit.logout();
+  SessionScope.reset();
   rootNavigatorKey.currentContext?.go(Routes.customerLoginScreen);
 }
