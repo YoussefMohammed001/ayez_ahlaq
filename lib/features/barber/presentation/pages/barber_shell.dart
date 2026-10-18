@@ -15,6 +15,7 @@ import '../../../../shared/widgets/blocking_gate.dart';
 import '../../storefront/presentation/pages/storefront_home_screen.dart';
 import '../widgets/barber_data_loader.dart';
 import '../widgets/barber_store_fab.dart';
+import '../widgets/lazy_tab.dart';
 import 'barber_team_member_shell.dart';
 import '../../auth/domain/entities/barber_account_kind.dart';
 import '../../profile/domain/entities/barber_profile.dart';
@@ -36,6 +37,7 @@ class _BarberShellState extends State<BarberShell> {
   late int _index = widget.initialIndex;
   bool _ratingPromptScheduled = false;
   bool _ownerDataLoaded = false;
+  final Set<int> _visitedTabs = {0};
 
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.home_rounded, S().tabHome),
@@ -50,9 +52,7 @@ class _BarberShellState extends State<BarberShell> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       BarberDataLoader.loadCommon(context);
-      if (!UserHelpers.barberAccountKind.isTeamMember) {
-        _loadOwnerData();
-      }
+      if (!UserHelpers.barberAccountKind.isTeamMember) _loadOwnerData();
     });
   }
 
@@ -60,6 +60,11 @@ class _BarberShellState extends State<BarberShell> {
     if (_ownerDataLoaded) return;
     _ownerDataLoaded = true;
     BarberDataLoader.loadOwner(context);
+  }
+
+  void _selectTab(int index) {
+    if (_visitedTabs.add(index)) BarberDataLoader.loadTab(context, index);
+    setState(() => _index = index);
   }
 
   void _syncAccountKind(BarberProfile profile) {
@@ -124,9 +129,9 @@ class _BarberShellState extends State<BarberShell> {
       body: IndexedStack(
         index: _index,
         children: [
-          BarberHomeScreen(onGoToTab: (i) => setState(() => _index = i)),
-          const BookingsHomeScreen(),
-          const StorefrontHomeScreen(),
+          BarberHomeScreen(onGoToTab: _selectTab),
+          LazyTab(visited: _visitedTabs.contains(1), child: const BookingsHomeScreen()),
+          LazyTab(visited: _visitedTabs.contains(2), child: const StorefrontHomeScreen()),
           BarberProfileScreen(onLogout: widget.onLogout),
         ],
       ),
@@ -137,7 +142,7 @@ class _BarberShellState extends State<BarberShell> {
       bottomNavigationBar: NotchedBottomNavBar(
         items: _tabs,
         currentIndex: _index,
-        onTap: (i) => setState(() => _index = i),
+        onTap: _selectTab,
       ),
     );
   }

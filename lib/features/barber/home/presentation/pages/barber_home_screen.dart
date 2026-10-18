@@ -7,23 +7,21 @@ import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../../bookings/presentation/manager/bookings_state.dart';
-import '../../../documents/presentation/manager/barber_documents_cubit.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../../profile/presentation/manager/barber_profile_state.dart';
 import '../../../subscription/presentation/manager/barber_subscription_cubit.dart';
 import '../../../subscription/presentation/manager/barber_subscription_state.dart';
 import '../../../subscription/presentation/widgets/subscription_home_card.dart';
-import '../../../storefront/orders/presentation/manager/barber_storefront_orders_cubit.dart';
 import '../../../team/presentation/manager/earnings_cubit.dart';
 import '../../../team/presentation/manager/earnings_state.dart';
 import '../../../money/presentation/manager/money_pin_cubit.dart';
 import '../../../money/presentation/manager/money_pin_state.dart';
 import '../../../money/presentation/widgets/money_locked_grid.dart';
-import '../../../home_service/presentation/manager/home_service_settings_cubit.dart';
 import '../../../home_service_requests/presentation/manager/home_service_requests_cubit.dart';
 import '../../../home_service_requests/presentation/manager/home_service_requests_state.dart';
-import '../../../home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
 import '../widgets/barber_home_greeting.dart';
+import '../widgets/barber_home_refresh.dart';
+import '../widgets/earnings_unlock_loader.dart';
 import '../widgets/home_alert_cards.dart';
 import '../widgets/home_earnings_grid.dart';
 import '../widgets/home_pending_section.dart';
@@ -34,32 +32,18 @@ class BarberHomeScreen extends StatelessWidget {
 
   const BarberHomeScreen({super.key, required this.onGoToTab});
 
-  Future<void> _refresh(BuildContext context) {
-    return Future.wait([
-      context.read<BarberProfileCubit>().loadProfile(),
-      context.read<EarningsCubit>().loadEarnings(),
-      context.read<BookingsCubit>().loadPending(),
-      context.read<BookingsCubit>().loadQueue(),
-      context.read<BarberSubscriptionCubit>().load(),
-      context.read<BarberStorefrontOrdersCubit>().loadOrders(),
-      context.read<HomeServiceSettingsCubit>().loadSettings(),
-      context.read<HomeServiceRequestsCubit>().loadPending(),
-      context.read<HomeServiceBroadcastCubit>().loadBroadcasts(),
-      context.read<BarberDocumentsCubit>().loadDocuments(),
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: RefreshableStateView(
-          onRefresh: () => _refresh(context),
+          onRefresh: () => BarberHomeRefresh.run(context),
           child: Padding(
             padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const EarningsUnlockLoader(),
                 BlocBuilder<BarberProfileCubit, BarberProfileState>(
                   builder: (context, state) => BarberHomeGreeting(
                     shopName: state.profile?.shopName ?? '',

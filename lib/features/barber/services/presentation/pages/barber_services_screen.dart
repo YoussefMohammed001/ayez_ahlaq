@@ -33,6 +33,7 @@ class _BarberServicesScreenState extends State<BarberServicesScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<BarberServicesCubit>().loadServices();
     context.read<OwnServicesCubit>().loadOwnServices();
   }
 
