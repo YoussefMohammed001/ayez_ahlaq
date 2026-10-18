@@ -2,6 +2,9 @@ import '../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../documents/presentation/manager/barber_documents_cubit.dart';
+import '../../home_service/presentation/manager/home_service_settings_cubit.dart';
+import '../../home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
+import '../../home_service_requests/presentation/manager/home_service_requests_cubit.dart';
 import '../../services/presentation/manager/barber_services_cubit.dart';
 import '../../store/presentation/manager/barber_store_merchants_cubit.dart';
 import '../../storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
@@ -35,5 +38,8 @@ class BarberDataLoader {
     context.read<BarberStorefrontOrdersCubit>().loadOrders();
     context.read<EarningsCubit>().loadEarnings();
     context.read<BarberSubscriptionCubit>().load(force: true);
+    context.read<HomeServiceSettingsCubit>().loadSettings();
+    context.read<HomeServiceRequestsCubit>().loadPending();
+    context.read<HomeServiceBroadcastCubit>().loadBroadcasts();
   }
 }

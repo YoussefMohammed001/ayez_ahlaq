@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/services_locator.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../home_service_requests/presentation/manager/home_service_requests_cubit.dart';
 import '../../../home_service_requests/presentation/widgets/home_service_requests_tab_view.dart';
 import '../manager/unresolved_bookings_cubit.dart';
 import '../widgets/walk_in_sheet_launcher.dart';
@@ -23,12 +22,6 @@ class _BookingsHomeScreenState extends State<BookingsHomeScreen>
     with SingleTickerProviderStateMixin {
   late final _controller = TabController(length: 5, vsync: this)
     ..addListener(() => setState(() {}));
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeServiceRequestsCubit>().loadPending();
-  }
 
   @override
   void dispose() {
