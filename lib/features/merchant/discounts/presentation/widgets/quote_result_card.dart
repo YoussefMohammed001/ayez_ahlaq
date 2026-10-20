@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/helpers/money_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/theme/styles.dart';
@@ -110,7 +111,7 @@ class QuoteResultCard extends StatelessWidget {
                 InfoRow(
                   icon: Icons.discount_outlined,
                   label: S().quoteOrderDiscount,
-                  value: '- ${S().currencyEgp(quote.orderDiscount)}',
+                  value: MoneyFormat.signed(quote.orderDiscount, positive: false),
                 ),
               if (quote.savings > 0)
                 InfoRow(

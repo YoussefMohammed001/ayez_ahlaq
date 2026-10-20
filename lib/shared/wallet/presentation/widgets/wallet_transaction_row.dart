@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../wallet_money_format.dart';
+import '../../../../core/helpers/money_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/relative_date_label.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -56,7 +56,7 @@ class WalletTransactionRow extends StatelessWidget {
             ),
           ),
           Text(
-            WalletMoneyFormat.signed(transaction.amount, positive: isCredit),
+            MoneyFormat.signed(transaction.amount, positive: isCredit),
             style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w800, color: amountColor),
           ),
         ],

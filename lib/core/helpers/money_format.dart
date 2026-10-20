@@ -1,7 +1,7 @@
-import '../../../generated/l10n.dart';
+import '../../generated/l10n.dart';
 
-class WalletMoneyFormat {
-  const WalletMoneyFormat._();
+class MoneyFormat {
+  const MoneyFormat._();
 
   static String isolated(int value) => '\u2066$value\u2069';
 

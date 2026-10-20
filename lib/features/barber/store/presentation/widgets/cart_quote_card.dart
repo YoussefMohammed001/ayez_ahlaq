@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/money_format.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
@@ -33,7 +34,7 @@ class CartQuoteCard extends StatelessWidget {
               _buildRow(
                 context,
                 S().orderDiscountLabel,
-                '-${S().currencyEgp(quote.orderDiscount)}',
+                MoneyFormat.signed(quote.orderDiscount, positive: false),
               ),
             if (quote.discountTotal > 0)
               _buildRow(

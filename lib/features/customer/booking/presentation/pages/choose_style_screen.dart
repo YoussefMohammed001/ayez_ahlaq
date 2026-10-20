@@ -58,6 +58,7 @@ class ChooseStyleScreen extends StatelessWidget {
                           style.priceDelta > 0
                               ? '+${style.priceDelta}'
                               : '${style.priceDelta}',
+                          textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w700,

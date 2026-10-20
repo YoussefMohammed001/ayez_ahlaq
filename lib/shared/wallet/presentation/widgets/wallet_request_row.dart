@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../wallet_money_format.dart';
+import '../../../../core/helpers/money_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/relative_date_label.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -47,7 +47,7 @@ class WalletRequestRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                WalletMoneyFormat.signed(request.amount, positive: isDeposit),
+                MoneyFormat.signed(request.amount, positive: isDeposit),
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w800, color: amountColor),
               ),
               SizedBox(height: 6.h),
