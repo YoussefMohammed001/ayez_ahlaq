@@ -13,6 +13,9 @@ class CartQuoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasDelivery = quote.deliveryFee > 0;
+    final showSubtotal = quote.grandTotal != quote.subtotal;
+
     return AppCard(
       child: Opacity(
         opacity: isUpdating ? 0.5 : 1,
@@ -24,7 +27,8 @@ class CartQuoteCard extends StatelessWidget {
                 S().quoteGrossTotal,
                 S().currencyEgp(quote.grossSubtotal),
               ),
-            _buildRow(context, S().orderTotal, S().currencyEgp(quote.subtotal)),
+            if (showSubtotal)
+              _buildRow(context, S().orderTotal, S().currencyEgp(quote.subtotal)),
             if (quote.orderDiscount > 0)
               _buildRow(
                 context,
@@ -43,7 +47,7 @@ class CartQuoteCard extends StatelessWidget {
             SizedBox(height: 6.h),
             _buildRow(
               context,
-              S().grandTotalLabel,
+              hasDelivery ? S().grandTotalLabel : S().orderTotal,
               S().currencyEgp(quote.grandTotal),
               emphasize: true,
             ),

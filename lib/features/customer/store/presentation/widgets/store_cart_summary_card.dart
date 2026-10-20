@@ -14,19 +14,21 @@ class StoreCartSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final grandTotal = cart.subtotal + cart.deliveryFee;
+    final hasDelivery = cart.deliveryFee > 0;
 
     return AppCard(
       child: Opacity(
         opacity: isUpdating ? 0.5 : 1,
         child: Column(
           children: [
-            _buildRow(context, S().orderTotal, S().currencyEgp(cart.subtotal)),
-            if (cart.deliveryFee > 0)
+            if (hasDelivery) ...[
+              _buildRow(context, S().orderTotal, S().currencyEgp(cart.subtotal)),
               _buildRow(context, S().deliveryFeeOrderLabel, S().currencyEgp(cart.deliveryFee)),
-            SizedBox(height: 6.h),
+              SizedBox(height: 6.h),
+            ],
             _buildRow(
               context,
-              S().grandTotalLabel,
+              hasDelivery ? S().grandTotalLabel : S().orderTotal,
               S().currencyEgp(grandTotal),
               emphasize: true,
             ),

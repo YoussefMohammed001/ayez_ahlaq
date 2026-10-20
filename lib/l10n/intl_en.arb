@@ -507,7 +507,7 @@
   "deliveryOffLabel": "Delivery is off — pickup only",
   "deliverySaved": "Delivery settings saved",
   "deliveryFeeOrderLabel": "Delivery fee",
-  "grandTotalLabel": "Grand total",
+  "grandTotalLabel": "Total incl. delivery",
   "freeDelivery": "Free",
   "documentsNote": "The admin sets which documents are needed. Upload an image or a PDF for each one, up to {size} MB.",
   "documentsProgress": "{uploaded} of {total} uploaded",

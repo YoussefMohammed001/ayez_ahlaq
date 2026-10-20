@@ -874,7 +874,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Global categories",
     ),
     "goToDocuments": MessageLookupByLibrary.simpleMessage("Go to documents"),
-    "grandTotalLabel": MessageLookupByLibrary.simpleMessage("Grand total"),
+    "grandTotalLabel": MessageLookupByLibrary.simpleMessage(
+      "Total incl. delivery",
+    ),
     "greeting": MessageLookupByLibrary.simpleMessage("Good morning,"),
     "guestLoginMessage": MessageLookupByLibrary.simpleMessage(
       "You need an account to use this feature. Sign in or create one in a few seconds",

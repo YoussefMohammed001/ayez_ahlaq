@@ -4444,10 +4444,10 @@ class S {
     );
   }
 
-  /// `Grand total`
+  /// `Total incl. delivery`
   String get grandTotalLabel {
     return Intl.message(
-      'Grand total',
+      'Total incl. delivery',
       name: 'grandTotalLabel',
       desc: '',
       args: [],
