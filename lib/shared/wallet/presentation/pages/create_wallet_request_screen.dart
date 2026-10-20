@@ -41,6 +41,7 @@ class _CreateWalletRequestScreenState
     context.read<CreateWalletRequestCubit>()
       ..loadTransferAccounts()
       ..loadWithdrawMethods();
+    context.read<WalletCubit>().loadWallet();
   }
 
   @override

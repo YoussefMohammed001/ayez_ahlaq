@@ -1112,5 +1112,9 @@
   "permissionMarkPaid": "تأكيد استلام المبلغ",
   "permissionMarkPaidHint": "يأكّد إنه استلم الفلوس من العميل بعد إنهاء الحجز",
   "permissionMarkPaidNeedsClose": "محتاجة صلاحية إنهاء الحجوزات الأول",
-  "memberAddedPermissionsFailed": "اتضاف العضو، بس الصلاحيات ما اتحفظتش. عدّلها من صفحته"
+  "memberAddedPermissionsFailed": "اتضاف العضو، بس الصلاحيات ما اتحفظتش. عدّلها من صفحته",
+  "walletWithdrawAvailableNow": "رصيدك المتاح الحالي: {amount} ج",
+  "walletWithdrawRemainingAfter": "المتبقي بعد السحب: {amount} ج",
+  "walletWithdrawExceedsAvailable": "المبلغ أكبر من رصيدك المتاح",
+  "walletWithdrawBalanceUnknown": "جاري تحميل رصيدك..."
 }

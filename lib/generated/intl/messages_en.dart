@@ -127,6 +127,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m46(amount) => "Available: ${amount} EGP";
 
+  static String m47(amount) => "Your available balance: ${amount} EGP";
+
+  static String m48(amount) => "Remaining after withdrawal: ${amount} EGP";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutApp": MessageLookupByLibrary.simpleMessage("About the app"),
@@ -2281,6 +2285,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Wallet requests",
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("Wallet"),
+    "walletWithdrawAvailableNow": m47,
+    "walletWithdrawBalanceUnknown": MessageLookupByLibrary.simpleMessage(
+      "Loading your balance...",
+    ),
+    "walletWithdrawExceedsAvailable": MessageLookupByLibrary.simpleMessage(
+      "The amount is more than your available balance",
+    ),
+    "walletWithdrawRemainingAfter": m48,
     "weak_password": MessageLookupByLibrary.simpleMessage(
       "Password is too weak",
     ),

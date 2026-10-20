@@ -12,6 +12,7 @@ import 'withdraw_method_field.dart';
 
 class WalletRequestFormFields extends StatelessWidget {
   final TextEditingController amountController;
+  final FormFieldValidator<String> amountValidator;
   final TextEditingController noteController;
   final TextEditingController withdrawAccountController;
   final WalletRequestType type;
@@ -30,6 +31,7 @@ class WalletRequestFormFields extends StatelessWidget {
   const WalletRequestFormFields({
     super.key,
     required this.amountController,
+    required this.amountValidator,
     required this.noteController,
     required this.withdrawAccountController,
     required this.type,
@@ -72,8 +74,7 @@ class WalletRequestFormFields extends StatelessWidget {
           controller: amountController,
           hint: S().walletRequestAmountHint,
           isNumber: true,
-          validator: (v) =>
-              (v ?? '').trim().isEmpty ? S().walletRequestAmountLabel : null,
+          validator: amountValidator,
         ),
         SectionTitle(title: S().walletRequestNoteLabel),
         AppTextField(

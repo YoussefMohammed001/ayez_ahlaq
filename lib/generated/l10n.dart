@@ -9948,6 +9948,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Your available balance: {amount} EGP`
+  String walletWithdrawAvailableNow(Object amount) {
+    return Intl.message(
+      'Your available balance: $amount EGP',
+      name: 'walletWithdrawAvailableNow',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Remaining after withdrawal: {amount} EGP`
+  String walletWithdrawRemainingAfter(Object amount) {
+    return Intl.message(
+      'Remaining after withdrawal: $amount EGP',
+      name: 'walletWithdrawRemainingAfter',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `The amount is more than your available balance`
+  String get walletWithdrawExceedsAvailable {
+    return Intl.message(
+      'The amount is more than your available balance',
+      name: 'walletWithdrawExceedsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading your balance...`
+  String get walletWithdrawBalanceUnknown {
+    return Intl.message(
+      'Loading your balance...',
+      name: 'walletWithdrawBalanceUnknown',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

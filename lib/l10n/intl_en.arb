@@ -1112,5 +1112,9 @@
   "permissionMarkPaid": "Confirm payment received",
   "permissionMarkPaidHint": "Confirms the money was collected after a booking is done",
   "permissionMarkPaidNeedsClose": "Requires the close bookings permission first",
-  "memberAddedPermissionsFailed": "The member was added but the permissions were not saved. Edit them from the member page"
+  "memberAddedPermissionsFailed": "The member was added but the permissions were not saved. Edit them from the member page",
+  "walletWithdrawAvailableNow": "Your available balance: {amount} EGP",
+  "walletWithdrawRemainingAfter": "Remaining after withdrawal: {amount} EGP",
+  "walletWithdrawExceedsAvailable": "The amount is more than your available balance",
+  "walletWithdrawBalanceUnknown": "Loading your balance..."
 }

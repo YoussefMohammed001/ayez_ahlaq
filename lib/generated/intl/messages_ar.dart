@@ -122,6 +122,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m46(amount) => "المتاح: ${amount} ج";
 
+  static String m47(amount) => "رصيدك المتاح الحالي: ${amount} ج";
+
+  static String m48(amount) => "المتبقي بعد السحب: ${amount} ج";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutApp": MessageLookupByLibrary.simpleMessage("عن التطبيق"),
@@ -2175,6 +2179,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "طلبات المحفظة",
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("المحفظة"),
+    "walletWithdrawAvailableNow": m47,
+    "walletWithdrawBalanceUnknown": MessageLookupByLibrary.simpleMessage(
+      "جاري تحميل رصيدك...",
+    ),
+    "walletWithdrawExceedsAvailable": MessageLookupByLibrary.simpleMessage(
+      "المبلغ أكبر من رصيدك المتاح",
+    ),
+    "walletWithdrawRemainingAfter": m48,
     "weak_password": MessageLookupByLibrary.simpleMessage("كلمة السر ضعيفة"),
     "weekdayFriday": MessageLookupByLibrary.simpleMessage("الجمعة"),
     "weekdayMonday": MessageLookupByLibrary.simpleMessage("الإثنين"),
