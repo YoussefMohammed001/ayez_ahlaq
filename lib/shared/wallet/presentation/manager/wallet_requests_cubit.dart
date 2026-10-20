@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failure.dart';
+import '../../domain/use_cases/get_wallet_request_attachment_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/wallet_request.dart';
 import '../../domain/use_cases/cancel_wallet_request_use_case.dart';
@@ -11,11 +15,13 @@ class WalletRequestsCubit extends Cubit<WalletRequestsState> {
   final GetWalletRequestsUseCase _getWalletRequests;
   final GetWalletRequestDetailUseCase _getWalletRequestDetail;
   final CancelWalletRequestUseCase _cancelWalletRequest;
+  final GetWalletRequestAttachmentUseCase _getAttachment;
 
   WalletRequestsCubit(
     this._getWalletRequests,
     this._getWalletRequestDetail,
     this._cancelWalletRequest,
+    this._getAttachment,
   ) : super(const WalletRequestsState());
 
   Future<void> loadRequests() async {
@@ -114,4 +120,6 @@ class WalletRequestsCubit extends Cubit<WalletRequestsState> {
 
   Set<int> _without(int id) =>
       state.cancellingIds.where((element) => element != id).toSet();
+
+  Future<Either<Failure, Uint8List>> attachment(int id) => _getAttachment(id);
 }

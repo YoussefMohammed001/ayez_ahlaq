@@ -5,5 +5,6 @@ class MerchantWalletRequestsCubit extends WalletRequestsCubit {
     super.getWalletRequests,
     super.getWalletRequestDetail,
     super.cancelWalletRequest,
+    super.getAttachment,
   );
 }

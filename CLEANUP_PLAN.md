@@ -1393,7 +1393,7 @@ No issues found.
 
 **Type-level items**
 
-- [ ] **W-1** [Rule D] **High** — Wallet is implemented three times (barber / customer / merchant): 140 of 146 same-named file pairs are >= 90% identical (~5,000 lines) — `WalletRequest*`, `TransferAccount*`, `WithdrawMethod*`, `WalletTransaction*`, `CreateWalletRequestCubit/State`, `WalletBalanceCard`, `WalletRequestFormFields` (with the same raw `TextStyle(fontSize: 11)` + `EdgeInsets.only(bottom: 8)` at lines 108-131), five screens each. Make one `shared/wallet` feature configured by endpoints (`EndPoints.*Wallet*`).
+- [x] **W-1** [Rule D] **High** — Wallet is implemented three times (barber / customer / merchant): 140 of 146 same-named file pairs are >= 90% identical (~5,000 lines) — `WalletRequest*`, `TransferAccount*`, `WithdrawMethod*`, `WalletTransaction*`, `CreateWalletRequestCubit/State`, `WalletBalanceCard`, `WalletRequestFormFields` (with the same raw `TextStyle(fontSize: 11)` + `EdgeInsets.only(bottom: 8)` at lines 108-131), five screens each. Make one `shared/wallet` feature configured by endpoints (`EndPoints.*Wallet*`). **Done:** one `lib/shared/wallet/` (2.4k lines instead of ~6.6k) configured by `WalletEndpoints`/`WalletRoutes`; each role keeps six thin cubit subclasses; DI via `registerWalletModule(role)`.
 
 ### Screen: ChangeMoneyPinScreen (`lib/features/barber/money/presentation/pages/change_money_pin_screen.dart`)
 *user: barber · verified: scanned · route: `Routes.barberChangeMoneyPinScreen`*
@@ -1494,7 +1494,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/walletRequests/:id/cancel` (BarberWalletRequestsCubit.cancelRequest)
 
-- [ ] [Rule C] **Low** — Renders the `WalletRequest` passed through `extra` (`request.status == pending`), not the live list state; only the cancel button listens to the cubit. The merchant variant resolves the request from `state.requests` (`merchant_wallet_request_detail_screen.dart:82`). Resolve by id from the cubit in all three (also removes the entity-in-`extra` cast, G-17).
+- [x] [Rule C] **Low** — Renders the `WalletRequest` passed through `extra` (`request.status == pending`), not the live list state; only the cancel button listens to the cubit. The merchant variant resolves the request from `state.requests` (`merchant_wallet_request_detail_screen.dart:82`). Resolve by id from the cubit in all three (also removes the entity-in-`extra` cast, G-17).
 - [ ] [Rule D] **Low** — Near-duplicate (93% identical after renaming the role) of `lib/features/customer/wallet/presentation/pages/customer_wallet_request_detail_screen.dart`, `lib/features/merchant/wallet/presentation/pages/merchant_wallet_request_detail_screen.dart` — extract one shared screen/config (W-1).
 
 ### Screen: CreateCustomerWalletRequestScreen (`lib/features/customer/wallet/presentation/pages/create_customer_wallet_request_screen.dart`)
@@ -1514,7 +1514,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable (incl. sheets/dialogs):** `PUT customer/walletRequests/:id/cancel` (CustomerWalletRequestsCubit.cancelRequest)
 
-- [ ] [Rule C] **Low** — Renders the `WalletRequest` passed through `extra` (`request.status == pending`), not the live list state; only the cancel button listens to the cubit. The merchant variant resolves the request from `state.requests` (`merchant_wallet_request_detail_screen.dart:82`). Resolve by id from the cubit in all three (also removes the entity-in-`extra` cast, G-17).
+- [x] [Rule C] **Low** — Renders the `WalletRequest` passed through `extra` (`request.status == pending`), not the live list state; only the cancel button listens to the cubit. The merchant variant resolves the request from `state.requests` (`merchant_wallet_request_detail_screen.dart:82`). Resolve by id from the cubit in all three (also removes the entity-in-`extra` cast, G-17).
 - [ ] [Rule D] **Low** — Near-duplicate (93% identical after renaming the role) of `lib/features/barber/wallet/presentation/pages/wallet_request_detail_screen.dart` — extract one shared screen/config (W-1).
 
 ### Screen: CustomerWalletRequestsScreen (`lib/features/customer/wallet/presentation/pages/customer_wallet_requests_screen.dart`)
