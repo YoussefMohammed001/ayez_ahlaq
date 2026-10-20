@@ -815,7 +815,7 @@ final routes = GoRouter(
     GoRoute(
       path: Routes.barberHomeServiceRequestsScreen,
       builder: (_, __) => BlocProvider.value(
-        value: _barberHomeServiceRequestsCubit..loadPending(),
+        value: _barberHomeServiceRequestsCubit,
         child: const barber_hsr.HomeServiceRequestsScreen(),
       ),
     ),
@@ -831,7 +831,7 @@ final routes = GoRouter(
     GoRoute(
       path: Routes.barberHomeServiceBroadcastScreen,
       builder: (_, __) => BlocProvider.value(
-        value: _homeServiceBroadcastCubit..loadBroadcasts(),
+        value: _homeServiceBroadcastCubit,
         child: const HomeServiceBroadcastScreen(),
       ),
     ),
@@ -1203,7 +1203,7 @@ final routes = GoRouter(
     GoRoute(
       path: Routes.barberNotificationsScreen,
       builder: (_, __) => BlocProvider.value(
-        value: _barberNotificationsCubit..loadNotifications(),
+        value: _barberNotificationsCubit,
         child: const BarberNotificationsScreen(),
       ),
     ),
@@ -1398,7 +1398,7 @@ final routes = GoRouter(
     GoRoute(
       path: Routes.merchantNotificationsScreen,
       builder: (_, __) => BlocProvider.value(
-        value: _notificationsCubit..loadNotifications(),
+        value: _notificationsCubit,
         child: const MerchantNotificationsScreen(),
       ),
     ),

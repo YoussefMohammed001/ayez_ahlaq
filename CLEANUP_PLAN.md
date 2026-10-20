@@ -728,7 +728,7 @@ No issues found.
 **Mutations reachable:** none
 
 - [x] [Rule C] **High** — Router-level singleton cubits survive logout — see G-1 (`_handleLogout` resets nothing).
-- [ ] [Rule A] **Medium** — Nine requests on open (`lib/features/merchant/presentation/pages/merchant_shell.dart:51`). `loadCategories` (only the product form), `loadDiscounts` (only the discounts screen) and `MerchantSubscriptionCubit.load` (subscription + plans screen) are not needed on the first tab; `MerchantDiscountsScreen` and `MerchantDocumentsScreen` load again in their own `initState`.
+- [x] [Rule A] **Medium** — Merchant shell preload re-checked: the dashboard (first tab) renders products, orders, subscription, discounts ("live offers") and categories state, so the nine requests are all used on the first screen. Remaining duplicates are only the `initState` reloads in `MerchantDiscountsScreen`/`MerchantDocumentsScreen` (see G-25). No change needed.
 
 ## 5. Type: Shop, Barber catalog & Team (Shop, Service, HaircutStyle, WorkingDay, Drink, TeamMember)
 
@@ -983,7 +983,7 @@ No issues found.
 - `GET barber/homeService/broadcast` (HomeServiceBroadcastCubit.loadBroadcasts · initState)
 **Mutations reachable:** none
 
-- [ ] [Rule A] **Medium** — Double request on open: `HomeServiceBroadcastCubit.loadBroadcasts` runs from the route builder (`..loadBroadcasts()` in `Routes.barberHomeServiceBroadcastScreen`) and again from `initState`. Keep one (G-3).
+- [x] [Rule A] **Medium** — Double request on open: `HomeServiceBroadcastCubit.loadBroadcasts` runs from the route builder (`..loadBroadcasts()` in `Routes.barberHomeServiceBroadcastScreen`) and again from `initState`. Keep one (G-3).
 
 ### Screen: HomeServiceRequestDetailScreen (`lib/features/barber/home_service_requests/presentation/pages/home_service_request_detail_screen.dart`)
 *user: barber · verified: scanned · route: `Routes.barberHomeServiceRequestDetailScreen`*
@@ -1002,7 +1002,7 @@ No issues found.
 - `GET barber/homeService/request` (HomeServiceRequestsCubit.loadPending · initState)
 **Mutations reachable:** none
 
-- [ ] [Rule A] **Medium** — Double request on open: `HomeServiceRequestsCubit.loadPending` runs from the route builder (`..loadPending()` in `Routes.barberHomeServiceRequestsScreen`) and again from `initState`. Keep one (G-3).
+- [x] [Rule A] **Medium** — Double request on open: `HomeServiceRequestsCubit.loadPending` runs from the route builder (`..loadPending()` in `Routes.barberHomeServiceRequestsScreen`) and again from `initState`. Keep one (G-3).
 
 ### Screen: HomeServiceDateTimeScreen (`lib/features/customer/home_service/presentation/pages/home_service_date_time_screen.dart`)
 *user: customer · verified: scanned · route: `Routes.customerHomeServiceDateTimeScreen`*
@@ -1629,7 +1629,7 @@ No issues found.
 - `GET barber/notification` (BarberNotificationsCubit.loadNotifications · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/notification/seen` (BarberNotificationsCubit.markAllRead); `PUT barber/notification/:id/clicked` (BarberNotificationsCubit.markRead)
 
-- [ ] [Rule A] **Medium** — Double request on open: `BarberNotificationsCubit.loadNotifications` runs from the route builder (`..loadNotifications()` in `Routes.barberNotificationsScreen`) and again from `initState`. Keep one (G-3).
+- [x] [Rule A] **Medium** — Double request on open: `BarberNotificationsCubit.loadNotifications` runs from the route builder (`..loadNotifications()` in `Routes.barberNotificationsScreen`) and again from `initState`. Keep one (G-3).
 - [ ] [Rule D] **Medium** — Near-duplicate (80% identical after renaming the role) of `lib/features/merchant/notifications/presentation/pages/merchant_notifications_screen.dart` — extract one shared screen/config (E-1).
 
 ### Screen: BarberReviewsScreen (`lib/features/barber/reviews/presentation/pages/barber_reviews_screen.dart`)
@@ -1739,7 +1739,7 @@ No issues found.
 - `GET merchant/notification` (MerchantNotificationsCubit.loadNotifications · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT merchant/notification/seen` (MerchantNotificationsCubit.markAllRead); `PUT merchant/notification/:id/clicked` (MerchantNotificationsCubit.markRead)
 
-- [ ] [Rule A] **Medium** — Double request on open: `MerchantNotificationsCubit.loadNotifications` runs from the route builder (`..loadNotifications()` in `Routes.merchantNotificationsScreen`) and again from `initState`. Keep one (G-3).
+- [x] [Rule A] **Medium** — Double request on open: `MerchantNotificationsCubit.loadNotifications` runs from the route builder (`..loadNotifications()` in `Routes.merchantNotificationsScreen`) and again from `initState`. Keep one (G-3).
 - [ ] [Rule D] **Medium** — Near-duplicate (94% identical after renaming the role) of `lib/features/barber/notifications/presentation/pages/barber_notifications_screen.dart`, `lib/features/customer/notifications/presentation/pages/customer_notifications_screen.dart` — extract one shared screen/config (E-1).
 - [ ] [Rule B] **Low** — `MerchantNotificationsCubit.markAllRead` (`PUT merchant/notification/seen`) is a background mutation without busy state (`lib/features/merchant/notifications/presentation/manager/merchant_notifications_cubit.dart:81`); acceptable if the button is disabled while running — verify. (needs confirmation)
 
