@@ -9988,6 +9988,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Tap to view the full image`
+  String get walletAttachmentTapToView {
+    return Intl.message(
+      'Tap to view the full image',
+      name: 'walletAttachmentTapToView',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

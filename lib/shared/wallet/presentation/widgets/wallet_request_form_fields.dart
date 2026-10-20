@@ -8,6 +8,7 @@ import '../../domain/entities/transfer_account.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import '../../domain/entities/withdraw_method.dart';
 import 'transfer_account_field.dart';
+import 'wallet_attachment_preview.dart';
 import 'withdraw_method_field.dart';
 
 class WalletRequestFormFields extends StatelessWidget {
@@ -90,6 +91,7 @@ class WalletRequestFormFields extends StatelessWidget {
             selected: filePath != null,
             onTap: onPickAttachment,
           ),
+          if (filePath != null) WalletAttachmentPreview(filePath: filePath!),
         ],
       ],
     );

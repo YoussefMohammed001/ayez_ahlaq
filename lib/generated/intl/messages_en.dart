@@ -2226,6 +2226,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "walkInSlotTimeSpecific": MessageLookupByLibrary.simpleMessage(
       "Pick a time",
     ),
+    "walletAttachmentTapToView": MessageLookupByLibrary.simpleMessage(
+      "Tap to view the full image",
+    ),
     "walletAvailableLabel": m46,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage(
       "Current balance",

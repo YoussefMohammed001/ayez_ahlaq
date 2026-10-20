@@ -2126,6 +2126,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "walkInSlotTimeSpecific": MessageLookupByLibrary.simpleMessage(
       "تحديد ميعاد",
     ),
+    "walletAttachmentTapToView": MessageLookupByLibrary.simpleMessage(
+      "اضغط لعرض الصورة كاملة",
+    ),
     "walletAvailableLabel": m46,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage("الرصيد الحالي"),
     "walletRequestAmountHint": MessageLookupByLibrary.simpleMessage(

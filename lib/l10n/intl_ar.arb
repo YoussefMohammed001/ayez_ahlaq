@@ -1116,5 +1116,6 @@
   "walletWithdrawAvailableNow": "رصيدك المتاح الحالي: {amount} ج",
   "walletWithdrawRemainingAfter": "المتبقي بعد السحب: {amount} ج",
   "walletWithdrawExceedsAvailable": "المبلغ أكبر من رصيدك المتاح",
-  "walletWithdrawBalanceUnknown": "جاري تحميل رصيدك..."
+  "walletWithdrawBalanceUnknown": "جاري تحميل رصيدك...",
+  "walletAttachmentTapToView": "اضغط لعرض الصورة كاملة"
 }

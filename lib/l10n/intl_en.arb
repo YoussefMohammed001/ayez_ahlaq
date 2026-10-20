@@ -1116,5 +1116,6 @@
   "walletWithdrawAvailableNow": "Your available balance: {amount} EGP",
   "walletWithdrawRemainingAfter": "Remaining after withdrawal: {amount} EGP",
   "walletWithdrawExceedsAvailable": "The amount is more than your available balance",
-  "walletWithdrawBalanceUnknown": "Loading your balance..."
+  "walletWithdrawBalanceUnknown": "Loading your balance...",
+  "walletAttachmentTapToView": "Tap to view the full image"
 }
