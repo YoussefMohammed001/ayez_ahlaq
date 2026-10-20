@@ -15,7 +15,7 @@ import '../../../../shared/widgets/blocking_gate.dart';
 import '../../storefront/presentation/pages/storefront_home_screen.dart';
 import '../widgets/barber_data_loader.dart';
 import '../widgets/barber_store_fab.dart';
-import '../widgets/lazy_tab.dart';
+import '../../../../core/widgets/lazy_tab.dart';
 import 'barber_team_member_shell.dart';
 import '../../auth/domain/entities/barber_account_kind.dart';
 import '../../profile/domain/entities/barber_profile.dart';

@@ -701,8 +701,8 @@ No issues found.
 **Mutations reachable (incl. sheets/dialogs):** `POST customer/rating/order` (PendingVisitRatingCubit.submit)
 
 - [x] [Rule C] **High** — Router-level singleton cubits survive logout — see G-1 (`_handleCustomerLogout` resets nothing; bookings, orders, favourites, profile stay in the singleton cubits).
-- [ ] [Rule A] **Medium** — Startup burst of 6 requests (`_loadData`, `lib/features/customer/presentation/pages/customer_shell.dart:47`) that tab screens repeat in their own `initState`: `StoreOrdersCubit.loadOrders` (shell + `my_store_orders_screen.dart:30`), `FavoritesCubit.loadFavorites` (shell + `favorites_screen.dart:27`), `MyBookingsCubit.loadBookings` (shell + `my_bookings_screen.dart:28` when opened). `CustomerStoreFeedScreen.initState` already calls `CustomerStoreFeedCubit.load()` and `StoreCartCubit.loadCart()` while the `IndexedStack` is built, so the lazy `_storeFeedLoaded` flag in `_onTabTapped` never saves a request. Pick one owner per request.
-- [ ] [Rule A] **Low** — `FavoritesCubit.loadFavorites` is not needed until the favourites tab opens (dashboard does not show favourites).
+- [x] [Rule A] **Medium** — Startup burst of 6 requests (`_loadData`, `lib/features/customer/presentation/pages/customer_shell.dart:47`) that tab screens repeat in their own `initState`: `StoreOrdersCubit.loadOrders` (shell + `my_store_orders_screen.dart:30`), `FavoritesCubit.loadFavorites` (shell + `favorites_screen.dart:27`), `MyBookingsCubit.loadBookings` (shell + `my_bookings_screen.dart:28` when opened). `CustomerStoreFeedScreen.initState` already calls `CustomerStoreFeedCubit.load()` and `StoreCartCubit.loadCart()` while the `IndexedStack` is built, so the lazy `_storeFeedLoaded` flag in `_onTabTapped` never saves a request. Pick one owner per request. **Done:** tabs 1-3 now build on first visit (`LazyTab`), favourites no longer preload, the Store tab loads feed + cart on first tap.
+- [x] [Rule A] **Low** — `FavoritesCubit.loadFavorites` is not needed until the favourites tab opens (dashboard does not show favourites).
 
 ### Screen: MerchantDashboardScreen (`lib/features/merchant/dashboard/presentation/pages/merchant_dashboard_screen.dart`)
 *user: merchant · verified: scanned*
@@ -1243,7 +1243,7 @@ No issues found.
 - `GET customer/order` (StoreOrdersCubit.loadOrders · initState)
 **Mutations reachable:** none
 
-- [ ] [Rule A] **Medium** — Repeats a request the customer shell already makes at startup, and both fire in the same startup burst because the shell builds every tab: `StoreOrdersCubit.loadOrders` (initState); use a freshness check (G-25).
+- [x] [Rule A] **Medium** — Repeats a request the customer shell already makes at startup, and both fire in the same startup burst because the shell builds every tab: `StoreOrdersCubit.loadOrders` (initState); use a freshness check (G-25).
 
 ### Screen: StoreCartScreen (`lib/features/customer/store/presentation/pages/store_cart_screen.dart`)
 *user: customer · verified: scanned · route: `Routes.customerStoreCartScreen`*
@@ -1684,7 +1684,7 @@ No issues found.
 - `GET customer/favorite` (FavoritesCubit.loadFavorites · initState)
 **Mutations reachable (incl. sheets/dialogs):** `DELETE customer/favorite/:barberId` (FavoritesCubit.removeFavorite)
 
-- [ ] [Rule A] **Medium** — Repeats a request the customer shell already makes at startup, and both fire in the same startup burst because the shell builds every tab: `FavoritesCubit.loadFavorites` (initState); use a freshness check (G-25).
+- [x] [Rule A] **Medium** — Repeats a request the customer shell already makes at startup, and both fire in the same startup burst because the shell builds every tab: `FavoritesCubit.loadFavorites` (initState); use a freshness check (G-25).
 
 ### Screen: InvitePreviewScreen (`lib/features/customer/favorites/presentation/pages/invite_preview_screen.dart`)
 *user: customer · verified: scanned · route: `Routes.customerInvitePreviewScreen`*

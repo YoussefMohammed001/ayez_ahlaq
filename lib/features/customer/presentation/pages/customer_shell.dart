@@ -4,7 +4,6 @@ import '../../../../core/helpers/user_helpers.dart';
 import '../../../../core/widgets/flat_bottom_nav_bar.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
 import '../../booking/presentation/manager/my_bookings_cubit.dart';
-import '../../favorites/presentation/manager/favorites_cubit.dart';
 import '../../favorites/presentation/pages/favorites_screen.dart';
 import '../../notifications/presentation/manager/customer_notifications_cubit.dart';
 import '../../profile/presentation/manager/customer_profile_cubit.dart';
@@ -12,6 +11,7 @@ import '../../profile/presentation/pages/customer_profile_screen.dart';
 import '../../ratings/presentation/widgets/visit_rating_prompt.dart';
 import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../store/presentation/manager/customer_store_feed_cubit.dart';
+import '../../../../core/widgets/lazy_tab.dart';
 import '../../store/presentation/manager/store_cart_cubit.dart';
 import '../../store/presentation/manager/store_orders_cubit.dart';
 import '../../store/presentation/pages/customer_store_feed_screen.dart';
@@ -31,7 +31,7 @@ class CustomerShell extends StatefulWidget {
 
 class _CustomerShellState extends State<CustomerShell> {
   int _index = 0;
-  bool _storeFeedLoaded = false;
+  final Set<int> _visitedTabs = {0};
   bool _isGuest = true;
 
   List<NavTabItem> get _tabs => [
@@ -57,7 +57,6 @@ class _CustomerShellState extends State<CustomerShell> {
     if (isGuest) return;
 
     context.read<StoreOrdersCubit>().loadOrders();
-    context.read<FavoritesCubit>().loadFavorites();
     context.read<CustomerProfileCubit>().loadProfile();
     context.read<CustomerNotificationsCubit>().refreshUnseenCount();
     final bookingsCubit = context.read<MyBookingsCubit>();
@@ -68,8 +67,7 @@ class _CustomerShellState extends State<CustomerShell> {
   }
 
   void _onTabTapped(int index) {
-    if (index == 1 && !_storeFeedLoaded) {
-      _storeFeedLoaded = true;
+    if (_visitedTabs.add(index) && index == 1) {
       final shops = context.read<CustomerShopsCubit>().state.shops;
       context.read<CustomerStoreFeedCubit>().load(
         knownShops: shops.isEmpty ? null : shops,
@@ -89,9 +87,18 @@ class _CustomerShellState extends State<CustomerShell> {
             onGoToTab: _onTabTapped,
             isGuest: _isGuest,
           ),
-          const CustomerStoreFeedScreen(),
-          _isGuest ? const GuestPlaceholder() : const MyStoreOrdersScreen(),
-          _isGuest ? const GuestPlaceholder() : const FavoritesScreen(),
+          LazyTab(
+            visited: _visitedTabs.contains(1),
+            child: const CustomerStoreFeedScreen(),
+          ),
+          LazyTab(
+            visited: _visitedTabs.contains(2),
+            child: _isGuest ? const GuestPlaceholder() : const MyStoreOrdersScreen(),
+          ),
+          LazyTab(
+            visited: _visitedTabs.contains(3),
+            child: _isGuest ? const GuestPlaceholder() : const FavoritesScreen(),
+          ),
           _isGuest
               ? const GuestPlaceholder()
               : CustomerProfileScreen(onLogout: widget.onLogout),
