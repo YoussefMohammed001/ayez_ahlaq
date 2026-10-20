@@ -30,8 +30,12 @@ class StoreProductModel extends StoreProduct {
       stock: (json['totalStock'] as num?)?.toInt() ??
           (json['stock'] as num?)?.toInt() ??
           0,
-      hasImage:
-          json['hasOwnImage'] as bool? ?? json['hasImage'] as bool? ?? false,
+      hasImage: _hasImage(json),
     );
+  }
+  static bool _hasImage(Map<String, dynamic> json) {
+    final source = json['imageSource'] as String?;
+    if (source != null) return source != 'DEFAULT';
+    return json['hasOwnImage'] as bool? ?? json['hasImage'] as bool? ?? false;
   }
 }

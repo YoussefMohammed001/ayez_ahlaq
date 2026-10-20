@@ -21,7 +21,6 @@ class StoreProductThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return NetworkImageWithAppIconFallback(
       endPoint: EndPoints.barberStoreMerchantProductImage(merchantId, product.id),
-      hasImage: product.hasImage,
       width: size,
       height: size,
       borderRadius: BorderRadius.circular(radius ?? 10),

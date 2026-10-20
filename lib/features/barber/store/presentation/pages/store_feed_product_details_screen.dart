@@ -56,7 +56,6 @@ class StoreFeedProductDetailsScreen extends StatelessWidget {
         children: [
           NetworkImageWithAppIconFallback(
             endPoint: EndPoints.barberStoreProductImage(product.id),
-            hasImage: product.hasImage,
             width: double.infinity,
             height: 220.h,
             borderRadius: BorderRadius.circular(18.r),

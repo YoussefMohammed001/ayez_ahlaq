@@ -8,7 +8,6 @@ class StoreProduct extends Equatable {
   final int price;
   final int effectivePrice;
   final int minOrderQty;
-  final bool hasImage;
 
   const StoreProduct({
     required this.id,
@@ -18,11 +17,10 @@ class StoreProduct extends Equatable {
     required this.price,
     required this.effectivePrice,
     required this.minOrderQty,
-    required this.hasImage,
   });
 
   bool get isDiscounted => effectivePrice < price;
 
   @override
-  List<Object?> get props => [id, name, brand, categoryName, price, effectivePrice, minOrderQty, hasImage];
+  List<Object?> get props => [id, name, brand, categoryName, price, effectivePrice, minOrderQty];
 }

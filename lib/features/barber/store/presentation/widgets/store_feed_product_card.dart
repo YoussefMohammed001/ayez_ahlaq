@@ -50,7 +50,6 @@ class StoreFeedProductCard extends StatelessWidget {
                 children: [
                   NetworkImageWithAppIconFallback(
                     endPoint: EndPoints.barberStoreProductImage(product.id),
-                    hasImage: product.hasImage,
                     width: double.infinity,
                     height: double.infinity,
                     borderRadius: BorderRadius.zero,

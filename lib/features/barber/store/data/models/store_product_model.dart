@@ -9,7 +9,6 @@ class StoreProductModel extends StoreProduct {
     required super.price,
     required super.effectivePrice,
     required super.minOrderQty,
-    required super.hasImage,
   });
 
   factory StoreProductModel.fromJson(Map<String, dynamic> json) {
@@ -22,7 +21,6 @@ class StoreProductModel extends StoreProduct {
       price: price,
       effectivePrice: (json['effectivePrice'] as num?)?.toInt() ?? price,
       minOrderQty: (json['minOrderQty'] as num?)?.toInt() ?? 1,
-      hasImage: json['hasImage'] as bool? ?? false,
     );
   }
 }
