@@ -22,6 +22,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     );
   }
 
+  void reloadIfLoaded() {
+    if (state.status != FavoritesStatus.initial) loadFavorites();
+  }
+
   Future<void> removeFavorite(int barberId) async {
     emit(state.copyWith(removingBarberId: barberId));
 

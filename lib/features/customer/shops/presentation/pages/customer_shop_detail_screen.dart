@@ -13,6 +13,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../booking/presentation/manager/booking_flow_cubit.dart';
 import '../../../../../shared/guest/guest_guard.dart';
 import '../../domain/entities/shop_detail.dart';
+import '../../../favorites/presentation/manager/favorites_cubit.dart';
 import '../manager/customer_shop_detail_cubit.dart';
 import '../manager/customer_shop_detail_state.dart';
 import '../widgets/shop_detail_body.dart';
@@ -33,6 +34,13 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
   void initState() {
     super.initState();
     context.read<CustomerShopDetailCubit>().loadShopDetail(widget.shopId);
+  }
+
+  Future<void> _toggleFavorite(int barberId) async {
+    final saved = await context.read<CustomerShopDetailCubit>().toggleFavorite(
+      barberId,
+    );
+    if (saved && mounted) context.read<FavoritesCubit>().reloadIfLoaded();
   }
 
   @override
@@ -57,7 +65,7 @@ class _CustomerShopDetailScreenState extends State<CustomerShopDetailScreen> {
                     ),
                   ),
           ),
-          body: _buildBody(state, detail, reload, cubit.toggleFavorite),
+          body: _buildBody(state, detail, reload, _toggleFavorite),
           bottomNavigationBar: detail == null
               ? null
               : Padding(

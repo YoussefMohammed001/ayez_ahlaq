@@ -219,13 +219,22 @@ class BookingsCubit extends Cubit<BookingsState> {
           errorMessage: failure.message,
         ),
       ),
-      (booking) => emit(
-        state.copyWith(
-          clearUpdatingBookingId: true,
-          pending: _replace(state.pending, booking),
-          queue: _replace(state.queue, booking),
-        ),
-      ),
+      (booking) {
+        final leftPending =
+            state.pending.any((b) => b.id == booking.id) &&
+            !booking.status.needsDecision;
+        emit(
+          state.copyWith(
+            clearUpdatingBookingId: true,
+            pending: leftPending
+                ? state.pending.where((b) => b.id != booking.id).toList()
+                : _replace(state.pending, booking),
+            queue: _replace(state.queue, booking),
+            history: _replace(state.history, booking),
+          ),
+        );
+        if (leftPending) loadQueue();
+      },
     );
   }
 

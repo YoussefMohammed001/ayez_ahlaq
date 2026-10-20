@@ -8,6 +8,7 @@ import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../domain/entities/team_member_detail.dart';
+import '../manager/barber_team_cubit.dart';
 import '../manager/team_member_detail_cubit.dart';
 import '../manager/team_member_detail_state.dart';
 import '../widgets/edit_member_sheet.dart';
@@ -60,6 +61,7 @@ class TeamMemberDetailScreen extends StatelessWidget {
 
     if (deleted) {
       showSuccess(S().memberDeletedPermanently);
+      context.read<BarberTeamCubit>().loadTeam();
       Navigator.of(context).pop();
     }
   }

@@ -5,7 +5,6 @@ import '../../../../../core/analytics/i_analytics_service.dart';
 import '../../../../../shared/location/domain/use_cases/open_in_maps_use_case.dart';
 import '../../../favorites/domain/use_cases/add_favorite_use_case.dart';
 import '../../../favorites/domain/use_cases/remove_favorite_use_case.dart';
-import '../../domain/entities/shop_barber.dart';
 import '../../domain/use_cases/get_shop_detail_use_case.dart';
 import 'customer_shop_detail_state.dart';
 
@@ -64,40 +63,48 @@ class CustomerShopDetailCubit extends Cubit<CustomerShopDetailState> {
     await _openInMaps(location);
   }
 
-  Future<void> toggleFavorite(int barberId) async {
+  final Set<int> _togglingBarberIds = {};
+
+  Future<bool> toggleFavorite(int barberId) async {
+    final target = state.detail?.barbers
+        .where((b) => b.id == barberId)
+        .firstOrNull;
+    if (target == null || !_togglingBarberIds.add(barberId)) return false;
+
+    final wasFavorite = target.favorite;
+    emit(_withFavorite(barberId, !wasFavorite));
+
+    try {
+      final result = wasFavorite
+          ? await _removeFavorite(barberId)
+          : await _addFavorite(barberId);
+
+      final saved = result.fold<bool>((failure) {
+        emit(_withFavorite(barberId, wasFavorite, failure.message));
+        return false;
+      }, (_) => true);
+      return saved;
+    } finally {
+      _togglingBarberIds.remove(barberId);
+    }
+  }
+
+  CustomerShopDetailState _withFavorite(
+    int barberId,
+    bool favorite, [
+    String? errorMessage,
+  ]) {
     final detail = state.detail;
-    if (detail == null) return;
+    if (detail == null) return state;
 
-    final target = detail.barbers.cast<ShopBarber>().firstWhere(
-      (b) => b.id == barberId,
+    return state.copyWith(
+      detail: detail.copyWith(
+        barbers: [
+          for (final b in detail.barbers)
+            if (b.id == barberId) b.copyWith(favorite: favorite) else b,
+        ],
+      ),
+      errorMessage: errorMessage,
     );
-    final currentlyFavorite = target.favorite;
-
-    final updatedBarbers = detail.barbers
-        .map(
-          (b) =>
-              b.id == barberId ? b.copyWith(favorite: !currentlyFavorite) : b,
-        )
-        .toList();
-    emit(state.copyWith(detail: detail.copyWith(barbers: updatedBarbers)));
-
-    final result = currentlyFavorite
-        ? await _removeFavorite(barberId)
-        : await _addFavorite(barberId);
-
-    result.fold((failure) {
-      final revertedBarbers = detail.barbers
-          .map(
-            (b) =>
-                b.id == barberId ? b.copyWith(favorite: currentlyFavorite) : b,
-          )
-          .toList();
-      emit(
-        state.copyWith(
-          detail: detail.copyWith(barbers: revertedBarbers),
-          errorMessage: failure.message,
-        ),
-      );
-    }, (_) {});
   }
 }

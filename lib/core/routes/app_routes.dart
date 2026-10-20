@@ -49,6 +49,8 @@ import '../../features/customer/home_service/presentation/pages/home_service_req
 import '../../features/customer/home_service/presentation/pages/home_service_requests_screen.dart';
 import '../../features/customer/home_service/presentation/pages/home_service_request_detail_screen.dart';
 import '../../features/customer/booking/presentation/manager/booking_detail_cubit.dart';
+import '../../features/customer/booking/presentation/widgets/booking_list_sync.dart';
+import '../../features/customer/home_service/presentation/widgets/home_service_list_sync.dart';
 import '../../features/customer/booking/presentation/manager/booking_flow_cubit.dart';
 import '../../features/customer/booking/presentation/manager/my_bookings_cubit.dart';
 import '../../features/customer/booking/presentation/pages/booking_detail_screen.dart'
@@ -237,6 +239,7 @@ import '../../features/barber/team/presentation/manager/member_services_cubit.da
 import '../../features/barber/team/presentation/manager/team_member_detail_cubit.dart';
 import '../../features/barber/team/presentation/pages/earnings_screen.dart';
 import '../../features/barber/team/presentation/pages/team_member_detail_screen.dart';
+import '../../features/barber/team/presentation/widgets/team_list_sync.dart';
 import '../../features/barber/team/presentation/pages/team_screen.dart';
 import '../../features/merchant/auth/presentation/manager/merchant_auth_cubit.dart';
 import '../../features/merchant/auth/presentation/pages/merchant_login_screen.dart';
@@ -575,8 +578,11 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.customerShopDetailScreen,
-      builder: (_, state) => BlocProvider.value(
-        value: _customerShopDetailCubit,
+      builder: (_, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _customerShopDetailCubit),
+          BlocProvider.value(value: _customerFavoritesCubit),
+        ],
         child: CustomerShopDetailScreen(shopId: state.extra as int),
       ),
     ),
@@ -615,9 +621,14 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.customerHomeServiceRequestDetailScreen,
-      builder: (_, state) => BlocProvider.value(
-        value: _homeServiceRequestDetailCubit,
-        child: HomeServiceRequestDetailScreen(requestId: state.extra as int),
+      builder: (_, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _homeServiceRequestDetailCubit),
+          BlocProvider.value(value: _homeServiceRequestsCubit),
+        ],
+        child: HomeServiceListSync(
+          child: HomeServiceRequestDetailScreen(requestId: state.extra as int),
+        ),
       ),
     ),
     GoRoute(
@@ -667,10 +678,15 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: Routes.customerBookingDetailScreen,
-      builder: (_, state) => BlocProvider.value(
-        value: _customerBookingDetailCubit,
-        child: customer_booking.BookingDetailScreen(
-          bookingId: state.extra as int,
+      builder: (_, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _customerBookingDetailCubit),
+          BlocProvider.value(value: _myBookingsCubit),
+        ],
+        child: BookingListSync(
+          child: customer_booking.BookingDetailScreen(
+            bookingId: state.extra as int,
+          ),
         ),
       ),
     ),
@@ -1250,8 +1266,9 @@ final routes = GoRouter(
             BlocProvider.value(
               value: _memberClientsCubit..loadClients(memberId),
             ),
+            BlocProvider.value(value: _barberTeamCubit),
           ],
-          child: const TeamMemberDetailScreen(),
+          child: const TeamListSync(child: TeamMemberDetailScreen()),
         );
       },
     ),

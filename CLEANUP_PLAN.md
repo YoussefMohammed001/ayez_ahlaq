@@ -784,7 +784,7 @@ No issues found.
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/team/:id/hours` (MemberHoursCubit.saveHours); `POST barber/team/:id/service` (MemberServicesCubit.createService); `PUT barber/team/:id/service/:serviceId` (MemberServicesCubit.updateService); `DELETE barber/team/:id/service/:serviceId` (MemberServicesCubit.deleteService); `PUT barber/team/:id` (TeamMemberDetailCubit.updateMember); `PUT barber/team/:id/availability` (TeamMemberDetailCubit.setAvailability); `DELETE barber/team/:id` (TeamMemberDetailCubit.blockMember); `PUT barber/team/:id/activate` (TeamMemberDetailCubit.activateMember) … +2 more
 
 - [x] [Rule C] **High** — Bug: the error state's retry calls `cubit.loadMember(state.member?.id ?? 0)` (`lib/features/barber/team/presentation/pages/team_member_detail_screen.dart:88`) but the retry is only shown when `member == null`, so it always requests `GET barber/team/0`. Keep the id in the screen/route and retry with it.
-- [ ] [Rule C] **Medium** — The four section cubits (`MemberHours/Services/Earnings/Clients`) and `TeamMemberDetailCubit` reset on open (good) but none discards late responses (G-7), and block / activate / delete / permissions / rename never refresh `BarberTeamCubit`, so the team list shows stale members after returning.
+- [ ] [Rule C] **Medium** — The four section cubits (`MemberHours/Services/Earnings/Clients`) and `TeamMemberDetailCubit` reset on open (good) but none discards late responses (G-7), and block / activate / delete / permissions / rename never refresh `BarberTeamCubit`, so the team list shows stale members after returning. **Progress:** the team list now reloads after member changes (`TeamListSync`, plus after permanent delete); section cubits still lack the stale-response guard (G-7).
 - [ ] [Rule A] **Low** — Six requests start together from the route builder (`app_routes.dart:1268-1283`); all sections are visible so none is wasted, but they re-run on every router rebuild (G-3).
 - [ ] [Rule D] **Low** — `_deletePermanently` pops with `Navigator.of(context).pop()` (`lib/features/barber/team/presentation/pages/team_member_detail_screen.dart:63`) while the rest of the app uses go_router.
 
@@ -813,7 +813,7 @@ No issues found.
 - `GET customer/shop/:id` (CustomerShopDetailCubit.loadShopDetail · initState)
 **Mutations reachable (incl. sheets/dialogs):** `DELETE customer/favorite/:barberId` (CustomerShopDetailCubit.toggleFavorite)
 
-- [ ] [Rule C] **Medium** — `CustomerShopDetailCubit.toggleFavorite` (`lib/features/customer/shops/presentation/manager/customer_shop_detail_cubit.dart:67`) is optimistic with no in-flight guard; a double tap sends add+remove concurrently and the rollback restores a `detail` snapshot taken before the tap (overwriting other changes). `FavoritesCubit` is not updated, so the Favourites tab is stale until pull-to-refresh.
+- [x] [Rule C] **Medium** — `CustomerShopDetailCubit.toggleFavorite` (`lib/features/customer/shops/presentation/manager/customer_shop_detail_cubit.dart:67`) is optimistic with no in-flight guard; a double tap sends add+remove concurrently and the rollback restores a `detail` snapshot taken before the tap (overwriting other changes). `FavoritesCubit` is not updated, so the Favourites tab is stale until pull-to-refresh.
 
 ## 6. Type: Booking
 
@@ -855,7 +855,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable:** none
 
-- [ ] [Rule C] **Medium** — `BookingsCubit._mutate` (`lib/features/barber/bookings/presentation/manager/bookings_cubit.dart:210`) only swaps the updated booking inside `pending`/`queue`: a confirmed booking stays in the Pending list with its new status instead of moving to the queue, a rejected one stays listed, and `history` is not updated. Lists stay inconsistent until the next refresh.
+- [x] [Rule C] **Medium** — `BookingsCubit._mutate` (`lib/features/barber/bookings/presentation/manager/bookings_cubit.dart:210`) only swaps the updated booking inside `pending`/`queue`: a confirmed booking stays in the Pending list with its new status instead of moving to the queue, a rejected one stays listed, and `history` is not updated. Lists stay inconsistent until the next refresh.
 
 ### Screen: QueueBookingsView (`lib/features/barber/bookings/presentation/pages/queue_bookings_view.dart`)
 *user: barber · verified: scanned*
@@ -888,7 +888,7 @@ No issues found.
 - `GET customer/booking/:id` (BookingDetailCubit.loadBooking · initState)
 **Mutations reachable (incl. sheets/dialogs):** `POST customer/rating` (BookingDetailCubit.rateBooking); `PUT customer/booking/:id/cancel` (BookingDetailCubit.cancelBooking)
 
-- [ ] [Rule C] **Medium** — After `cancelBooking` / `rateBooking` only `BookingDetailCubit` is updated; `MyBookingsCubit` (My bookings tabs and the dashboard "upcoming" section) keeps the old status until a full reload. Push the returned booking into the list cubit or reload it on pop.
+- [x] [Rule C] **Medium** — After `cancelBooking` / `rateBooking` only `BookingDetailCubit` is updated; `MyBookingsCubit` (My bookings tabs and the dashboard "upcoming" section) keeps the old status until a full reload. Push the returned booking into the list cubit or reload it on pop.
 - [ ] [Rule D] **Low** — `BookingDetailCubit.rateBooking` builds the result from the `booking` captured before the `await` (`lib/features/customer/booking/presentation/manager/booking_detail_cubit.dart:72`), overwriting a reload that finished in between.
 
 ### Screen: BookingSummaryScreen (`lib/features/customer/booking/presentation/pages/booking_summary_screen.dart`)
@@ -1019,7 +1019,7 @@ No issues found.
 - `GET customer/homeService/:id` (HomeServiceRequestDetailCubit.loadRequest · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT customer/homeService/:id/confirmPrice` (HomeServiceRequestDetailCubit.confirmPrice); `PUT customer/homeService/:id/cancel` (HomeServiceRequestDetailCubit.cancel); `POST customer/rating` (HomeServiceRequestDetailCubit.rate)
 
-- [ ] [Rule C] **Medium** — `confirmPrice` / `cancel` / `rate` update only `HomeServiceRequestDetailCubit`; the list in `HomeServiceRequestsCubit` (My bookings → home-service tab) keeps the old status.
+- [x] [Rule C] **Medium** — `confirmPrice` / `cancel` / `rate` update only `HomeServiceRequestDetailCubit`; the list in `HomeServiceRequestsCubit` (My bookings → home-service tab) keeps the old status.
 - [ ] [Rule D] **Low** — File is 152 lines (limit 150); split into widgets/helpers.
 
 ### Screen: HomeServiceRequestScreen (`lib/features/customer/home_service/presentation/pages/home_service_request_screen.dart`)
