@@ -157,7 +157,6 @@ class Routes {
   static const String barberStorefrontOrderDetailsScreen =
       '/barber/storefront/order';
   static const String successScreen = '/success';
-  static const String forceChangePasswordScreen = '/forceChangePassword';
   static const String aboutScreen = '/about';
 
   static const String merchantShell = '/merchant';

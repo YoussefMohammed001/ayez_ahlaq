@@ -1,66 +1,61 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants/strings.dart';
-import '../crash_reporting/vso_crash_reporting_manager.dart';
+import '../crash_reporting/crash_reporting_keys.dart';
+import '../crash_reporting/crash_reporting_manager.dart';
 import '../helpers/safe_print.dart';
-import '../di/services_locator.dart';
 import 'remote_config_service.dart';
 import 'update_dialog_service.dart';
-import 'navigation_service.dart';
-import '../crash_reporting/crash_reporting_keys.dart';
+import 'update_status.dart';
 
 class VersionChecker {
-  final BuildContext context;
-  final IRemoteConfigService remoteConfigService;
-  final CupertinoUpdateDialogService updateDialogService;
-  final AuthNavigationService navigationService;
+  final IRemoteConfigService _remoteConfig;
+  final CupertinoUpdateDialogService _dialog;
+  final CrashReportingManager _crashReporting;
 
-  VersionChecker({
-    required this.context,
-    required this.remoteConfigService,
-    required this.updateDialogService,
-    required this.navigationService,
-  });
+  VersionChecker(this._remoteConfig, this._dialog, this._crashReporting);
 
-  Future<void> checkAppVersion() async {
+  Future<UpdateStatus> fetchStatus() async {
     try {
-      final remoteValues = await remoteConfigService.fetchConfig();
-      final packageInfo = await PackageInfo.fromPlatform();
+      final remote = await _remoteConfig.fetchConfig();
+      final package = await PackageInfo.fromPlatform();
 
-      final currentVersionCode = int.tryParse(packageInfo.buildNumber) ?? 0;
-      final latestVersionCode = Platform.isAndroid
-          ? int.tryParse(remoteValues.androidVersion) ?? 0
-          : int.tryParse(remoteValues.iosVersion) ?? 0;
-
-      sl<VSOCrashReportingManager>().setCrashReportingKeyWithEnumKey(
+      _crashReporting.setCrashReportingKeyWithEnumKey(
         CrashReportingKey.appVersion,
-        Platform.isAndroid
-            ? "Android ${packageInfo.version}"
-            : "iOS ${packageInfo.version}",
+        '${Platform.isAndroid ? 'Android' : 'iOS'} ${package.version}',
       );
 
-      final updateRequired = currentVersionCode < latestVersionCode;
+      final current = int.tryParse(package.buildNumber) ?? 0;
+      final latest = int.tryParse(
+            Platform.isAndroid ? remote.androidVersion : remote.iosVersion,
+          ) ??
+          0;
+      if (current >= latest) return UpdateStatus.upToDate;
 
-      if (updateRequired) {
-        final isCritical = Platform.isAndroid
-            ? remoteValues.isCriticalAndroid
-            : remoteValues.isCriticalIos;
-
-        updateDialogService.showUpdateDialog(
-          context,
-          isCritical: isCritical,
-          onUpdate: _launchStore,
-          onSkip: navigationService.navigate,
-        );
-      } else {
-        navigationService.navigate();
-      }
+      final critical = Platform.isAndroid
+          ? remote.isCriticalAndroid
+          : remote.isCriticalIos;
+      return critical ? UpdateStatus.critical : UpdateStatus.optional;
     } catch (e) {
-      safePrint("Remote config failed: $e");
-      navigationService.navigate();
+      safePrint('Remote config failed: $e');
+      return UpdateStatus.upToDate;
     }
+  }
+
+  Future<void> promptIfNeeded(BuildContext context, UpdateStatus status) {
+    if (status == UpdateStatus.upToDate) return Future.value();
+
+    final proceed = Completer<void>();
+    _dialog.showUpdateDialog(
+      context,
+      isCritical: status == UpdateStatus.critical,
+      onUpdate: _launchStore,
+      onSkip: proceed.complete,
+    );
+    return proceed.future;
   }
 
   void _launchStore() {

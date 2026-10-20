@@ -4,7 +4,10 @@ import '../../../../core/helpers/user_helpers.dart';
 import '../../../../core/routes/route_paths.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/ext_theme.dart';
+import '../../../../core/app_startup/update_status.dart';
+import '../../../../core/app_startup/version_checker.dart';
 import '../../../../core/di/services_locator.dart';
+import '../../../../env/env.dart';
 import '../../../../shared/analytics/user_analytics_sync.dart';
 import '../../../../shared/user_type.dart';
 import '../widgets/splash_body.dart';
@@ -36,6 +39,11 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _resolveDestination() async {
+    final versionChecker = sl<VersionChecker>();
+    final updateStatus = isProdEnvironment()
+        ? versionChecker.fetchStatus()
+        : Future.value(UpdateStatus.upToDate);
+
     final results = await Future.wait([
       UserHelpers.isLoggedIn(),
       _intro
@@ -46,6 +54,12 @@ class _SplashScreenState extends State<SplashScreen>
       Future.delayed(const Duration(milliseconds: 1200), () => true),
     ]);
 
+    if (!mounted) return;
+
+    final status = await updateStatus;
+    if (!mounted) return;
+
+    await versionChecker.promptIfNeeded(context, status);
     if (!mounted) return;
 
     if (!UserHelpers.hasSelectedUserType) {

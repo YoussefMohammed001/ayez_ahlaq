@@ -1,4 +1,7 @@
 import '../analytics/api_analytics_tracker.dart';
+import '../app_startup/remote_config_service.dart';
+import '../app_startup/update_dialog_service.dart';
+import '../app_startup/version_checker.dart';
 import '../analytics/firebase_analytics_service.dart';
 import '../analytics/i_analytics_service.dart';
 import '../review/review_prompt_service.dart';
@@ -658,6 +661,7 @@ class ServicesLocator {
     _initDioService();
     _initSessionManager();
     _initCrashReporting();
+    _initAppStartup();
     _support();
 
     _customerDeviceToken();
@@ -779,6 +783,16 @@ class ServicesLocator {
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
     sl.registerLazySingleton(() => SecureStorage(secureStorage));
+  }
+
+  void _initAppStartup() {
+    sl.registerLazySingleton<IRemoteConfigService>(
+      () => FirebaseRemoteConfigService(),
+    );
+    sl.registerLazySingleton(() => CupertinoUpdateDialogService());
+    sl.registerLazySingleton(
+      () => VersionChecker(sl(), sl(), sl<VSOCrashReportingManager>()),
+    );
   }
 
   void _initSessionManager() {
