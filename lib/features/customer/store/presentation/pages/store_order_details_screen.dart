@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/info_row.dart';
@@ -25,40 +26,47 @@ class StoreOrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StoreOrdersCubit, StoreOrdersState>(
-      builder: (context, state) {
-        final current = state.orders.firstWhere(
-          (o) => o.id == order.id,
-          orElse: () => order,
-        );
-        final isCancelling = state.cancellingId == current.id;
+    return BlocListener<StoreOrdersCubit, StoreOrdersState>(
+      listenWhen: (previous, current) =>
+          current.errorMessage != null &&
+          current.errorMessage != previous.errorMessage,
+      listener: (context, state) => showError(state.errorMessage!),
+      child: BlocBuilder<StoreOrdersCubit, StoreOrdersState>(
+        builder: (context, state) {
+          final current = state.orders.firstWhere(
+            (o) => o.id == order.id,
+            orElse: () => order,
+          );
+          final isCancelling = state.cancellingId == current.id;
 
-        return Scaffold(
-          appBar: AppTopBar(title: current.code),
-          body: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
-            children: [
-              _buildHeader(context, current),
-              if (_hasInfoRows(current)) ...[
+          return Scaffold(
+            appBar: AppTopBar(title: current.code),
+            body: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 24.h),
+              children: [
+                _buildHeader(context, current),
+                if (_hasInfoRows(current)) ...[
+                  SizedBox(height: 12.h),
+                  _buildInfoCard(context, current),
+                ],
                 SizedBox(height: 12.h),
-                _buildInfoCard(context, current),
+                SectionTitle(title: S().orderedItems),
+                StoreOrderItemsCard(order: current),
+                if (current.status.canCancel) ...[
+                  SizedBox(height: 20.h),
+                  PrimaryCtaButton(
+                    label: S().cancelOrder,
+                    isLoading: isCancelling,
+                    onPressed: () => context
+                        .read<StoreOrdersCubit>()
+                        .cancelOrder(current.id),
+                  ),
+                ],
               ],
-              SizedBox(height: 12.h),
-              SectionTitle(title: S().orderedItems),
-              StoreOrderItemsCard(order: current),
-              if (current.status.canCancel) ...[
-                SizedBox(height: 20.h),
-                PrimaryCtaButton(
-                  label: S().cancelOrder,
-                  isLoading: isCancelling,
-                  onPressed: () =>
-                      context.read<StoreOrdersCubit>().cancelOrder(current.id),
-                ),
-              ],
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -91,7 +99,8 @@ class StoreOrderDetailsScreen extends StatelessWidget {
   }
 
   bool _hasInfoRows(StoreOrder order) {
-    final hasAddress = order.fulfillmentType == StoreFulfillmentType.delivery &&
+    final hasAddress =
+        order.fulfillmentType == StoreFulfillmentType.delivery &&
         order.deliveryAddress != null &&
         order.deliveryAddress!.isNotEmpty;
     final hasNote = order.note != null && order.note!.isNotEmpty;
@@ -99,7 +108,8 @@ class StoreOrderDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildInfoCard(BuildContext context, StoreOrder order) {
-    final hasAddress = order.fulfillmentType == StoreFulfillmentType.delivery &&
+    final hasAddress =
+        order.fulfillmentType == StoreFulfillmentType.delivery &&
         order.deliveryAddress != null &&
         order.deliveryAddress!.isNotEmpty;
     final hasNote = order.note != null && order.note!.isNotEmpty;

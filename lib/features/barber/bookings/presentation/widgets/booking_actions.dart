@@ -71,7 +71,9 @@ class BookingActions extends StatelessWidget {
               borderRadius: BorderRadius.circular(14.r),
             ),
           ),
-          onPressed: () => RejectBookingSheet.show(context, booking.id),
+          onPressed: isUpdating
+              ? null
+              : () => RejectBookingSheet.show(context, booking.id),
           child: Text(
             S().rejectBooking,
             style: TextStyle(

@@ -126,11 +126,19 @@ class MerchantProductsCubit extends Cubit<MerchantProductsState> {
   }
 
   Future<void> deleteImage(int productId, int imageId) async {
+    if (state.isSubmitting) return;
+    emit(state.copyWith(isSubmitting: true));
+
     final result = await _deleteImage(productId, imageId);
 
     await result.fold(
-      (failure) async => emit(state.copyWith(errorMessage: failure.message)),
-      (_) => loadProducts(),
+      (failure) async => emit(
+        state.copyWith(isSubmitting: false, errorMessage: failure.message),
+      ),
+      (_) async {
+        emit(state.copyWith(isSubmitting: false));
+        await loadProducts();
+      },
     );
   }
 

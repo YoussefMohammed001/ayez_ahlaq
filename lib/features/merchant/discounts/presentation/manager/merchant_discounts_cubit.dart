@@ -116,12 +116,19 @@ class MerchantDiscountsCubit extends Cubit<MerchantDiscountsState> {
   }
 
   Future<void> closeDiscount(int id) async {
+    if (state.isSubmitting) return;
+    emit(state.copyWith(isSubmitting: true));
+
     final result = await _closeDiscount(id);
 
     await result.fold(
-      (failure) async =>
-          emit(state.copyWith(errorMessage: failure.message)),
-      (_) => loadDiscounts(),
+      (failure) async => emit(
+        state.copyWith(isSubmitting: false, errorMessage: failure.message),
+      ),
+      (_) async {
+        emit(state.copyWith(isSubmitting: false));
+        await loadDiscounts();
+      },
     );
   }
 }

@@ -829,7 +829,7 @@ No issues found.
 - `GET barber/booking/:id` (BookingsCubit.refreshBooking · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/booking/:id/status` (BookingsCubit.advanceStatus); `PUT barber/booking/:id/confirm` (BookingsCubit.confirmBooking); `PUT barber/booking/:id/reject` (BookingsCubit.rejectBooking); `PUT barber/booking/:id/billing` (BookingsCubit.updateBilling)
 
-- [ ] [Rule B] **Medium** — While a confirm/advance request is running, the Reject button stays enabled (`lib/features/barber/bookings/presentation/widgets/booking_actions.dart:74`) — the merchant equivalent disables it. `BookingsState.updatingBookingId` is a single nullable id, so two concurrent mutations clear each other's loader.
+- [x] [Rule B] **Medium** — While a confirm/advance request is running, the Reject button stays enabled (`lib/features/barber/bookings/presentation/widgets/booking_actions.dart:74`) — the merchant equivalent disables it. `BookingsState.updatingBookingId` is a single nullable id, so two concurrent mutations clear each other's loader.
 - [ ] [Rule A] **Low** — The entity is passed through `extra`, yet `initState` calls `refreshBooking` (`GET barber/booking/:id`, `lib/features/barber/bookings/presentation/pages/booking_detail_screen.dart:34`). Keep only if the list payload is incomplete. (needs confirmation)
 
 ### Screen: BookingsHomeScreen (`lib/features/barber/bookings/presentation/pages/bookings_home_screen.dart`)
@@ -1074,7 +1074,7 @@ No issues found.
 - `GET barber/discount` (BarberDiscountsCubit.loadDiscounts · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/discount/:id/close` (BarberDiscountsCubit.closeDiscount)
 
-- [ ] [Rule B] **Medium** — `BarberDiscountsCubit.closeDiscount` (`PUT barber/discount/:id/close`) sets no busy state before awaiting (`lib/features/barber/discounts/presentation/manager/barber_discounts_cubit.dart:97`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
+- [x] [Rule B] **Medium** — `BarberDiscountsCubit.closeDiscount` (`PUT barber/discount/:id/close`) sets no busy state before awaiting (`lib/features/barber/discounts/presentation/manager/barber_discounts_cubit.dart:97`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
 - [ ] [Rule D] **Medium** — Near-duplicate (92% identical after renaming the role) of `lib/features/merchant/discounts/presentation/pages/merchant_discounts_screen.dart` — extract one shared screen/config (G-9).
 - [ ] [Rule A] **Low** — Refetches data the barber shell already loaded at startup: `BarberStorefrontProductsCubit.loadProducts` (route cascade `Routes.barberDiscountsScreen`); use a freshness check (G-25).
 
@@ -1269,7 +1269,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable (incl. sheets/dialogs):** `PUT customer/order/:id/cancel` (StoreOrdersCubit.cancelOrder)
 
-- [ ] [Rule B] **Medium** — `StoreOrdersCubit.cancelOrder` failure only sets `errorMessage`; this screen is a plain `BlocBuilder` with no listener, so a failed cancel is silent here (the spinner just stops). Add `showError` / `BusyErrorListener`.
+- [x] [Rule B] **Medium** — `StoreOrdersCubit.cancelOrder` failure only sets `errorMessage`; this screen is a plain `BlocBuilder` with no listener, so a failed cancel is silent here (the spinner just stops). Add `showError` / `BusyErrorListener`.
 
 ### Screen: StoreProductDetailsScreen (`lib/features/customer/store/presentation/pages/store_product_details_screen.dart`)
 *user: customer · verified: scanned · route: `Routes.customerStoreProductDetailsScreen`*
@@ -1341,7 +1341,7 @@ No issues found.
 - `GET merchant/discount` (MerchantDiscountsCubit.loadDiscounts · initState)
 **Mutations reachable (incl. sheets/dialogs):** `PUT merchant/discount/:id/close` (MerchantDiscountsCubit.closeDiscount)
 
-- [ ] [Rule B] **Medium** — `MerchantDiscountsCubit.closeDiscount` (`PUT merchant/discount/:id/close`) sets no busy state before awaiting (`lib/features/merchant/discounts/presentation/manager/merchant_discounts_cubit.dart:118`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
+- [x] [Rule B] **Medium** — `MerchantDiscountsCubit.closeDiscount` (`PUT merchant/discount/:id/close`) sets no busy state before awaiting (`lib/features/merchant/discounts/presentation/manager/merchant_discounts_cubit.dart:118`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
 - [ ] [Rule D] **Medium** — Near-duplicate (92% identical after renaming the role) of `lib/features/barber/discounts/presentation/pages/barber_discounts_screen.dart` — extract one shared screen/config (G-9).
 - [ ] [Rule A] **Low** — Refetches data the merchant shell already loaded at startup: `MerchantDiscountsCubit.loadDiscounts` (initState); use a freshness check (G-25).
 
@@ -1386,7 +1386,7 @@ No issues found.
 **API calls on open:** none (renders from cubit state / route arguments)
 **Mutations reachable (incl. sheets/dialogs):** `PUT merchant/product/:id` (MerchantProductsCubit.updateProduct); `UPLOAD merchant/product` (MerchantProductsCubit.createProduct); `DELETE merchant/product/:id/image/:imageId` (MerchantProductsCubit.deleteImage)
 
-- [ ] [Rule B] **Medium** — `MerchantProductsCubit.deleteImage` (`DELETE merchant/product/:id/image/:imageId`) sets no busy state before awaiting (`lib/features/merchant/products/presentation/manager/merchant_products_cubit.dart:128`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
+- [x] [Rule B] **Medium** — `MerchantProductsCubit.deleteImage` (`DELETE merchant/product/:id/image/:imageId`) sets no busy state before awaiting (`lib/features/merchant/products/presentation/manager/merchant_products_cubit.dart:128`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
 - [ ] [Rule D] **Low** — Image-cache eviction loops (`AuthorizedNetworkImage.evict`, `lib/features/merchant/products/presentation/pages/product_form_screen.dart:65`) are business logic inside the widget (CLAUDE.md: no business logic in widgets); move into the cubit/use case.
 
 ## 9. Type: Wallet & Money (Wallet, WalletRequest, Money*)
@@ -1428,7 +1428,7 @@ No issues found.
 - `GET barber/money/item` (MoneyItemsCubit.load · route builder `Routes.barberMoneyItemsScreen`)
 **Mutations reachable (incl. sheets/dialogs):** `PUT barber/money/item/:id` (MoneyItemsCubit.update); `POST barber/money/item` (MoneyItemsCubit.create); `DELETE barber/money/item/:id` (MoneyItemsCubit.delete)
 
-- [ ] [Rule B] **Medium** — `MoneyItemsCubit.create` (`POST barber/money/item`) sets no busy state before awaiting (`lib/features/barber/money/presentation/manager/money_items_cubit.dart:34`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`).
+- [x] [Rule B] **Medium** — `MoneyItemsCubit.create` (`POST barber/money/item`) sets no busy state before awaiting (`lib/features/barber/money/presentation/manager/money_items_cubit.dart:34`): no loader and nothing stops a second tap. Add a busy flag + guard and surface it (button loader or `BusyErrorListener`). **Re-checked:** the form sheet has its own `_submitting` button loader, so no change needed (a duplicated `setState` line was removed).
 - [ ] [Rule D] **Low** — Hardcoded `Colors.green` / `Colors.redAccent` in the row widgets (G-14); use `context.semantic.success/warning`.
 
 ### Screen: MoneyPinScreen (`lib/features/barber/money/presentation/pages/money_pin_screen.dart`)
