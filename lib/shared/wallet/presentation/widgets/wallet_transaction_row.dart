@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../wallet_money_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/relative_date_label.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/extensions/ext_theme.dart';
-import '../../../../generated/l10n.dart';
 import '../../domain/entities/wallet_transaction.dart';
 import '../../domain/entities/wallet_transaction_direction.dart';
 
@@ -17,7 +17,6 @@ class WalletTransactionRow extends StatelessWidget {
     final scheme = context.colorScheme;
     final isCredit = transaction.direction == WalletTransactionDirection.credit;
     final amountColor = isCredit ? context.semantic.success : context.semantic.warning;
-    final sign = isCredit ? '+' : '-';
 
     return AppCard(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -57,7 +56,7 @@ class WalletTransactionRow extends StatelessWidget {
             ),
           ),
           Text(
-            '$sign${S().currencyEgp(transaction.amount)}',
+            WalletMoneyFormat.signed(transaction.amount, positive: isCredit),
             style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w800, color: amountColor),
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/extensions/ext_theme.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../generated/l10n.dart';
+import '../wallet_money_format.dart';
 
 class WithdrawBalanceSummary extends StatelessWidget {
   final int? available;
@@ -13,8 +14,6 @@ class WithdrawBalanceSummary extends StatelessWidget {
     required this.available,
     required this.amountController,
   });
-
-  static String _ltr(int value) => '\u2066$value\u2069';
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +31,10 @@ class WithdrawBalanceSummary extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S().walletWithdrawAvailableNow(_ltr(balance))),
+                    Text(S().walletWithdrawAvailableNow(WalletMoneyFormat.isolated(balance))),
                     SizedBox(height: 6.h),
                     Text(
-                      S().walletWithdrawRemainingAfter(_ltr(remaining)),
+                      S().walletWithdrawRemainingAfter(WalletMoneyFormat.isolated(remaining)),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: remaining < 0

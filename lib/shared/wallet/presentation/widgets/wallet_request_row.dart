@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../wallet_money_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/relative_date_label.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/extensions/ext_theme.dart';
-import '../../../../generated/l10n.dart';
 import '../../domain/entities/wallet_request.dart';
 import '../../domain/entities/wallet_request_type.dart';
 import 'wallet_request_status_chip.dart';
@@ -19,7 +19,6 @@ class WalletRequestRow extends StatelessWidget {
     final scheme = context.colorScheme;
     final isDeposit = request.type == WalletRequestType.deposit;
     final amountColor = isDeposit ? context.semantic.success : context.semantic.warning;
-    final sign = isDeposit ? '+' : '-';
 
     return AppCard(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -48,7 +47,7 @@ class WalletRequestRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '$sign${S().currencyEgp(request.amount)}',
+                WalletMoneyFormat.signed(request.amount, positive: isDeposit),
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w800, color: amountColor),
               ),
               SizedBox(height: 6.h),

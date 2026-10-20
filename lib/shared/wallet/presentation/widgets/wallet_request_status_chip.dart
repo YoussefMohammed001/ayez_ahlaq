@@ -23,10 +23,10 @@ class WalletRequestStatusChip extends StatelessWidget {
   };
 
   BadgeTone get _tone => switch (status) {
-    WalletRequestStatus.pending => BadgeTone.closed,
+    WalletRequestStatus.pending => BadgeTone.gold,
     WalletRequestStatus.approved => BadgeTone.open,
     WalletRequestStatus.rejected => BadgeTone.danger,
     WalletRequestStatus.cancelled => BadgeTone.muted,
-    WalletRequestStatus.other => BadgeTone.closed,
+    WalletRequestStatus.other => BadgeTone.gold,
   };
 }
