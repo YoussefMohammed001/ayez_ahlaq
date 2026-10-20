@@ -42,10 +42,6 @@ class EndPoints {
       'customer/shop/$shopId/storefront';
   static String customerShopStorefrontProductImage(int shopId, int productId) =>
       'customer/shop/$shopId/storefront/product/$productId/image';
-  static String customerShopStorefrontCategoryImage(
-    int shopId,
-    int categoryId,
-  ) => 'customer/shop/$shopId/storefront/category/$categoryId/image';
 
   static const String customerCart = 'customer/cart';
   static const String customerCartCheckout = 'customer/cart/checkout';

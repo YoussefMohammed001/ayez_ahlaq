@@ -67,7 +67,6 @@ import '../../features/customer/home_service/data/apis/customer_home_service_api
 import '../../features/customer/home_service/data/repos/customer_home_service_repo.dart';
 import '../../features/customer/home_service/domain/repos/i_customer_home_service_repo.dart';
 import '../../features/customer/home_service/domain/use_cases/get_home_service_shops_use_case.dart';
-import '../../features/customer/home_service/domain/use_cases/get_home_service_shop_hours_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/create_home_service_request_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/rate_home_service_request_use_case.dart';
 import '../../features/customer/home_service/domain/use_cases/retry_home_service_request_use_case.dart';
@@ -290,7 +289,6 @@ import '../../features/barber/storefront/categories/domain/repos/i_barber_storef
 import '../../features/barber/storefront/categories/domain/use_cases/create_storefront_category_use_case.dart';
 import '../../features/barber/storefront/categories/domain/use_cases/delete_storefront_category_use_case.dart';
 import '../../features/barber/storefront/categories/domain/use_cases/get_assignable_storefront_categories_use_case.dart';
-import '../../features/barber/storefront/categories/domain/use_cases/get_own_storefront_categories_use_case.dart';
 import '../../features/barber/storefront/categories/domain/use_cases/update_storefront_category_use_case.dart';
 import '../../features/barber/storefront/categories/presentation/manager/barber_storefront_categories_cubit.dart';
 import '../../features/barber/storefront/delivery/data/apis/barber_storefront_delivery_api.dart';
@@ -902,7 +900,6 @@ class ServicesLocator {
       () => CustomerHomeServiceRepo(sl()),
     );
     sl.registerLazySingleton(() => GetHomeServiceShopsUseCase(sl()));
-    sl.registerLazySingleton(() => GetHomeServiceShopHoursUseCase(sl()));
     sl.registerLazySingleton(() => CreateHomeServiceRequestUseCase(sl()));
     sl.registerLazySingleton(() => RetryHomeServiceRequestUseCase(sl()));
     sl.registerLazySingleton(() => GetMyHomeServiceRequestsUseCase(sl()));
@@ -1475,7 +1472,6 @@ class ServicesLocator {
     sl.registerLazySingleton(
       () => GetAssignableStorefrontCategoriesUseCase(sl()),
     );
-    sl.registerLazySingleton(() => GetOwnStorefrontCategoriesUseCase(sl()));
     sl.registerLazySingleton(() => CreateStorefrontCategoryUseCase(sl()));
     sl.registerLazySingleton(() => UpdateStorefrontCategoryUseCase(sl()));
     sl.registerLazySingleton(() => DeleteStorefrontCategoryUseCase(sl()));

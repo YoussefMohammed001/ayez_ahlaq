@@ -2,7 +2,7 @@
 
 Arabic-first, RTL barber booking app. **One Flutter app, one repo, three user types** selected on a user-type screen at startup: `customer`, `barber`, `merchant`.
 
-Product spec: `lib/app_idea_prototype/Ayez_ahlaq/PROJECT_BRIEF.md` (Arabic). The `lib/app_idea_prototype/` folder is a **reference-only prototype** — read its screens/models for UI intent, never import from it, and delete it once its screens are ported.
+Product spec: `docs/PROJECT_BRIEF.md` (Arabic).
 
 ---
 
@@ -112,7 +112,6 @@ flutter analyze
 
 ## Never
 
-- Import from `lib/app_idea_prototype/`.
 - Add `provider` or `google_fonts` (the brief predates this architecture — Cubit and the bundled font system win).
 - Put business logic in a widget.
 - Call `NetworkService` from a Cubit or a screen.
