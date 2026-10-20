@@ -82,10 +82,7 @@ class _WalletRequestDetailScreenState
   Widget build(BuildContext context) {
     return BlocBuilder<WalletRequestsCubit, WalletRequestsState>(
       builder: (context, state) {
-        final current = state.requests.firstWhere(
-          (r) => r.id == widget.request.id,
-          orElse: () => widget.request,
-        );
+        final current = state.requestOr(widget.request.id, widget.request);
 
         return Scaffold(
           appBar: AppTopBar(title: current.code),

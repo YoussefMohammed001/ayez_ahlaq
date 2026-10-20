@@ -22,6 +22,9 @@ class WalletRequestsState extends Equatable {
 
   bool isCancelling(int id) => cancellingIds.contains(id);
 
+  WalletRequest requestOr(int id, WalletRequest fallback) =>
+      requests.where((r) => r.id == id).firstOrNull ?? fallback;
+
   WalletRequestsState copyWith({
     WalletRequestsListStatus? status,
     List<WalletRequest>? requests,
