@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../cache/auth_token_memory_cache.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
 import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '../cache/secure_storage/secure_storage.dart';
@@ -35,9 +36,12 @@ class AuthorizedNetworkImage extends StatefulWidget {
 }
 
 class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
-  late final Future<String?> _token = sl<SecureStorage>().read(
-    SecureStorageKeys.userToken,
-  );
+  late final Future<String?> _token = sl<SecureStorage>()
+      .read(SecureStorageKeys.userToken)
+      .then((token) {
+        AuthTokenMemoryCache.remember(token);
+        return token;
+      });
 
   bool _requiresClientHeader() {
     final userType = sl<PreferencesStorage>().getString(key: PreferencesKeys.userType);
@@ -48,10 +52,11 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
       future: _token,
+      initialData: AuthTokenMemoryCache.token,
       builder: (context, snapshot) {
         final token = snapshot.data;
 
-        if (snapshot.connectionState != ConnectionState.done) {
+        if (token == null && snapshot.connectionState != ConnectionState.done) {
           return (widget.loadingBuilder ?? widget.placeholderBuilder)(context);
         }
 
@@ -68,6 +73,9 @@ class _AuthorizedNetworkImageState extends State<AuthorizedNetworkImage> {
           width: widget.width,
           height: widget.height,
           fit: widget.fit,
+          fadeInDuration: Duration.zero,
+          fadeOutDuration: Duration.zero,
+          placeholderFadeInDuration: Duration.zero,
           placeholder: (context, _) =>
               (widget.loadingBuilder ?? widget.placeholderBuilder)(context),
           errorWidget: (context, _, __) => widget.placeholderBuilder(context),

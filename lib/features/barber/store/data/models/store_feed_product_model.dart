@@ -16,6 +16,7 @@ class StoreFeedProductModel extends StoreFeedProduct {
     super.distanceKm,
     required super.deliveryOffered,
     super.badges,
+    super.hasImage,
   });
 
   factory StoreFeedProductModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +38,8 @@ class StoreFeedProductModel extends StoreFeedProduct {
       badges:
           (json['badges'] as List?)?.map((e) => e as String).toList() ??
           const [],
+      hasImage:
+          json['hasOwnImage'] as bool? ?? json['hasImage'] as bool? ?? true,
     );
   }
 }

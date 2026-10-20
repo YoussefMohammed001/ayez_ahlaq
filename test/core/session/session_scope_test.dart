@@ -1,3 +1,4 @@
+import 'package:ayez_ahlaq/core/cache/auth_token_memory_cache.dart';
 import 'package:ayez_ahlaq/core/di/services_locator.dart';
 import 'package:ayez_ahlaq/core/session/session_scope.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,5 +32,13 @@ void main() {
 
     expect(second, isNot(same(first)));
     expect(second.state, 0);
+  });
+
+  test('reset forgets the remembered auth token', () {
+    AuthTokenMemoryCache.remember('token');
+
+    SessionScope.reset();
+
+    expect(AuthTokenMemoryCache.token, isNull);
   });
 }

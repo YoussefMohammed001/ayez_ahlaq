@@ -15,6 +15,7 @@ class StoreFeedProduct extends Equatable {
   final double? distanceKm;
   final bool deliveryOffered;
   final List<String> badges;
+  final bool hasImage;
 
   const StoreFeedProduct({
     required this.id,
@@ -31,6 +32,7 @@ class StoreFeedProduct extends Equatable {
     this.distanceKm,
     required this.deliveryOffered,
     this.badges = const [],
+    this.hasImage = true,
   });
 
   bool get isDiscounted => effectivePrice < price;
@@ -58,5 +60,6 @@ class StoreFeedProduct extends Equatable {
     distanceKm,
     deliveryOffered,
     badges,
+    hasImage,
   ];
 }
