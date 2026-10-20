@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../shops/domain/entities/shop.dart';
 import '../../domain/use_cases/get_store_feed_use_case.dart';
 import 'customer_store_feed_state.dart';
 
@@ -7,12 +8,12 @@ class CustomerStoreFeedCubit extends Cubit<CustomerStoreFeedState> {
 
   CustomerStoreFeedCubit(this._getStoreFeed) : super(const CustomerStoreFeedState());
 
-  Future<void> load({bool force = false}) async {
+  Future<void> load({bool force = false, List<Shop>? knownShops}) async {
     if (!force && state.status == CustomerStoreFeedStatus.success) return;
 
     emit(state.copyWith(status: CustomerStoreFeedStatus.loading));
 
-    final result = await _getStoreFeed();
+    final result = await _getStoreFeed(knownShops: knownShops);
 
     result.fold(
       (failure) => emit(

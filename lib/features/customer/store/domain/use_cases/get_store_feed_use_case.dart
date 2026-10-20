@@ -11,14 +11,15 @@ class GetStoreFeedUseCase {
 
   GetStoreFeedUseCase(this._getShops, this._storeRepo);
 
-  Future<Either<Failure, List<StoreFeedProduct>>> call() async {
-    final shopsResult = await _getShops();
-
-    Failure? failure;
-    List<Shop> shops = const [];
-    shopsResult.fold((f) => failure = f, (s) => shops = s);
-
-    if (failure != null) return Left(failure!);
+  Future<Either<Failure, List<StoreFeedProduct>>> call({
+    List<Shop>? knownShops,
+  }) async {
+    var shops = knownShops ?? const <Shop>[];
+    if (knownShops == null) {
+      Failure? failure;
+      (await _getShops()).fold((f) => failure = f, (s) => shops = s);
+      if (failure != null) return Left(failure!);
+    }
 
     final storefronts = await Future.wait(shops.map(_fetchShopProducts));
     return Right(storefronts.expand((items) => items).toList());

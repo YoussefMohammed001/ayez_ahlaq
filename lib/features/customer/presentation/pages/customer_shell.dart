@@ -12,6 +12,7 @@ import '../../profile/presentation/pages/customer_profile_screen.dart';
 import '../../ratings/presentation/widgets/visit_rating_prompt.dart';
 import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../store/presentation/manager/customer_store_feed_cubit.dart';
+import '../../store/presentation/manager/store_cart_cubit.dart';
 import '../../store/presentation/manager/store_orders_cubit.dart';
 import '../../store/presentation/pages/customer_store_feed_screen.dart';
 import '../../store/presentation/pages/my_store_orders_screen.dart';
@@ -69,7 +70,11 @@ class _CustomerShellState extends State<CustomerShell> {
   void _onTabTapped(int index) {
     if (index == 1 && !_storeFeedLoaded) {
       _storeFeedLoaded = true;
-      context.read<CustomerStoreFeedCubit>().load();
+      final shops = context.read<CustomerShopsCubit>().state.shops;
+      context.read<CustomerStoreFeedCubit>().load(
+        knownShops: shops.isEmpty ? null : shops,
+      );
+      context.read<StoreCartCubit>().loadCart();
     }
     setState(() => _index = index);
   }

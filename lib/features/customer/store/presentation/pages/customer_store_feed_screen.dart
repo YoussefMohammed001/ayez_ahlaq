@@ -6,7 +6,6 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/cart_icon_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_feed_product.dart';
-import '../manager/customer_store_feed_cubit.dart';
 import '../manager/store_cart_cubit.dart';
 import '../manager/store_cart_state.dart';
 import '../widgets/customer_store_feed_grid.dart';
@@ -22,13 +21,6 @@ class CustomerStoreFeedScreen extends StatefulWidget {
 
 class _CustomerStoreFeedScreenState extends State<CustomerStoreFeedScreen> {
   final _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<CustomerStoreFeedCubit>().load();
-    context.read<StoreCartCubit>().loadCart();
-  }
 
   @override
   void dispose() {
