@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../features/merchant/wallet/domain/entities/wallet_request.dart'
-    as merchant_wallet;
-import '../../../features/merchant/wallet/presentation/manager/create_wallet_request_cubit.dart'
-    as merchant_wallet;
+import '../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../shared/wallet/presentation/manager/create_wallet_request_cubit.dart';
 import '../../../features/merchant/wallet/presentation/pages/merchant_wallet_screen.dart';
 import '../../../features/merchant/wallet/presentation/pages/merchant_wallet_requests_screen.dart';
 import '../../../features/merchant/wallet/presentation/pages/create_merchant_wallet_request_screen.dart';
@@ -35,7 +33,7 @@ final List<RouteBase> merchantWalletRoutes = [
     builder: (_, __) => MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => sl<merchant_wallet.CreateWalletRequestCubit>(),
+          create: (_) => sl<CreateWalletRequestCubit>(instanceName: 'merchant'),
         ),
         BlocProvider.value(value: merchantWalletCubit),
       ],
@@ -47,7 +45,7 @@ final List<RouteBase> merchantWalletRoutes = [
     builder: (_, state) => BlocProvider.value(
       value: merchantWalletRequestsCubit,
       child: MerchantWalletRequestDetailScreen(
-        request: state.extra as merchant_wallet.WalletRequest,
+        request: state.extra as WalletRequest,
       ),
     ),
   ),

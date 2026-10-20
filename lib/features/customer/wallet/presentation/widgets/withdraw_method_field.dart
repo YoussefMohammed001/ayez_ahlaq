@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/option_tile.dart';
-import '../../domain/entities/withdraw_method.dart';
+import '../../../../../shared/wallet/domain/entities/withdraw_method.dart';
 
 class WithdrawMethodField extends StatelessWidget {
   final List<WithdrawMethod> methods;

@@ -4,8 +4,8 @@ import '../../../../../core/helpers/relative_date_label.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/wallet_transaction.dart';
-import '../../domain/entities/wallet_transaction_direction.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_transaction.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_transaction_direction.dart';
 
 class WalletTransactionRow extends StatelessWidget {
   final WalletTransaction transaction;

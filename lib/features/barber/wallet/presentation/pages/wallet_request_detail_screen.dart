@@ -10,11 +10,11 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
-import '../../domain/entities/wallet_request.dart';
-import '../../domain/entities/wallet_request_status.dart';
-import '../../domain/use_cases/get_wallet_request_attachment_use_case.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_status.dart';
+import '../../../../../shared/wallet/domain/use_cases/get_wallet_request_attachment_use_case.dart';
 import '../manager/barber_wallet_requests_cubit.dart';
-import '../manager/barber_wallet_requests_state.dart';
+import '../../../../../shared/wallet/presentation/manager/wallet_requests_state.dart';
 import '../widgets/wallet_request_attachment_tile.dart';
 import '../widgets/wallet_request_info_card.dart';
 
@@ -61,7 +61,7 @@ class WalletRequestDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BusyErrorListener<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+    return BusyErrorListener<BarberWalletRequestsCubit, WalletRequestsState>(
       isBusy: (state) => state.isCancelling(request.id),
       errorMessage: (state) => state.errorMessage,
       child: Scaffold(
@@ -79,7 +79,7 @@ class WalletRequestDetailScreen extends StatelessWidget {
             ],
             if (request.status == WalletRequestStatus.pending) ...[
               SizedBox(height: 20.h),
-              BlocBuilder<BarberWalletRequestsCubit, BarberWalletRequestsState>(
+              BlocBuilder<BarberWalletRequestsCubit, WalletRequestsState>(
                 builder: (context, state) => PrimaryCtaButton(
                   label: S().cancelWalletRequestAction,
                   isLoading: state.isCancelling(request.id),

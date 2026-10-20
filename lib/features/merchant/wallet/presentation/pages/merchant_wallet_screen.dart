@@ -11,7 +11,7 @@ import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/merchant_wallet_cubit.dart';
-import '../manager/merchant_wallet_state.dart';
+import '../../../../../shared/wallet/presentation/manager/wallet_state.dart';
 import '../widgets/wallet_balance_card.dart';
 import '../widgets/wallet_transaction_row.dart';
 
@@ -28,16 +28,16 @@ class MerchantWalletScreen extends StatelessWidget {
           onPressed: () => context.push(Routes.merchantWalletRequestsScreen),
         ),
       ),
-      body: BlocBuilder<MerchantWalletCubit, MerchantWalletState>(
+      body: BlocBuilder<MerchantWalletCubit, WalletState>(
         builder: (context, state) {
           final cubit = context.read<MerchantWalletCubit>();
           final wallet = state.wallet;
 
-          if (state.status == MerchantWalletStatus.loading && wallet == null) {
+          if (state.status == WalletStatus.loading && wallet == null) {
             return const ListSkeleton();
           }
 
-          if (state.status == MerchantWalletStatus.failure && wallet == null) {
+          if (state.status == WalletStatus.failure && wallet == null) {
             return RefreshableStateView(
               onRefresh: cubit.loadWallet,
               child: AppErrorState(message: state.errorMessage, onRetry: cubit.loadWallet),

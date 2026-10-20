@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../domain/entities/transfer_account.dart';
-import '../../domain/entities/wallet_request_type.dart';
-import '../../domain/entities/withdraw_method.dart';
-import '../manager/create_wallet_request_state.dart';
+import '../../../../../shared/wallet/domain/entities/transfer_account.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_type.dart';
+import '../../../../../shared/wallet/domain/entities/withdraw_method.dart';
+import '../../../../../shared/wallet/presentation/manager/create_wallet_request_state.dart';
 import 'wallet_request_form_fields.dart';
 import 'wallet_request_submit_button.dart';
 

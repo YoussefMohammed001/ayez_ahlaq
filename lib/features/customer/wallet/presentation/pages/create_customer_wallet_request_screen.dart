@@ -6,9 +6,9 @@ import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/documents/pick_attachment_flow.dart';
-import '../../domain/entities/wallet_request_type.dart';
-import '../manager/create_wallet_request_cubit.dart';
-import '../manager/create_wallet_request_state.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_type.dart';
+import '../../../../../shared/wallet/presentation/manager/create_wallet_request_cubit.dart';
+import '../../../../../shared/wallet/presentation/manager/create_wallet_request_state.dart';
 import '../widgets/wallet_request_form_fields.dart';
 import '../widgets/wallet_request_submit_button.dart';
 

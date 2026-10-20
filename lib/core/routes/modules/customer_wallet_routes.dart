@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../features/customer/wallet/domain/entities/wallet_request.dart'
-    as customer_wallet;
-import '../../../features/customer/wallet/presentation/manager/create_wallet_request_cubit.dart'
-    as customer_wallet;
+import '../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../shared/wallet/presentation/manager/create_wallet_request_cubit.dart';
 import '../../../features/customer/wallet/presentation/pages/customer_wallet_screen.dart';
 import '../../../features/customer/wallet/presentation/pages/customer_wallet_requests_screen.dart';
 import '../../../features/customer/wallet/presentation/pages/create_customer_wallet_request_screen.dart';
@@ -33,7 +31,7 @@ final List<RouteBase> customerWalletRoutes = [
   GoRoute(
     path: Routes.createCustomerWalletRequestScreen,
     builder: (_, __) => BlocProvider(
-      create: (_) => sl<customer_wallet.CreateWalletRequestCubit>(),
+      create: (_) => sl<CreateWalletRequestCubit>(instanceName: 'customer'),
       child: const CreateCustomerWalletRequestScreen(),
     ),
   ),
@@ -42,7 +40,7 @@ final List<RouteBase> customerWalletRoutes = [
     builder: (_, state) => BlocProvider.value(
       value: customerWalletRequestsCubit,
       child: CustomerWalletRequestDetailScreen(
-        request: state.extra as customer_wallet.WalletRequest,
+        request: state.extra as WalletRequest,
       ),
     ),
   ),

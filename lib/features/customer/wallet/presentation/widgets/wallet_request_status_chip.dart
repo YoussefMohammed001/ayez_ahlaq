@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widgets/badge_tone.dart';
 import '../../../../../core/widgets/status_badge.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/wallet_request_status.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_status.dart';
 
 class WalletRequestStatusChip extends StatelessWidget {
   final WalletRequestStatus status;

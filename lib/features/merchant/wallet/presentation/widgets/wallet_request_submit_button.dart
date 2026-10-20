@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
-import '../manager/create_wallet_request_state.dart';
+import '../../../../../shared/wallet/presentation/manager/create_wallet_request_state.dart';
 
 class WalletRequestSubmitButton extends StatelessWidget {
   final CreateWalletRequestStatus status;

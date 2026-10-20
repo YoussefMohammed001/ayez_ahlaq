@@ -2,10 +2,8 @@ import '../../../features/barber/money/presentation/widgets/money_pin_lock_on_ex
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../features/barber/wallet/domain/entities/wallet_request.dart'
-    as barber_wallet;
-import '../../../features/barber/wallet/presentation/manager/create_wallet_request_cubit.dart'
-    as barber_wallet;
+import '../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../shared/wallet/presentation/manager/create_wallet_request_cubit.dart';
 import '../../../features/barber/wallet/presentation/pages/barber_wallet_requests_screen.dart';
 import '../../../features/barber/wallet/presentation/pages/create_wallet_request_screen.dart';
 import '../../../features/barber/wallet/presentation/pages/wallet_request_detail_screen.dart';
@@ -39,7 +37,7 @@ final List<RouteBase> barberWalletRoutes = [
   GoRoute(
     path: Routes.createBarberWalletRequestScreen,
     builder: (_, __) => BlocProvider(
-      create: (_) => sl<barber_wallet.CreateWalletRequestCubit>(),
+      create: (_) => sl<CreateWalletRequestCubit>(instanceName: 'barber'),
       child: const CreateWalletRequestScreen(),
     ),
   ),
@@ -48,7 +46,7 @@ final List<RouteBase> barberWalletRoutes = [
     builder: (_, state) => BlocProvider.value(
       value: barberWalletRequestsCubit,
       child: WalletRequestDetailScreen(
-        request: state.extra as barber_wallet.WalletRequest,
+        request: state.extra as WalletRequest,
       ),
     ),
   ),

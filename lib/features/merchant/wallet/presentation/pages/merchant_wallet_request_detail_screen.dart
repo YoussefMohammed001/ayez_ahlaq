@@ -9,11 +9,11 @@ import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/wallet_request.dart';
-import '../../domain/entities/wallet_request_status.dart';
-import '../../domain/use_cases/get_wallet_request_attachment_use_case.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_status.dart';
+import '../../../../../shared/wallet/domain/use_cases/get_wallet_request_attachment_use_case.dart';
 import '../manager/merchant_wallet_requests_cubit.dart';
-import '../manager/merchant_wallet_requests_state.dart';
+import '../../../../../shared/wallet/presentation/manager/wallet_requests_state.dart';
 import '../widgets/wallet_request_attachment_tile.dart';
 import '../widgets/wallet_request_info_card.dart';
 
@@ -77,7 +77,7 @@ class _MerchantWalletRequestDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MerchantWalletRequestsCubit, MerchantWalletRequestsState>(
+    return BlocBuilder<MerchantWalletRequestsCubit, WalletRequestsState>(
       builder: (context, state) {
         final current = state.requests.firstWhere(
           (r) => r.id == widget.request.id,

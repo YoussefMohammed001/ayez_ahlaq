@@ -10,7 +10,7 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/merchant_wallet_requests_cubit.dart';
-import '../manager/merchant_wallet_requests_state.dart';
+import '../../../../../shared/wallet/presentation/manager/wallet_requests_state.dart';
 import '../widgets/wallet_request_row.dart';
 
 class MerchantWalletRequestsScreen extends StatefulWidget {
@@ -61,7 +61,7 @@ class _MerchantWalletRequestsScreenState
           onPressed: _openCreate,
         ),
       ),
-      body: BlocConsumer<MerchantWalletRequestsCubit, MerchantWalletRequestsState>(
+      body: BlocConsumer<MerchantWalletRequestsCubit, WalletRequestsState>(
         listenWhen: (previous, current) =>
             current.status == WalletRequestsListStatus.success &&
             current.errorMessage != null &&

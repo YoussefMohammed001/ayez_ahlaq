@@ -11,7 +11,7 @@ import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/barber_wallet_cubit.dart';
-import '../manager/barber_wallet_state.dart';
+import '../../../../../shared/wallet/presentation/manager/wallet_state.dart';
 import '../widgets/wallet_balance_card.dart';
 import '../widgets/wallet_transaction_row.dart';
 
@@ -28,16 +28,16 @@ class BarberWalletScreen extends StatelessWidget {
           onPressed: () => context.push(Routes.barberWalletRequestsScreen),
         ),
       ),
-      body: BlocBuilder<BarberWalletCubit, BarberWalletState>(
+      body: BlocBuilder<BarberWalletCubit, WalletState>(
         builder: (context, state) {
           final cubit = context.read<BarberWalletCubit>();
           final wallet = state.wallet;
 
-          if (state.status == BarberWalletStatus.loading && wallet == null) {
+          if (state.status == WalletStatus.loading && wallet == null) {
             return const ListSkeleton();
           }
 
-          if (state.status == BarberWalletStatus.failure && wallet == null) {
+          if (state.status == WalletStatus.failure && wallet == null) {
             return RefreshableStateView(
               onRefresh: cubit.loadWallet,
               child: AppErrorState(message: state.errorMessage, onRetry: cubit.loadWallet),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/option_tile.dart';
-import '../../domain/entities/transfer_account.dart';
+import '../../../../../shared/wallet/domain/entities/transfer_account.dart';
 
 class TransferAccountField extends StatelessWidget {
   final List<TransferAccount> accounts;

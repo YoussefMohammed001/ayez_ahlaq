@@ -1,0 +1,29 @@
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failure.dart';
+import '../entities/wallet_request.dart';
+import '../entities/wallet_request_type.dart';
+import '../repos/i_wallet_requests_repo.dart';
+
+class CreateWalletRequestUseCase {
+  final IWalletRequestsRepo _repo;
+
+  CreateWalletRequestUseCase(this._repo);
+
+  Future<Either<Failure, WalletRequest>> call({
+    required WalletRequestType type,
+    required int amount,
+    int? transferAccountId,
+    int? withdrawMethodId,
+    String? withdrawAccount,
+    String? note,
+    String? filePath,
+  }) => _repo.createWalletRequest(
+    type: type,
+    amount: amount,
+    transferAccountId: transferAccountId,
+    withdrawMethodId: withdrawMethodId,
+    withdrawAccount: withdrawAccount,
+    note: note,
+    filePath: filePath,
+  );
+}

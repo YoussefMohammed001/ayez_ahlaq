@@ -4,9 +4,9 @@ import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/option_tile.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/transfer_account.dart';
-import '../../domain/entities/wallet_request_type.dart';
-import '../../domain/entities/withdraw_method.dart';
+import '../../../../../shared/wallet/domain/entities/transfer_account.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_type.dart';
+import '../../../../../shared/wallet/domain/entities/withdraw_method.dart';
 import 'transfer_account_field.dart';
 import 'withdraw_method_field.dart';
 

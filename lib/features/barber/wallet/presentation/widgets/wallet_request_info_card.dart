@@ -5,8 +5,8 @@ import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/info_row.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
-import '../../domain/entities/wallet_request.dart';
-import '../../domain/entities/wallet_request_type.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request.dart';
+import '../../../../../shared/wallet/domain/entities/wallet_request_type.dart';
 import 'wallet_request_status_chip.dart';
 
 class WalletRequestInfoCard extends StatelessWidget {
