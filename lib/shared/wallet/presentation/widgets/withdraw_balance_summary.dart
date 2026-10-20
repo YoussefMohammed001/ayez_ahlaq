@@ -14,6 +14,8 @@ class WithdrawBalanceSummary extends StatelessWidget {
     required this.amountController,
   });
 
+  static String _ltr(int value) => '\u2066$value\u2069';
+
   @override
   Widget build(BuildContext context) {
     final balance = available;
@@ -30,10 +32,10 @@ class WithdrawBalanceSummary extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S().walletWithdrawAvailableNow(balance)),
+                    Text(S().walletWithdrawAvailableNow(_ltr(balance))),
                     SizedBox(height: 6.h),
                     Text(
-                      S().walletWithdrawRemainingAfter(remaining),
+                      S().walletWithdrawRemainingAfter(_ltr(remaining)),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: remaining < 0

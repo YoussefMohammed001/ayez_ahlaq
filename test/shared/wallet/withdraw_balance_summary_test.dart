@@ -39,13 +39,28 @@ void main() {
     final controller = TextEditingController();
     await pumpSummary(tester, controller, 500);
 
-    expect(find.text('Your available balance: 500 EGP'), findsOneWidget);
-    expect(find.text('Remaining after withdrawal: 500 EGP'), findsOneWidget);
+    expect(find.text('Your available balance: \u2066500\u2069 EGP'), findsOneWidget);
+    expect(find.text('Remaining after withdrawal: \u2066500\u2069 EGP'), findsOneWidget);
 
     controller.text = '120';
     await tester.pump();
 
-    expect(find.text('Remaining after withdrawal: 380 EGP'), findsOneWidget);
+    expect(
+      find.text('Remaining after withdrawal: \u2066380\u2069 EGP'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('keeps the minus sign in front of a negative remainder', (
+    tester,
+  ) async {
+    final controller = TextEditingController(text: '620');
+    await pumpSummary(tester, controller, 500);
+
+    expect(
+      find.text('Remaining after withdrawal: \u2066-120\u2069 EGP'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows a loading note while the balance is unknown', (
