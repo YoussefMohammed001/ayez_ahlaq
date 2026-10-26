@@ -274,6 +274,11 @@ class NotificationService {
     await AppBadgePlus.updateBadge(count);
   }
 
+  Future<void> handleLaunchNotification() async {
+    final message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) handleNotificationTap(message);
+  }
+
   void handleNotificationTap(RemoteMessage message) {
     final navKey = rootNavigatorKey;
     final notificationId = int.tryParse(message.data['id']?.toString() ?? '');
@@ -308,6 +313,7 @@ class NotificationService {
       sl<NotificationRouter>().route(
         type: payload.type,
         typeId: payload.typeId,
+        referenceType: payload.referenceType,
         role: UserHelpers.userType,
         context: context,
       );

@@ -11,6 +11,7 @@ class UserTypeNotificationRouter implements NotificationRouter {
   void route({
     required String type,
     String? typeId,
+    String? referenceType,
     required UserType role,
     required BuildContext context,
   }) {
@@ -19,6 +20,7 @@ class UserTypeNotificationRouter implements NotificationRouter {
         sl<MerchantNotificationRouter>().route(
           type: type,
           typeId: typeId,
+          referenceType: referenceType,
           role: role,
           context: context,
         );
@@ -27,6 +29,7 @@ class UserTypeNotificationRouter implements NotificationRouter {
         sl<BarberNotificationRouter>().route(
           type: type,
           typeId: typeId,
+          referenceType: referenceType,
           role: role,
           context: context,
         );
@@ -35,6 +38,7 @@ class UserTypeNotificationRouter implements NotificationRouter {
         sl<CustomerNotificationRouter>().route(
           type: type,
           typeId: typeId,
+          referenceType: referenceType,
           role: role,
           context: context,
         );

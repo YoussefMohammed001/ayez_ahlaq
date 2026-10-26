@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/notifications/notification_reference.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../domain/entities/customer_notification.dart';
 
@@ -9,7 +10,10 @@ class CustomerNotificationTapRouter {
   void handle(BuildContext context, CustomerNotification notification) {
     final referenceId = int.tryParse(notification.referenceId ?? '');
 
-    switch (notification.referenceType ?? notification.type) {
+    switch (NotificationReference.canonical(
+      type: notification.type,
+      referenceType: notification.referenceType,
+    )) {
       case 'booking':
         if (referenceId != null) {
           context.push(Routes.customerBookingDetailScreen, extra: referenceId);
@@ -33,6 +37,12 @@ class CustomerNotificationTapRouter {
           return;
         }
         context.push(Routes.customerBrowseShopsScreen);
+        return;
+      case 'productOrder':
+        context.push(Routes.customerStoreOrdersScreen);
+        return;
+      case 'walletRequests':
+        context.push(Routes.customerWalletRequestsScreen);
         return;
       default:
         return;

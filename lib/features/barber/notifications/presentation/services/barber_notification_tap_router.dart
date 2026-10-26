@@ -1,28 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/notifications/notification_reference.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../domain/entities/barber_notification.dart';
 
 class BarberNotificationTapRouter {
+  static const int _bookingsTab = 1;
+  static const int _supplierOrdersTab = 1;
+  static const int _storefrontOrdersTab = 3;
+  static const String _storeOrderRequestedType = 'store_order_requested';
+
   const BarberNotificationTapRouter();
 
   void handle(BuildContext context, BarberNotification notification) {
-    switch (notification.referenceType ?? notification.type) {
+    final requestId = int.tryParse(notification.referenceId ?? '');
+
+    switch (NotificationReference.canonical(
+      type: notification.type,
+      referenceType: notification.referenceType,
+    )) {
       case 'booking':
-        context.go(Routes.barberShell, extra: 1); // BarberShell tab 1 = bookings
+        context.go(Routes.barberShell, extra: _bookingsTab);
         return;
       case 'homeService':
-        final requestId = int.tryParse(notification.referenceId ?? '');
         if (requestId == null) return;
         context.push(Routes.barberHomeServiceRequestDetailScreen, extra: requestId);
         return;
       case 'homeServiceBroadcast':
-        final requestId = int.tryParse(notification.referenceId ?? '');
         if (requestId == null) return;
         context.push(
           Routes.barberHomeServiceBroadcastRequestDetailScreen,
           extra: requestId,
         );
+        return;
+      case 'productOrder':
+        if (notification.type == _storeOrderRequestedType) {
+          context.push(Routes.barberStorefrontHomeScreen, extra: _storefrontOrdersTab);
+          return;
+        }
+        context.push(Routes.barberStoreMerchantsScreen, extra: _supplierOrdersTab);
+        return;
+      case 'order':
+        context.push(Routes.barberStorefrontHomeScreen, extra: _storefrontOrdersTab);
+        return;
+      case 'rating':
+        context.push(Routes.barberReviewsScreen);
+        return;
+      case 'merchant':
+        context.push(Routes.barberStoreMerchantsScreen);
+        return;
+      case 'moneyItemOccurrence':
+      case 'moneyPin':
+        context.push(Routes.barberMoneyPinScreen);
         return;
       case 'walletRequests':
         context.push(Routes.barberWalletRequestsScreen);

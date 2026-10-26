@@ -12,6 +12,7 @@ class BarberNotificationRouter implements NotificationRouter {
   void route({
     required String type,
     String? typeId,
+    String? referenceType,
     required UserType role,
     required BuildContext context,
   }) {
@@ -22,7 +23,7 @@ class BarberNotificationRouter implements NotificationRouter {
       BarberNotification(
         id: 0,
         type: type,
-        referenceType: type,
+        referenceType: referenceType,
         referenceId: typeId,
         title: '',
         body: '',

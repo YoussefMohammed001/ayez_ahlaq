@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/helpers/user_helpers.dart';
+import '../../../../core/notifications/notification_service.dart';
 import '../../../../core/routes/route_paths.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/ext_theme.dart';
@@ -89,6 +90,8 @@ class _SplashScreenState extends State<SplashScreen>
       UserType.customer => Routes.customerShell,
       UserType.merchant => Routes.merchantShell,
     });
+
+    sl<NotificationService>().handleLaunchNotification();
   }
 
   @override

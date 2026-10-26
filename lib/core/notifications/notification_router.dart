@@ -5,6 +5,7 @@ abstract class NotificationRouter {
   void route({
     required String type,
     String? typeId,
+    String? referenceType,
     required UserType role,
     required BuildContext context,
   });
