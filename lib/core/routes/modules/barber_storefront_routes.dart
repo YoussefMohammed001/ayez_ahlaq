@@ -8,6 +8,7 @@ import '../../../features/barber/storefront/products/presentation/pages/storefro
 import '../../../features/barber/storefront/products/presentation/pages/storefront_product_form_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberStorefrontRoutes = [
   GoRoute(
@@ -45,6 +46,7 @@ final List<RouteBase> barberStorefrontRoutes = [
   ),
   GoRoute(
     path: Routes.barberStorefrontProductDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStorefrontProductsCubit,
       child: StorefrontProductDetailsScreen(productId: state.extra as int),
@@ -52,6 +54,7 @@ final List<RouteBase> barberStorefrontRoutes = [
   ),
   GoRoute(
     path: Routes.barberStorefrontOrderDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<StorefrontOrder>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStorefrontOrdersCubit,
       child: StorefrontOrderDetailsScreen(

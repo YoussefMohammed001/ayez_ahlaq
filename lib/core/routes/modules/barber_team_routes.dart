@@ -5,6 +5,7 @@ import '../../../features/barber/team/presentation/widgets/team_list_sync.dart';
 import '../../../features/barber/team/presentation/pages/team_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberTeamRoutes = [
   GoRoute(
@@ -19,6 +20,7 @@ final List<RouteBase> barberTeamRoutes = [
   ),
   GoRoute(
     path: Routes.barberTeamMemberDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) {
       final memberId = state.extra as int;
       return MultiBlocProvider(

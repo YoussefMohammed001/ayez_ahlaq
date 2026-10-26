@@ -16,6 +16,7 @@ import '../../../features/merchant/products/presentation/pages/product_form_scre
 import '../../di/services_locator.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/merchant_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> merchantCatalogRoutes = [
   GoRoute(
@@ -30,6 +31,7 @@ final List<RouteBase> merchantCatalogRoutes = [
   ),
   GoRoute(
     path: Routes.merchantProductDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: merchantProductsCubit,
       child: ProductDetailsScreen(productId: state.extra as int),
@@ -86,6 +88,7 @@ final List<RouteBase> merchantCatalogRoutes = [
   ),
   GoRoute(
     path: Routes.merchantOrderDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<PurchaseOrder>(state),
     builder: (_, state) => BlocProvider.value(
       value: merchantOrdersCubit,
       child: OrderDetailsScreen(order: state.extra as PurchaseOrder),

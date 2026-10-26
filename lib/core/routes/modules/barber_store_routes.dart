@@ -15,6 +15,7 @@ import '../../../features/barber/store/presentation/pages/store_feed_product_det
 import '../../../features/barber/store/presentation/pages/store_feed_product_details_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberStoreRoutes = [
   GoRoute(
@@ -48,6 +49,7 @@ final List<RouteBase> barberStoreRoutes = [
   ),
   GoRoute(
     path: Routes.barberStoreFeedProductDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreFeedProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStoreCartCubit,
       child: StoreFeedProductDetailsScreen(
@@ -57,6 +59,7 @@ final List<RouteBase> barberStoreRoutes = [
   ),
   GoRoute(
     path: Routes.barberStoreProductsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreMerchant>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStoreCartCubit,
       child: BarberStoreProductsScreen(merchant: state.extra as StoreMerchant),
@@ -71,6 +74,7 @@ final List<RouteBase> barberStoreRoutes = [
   ),
   GoRoute(
     path: Routes.barberStoreOrderDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreOrder>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStoreOrdersCubit,
       child: BarberStoreOrderDetailsScreen(order: state.extra as StoreOrder),

@@ -4,10 +4,12 @@ import '../../../features/barber/bookings/domain/entities/booking.dart';
 import '../../../features/barber/bookings/presentation/pages/booking_detail_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberBookingRoutes = [
   GoRoute(
     path: Routes.barberBookingDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<Booking>(state),
     builder: (_, state) => MultiBlocProvider(
       providers: [
         BlocProvider.value(value: bookingsCubit),

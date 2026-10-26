@@ -11,6 +11,7 @@ import '../../../features/merchant/profile/presentation/pages/merchant_phones_sc
 import '../../../features/merchant/profile/presentation/pages/edit_profile_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/merchant_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> merchantAccountRoutes = [
   GoRoute(
@@ -22,6 +23,7 @@ final List<RouteBase> merchantAccountRoutes = [
   ),
   GoRoute(
     path: Routes.merchantEditProfileScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<MerchantProfile>(state),
     builder: (_, state) => BlocProvider.value(
       value: merchantProfileCubit,
       child: EditProfileScreen(profile: state.extra as MerchantProfile),
@@ -57,6 +59,7 @@ final List<RouteBase> merchantAccountRoutes = [
   ),
   GoRoute(
     path: Routes.merchantDocumentViewerScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<DocumentViewArgs>(state),
     builder: (_, state) {
       final args = state.extra as DocumentViewArgs;
       return DocumentViewerScreen(document: args.document, bytes: args.bytes);

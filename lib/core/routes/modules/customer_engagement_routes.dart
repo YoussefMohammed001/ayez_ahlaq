@@ -8,6 +8,7 @@ import '../../../features/customer/ratings/presentation/pages/customer_ratings_s
 import '../../di/services_locator.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/customer_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> customerEngagementRoutes = [
   GoRoute(
@@ -23,6 +24,7 @@ final List<RouteBase> customerEngagementRoutes = [
   ),
   GoRoute(
     path: Routes.customerInvitePreviewScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<String>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerInvitePreviewCubit,
       child: InvitePreviewScreen(inviteCode: state.extra as String),

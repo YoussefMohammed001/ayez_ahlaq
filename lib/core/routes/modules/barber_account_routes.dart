@@ -17,6 +17,7 @@ import '../../../features/barber/documents/presentation/pages/document_viewer_sc
 import '../../../features/barber/documents/presentation/pages/barber_documents_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberAccountRoutes = [
   GoRoute(
@@ -76,6 +77,7 @@ final List<RouteBase> barberAccountRoutes = [
   ),
   GoRoute(
     path: Routes.barberDocumentViewerScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<barber_documents.DocumentViewArgs>(state),
     builder: (_, state) {
       final args = state.extra as barber_documents.DocumentViewArgs;
       return barber_documents.DocumentViewerScreen(

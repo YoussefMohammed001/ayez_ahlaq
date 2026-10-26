@@ -14,6 +14,7 @@ import '../../../shared/wallet/presentation/wallet_routes.dart';
 import '../../di/sl.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/merchant_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> merchantWalletRoutes = [
   GoRoute(
@@ -44,6 +45,7 @@ final List<RouteBase> merchantWalletRoutes = [
   ),
   GoRoute(
     path: Routes.merchantWalletRequestDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<WalletRequest>(state),
     builder: (_, state) => BlocProvider<WalletRequestsCubit>.value(
       value: merchantWalletRequestsCubit,
       child: WalletRequestDetailScreen(
@@ -54,6 +56,7 @@ final List<RouteBase> merchantWalletRoutes = [
   ),
   GoRoute(
     path: Routes.merchantWalletRequestAttachmentScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<Uint8List>(state),
     builder: (_, state) =>
         WalletRequestAttachmentScreen(bytes: state.extra as Uint8List),
   ),

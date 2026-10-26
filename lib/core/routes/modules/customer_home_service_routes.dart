@@ -11,6 +11,7 @@ import '../../../features/customer/home_service/presentation/pages/home_service_
 import '../../../features/customer/home_service/presentation/widgets/home_service_list_sync.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/customer_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> customerHomeServiceRoutes = [
   GoRoute(
@@ -19,6 +20,7 @@ final List<RouteBase> customerHomeServiceRoutes = [
   ),
   GoRoute(
     path: Routes.customerHomeServiceShopListScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<HomeServiceShopListArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: homeServiceShopsCubit,
       child: HomeServiceShopListScreen(
@@ -48,6 +50,7 @@ final List<RouteBase> customerHomeServiceRoutes = [
   ),
   GoRoute(
     path: Routes.customerHomeServiceRequestDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => MultiBlocProvider(
       providers: [
         BlocProvider.value(value: homeServiceRequestDetailCubit),

@@ -17,6 +17,7 @@ import '../../../shared/wallet/presentation/wallet_routes.dart';
 import '../../di/sl.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberWalletRoutes = [
   GoRoute(
@@ -50,6 +51,7 @@ final List<RouteBase> barberWalletRoutes = [
   ),
   GoRoute(
     path: Routes.barberWalletRequestDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<WalletRequest>(state),
     builder: (_, state) => BlocProvider<WalletRequestsCubit>.value(
       value: barberWalletRequestsCubit,
       child: WalletRequestDetailScreen(
@@ -60,6 +62,7 @@ final List<RouteBase> barberWalletRoutes = [
   ),
   GoRoute(
     path: Routes.barberWalletRequestAttachmentScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<Uint8List>(state),
     builder: (_, state) =>
         WalletRequestAttachmentScreen(bytes: state.extra as Uint8List),
   ),

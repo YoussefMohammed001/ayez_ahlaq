@@ -15,10 +15,12 @@ import '../../../features/customer/store/presentation/pages/store_product_detail
 import '../../../features/customer/store/presentation/pages/store_product_details_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/customer_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> customerStoreRoutes = [
   GoRoute(
     path: Routes.customerStoreProductsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
       child: StoreProductsScreen(shopId: state.extra as int),
@@ -26,6 +28,7 @@ final List<RouteBase> customerStoreRoutes = [
   ),
   GoRoute(
     path: Routes.customerStoreProductDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
       child: StoreProductDetailsScreen(
@@ -35,6 +38,7 @@ final List<RouteBase> customerStoreRoutes = [
   ),
   GoRoute(
     path: Routes.customerStoreFeedProductDetailsScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<customer_feed.StoreFeedProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
       child: customer_feed.StoreFeedProductDetailsScreen(
@@ -61,6 +65,7 @@ final List<RouteBase> customerStoreRoutes = [
   ),
   GoRoute(
     path: Routes.customerStoreOrderDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<customer_store.StoreOrder>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreOrdersCubit,
       child: customer_store.StoreOrderDetailsScreen(

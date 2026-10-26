@@ -10,6 +10,7 @@ import '../../../features/barber/home_service_broadcast/presentation/pages/home_
 import '../../../features/barber/home_service_broadcast/presentation/pages/home_service_broadcast_detail_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> barberHomeServiceRoutes = [
   GoRoute(
@@ -35,6 +36,7 @@ final List<RouteBase> barberHomeServiceRoutes = [
   ),
   GoRoute(
     path: Routes.barberHomeServiceRequestDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberHomeServiceRequestsCubit,
       child: barber_hsr.HomeServiceRequestDetailScreen(
@@ -51,6 +53,7 @@ final List<RouteBase> barberHomeServiceRoutes = [
   ),
   GoRoute(
     path: Routes.barberHomeServiceBroadcastDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: homeServiceBroadcastCubit,
       child: HomeServiceBroadcastDetailScreen(candidateId: state.extra as int),
@@ -58,6 +61,7 @@ final List<RouteBase> barberHomeServiceRoutes = [
   ),
   GoRoute(
     path: Routes.barberHomeServiceBroadcastRequestDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: homeServiceBroadcastCubit,
       child: HomeServiceBroadcastDetailScreen(requestId: state.extra as int),

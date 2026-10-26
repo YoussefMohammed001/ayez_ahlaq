@@ -12,6 +12,7 @@ import '../../../features/customer/booking/presentation/pages/choose_time_screen
 import '../../../features/customer/booking/presentation/pages/my_bookings_screen.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/customer_scoped_cubits.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> customerBookingRoutes = [
   GoRoute(
@@ -65,6 +66,7 @@ final List<RouteBase> customerBookingRoutes = [
   ),
   GoRoute(
     path: Routes.customerBookingDetailScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => MultiBlocProvider(
       providers: [
         BlocProvider.value(value: customerBookingDetailCubit),

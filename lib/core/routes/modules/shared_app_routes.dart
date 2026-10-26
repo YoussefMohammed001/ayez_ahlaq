@@ -5,6 +5,7 @@ import '../../../shared/widgets/success_screen_args.dart';
 import '../../../features/splash/presentation/pages/splash_screen.dart';
 import '../../../features/user_type/presentation/pages/user_type_screen.dart';
 import '../route_paths.dart';
+import '../route_guards.dart';
 
 final List<RouteBase> sharedAppRoutes = [
   GoRoute(path: Routes.splashScreen, builder: (_, __) => const SplashScreen()),
@@ -14,6 +15,7 @@ final List<RouteBase> sharedAppRoutes = [
   ),
   GoRoute(
     path: Routes.successScreen,
+    redirect: (_, state) => redirectToSplashUnlessExtraIs<SuccessScreenArgs>(state),
     builder: (_, state) {
       final args = state.extra as SuccessScreenArgs;
       return SuccessScreen(message: args.message, doneRoute: args.doneRoute);
