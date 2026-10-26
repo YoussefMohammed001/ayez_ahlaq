@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
@@ -88,7 +89,13 @@ class _AyezAhlaqAppState extends State<AyezAhlaqApp> {
                   ],
                   builder: (context, child) => Stack(
                     children: [
-                      if (child != null) child,
+                      SafeArea(
+                        top: false,
+                        left: false,
+                        right: false,
+                        bottom: defaultTargetPlatform == TargetPlatform.android,
+                        child: child ?? const SizedBox.shrink(),
+                      ),
                       const Align(
                         alignment: Alignment.topCenter,
                         child: OfflineBanner(),
