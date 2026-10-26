@@ -17,9 +17,14 @@ class NotificationPayload {
         data['typeId'];
     final reference = data['referenceType'] ?? data['reference_type'];
     return NotificationPayload(
-      type: data['type'] as String? ?? '',
-      typeId: id?.toString(),
-      referenceType: reference?.toString(),
+      type: data['type']?.toString() ?? '',
+      typeId: _nonEmpty(id),
+      referenceType: _nonEmpty(reference),
     );
+  }
+
+  static String? _nonEmpty(Object? value) {
+    final text = value?.toString();
+    return text == null || text.isEmpty ? null : text;
   }
 }

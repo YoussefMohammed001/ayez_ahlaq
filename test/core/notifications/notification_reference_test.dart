@@ -79,4 +79,58 @@ void main() {
       expect(payload.referenceType, isNull);
     });
   });
+
+  group('every push shape resolves to the same screen key', () {
+    final shapes = <String, Map<String, dynamic>>{
+      'type + type_id': {'type': 'booking_requested', 'type_id': '5'},
+      'type + typeId': {'type': 'booking_requested', 'typeId': 5},
+      'type + referenceType + referenceId': {
+        'type': 'booking_requested',
+        'referenceType': 'booking',
+        'referenceId': '5',
+      },
+      'type + snake reference keys': {
+        'type': 'booking_requested',
+        'reference_type': 'booking',
+        'reference_id': '5',
+      },
+      'type only': {'type': 'booking_requested'},
+      'reference type as the type': {'type': 'booking', 'type_id': '5'},
+    };
+
+    shapes.forEach((name, data) {
+      test(name, () {
+        final payload = NotificationPayload.fromMap(data);
+        expect(
+          NotificationReference.canonical(
+            type: payload.type,
+            referenceType: payload.referenceType,
+          ),
+          'booking',
+        );
+      });
+    });
+
+    test('empty and non-string values do not break parsing', () {
+      final payload = NotificationPayload.fromMap({
+        'type': 7,
+        'type_id': '',
+        'referenceType': '',
+      });
+
+      expect(payload.type, '7');
+      expect(payload.typeId, isNull);
+      expect(payload.referenceType, isNull);
+    });
+
+    test('an empty payload yields an empty type without throwing', () {
+      final payload = NotificationPayload.fromMap({});
+
+      expect(payload.type, '');
+      expect(
+        NotificationReference.canonical(type: payload.type),
+        '',
+      );
+    });
+  });
 }
