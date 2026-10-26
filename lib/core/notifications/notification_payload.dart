@@ -14,10 +14,17 @@ class NotificationPayload {
         data['referenceId'] ??
         data['reference_id'] ??
         data['type_id'] ??
-        data['typeId'];
+        data['typeId'] ??
+        data['notificationTypeId'] ??
+        data['notification_type_id'];
     final reference = data['referenceType'] ?? data['reference_type'];
     return NotificationPayload(
-      type: data['type']?.toString() ?? '',
+      type: _nonEmpty(
+            data['type'] ??
+                data['notificationType'] ??
+                data['notification_type'],
+          ) ??
+          '',
       typeId: _nonEmpty(id),
       referenceType: _nonEmpty(reference),
     );

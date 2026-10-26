@@ -96,6 +96,14 @@ void main() {
       },
       'type only': {'type': 'booking_requested'},
       'reference type as the type': {'type': 'booking', 'type_id': '5'},
+      'notificationType + notificationTypeId': {
+        'notificationType': 'booking_requested',
+        'notificationTypeId': '5',
+      },
+      'notification_type + notification_type_id': {
+        'notification_type': 'booking_requested',
+        'notification_type_id': 5,
+      },
     };
 
     shapes.forEach((name, data) {
