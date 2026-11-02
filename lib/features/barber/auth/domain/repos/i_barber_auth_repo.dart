@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../shared/auth/domain/entities/auth_session.dart';
 import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../data/requests/barber_register_request.dart';
 
 abstract class IBarberAuthRepo {
@@ -10,7 +11,7 @@ abstract class IBarberAuthRepo {
     String password,
   );
 
-  Future<Either<Failure, Unit>> register(BarberRegisterRequest request);
+  Future<Either<Failure, RegisterOutcome>> register(BarberRegisterRequest request);
 
   Future<Either<Failure, AuthSession>> verifyRegisterOtp(
     String phone,

@@ -1,0 +1,1 @@
+enum RegisterOutcome { signedIn, otpRequired }

@@ -2,12 +2,13 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../shared/auth/domain/entities/auth_session.dart';
 import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../data/requests/register_request.dart';
 
 abstract class IMerchantAuthRepo {
   Future<Either<Failure, AuthSession>> login(String phone, String password);
 
-  Future<Either<Failure, Unit>> register(RegisterRequest request);
+  Future<Either<Failure, RegisterOutcome>> register(RegisterRequest request);
 
   Future<Either<Failure, AuthSession>> verifyRegisterOtp(
     String phone,

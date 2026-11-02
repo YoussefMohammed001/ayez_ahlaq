@@ -62,6 +62,9 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
       appBar: AppTopBar(title: S().registerCustomer),
       body: BlocListener<CustomerAuthCubit, CustomerAuthState>(
         listener: (context, state) {
+          if (state.status == CustomerAuthStatus.authenticated) {
+            context.go(Routes.customerShell);
+          }
           if (state.status == CustomerAuthStatus.otpRequested) {
             context.replace(Routes.customerVerifyOtpScreen);
           }

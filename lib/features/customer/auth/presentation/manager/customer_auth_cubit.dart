@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/constants/http_codes.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../data/requests/customer_register_request.dart';
 import '../../domain/use_cases/customer_login_use_case.dart';
 import '../../domain/use_cases/customer_logout_use_case.dart';
@@ -59,11 +60,13 @@ class CustomerAuthCubit extends Cubit<CustomerAuthState> {
 
     result.fold(
       _emitFailure,
-      (_) => emit(
-        state.copyWith(
-          status: CustomerAuthStatus.otpRequested,
-          pendingPhone: request.phoneNumber,
-        ),
+      (outcome) => emit(
+        outcome == RegisterOutcome.signedIn
+            ? state.copyWith(status: CustomerAuthStatus.authenticated)
+            : state.copyWith(
+                status: CustomerAuthStatus.otpRequested,
+                pendingPhone: request.phoneNumber,
+              ),
       ),
     );
   }

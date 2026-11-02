@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/constants/http_codes.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../data/requests/barber_register_request.dart';
 import '../../domain/use_cases/barber_login_use_case.dart';
 import '../../domain/use_cases/barber_logout_use_case.dart';
@@ -59,11 +60,13 @@ class BarberAuthCubit extends Cubit<BarberAuthState> {
 
     result.fold(
       _emitFailure,
-      (_) => emit(
-        state.copyWith(
-          status: BarberAuthStatus.otpRequested,
-          pendingPhone: request.phoneNumber,
-        ),
+      (outcome) => emit(
+        outcome == RegisterOutcome.signedIn
+            ? state.copyWith(status: BarberAuthStatus.authenticated)
+            : state.copyWith(
+                status: BarberAuthStatus.otpRequested,
+                pendingPhone: request.phoneNumber,
+              ),
       ),
     );
   }
