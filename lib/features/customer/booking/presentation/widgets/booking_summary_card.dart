@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/helpers/app_date_time.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../generated/l10n.dart';
 import '../manager/booking_flow_state.dart';
@@ -25,7 +26,8 @@ class BookingSummaryCard extends StatelessWidget {
           ),
           SummaryRow(
             label: S().bookingDateLabel,
-            value: '${state.date ?? ''} · ${state.slotTime ?? ''}',
+            value:
+                '${state.date ?? ''} · ${AppDateTime.formatHour(state.slotTime ?? '')}',
           ),
           BookingExtraLinesList(
             lines: [

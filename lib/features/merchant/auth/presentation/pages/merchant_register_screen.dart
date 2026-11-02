@@ -62,6 +62,9 @@ class _MerchantRegisterScreenState extends State<MerchantRegisterScreen> {
       appBar: AppTopBar(title: S().registerMerchant),
       body: BlocListener<MerchantAuthCubit, MerchantAuthState>(
         listener: (context, state) {
+          if (state.status == AuthStatus.authenticated) {
+            context.go(Routes.merchantShell);
+          }
           if (state.status == AuthStatus.otpRequested) {
             context.replace(Routes.merchantVerifyOtpScreen);
           }

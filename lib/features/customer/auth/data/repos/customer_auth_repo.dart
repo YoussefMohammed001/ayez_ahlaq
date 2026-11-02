@@ -5,6 +5,8 @@ import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../../../../shared/auth/data/models/auth_session_model.dart';
 import '../../../../../shared/auth/domain/entities/auth_session.dart';
 import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
+import '../../../../../shared/auth/data/register_outcome_resolver.dart';
 import '../../../../../shared/user_type.dart';
 import '../../domain/repos/i_customer_auth_repo.dart';
 import '../apis/customer_auth_api.dart';
@@ -13,6 +15,8 @@ import '../requests/customer_register_request.dart';
 class CustomerAuthRepo implements ICustomerAuthRepo {
   final CustomerAuthApi _api;
   final AuthLocalDataSource _localDataSource;
+  final RegisterOutcomeResolver _registerOutcomeResolver =
+      const RegisterOutcomeResolver();
 
   CustomerAuthRepo(this._api, this._localDataSource);
 
@@ -26,11 +30,19 @@ class CustomerAuthRepo implements ICustomerAuthRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> register(
+  Future<Either<Failure, RegisterOutcome>> register(
     CustomerRegisterRequest request,
   ) async {
     final result = await _api.register(request);
-    return result.map((_) => unit);
+    return _registerOutcomeResolver.resolve(
+      response: result,
+      saveSession: (session) => _localDataSource.saveSession(
+        session,
+        request.phoneNumber,
+        UserType.customer,
+      ),
+      login: () => login(request.phoneNumber, request.password),
+    );
   }
 
   @override

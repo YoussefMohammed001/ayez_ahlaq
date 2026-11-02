@@ -112,6 +112,7 @@ class BarberProfileScreen extends StatelessWidget {
             value: profile.phoneNumber,
             showDivider: false,
             verified: profile.active,
+            valueTextDirection: TextDirection.ltr,
           ),
         ],
       ),

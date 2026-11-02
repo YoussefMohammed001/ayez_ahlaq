@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/constants/http_codes.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../data/requests/register_request.dart';
 import '../../domain/use_cases/forgot_merchant_password_use_case.dart';
 import '../../domain/use_cases/merchant_login_use_case.dart';
@@ -56,11 +57,13 @@ class MerchantAuthCubit extends Cubit<MerchantAuthState> {
 
     result.fold(
       _emitFailure,
-      (_) => emit(
-        state.copyWith(
-          status: AuthStatus.otpRequested,
-          pendingPhone: request.phoneNumber,
-        ),
+      (outcome) => emit(
+        outcome == RegisterOutcome.signedIn
+            ? state.copyWith(status: AuthStatus.authenticated)
+            : state.copyWith(
+                status: AuthStatus.otpRequested,
+                pendingPhone: request.phoneNumber,
+              ),
       ),
     );
   }

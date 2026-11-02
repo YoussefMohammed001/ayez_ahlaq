@@ -6,6 +6,8 @@ import '../../../../../shared/auth/data/local/auth_local_data_source.dart';
 import '../../../../../shared/auth/data/models/auth_session_model.dart';
 import '../../../../../shared/auth/domain/entities/auth_session.dart';
 import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
+import '../../../../../shared/auth/domain/entities/register_outcome.dart';
+import '../../../../../shared/auth/data/register_outcome_resolver.dart';
 import '../../../../../shared/user_type.dart';
 import '../../domain/repos/i_barber_auth_repo.dart';
 import '../apis/barber_auth_api.dart';
@@ -14,6 +16,8 @@ import '../requests/barber_register_request.dart';
 class BarberAuthRepo implements IBarberAuthRepo {
   final BarberAuthApi _api;
   final AuthLocalDataSource _localDataSource;
+  final RegisterOutcomeResolver _registerOutcomeResolver =
+      const RegisterOutcomeResolver();
 
   BarberAuthRepo(this._api, this._localDataSource);
 
@@ -27,9 +31,19 @@ class BarberAuthRepo implements IBarberAuthRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> register(BarberRegisterRequest request) async {
+  Future<Either<Failure, RegisterOutcome>> register(
+    BarberRegisterRequest request,
+  ) async {
     final result = await _api.register(request);
-    return result.map((_) => unit);
+    return _registerOutcomeResolver.resolve(
+      response: result,
+      saveSession: (session) => _localDataSource.saveSession(
+        session,
+        request.phoneNumber,
+        UserType.barber,
+      ),
+      login: () => login(request.phoneNumber, request.password),
+    );
   }
 
   @override

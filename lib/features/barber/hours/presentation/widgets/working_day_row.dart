@@ -5,7 +5,9 @@ import '../../../../../core/widgets/toggle_switch.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/working_day.dart';
+import 'day_name.dart';
 import 'day_time_field.dart';
+import 'working_day_summary.dart';
 
 class WorkingDayRow extends StatelessWidget {
   final WorkingDay day;
@@ -21,18 +23,6 @@ class WorkingDayRow extends StatelessWidget {
     required this.onCloseTimeChanged,
   });
 
-  static const _dayNames = [
-    _DayName.sunday,
-    _DayName.monday,
-    _DayName.tuesday,
-    _DayName.wednesday,
-    _DayName.thursday,
-    _DayName.friday,
-    _DayName.saturday,
-  ];
-
-  String _label() => _dayNames[day.dayOfWeek % 7].label();
-
   @override
   Widget build(BuildContext context) {
     return AppCard(
@@ -44,7 +34,7 @@ class WorkingDayRow extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  _label(),
+                  DayName.byDayOfWeek[day.dayOfWeek % 7].label(),
                   style: TextStyle(
                     fontSize: 13.5.sp,
                     fontWeight: FontWeight.w700,
@@ -76,29 +66,10 @@ class WorkingDayRow extends StatelessWidget {
                 ),
               ],
             ),
+            WorkingDaySummary(day: day),
           ],
         ],
       ),
     );
   }
-}
-
-enum _DayName {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday;
-
-  String label() => switch (this) {
-    _DayName.monday => S().dayMonday,
-    _DayName.tuesday => S().dayTuesday,
-    _DayName.wednesday => S().dayWednesday,
-    _DayName.thursday => S().dayThursday,
-    _DayName.friday => S().dayFriday,
-    _DayName.saturday => S().daySaturday,
-    _DayName.sunday => S().daySunday,
-  };
 }

@@ -8,6 +8,7 @@ class InfoRow extends StatelessWidget {
   final String value;
   final bool showDivider;
   final bool verified;
+  final TextDirection? valueTextDirection;
 
   const InfoRow({
     super.key,
@@ -16,6 +17,7 @@ class InfoRow extends StatelessWidget {
     required this.value,
     this.showDivider = true,
     this.verified = false,
+    this.valueTextDirection,
   });
 
   @override
@@ -51,6 +53,7 @@ class InfoRow extends StatelessWidget {
                 Flexible(
                   child: Text(
                     value,
+                    textDirection: valueTextDirection,
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 12.5.sp,

@@ -7,6 +7,7 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/section_title.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
+import '../../../hours/domain/entities/working_week.dart';
 import '../../../hours/presentation/widgets/working_day_row.dart';
 import '../manager/member_hours_cubit.dart';
 import '../manager/member_hours_state.dart';
@@ -62,7 +63,7 @@ class MemberHoursSection extends StatelessWidget {
               PrimaryCtaButton(
                 label: S().save,
                 isLoading: state.isSubmitting,
-                onPressed: () => _submit(context),
+                onPressed: state.days.isValid ? () => _submit(context) : null,
               ),
             ],
           );

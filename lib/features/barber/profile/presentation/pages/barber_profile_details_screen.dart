@@ -42,6 +42,7 @@ class BarberProfileDetailsScreen extends StatelessWidget {
                       label: S().contact,
                       value: profile.phoneNumber,
                       verified: profile.active,
+                      valueTextDirection: TextDirection.ltr,
                     ),
                     InfoRow(
                       icon: Icons.star_border_rounded,

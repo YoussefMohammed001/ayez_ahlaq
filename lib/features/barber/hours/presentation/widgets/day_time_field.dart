@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/helpers/app_date_time.dart';
+import 'day_period_label.dart';
 
 class DayTimeField extends StatelessWidget {
   final String label;
@@ -29,7 +31,14 @@ class DayTimeField extends StatelessWidget {
   }
 
   Future<void> _pick(BuildContext context) async {
-    final picked = await showTimePicker(context: context, initialTime: _parse());
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _parse(),
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child!,
+      ),
+    );
     if (picked != null) onChanged(_format(picked));
   }
 
@@ -55,12 +64,16 @@ class DayTimeField extends StatelessWidget {
             ),
             SizedBox(height: 2.h),
             Text(
-              time,
+              AppDateTime.formatHour(time),
               style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
                 color: scheme.onSurface,
               ),
+            ),
+            Text(
+              DayPeriodLabel.of(time),
+              style: TextStyle(fontSize: 11.sp, color: scheme.primary),
             ),
           ],
         ),

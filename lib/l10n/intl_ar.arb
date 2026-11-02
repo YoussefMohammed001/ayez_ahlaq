@@ -223,6 +223,12 @@
     }
   },
   "attendanceHomeCardAction": "فتح الحضور",
+  "slotsServiceDurationNote": "مدة الخدمة {minutes} دقيقة، ودي المواعيد المتاحة ليها",
+  "@slotsServiceDurationNote": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
   "noSlotsAvailable": "مفيش مواعيد متاحة في اليوم ده",
   "bookingSummaryTitle": "ملخص الحجز",
   "barberLabel": "الحلاق",
@@ -638,6 +644,41 @@
   "openTimeLabel": "من",
   "closeTimeLabel": "لحد",
   "hoursSaved": "اتحفظت مواعيد العمل",
+  "hourPeriodMidnight": "منتصف الليل",
+  "hourPeriodNight": "ليلاً",
+  "hourPeriodMorning": "صباحاً",
+  "hourPeriodNoon": "ظهراً",
+  "hourPeriodAfternoon": "عصراً",
+  "hourPeriodEvening": "مساءً",
+  "hoursNextDay": "اليوم التالي",
+  "hoursSummary": "بتفتح {open} وبتقفل {close}",
+  "@hoursSummary": {
+    "placeholders": {
+      "open": {"type": "String"},
+      "close": {"type": "String"}
+    }
+  },
+  "hoursSummaryNextDay": "بتفتح {open} وبتقفل {close} (اليوم التالي)",
+  "@hoursSummaryNextDay": {
+    "placeholders": {
+      "open": {"type": "String"},
+      "close": {"type": "String"}
+    }
+  },
+  "hoursDuration": "{hours} ساعة",
+  "@hoursDuration": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "hoursDurationWithMinutes": "{hours} ساعة و{minutes} دقيقة",
+  "@hoursDurationWithMinutes": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "hoursSameTimeError": "وقت الفتح والغلق نفس الوقت، غيّر واحد منهم",
   "dayMonday": "الإتنين",
   "dayTuesday": "التلات",
   "dayWednesday": "الأربع",

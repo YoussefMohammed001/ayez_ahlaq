@@ -22,6 +22,9 @@ class BarberRegisterScreen extends StatelessWidget {
       appBar: AppTopBar(title: S().registerBarber),
       body: BlocConsumer<BarberAuthCubit, BarberAuthState>(
         listener: (context, state) {
+          if (state.status == BarberAuthStatus.authenticated) {
+            context.go(Routes.barberShell);
+          }
           if (state.status == BarberAuthStatus.otpRequested) {
             context.replace(Routes.barberVerifyOtpScreen);
           }

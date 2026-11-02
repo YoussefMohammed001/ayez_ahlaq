@@ -104,6 +104,7 @@ class MerchantProfileScreen extends StatelessWidget {
             value: profile.phoneNumber,
             showDivider: hasEmail,
             verified: profile.active,
+            valueTextDirection: TextDirection.ltr,
           ),
           if (hasEmail)
             InfoRow(

@@ -1519,6 +1519,16 @@ class S {
     );
   }
 
+  /// `The service takes {minutes} min, these are the available times for it.`
+  String slotsServiceDurationNote(int minutes) {
+    return Intl.message(
+      'The service takes $minutes min, these are the available times for it.',
+      name: 'slotsServiceDurationNote',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(
@@ -5174,6 +5184,116 @@ class S {
     return Intl.message(
       'Working hours saved',
       name: 'hoursSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `midnight`
+  String get hourPeriodMidnight {
+    return Intl.message(
+      'midnight',
+      name: 'hourPeriodMidnight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `at night`
+  String get hourPeriodNight {
+    return Intl.message(
+      'at night',
+      name: 'hourPeriodNight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `in the morning`
+  String get hourPeriodMorning {
+    return Intl.message(
+      'in the morning',
+      name: 'hourPeriodMorning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `at noon`
+  String get hourPeriodNoon {
+    return Intl.message('at noon', name: 'hourPeriodNoon', desc: '', args: []);
+  }
+
+  /// `in the afternoon`
+  String get hourPeriodAfternoon {
+    return Intl.message(
+      'in the afternoon',
+      name: 'hourPeriodAfternoon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `in the evening`
+  String get hourPeriodEvening {
+    return Intl.message(
+      'in the evening',
+      name: 'hourPeriodEvening',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `next day`
+  String get hoursNextDay {
+    return Intl.message('next day', name: 'hoursNextDay', desc: '', args: []);
+  }
+
+  /// `Opens {open}, closes {close}`
+  String hoursSummary(String open, String close) {
+    return Intl.message(
+      'Opens $open, closes $close',
+      name: 'hoursSummary',
+      desc: '',
+      args: [open, close],
+    );
+  }
+
+  /// `Opens {open}, closes {close} (next day)`
+  String hoursSummaryNextDay(String open, String close) {
+    return Intl.message(
+      'Opens $open, closes $close (next day)',
+      name: 'hoursSummaryNextDay',
+      desc: '',
+      args: [open, close],
+    );
+  }
+
+  /// `{hours} h`
+  String hoursDuration(int hours) {
+    return Intl.message(
+      '$hours h',
+      name: 'hoursDuration',
+      desc: '',
+      args: [hours],
+    );
+  }
+
+  /// `{hours} h {minutes} min`
+  String hoursDurationWithMinutes(int hours, int minutes) {
+    return Intl.message(
+      '$hours h $minutes min',
+      name: 'hoursDurationWithMinutes',
+      desc: '',
+      args: [hours, minutes],
+    );
+  }
+
+  /// `Opening and closing time are the same, change one of them`
+  String get hoursSameTimeError {
+    return Intl.message(
+      'Opening and closing time are the same, change one of them',
+      name: 'hoursSameTimeError',
       desc: '',
       args: [],
     );
