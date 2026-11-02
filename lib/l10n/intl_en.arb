@@ -147,6 +147,12 @@
   "bookingWithShopLabel": "Booking at {shopName}",
   "barberAvailableNow": "Available now",
   "barberBusyNow": "Busy",
+  "slotsServiceDurationNote": "The service takes {minutes} min, these are the available times for it.",
+  "@slotsServiceDurationNote": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
   "noSlotsAvailable": "No slots available on this day",
   "bookingSummaryTitle": "Booking summary",
   "barberLabel": "Barber",
@@ -562,6 +568,41 @@
   "openTimeLabel": "Opens at",
   "closeTimeLabel": "Closes at",
   "hoursSaved": "Working hours saved",
+  "hourPeriodMidnight": "midnight",
+  "hourPeriodNight": "at night",
+  "hourPeriodMorning": "in the morning",
+  "hourPeriodNoon": "at noon",
+  "hourPeriodAfternoon": "in the afternoon",
+  "hourPeriodEvening": "in the evening",
+  "hoursNextDay": "next day",
+  "hoursSummary": "Opens {open}, closes {close}",
+  "@hoursSummary": {
+    "placeholders": {
+      "open": {"type": "String"},
+      "close": {"type": "String"}
+    }
+  },
+  "hoursSummaryNextDay": "Opens {open}, closes {close} (next day)",
+  "@hoursSummaryNextDay": {
+    "placeholders": {
+      "open": {"type": "String"},
+      "close": {"type": "String"}
+    }
+  },
+  "hoursDuration": "{hours} h",
+  "@hoursDuration": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+  "hoursDurationWithMinutes": "{hours} h {minutes} min",
+  "@hoursDurationWithMinutes": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "hoursSameTimeError": "Opening and closing time are the same, change one of them",
   "dayMonday": "Monday",
   "dayTuesday": "Tuesday",
   "dayWednesday": "Wednesday",

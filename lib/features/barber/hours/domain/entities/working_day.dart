@@ -27,6 +27,25 @@ class WorkingDay extends Equatable {
     );
   }
 
+  int get openMinutes => _minutesOf(openTime);
+
+  int get closeMinutes => _minutesOf(closeTime);
+
+  bool get closesNextDay => closeMinutes < openMinutes;
+
+  bool get hasSameOpenAndClose => closeMinutes == openMinutes;
+
+  int get durationMinutes =>
+      (closeMinutes - openMinutes + Duration.minutesPerDay) %
+      Duration.minutesPerDay;
+
+  static int _minutesOf(String time) {
+    final parts = time.split(':');
+    final hour = int.tryParse(parts.elementAtOrNull(0) ?? '') ?? 0;
+    final minute = int.tryParse(parts.elementAtOrNull(1) ?? '') ?? 0;
+    return hour * Duration.minutesPerHour + minute;
+  }
+
   @override
   List<Object?> get props => [dayOfWeek, isOpen, openTime, closeTime];
 }

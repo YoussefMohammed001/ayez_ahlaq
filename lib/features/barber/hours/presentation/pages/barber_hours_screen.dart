@@ -7,6 +7,7 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
+import '../../domain/entities/working_week.dart';
 import '../manager/barber_hours_cubit.dart';
 import '../manager/barber_hours_state.dart';
 import '../widgets/working_day_row.dart';
@@ -68,7 +69,7 @@ class BarberHoursScreen extends StatelessWidget {
                 PrimaryCtaButton(
                   label: S().save,
                   isLoading: state.isSubmitting,
-                  onPressed: () => _submit(context),
+                  onPressed: state.days.isValid ? () => _submit(context) : null,
                 ),
               ],
             );
