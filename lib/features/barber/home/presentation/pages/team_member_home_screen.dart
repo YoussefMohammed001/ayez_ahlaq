@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
+import '../../../attendance/presentation/widgets/attendance_home_card.dart';
 import '../../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../../bookings/presentation/manager/bookings_state.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
@@ -44,6 +45,8 @@ class TeamMemberHomeScreen extends StatelessWidget {
                         context.push(Routes.barberNotificationsScreen),
                   ),
                 ),
+                SizedBox(height: 18.h),
+                const AttendanceHomeCard(),
                 SizedBox(height: 18.h),
                 BlocBuilder<BookingsCubit, BookingsState>(
                   builder: (context, state) => Column(

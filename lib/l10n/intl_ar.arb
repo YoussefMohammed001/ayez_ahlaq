@@ -147,6 +147,82 @@
   "bookingWithShopLabel": "بتحجز عند {shopName}",
   "barberAvailableNow": "شغال دلوقتي",
   "barberBusyNow": "مشغول",
+  "attendanceTitle": "الحضور والانصراف",
+  "attendanceHistoryTitle": "سجل الحضور",
+  "attendanceOnShift": "على وردية",
+  "attendanceOffShift": "مش على وردية",
+  "attendanceStartedAt": "بدأت الساعة {time}",
+  "@attendanceStartedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceShiftDuration": "مدة الوردية: {duration}",
+  "@attendanceShiftDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceCheckIn": "تسجيل حضور",
+  "attendanceCheckOut": "تسجيل انصراف",
+  "attendanceCheckedIn": "اتسجّل حضورك",
+  "attendanceCheckedOut": "اتسجّل انصرافك",
+  "attendanceRangeRequired": "لازم تكون في حدود {meters} متر من المحل عشان تسجّل الحضور",
+  "@attendanceRangeRequired": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceRangeNotRequired": "تسجيل الحضور مش مقيّد بمكان معين",
+  "attendanceLocationServiceOff": "فعّل الموقع (GPS) في الموبايل عشان تسجّل الحضور",
+  "attendanceLocationDenied": "محتاجين صلاحية الموقع عشان نتأكد إنك في المحل",
+  "attendanceLocationDeniedForever": "صلاحية الموقع مقفولة، فعّلها من إعدادات الموبايل",
+  "attendanceLocationUnavailable": "مقدرناش نحدد موقعك، جرّب تاني",
+  "attendanceMinutesOnly": "{minutes} دقيقة",
+  "@attendanceMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHoursOnly": "{hours} ساعة",
+  "@attendanceHoursOnly": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHoursAndMinutes": "{hours} ساعة و{minutes} دقيقة",
+  "@attendanceHoursAndMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHistoryEmpty": "مفيش سجل حضور لسه",
+  "attendanceAdjusted": "معدّلة",
+  "attendanceStillOpen": "لسه مفتوحة",
+  "attendanceAdjustNote": "ملاحظة: {note}",
+  "@attendanceAdjustNote": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceHomeCardAction": "فتح الحضور",
   "noSlotsAvailable": "مفيش مواعيد متاحة في اليوم ده",
   "bookingSummaryTitle": "ملخص الحجز",
   "barberLabel": "الحلاق",

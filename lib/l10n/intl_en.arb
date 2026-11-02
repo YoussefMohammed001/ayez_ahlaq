@@ -147,6 +147,82 @@
   "bookingWithShopLabel": "Booking at {shopName}",
   "barberAvailableNow": "Available now",
   "barberBusyNow": "Busy",
+  "attendanceTitle": "Attendance",
+  "attendanceHistoryTitle": "Attendance history",
+  "attendanceOnShift": "On shift",
+  "attendanceOffShift": "Not on shift",
+  "attendanceStartedAt": "Started at {time}",
+  "@attendanceStartedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceShiftDuration": "Shift length: {duration}",
+  "@attendanceShiftDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceCheckIn": "Check in",
+  "attendanceCheckOut": "Check out",
+  "attendanceCheckedIn": "You are checked in",
+  "attendanceCheckedOut": "You are checked out",
+  "attendanceRangeRequired": "You must be within {meters} m of the shop to check in",
+  "@attendanceRangeRequired": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceRangeNotRequired": "Check-in is not limited to a place",
+  "attendanceLocationServiceOff": "Turn on location (GPS) to check in",
+  "attendanceLocationDenied": "We need location permission to confirm you are at the shop",
+  "attendanceLocationDeniedForever": "Location permission is off, enable it from phone settings",
+  "attendanceLocationUnavailable": "We could not get your location, try again",
+  "attendanceMinutesOnly": "{minutes} min",
+  "@attendanceMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHoursOnly": "{hours} h",
+  "@attendanceHoursOnly": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHoursAndMinutes": "{hours} h {minutes} min",
+  "@attendanceHoursAndMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceHistoryEmpty": "No attendance records yet",
+  "attendanceAdjusted": "Adjusted",
+  "attendanceStillOpen": "Still open",
+  "attendanceAdjustNote": "Note: {note}",
+  "@attendanceAdjustNote": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceHomeCardAction": "Open attendance",
   "noSlotsAvailable": "No slots available on this day",
   "bookingSummaryTitle": "Booking summary",
   "barberLabel": "Barber",

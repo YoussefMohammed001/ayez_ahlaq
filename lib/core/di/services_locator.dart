@@ -25,6 +25,7 @@ import 'modules/barber_store_di.dart';
 import 'modules/barber_storefront_di.dart';
 import 'modules/barber_wallet_di.dart';
 import 'modules/barber_money_di.dart';
+import 'modules/barber_attendance_di.dart';
 import 'modules/barber_team_di.dart';
 import 'modules/barber_booking_di.dart';
 import 'modules/barber_notifications_di.dart';
@@ -97,6 +98,7 @@ class ServicesLocator {
     registerBarberInvite();
     registerBarberSubscription();
     registerBarberTeam();
+    registerBarberAttendance();
     registerBarberEarnings();
     registerBarberBookings();
     registerBarberNotifications();

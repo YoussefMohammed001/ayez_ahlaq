@@ -40,6 +40,11 @@ class BarberShopMenuScreen extends StatelessWidget {
           onTap: () => context.push(Routes.barberDocumentsScreen),
         ),
         MenuRow(
+          icon: Icons.fingerprint_rounded,
+          label: S().attendanceTitle,
+          onTap: () => context.push(Routes.barberAttendanceScreen),
+        ),
+        MenuRow(
           icon: Icons.groups_outlined,
           label: S().teamTitle,
           onTap: () => context.push(Routes.barberTeamScreen),

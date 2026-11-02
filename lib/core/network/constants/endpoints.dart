@@ -135,6 +135,10 @@ class EndPoints {
   static const String barberOwnService = 'barber/service/own';
   static String barberOwnServiceById(int id) => 'barber/service/own/$id';
 
+  static const String barberAttendance = 'barber/attendance';
+  static const String barberAttendanceCurrent = 'barber/attendance/current';
+  static const String barberAttendanceCheckIn = 'barber/attendance/checkIn';
+  static const String barberAttendanceCheckOut = 'barber/attendance/checkOut';
   static const String barberTeam = 'barber/team';
   static String barberTeamById(int id) => 'barber/team/$id';
   static String barberTeamAvailability(int id) =>

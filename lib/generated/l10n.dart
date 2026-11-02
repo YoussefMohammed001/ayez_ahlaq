@@ -1279,6 +1279,246 @@ class S {
     return Intl.message('Busy', name: 'barberBusyNow', desc: '', args: []);
   }
 
+  /// `Attendance`
+  String get attendanceTitle {
+    return Intl.message(
+      'Attendance',
+      name: 'attendanceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendance history`
+  String get attendanceHistoryTitle {
+    return Intl.message(
+      'Attendance history',
+      name: 'attendanceHistoryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On shift`
+  String get attendanceOnShift {
+    return Intl.message(
+      'On shift',
+      name: 'attendanceOnShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not on shift`
+  String get attendanceOffShift {
+    return Intl.message(
+      'Not on shift',
+      name: 'attendanceOffShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Started at {time}`
+  String attendanceStartedAt(String time) {
+    return Intl.message(
+      'Started at $time',
+      name: 'attendanceStartedAt',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Shift length: {duration}`
+  String attendanceShiftDuration(String duration) {
+    return Intl.message(
+      'Shift length: $duration',
+      name: 'attendanceShiftDuration',
+      desc: '',
+      args: [duration],
+    );
+  }
+
+  /// `Check in`
+  String get attendanceCheckIn {
+    return Intl.message(
+      'Check in',
+      name: 'attendanceCheckIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check out`
+  String get attendanceCheckOut {
+    return Intl.message(
+      'Check out',
+      name: 'attendanceCheckOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are checked in`
+  String get attendanceCheckedIn {
+    return Intl.message(
+      'You are checked in',
+      name: 'attendanceCheckedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are checked out`
+  String get attendanceCheckedOut {
+    return Intl.message(
+      'You are checked out',
+      name: 'attendanceCheckedOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must be within {meters} m of the shop to check in`
+  String attendanceRangeRequired(int meters) {
+    return Intl.message(
+      'You must be within $meters m of the shop to check in',
+      name: 'attendanceRangeRequired',
+      desc: '',
+      args: [meters],
+    );
+  }
+
+  /// `Check-in is not limited to a place`
+  String get attendanceRangeNotRequired {
+    return Intl.message(
+      'Check-in is not limited to a place',
+      name: 'attendanceRangeNotRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn on location (GPS) to check in`
+  String get attendanceLocationServiceOff {
+    return Intl.message(
+      'Turn on location (GPS) to check in',
+      name: 'attendanceLocationServiceOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need location permission to confirm you are at the shop`
+  String get attendanceLocationDenied {
+    return Intl.message(
+      'We need location permission to confirm you are at the shop',
+      name: 'attendanceLocationDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location permission is off, enable it from phone settings`
+  String get attendanceLocationDeniedForever {
+    return Intl.message(
+      'Location permission is off, enable it from phone settings',
+      name: 'attendanceLocationDeniedForever',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not get your location, try again`
+  String get attendanceLocationUnavailable {
+    return Intl.message(
+      'We could not get your location, try again',
+      name: 'attendanceLocationUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{minutes} min`
+  String attendanceMinutesOnly(int minutes) {
+    return Intl.message(
+      '$minutes min',
+      name: 'attendanceMinutesOnly',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
+  /// `{hours} h`
+  String attendanceHoursOnly(int hours) {
+    return Intl.message(
+      '$hours h',
+      name: 'attendanceHoursOnly',
+      desc: '',
+      args: [hours],
+    );
+  }
+
+  /// `{hours} h {minutes} min`
+  String attendanceHoursAndMinutes(int hours, int minutes) {
+    return Intl.message(
+      '$hours h $minutes min',
+      name: 'attendanceHoursAndMinutes',
+      desc: '',
+      args: [hours, minutes],
+    );
+  }
+
+  /// `No attendance records yet`
+  String get attendanceHistoryEmpty {
+    return Intl.message(
+      'No attendance records yet',
+      name: 'attendanceHistoryEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adjusted`
+  String get attendanceAdjusted {
+    return Intl.message(
+      'Adjusted',
+      name: 'attendanceAdjusted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Still open`
+  String get attendanceStillOpen {
+    return Intl.message(
+      'Still open',
+      name: 'attendanceStillOpen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: {note}`
+  String attendanceAdjustNote(String note) {
+    return Intl.message(
+      'Note: $note',
+      name: 'attendanceAdjustNote',
+      desc: '',
+      args: [note],
+    );
+  }
+
+  /// `Open attendance`
+  String get attendanceHomeCardAction {
+    return Intl.message(
+      'Open attendance',
+      name: 'attendanceHomeCardAction',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(
