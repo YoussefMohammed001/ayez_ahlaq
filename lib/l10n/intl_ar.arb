@@ -149,8 +149,8 @@
   "barberBusyNow": "مشغول",
   "attendanceTitle": "الحضور والانصراف",
   "attendanceHistoryTitle": "سجل الحضور",
-  "attendanceOnShift": "على وردية",
-  "attendanceOffShift": "مش على وردية",
+  "attendanceOnShift": "تم تسجيل الحضور",
+  "attendanceOffShift": "لم يتم تسجيل الحضور",
   "attendanceStartedAt": "بدأت الساعة {time}",
   "@attendanceStartedAt": {
     "placeholders": {

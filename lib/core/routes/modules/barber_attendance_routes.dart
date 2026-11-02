@@ -17,13 +17,20 @@ import '../scoped_cubits/barber_scoped_cubits.dart';
 final List<RouteBase> barberAttendanceRoutes = [
   GoRoute(
     path: Routes.barberAttendanceScreen,
-    builder: (_, __) => MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => sl<BarberAttendanceCubit>()..load()),
-        BlocProvider.value(value: barberProfileCubit),
-      ],
-      child: const BarberAttendanceScreen(),
-    ),
+    builder: (_, state) {
+      final shared = state.extra;
+
+      return MultiBlocProvider(
+        providers: [
+          if (shared is BarberAttendanceCubit)
+            BlocProvider.value(value: shared..load())
+          else
+            BlocProvider(create: (_) => sl<BarberAttendanceCubit>()..load()),
+          BlocProvider.value(value: barberProfileCubit),
+        ],
+        child: const BarberAttendanceScreen(),
+      );
+    },
   ),
   GoRoute(
     path: Routes.barberAttendanceHistoryScreen,

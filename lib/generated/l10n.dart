@@ -1299,20 +1299,20 @@ class S {
     );
   }
 
-  /// `On shift`
+  /// `Checked in`
   String get attendanceOnShift {
     return Intl.message(
-      'On shift',
+      'Checked in',
       name: 'attendanceOnShift',
       desc: '',
       args: [],
     );
   }
 
-  /// `Not on shift`
+  /// `Not checked in`
   String get attendanceOffShift {
     return Intl.message(
-      'Not on shift',
+      'Not checked in',
       name: 'attendanceOffShift',
       desc: '',
       args: [],

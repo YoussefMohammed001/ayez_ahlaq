@@ -350,8 +350,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceMeters": m7,
     "attendanceMinutesOnly": m8,
     "attendanceNoRange": MessageLookupByLibrary.simpleMessage("Not set"),
-    "attendanceOffShift": MessageLookupByLibrary.simpleMessage("Not on shift"),
-    "attendanceOnShift": MessageLookupByLibrary.simpleMessage("On shift"),
+    "attendanceOffShift": MessageLookupByLibrary.simpleMessage(
+      "Not checked in",
+    ),
+    "attendanceOnShift": MessageLookupByLibrary.simpleMessage("Checked in"),
     "attendanceOwnerBadge": MessageLookupByLibrary.simpleMessage("Owner"),
     "attendanceRangeHelper": MessageLookupByLibrary.simpleMessage(
       "Between 10 and 5000 meters",

@@ -149,8 +149,8 @@
   "barberBusyNow": "Busy",
   "attendanceTitle": "Attendance",
   "attendanceHistoryTitle": "Attendance history",
-  "attendanceOnShift": "On shift",
-  "attendanceOffShift": "Not on shift",
+  "attendanceOnShift": "Checked in",
+  "attendanceOffShift": "Not checked in",
   "attendanceStartedAt": "Started at {time}",
   "@attendanceStartedAt": {
     "placeholders": {

@@ -340,8 +340,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceMeters": m7,
     "attendanceMinutesOnly": m8,
     "attendanceNoRange": MessageLookupByLibrary.simpleMessage("غير محددة"),
-    "attendanceOffShift": MessageLookupByLibrary.simpleMessage("مش على وردية"),
-    "attendanceOnShift": MessageLookupByLibrary.simpleMessage("على وردية"),
+    "attendanceOffShift": MessageLookupByLibrary.simpleMessage(
+      "لم يتم تسجيل الحضور",
+    ),
+    "attendanceOnShift": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الحضور",
+    ),
     "attendanceOwnerBadge": MessageLookupByLibrary.simpleMessage("صاحب المحل"),
     "attendanceRangeHelper": MessageLookupByLibrary.simpleMessage(
       "من 10 لـ 5000 متر",

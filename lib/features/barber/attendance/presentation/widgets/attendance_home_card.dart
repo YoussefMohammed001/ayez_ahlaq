@@ -32,8 +32,7 @@ class AttendanceHomeCard extends StatelessWidget {
           padding: EdgeInsets.all(14.r),
           onTap: () async {
             final cubit = context.read<BarberAttendanceCubit>();
-            await context.push(Routes.barberAttendanceScreen);
-            cubit.load();
+            await context.push(Routes.barberAttendanceScreen, extra: cubit);
           },
           child: Row(
             children: [
@@ -66,7 +65,11 @@ class AttendanceHomeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_left_rounded, color: scheme.onSurfaceVariant),
+              Icon(
+                Icons.chevron_right,
+                color: scheme.onSurfaceVariant,
+                size: 20.r,
+              ),
             ],
           ),
         ),
