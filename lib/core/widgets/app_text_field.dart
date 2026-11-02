@@ -16,7 +16,7 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
     required this.controller,
-    required this.hint,
+    this.hint = '',
     this.isNumber = false,
     this.obscure = false,
     this.maxLines = 1,

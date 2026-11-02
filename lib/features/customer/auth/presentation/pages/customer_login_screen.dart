@@ -115,7 +115,6 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
         label: S().phoneNumber,
         child: AppTextField(
           controller: _identifierController,
-          hint: '01001234567',
           isNumber: true,
           validator: Validators.validateEgyptianPhoneNumber,
         ),
@@ -124,7 +123,6 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
         label: S().password,
         child: AppPasswordField(
           controller: _passwordController,
-          hint: '••••••',
           onSubmitted: _submit,
           validator: (v) =>
               (v == null || v.length < 6) ? S().passwordTooShort : null,

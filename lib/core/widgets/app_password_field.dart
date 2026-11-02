@@ -13,7 +13,7 @@ class AppPasswordField extends StatefulWidget {
   const AppPasswordField({
     super.key,
     required this.controller,
-    required this.hint,
+    this.hint = '',
     this.validator,
     this.textInputAction = TextInputAction.done,
     this.onSubmitted,
