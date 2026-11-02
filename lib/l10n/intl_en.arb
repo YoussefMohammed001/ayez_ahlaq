@@ -327,6 +327,8 @@
   "ownerNameHint": "e.g. Ahmed Ali",
   "ownerNameRequired": "Enter your name",
   "passwordMinHint": "At least 6 characters",
+  "enterPhoneNumberHint": "Enter your phone number",
+  "enterPasswordHint": "Enter your password",
   "passwordTooShort": "Password is too short",
   "createAccount": "Create account",
   "tabDashboard": "Dashboard",

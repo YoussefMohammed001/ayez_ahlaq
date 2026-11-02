@@ -327,6 +327,8 @@
   "ownerNameHint": "مثلاً: أحمد علي",
   "ownerNameRequired": "اكتب اسم صاحب النشاط",
   "passwordMinHint": "٦ حروف على الأقل",
+  "enterPhoneNumberHint": "ادخل رقم الموبايل",
+  "enterPasswordHint": "ادخل كلمة السر",
   "passwordTooShort": "كلمة السر قصيرة",
   "createAccount": "إنشاء الحساب",
   "tabDashboard": "لوحتي",

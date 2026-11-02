@@ -114,6 +114,7 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
         label: S().phoneNumber,
         child: AppTextField(
           controller: _phoneController,
+          hint: S().enterPhoneNumberHint,
           isNumber: true,
           validator: Validators.validateEgyptianPhoneNumber,
         ),
@@ -122,6 +123,7 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
         label: S().password,
         child: AppPasswordField(
           controller: _passwordController,
+          hint: S().enterPasswordHint,
           onSubmitted: _submit,
           validator: (v) =>
               (v == null || v.length < 6) ? S().passwordTooShort : null,

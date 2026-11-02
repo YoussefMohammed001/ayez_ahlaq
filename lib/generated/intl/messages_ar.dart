@@ -928,6 +928,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "أدخل كود الدعوة",
     ),
     "enterOtpCode": MessageLookupByLibrary.simpleMessage("اكتب كود التأكيد"),
+    "enterPasswordHint": MessageLookupByLibrary.simpleMessage("ادخل كلمة السر"),
+    "enterPhoneNumberHint": MessageLookupByLibrary.simpleMessage(
+      "ادخل رقم الموبايل",
+    ),
     "enter_password": MessageLookupByLibrary.simpleMessage("اكتب كلمة السر"),
     "errorDefaultTitle": MessageLookupByLibrary.simpleMessage("حصل خطأ"),
     "everythingFine": MessageLookupByLibrary.simpleMessage(

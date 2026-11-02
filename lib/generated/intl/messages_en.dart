@@ -968,6 +968,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterOtpCode": MessageLookupByLibrary.simpleMessage(
       "Enter the verification code",
     ),
+    "enterPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
+    ),
+    "enterPhoneNumberHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your phone number",
+    ),
     "enter_password": MessageLookupByLibrary.simpleMessage(
       "Enter your password",
     ),

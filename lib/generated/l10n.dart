@@ -2049,6 +2049,26 @@ class S {
     );
   }
 
+  /// `Enter your phone number`
+  String get enterPhoneNumberHint {
+    return Intl.message(
+      'Enter your phone number',
+      name: 'enterPhoneNumberHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get enterPasswordHint {
+    return Intl.message(
+      'Enter your password',
+      name: 'enterPasswordHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Password is too short`
   String get passwordTooShort {
     return Intl.message(
