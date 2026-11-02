@@ -229,6 +229,78 @@
       "minutes": {"type": "int"}
     }
   },
+  "attendanceTeamNowTitle": "حضور الفريق دلوقتي",
+  "attendanceSettingsTitle": "إعدادات الحضور",
+  "attendanceSettingsLogTitle": "سجل تغييرات الإعدادات",
+  "attendanceEnforceLabel": "تقييد الحضور بمكان المحل",
+  "attendanceEnforceHint": "الحلاق لازم يكون في حدود المسافة من المحل عشان يسجّل حضوره",
+  "attendanceRangeLabel": "المسافة المسموحة (متر)",
+  "attendanceRangeHelper": "من 10 لـ 5000 متر",
+  "attendanceRangeInvalid": "اكتب مسافة بين 10 و5000 متر",
+  "attendanceSettingsSaved": "اتحفظت إعدادات الحضور",
+  "attendanceLastChange": "آخر تعديل بواسطة {name} • {date}",
+  "@attendanceLastChange": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceTeamEmpty": "مفيش حلاقين في الفريق",
+  "attendanceOwnerBadge": "صاحب المحل",
+  "attendanceTodayDuration": "النهارده: {duration}",
+  "@attendanceTodayDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceLogEmpty": "مفيش تعديلات على الإعدادات لسه",
+  "attendanceLogRangeChange": "المسافة: {from} ← {to}",
+  "@attendanceLogRangeChange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceLogEnforceChange": "التقييد: {from} ← {to}",
+  "@attendanceLogEnforceChange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceEnforceOn": "شغال",
+  "attendanceEnforceOff": "مقفول",
+  "attendanceNoRange": "غير محددة",
+  "attendanceMeters": "{meters} متر",
+  "@attendanceMeters": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceCorrectTitle": "تصحيح السجل",
+  "attendanceCorrectAction": "تصحيح",
+  "attendanceCorrectCheckIn": "وقت الحضور",
+  "attendanceCorrectCheckOut": "وقت الانصراف",
+  "attendanceCorrectNote": "سبب التعديل",
+  "attendanceCorrectNoteRequired": "اكتب سبب التعديل",
+  "attendanceCorrectOutBeforeIn": "وقت الانصراف لازم يكون بعد وقت الحضور",
+  "attendanceCorrectSaved": "اتصحح السجل",
   "noSlotsAvailable": "مفيش مواعيد متاحة في اليوم ده",
   "bookingSummaryTitle": "ملخص الحجز",
   "barberLabel": "الحلاق",

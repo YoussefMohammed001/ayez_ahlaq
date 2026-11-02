@@ -10,10 +10,12 @@ import '../../../../../core/widgets/primary_cta_button.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
+import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../manager/barber_attendance_cubit.dart';
 import '../manager/barber_attendance_state.dart';
 import '../widgets/attendance_range_note.dart';
 import '../widgets/attendance_status_card.dart';
+import '../widgets/owner_attendance_links.dart';
 
 class BarberAttendanceScreen extends StatelessWidget {
   const BarberAttendanceScreen({super.key});
@@ -47,6 +49,9 @@ class BarberAttendanceScreen extends StatelessWidget {
         body: BlocBuilder<BarberAttendanceCubit, BarberAttendanceState>(
           builder: (context, state) {
             final cubit = context.read<BarberAttendanceCubit>();
+            final isOwner =
+                context.watch<BarberProfileCubit>().state.profile?.owner ??
+                false;
 
             if (!state.hasLoaded) {
               return state.status == BarberAttendanceStatus.failure
@@ -78,6 +83,10 @@ class BarberAttendanceScreen extends StatelessWidget {
                       isLoading: state.isSubmitting,
                       onPressed: () => _toggle(context),
                     ),
+                    if (isOwner) ...[
+                      SizedBox(height: 24.h),
+                      const OwnerAttendanceLinks(),
+                    ],
                   ],
                 ),
               ),

@@ -229,6 +229,78 @@
       "minutes": {"type": "int"}
     }
   },
+  "attendanceTeamNowTitle": "Team attendance now",
+  "attendanceSettingsTitle": "Attendance settings",
+  "attendanceSettingsLogTitle": "Settings change log",
+  "attendanceEnforceLabel": "Limit check-in to the shop location",
+  "attendanceEnforceHint": "A barber must be within the range of the shop to check in",
+  "attendanceRangeLabel": "Allowed distance (meters)",
+  "attendanceRangeHelper": "Between 10 and 5000 meters",
+  "attendanceRangeInvalid": "Enter a distance between 10 and 5000 meters",
+  "attendanceSettingsSaved": "Attendance settings saved",
+  "attendanceLastChange": "Last changed by {name} • {date}",
+  "@attendanceLastChange": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceTeamEmpty": "There are no barbers in the team",
+  "attendanceOwnerBadge": "Owner",
+  "attendanceTodayDuration": "Today: {duration}",
+  "@attendanceTodayDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceLogEmpty": "No settings changes yet",
+  "attendanceLogRangeChange": "Range: {from} ← {to}",
+  "@attendanceLogRangeChange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceLogEnforceChange": "Limit: {from} ← {to}",
+  "@attendanceLogEnforceChange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceEnforceOn": "On",
+  "attendanceEnforceOff": "Off",
+  "attendanceNoRange": "Not set",
+  "attendanceMeters": "{meters} m",
+  "@attendanceMeters": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceCorrectTitle": "Correct record",
+  "attendanceCorrectAction": "Correct",
+  "attendanceCorrectCheckIn": "Check-in time",
+  "attendanceCorrectCheckOut": "Check-out time",
+  "attendanceCorrectNote": "Reason for the change",
+  "attendanceCorrectNoteRequired": "Enter the reason for the change",
+  "attendanceCorrectOutBeforeIn": "Check-out must be after check-in",
+  "attendanceCorrectSaved": "Record corrected",
   "noSlotsAvailable": "No slots available on this day",
   "bookingSummaryTitle": "Booking summary",
   "barberLabel": "Barber",

@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/use_cases/correct_attendance_record_use_case.dart';
 import '../../domain/use_cases/get_attendance_history_use_case.dart';
 import 'attendance_history_state.dart';
 
 class AttendanceHistoryCubit extends Cubit<AttendanceHistoryState> {
   final GetAttendanceHistoryUseCase _getHistory;
+  final CorrectAttendanceRecordUseCase _correct;
 
-  AttendanceHistoryCubit(this._getHistory)
+  AttendanceHistoryCubit(this._getHistory, this._correct)
     : super(const AttendanceHistoryState());
 
   Future<void> load() async {
@@ -50,6 +52,40 @@ class AttendanceHistoryCubit extends Cubit<AttendanceHistoryState> {
           isLoadingMore: false,
         ),
       ),
+    );
+  }
+
+  Future<bool> correct({
+    required int id,
+    required DateTime checkInAt,
+    required DateTime checkOutAt,
+    required String note,
+  }) async {
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _correct(
+      id: id,
+      checkInAt: checkInAt,
+      checkOutAt: checkOutAt,
+      note: note,
+    );
+
+    return result.fold(
+      (failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+        return false;
+      },
+      (updated) {
+        emit(
+          state.copyWith(
+            isSubmitting: false,
+            shifts: [for (final s in state.shifts) s.id == id ? updated : s],
+          ),
+        );
+        return true;
+      },
     );
   }
 }

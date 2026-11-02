@@ -148,6 +148,11 @@ class Routes {
   static const String barberAttendanceScreen = '/barber/attendance';
   static const String barberAttendanceHistoryScreen =
       '/barber/attendance/history';
+  static const String barberAttendanceTeamScreen = '/barber/attendance/team';
+  static const String barberAttendanceSettingsScreen =
+      '/barber/attendance/settings';
+  static const String barberAttendanceSettingLogScreen =
+      '/barber/attendance/settings/log';
   static const String barberTeamScreen = '/barber/team';
   static const String barberTeamMemberDetailScreen = '/barber/team/member';
   static const String barberEarningsScreen = '/barber/earnings';

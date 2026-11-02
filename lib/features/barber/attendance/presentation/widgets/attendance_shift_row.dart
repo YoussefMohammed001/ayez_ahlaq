@@ -12,8 +12,9 @@ import 'attendance_time_label.dart';
 
 class AttendanceShiftRow extends StatelessWidget {
   final AttendanceShift shift;
+  final VoidCallback? onCorrect;
 
-  const AttendanceShiftRow({super.key, required this.shift});
+  const AttendanceShiftRow({super.key, required this.shift, this.onCorrect});
 
   String _range() {
     final checkOut = shift.checkOutAt;
@@ -56,6 +57,15 @@ class AttendanceShiftRow extends StatelessWidget {
             '${_range()} • ${AttendanceDurationLabel.of(shift.durationMinutes)}',
             style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurfaceVariant),
           ),
+          if (onCorrect != null)
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: TextButton.icon(
+                onPressed: onCorrect,
+                icon: Icon(Icons.edit_outlined, size: 16.r),
+                label: Text(S().attendanceCorrectAction),
+              ),
+            ),
           if (note != null && note.isNotEmpty) ...[
             SizedBox(height: 6.h),
             Text(

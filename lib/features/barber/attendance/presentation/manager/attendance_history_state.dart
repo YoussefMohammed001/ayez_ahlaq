@@ -9,6 +9,7 @@ class AttendanceHistoryState extends Equatable {
   final int page;
   final bool hasMore;
   final bool isLoadingMore;
+  final bool isSubmitting;
   final String? errorMessage;
 
   const AttendanceHistoryState({
@@ -17,6 +18,7 @@ class AttendanceHistoryState extends Equatable {
     this.page = 0,
     this.hasMore = false,
     this.isLoadingMore = false,
+    this.isSubmitting = false,
     this.errorMessage,
   });
 
@@ -26,6 +28,7 @@ class AttendanceHistoryState extends Equatable {
     int? page,
     bool? hasMore,
     bool? isLoadingMore,
+    bool? isSubmitting,
     String? errorMessage,
   }) {
     return AttendanceHistoryState(
@@ -34,6 +37,7 @@ class AttendanceHistoryState extends Equatable {
       page: page ?? this.page,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
       errorMessage: errorMessage,
     );
   }
@@ -45,6 +49,7 @@ class AttendanceHistoryState extends Equatable {
     page,
     hasMore,
     isLoadingMore,
+    isSubmitting,
     errorMessage,
   ];
 }

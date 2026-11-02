@@ -1529,6 +1529,281 @@ class S {
     );
   }
 
+  /// `Team attendance now`
+  String get attendanceTeamNowTitle {
+    return Intl.message(
+      'Team attendance now',
+      name: 'attendanceTeamNowTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendance settings`
+  String get attendanceSettingsTitle {
+    return Intl.message(
+      'Attendance settings',
+      name: 'attendanceSettingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings change log`
+  String get attendanceSettingsLogTitle {
+    return Intl.message(
+      'Settings change log',
+      name: 'attendanceSettingsLogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limit check-in to the shop location`
+  String get attendanceEnforceLabel {
+    return Intl.message(
+      'Limit check-in to the shop location',
+      name: 'attendanceEnforceLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A barber must be within the range of the shop to check in`
+  String get attendanceEnforceHint {
+    return Intl.message(
+      'A barber must be within the range of the shop to check in',
+      name: 'attendanceEnforceHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allowed distance (meters)`
+  String get attendanceRangeLabel {
+    return Intl.message(
+      'Allowed distance (meters)',
+      name: 'attendanceRangeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Between 10 and 5000 meters`
+  String get attendanceRangeHelper {
+    return Intl.message(
+      'Between 10 and 5000 meters',
+      name: 'attendanceRangeHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a distance between 10 and 5000 meters`
+  String get attendanceRangeInvalid {
+    return Intl.message(
+      'Enter a distance between 10 and 5000 meters',
+      name: 'attendanceRangeInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendance settings saved`
+  String get attendanceSettingsSaved {
+    return Intl.message(
+      'Attendance settings saved',
+      name: 'attendanceSettingsSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last changed by {name} • {date}`
+  String attendanceLastChange(String name, String date) {
+    return Intl.message(
+      'Last changed by $name • $date',
+      name: 'attendanceLastChange',
+      desc: '',
+      args: [name, date],
+    );
+  }
+
+  /// `There are no barbers in the team`
+  String get attendanceTeamEmpty {
+    return Intl.message(
+      'There are no barbers in the team',
+      name: 'attendanceTeamEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Owner`
+  String get attendanceOwnerBadge {
+    return Intl.message(
+      'Owner',
+      name: 'attendanceOwnerBadge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today: {duration}`
+  String attendanceTodayDuration(String duration) {
+    return Intl.message(
+      'Today: $duration',
+      name: 'attendanceTodayDuration',
+      desc: '',
+      args: [duration],
+    );
+  }
+
+  /// `No settings changes yet`
+  String get attendanceLogEmpty {
+    return Intl.message(
+      'No settings changes yet',
+      name: 'attendanceLogEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Range: {from} ← {to}`
+  String attendanceLogRangeChange(String from, String to) {
+    return Intl.message(
+      'Range: $from ← $to',
+      name: 'attendanceLogRangeChange',
+      desc: '',
+      args: [from, to],
+    );
+  }
+
+  /// `Limit: {from} ← {to}`
+  String attendanceLogEnforceChange(String from, String to) {
+    return Intl.message(
+      'Limit: $from ← $to',
+      name: 'attendanceLogEnforceChange',
+      desc: '',
+      args: [from, to],
+    );
+  }
+
+  /// `On`
+  String get attendanceEnforceOn {
+    return Intl.message('On', name: 'attendanceEnforceOn', desc: '', args: []);
+  }
+
+  /// `Off`
+  String get attendanceEnforceOff {
+    return Intl.message(
+      'Off',
+      name: 'attendanceEnforceOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not set`
+  String get attendanceNoRange {
+    return Intl.message(
+      'Not set',
+      name: 'attendanceNoRange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{meters} m`
+  String attendanceMeters(int meters) {
+    return Intl.message(
+      '$meters m',
+      name: 'attendanceMeters',
+      desc: '',
+      args: [meters],
+    );
+  }
+
+  /// `Correct record`
+  String get attendanceCorrectTitle {
+    return Intl.message(
+      'Correct record',
+      name: 'attendanceCorrectTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Correct`
+  String get attendanceCorrectAction {
+    return Intl.message(
+      'Correct',
+      name: 'attendanceCorrectAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check-in time`
+  String get attendanceCorrectCheckIn {
+    return Intl.message(
+      'Check-in time',
+      name: 'attendanceCorrectCheckIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check-out time`
+  String get attendanceCorrectCheckOut {
+    return Intl.message(
+      'Check-out time',
+      name: 'attendanceCorrectCheckOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason for the change`
+  String get attendanceCorrectNote {
+    return Intl.message(
+      'Reason for the change',
+      name: 'attendanceCorrectNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the reason for the change`
+  String get attendanceCorrectNoteRequired {
+    return Intl.message(
+      'Enter the reason for the change',
+      name: 'attendanceCorrectNoteRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check-out must be after check-in`
+  String get attendanceCorrectOutBeforeIn {
+    return Intl.message(
+      'Check-out must be after check-in',
+      name: 'attendanceCorrectOutBeforeIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record corrected`
+  String get attendanceCorrectSaved {
+    return Intl.message(
+      'Record corrected',
+      name: 'attendanceCorrectSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(
