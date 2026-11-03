@@ -45,11 +45,10 @@ class _ResetMemberPasswordSheetState extends State<ResetMemberPasswordSheet> {
 
     setState(() => _submitting = true);
 
-    final done = await widget.onSubmit(_passwordController.text);
+    await widget.onSubmit(_passwordController.text);
 
     if (!mounted) return;
-    setState(() => _submitting = false);
-    if (done) Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override
