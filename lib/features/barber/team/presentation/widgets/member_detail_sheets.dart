@@ -32,7 +32,6 @@ class MemberDetailSheets {
       onSubmit: (tempPassword) async {
         final done = await cubit.resetPassword(tempPassword);
         if (done) showSuccess(S().memberPasswordResetDone);
-        return done;
       },
     );
   }

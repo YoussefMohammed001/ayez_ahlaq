@@ -38,7 +38,6 @@ void main() {
           ResetMemberPasswordSheet(
             onSubmit: (value) async {
               sent.add(value);
-              return true;
             },
           ),
         ),
@@ -58,7 +57,6 @@ void main() {
           ResetMemberPasswordSheet(
             onSubmit: (value) async {
               sent.add(value);
-              return true;
             },
           ),
         ),
@@ -77,7 +75,6 @@ void main() {
           ResetMemberPasswordSheet(
             onSubmit: (value) async {
               sent.add(value);
-              return true;
             },
           ),
         ),

@@ -37,6 +37,7 @@ const _member = TeamMemberDetail(
 
 class _SlowRepo implements IBarberTeamRepo {
   Either<Failure, Unit> resetResult = const Right(unit);
+  String? sentPassword;
 
   @override
   Future<Either<Failure, TeamMemberDetail>> getMember(int id) async =>
@@ -44,6 +45,7 @@ class _SlowRepo implements IBarberTeamRepo {
 
   @override
   Future<Either<Failure, Unit>> resetPassword(int id, String tempPassword) async {
+    sentPassword = tempPassword;
     await Future<void>.delayed(const Duration(milliseconds: 400));
     return resetResult;
   }
@@ -88,7 +90,7 @@ Widget _app(TeamMemberDetailCubit cubit) => ScreenUtilInit(
 );
 
 void main() {
-  testWidgets('the sheet closes after a successful reset', (tester) async {
+  testWidgets('the sheet closes right when saved and the reset still runs', (tester) async {
     tester.view.physicalSize = const Size(1200, 3200);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -103,10 +105,16 @@ void main() {
 
     await tester.enterText(find.byType(TextFormField), 'Reset123');
     await tester.tap(find.byType(PrimaryCtaButton));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.byType(ResetMemberPasswordSheet), findsNothing);
+
     await tester.pumpAndSettle(const Duration(seconds: 4));
 
     expect(find.byType(ResetMemberPasswordSheet), findsNothing);
     expect(find.text('open'), findsOneWidget);
+    expect(repo.sentPassword, 'Reset123');
   });
 
   testWidgets('the sheet also closes when the server rejects the reset', (

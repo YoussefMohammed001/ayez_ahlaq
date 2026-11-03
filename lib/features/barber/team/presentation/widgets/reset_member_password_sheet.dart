@@ -8,13 +8,13 @@ import '../../../../../generated/l10n.dart';
 import '../helpers/temp_password_validator.dart';
 
 class ResetMemberPasswordSheet extends StatefulWidget {
-  final Future<bool> Function(String tempPassword) onSubmit;
+  final Future<void> Function(String tempPassword) onSubmit;
 
   const ResetMemberPasswordSheet({super.key, required this.onSubmit});
 
   static Future<void> show(
     BuildContext context, {
-    required Future<bool> Function(String tempPassword) onSubmit,
+    required Future<void> Function(String tempPassword) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -32,23 +32,18 @@ class ResetMemberPasswordSheet extends StatefulWidget {
 class _ResetMemberPasswordSheetState extends State<ResetMemberPasswordSheet> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
-  bool _submitting = false;
-
   @override
   void dispose() {
     _passwordController.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting || !_formKey.currentState!.validate()) return;
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _submitting = true);
-
-    await widget.onSubmit(_passwordController.text);
-
-    if (!mounted) return;
+    final tempPassword = _passwordController.text;
     Navigator.of(context).pop();
+    widget.onSubmit(tempPassword);
   }
 
   @override
@@ -85,11 +80,7 @@ class _ResetMemberPasswordSheetState extends State<ResetMemberPasswordSheet> {
                   validator: TempPasswordValidator.required,
                 ),
                 SizedBox(height: 20.h),
-                PrimaryCtaButton(
-                  label: S().save,
-                  isLoading: _submitting,
-                  onPressed: _submit,
-                ),
+                PrimaryCtaButton(label: S().save, onPressed: _submit),
               ],
             ),
           ),
