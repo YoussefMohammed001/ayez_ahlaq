@@ -29,6 +29,8 @@ void main() {
 
   group('canonical from the push type alone', () {
     final cases = <String, String>{
+      'attendance_check_in': 'attendance',
+      'attendance_check_out': 'attendance',
       'booking_requested': 'booking',
       'booking_your_turn': 'booking',
       'home_service_broadcast_closed': 'homeServiceBroadcast',

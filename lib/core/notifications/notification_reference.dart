@@ -4,6 +4,7 @@ class NotificationReference {
   static const Map<String, String> _referenceByTypePrefix = {
     'home_service_broadcast': 'homeServiceBroadcast',
     'home_service': 'homeService',
+    'attendance': 'attendance',
     'booking': 'booking',
     'store_order': 'productOrder',
     'order': 'productOrder',

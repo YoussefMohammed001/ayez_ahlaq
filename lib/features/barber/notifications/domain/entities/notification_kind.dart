@@ -10,12 +10,20 @@ enum NotificationKind {
   homeService,
   ratingReceived,
   adminAnnouncement,
+  attendanceCheckIn,
+  attendanceCheckOut,
   account,
   document,
   general;
 
   static NotificationKind fromType(String type) {
     final normalized = type.toUpperCase();
+    if (normalized.contains('ATTENDANCE_CHECK_OUT')) {
+      return NotificationKind.attendanceCheckOut;
+    }
+    if (normalized.contains('ATTENDANCE_CHECK_IN')) {
+      return NotificationKind.attendanceCheckIn;
+    }
     if (normalized.contains('HOME_SERVICE') && normalized.contains('BROADCAST')) {
       return NotificationKind.homeServiceBroadcast;
     }
@@ -46,6 +54,8 @@ enum NotificationKind {
     NotificationKind.homeService => Icons.home_repair_service_outlined,
     NotificationKind.ratingReceived => Icons.star_rounded,
     NotificationKind.adminAnnouncement => Icons.admin_panel_settings_outlined,
+    NotificationKind.attendanceCheckIn => Icons.login_rounded,
+    NotificationKind.attendanceCheckOut => Icons.logout_rounded,
     NotificationKind.account => Icons.verified_user_outlined,
     NotificationKind.document => Icons.description_outlined,
     NotificationKind.general => Icons.notifications_none_rounded,
