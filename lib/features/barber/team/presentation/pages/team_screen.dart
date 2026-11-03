@@ -25,11 +25,12 @@ class TeamScreen extends StatelessWidget {
 
     AddTeamMemberSheet.show(
       context,
-      onSubmit: (name, phone, tagline, permissions) async {
+      onSubmit: (name, phone, tagline, tempPassword, permissions) async {
         final result = await cubit.addMember(
           name: name,
           phoneNumber: phone,
           tagline: tagline,
+          tempPassword: tempPassword,
           permissions: permissions,
         );
 

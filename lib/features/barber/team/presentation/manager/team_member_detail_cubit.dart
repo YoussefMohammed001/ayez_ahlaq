@@ -3,6 +3,7 @@ import '../../domain/use_cases/activate_team_member_use_case.dart';
 import '../../domain/use_cases/block_team_member_use_case.dart';
 import '../../domain/use_cases/delete_team_member_permanently_use_case.dart';
 import '../../domain/use_cases/get_team_member_use_case.dart';
+import '../../domain/use_cases/reset_member_password_use_case.dart';
 import '../../domain/use_cases/set_member_availability_use_case.dart';
 import '../../domain/use_cases/update_member_permissions_use_case.dart';
 import '../../domain/use_cases/update_team_member_use_case.dart';
@@ -17,6 +18,7 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
   final ActivateTeamMemberUseCase _activateMember;
   final DeleteTeamMemberPermanentlyUseCase _deleteMemberPermanently;
   final UpdateMemberPermissionsUseCase _updatePermissions;
+  final ResetMemberPasswordUseCase _resetPassword;
 
   TeamMemberDetailCubit(
     this._getMember,
@@ -26,6 +28,7 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
     this._activateMember,
     this._deleteMemberPermanently,
     this._updatePermissions,
+    this._resetPassword,
   ) : super(const TeamMemberDetailState());
 
   int? _requestedMemberId;
@@ -146,6 +149,26 @@ class TeamMemberDetailCubit extends Cubit<TeamMemberDetailState> {
           member: member.copyWith(permissions: saved),
         ),
       ),
+    );
+  }
+
+  Future<bool> resetPassword(String tempPassword) async {
+    final member = state.member;
+    if (member == null) return false;
+
+    emit(state.copyWith(isSubmitting: true));
+
+    final result = await _resetPassword(member.id, tempPassword);
+
+    return result.fold(
+      (failure) {
+        emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
+        return false;
+      },
+      (_) {
+        emit(state.copyWith(isSubmitting: false));
+        return true;
+      },
     );
   }
 

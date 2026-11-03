@@ -36,6 +36,7 @@ class BarberTeamCubit extends Cubit<BarberTeamState> {
     required String name,
     required String phoneNumber,
     String? tagline,
+    String? tempPassword,
     BarberPermissions permissions = BarberPermissions.none,
   }) async {
     emit(state.copyWith(isSubmitting: true));
@@ -44,6 +45,7 @@ class BarberTeamCubit extends Cubit<BarberTeamState> {
       name: name,
       phoneNumber: phoneNumber,
       tagline: tagline,
+      tempPassword: tempPassword,
     );
 
     final member = result.fold((failure) {

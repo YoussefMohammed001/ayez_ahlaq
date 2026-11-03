@@ -11,7 +11,10 @@ abstract class IBarberTeamRepo {
     required String name,
     required String phoneNumber,
     String? tagline,
+    String? tempPassword,
   });
+
+  Future<Either<Failure, Unit>> resetPassword(int id, String tempPassword);
 
   Future<Either<Failure, TeamMemberDetail>> getMember(int id);
 

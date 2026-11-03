@@ -12,5 +12,11 @@ class AddTeamMemberUseCase {
     required String name,
     required String phoneNumber,
     String? tagline,
-  }) => _repo.addMember(name: name, phoneNumber: phoneNumber, tagline: tagline);
+    String? tempPassword,
+  }) => _repo.addMember(
+    name: name,
+    phoneNumber: phoneNumber,
+    tagline: tagline,
+    tempPassword: tempPassword,
+  );
 }

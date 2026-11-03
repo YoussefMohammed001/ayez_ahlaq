@@ -7,6 +7,7 @@ import '../../../../../core/widgets/section_title.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../profile/domain/entities/barber_permissions.dart';
+import '../helpers/temp_password_validator.dart';
 import 'member_permissions_section.dart';
 
 class AddTeamMemberSheet extends StatefulWidget {
@@ -14,6 +15,7 @@ class AddTeamMemberSheet extends StatefulWidget {
     String name,
     String phone,
     String? tagline,
+    String? tempPassword,
     BarberPermissions permissions,
   ) onSubmit;
 
@@ -25,6 +27,7 @@ class AddTeamMemberSheet extends StatefulWidget {
       String name,
       String phone,
       String? tagline,
+      String? tempPassword,
       BarberPermissions permissions,
     ) onSubmit,
   }) {
@@ -45,6 +48,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _taglineController = TextEditingController();
+  final _passwordController = TextEditingController();
   BarberPermissions _permissions = BarberPermissions.none;
   bool _submitting = false;
 
@@ -53,6 +57,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
     _nameController.dispose();
     _phoneController.dispose();
     _taglineController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -62,11 +67,13 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
     setState(() => _submitting = true);
 
     final tagline = _taglineController.text.trim();
+    final tempPassword = _passwordController.text;
 
     await widget.onSubmit(
       _nameController.text.trim(),
       _phoneController.text.trim(),
       tagline.isEmpty ? null : tagline,
+      tempPassword.isEmpty ? null : tempPassword,
       _permissions,
     );
 
@@ -110,6 +117,12 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
                 AppTextField(
                   controller: _taglineController,
                   hint: S().memberTaglineHint,
+                ),
+                SectionTitle(title: S().memberTempPasswordOptionalLabel),
+                AppTextField(
+                  controller: _passwordController,
+                  hint: S().passwordMinHint,
+                  validator: TempPasswordValidator.optional,
                 ),
                 MemberPermissionsSection(
                   permissions: _permissions,

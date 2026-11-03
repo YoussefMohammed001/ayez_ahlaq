@@ -8359,6 +8359,66 @@ class S {
     );
   }
 
+  /// `Temporary password (optional)`
+  String get memberTempPasswordOptionalLabel {
+    return Intl.message(
+      'Temporary password (optional)',
+      name: 'memberTempPasswordOptionalLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Temporary password`
+  String get memberTempPasswordLabel {
+    return Intl.message(
+      'Temporary password',
+      name: 'memberTempPasswordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password must be at least 6 characters`
+  String get memberTempPasswordInvalid {
+    return Intl.message(
+      'The password must be at least 6 characters',
+      name: 'memberTempPasswordInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset password`
+  String get resetMemberPasswordTitle {
+    return Intl.message(
+      'Reset password',
+      name: 'resetMemberPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The member signs in with this password and is asked to change it on first sign in`
+  String get resetMemberPasswordNote {
+    return Intl.message(
+      'The member signs in with this password and is asked to change it on first sign in',
+      name: 'resetMemberPasswordNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The member's password was changed`
+  String get memberPasswordResetDone {
+    return Intl.message(
+      'The member\'s password was changed',
+      name: 'memberPasswordResetDone',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rank #{rank}`
   String rankLabel(Object rank) {
     return Intl.message(

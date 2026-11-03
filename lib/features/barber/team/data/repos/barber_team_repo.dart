@@ -26,13 +26,24 @@ class BarberTeamRepo implements IBarberTeamRepo {
     required String name,
     required String phoneNumber,
     String? tagline,
+    String? tempPassword,
   }) async {
     final result = await _api.addMember({
       'name': name,
       'phoneNumber': phoneNumber,
       if (tagline != null) 'tagline': tagline,
+      if (tempPassword != null) 'tempPassword': tempPassword,
     });
     return result.flatMap(_mapOne);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword(
+    int id,
+    String tempPassword,
+  ) async {
+    final result = await _api.resetPassword(id, tempPassword);
+    return result.map((_) => unit);
   }
 
   @override

@@ -19,6 +19,7 @@ import '../../../features/barber/team/domain/use_cases/get_member_service_catalo
 import '../../../features/barber/team/domain/use_cases/get_member_services_use_case.dart';
 import '../../../features/barber/team/domain/use_cases/get_team_member_use_case.dart';
 import '../../../features/barber/team/domain/use_cases/get_team_use_case.dart';
+import '../../../features/barber/team/domain/use_cases/reset_member_password_use_case.dart';
 import '../../../features/barber/team/domain/use_cases/set_member_availability_use_case.dart';
 import '../../../features/barber/team/domain/use_cases/update_member_hours_use_case.dart';
 import '../../../features/barber/team/domain/use_cases/update_member_service_use_case.dart';
@@ -41,9 +42,10 @@ void registerBarberTeam() {
   sl.registerLazySingleton(() => ActivateTeamMemberUseCase(sl()));
   sl.registerLazySingleton(() => UpdateMemberPermissionsUseCase(sl()));
   sl.registerLazySingleton(() => DeleteTeamMemberPermanentlyUseCase(sl()));
+  sl.registerLazySingleton(() => ResetMemberPasswordUseCase(sl()));
   sl.registerFactory(() => BarberTeamCubit(sl(), sl(), sl()));
   sl.registerFactory(
-    () => TeamMemberDetailCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl()),
+    () => TeamMemberDetailCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()),
   );
 
   sl.registerLazySingleton(() => BarberTeamHoursApi(sl()));

@@ -1381,6 +1381,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberHoursTitle": MessageLookupByLibrary.simpleMessage("Working hours"),
     "memberNameHint": MessageLookupByLibrary.simpleMessage("e.g. Karim"),
     "memberNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "memberPasswordResetDone": MessageLookupByLibrary.simpleMessage(
+      "The member\'s password was changed",
+    ),
     "memberPermissionsTitle": MessageLookupByLibrary.simpleMessage(
       "Member permissions",
     ),
@@ -1392,6 +1395,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberTaglineLabel": MessageLookupByLibrary.simpleMessage("Tagline"),
     "memberTaglineOptionalLabel": MessageLookupByLibrary.simpleMessage(
       "Tagline (optional)",
+    ),
+    "memberTempPasswordInvalid": MessageLookupByLibrary.simpleMessage(
+      "The password must be at least 6 characters",
+    ),
+    "memberTempPasswordLabel": MessageLookupByLibrary.simpleMessage(
+      "Temporary password",
+    ),
+    "memberTempPasswordOptionalLabel": MessageLookupByLibrary.simpleMessage(
+      "Temporary password (optional)",
     ),
     "menuTitle": MessageLookupByLibrary.simpleMessage("Menu"),
     "merchant": MessageLookupByLibrary.simpleMessage("Merchant"),
@@ -2013,6 +2025,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "This field is required",
     ),
     "resend_code": MessageLookupByLibrary.simpleMessage("Resend code"),
+    "resetMemberPasswordNote": MessageLookupByLibrary.simpleMessage(
+      "The member signs in with this password and is asked to change it on first sign in",
+    ),
+    "resetMemberPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Reset password",
+    ),
     "resetPasswordConfirm": MessageLookupByLibrary.simpleMessage(
       "Set a new temporary password for this member?",
     ),

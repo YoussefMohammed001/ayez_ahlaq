@@ -8,6 +8,7 @@ import '../../domain/entities/team_member_detail.dart';
 class MemberActionsMenu extends StatelessWidget {
   final TeamMemberDetail member;
   final VoidCallback onEdit;
+  final VoidCallback onResetPassword;
   final VoidCallback onBlock;
   final VoidCallback onActivate;
   final VoidCallback onDeletePermanently;
@@ -16,6 +17,7 @@ class MemberActionsMenu extends StatelessWidget {
     super.key,
     required this.member,
     required this.onEdit,
+    required this.onResetPassword,
     required this.onBlock,
     required this.onActivate,
     required this.onDeletePermanently,
@@ -67,6 +69,11 @@ class MemberActionsMenu extends StatelessWidget {
           icon: Icons.edit_outlined,
           label: S().editMemberTitle,
           onTap: onEdit,
+        ),
+        MenuRow(
+          icon: Icons.lock_reset_rounded,
+          label: S().resetMemberPasswordTitle,
+          onTap: onResetPassword,
         ),
         if (member.active)
           MenuRow(

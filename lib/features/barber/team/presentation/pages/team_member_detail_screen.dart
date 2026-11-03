@@ -7,11 +7,10 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
-import '../../domain/entities/team_member_detail.dart';
 import '../manager/barber_team_cubit.dart';
 import '../manager/team_member_detail_cubit.dart';
 import '../manager/team_member_detail_state.dart';
-import '../widgets/edit_member_sheet.dart';
+import '../widgets/member_detail_sheets.dart';
 import '../widgets/member_actions_menu.dart';
 import '../widgets/member_clients_section.dart';
 import '../widgets/member_earnings_section.dart';
@@ -22,20 +21,6 @@ import '../widgets/member_services_section.dart';
 
 class TeamMemberDetailScreen extends StatelessWidget {
   const TeamMemberDetailScreen({super.key});
-
-  void _openEdit(BuildContext context, TeamMemberDetail member) {
-    final cubit = context.read<TeamMemberDetailCubit>();
-
-    EditMemberSheet.show(
-      context,
-      member: member,
-      onSubmit: (name, tagline) async {
-        final saved = await cubit.updateMember(name, tagline);
-        if (saved) showSuccess(S().memberSaved);
-        return saved;
-      },
-    );
-  }
 
   Future<void> _block(BuildContext context) async {
     final cubit = context.read<TeamMemberDetailCubit>();
@@ -126,7 +111,8 @@ class TeamMemberDetailScreen extends StatelessWidget {
                 ),
                 MemberActionsMenu(
                   member: member,
-                  onEdit: () => _openEdit(context, member),
+                  onEdit: () => MemberDetailSheets.edit(context, member),
+                  onResetPassword: () => MemberDetailSheets.resetPassword(context),
                   onBlock: () => _block(context),
                   onActivate: () => _activate(context),
                   onDeletePermanently: () => _deletePermanently(context),

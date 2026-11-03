@@ -154,6 +154,7 @@ class EndPoints {
   static String barberTeamMemberEarnings(int id) => 'barber/team/$id/earnings';
   static String barberTeamMemberClients(int id) => 'barber/team/$id/clients';
   static String barberTeamHours(int id) => 'barber/team/$id/hours';
+  static String barberTeamPassword(int id) => 'barber/team/$id/password';
   static String barberTeamService(int id) => 'barber/team/$id/service';
   static String barberTeamServiceCatalog(int id) =>
       'barber/team/$id/service/catalog';

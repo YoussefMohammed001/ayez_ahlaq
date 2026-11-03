@@ -7,6 +7,7 @@ import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/activate_team_m
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/block_team_member_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/delete_team_member_permanently_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/get_team_member_use_case.dart';
+import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/reset_member_password_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/set_member_availability_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/update_member_permissions_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/team/domain/use_cases/update_team_member_use_case.dart';
@@ -53,6 +54,7 @@ TeamMemberDetailCubit buildCubit(FakeTeamRepo repo) => TeamMemberDetailCubit(
   ActivateTeamMemberUseCase(repo),
   DeleteTeamMemberPermanentlyUseCase(repo),
   UpdateMemberPermissionsUseCase(repo),
+  ResetMemberPasswordUseCase(repo),
 );
 
 void main() {

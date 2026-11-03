@@ -1322,6 +1322,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberHoursTitle": MessageLookupByLibrary.simpleMessage("مواعيد العمل"),
     "memberNameHint": MessageLookupByLibrary.simpleMessage("مثال: كريم"),
     "memberNameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
+    "memberPasswordResetDone": MessageLookupByLibrary.simpleMessage(
+      "اتغيّرت كلمة سر العضو",
+    ),
     "memberPermissionsTitle": MessageLookupByLibrary.simpleMessage(
       "صلاحيات العضو",
     ),
@@ -1335,6 +1338,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberTaglineLabel": MessageLookupByLibrary.simpleMessage("الوصف"),
     "memberTaglineOptionalLabel": MessageLookupByLibrary.simpleMessage(
       "الوصف (اختياري)",
+    ),
+    "memberTempPasswordInvalid": MessageLookupByLibrary.simpleMessage(
+      "كلمة السر لازم تكون ٦ حروف على الأقل",
+    ),
+    "memberTempPasswordLabel": MessageLookupByLibrary.simpleMessage(
+      "كلمة السر المؤقتة",
+    ),
+    "memberTempPasswordOptionalLabel": MessageLookupByLibrary.simpleMessage(
+      "كلمة السر المؤقتة (اختياري)",
     ),
     "menuTitle": MessageLookupByLibrary.simpleMessage("القائمة"),
     "merchant": MessageLookupByLibrary.simpleMessage("تاجر"),
@@ -1922,6 +1934,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestTypeSubscribe": MessageLookupByLibrary.simpleMessage("اشتراك"),
     "requiredField": MessageLookupByLibrary.simpleMessage("الحقل ده مطلوب"),
     "resend_code": MessageLookupByLibrary.simpleMessage("إعادة إرسال الكود"),
+    "resetMemberPasswordNote": MessageLookupByLibrary.simpleMessage(
+      "العضو هيدخل بكلمة السر دي وهيطلب منه يغيّرها في أول دخول",
+    ),
+    "resetMemberPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "إعادة تعيين كلمة السر",
+    ),
     "resetPasswordConfirm": MessageLookupByLibrary.simpleMessage(
       "هل تريد تعيين كلمة مرور مؤقتة جديدة لهذا العضو؟",
     ),
