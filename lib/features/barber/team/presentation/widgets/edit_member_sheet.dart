@@ -9,7 +9,7 @@ import '../../domain/entities/team_member_detail.dart';
 
 class EditMemberSheet extends StatefulWidget {
   final TeamMemberDetail member;
-  final Future<bool> Function(String name, String tagline) onSubmit;
+  final Future<void> Function(String name, String tagline) onSubmit;
 
   const EditMemberSheet({
     super.key,
@@ -20,7 +20,7 @@ class EditMemberSheet extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required TeamMemberDetail member,
-    required Future<bool> Function(String name, String tagline) onSubmit,
+    required Future<void> Function(String name, String tagline) onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -39,7 +39,6 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
   late final _nameController = TextEditingController(text: widget.member.name);
   late final _taglineController =
       TextEditingController(text: widget.member.tagline);
-  bool _submitting = false;
 
   @override
   void dispose() {
@@ -48,19 +47,14 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting || !_formKey.currentState!.validate()) return;
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _submitting = true);
+    final name = _nameController.text.trim();
+    final tagline = _taglineController.text.trim();
 
-    final saved = await widget.onSubmit(
-      _nameController.text.trim(),
-      _taglineController.text.trim(),
-    );
-
-    if (!mounted) return;
-    setState(() => _submitting = false);
-    if (saved) Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    widget.onSubmit(name, tagline);
   }
 
   @override
@@ -93,11 +87,7 @@ class _EditMemberSheetState extends State<EditMemberSheet> {
                   hint: S().memberTaglineHint,
                 ),
                 SizedBox(height: 20.h),
-                PrimaryCtaButton(
-                  label: S().save,
-                  isLoading: _submitting,
-                  onPressed: _submit,
-                ),
+                PrimaryCtaButton(label: S().save, onPressed: _submit),
               ],
             ),
           ),

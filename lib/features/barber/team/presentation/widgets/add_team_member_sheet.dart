@@ -17,7 +17,8 @@ class AddTeamMemberSheet extends StatefulWidget {
     String? tagline,
     String? tempPassword,
     BarberPermissions permissions,
-  ) onSubmit;
+  )
+  onSubmit;
 
   const AddTeamMemberSheet({super.key, required this.onSubmit});
 
@@ -29,7 +30,8 @@ class AddTeamMemberSheet extends StatefulWidget {
       String? tagline,
       String? tempPassword,
       BarberPermissions permissions,
-    ) onSubmit,
+    )
+    onSubmit,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -50,7 +52,6 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
   final _taglineController = TextEditingController();
   final _passwordController = TextEditingController();
   BarberPermissions _permissions = BarberPermissions.none;
-  bool _submitting = false;
 
   @override
   void dispose() {
@@ -61,25 +62,23 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (_submitting || !_formKey.currentState!.validate()) return;
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _submitting = true);
-
+    final name = _nameController.text.trim();
+    final phone = _phoneController.text.trim();
     final tagline = _taglineController.text.trim();
     final tempPassword = _passwordController.text;
+    final permissions = _permissions;
 
-    await widget.onSubmit(
-      _nameController.text.trim(),
-      _phoneController.text.trim(),
+    Navigator.of(context).pop();
+    widget.onSubmit(
+      name,
+      phone,
       tagline.isEmpty ? null : tagline,
       tempPassword.isEmpty ? null : tempPassword,
-      _permissions,
+      permissions,
     );
-
-    if (!mounted) return;
-    setState(() => _submitting = false);
-    Navigator.of(context).pop();
   }
 
   @override
@@ -129,11 +128,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
                   onChanged: (value) => setState(() => _permissions = value),
                 ),
                 SizedBox(height: 12.h),
-                PrimaryCtaButton(
-                  label: S().save,
-                  isLoading: _submitting,
-                  onPressed: _submit,
-                ),
+                PrimaryCtaButton(label: S().save, onPressed: _submit),
               ],
             ),
           ),

@@ -19,7 +19,6 @@ class MemberDetailSheets {
       onSubmit: (name, tagline) async {
         final saved = await cubit.updateMember(name, tagline);
         if (saved) showSuccess(S().memberSaved);
-        return saved;
       },
     );
   }
