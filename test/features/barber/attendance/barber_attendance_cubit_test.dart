@@ -11,6 +11,10 @@ import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/check_in_
 import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/check_out_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/get_current_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/attendance/presentation/manager/barber_attendance_cubit.dart';
+import 'package:ayez_ahlaq/features/barber/attendance_feature/domain/entities/attendance_feature_requests_page.dart';
+import 'package:ayez_ahlaq/features/barber/attendance_feature/domain/entities/attendance_feature_status.dart';
+import 'package:ayez_ahlaq/features/barber/attendance_feature/domain/repos/i_attendance_feature_repo.dart';
+import 'package:ayez_ahlaq/features/barber/attendance_feature/domain/use_cases/get_attendance_feature_status_use_case.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/device_location_result.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/geo_point.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/location_availability.dart';
@@ -66,6 +70,29 @@ class _FakeRepo implements IBarberAttendanceRepo {
   }) => throw UnimplementedError();
 }
 
+class _FakeFeatureRepo implements IAttendanceFeatureRepo {
+  AttendanceFeatureStatus status = const AttendanceFeatureStatus.ungated();
+  int statusCalls = 0;
+
+  @override
+  Future<Either<Failure, AttendanceFeatureStatus>> getStatus() async {
+    statusCalls++;
+    return Right(status);
+  }
+
+  @override
+  Future<Either<Failure, Unit>> requestFeature() => throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, Unit>> cancelRequest(int id) =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, AttendanceFeatureRequestsPage>> getRequests({
+    required int page,
+  }) => throw UnimplementedError();
+}
+
 class _FakeLocationRepo implements ILocationRepo {
   DeviceLocationResult result;
 
@@ -82,6 +109,7 @@ class _FakeLocationRepo implements ILocationRepo {
 
 void main() {
   late _FakeRepo repo;
+  late _FakeFeatureRepo featureRepo;
   late _FakeLocationRepo location;
 
   BarberAttendanceCubit build() => BarberAttendanceCubit(
@@ -89,9 +117,11 @@ void main() {
     CheckInAttendanceUseCase(repo),
     CheckOutAttendanceUseCase(repo),
     GetCurrentLocationUseCase(location),
+    GetAttendanceFeatureStatusUseCase(featureRepo),
   );
 
   setUp(() {
+    featureRepo = _FakeFeatureRepo();
     repo = _FakeRepo();
     location = _FakeLocationRepo(
       const DeviceLocationResult(

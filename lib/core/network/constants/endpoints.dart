@@ -139,6 +139,11 @@ class EndPoints {
   static const String barberAttendanceCurrent = 'barber/attendance/current';
   static const String barberAttendanceCheckIn = 'barber/attendance/checkIn';
   static const String barberAttendanceCheckOut = 'barber/attendance/checkOut';
+  static const String barberAttendanceFeature = 'barber/attendanceFeature';
+  static const String barberAttendanceFeatureRequest =
+      'barber/attendanceFeature/request';
+  static String barberAttendanceFeatureRequestCancel(int id) =>
+      'barber/attendanceFeature/request/$id/cancel';
   static const String barberAttendanceSetting = 'barber/attendance/setting';
   static const String barberAttendanceSettingLog =
       'barber/attendance/setting/log';

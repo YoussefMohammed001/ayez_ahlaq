@@ -1,6 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_history_cubit.dart';
+import '../../../features/barber/attendance_feature/presentation/manager/attendance_feature_request_cubit.dart';
+import '../../../features/barber/attendance_feature/presentation/manager/attendance_feature_requests_cubit.dart';
+import '../../../features/barber/attendance_feature/presentation/pages/attendance_feature_requests_screen.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_setting_log_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_settings_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_team_cubit.dart';
@@ -26,6 +29,7 @@ final List<RouteBase> barberAttendanceRoutes = [
             BlocProvider.value(value: shared..load())
           else
             BlocProvider(create: (_) => sl<BarberAttendanceCubit>()..load()),
+          BlocProvider(create: (_) => sl<AttendanceFeatureRequestCubit>()),
           BlocProvider.value(value: barberProfileCubit),
         ],
         child: const BarberAttendanceScreen(),
@@ -61,6 +65,13 @@ final List<RouteBase> barberAttendanceRoutes = [
     builder: (_, __) => BlocProvider(
       create: (_) => sl<AttendanceSettingLogCubit>()..load(),
       child: const AttendanceSettingLogScreen(),
+    ),
+  ),
+  GoRoute(
+    path: Routes.barberAttendanceFeatureRequestsScreen,
+    builder: (_, __) => BlocProvider(
+      create: (_) => sl<AttendanceFeatureRequestsCubit>()..load(),
+      child: const AttendanceFeatureRequestsScreen(),
     ),
   ),
 ];

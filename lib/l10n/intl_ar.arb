@@ -301,6 +301,65 @@
   "attendanceCorrectNoteRequired": "أدخل سبب التعديل",
   "attendanceCorrectOutBeforeIn": "يجب أن يكون وقت الانصراف بعد وقت الحضور",
   "attendanceCorrectSaved": "تم تصحيح السجل",
+  "attendanceFeatureLockedTitle": "ميزة الحضور والانصراف غير مفعّلة",
+  "attendanceFeatureExpiredTitle": "انتهى اشتراك الحضور والانصراف",
+  "attendanceFeatureOwnerFallback": "يمكنك طلب تفعيل الميزة لمحلك",
+  "attendanceFeatureMemberFallback": "تواصل مع صاحب المحل لتفعيل الميزة",
+  "attendanceFeatureOffShort": "الميزة غير مفعّلة",
+  "attendanceFeaturePrice": "سعر الاشتراك: {price} ج",
+  "@attendanceFeaturePrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureRequestAction": "طلب التفعيل",
+  "attendanceFeatureRenewAction": "طلب التجديد",
+  "attendanceFeatureRequestConfirmTitle": "طلب تفعيل الحضور والانصراف",
+  "attendanceFeatureRequestConfirmMessage": "سيتم إرسال الطلب إلى الإدارة. هل تريد المتابعة؟",
+  "attendanceFeatureRequested": "تم إرسال الطلب",
+  "attendanceFeaturePendingTitle": "طلبك قيد المراجعة",
+  "attendanceFeaturePendingSince": "أُرسل الطلب في {date}",
+  "@attendanceFeaturePendingSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureCancelAction": "سحب الطلب",
+  "attendanceFeatureCancelConfirmTitle": "سحب طلب التفعيل",
+  "attendanceFeatureCancelConfirmMessage": "هل أنت متأكد من سحب طلب التفعيل؟",
+  "attendanceFeatureCancelled": "تم سحب الطلب",
+  "attendanceFeatureRequestsTitle": "طلبات التفعيل",
+  "attendanceFeatureRequestsLink": "سجل طلبات التفعيل",
+  "attendanceFeatureRequestsEmpty": "لا توجد طلبات بعد",
+  "attendanceFeatureDecidedAt": "تم البتّ في {date}",
+  "@attendanceFeatureDecidedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureActiveUntil": "مفعّلة حتى {date}",
+  "@attendanceFeatureActiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureDaysLeft": "متبقٍ {days} يوم",
+  "@attendanceFeatureDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceFeatureEndingSoon": "ينتهي الاشتراك قريبًا",
   "noSlotsAvailable": "لا توجد مواعيد متاحة في هذا اليوم",
   "bookingSummaryTitle": "ملخص الحجز",
   "barberLabel": "الحلاق",

@@ -18,6 +18,15 @@ import '../../../features/barber/attendance/presentation/manager/attendance_sett
 import '../../../features/barber/attendance/presentation/manager/attendance_settings_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_team_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/barber_attendance_cubit.dart';
+import '../../../features/barber/attendance_feature/data/apis/attendance_feature_api.dart';
+import '../../../features/barber/attendance_feature/data/repos/attendance_feature_repo.dart';
+import '../../../features/barber/attendance_feature/domain/repos/i_attendance_feature_repo.dart';
+import '../../../features/barber/attendance_feature/domain/use_cases/cancel_attendance_feature_request_use_case.dart';
+import '../../../features/barber/attendance_feature/domain/use_cases/get_attendance_feature_requests_use_case.dart';
+import '../../../features/barber/attendance_feature/domain/use_cases/get_attendance_feature_status_use_case.dart';
+import '../../../features/barber/attendance_feature/domain/use_cases/request_attendance_feature_use_case.dart';
+import '../../../features/barber/attendance_feature/presentation/manager/attendance_feature_request_cubit.dart';
+import '../../../features/barber/attendance_feature/presentation/manager/attendance_feature_requests_cubit.dart';
 import '../sl.dart';
 
 void registerBarberAttendance() {
@@ -29,7 +38,17 @@ void registerBarberAttendance() {
   sl.registerLazySingleton(() => CheckInAttendanceUseCase(sl()));
   sl.registerLazySingleton(() => CheckOutAttendanceUseCase(sl()));
   sl.registerLazySingleton(() => GetAttendanceHistoryUseCase(sl()));
-  sl.registerFactory(() => BarberAttendanceCubit(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton(() => AttendanceFeatureApi(sl()));
+  sl.registerLazySingleton<IAttendanceFeatureRepo>(
+    () => AttendanceFeatureRepo(sl()),
+  );
+  sl.registerLazySingleton(() => GetAttendanceFeatureStatusUseCase(sl()));
+  sl.registerLazySingleton(() => RequestAttendanceFeatureUseCase(sl()));
+  sl.registerLazySingleton(() => CancelAttendanceFeatureRequestUseCase(sl()));
+  sl.registerLazySingleton(() => GetAttendanceFeatureRequestsUseCase(sl()));
+  sl.registerFactory(() => AttendanceFeatureRequestCubit(sl(), sl()));
+  sl.registerFactory(() => AttendanceFeatureRequestsCubit(sl()));
+  sl.registerFactory(() => BarberAttendanceCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => BarberAttendanceAdminApi(sl()));
   sl.registerLazySingleton<IBarberAttendanceAdminRepo>(
     () => BarberAttendanceAdminRepo(sl()),

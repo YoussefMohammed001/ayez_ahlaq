@@ -149,6 +149,8 @@ class Routes {
   static const String barberAttendanceHistoryScreen =
       '/barber/attendance/history';
   static const String barberAttendanceTeamScreen = '/barber/attendance/team';
+  static const String barberAttendanceFeatureRequestsScreen =
+      '/barber/attendance/feature/requests';
   static const String barberAttendanceSettingsScreen =
       '/barber/attendance/settings';
   static const String barberAttendanceSettingLogScreen =

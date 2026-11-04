@@ -1804,6 +1804,246 @@ class S {
     );
   }
 
+  /// `Attendance is not enabled`
+  String get attendanceFeatureLockedTitle {
+    return Intl.message(
+      'Attendance is not enabled',
+      name: 'attendanceFeatureLockedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The attendance subscription has ended`
+  String get attendanceFeatureExpiredTitle {
+    return Intl.message(
+      'The attendance subscription has ended',
+      name: 'attendanceFeatureExpiredTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can request the feature for your shop`
+  String get attendanceFeatureOwnerFallback {
+    return Intl.message(
+      'You can request the feature for your shop',
+      name: 'attendanceFeatureOwnerFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ask the shop owner to enable the feature`
+  String get attendanceFeatureMemberFallback {
+    return Intl.message(
+      'Ask the shop owner to enable the feature',
+      name: 'attendanceFeatureMemberFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feature not enabled`
+  String get attendanceFeatureOffShort {
+    return Intl.message(
+      'Feature not enabled',
+      name: 'attendanceFeatureOffShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription price: {price} EGP`
+  String attendanceFeaturePrice(String price) {
+    return Intl.message(
+      'Subscription price: $price EGP',
+      name: 'attendanceFeaturePrice',
+      desc: '',
+      args: [price],
+    );
+  }
+
+  /// `Request activation`
+  String get attendanceFeatureRequestAction {
+    return Intl.message(
+      'Request activation',
+      name: 'attendanceFeatureRequestAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request renewal`
+  String get attendanceFeatureRenewAction {
+    return Intl.message(
+      'Request renewal',
+      name: 'attendanceFeatureRenewAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request attendance activation`
+  String get attendanceFeatureRequestConfirmTitle {
+    return Intl.message(
+      'Request attendance activation',
+      name: 'attendanceFeatureRequestConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The request will be sent to the administration. Do you want to continue?`
+  String get attendanceFeatureRequestConfirmMessage {
+    return Intl.message(
+      'The request will be sent to the administration. Do you want to continue?',
+      name: 'attendanceFeatureRequestConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The request was sent`
+  String get attendanceFeatureRequested {
+    return Intl.message(
+      'The request was sent',
+      name: 'attendanceFeatureRequested',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your request is under review`
+  String get attendanceFeaturePendingTitle {
+    return Intl.message(
+      'Your request is under review',
+      name: 'attendanceFeaturePendingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request sent on {date}`
+  String attendanceFeaturePendingSince(String date) {
+    return Intl.message(
+      'Request sent on $date',
+      name: 'attendanceFeaturePendingSince',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Withdraw the request`
+  String get attendanceFeatureCancelAction {
+    return Intl.message(
+      'Withdraw the request',
+      name: 'attendanceFeatureCancelAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw the activation request`
+  String get attendanceFeatureCancelConfirmTitle {
+    return Intl.message(
+      'Withdraw the activation request',
+      name: 'attendanceFeatureCancelConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to withdraw the activation request?`
+  String get attendanceFeatureCancelConfirmMessage {
+    return Intl.message(
+      'Are you sure you want to withdraw the activation request?',
+      name: 'attendanceFeatureCancelConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The request was withdrawn`
+  String get attendanceFeatureCancelled {
+    return Intl.message(
+      'The request was withdrawn',
+      name: 'attendanceFeatureCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activation requests`
+  String get attendanceFeatureRequestsTitle {
+    return Intl.message(
+      'Activation requests',
+      name: 'attendanceFeatureRequestsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activation requests history`
+  String get attendanceFeatureRequestsLink {
+    return Intl.message(
+      'Activation requests history',
+      name: 'attendanceFeatureRequestsLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No requests yet`
+  String get attendanceFeatureRequestsEmpty {
+    return Intl.message(
+      'No requests yet',
+      name: 'attendanceFeatureRequestsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decided on {date}`
+  String attendanceFeatureDecidedAt(String date) {
+    return Intl.message(
+      'Decided on $date',
+      name: 'attendanceFeatureDecidedAt',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Active until {date}`
+  String attendanceFeatureActiveUntil(String date) {
+    return Intl.message(
+      'Active until $date',
+      name: 'attendanceFeatureActiveUntil',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `{days} days left`
+  String attendanceFeatureDaysLeft(int days) {
+    return Intl.message(
+      '$days days left',
+      name: 'attendanceFeatureDaysLeft',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  /// `The subscription ends soon`
+  String get attendanceFeatureEndingSoon {
+    return Intl.message(
+      'The subscription ends soon',
+      name: 'attendanceFeatureEndingSoon',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

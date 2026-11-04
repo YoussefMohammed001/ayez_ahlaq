@@ -301,6 +301,65 @@
   "attendanceCorrectNoteRequired": "Enter the reason for the change",
   "attendanceCorrectOutBeforeIn": "Check-out must be after check-in",
   "attendanceCorrectSaved": "Record corrected",
+  "attendanceFeatureLockedTitle": "Attendance is not enabled",
+  "attendanceFeatureExpiredTitle": "The attendance subscription has ended",
+  "attendanceFeatureOwnerFallback": "You can request the feature for your shop",
+  "attendanceFeatureMemberFallback": "Ask the shop owner to enable the feature",
+  "attendanceFeatureOffShort": "Feature not enabled",
+  "attendanceFeaturePrice": "Subscription price: {price} EGP",
+  "@attendanceFeaturePrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureRequestAction": "Request activation",
+  "attendanceFeatureRenewAction": "Request renewal",
+  "attendanceFeatureRequestConfirmTitle": "Request attendance activation",
+  "attendanceFeatureRequestConfirmMessage": "The request will be sent to the administration. Do you want to continue?",
+  "attendanceFeatureRequested": "The request was sent",
+  "attendanceFeaturePendingTitle": "Your request is under review",
+  "attendanceFeaturePendingSince": "Request sent on {date}",
+  "@attendanceFeaturePendingSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureCancelAction": "Withdraw the request",
+  "attendanceFeatureCancelConfirmTitle": "Withdraw the activation request",
+  "attendanceFeatureCancelConfirmMessage": "Are you sure you want to withdraw the activation request?",
+  "attendanceFeatureCancelled": "The request was withdrawn",
+  "attendanceFeatureRequestsTitle": "Activation requests",
+  "attendanceFeatureRequestsLink": "Activation requests history",
+  "attendanceFeatureRequestsEmpty": "No requests yet",
+  "attendanceFeatureDecidedAt": "Decided on {date}",
+  "@attendanceFeatureDecidedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureActiveUntil": "Active until {date}",
+  "@attendanceFeatureActiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFeatureDaysLeft": "{days} days left",
+  "@attendanceFeatureDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceFeatureEndingSoon": "The subscription ends soon",
   "noSlotsAvailable": "No slots available on this day",
   "bookingSummaryTitle": "Booking summary",
   "barberLabel": "Barber",

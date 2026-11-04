@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../shared/location/domain/use_cases/get_current_location_use_case.dart';
+import '../../../attendance_feature/domain/entities/attendance_feature_status.dart';
+import '../../../attendance_feature/domain/use_cases/get_attendance_feature_status_use_case.dart';
 import '../../domain/entities/current_attendance.dart';
 import '../../domain/use_cases/check_in_attendance_use_case.dart';
 import '../../domain/use_cases/check_out_attendance_use_case.dart';
@@ -9,16 +11,20 @@ import 'attendance_location_message.dart';
 import 'barber_attendance_state.dart';
 
 class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
+  static const _featureRequiredCode = 'ATTENDANCE_FEATURE_REQUIRED';
+
   final GetCurrentAttendanceUseCase _getCurrent;
   final CheckInAttendanceUseCase _checkIn;
   final CheckOutAttendanceUseCase _checkOut;
   final GetCurrentLocationUseCase _getLocation;
+  final GetAttendanceFeatureStatusUseCase _getFeature;
 
   BarberAttendanceCubit(
     this._getCurrent,
     this._checkIn,
     this._checkOut,
     this._getLocation,
+    this._getFeature,
   ) : super(const BarberAttendanceState());
 
   @override
@@ -32,17 +38,22 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
       emit(state.copyWith(status: BarberAttendanceStatus.loading));
     }
 
-    final result = await _getCurrent();
+    final featureResult = await _getFeature();
 
-    result.fold(
-      (failure) => emit(
-        state.copyWith(
-          status: BarberAttendanceStatus.failure,
-          errorMessage: failure.message,
-        ),
-      ),
-      _emitCurrent,
-    );
+    await featureResult.fold((failure) async => _emitLoadFailure(failure), (
+      feature,
+    ) async {
+      if (!feature.enabled) return _emitLocked(feature);
+
+      final result = await _getCurrent();
+
+      await result.fold(
+        (failure) async => _isFeatureRequired(failure)
+            ? _emitLocked(await _refreshedFeature(feature))
+            : _emitLoadFailure(failure),
+        (current) async => _emitCurrent(current, feature),
+      );
+    });
   }
 
   Future<bool> checkIn() async {
@@ -63,9 +74,9 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
 
     final result = await _checkIn(lat: point?.latitude, lng: point?.longitude);
 
-    return result.fold(_emitFailure, (current) {
-      _emitCurrent(current);
-      return true;
+    return result.fold(_emitActionFailure, (current) {
+      _emitCurrent(current, state.feature);
+      return Future.value(true);
     });
   }
 
@@ -74,24 +85,60 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
 
     final result = await _checkOut();
 
-    return result.fold(_emitFailure, (_) {
+    return result.fold(_emitActionFailure, (_) {
       _emitCurrent(
         CurrentAttendance(shift: null, config: state.current.config),
+        state.feature,
       );
-      return true;
+      return Future.value(true);
     });
   }
 
-  void _emitCurrent(CurrentAttendance current) => emit(
+  bool _isFeatureRequired(Failure failure) =>
+      failure.data['code'] == _featureRequiredCode;
+
+  Future<AttendanceFeatureStatus> _refreshedFeature(
+    AttendanceFeatureStatus fallback,
+  ) async {
+    final result = await _getFeature();
+    return result.getOrElse(() => fallback);
+  }
+
+  void _emitCurrent(
+    CurrentAttendance current,
+    AttendanceFeatureStatus feature,
+  ) => emit(
     state.copyWith(
       status: BarberAttendanceStatus.success,
       current: current,
+      feature: feature,
       fetchedAt: DateTime.now(),
       isSubmitting: false,
     ),
   );
 
-  bool _emitFailure(Failure failure) {
+  void _emitLocked(AttendanceFeatureStatus feature) => emit(
+    state.copyWith(
+      status: BarberAttendanceStatus.success,
+      current: const CurrentAttendance.none(),
+      feature: feature,
+      fetchedAt: DateTime.now(),
+      isSubmitting: false,
+    ),
+  );
+
+  void _emitLoadFailure(Failure failure) => emit(
+    state.copyWith(
+      status: BarberAttendanceStatus.failure,
+      errorMessage: failure.message,
+    ),
+  );
+
+  Future<bool> _emitActionFailure(Failure failure) async {
+    if (_isFeatureRequired(failure)) {
+      await load();
+      return false;
+    }
     emit(state.copyWith(isSubmitting: false, errorMessage: failure.message));
     return false;
   }

@@ -13,6 +13,8 @@ import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../manager/barber_attendance_cubit.dart';
 import '../manager/barber_attendance_state.dart';
+import '../../../attendance_feature/presentation/widgets/attendance_feature_active_banner.dart';
+import '../../../attendance_feature/presentation/widgets/attendance_feature_locked_view.dart';
 import '../widgets/attendance_range_note.dart';
 import '../widgets/attendance_status_card.dart';
 import '../widgets/owner_attendance_links.dart';
@@ -40,10 +42,15 @@ class BarberAttendanceScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppTopBar(
           title: S().attendanceTitle,
-          trailing: IconButton(
-            icon: const Icon(Icons.history_rounded),
-            tooltip: S().attendanceHistoryTitle,
-            onPressed: () => context.push(Routes.barberAttendanceHistoryScreen),
+          trailing: BlocBuilder<BarberAttendanceCubit, BarberAttendanceState>(
+            builder: (context, state) => state.isLocked
+                ? const SizedBox.shrink()
+                : IconButton(
+                    icon: const Icon(Icons.history_rounded),
+                    tooltip: S().attendanceHistoryTitle,
+                    onPressed: () =>
+                        context.push(Routes.barberAttendanceHistoryScreen),
+                  ),
           ),
         ),
         body: BlocBuilder<BarberAttendanceCubit, BarberAttendanceState>(
@@ -62,6 +69,19 @@ class BarberAttendanceScreen extends StatelessWidget {
                   : const Center(child: CircularProgressIndicator());
             }
 
+            if (state.isLocked) {
+              return RefreshableStateView(
+                onRefresh: cubit.load,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 24.h),
+                  child: AttendanceFeatureLockedView(
+                    feature: state.feature,
+                    onChanged: cubit.load,
+                  ),
+                ),
+              );
+            }
+
             return RefreshableStateView(
               onRefresh: cubit.load,
               child: Padding(
@@ -69,6 +89,7 @@ class BarberAttendanceScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    AttendanceFeatureActiveBanner(feature: state.feature),
                     AttendanceStatusCard(
                       current: state.current,
                       fetchedAt: state.fetchedAt!,

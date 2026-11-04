@@ -16,6 +16,7 @@ class AttendanceHomeCard extends StatelessWidget {
 
   String _subtitle(BarberAttendanceState state) {
     if (!state.hasLoaded) return S().attendanceHomeCardAction;
+    if (state.isLocked) return S().attendanceFeatureOffShort;
     final shift = state.current.shift;
     if (shift == null) return S().attendanceOffShift;
     return '${S().attendanceOnShift} • ${S().attendanceStartedAt(AttendanceTimeLabel.time(shift.checkInAt))}';
@@ -37,7 +38,9 @@ class AttendanceHomeCard extends StatelessWidget {
           child: Row(
             children: [
               Icon(
-                Icons.fingerprint_rounded,
+                state.isLocked
+                    ? Icons.lock_outline_rounded
+                    : Icons.fingerprint_rounded,
                 color: scheme.primary,
                 size: 28.r,
               ),
