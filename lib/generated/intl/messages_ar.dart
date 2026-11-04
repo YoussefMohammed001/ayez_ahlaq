@@ -384,6 +384,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceFeatureRequestsTitle": MessageLookupByLibrary.simpleMessage(
       "طلبات التفعيل",
     ),
+    "attendanceFeatureSuspendedTitle": MessageLookupByLibrary.simpleMessage(
+      "تم إيقاف ميزة الحضور والانصراف",
+    ),
     "attendanceHistoryEmpty": MessageLookupByLibrary.simpleMessage(
       "لا يوجد سجل حضور بعد",
     ),

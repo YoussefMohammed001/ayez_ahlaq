@@ -1824,6 +1824,16 @@ class S {
     );
   }
 
+  /// `Attendance has been stopped`
+  String get attendanceFeatureSuspendedTitle {
+    return Intl.message(
+      'Attendance has been stopped',
+      name: 'attendanceFeatureSuspendedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You can request the feature for your shop`
   String get attendanceFeatureOwnerFallback {
     return Intl.message(

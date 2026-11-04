@@ -303,6 +303,7 @@
   "attendanceCorrectSaved": "تم تصحيح السجل",
   "attendanceFeatureLockedTitle": "ميزة الحضور والانصراف غير مفعّلة",
   "attendanceFeatureExpiredTitle": "انتهى اشتراك الحضور والانصراف",
+  "attendanceFeatureSuspendedTitle": "تم إيقاف ميزة الحضور والانصراف",
   "attendanceFeatureOwnerFallback": "يمكنك طلب تفعيل الميزة لمحلك",
   "attendanceFeatureMemberFallback": "تواصل مع صاحب المحل لتفعيل الميزة",
   "attendanceFeatureOffShort": "الميزة غير مفعّلة",

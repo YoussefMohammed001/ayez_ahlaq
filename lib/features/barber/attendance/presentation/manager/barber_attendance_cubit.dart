@@ -11,7 +11,7 @@ import 'attendance_location_message.dart';
 import 'barber_attendance_state.dart';
 
 class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
-  static const _featureRequiredCode = 'ATTENDANCE_FEATURE_REQUIRED';
+  static const _featureCodePrefix = 'ATTENDANCE_FEATURE';
 
   final GetCurrentAttendanceUseCase _getCurrent;
   final CheckInAttendanceUseCase _checkIn;
@@ -94,8 +94,10 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
     });
   }
 
-  bool _isFeatureRequired(Failure failure) =>
-      failure.data['code'] == _featureRequiredCode;
+  bool _isFeatureRequired(Failure failure) {
+    final code = failure.data['code'];
+    return code is String && code.startsWith(_featureCodePrefix);
+  }
 
   Future<AttendanceFeatureStatus> _refreshedFeature(
     AttendanceFeatureStatus fallback,

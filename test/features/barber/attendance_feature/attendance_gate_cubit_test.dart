@@ -209,4 +209,22 @@ void main() {
     expect(cubit.state.isLocked, false);
     expect(cubit.state.errorMessage, 'بعيد عن المحل');
   });
+
+  test('any attendance feature code locks the screen quietly', () async {
+    attendance.currentResult = Left(
+      Failure('انتهى الاشتراك', 403, const {'code': 'ATTENDANCE_FEATURE_EXPIRED'}),
+    );
+    final cubit = build(
+      _FeatureRepo([
+        Right(_status(enabled: true, state: 'ACTIVE')),
+        Right(_status(enabled: false, state: 'SUSPENDED')),
+      ]),
+    );
+
+    await cubit.load();
+
+    expect(cubit.state.isLocked, true);
+    expect(cubit.state.feature.isSuspended, true);
+    expect(cubit.state.errorMessage, isNull);
+  });
 }

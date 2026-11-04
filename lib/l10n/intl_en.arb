@@ -303,6 +303,7 @@
   "attendanceCorrectSaved": "Record corrected",
   "attendanceFeatureLockedTitle": "Attendance is not enabled",
   "attendanceFeatureExpiredTitle": "The attendance subscription has ended",
+  "attendanceFeatureSuspendedTitle": "Attendance has been stopped",
   "attendanceFeatureOwnerFallback": "You can request the feature for your shop",
   "attendanceFeatureMemberFallback": "Ask the shop owner to enable the feature",
   "attendanceFeatureOffShort": "Feature not enabled",

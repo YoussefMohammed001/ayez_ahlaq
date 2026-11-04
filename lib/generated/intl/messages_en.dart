@@ -390,6 +390,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceFeatureRequestsTitle": MessageLookupByLibrary.simpleMessage(
       "Activation requests",
     ),
+    "attendanceFeatureSuspendedTitle": MessageLookupByLibrary.simpleMessage(
+      "Attendance has been stopped",
+    ),
     "attendanceHistoryEmpty": MessageLookupByLibrary.simpleMessage(
       "No attendance records yet",
     ),

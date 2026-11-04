@@ -50,6 +50,8 @@ class AttendanceFeatureStatus extends Equatable {
 
   bool get isExpired => !enabled && state == AttendanceFeatureState.expired;
 
+  bool get isSuspended => !enabled && state == AttendanceFeatureState.suspended;
+
   bool get isEndingSoon {
     final left = daysLeft;
     return enabled && left != null && left <= endingSoonDays;

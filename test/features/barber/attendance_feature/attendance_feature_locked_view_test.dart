@@ -18,7 +18,7 @@ import 'package:ayez_ahlaq/features/barber/attendance_feature/presentation/manag
 import 'package:ayez_ahlaq/features/barber/attendance_feature/presentation/widgets/attendance_feature_locked_view.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
 
-class _Repo implements IAttendanceFeatureRepo {
+class FakeFeatureRepo implements IAttendanceFeatureRepo {
   int requestCalls = 0;
   int? cancelledId;
 
@@ -60,7 +60,7 @@ AttendanceFeatureStatus _feature({
   'pendingRequest': pending,
 });
 
-Widget _host(_Repo repo, AttendanceFeatureStatus feature, VoidCallback onChanged) {
+Widget _host(FakeFeatureRepo repo, AttendanceFeatureStatus feature, VoidCallback onChanged) {
   final cubit = AttendanceFeatureRequestCubit(
     RequestAttendanceFeatureUseCase(repo),
     CancelAttendanceFeatureRequestUseCase(repo),
@@ -100,7 +100,7 @@ void main() {
     tester,
   ) async {
     await _tall(tester);
-    await tester.pumpWidget(_host(_Repo(), _feature(owner: false, canRequest: false), () {}));
+    await tester.pumpWidget(_host(FakeFeatureRepo(), _feature(owner: false, canRequest: false), () {}));
 
     expect(find.text(S().attendanceFeatureLockedTitle), findsOneWidget);
     expect(find.text('رسالة الخادم'), findsOneWidget);
@@ -110,7 +110,7 @@ void main() {
 
   testWidgets('the owner can request after confirming', (tester) async {
     await _tall(tester);
-    final repo = _Repo();
+    final repo = FakeFeatureRepo();
     var changed = 0;
     await tester.pumpWidget(_host(repo, _feature(), () => changed++));
 
@@ -128,7 +128,7 @@ void main() {
 
   testWidgets('declining the confirmation sends nothing', (tester) async {
     await _tall(tester);
-    final repo = _Repo();
+    final repo = FakeFeatureRepo();
     await tester.pumpWidget(_host(repo, _feature(), () {}));
 
     await tester.tap(find.byType(PrimaryCtaButton));
@@ -141,7 +141,7 @@ void main() {
 
   testWidgets('a price of zero is not shown', (tester) async {
     await _tall(tester);
-    await tester.pumpWidget(_host(_Repo(), _feature(price: 0), () {}));
+    await tester.pumpWidget(_host(FakeFeatureRepo(), _feature(price: 0), () {}));
 
     expect(find.textContaining(S().attendanceFeaturePrice('0')), findsNothing);
     expect(find.byType(PrimaryCtaButton), findsOneWidget);
@@ -151,7 +151,7 @@ void main() {
     tester,
   ) async {
     await _tall(tester);
-    final repo = _Repo();
+    final repo = FakeFeatureRepo();
     var changed = 0;
     await tester.pumpWidget(
       _host(
@@ -183,7 +183,7 @@ void main() {
     await _tall(tester);
     await tester.pumpWidget(
       _host(
-        _Repo(),
+        FakeFeatureRepo(),
         _feature(
           state: 'PENDING',
           canRequest: false,
@@ -199,7 +199,7 @@ void main() {
 
   testWidgets('an expired subscription offers a renewal', (tester) async {
     await _tall(tester);
-    await tester.pumpWidget(_host(_Repo(), _feature(state: 'EXPIRED'), () {}));
+    await tester.pumpWidget(_host(FakeFeatureRepo(), _feature(state: 'EXPIRED'), () {}));
 
     expect(find.text(S().attendanceFeatureExpiredTitle), findsOneWidget);
     expect(find.text(S().attendanceFeatureRenewAction), findsOneWidget);
@@ -210,7 +210,7 @@ void main() {
     tester,
   ) async {
     await _tall(tester);
-    await tester.pumpWidget(_host(_Repo(), _feature(canRequest: false), () {}));
+    await tester.pumpWidget(_host(FakeFeatureRepo(), _feature(canRequest: false), () {}));
 
     expect(find.byType(PrimaryCtaButton), findsNothing);
     expect(find.text(S().attendanceFeatureRequestsLink), findsOneWidget);

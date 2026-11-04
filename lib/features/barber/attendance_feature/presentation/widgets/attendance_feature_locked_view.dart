@@ -16,6 +16,12 @@ class AttendanceFeatureLockedView extends StatelessWidget {
     required this.onChanged,
   });
 
+  String get _title {
+    if (feature.isExpired) return S().attendanceFeatureExpiredTitle;
+    if (feature.isSuspended) return S().attendanceFeatureSuspendedTitle;
+    return S().attendanceFeatureLockedTitle;
+  }
+
   String get _message {
     if (feature.message.isNotEmpty) return feature.message;
     return feature.owner
@@ -42,9 +48,7 @@ class AttendanceFeatureLockedView extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Text(
-                feature.isExpired
-                    ? S().attendanceFeatureExpiredTitle
-                    : S().attendanceFeatureLockedTitle,
+                _title,
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w700,

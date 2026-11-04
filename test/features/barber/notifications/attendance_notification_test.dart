@@ -121,5 +121,21 @@ void main() {
 
       expect(find.text('team screen'), findsOneWidget);
     });
+
+    testWidgets('a feature notification opens the attendance screen for the owner', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _app(
+          BarberNotificationTapRouter(isOwner: () => true),
+          _notification('attendance_feature_approved'),
+        ),
+      );
+
+      await tester.tap(find.text('tap'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('my attendance screen'), findsOneWidget);
+    });
   });
 }

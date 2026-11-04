@@ -12,6 +12,7 @@ class BarberNotificationTapRouter {
   static const int _storefrontOrdersTab = 3;
   static const String _storeOrderRequestedType = 'store_order_requested';
   static const String _attendanceTypePrefix = 'attendance_';
+  static const String _attendanceFeatureTypePrefix = 'attendance_feature';
 
   final bool Function() isOwner;
 
@@ -32,8 +33,11 @@ class BarberNotificationTapRouter {
 
     switch (reference) {
       case 'attendance':
+        final isFeature = notification.type.startsWith(
+          _attendanceFeatureTypePrefix,
+        );
         context.push(
-          isOwner()
+          isOwner() && !isFeature
               ? Routes.barberAttendanceTeamScreen
               : Routes.barberAttendanceScreen,
         );
