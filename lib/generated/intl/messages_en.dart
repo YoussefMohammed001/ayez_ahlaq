@@ -330,17 +330,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceEnforceOn": MessageLookupByLibrary.simpleMessage("On"),
     "attendanceFeatureActiveUntil": m2,
     "attendanceFeatureCancelAction": MessageLookupByLibrary.simpleMessage(
-      "Withdraw the request",
+      "Cancel the request",
     ),
     "attendanceFeatureCancelConfirmMessage":
         MessageLookupByLibrary.simpleMessage(
-          "Are you sure you want to withdraw the activation request?",
+          "Are you sure you want to cancel the activation request?",
         ),
     "attendanceFeatureCancelConfirmTitle": MessageLookupByLibrary.simpleMessage(
-      "Withdraw the activation request",
+      "Cancel the activation request",
     ),
     "attendanceFeatureCancelled": MessageLookupByLibrary.simpleMessage(
-      "The request was withdrawn",
+      "The request was cancelled",
     ),
     "attendanceFeatureDaysLeft": m3,
     "attendanceFeatureDecidedAt": m4,

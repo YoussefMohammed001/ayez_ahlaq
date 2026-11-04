@@ -177,6 +177,33 @@ void main() {
     expect(changed, 1);
   });
 
+  testWidgets('going back from the cancel dialog keeps the request', (
+    tester,
+  ) async {
+    await _tall(tester);
+    final repo = FakeFeatureRepo();
+    await tester.pumpWidget(
+      _host(
+        repo,
+        _feature(
+          state: 'PENDING',
+          canRequest: false,
+          pending: {'id': 2, 'status': 'PENDING'},
+        ),
+        () {},
+      ),
+    );
+
+    await tester.tap(find.text(S().attendanceFeatureCancelAction));
+    await tester.pumpAndSettle();
+    expect(find.text(S().attendanceFeatureCancelConfirmTitle), findsOneWidget);
+    await tester.tap(_inDialog(S().back));
+    await tester.pumpAndSettle();
+
+    expect(repo.cancelledId, isNull);
+    expect(find.byType(AppConfirmDialog), findsNothing);
+  });
+
   testWidgets('a pending request without an id cannot be withdrawn', (
     tester,
   ) async {

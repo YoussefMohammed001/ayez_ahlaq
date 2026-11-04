@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/di/sl.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
@@ -15,8 +14,6 @@ class AttendanceHomeCard extends StatelessWidget {
   const AttendanceHomeCard({super.key});
 
   String _subtitle(BarberAttendanceState state) {
-    if (!state.hasLoaded) return S().attendanceHomeCardAction;
-    if (state.isLocked) return S().attendanceFeatureOffShort;
     final shift = state.current.shift;
     if (shift == null) return S().attendanceOffShift;
     return '${S().attendanceOnShift} • ${S().attendanceStartedAt(AttendanceTimeLabel.time(shift.checkInAt))}';
@@ -26,57 +23,59 @@ class AttendanceHomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
 
-    return BlocProvider(
-      create: (_) => sl<BarberAttendanceCubit>()..load(),
-      child: BlocBuilder<BarberAttendanceCubit, BarberAttendanceState>(
-        builder: (context, state) => AppCard(
-          padding: EdgeInsets.all(14.r),
-          onTap: () async {
-            final cubit = context.read<BarberAttendanceCubit>();
-            await context.push(Routes.barberAttendanceScreen, extra: cubit);
-          },
-          child: Row(
-            children: [
-              Icon(
-                state.isLocked
-                    ? Icons.lock_outline_rounded
-                    : Icons.fingerprint_rounded,
-                color: scheme.primary,
-                size: 28.r,
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S().attendanceTitle,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: scheme.onSurface,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      _subtitle(state),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: scheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
+    return BlocBuilder<BarberAttendanceCubit, BarberAttendanceState>(
+      builder: (context, state) {
+        if (!state.hasLoaded || state.isLocked) return const SizedBox.shrink();
+
+        return Padding(
+          padding: EdgeInsets.only(bottom: 18.h),
+          child: AppCard(
+            padding: EdgeInsets.all(14.r),
+            onTap: () => context.push(
+              Routes.barberAttendanceScreen,
+              extra: context.read<BarberAttendanceCubit>(),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.fingerprint_rounded,
+                  color: scheme.primary,
+                  size: 28.r,
                 ),
-              ),
-              Icon(
-                Icons.chevron_right,
-                color: scheme.onSurfaceVariant,
-                size: 20.r,
-              ),
-            ],
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S().attendanceTitle,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurface,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        _subtitle(state),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: scheme.onSurfaceVariant,
+                  size: 20.r,
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

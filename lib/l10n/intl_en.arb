@@ -329,10 +329,10 @@
       }
     }
   },
-  "attendanceFeatureCancelAction": "Withdraw the request",
-  "attendanceFeatureCancelConfirmTitle": "Withdraw the activation request",
-  "attendanceFeatureCancelConfirmMessage": "Are you sure you want to withdraw the activation request?",
-  "attendanceFeatureCancelled": "The request was withdrawn",
+  "attendanceFeatureCancelAction": "Cancel the request",
+  "attendanceFeatureCancelConfirmTitle": "Cancel the activation request",
+  "attendanceFeatureCancelConfirmMessage": "Are you sure you want to cancel the activation request?",
+  "attendanceFeatureCancelled": "The request was cancelled",
   "attendanceFeatureRequestsTitle": "Activation requests",
   "attendanceFeatureRequestsLink": "Activation requests history",
   "attendanceFeatureRequestsEmpty": "No requests yet",

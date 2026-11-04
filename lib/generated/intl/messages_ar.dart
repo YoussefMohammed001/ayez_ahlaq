@@ -323,17 +323,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceEnforceOn": MessageLookupByLibrary.simpleMessage("مفعّل"),
     "attendanceFeatureActiveUntil": m2,
     "attendanceFeatureCancelAction": MessageLookupByLibrary.simpleMessage(
-      "سحب الطلب",
+      "إلغاء الطلب",
     ),
     "attendanceFeatureCancelConfirmMessage":
         MessageLookupByLibrary.simpleMessage(
-          "هل أنت متأكد من سحب طلب التفعيل؟",
+          "هل أنت متأكد من إلغاء طلب التفعيل؟",
         ),
     "attendanceFeatureCancelConfirmTitle": MessageLookupByLibrary.simpleMessage(
-      "سحب طلب التفعيل",
+      "إلغاء طلب التفعيل",
     ),
     "attendanceFeatureCancelled": MessageLookupByLibrary.simpleMessage(
-      "تم سحب الطلب",
+      "تم إلغاء الطلب",
     ),
     "attendanceFeatureDaysLeft": m3,
     "attendanceFeatureDecidedAt": m4,

@@ -329,10 +329,10 @@
       }
     }
   },
-  "attendanceFeatureCancelAction": "سحب الطلب",
-  "attendanceFeatureCancelConfirmTitle": "سحب طلب التفعيل",
-  "attendanceFeatureCancelConfirmMessage": "هل أنت متأكد من سحب طلب التفعيل؟",
-  "attendanceFeatureCancelled": "تم سحب الطلب",
+  "attendanceFeatureCancelAction": "إلغاء الطلب",
+  "attendanceFeatureCancelConfirmTitle": "إلغاء طلب التفعيل",
+  "attendanceFeatureCancelConfirmMessage": "هل أنت متأكد من إلغاء طلب التفعيل؟",
+  "attendanceFeatureCancelled": "تم إلغاء الطلب",
   "attendanceFeatureRequestsTitle": "طلبات التفعيل",
   "attendanceFeatureRequestsLink": "سجل طلبات التفعيل",
   "attendanceFeatureRequestsEmpty": "لا توجد طلبات بعد",

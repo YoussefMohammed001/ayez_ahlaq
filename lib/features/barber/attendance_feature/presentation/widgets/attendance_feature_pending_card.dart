@@ -29,7 +29,8 @@ class AttendanceFeaturePendingCard extends StatelessWidget {
       title: S().attendanceFeatureCancelConfirmTitle,
       message: S().attendanceFeatureCancelConfirmMessage,
       confirmLabel: S().attendanceFeatureCancelAction,
-      icon: Icons.undo_rounded,
+      cancelLabel: S().back,
+      icon: Icons.close_rounded,
     );
     if (!confirmed) return;
 
@@ -83,7 +84,7 @@ class AttendanceFeaturePendingCard extends StatelessWidget {
               alignment: AlignmentDirectional.centerEnd,
               child: TextButton.icon(
                 onPressed: () => _cancel(context),
-                icon: Icon(Icons.undo_rounded, size: 16.r),
+                icon: Icon(Icons.close_rounded, size: 16.r),
                 label: Text(S().attendanceFeatureCancelAction),
               ),
             ),

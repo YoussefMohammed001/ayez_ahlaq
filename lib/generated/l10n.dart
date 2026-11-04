@@ -1944,40 +1944,40 @@ class S {
     );
   }
 
-  /// `Withdraw the request`
+  /// `Cancel the request`
   String get attendanceFeatureCancelAction {
     return Intl.message(
-      'Withdraw the request',
+      'Cancel the request',
       name: 'attendanceFeatureCancelAction',
       desc: '',
       args: [],
     );
   }
 
-  /// `Withdraw the activation request`
+  /// `Cancel the activation request`
   String get attendanceFeatureCancelConfirmTitle {
     return Intl.message(
-      'Withdraw the activation request',
+      'Cancel the activation request',
       name: 'attendanceFeatureCancelConfirmTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to withdraw the activation request?`
+  /// `Are you sure you want to cancel the activation request?`
   String get attendanceFeatureCancelConfirmMessage {
     return Intl.message(
-      'Are you sure you want to withdraw the activation request?',
+      'Are you sure you want to cancel the activation request?',
       name: 'attendanceFeatureCancelConfirmMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `The request was withdrawn`
+  /// `The request was cancelled`
   String get attendanceFeatureCancelled {
     return Intl.message(
-      'The request was withdrawn',
+      'The request was cancelled',
       name: 'attendanceFeatureCancelled',
       desc: '',
       args: [],
