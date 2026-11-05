@@ -82,6 +82,7 @@ class _BroadcastListScreenState extends State<BroadcastListScreen> {
             return AppEmptyState(
               icon: Icons.campaign_outlined,
               title: S().broadcastListEmpty,
+              message: S().broadcastListEmptyHint,
             );
           }
 

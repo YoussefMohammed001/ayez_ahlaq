@@ -65,7 +65,11 @@ class BarberStoreOrdersScreen extends StatelessWidget {
         if (state.visibleOrders.isEmpty) {
           return RefreshableStateView(
             onRefresh: cubit.loadOrders,
-            child: AppEmptyState(icon: Icons.receipt_long_outlined, title: S().noOrdersYet),
+            child: AppEmptyState(
+              icon: Icons.receipt_long_outlined,
+              title: S().noOrdersYet,
+              message: S().noStoreOrdersHint,
+            ),
           );
         }
 

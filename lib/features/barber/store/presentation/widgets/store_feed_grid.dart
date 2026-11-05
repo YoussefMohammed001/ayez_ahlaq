@@ -43,7 +43,11 @@ class StoreFeedGrid extends StatelessWidget {
             );
           }
 
-          return AppEmptyState(icon: Icons.inventory_2_outlined, title: S().noStoreProductsYet);
+          return AppEmptyState(
+            icon: Icons.inventory_2_outlined,
+            title: S().noStoreProductsYet,
+            message: S().noStoreProductsYetHint,
+          );
         }
 
         return Stack(

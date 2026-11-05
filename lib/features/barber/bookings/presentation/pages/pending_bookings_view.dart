@@ -43,6 +43,7 @@ class PendingBookingsView extends StatelessWidget {
             child: AppEmptyState(
               icon: Icons.hourglass_empty_rounded,
               title: S().noPendingBookings,
+              message: S().noPendingBookingsHint,
             ),
           );
         }

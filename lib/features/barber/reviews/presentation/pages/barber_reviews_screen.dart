@@ -50,6 +50,7 @@ class BarberReviewsScreen extends StatelessWidget {
                     child: AppEmptyState(
                       icon: Icons.star_border_rounded,
                       title: S().noReviewsYet,
+                      message: S().noReviewsYetHint,
                     ),
                   )
                 else

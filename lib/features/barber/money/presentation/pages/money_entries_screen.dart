@@ -63,7 +63,11 @@ class _MoneyEntriesScreenState extends State<MoneyEntriesScreen> {
           if (state.entries.isEmpty) {
             return RefreshableStateView(
               onRefresh: cubit.load,
-              child: AppEmptyState(icon: Icons.receipt_long_outlined, title: S().moneyNoEntries),
+              child: AppEmptyState(
+                icon: Icons.receipt_long_outlined,
+                title: S().moneyNoEntries,
+                message: S().moneyNoEntriesHint,
+              ),
             );
           }
 

@@ -48,6 +48,7 @@ class BarberSubscriptionRequestsScreen extends StatelessWidget {
                   child: AppEmptyState(
                     icon: Icons.history_rounded,
                     title: S().noSubscriptionRequests,
+                    message: S().noSubscriptionRequestsHint,
                   ),
                 );
               }

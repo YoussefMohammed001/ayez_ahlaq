@@ -51,7 +51,11 @@ class _BarberStoreMerchantsScreenState extends State<BarberStoreMerchantsScreen>
           if (state.merchants.isEmpty) {
             return RefreshableStateView(
               onRefresh: () => cubit.loadMerchants(force: true),
-              child: AppEmptyState(icon: Icons.storefront_outlined, title: S().noMerchantsYet),
+              child: AppEmptyState(
+                icon: Icons.storefront_outlined,
+                title: S().noMerchantsYet,
+                message: S().noMerchantsYetHint,
+              ),
             );
           }
 

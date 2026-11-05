@@ -61,6 +61,7 @@ class WalletScreen extends StatelessWidget {
                     child: AppEmptyState(
                       icon: Icons.receipt_long_outlined,
                       title: S().noWalletTransactions,
+                      message: S().noWalletTransactionsHint,
                     ),
                   )
                 else

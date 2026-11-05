@@ -88,6 +88,7 @@ class MoneyHomeScreen extends StatelessWidget {
                       child: AppEmptyState(
                         icon: Icons.task_alt_outlined,
                         title: S().moneyNoPendingOccurrences,
+                        message: S().moneyNoPendingOccurrencesHint,
                       ),
                     ),
                 ],

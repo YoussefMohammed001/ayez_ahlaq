@@ -59,6 +59,7 @@ class _HomeServiceBroadcastScreenState
               child: AppEmptyState(
                 icon: Icons.inbox_outlined,
                 title: S().noHomeServiceBroadcastsYet,
+                message: S().noHomeServiceBroadcastsHint,
               ),
             );
           }

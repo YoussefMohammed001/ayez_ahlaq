@@ -384,6 +384,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceFeatureRequestsEmpty": MessageLookupByLibrary.simpleMessage(
       "No requests yet",
     ),
+    "attendanceFeatureRequestsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Requests to enable attendance and the status of each will appear here.",
+    ),
     "attendanceFeatureRequestsLink": MessageLookupByLibrary.simpleMessage(
       "Activation requests history",
     ),
@@ -395,6 +398,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "attendanceHistoryEmpty": MessageLookupByLibrary.simpleMessage(
       "No attendance records yet",
+    ),
+    "attendanceHistoryEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Your check-in and check-out history will appear here after your first shift.",
     ),
     "attendanceHistoryTitle": MessageLookupByLibrary.simpleMessage(
       "Attendance history",
@@ -419,6 +425,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "attendanceLogEmpty": MessageLookupByLibrary.simpleMessage(
       "No settings changes yet",
+    ),
+    "attendanceLogEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Every change the owner makes to attendance settings appears here.",
     ),
     "attendanceLogEnforceChange": m10,
     "attendanceLogRangeChange": m11,
@@ -575,6 +584,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "broadcastListEmpty": MessageLookupByLibrary.simpleMessage(
       "You haven\'t sent any notification yet",
     ),
+    "broadcastListEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Notifications you send to your customers will appear here.",
+    ),
     "broadcastListTitle": MessageLookupByLibrary.simpleMessage(
       "Sent notifications",
     ),
@@ -642,6 +654,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Cancel request",
     ),
     "cartEmpty": MessageLookupByLibrary.simpleMessage("Your cart is empty"),
+    "cartEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Add products from the store and they will show up here.",
+    ),
     "cartTitle": MessageLookupByLibrary.simpleMessage("Cart"),
     "categoriesNote": m20,
     "category": MessageLookupByLibrary.simpleMessage("Category"),
@@ -1443,6 +1458,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberClientsEmpty": MessageLookupByLibrary.simpleMessage(
       "No clients in this period",
     ),
+    "memberClientsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Try changing the time range to see other clients.",
+    ),
     "memberClientsTitle": MessageLookupByLibrary.simpleMessage(
       "Member clients",
     ),
@@ -1539,11 +1557,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "moneyNewEntry": MessageLookupByLibrary.simpleMessage("New entry"),
     "moneyNewItem": MessageLookupByLibrary.simpleMessage("New recurring item"),
     "moneyNoEntries": MessageLookupByLibrary.simpleMessage("No entries yet"),
+    "moneyNoEntriesHint": MessageLookupByLibrary.simpleMessage(
+      "Add your first income or expense to start tracking your accounts.",
+    ),
     "moneyNoItems": MessageLookupByLibrary.simpleMessage(
       "No recurring items yet",
     ),
     "moneyNoPendingOccurrences": MessageLookupByLibrary.simpleMessage(
       "Nothing needs confirmation right now",
+    ),
+    "moneyNoPendingOccurrencesHint": MessageLookupByLibrary.simpleMessage(
+      "Recurring items appear here when they are due so you can confirm them.",
     ),
     "moneyOccurrenceConfirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "moneyOccurrenceDismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
@@ -1658,6 +1682,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "No barbers available at this salon right now",
     ),
     "noBookingHistory": MessageLookupByLibrary.simpleMessage("No bookings yet"),
+    "noBookingHistoryHint": MessageLookupByLibrary.simpleMessage(
+      "Completed and cancelled bookings appear here once they end.",
+    ),
     "noBookingsYet": MessageLookupByLibrary.simpleMessage(
       "You haven\'t made any bookings yet",
     ),
@@ -1682,8 +1709,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "noHaircutStylesYet": MessageLookupByLibrary.simpleMessage(
       "No styles in the catalog yet",
     ),
+    "noHomeServiceBroadcastsHint": MessageLookupByLibrary.simpleMessage(
+      "Nearby home-service invitations will appear here as soon as they arrive.",
+    ),
     "noHomeServiceBroadcastsYet": MessageLookupByLibrary.simpleMessage(
       "No home service invitations right now",
+    ),
+    "noHomeServiceRequestsHint": MessageLookupByLibrary.simpleMessage(
+      "Home-service requests from customers will reach you here.",
     ),
     "noHomeServiceRequestsYet": MessageLookupByLibrary.simpleMessage(
       "You haven\'t made any home service requests yet",
@@ -1703,6 +1736,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMerchantsYet": MessageLookupByLibrary.simpleMessage(
       "No suppliers available yet",
     ),
+    "noMerchantsYetHint": MessageLookupByLibrary.simpleMessage(
+      "Suppliers will appear here once they are available in your area.",
+    ),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noOwnCategories": MessageLookupByLibrary.simpleMessage(
       "No custom categories yet",
@@ -1713,23 +1749,44 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPendingBookings": MessageLookupByLibrary.simpleMessage(
       "No bookings awaiting confirmation",
     ),
+    "noPendingBookingsHint": MessageLookupByLibrary.simpleMessage(
+      "New booking requests from customers will appear here for you to accept or decline.",
+    ),
     "noPendingHomeServiceRequests": MessageLookupByLibrary.simpleMessage(
       "No home service requests awaiting a reply",
     ),
     "noPlacesFound": MessageLookupByLibrary.simpleMessage("No results found"),
     "noProductsYet": MessageLookupByLibrary.simpleMessage("No products yet"),
     "noReviewsYet": MessageLookupByLibrary.simpleMessage("No reviews yet"),
+    "noReviewsYetHint": MessageLookupByLibrary.simpleMessage(
+      "Customer reviews will appear here after they rate your service.",
+    ),
     "noShopsYet": MessageLookupByLibrary.simpleMessage(
       "No salons available right now",
     ),
     "noSlotsAvailable": MessageLookupByLibrary.simpleMessage(
       "No slots available on this day",
     ),
+    "noStoreOrdersHint": MessageLookupByLibrary.simpleMessage(
+      "Your store purchases and the status of each order will appear here.",
+    ),
     "noStoreProductsYet": MessageLookupByLibrary.simpleMessage(
       "No products available right now",
     ),
+    "noStoreProductsYetHint": MessageLookupByLibrary.simpleMessage(
+      "Products will appear here as soon as suppliers add them.",
+    ),
     "noSubscriptionRequests": MessageLookupByLibrary.simpleMessage(
       "No requests yet",
+    ),
+    "noSubscriptionRequestsHint": MessageLookupByLibrary.simpleMessage(
+      "Subscription requests you send and the status of each will appear here.",
+    ),
+    "noTeamMembersOwnerHint": MessageLookupByLibrary.simpleMessage(
+      "Add your first member so they can take bookings and check in from their phone.",
+    ),
+    "noTeamMembersTitle": MessageLookupByLibrary.simpleMessage(
+      "No team members",
     ),
     "noTeamMembersYet": MessageLookupByLibrary.simpleMessage(
       "No team members yet",
@@ -1737,11 +1794,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "noUnresolvedBookings": MessageLookupByLibrary.simpleMessage(
       "No unresolved bookings",
     ),
+    "noUnresolvedBookingsHint": MessageLookupByLibrary.simpleMessage(
+      "Bookings whose time has passed and still need a final status appear here.",
+    ),
     "noUpcomingBookingsHint": MessageLookupByLibrary.simpleMessage(
       "You have no upcoming bookings right now",
     ),
     "noWalletTransactions": MessageLookupByLibrary.simpleMessage(
       "No transactions yet",
+    ),
+    "noWalletTransactionsHint": MessageLookupByLibrary.simpleMessage(
+      "Your wallet activity will appear here after your first transaction.",
     ),
     "notNow": MessageLookupByLibrary.simpleMessage("Not now"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
@@ -1972,6 +2035,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "publishProduct": MessageLookupByLibrary.simpleMessage("Publish product"),
     "purchasesSection": MessageLookupByLibrary.simpleMessage("Purchases"),
     "queueEmpty": MessageLookupByLibrary.simpleMessage("The queue is empty"),
+    "queueEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Bookings you accepted appear here, ordered by time.",
+    ),
     "queuePositionLabel": MessageLookupByLibrary.simpleMessage(
       "Queue position",
     ),
@@ -2547,6 +2613,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "walletRequestsEmpty": MessageLookupByLibrary.simpleMessage(
       "No requests yet",
+    ),
+    "walletRequestsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Top-up and withdrawal requests and the status of each will appear here.",
     ),
     "walletRequestsTitle": MessageLookupByLibrary.simpleMessage(
       "Wallet requests",

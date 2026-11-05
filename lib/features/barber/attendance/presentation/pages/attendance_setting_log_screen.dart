@@ -37,6 +37,7 @@ class AttendanceSettingLogScreen extends StatelessWidget {
             return AppEmptyState(
               icon: Icons.history_toggle_off_rounded,
               title: S().attendanceLogEmpty,
+              message: S().attendanceLogEmptyHint,
             );
           }
 

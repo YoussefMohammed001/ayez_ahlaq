@@ -84,6 +84,7 @@ class _UnresolvedBookingsViewState extends State<UnresolvedBookingsView> {
               child: AppEmptyState(
                 icon: Icons.checklist_rounded,
                 title: S().noUnresolvedBookings,
+                message: S().noUnresolvedBookingsHint,
               ),
             );
           }

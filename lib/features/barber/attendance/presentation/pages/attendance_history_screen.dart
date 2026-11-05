@@ -67,6 +67,7 @@ class AttendanceHistoryScreen extends StatelessWidget {
               return AppEmptyState(
                 icon: Icons.event_busy_rounded,
                 title: S().attendanceHistoryEmpty,
+                message: S().attendanceHistoryEmptyHint,
               );
             }
 

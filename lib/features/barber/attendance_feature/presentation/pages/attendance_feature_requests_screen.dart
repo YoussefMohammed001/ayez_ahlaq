@@ -41,6 +41,7 @@ class AttendanceFeatureRequestsScreen extends StatelessWidget {
                 return AppEmptyState(
                   icon: Icons.inbox_outlined,
                   title: S().attendanceFeatureRequestsEmpty,
+                  message: S().attendanceFeatureRequestsEmptyHint,
                 );
               }
 

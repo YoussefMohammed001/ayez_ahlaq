@@ -60,6 +60,7 @@ class MemberClientsSection extends StatelessWidget {
               AppEmptyState(
                 icon: Icons.people_outline,
                 title: S().memberClientsEmpty,
+                message: S().memberClientsEmptyHint,
                 compact: true,
               )
             else

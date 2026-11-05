@@ -86,6 +86,7 @@ class _WalletRequestsScreenState
             return AppEmptyState(
               icon: Icons.receipt_long_outlined,
               title: S().walletRequestsEmpty,
+              message: S().walletRequestsEmptyHint,
             );
           }
 

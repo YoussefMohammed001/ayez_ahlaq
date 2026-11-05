@@ -43,6 +43,7 @@ class HomeServiceRequestsTabView extends StatelessWidget {
             child: AppEmptyState(
               icon: Icons.home_repair_service_outlined,
               title: S().noPendingHomeServiceRequests,
+              message: S().noHomeServiceRequestsHint,
             ),
           );
         }

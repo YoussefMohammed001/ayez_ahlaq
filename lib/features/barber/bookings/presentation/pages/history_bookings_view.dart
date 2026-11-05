@@ -43,6 +43,7 @@ class HistoryBookingsView extends StatelessWidget {
             child: AppEmptyState(
               icon: Icons.history_rounded,
               title: S().noBookingHistory,
+              message: S().noBookingHistoryHint,
             ),
           );
         }

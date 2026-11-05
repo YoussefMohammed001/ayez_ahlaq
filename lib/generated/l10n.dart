@@ -2054,6 +2054,236 @@ class S {
     );
   }
 
+  /// `New booking requests from customers will appear here for you to accept or decline.`
+  String get noPendingBookingsHint {
+    return Intl.message(
+      'New booking requests from customers will appear here for you to accept or decline.',
+      name: 'noPendingBookingsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings you accepted appear here, ordered by time.`
+  String get queueEmptyHint {
+    return Intl.message(
+      'Bookings you accepted appear here, ordered by time.',
+      name: 'queueEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed and cancelled bookings appear here once they end.`
+  String get noBookingHistoryHint {
+    return Intl.message(
+      'Completed and cancelled bookings appear here once they end.',
+      name: 'noBookingHistoryHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookings whose time has passed and still need a final status appear here.`
+  String get noUnresolvedBookingsHint {
+    return Intl.message(
+      'Bookings whose time has passed and still need a final status appear here.',
+      name: 'noUnresolvedBookingsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer reviews will appear here after they rate your service.`
+  String get noReviewsYetHint {
+    return Intl.message(
+      'Customer reviews will appear here after they rate your service.',
+      name: 'noReviewsYetHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No team members`
+  String get noTeamMembersTitle {
+    return Intl.message(
+      'No team members',
+      name: 'noTeamMembersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your first member so they can take bookings and check in from their phone.`
+  String get noTeamMembersOwnerHint {
+    return Intl.message(
+      'Add your first member so they can take bookings and check in from their phone.',
+      name: 'noTeamMembersOwnerHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your check-in and check-out history will appear here after your first shift.`
+  String get attendanceHistoryEmptyHint {
+    return Intl.message(
+      'Your check-in and check-out history will appear here after your first shift.',
+      name: 'attendanceHistoryEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every change the owner makes to attendance settings appears here.`
+  String get attendanceLogEmptyHint {
+    return Intl.message(
+      'Every change the owner makes to attendance settings appears here.',
+      name: 'attendanceLogEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requests to enable attendance and the status of each will appear here.`
+  String get attendanceFeatureRequestsEmptyHint {
+    return Intl.message(
+      'Requests to enable attendance and the status of each will appear here.',
+      name: 'attendanceFeatureRequestsEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications you send to your customers will appear here.`
+  String get broadcastListEmptyHint {
+    return Intl.message(
+      'Notifications you send to your customers will appear here.',
+      name: 'broadcastListEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nearby home-service invitations will appear here as soon as they arrive.`
+  String get noHomeServiceBroadcastsHint {
+    return Intl.message(
+      'Nearby home-service invitations will appear here as soon as they arrive.',
+      name: 'noHomeServiceBroadcastsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription requests you send and the status of each will appear here.`
+  String get noSubscriptionRequestsHint {
+    return Intl.message(
+      'Subscription requests you send and the status of each will appear here.',
+      name: 'noSubscriptionRequestsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try changing the time range to see other clients.`
+  String get memberClientsEmptyHint {
+    return Intl.message(
+      'Try changing the time range to see other clients.',
+      name: 'memberClientsEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home-service requests from customers will reach you here.`
+  String get noHomeServiceRequestsHint {
+    return Intl.message(
+      'Home-service requests from customers will reach you here.',
+      name: 'noHomeServiceRequestsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recurring items appear here when they are due so you can confirm them.`
+  String get moneyNoPendingOccurrencesHint {
+    return Intl.message(
+      'Recurring items appear here when they are due so you can confirm them.',
+      name: 'moneyNoPendingOccurrencesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your first income or expense to start tracking your accounts.`
+  String get moneyNoEntriesHint {
+    return Intl.message(
+      'Add your first income or expense to start tracking your accounts.',
+      name: 'moneyNoEntriesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add products from the store and they will show up here.`
+  String get cartEmptyHint {
+    return Intl.message(
+      'Add products from the store and they will show up here.',
+      name: 'cartEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suppliers will appear here once they are available in your area.`
+  String get noMerchantsYetHint {
+    return Intl.message(
+      'Suppliers will appear here once they are available in your area.',
+      name: 'noMerchantsYetHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products will appear here as soon as suppliers add them.`
+  String get noStoreProductsYetHint {
+    return Intl.message(
+      'Products will appear here as soon as suppliers add them.',
+      name: 'noStoreProductsYetHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your store purchases and the status of each order will appear here.`
+  String get noStoreOrdersHint {
+    return Intl.message(
+      'Your store purchases and the status of each order will appear here.',
+      name: 'noStoreOrdersHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top-up and withdrawal requests and the status of each will appear here.`
+  String get walletRequestsEmptyHint {
+    return Intl.message(
+      'Top-up and withdrawal requests and the status of each will appear here.',
+      name: 'walletRequestsEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your wallet activity will appear here after your first transaction.`
+  String get noWalletTransactionsHint {
+    return Intl.message(
+      'Your wallet activity will appear here after your first transaction.',
+      name: 'noWalletTransactionsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

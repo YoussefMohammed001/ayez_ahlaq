@@ -125,7 +125,11 @@ class _BarberStoreCartScreenState extends State<BarberStoreCartScreen> {
     final cubit = context.read<BarberStoreCartCubit>();
 
     if (state.cart.isEmpty) {
-      return AppEmptyState(icon: Icons.shopping_cart_outlined, title: S().cartEmpty);
+      return AppEmptyState(
+        icon: Icons.shopping_cart_outlined,
+        title: S().cartEmpty,
+        message: S().cartEmptyHint,
+      );
     }
 
     return ListView(

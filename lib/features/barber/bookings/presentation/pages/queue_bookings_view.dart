@@ -41,6 +41,7 @@ class QueueBookingsView extends StatelessWidget {
             child: AppEmptyState(
               icon: Icons.event_available_rounded,
               title: S().queueEmpty,
+              message: S().queueEmptyHint,
             ),
           );
         }

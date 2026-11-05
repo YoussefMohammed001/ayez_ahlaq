@@ -378,6 +378,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceFeatureRequestsEmpty": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات بعد",
     ),
+    "attendanceFeatureRequestsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا طلبات تفعيل ميزة الحضور وحالة كل طلب.",
+    ),
     "attendanceFeatureRequestsLink": MessageLookupByLibrary.simpleMessage(
       "سجل طلبات التفعيل",
     ),
@@ -389,6 +392,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "attendanceHistoryEmpty": MessageLookupByLibrary.simpleMessage(
       "لا يوجد سجل حضور بعد",
+    ),
+    "attendanceHistoryEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "سيظهر هنا سجل الحضور والانصراف بعد أول وردية.",
     ),
     "attendanceHistoryTitle": MessageLookupByLibrary.simpleMessage(
       "سجل الحضور",
@@ -413,6 +419,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "attendanceLogEmpty": MessageLookupByLibrary.simpleMessage(
       "لا توجد تعديلات على الإعدادات بعد",
+    ),
+    "attendanceLogEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "يظهر هنا كل تعديل يجريه صاحب المحل على إعدادات الحضور.",
     ),
     "attendanceLogEnforceChange": m10,
     "attendanceLogRangeChange": m11,
@@ -563,6 +572,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "broadcastListEmpty": MessageLookupByLibrary.simpleMessage(
       "لم ترسل أي إشعار بعد",
     ),
+    "broadcastListEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "الإشعارات التي ترسلها إلى عملائك ستظهر هنا.",
+    ),
     "broadcastListTitle": MessageLookupByLibrary.simpleMessage(
       "الإشعارات المرسلة",
     ),
@@ -630,6 +642,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "إلغاء الطلب",
     ),
     "cartEmpty": MessageLookupByLibrary.simpleMessage("سلتك فارغة"),
+    "cartEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "أضف منتجات من المتجر لتظهر هنا.",
+    ),
     "cartTitle": MessageLookupByLibrary.simpleMessage("السلة"),
     "categoriesNote": m20,
     "category": MessageLookupByLibrary.simpleMessage("الفئة"),
@@ -1398,6 +1413,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberClientsEmpty": MessageLookupByLibrary.simpleMessage(
       "لا يوجد عملاء في هذه الفترة",
     ),
+    "memberClientsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "جرّب تغيير الفترة الزمنية لعرض عملاء آخرين.",
+    ),
     "memberClientsTitle": MessageLookupByLibrary.simpleMessage("عملاء العضو"),
     "memberDeletedPermanently": MessageLookupByLibrary.simpleMessage(
       "تم حذف العضو نهائيًا",
@@ -1484,11 +1502,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "moneyNewEntry": MessageLookupByLibrary.simpleMessage("حركة جديدة"),
     "moneyNewItem": MessageLookupByLibrary.simpleMessage("عملية متكررة جديدة"),
     "moneyNoEntries": MessageLookupByLibrary.simpleMessage("لا توجد حركات بعد"),
+    "moneyNoEntriesHint": MessageLookupByLibrary.simpleMessage(
+      "أضف أول حركة دخل أو مصروف لتبدأ متابعة حساباتك.",
+    ),
     "moneyNoItems": MessageLookupByLibrary.simpleMessage(
       "لا توجد عمليات متكررة بعد",
     ),
     "moneyNoPendingOccurrences": MessageLookupByLibrary.simpleMessage(
       "لا توجد عمليات تحتاج إلى تأكيد الآن",
+    ),
+    "moneyNoPendingOccurrencesHint": MessageLookupByLibrary.simpleMessage(
+      "تظهر هنا العمليات المتكررة عند حلول موعدها لتؤكدها.",
     ),
     "moneyOccurrenceConfirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
     "moneyOccurrenceDismiss": MessageLookupByLibrary.simpleMessage("تجاهل"),
@@ -1613,6 +1637,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noBookingHistory": MessageLookupByLibrary.simpleMessage(
       "لا توجد حجوزات بعد",
     ),
+    "noBookingHistoryHint": MessageLookupByLibrary.simpleMessage(
+      "تظهر هنا الحجوزات المكتملة والملغاة بعد انتهائها.",
+    ),
     "noBookingsYet": MessageLookupByLibrary.simpleMessage("لم تقم بأي حجز بعد"),
     "noCustomersYet": MessageLookupByLibrary.simpleMessage("لا يوجد عملاء بعد"),
     "noDiscountsYet": MessageLookupByLibrary.simpleMessage("لا توجد عروض بعد"),
@@ -1635,8 +1662,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "noHaircutStylesYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد أشكال متاحة في الكتالوج بعد",
     ),
+    "noHomeServiceBroadcastsHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا دعوات الحلاقة المنزلية القريبة منك فور وصولها.",
+    ),
     "noHomeServiceBroadcastsYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد دعوات حلاقة منزلية حاليًا",
+    ),
+    "noHomeServiceRequestsHint": MessageLookupByLibrary.simpleMessage(
+      "ستصلك هنا طلبات الحلاقة المنزلية من العملاء.",
     ),
     "noHomeServiceRequestsYet": MessageLookupByLibrary.simpleMessage(
       "لم تقم بأي طلب حلاقة منزلية بعد",
@@ -1656,6 +1689,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMerchantsYet": MessageLookupByLibrary.simpleMessage(
       "لا يوجد موردين متاحين حاليًا",
     ),
+    "noMerchantsYetHint": MessageLookupByLibrary.simpleMessage(
+      "سيظهر الموردون هنا عند توفرهم في منطقتك.",
+    ),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("لا توجد طلبات بعد"),
     "noOwnCategories": MessageLookupByLibrary.simpleMessage(
       "لا توجد فئات خاصة بعد",
@@ -1666,6 +1702,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPendingBookings": MessageLookupByLibrary.simpleMessage(
       "لا توجد حجوزات بانتظار الموافقة",
     ),
+    "noPendingBookingsHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا طلبات الحجز الجديدة من العملاء لتقبلها أو ترفضها.",
+    ),
     "noPendingHomeServiceRequests": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات حلاقة منزلية بانتظار الرد",
     ),
@@ -1674,17 +1713,35 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noProductsYet": MessageLookupByLibrary.simpleMessage("لا توجد منتجات بعد"),
     "noReviewsYet": MessageLookupByLibrary.simpleMessage("لا توجد تقييمات بعد"),
+    "noReviewsYetHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا تقييمات العملاء بعد أن يقيّموا خدمتك.",
+    ),
     "noShopsYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد صالونات متاحة حاليًا",
     ),
     "noSlotsAvailable": MessageLookupByLibrary.simpleMessage(
       "لا توجد مواعيد متاحة في هذا اليوم",
     ),
+    "noStoreOrdersHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا طلبات الشراء من المتجر وحالة كل طلب.",
+    ),
     "noStoreProductsYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد منتجات متاحة حاليًا",
     ),
+    "noStoreProductsYetHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر المنتجات هنا فور إضافتها من الموردين.",
+    ),
     "noSubscriptionRequests": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات بعد",
+    ),
+    "noSubscriptionRequestsHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا طلبات الاشتراك التي ترسلها وحالة كل طلب.",
+    ),
+    "noTeamMembersOwnerHint": MessageLookupByLibrary.simpleMessage(
+      "أضف أول عضو ليستقبل الحجوزات ويسجّل حضوره من هاتفه.",
+    ),
+    "noTeamMembersTitle": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد أعضاء في الفريق",
     ),
     "noTeamMembersYet": MessageLookupByLibrary.simpleMessage(
       "لا يوجد أعضاء في الفريق بعد",
@@ -1692,11 +1749,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "noUnresolvedBookings": MessageLookupByLibrary.simpleMessage(
       "لا توجد حجوزات تحتاج إلى حسم",
     ),
+    "noUnresolvedBookingsHint": MessageLookupByLibrary.simpleMessage(
+      "تظهر هنا الحجوزات التي انتهى وقتها وتنتظر تحديد حالتها.",
+    ),
     "noUpcomingBookingsHint": MessageLookupByLibrary.simpleMessage(
       "ليس لديك حجوزات قادمة حاليًا",
     ),
     "noWalletTransactions": MessageLookupByLibrary.simpleMessage(
       "لا توجد عمليات بعد",
+    ),
+    "noWalletTransactionsHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا حركات محفظتك بعد أول عملية.",
     ),
     "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
@@ -1917,6 +1980,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "publishProduct": MessageLookupByLibrary.simpleMessage("نشر المنتج"),
     "purchasesSection": MessageLookupByLibrary.simpleMessage("المشتريات"),
     "queueEmpty": MessageLookupByLibrary.simpleMessage("قائمة الانتظار فارغة"),
+    "queueEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "تظهر هنا الحجوزات التي قبلتها مرتبة حسب موعدها.",
+    ),
     "queuePositionLabel": MessageLookupByLibrary.simpleMessage(
       "الترتيب في قائمة الانتظار",
     ),
@@ -2464,6 +2530,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletRequestTypeWithdraw": MessageLookupByLibrary.simpleMessage("سحب"),
     "walletRequestsEmpty": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات بعد",
+    ),
+    "walletRequestsEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "ستظهر هنا طلبات الشحن والسحب وحالة كل طلب.",
     ),
     "walletRequestsTitle": MessageLookupByLibrary.simpleMessage(
       "طلبات المحفظة",

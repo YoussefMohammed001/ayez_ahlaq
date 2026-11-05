@@ -82,7 +82,15 @@ class TeamScreen extends StatelessWidget {
             if (members.isEmpty) {
               return RefreshableStateView(
                 onRefresh: cubit.loadTeam,
-                child: AppEmptyState(message: S().noTeamMembersYet),
+                child: AppEmptyState(
+                  icon: Icons.groups_2_outlined,
+                  title: S().noTeamMembersTitle,
+                  message: isOwner
+                      ? S().noTeamMembersOwnerHint
+                      : S().noTeamMembersYet,
+                  actionLabel: isOwner ? S().addMemberTitle : null,
+                  onAction: isOwner ? () => _openAddMember(context) : null,
+                ),
               );
             }
 
