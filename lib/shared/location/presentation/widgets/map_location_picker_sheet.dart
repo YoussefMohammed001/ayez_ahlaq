@@ -30,6 +30,7 @@ class MapLocationPickerSheet extends StatefulWidget {
     return showModalBottomSheet<PickedLocation>(
       context: context,
       isScrollControlled: true,
+      enableDrag: false,
       useRootNavigator: true,
       useSafeArea: true,
       builder: (_) => BlocProvider(
@@ -107,9 +108,17 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-                child: PrimaryCtaButton(
-                  label: S().confirmLocation,
-                  onPressed: () => context.pop(_cubit.picked),
+                child: BlocBuilder<MapLocationPickerCubit, MapLocationPickerState>(
+                  builder: (_, state) => PrimaryCtaButton(
+                    label: S().confirmLocation,
+                    isLoading:
+                        state.isResolvingPlace ||
+                        state.isSearching ||
+                        state.isLocating,
+                    onPressed: _cubit.canConfirm
+                        ? () => context.pop(_cubit.picked)
+                        : null,
+                  ),
                 ),
               ),
             ],
@@ -137,7 +146,10 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
         initialTarget: _center,
         initialZoom: _cubit.hasInitialLocation ? 16 : 14,
         controller: _mapController,
-        onCameraMove: (point) => _center = point,
+        onCameraMove: (point) {
+          _center = point;
+          _cubit.onCameraMove();
+        },
         onCameraIdle: () => _cubit.onCameraIdle(_center),
         onMyLocation: _goToMyLocation,
       ),

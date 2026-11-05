@@ -6,6 +6,7 @@ class MapLocationPickerState extends Equatable {
   final GeoPoint target;
   final PlaceInfo place;
   final bool isResolvingPlace;
+  final bool isMoving;
   final bool isLocating;
   final bool isSearching;
   final String? errorMessage;
@@ -14,6 +15,7 @@ class MapLocationPickerState extends Equatable {
     required this.target,
     this.place = PlaceInfo.empty,
     this.isResolvingPlace = false,
+    this.isMoving = false,
     this.isLocating = false,
     this.isSearching = false,
     this.errorMessage,
@@ -23,6 +25,7 @@ class MapLocationPickerState extends Equatable {
     GeoPoint? target,
     PlaceInfo? place,
     bool? isResolvingPlace,
+    bool? isMoving,
     bool? isLocating,
     bool? isSearching,
     String? errorMessage,
@@ -31,6 +34,7 @@ class MapLocationPickerState extends Equatable {
       target: target ?? this.target,
       place: place ?? this.place,
       isResolvingPlace: isResolvingPlace ?? this.isResolvingPlace,
+      isMoving: isMoving ?? this.isMoving,
       isLocating: isLocating ?? this.isLocating,
       isSearching: isSearching ?? this.isSearching,
       errorMessage: errorMessage,
@@ -42,6 +46,7 @@ class MapLocationPickerState extends Equatable {
     target,
     place,
     isResolvingPlace,
+    isMoving,
     isLocating,
     isSearching,
     errorMessage,

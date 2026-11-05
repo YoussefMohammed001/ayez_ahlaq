@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import '../../../domain/entities/geo_point.dart';
@@ -49,6 +51,12 @@ class GoogleMapView extends StatelessWidget {
       onCameraIdle: onCameraIdle,
       onTap: (position) =>
           onTap(GeoPoint(position.latitude, position.longitude)),
+      gestureRecognizers: {
+        Factory<OneSequenceGestureRecognizer>(EagerGestureRecognizer.new),
+      },
+      rotateGesturesEnabled: false,
+      tiltGesturesEnabled: false,
+      compassEnabled: false,
       myLocationButtonEnabled: false,
       zoomControlsEnabled: false,
       mapToolbarEnabled: false,

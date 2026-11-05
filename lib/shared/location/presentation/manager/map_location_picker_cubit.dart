@@ -33,6 +33,12 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
 
   bool get hasInitialLocation => _hasInitialLocation;
 
+  bool get canConfirm =>
+      !state.isMoving &&
+      !state.isResolvingPlace &&
+      !state.isSearching &&
+      !state.isLocating;
+
   void start(PickedLocation? initial) {
     if (initial == null) return;
     _hasInitialLocation = true;
@@ -48,9 +54,17 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
     );
   }
 
+  void onCameraMove() {
+    if (state.isMoving) return;
+    _placeRequestId++;
+    emit(state.copyWith(isMoving: true, isResolvingPlace: false));
+  }
+
   Future<void> onCameraIdle(GeoPoint target) async {
     final requestId = ++_placeRequestId;
-    emit(state.copyWith(target: target, isResolvingPlace: true));
+    emit(
+      state.copyWith(target: target, isMoving: false, isResolvingPlace: true),
+    );
 
     final result = await _resolvePlace(target);
     if (requestId != _placeRequestId) return;

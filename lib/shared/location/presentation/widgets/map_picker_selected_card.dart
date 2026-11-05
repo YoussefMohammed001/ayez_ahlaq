@@ -19,8 +19,16 @@ class MapPickerSelectedCard extends StatelessWidget {
   });
 
   String get _title {
-    if (place.name.isNotEmpty) return place.name;
-    return isResolving ? S().searchingAddress : S().unnamedLocation;
+    if (isResolving) return S().searchingAddress;
+    return place.name.isNotEmpty ? place.name : S().unnamedLocation;
+  }
+
+  String get _subtitle {
+    if (isResolving) return ' ';
+    final address = place.fullAddress;
+    if (address.isEmpty) return place.city.isEmpty ? ' ' : place.city;
+    final city = place.city;
+    return city.isEmpty || address.contains(city) ? address : '$address، $city';
   }
 
   @override
@@ -29,8 +37,8 @@ class MapPickerSelectedCard extends StatelessWidget {
     final accent = context.semantic.accentStrong;
 
     return Container(
-      height: 92.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      constraints: BoxConstraints(minHeight: 92.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: accent, width: 1.5),
@@ -87,8 +95,8 @@ class MapPickerSelectedCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    place.city.isEmpty ? ' ' : place.city,
-                    maxLines: 1,
+                    _subtitle,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 13.sp,

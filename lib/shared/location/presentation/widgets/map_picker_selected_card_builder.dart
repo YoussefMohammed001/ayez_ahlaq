@@ -15,11 +15,13 @@ class MapPickerSelectedCardBuilder extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.place != current.place ||
           previous.isResolvingPlace != current.isResolvingPlace ||
+          previous.isMoving != current.isMoving ||
           previous.isSearching != current.isSearching ||
           previous.isLocating != current.isLocating,
       builder: (_, state) => MapPickerSelectedCard(
         place: state.place,
-        isResolving: state.isResolvingPlace || state.isSearching,
+        isResolving:
+            state.isResolvingPlace || state.isSearching || state.isMoving,
         isLocating: state.isLocating,
         onLocateMe: onLocateMe,
       ),
