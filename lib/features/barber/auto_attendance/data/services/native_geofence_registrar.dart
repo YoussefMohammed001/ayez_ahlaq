@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:native_geofence/native_geofence.dart';
 import '../../../../../core/helpers/safe_print.dart';
 import '../../domain/entities/auto_attendance_zone.dart';
@@ -17,11 +18,18 @@ class NativeGeofenceRegistrar implements IGeofenceRegistrar {
     _initialized = true;
   }
 
-  bool _isSameZone(ActiveGeofence active, AutoAttendanceZone zone) =>
+  static const _radiusToleranceMeters = 1.0;
+  static const _coordinateTolerance = 0.00002;
+
+  @visibleForTesting
+  static bool isSameZone(ActiveGeofence active, AutoAttendanceZone zone) =>
       active.id == zoneId &&
-      active.radiusMeters == zone.radiusMeters &&
-      active.location.latitude == zone.latitude &&
-      active.location.longitude == zone.longitude;
+      (active.radiusMeters - zone.radiusMeters).abs() <=
+          _radiusToleranceMeters &&
+      (active.location.latitude - zone.latitude).abs() <=
+          _coordinateTolerance &&
+      (active.location.longitude - zone.longitude).abs() <=
+          _coordinateTolerance;
 
   @override
   Future<bool> register(AutoAttendanceZone zone) async {
@@ -30,7 +38,7 @@ class NativeGeofenceRegistrar implements IGeofenceRegistrar {
       final manager = NativeGeofenceManager.instance;
 
       final active = await manager.getRegisteredGeofences();
-      if (active.any((g) => _isSameZone(g, zone))) return true;
+      if (active.any((g) => isSameZone(g, zone))) return true;
 
       await manager.removeGeofenceById(zoneId);
       await manager.createGeofence(

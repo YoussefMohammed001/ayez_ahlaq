@@ -10,6 +10,7 @@ import '../../../../generated/l10n.dart';
 import '../../bookings/presentation/pages/bookings_home_screen.dart';
 import '../../home/presentation/pages/barber_home_screen.dart';
 import '../../profile/presentation/pages/barber_profile_screen.dart';
+import '../../profile_setup/presentation/manager/profile_setup_cubit.dart';
 import '../../storefront/presentation/pages/storefront_home_screen.dart';
 import '../../tour/presentation/manager/barber_tour_cubit.dart';
 import '../../tour/presentation/widgets/barber_tour_host.dart';
@@ -48,6 +49,7 @@ class BarberOwnerShellView extends StatelessWidget {
       seenKey: PreferencesKeys.barberOwnerTourSeen,
       sequence: () => tour.ownerSequence,
       onShowHome: () => onSelectTab(0),
+      isReady: () => context.read<ProfileSetupCubit>().state.hasFinishedLoading,
       child: Scaffold(
         body: IndexedStack(
           index: index,

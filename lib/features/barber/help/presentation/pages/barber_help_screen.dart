@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/analytics/app_analytics.dart';
 import '../../../../../core/di/sl.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/helpers/user_helpers.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
@@ -33,10 +34,7 @@ class _BarberHelpScreenState extends State<BarberHelpScreen> {
   void _startTour(BuildContext context) {
     _analytics.helpTourRequested();
     final tourCubit = context.read<BarberTourCubit>();
-    final router = GoRouter.of(context);
-    while (router.canPop()) {
-      router.pop();
-    }
+    context.go(Routes.barberShell);
     tourCubit.requestTour();
   }
 

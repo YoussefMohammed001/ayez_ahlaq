@@ -5,7 +5,6 @@ import '../../../attendance/domain/use_cases/check_in_attendance_use_case.dart';
 import '../../../attendance/domain/use_cases/check_out_attendance_use_case.dart';
 import '../../../attendance/domain/use_cases/get_current_attendance_use_case.dart';
 import '../entities/auto_attendance_outcome.dart';
-import '../entities/auto_attendance_policy.dart';
 import '../entities/geofence_transition.dart';
 import '../repos/i_auto_attendance_store.dart';
 import '../repos/i_geofence_registrar.dart';
@@ -29,14 +28,11 @@ class HandleGeofenceTransitionUseCase {
     GeofenceTransition transition, {
     double? lat,
     double? lng,
-    required DateTime at,
   }) async {
     if (!_store.isEnabled) {
       await _registrar.clear();
       return AutoAttendanceOutcome.ignored;
     }
-
-    if (_isDuplicate(transition, at)) return AutoAttendanceOutcome.ignored;
 
     final current = await _getCurrent();
     final failure = current.fold((value) => value, (_) => null);
@@ -49,18 +45,7 @@ class HandleGeofenceTransitionUseCase {
         .getOrElse(() => const CurrentAttendance.none())
         .onShift;
 
-    final outcome = await _apply(transition, onShift, lat, lng);
-
-    if (outcome != AutoAttendanceOutcome.failed) {
-      await _store.saveLastEvent(transition, at);
-    }
-    return outcome;
-  }
-
-  bool _isDuplicate(GeofenceTransition transition, DateTime at) {
-    final last = _store.lastEventAt(transition);
-    return last != null &&
-        at.difference(last).abs() < AutoAttendancePolicy.duplicateWindow;
+    return _apply(transition, onShift, lat, lng);
   }
 
   Future<AutoAttendanceOutcome> _apply(

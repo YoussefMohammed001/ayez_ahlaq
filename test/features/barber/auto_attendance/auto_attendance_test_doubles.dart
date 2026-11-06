@@ -10,7 +10,6 @@ import 'package:ayez_ahlaq/features/barber/attendance/domain/entities/current_at
 import 'package:ayez_ahlaq/features/barber/attendance/domain/repos/i_barber_attendance_repo.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/auto_attendance_zone.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/background_location_status.dart';
-import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/geofence_transition.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/repos/i_auto_attendance_store.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/repos/i_background_location_permission.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/repos/i_geofence_registrar.dart';
@@ -80,8 +79,6 @@ class FakeAttendanceRepo extends Fake implements IBarberAttendanceRepo {
 
 class FakeStore implements IAutoAttendanceStore {
   bool enabled;
-  final events = <GeofenceTransition, DateTime>{};
-
   FakeStore({this.enabled = true});
 
   @override
@@ -89,15 +86,6 @@ class FakeStore implements IAutoAttendanceStore {
 
   @override
   Future<void> setEnabled(bool value) async => enabled = value;
-
-  @override
-  DateTime? lastEventAt(GeofenceTransition transition) => events[transition];
-
-  @override
-  Future<void> saveLastEvent(
-    GeofenceTransition transition,
-    DateTime at,
-  ) async => events[transition] = at;
 }
 
 class FakeRegistrar implements IGeofenceRegistrar {

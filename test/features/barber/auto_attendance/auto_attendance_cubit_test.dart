@@ -7,7 +7,6 @@ import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/get_curre
 import 'package:ayez_ahlaq/features/barber/auto_attendance/data/services/auto_attendance_prefs_store.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/background_location_status.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/enable_auto_attendance_result.dart';
-import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/geofence_transition.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/use_cases/disable_auto_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/use_cases/enable_auto_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/presentation/manager/auto_attendance_cubit.dart';
@@ -151,15 +150,6 @@ void main() {
 
       expect(prefsStore.isEnabled, isFalse);
       expect(prefsStore.serverUrl, isEmpty);
-    });
-
-    test('keeps the last event of each kind separately', () async {
-      final at = DateTime(2026, 11, 5, 9, 30);
-
-      await prefsStore.saveLastEvent(GeofenceTransition.entered, at);
-
-      expect(prefsStore.lastEventAt(GeofenceTransition.entered), at);
-      expect(prefsStore.lastEventAt(GeofenceTransition.exited), isNull);
     });
   });
 }

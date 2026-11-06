@@ -191,8 +191,6 @@ void main() {
   });
 
   group('transition', () {
-    final noon = DateTime(2026, 11, 5, 12);
-
     HandleGeofenceTransitionUseCase handler() =>
         HandleGeofenceTransitionUseCase(
           GetCurrentAttendanceUseCase(repo),
@@ -201,6 +199,12 @@ void main() {
           store,
           registrar,
         );
+
+    CurrentAttendance onShift() =>
+        CurrentAttendance(shift: openShift(), config: shopConfig);
+
+    CurrentAttendance offShift() =>
+        const CurrentAttendance(shift: null, config: shopConfig);
 
     setUp(() => store.enabled = true);
 
@@ -211,7 +215,6 @@ void main() {
           GeofenceTransition.entered,
           lat: 30.1,
           lng: 31.2,
-          at: noon,
         );
 
         expect(outcome, AutoAttendanceOutcome.checkedIn);
@@ -222,11 +225,9 @@ void main() {
     );
 
     test('arriving while already on shift does nothing', () async {
-      repo.current = Right(
-        CurrentAttendance(shift: openShift(), config: shopConfig),
-      );
+      repo.current = Right(onShift());
 
-      final outcome = await handler()(GeofenceTransition.entered, at: noon);
+      final outcome = await handler()(GeofenceTransition.entered);
 
       expect(outcome, AutoAttendanceOutcome.ignored);
       expect(repo.calls, isEmpty);
@@ -234,64 +235,55 @@ void main() {
 
     test('leaving checks out only when a shift is open', () async {
       expect(
-        await handler()(GeofenceTransition.exited, at: noon),
+        await handler()(GeofenceTransition.exited),
         AutoAttendanceOutcome.ignored,
       );
 
-      repo.current = Right(
-        CurrentAttendance(shift: openShift(), config: shopConfig),
-      );
+      repo.current = Right(onShift());
 
-      final outcome = await handler()(
-        GeofenceTransition.exited,
-        at: noon.add(const Duration(hours: 5)),
+      expect(
+        await handler()(GeofenceTransition.exited),
+        AutoAttendanceOutcome.checkedOut,
       );
-
-      expect(outcome, AutoAttendanceOutcome.checkedOut);
       expect(repo.calls, ['out']);
       expect(repo.lastMethod, AttendanceMethod.auto);
     });
 
-    test('the same event twice within two minutes is applied once', () async {
-      await handler()(GeofenceTransition.entered, at: noon);
-      repo.current = const Right(
-        CurrentAttendance(shift: null, config: shopConfig),
-      );
+    test(
+      'a repeated event is harmless because the shift state decides',
+      () async {
+        await handler()(GeofenceTransition.entered);
+        repo.current = Right(onShift());
 
-      final second = await handler()(
-        GeofenceTransition.entered,
-        at: noon.add(const Duration(seconds: 30)),
-      );
+        final second = await handler()(GeofenceTransition.entered);
 
-      expect(second, AutoAttendanceOutcome.ignored);
-      expect(repo.calls, ['in']);
-    });
+        expect(second, AutoAttendanceOutcome.ignored);
+        expect(repo.calls, ['in']);
+      },
+    );
 
-    test('an arrival after the window counts again', () async {
-      await handler()(GeofenceTransition.entered, at: noon);
+    test('coming back right after leaving checks in again', () async {
+      repo.current = Right(onShift());
+      await handler()(GeofenceTransition.exited);
 
-      await handler()(
-        GeofenceTransition.entered,
-        at: noon.add(const Duration(minutes: 3)),
-      );
+      repo.current = Right(offShift());
+      final again = await handler()(GeofenceTransition.entered);
 
-      expect(repo.calls, ['in', 'in']);
+      expect(again, AutoAttendanceOutcome.checkedIn);
+      expect(repo.calls, ['out', 'in']);
     });
 
     test('a failed attempt is reported and can be retried at once', () async {
       repo.checkInResult = Left(Failure('far', 400, const {}));
 
       expect(
-        await handler()(GeofenceTransition.entered, at: noon),
+        await handler()(GeofenceTransition.entered),
         AutoAttendanceOutcome.failed,
       );
 
       repo.checkInResult = null;
       expect(
-        await handler()(
-          GeofenceTransition.entered,
-          at: noon.add(const Duration(seconds: 10)),
-        ),
+        await handler()(GeofenceTransition.entered),
         AutoAttendanceOutcome.checkedIn,
       );
     });
@@ -300,7 +292,7 @@ void main() {
       repo.current = Left(_featureOff());
 
       expect(
-        await handler()(GeofenceTransition.entered, at: noon),
+        await handler()(GeofenceTransition.entered),
         AutoAttendanceOutcome.ignored,
       );
     });
@@ -309,7 +301,7 @@ void main() {
       repo.current = Left(Failure('offline', null, const {}));
 
       expect(
-        await handler()(GeofenceTransition.entered, at: noon),
+        await handler()(GeofenceTransition.entered),
         AutoAttendanceOutcome.failed,
       );
     });
@@ -317,7 +309,7 @@ void main() {
     test('events after the feature was turned off clear the zone', () async {
       store.enabled = false;
 
-      final outcome = await handler()(GeofenceTransition.entered, at: noon);
+      final outcome = await handler()(GeofenceTransition.entered);
 
       expect(outcome, AutoAttendanceOutcome.ignored);
       expect(registrar.clears, 1);

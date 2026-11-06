@@ -27,10 +27,9 @@ void main() {
     await analytics.themeChanged('dark');
     await analytics.externalLinkOpened('whatsapp');
     await analytics.locationPicked('map_picker');
-    await analytics.shopViewed(5);
     await analytics.loggedOut('barber');
 
-    expect(recorder.events, hasLength(15));
+    expect(recorder.events, hasLength(14));
     for (final event in recorder.events) {
       expect(_validName.hasMatch(event.name), isTrue, reason: event.name);
       expect(event.parameters.length, lessThanOrEqualTo(25));
@@ -42,12 +41,10 @@ void main() {
 
   test('carries the details dashboards need', () async {
     await analytics.setupStepOpened('documents');
-    await analytics.shopViewed(8);
     await analytics.autoAttendanceToggled(enabled: false, result: 'disabled');
 
     expect(recorder.events.map((e) => e.parameters), [
       {'step': 'documents'},
-      {'shop_id': 8},
       {'enabled': 'false', 'result': 'disabled'},
     ]);
   });

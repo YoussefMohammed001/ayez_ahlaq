@@ -20,8 +20,10 @@ class AppTourController {
 
   bool get hasBeenSeen => _preferences.getBoolean(key: seenKey);
 
+  ShowcaseView? _view;
+
   void attach() {
-    ShowcaseView.register(
+    _view = ShowcaseView.register(
       enableAutoScroll: true,
       onFinish: () {
         onCompleted?.call();
@@ -35,8 +37,12 @@ class AppTourController {
   }
 
   void detach() {
+    final view = _view;
+    _view = null;
+    if (view == null) return;
+
     try {
-      ShowcaseView.get().unregister();
+      if (identical(ShowcaseView.get(), view)) view.unregister();
     } catch (_) {
       return;
     }

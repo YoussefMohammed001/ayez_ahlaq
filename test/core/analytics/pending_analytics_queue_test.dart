@@ -5,6 +5,18 @@ import 'package:ayez_ahlaq/core/analytics/pending_analytics_queue.dart';
 import 'package:ayez_ahlaq/core/cache/preferences_storage/preferences_storage.dart';
 import '../../support/recording_analytics.dart';
 
+class _ThrowingAnalytics extends RecordingAnalytics {
+  final RecordingAnalytics inner;
+
+  _ThrowingAnalytics(this.inner);
+
+  @override
+  Future<void> logEvent(String name, [Map<String, Object>? parameters]) async {
+    if (name == 'a') throw StateError('offline');
+    await inner.logEvent(name, parameters);
+  }
+}
+
 void main() {
   late PendingAnalyticsQueue queue;
   late RecordingAnalytics analytics;
@@ -53,6 +65,23 @@ void main() {
       expect(analytics.events, hasLength(50));
       expect(analytics.events.first.parameters['i'], 10);
       expect(analytics.events.last.parameters['i'], 59);
+    });
+
+    test('flushed twice at once are still delivered once', () async {
+      await queue.enqueue('a', {'x': 1});
+
+      await Future.wait([queue.flush(analytics), queue.flush(analytics)]);
+
+      expect(analytics.names, ['a']);
+    });
+
+    test('a failing analytics service does not break the flush', () async {
+      await queue.enqueue('a', {'x': 1});
+      await queue.enqueue('b', {'x': 2});
+
+      await queue.flush(_ThrowingAnalytics(analytics));
+
+      expect(analytics.names, ['b']);
     });
 
     test('survive a corrupted entry', () async {

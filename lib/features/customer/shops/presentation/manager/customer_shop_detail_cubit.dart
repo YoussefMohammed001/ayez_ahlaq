@@ -57,11 +57,11 @@ class CustomerShopDetailCubit extends Cubit<CustomerShopDetailState> {
     );
   }
 
-  bool _viewLogged = false;
+  int? _loggedShopId;
 
   void _logShopViewed(int shopId) {
-    if (_viewLogged) return;
-    _viewLogged = true;
+    if (_loggedShopId == shopId) return;
+    _loggedShopId = shopId;
     _analytics.logEvent(AnalyticsEvents.shopViewed, {
       AnalyticsParams.shopId: shopId,
     });

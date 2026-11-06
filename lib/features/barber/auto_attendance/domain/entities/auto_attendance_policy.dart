@@ -8,7 +8,6 @@ class AutoAttendancePolicy {
   static const double minRadiusMeters = 100;
   static const double defaultRadiusMeters = 150;
   static const double enforcedRadiusFactor = 0.8;
-  static const Duration duplicateWindow = Duration(minutes: 2);
 
   static double get minEnforcedRangeMeters =>
       minRadiusMeters / enforcedRadiusFactor;

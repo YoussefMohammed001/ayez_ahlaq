@@ -137,4 +137,31 @@ void main() {
       isFalse,
     );
   });
+
+  testWidgets('an old controller leaving does not unregister the new one', (
+    tester,
+  ) async {
+    final replacement = AppTourController(
+      preferences,
+      seenKey: PreferencesKeys.barberTeamTourSeen,
+    )..attach();
+    final target = GlobalKey();
+
+    await _pump(tester, [
+      TourTarget(
+        tourKey: target,
+        title: 'عنوان',
+        description: 'وصف',
+        isLast: true,
+        child: const Text('أ'),
+      ),
+    ]);
+
+    controller.detach();
+    replacement.start([target]);
+    await tester.pumpAndSettle();
+
+    expect(find.text('عنوان'), findsOneWidget);
+    replacement.detach();
+  });
 }

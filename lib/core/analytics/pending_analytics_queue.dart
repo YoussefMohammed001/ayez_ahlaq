@@ -23,7 +23,12 @@ class PendingAnalyticsQueue {
     await _preferences.putStringList(key: _key, value: kept);
   }
 
-  Future<void> flush(IAnalyticsService analytics) async {
+  Future<void>? _flushing;
+
+  Future<void> flush(IAnalyticsService analytics) =>
+      _flushing ??= _flush(analytics).whenComplete(() => _flushing = null);
+
+  Future<void> _flush(IAnalyticsService analytics) async {
     await _preferences.reload();
 
     final events = _preferences.getStringList(key: _key);
@@ -32,7 +37,10 @@ class PendingAnalyticsQueue {
 
     for (final raw in events) {
       final event = _decode(raw);
-      if (event != null) await analytics.logEvent(event.$1, event.$2);
+      if (event == null) continue;
+      try {
+        await analytics.logEvent(event.$1, event.$2);
+      } catch (_) {}
     }
   }
 

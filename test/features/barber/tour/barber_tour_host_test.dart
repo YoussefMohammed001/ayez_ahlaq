@@ -17,12 +17,16 @@ class _Harness {
   final cubit = BarberTourCubit();
   final target = GlobalKey();
   int homeRequests = 0;
+  bool ready = true;
+  final navigator = GlobalKey<NavigatorState>();
 
   Widget build() => ScreenUtilInit(
     designSize: const Size(402, 874),
     builder: (_, __) => MaterialApp(
+      navigatorKey: navigator,
       theme: lightTheme,
       home: BarberTourHost(
+        isReady: () => ready,
         tourCubit: cubit,
         seenKey: PreferencesKeys.barberOwnerTourSeen,
         sequence: () => [target],
@@ -133,5 +137,57 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(analytics.events, isEmpty);
+  });
+
+  testWidgets('waits while another screen is open on top of the home', (
+    tester,
+  ) async {
+    final harness = _Harness();
+    await tester.pumpWidget(harness.build());
+    await tester.pump();
+
+    harness.navigator.currentState!.push(
+      MaterialPageRoute<void>(builder: (_) => const Scaffold(body: Text('أخرى'))),
+    );
+    await tester.pump(const Duration(seconds: 6));
+    await tester.pump();
+
+    expect(find.text('عنوان الجولة'), findsNothing);
+    expect(analytics.events, isEmpty);
+
+    harness.navigator.currentState!.pop();
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+
+    expect(find.text('عنوان الجولة'), findsOneWidget);
+  });
+
+  testWidgets('waits for the data, and is not counted as seen if it never comes', (
+    tester,
+  ) async {
+    final harness = _Harness()..ready = false;
+    await tester.pumpWidget(harness.build());
+
+    await tester.pump(const Duration(seconds: 3));
+    expect(find.text('عنوان الجولة'), findsNothing);
+
+    harness.ready = true;
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+    expect(find.text('عنوان الجولة'), findsOneWidget);
+  });
+
+  testWidgets('gives up quietly when the data never arrives', (tester) async {
+    final harness = _Harness()..ready = false;
+    await tester.pumpWidget(harness.build());
+
+    await tester.pump(const Duration(seconds: 20));
+    await tester.pumpAndSettle();
+
+    expect(find.text('عنوان الجولة'), findsNothing);
+    expect(
+      preferences.getBoolean(key: PreferencesKeys.barberOwnerTourSeen),
+      isFalse,
+    );
   });
 }

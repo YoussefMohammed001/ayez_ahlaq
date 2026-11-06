@@ -2,8 +2,6 @@ enum PreferencesKeys {
   pendingAnalyticsEvents,
   tokenKeychainMigrated,
   autoAttendanceEnabled,
-  autoAttendanceLastEntered,
-  autoAttendanceLastExited,
   autoAttendanceBaseUrl,
   barberOwnerTourSeen,
   barberTeamTourSeen,

@@ -22,6 +22,10 @@ class ProfileSetupState extends Equatable {
       hasPhoto != null &&
       documentsComplete != null;
 
+  bool get hasFinishedLoading =>
+      status == ProfileSetupStatus.success ||
+      status == ProfileSetupStatus.failure;
+
   ProfileSetupProgress get progress => ProfileSetupProgress({
     ...remoteDone,
     if (hasPhoto == true) ProfileSetupStep.photo,

@@ -64,11 +64,6 @@ class AppAnalytics {
     {AnalyticsParams.source: source},
   );
 
-  Future<void> shopViewed(int shopId) => _analytics.logEvent(
-    AnalyticsEvents.shopViewed,
-    {AnalyticsParams.shopId: shopId},
-  );
-
   Future<void> loggedOut(String userType) => _analytics.logEvent(
     AnalyticsEvents.logout,
     {AnalyticsParams.userType: userType},

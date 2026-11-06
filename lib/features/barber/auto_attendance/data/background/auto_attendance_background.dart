@@ -52,12 +52,13 @@ class AutoAttendanceBackground {
     final registrar = NativeGeofenceRegistrar(autoAttendanceGeofenceCallback);
     final storage = SecureStorage(appFlutterSecureStorage);
 
-    final token = await storage.read(SecureStorageKeys.userToken);
-    if (!store.isEnabled || token == null || token.isEmpty) {
-      await store.setEnabled(false);
+    if (!store.isEnabled) {
       await registrar.clear();
       return;
     }
+
+    final token = await storage.read(SecureStorageKeys.userToken);
+    if (token == null || token.isEmpty) return;
 
     AppStrings.baseUrl = store.serverUrl;
     await S.load(Locale(preferences.getCurrentLanguage()));
@@ -73,13 +74,12 @@ class AutoAttendanceBackground {
 
     if (outcome != AutoAttendanceOutcome.ignored) {
       await LocalAutoAttendanceNotifier().notify(outcome);
-      await PendingAnalyticsQueue(preferences).enqueue(
-        AnalyticsEvents.autoAttendanceTriggered,
-        {
-          AnalyticsParams.transition: transition.name,
-          AnalyticsParams.outcome: outcome.name,
-        },
-      );
+      await PendingAnalyticsQueue(
+        preferences,
+      ).enqueue(AnalyticsEvents.autoAttendanceTriggered, {
+        AnalyticsParams.transition: transition.name,
+        AnalyticsParams.outcome: outcome.name,
+      });
     }
   }
 
@@ -112,7 +112,6 @@ class AutoAttendanceBackground {
         transition,
         lat: params.location?.latitude,
         lng: params.location?.longitude,
-        at: params.triggeredAt ?? DateTime.now(),
       ).timeout(_requestBudget);
     } catch (error) {
       safePrint('Auto attendance failed: $error');

@@ -9,11 +9,14 @@ import '../../../../../shared/tour/app_tour_controller.dart';
 import '../manager/barber_tour_cubit.dart';
 import '../manager/barber_tour_state.dart';
 
+bool _alwaysReady() => true;
+
 class BarberTourHost extends StatefulWidget {
   final BarberTourCubit tourCubit;
   final PreferencesKeys seenKey;
   final List<GlobalKey> Function() sequence;
   final VoidCallback onShowHome;
+  final bool Function() isReady;
   final Widget child;
 
   const BarberTourHost({
@@ -23,6 +26,7 @@ class BarberTourHost extends StatefulWidget {
     required this.sequence,
     required this.onShowHome,
     required this.child,
+    this.isReady = _alwaysReady,
   });
 
   @override
@@ -32,6 +36,8 @@ class BarberTourHost extends StatefulWidget {
 class _BarberTourHostState extends State<BarberTourHost> {
   static const _firstRunDelay = Duration(milliseconds: 2200);
   static const _requestedDelay = Duration(milliseconds: 500);
+  static const _retryDelay = Duration(seconds: 1);
+  static const _maxRetries = 8;
 
   late final AppTourController _controller;
   Timer? _timer;
@@ -51,10 +57,24 @@ class _BarberTourHostState extends State<BarberTourHost> {
     if (!_controller.hasBeenSeen) _schedule(_firstRunDelay, 'first_run');
   }
 
-  void _schedule(Duration delay, String source) {
+  void _schedule(
+    Duration delay,
+    String source, {
+    int retriesLeft = _maxRetries,
+  }) {
     _timer?.cancel();
     _timer = Timer(delay, () {
-      if (mounted && _controller.start(widget.sequence())) {
+      if (!mounted) return;
+
+      final onScreen = ModalRoute.of(context)?.isCurrent ?? true;
+      if (!onScreen || !widget.isReady()) {
+        if (retriesLeft > 0) {
+          _schedule(_retryDelay, source, retriesLeft: retriesLeft - 1);
+        }
+        return;
+      }
+
+      if (_controller.start(widget.sequence())) {
         sl<AppAnalytics>().tourStarted(source);
       }
     });
