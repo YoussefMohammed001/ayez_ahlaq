@@ -5,6 +5,7 @@ import '../review/review_prompt_service.dart';
 import 'analytics_events.dart';
 import 'analytics_params.dart';
 import 'api_action_mapper.dart';
+import 'api_param_extractor.dart';
 import 'i_analytics_service.dart';
 
 class ApiAnalyticsTracker {
@@ -21,11 +22,13 @@ class ApiAnalyticsTracker {
 
   Future<void> onSuccess(RequestOptions request) async {
     if (_readMethods.contains(request.method.toUpperCase())) return;
+    if (ApiActionMapper.isIgnored(request.method, request.path)) return;
 
     final action = ApiActionMapper.map(request.method, request.path);
     final rating = _ratingOf(request.data);
     final parameters = {
       ...action.parameters,
+      ...ApiParamExtractor.extract(request.data),
       if (rating != null) AnalyticsParams.rating: rating,
     };
 

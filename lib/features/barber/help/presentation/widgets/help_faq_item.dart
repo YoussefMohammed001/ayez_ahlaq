@@ -5,8 +5,9 @@ import 'help_entry.dart';
 
 class HelpFaqItem extends StatelessWidget {
   final HelpEntry entry;
+  final VoidCallback? onExpanded;
 
-  const HelpFaqItem({super.key, required this.entry});
+  const HelpFaqItem({super.key, required this.entry, this.onExpanded});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,9 @@ class HelpFaqItem extends StatelessWidget {
         tilePadding: EdgeInsets.symmetric(horizontal: 4.w),
         childrenPadding: EdgeInsets.fromLTRB(4.w, 0, 4.w, 12.h),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        onExpansionChanged: (open) {
+          if (open) onExpanded?.call();
+        },
         title: Text(
           entry.question,
           style: TextStyle(

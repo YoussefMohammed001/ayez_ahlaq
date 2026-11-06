@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ayez_ahlaq/core/analytics/app_analytics.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
 import 'package:ayez_ahlaq/features/barber/hours/domain/entities/working_day.dart';
 import 'package:ayez_ahlaq/features/barber/hours/domain/repos/i_barber_hours_repo.dart';
@@ -12,6 +13,7 @@ import 'package:ayez_ahlaq/features/barber/profile_setup/presentation/manager/pr
 import 'package:ayez_ahlaq/features/barber/services/domain/entities/barber_service.dart';
 import 'package:ayez_ahlaq/features/barber/services/domain/repos/i_barber_services_repo.dart';
 import 'package:ayez_ahlaq/features/barber/services/domain/use_cases/get_barber_services_use_case.dart';
+import '../../../support/recording_analytics.dart';
 
 class _HoursRepo extends Fake implements IBarberHoursRepo {
   Either<Failure, List<WorkingDay>> result = const Right([]);
@@ -49,8 +51,10 @@ void main() {
   late _HoursRepo hours;
   late _ServicesRepo services;
   late GetProfileSetupRemoteStepsUseCase useCase;
+  late RecordingAnalytics analytics;
 
   setUp(() {
+    analytics = RecordingAnalytics();
     hours = _HoursRepo();
     services = _ServicesRepo();
     useCase = GetProfileSetupRemoteStepsUseCase(
@@ -95,10 +99,9 @@ void main() {
       expect((await useCase()).getOrElse(() => {}), isEmpty);
 
       services.result = Right([_service(active: false), _service()]);
-      expect(
-        (await useCase()).getOrElse(() => {}),
-        {ProfileSetupStep.services},
-      );
+      expect((await useCase()).getOrElse(() => {}), {
+        ProfileSetupStep.services,
+      });
     });
 
     test('fails when either request fails', () async {
@@ -114,7 +117,7 @@ void main() {
   group('ProfileSetupCubit', () {
     test('hides the checklist until photo and documents are known', () async {
       hours.result = const Right([_openDay]);
-      final cubit = ProfileSetupCubit(useCase);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
 
       await cubit.load();
 
@@ -130,7 +133,7 @@ void main() {
     test('hides the checklist once every step is done', () async {
       hours.result = const Right([_openDay]);
       services.result = Right([_service()]);
-      final cubit = ProfileSetupCubit(useCase);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
 
       await cubit.load();
       cubit.syncLocal(hasPhoto: true, documentsComplete: true);
@@ -139,9 +142,26 @@ void main() {
       expect(cubit.state.shouldShowChecklist, isFalse);
     });
 
+    test('reports completion once, when the last step gets done', () async {
+      hours.result = const Right([_openDay]);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
+      await cubit.load();
+      cubit.syncLocal(hasPhoto: true, documentsComplete: false);
+      expect(analytics.names, isEmpty);
+
+      services.result = Right([_service()]);
+      cubit.syncLocal(hasPhoto: true, documentsComplete: true);
+      await cubit.load();
+
+      expect(analytics.names, ['setup_completed']);
+
+      await cubit.load();
+      expect(analytics.names, ['setup_completed']);
+    });
+
     test('a failed first load never shows the checklist', () async {
       hours.result = Left(Failure('x', null, const {}));
-      final cubit = ProfileSetupCubit(useCase);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
 
       await cubit.load();
       cubit.syncLocal(hasPhoto: false, documentsComplete: false);
@@ -152,7 +172,7 @@ void main() {
 
     test('a failed refresh keeps what was already shown', () async {
       hours.result = const Right([_openDay]);
-      final cubit = ProfileSetupCubit(useCase);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
       await cubit.load();
       cubit.syncLocal(hasPhoto: false, documentsComplete: false);
 
@@ -164,7 +184,7 @@ void main() {
     });
 
     test('picks up a step finished after the checklist was shown', () async {
-      final cubit = ProfileSetupCubit(useCase);
+      final cubit = ProfileSetupCubit(useCase, AppAnalytics(analytics));
       await cubit.load();
       cubit.syncLocal(hasPhoto: false, documentsComplete: false);
       expect(cubit.state.progress.doneCount, 0);

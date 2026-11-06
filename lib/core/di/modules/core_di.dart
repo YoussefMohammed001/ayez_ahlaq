@@ -1,4 +1,6 @@
 import '../../analytics/api_analytics_tracker.dart';
+import '../../analytics/app_analytics.dart';
+import '../../analytics/pending_analytics_queue.dart';
 import '../../app_startup/remote_config_service.dart';
 import '../../app_startup/update_dialog_service.dart';
 import '../../app_startup/version_checker.dart';
@@ -54,6 +56,8 @@ void registerSupport() {
 
 void registerAnalytics() {
   sl.registerLazySingleton<IAnalyticsService>(() => FirebaseAnalyticsService());
+  sl.registerLazySingleton(() => AppAnalytics(sl()));
+  sl.registerLazySingleton(() => PendingAnalyticsQueue(sl()));
   sl.registerLazySingleton(() => ReviewPromptService(sl(), sl()));
   sl.registerLazySingleton(() => UserAnalyticsSync(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => ApiAnalyticsTracker(sl(), sl(), sl()));
@@ -72,7 +76,7 @@ void registerLocation() {
   sl.registerLazySingleton(() => ResolveGovernorateUseCase(sl()));
   sl.registerLazySingleton(() => SearchPlacesUseCase(sl()));
   sl.registerFactory(() => LocationStatusCubit(sl(), sl(), sl()));
-  sl.registerFactory(() => MapLocationPickerCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => MapLocationPickerCubit(sl(), sl(), sl(), sl()));
 }
 
 void registerCrashReporting() {

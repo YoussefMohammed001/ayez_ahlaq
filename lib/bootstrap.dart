@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'app.dart';
+import 'core/analytics/i_analytics_service.dart';
+import 'core/analytics/pending_analytics_queue.dart';
 import 'core/cache/preferences_storage/preferences_storage.dart';
 import 'core/constants/strings.dart';
 import 'core/di/services_locator.dart';
@@ -23,6 +25,7 @@ Future<void> bootstrap(Flavor flavor, FirebaseOptions firebaseOptions) async {
   Bloc.observer = AppBlocObserver();
 
   await ServicesLocator().init();
+  sl<PendingAnalyticsQueue>().flush(sl<IAnalyticsService>());
 
   await initializeDateFormatting(sl<PreferencesStorage>().getCurrentLanguage());
 

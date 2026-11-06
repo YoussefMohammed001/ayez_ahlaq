@@ -1,6 +1,13 @@
-import 'analytics_events.dart';
+import 'package:flutter/foundation.dart';
 import 'analytics_params.dart';
 import 'api_action.dart';
+import 'api_action_rule.dart';
+import 'catalog/barber_operations_api_actions.dart';
+import 'catalog/barber_shop_api_actions.dart';
+import 'catalog/common_api_actions.dart';
+import 'catalog/customer_api_actions.dart';
+import 'catalog/ignored_api_actions.dart';
+import 'catalog/merchant_api_actions.dart';
 
 class ApiActionMapper {
   const ApiActionMapper._();
@@ -8,65 +15,22 @@ class ApiActionMapper {
   static const _genericEvent = 'app_action';
   static const _maxActionLength = 90;
 
-  static final _rules = <_Rule>[
-    _Rule('POST', r'^(customer|barber|merchant)/login$', AnalyticsEvents.login),
-    _Rule(
-      'POST',
-      r'^(customer|barber|merchant)/register$',
-      AnalyticsEvents.signUp,
-    ),
-    _Rule(
-      'POST',
-      r'^(customer|barber|merchant)/register/verifyOtp$',
-      AnalyticsEvents.otpVerified,
-    ),
-    _Rule('POST', r'^customer/booking$', AnalyticsEvents.bookingCreated),
-    _Rule(
-      'PUT',
-      r'^customer/booking/\d+/cancel$',
-      AnalyticsEvents.bookingCancelled,
-    ),
-    _Rule('POST', r'^customer/rating$', AnalyticsEvents.bookingRated),
-    _Rule(
-      'POST',
-      r'^customer/homeService$',
-      AnalyticsEvents.homeServiceRequested,
-    ),
-    _Rule(
-      'POST',
-      r'^(customer|barber)/cart/checkout$',
-      AnalyticsEvents.storeOrderPlaced,
-    ),
-    _Rule('POST', r'^customer/favorite/\d+$', AnalyticsEvents.favoriteAdded),
-    _Rule(
-      'DELETE',
-      r'^customer/favorite/\d+$',
-      AnalyticsEvents.favoriteRemoved,
-    ),
-    _Rule(
-      'PUT',
-      r'^barber/booking/\d+/confirm$',
-      AnalyticsEvents.barberBookingAccepted,
-    ),
-    _Rule(
-      'PUT',
-      r'^barber/booking/\d+/reject$',
-      AnalyticsEvents.barberBookingRejected,
-    ),
-    _Rule(
-      'PUT',
-      r'^barber/booking/\d+/status$',
-      AnalyticsEvents.barberBookingCompleted,
-    ),
-    _Rule('POST', r'^barber/service$', AnalyticsEvents.barberServiceAdded),
-    _Rule('PUT', r'^barber/location$', AnalyticsEvents.barberLocationSaved),
-    _Rule('POST', r'^merchant/product$', AnalyticsEvents.merchantProductAdded),
-    _Rule(
-      'PUT',
-      r'^merchant/order/\d+/(accept|reject|status|ship)$',
-      AnalyticsEvents.merchantOrderUpdated,
-    ),
+  static final _rules = <ApiActionRule>[
+    ...CustomerApiActions.rules,
+    ...BarberOperationsApiActions.rules,
+    ...BarberShopApiActions.rules,
+    ...MerchantApiActions.rules,
+    ...CommonApiActions.rules,
   ];
+
+  @visibleForTesting
+  static List<ApiActionRule> get rules => _rules;
+
+  static bool isIgnored(String method, String path) {
+    final normalizedPath = _normalize(path);
+    final verb = method.toUpperCase();
+    return IgnoredApiActions.rules.any((r) => r.matches(verb, normalizedPath));
+  }
 
   static ApiAction map(String method, String path) {
     final normalizedPath = _normalize(path);
@@ -107,15 +71,4 @@ class ApiActionMapper {
   static String _truncate(String value) => value.length <= _maxActionLength
       ? value
       : value.substring(0, _maxActionLength);
-}
-
-class _Rule {
-  final String method;
-  final RegExp pattern;
-  final String event;
-
-  _Rule(this.method, String pattern, this.event) : pattern = RegExp(pattern);
-
-  bool matches(String verb, String path) =>
-      verb == method && pattern.hasMatch(path);
 }

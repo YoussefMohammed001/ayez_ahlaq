@@ -28,5 +28,5 @@ void registerBarberAutoAttendance() {
   sl.registerLazySingleton(
     () => SyncAutoAttendanceZoneUseCase(sl(), sl(), sl(), sl(), sl()),
   );
-  sl.registerFactory(() => AutoAttendanceCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => AutoAttendanceCubit(sl(), sl(), sl(), sl(), sl()));
 }

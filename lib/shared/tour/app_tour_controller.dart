@@ -8,15 +8,29 @@ class AppTourController {
   final PreferencesKeys seenKey;
   final PreferencesStorage _preferences;
 
-  AppTourController(this._preferences, {required this.seenKey});
+  final VoidCallback? onCompleted;
+  final VoidCallback? onSkipped;
+
+  AppTourController(
+    this._preferences, {
+    required this.seenKey,
+    this.onCompleted,
+    this.onSkipped,
+  });
 
   bool get hasBeenSeen => _preferences.getBoolean(key: seenKey);
 
   void attach() {
     ShowcaseView.register(
       enableAutoScroll: true,
-      onFinish: _markSeen,
-      onDismiss: (_) => _markSeen(),
+      onFinish: () {
+        onCompleted?.call();
+        _markSeen();
+      },
+      onDismiss: (_) {
+        onSkipped?.call();
+        _markSeen();
+      },
     );
   }
 

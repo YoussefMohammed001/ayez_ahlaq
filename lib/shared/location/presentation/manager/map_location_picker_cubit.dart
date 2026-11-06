@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/analytics/app_analytics.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/entities/geo_point.dart';
 import '../../domain/entities/location_availability.dart';
@@ -15,6 +16,7 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
   final GetCurrentLocationUseCase _getCurrentLocation;
   final ResolvePlaceUseCase _resolvePlace;
   final SearchPlacesUseCase _searchPlaces;
+  final AppAnalytics _analytics;
   int _placeRequestId = 0;
   int _searchRequestId = 0;
   bool _hasInitialLocation = false;
@@ -23,6 +25,7 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
     this._getCurrentLocation,
     this._resolvePlace,
     this._searchPlaces,
+    this._analytics,
   ) : super(const MapLocationPickerState(target: defaultTarget));
 
   @override
@@ -116,6 +119,11 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
       ),
     );
     return found.point;
+  }
+
+  PickedLocation confirm() {
+    _analytics.locationPicked('map_picker');
+    return picked;
   }
 
   PickedLocation get picked => PickedLocation(

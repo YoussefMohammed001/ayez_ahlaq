@@ -2,6 +2,9 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:native_geofence/native_geofence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../../core/analytics/analytics_events.dart';
+import '../../../../../core/analytics/analytics_params.dart';
+import '../../../../../core/analytics/pending_analytics_queue.dart';
 import '../../../../../core/cache/preferences_storage/preferences_storage.dart';
 import '../../../../../core/cache/secure_storage/app_flutter_secure_storage.dart';
 import '../../../../../core/cache/secure_storage/secure_storage.dart';
@@ -70,6 +73,13 @@ class AutoAttendanceBackground {
 
     if (outcome != AutoAttendanceOutcome.ignored) {
       await LocalAutoAttendanceNotifier().notify(outcome);
+      await PendingAnalyticsQueue(preferences).enqueue(
+        AnalyticsEvents.autoAttendanceTriggered,
+        {
+          AnalyticsParams.transition: transition.name,
+          AnalyticsParams.outcome: outcome.name,
+        },
+      );
     }
   }
 

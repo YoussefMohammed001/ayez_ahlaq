@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/analytics/app_analytics.dart';
 import '../../domain/entities/background_location_status.dart';
 import '../../domain/entities/enable_auto_attendance_result.dart';
 import '../../domain/repos/i_auto_attendance_store.dart';
@@ -12,12 +13,14 @@ class AutoAttendanceCubit extends Cubit<AutoAttendanceState> {
   final DisableAutoAttendanceUseCase _disable;
   final IAutoAttendanceStore _store;
   final IBackgroundLocationPermission _permission;
+  final AppAnalytics _analytics;
 
   AutoAttendanceCubit(
     this._enable,
     this._disable,
     this._store,
     this._permission,
+    this._analytics,
   ) : super(const AutoAttendanceState());
 
   @override
@@ -32,6 +35,10 @@ class AutoAttendanceCubit extends Cubit<AutoAttendanceState> {
     if (enabled &&
         await _permission.status() != BackgroundLocationStatus.granted) {
       await _disable();
+      _analytics.autoAttendanceToggled(
+        enabled: false,
+        result: 'permission_revoked',
+      );
       enabled = false;
     }
 
@@ -42,6 +49,7 @@ class AutoAttendanceCubit extends Cubit<AutoAttendanceState> {
     emit(state.copyWith(isBusy: true));
 
     final result = await _enable();
+    _analytics.autoAttendanceToggled(enabled: true, result: result.name);
 
     emit(
       state.copyWith(
@@ -56,6 +64,7 @@ class AutoAttendanceCubit extends Cubit<AutoAttendanceState> {
   Future<void> turnOff() async {
     emit(state.copyWith(isBusy: true));
     await _disable();
+    _analytics.autoAttendanceToggled(enabled: false, result: 'disabled');
     emit(state.copyWith(isBusy: false, isEnabled: false));
   }
 

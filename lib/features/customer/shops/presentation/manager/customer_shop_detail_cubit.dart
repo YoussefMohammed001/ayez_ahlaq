@@ -45,13 +45,26 @@ class CustomerShopDetailCubit extends Cubit<CustomerShopDetailState> {
           errorMessage: failure.message,
         ),
       ),
-      (detail) => emit(
-        state.copyWith(
-          status: CustomerShopDetailStatus.success,
-          detail: detail,
-        ),
-      ),
+      (detail) {
+        emit(
+          state.copyWith(
+            status: CustomerShopDetailStatus.success,
+            detail: detail,
+          ),
+        );
+        _logShopViewed(detail.shop.id);
+      },
     );
+  }
+
+  bool _viewLogged = false;
+
+  void _logShopViewed(int shopId) {
+    if (_viewLogged) return;
+    _viewLogged = true;
+    _analytics.logEvent(AnalyticsEvents.shopViewed, {
+      AnalyticsParams.shopId: shopId,
+    });
   }
 
   Future<void> openShopOnMap() async {

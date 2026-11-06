@@ -116,7 +116,7 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
                         state.isSearching ||
                         state.isLocating,
                     onPressed: _cubit.canConfirm
-                        ? () => context.pop(_cubit.picked)
+                        ? () => context.pop(_cubit.confirm())
                         : null,
                   ),
                 ),

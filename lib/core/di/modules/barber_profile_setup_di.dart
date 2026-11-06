@@ -5,6 +5,6 @@ import '../sl.dart';
 
 void registerBarberProfileSetup() {
   sl.registerLazySingleton(() => GetProfileSetupRemoteStepsUseCase(sl(), sl()));
-  sl.registerFactory(() => ProfileSetupCubit(sl()));
+  sl.registerFactory(() => ProfileSetupCubit(sl(), sl()));
   sl.registerFactory(() => BarberTourCubit());
 }

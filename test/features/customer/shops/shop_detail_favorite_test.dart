@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ayez_ahlaq/core/analytics/i_analytics_service.dart';
+import '../../../support/recording_analytics.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
 import 'package:ayez_ahlaq/features/customer/favorites/domain/repos/i_customer_favorites_repo.dart';
 import 'package:ayez_ahlaq/features/customer/favorites/domain/use_cases/add_favorite_use_case.dart';
@@ -62,16 +63,14 @@ class FakeFavoritesRepo extends Fake implements ICustomerFavoritesRepo {
 
 class FakeMaps extends Fake implements OpenInMapsUseCase {}
 
-class FakeAnalytics extends Fake implements IAnalyticsService {}
-
-Future<(CustomerShopDetailCubit, FakeFavoritesRepo)> loadedCubit() async {
+Future<(CustomerShopDetailCubit, FakeFavoritesRepo)> loadedCubit([IAnalyticsService? analytics]) async {
   final favorites = FakeFavoritesRepo();
   final cubit = CustomerShopDetailCubit(
     GetShopDetailUseCase(FakeShopsRepo()),
     AddFavoriteUseCase(favorites),
     RemoveFavoriteUseCase(favorites),
     FakeMaps(),
-    FakeAnalytics(),
+    analytics ?? RecordingAnalytics(),
   );
   await cubit.loadShopDetail(1);
   return (cubit, favorites);
@@ -100,5 +99,15 @@ void main() {
     expect(await pending, isFalse);
     expect(cubit.state.detail!.barbers.first.favorite, isFalse);
     expect(cubit.state.errorMessage, 'offline');
+  });
+
+  test('opening a shop is reported once, even after a refresh', () async {
+    final analytics = RecordingAnalytics();
+    final (cubit, _) = await loadedCubit(analytics);
+
+    await cubit.loadShopDetail(1);
+
+    expect(analytics.names, ['shop_viewed']);
+    expect(analytics.events.single.parameters, {'shop_id': 1});
   });
 }

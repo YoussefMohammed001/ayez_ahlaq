@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ayez_ahlaq/core/analytics/app_analytics.dart';
 import 'package:ayez_ahlaq/core/cache/preferences_storage/preferences_storage.dart';
 import 'package:ayez_ahlaq/core/constants/strings.dart';
 import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/get_current_attendance_use_case.dart';
@@ -10,6 +11,7 @@ import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/entities/geofe
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/use_cases/disable_auto_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/use_cases/enable_auto_attendance_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/presentation/manager/auto_attendance_cubit.dart';
+import '../../../support/recording_analytics.dart';
 import 'auto_attendance_test_doubles.dart';
 
 void main() {
@@ -17,6 +19,7 @@ void main() {
   late FakeStore store;
   late FakeRegistrar registrar;
   late FakePermission permission;
+  late RecordingAnalytics analytics;
 
   AutoAttendanceCubit build() => AutoAttendanceCubit(
     EnableAutoAttendanceUseCase(
@@ -28,6 +31,7 @@ void main() {
     DisableAutoAttendanceUseCase(registrar, store),
     store,
     permission,
+    AppAnalytics(analytics),
   );
 
   setUp(() {
@@ -35,6 +39,7 @@ void main() {
     store = FakeStore(enabled: false);
     registrar = FakeRegistrar();
     permission = FakePermission();
+    analytics = RecordingAnalytics();
   });
 
   group('cubit', () {
@@ -90,6 +95,30 @@ void main() {
 
       expect(cubit.state.isEnabled, isFalse);
       expect(registrar.clears, 1);
+    });
+
+    test('reports what happened when it was switched on or off', () async {
+      final cubit = build();
+
+      await cubit.turnOn();
+      await cubit.turnOff();
+
+      expect(analytics.events.map((e) => e.parameters), [
+        {'enabled': 'true', 'result': 'enabled'},
+        {'enabled': 'false', 'result': 'disabled'},
+      ]);
+    });
+
+    test('reports when access was taken away behind its back', () async {
+      store.enabled = true;
+      permission.current = BackgroundLocationStatus.denied;
+
+      await build().load();
+
+      expect(analytics.last('auto_attendance_toggled')!.parameters, {
+        'enabled': 'false',
+        'result': 'permission_revoked',
+      });
     });
 
     test('opens the system settings on request', () async {

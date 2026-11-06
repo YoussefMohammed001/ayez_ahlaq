@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ayez_ahlaq/core/analytics/app_analytics.dart';
 import 'package:ayez_ahlaq/core/di/sl.dart';
 import 'package:ayez_ahlaq/core/theme/light_theme.dart';
 import 'package:ayez_ahlaq/features/barber/attendance/domain/use_cases/get_current_attendance_use_case.dart';
@@ -9,6 +10,7 @@ import 'package:ayez_ahlaq/features/barber/auto_attendance/domain/use_cases/enab
 import 'package:ayez_ahlaq/features/barber/auto_attendance/presentation/manager/auto_attendance_cubit.dart';
 import 'package:ayez_ahlaq/features/barber/auto_attendance/presentation/widgets/auto_attendance_card.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
+import '../../../support/recording_analytics.dart';
 import 'auto_attendance_test_doubles.dart';
 
 void main() {
@@ -32,6 +34,7 @@ void main() {
         DisableAutoAttendanceUseCase(registrar, store),
         store,
         permission,
+        AppAnalytics(RecordingAnalytics()),
       ),
     );
   });

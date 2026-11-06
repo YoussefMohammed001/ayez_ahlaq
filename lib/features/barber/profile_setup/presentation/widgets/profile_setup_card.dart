@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/analytics/app_analytics.dart';
+import '../../../../../core/di/sl.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/tour/tour_target.dart';
 import '../../domain/entities/profile_setup_step.dart';
@@ -29,6 +31,7 @@ class ProfileSetupCard extends StatelessWidget {
 
   Future<void> _open(BuildContext context, ProfileSetupStep step) async {
     final cubit = context.read<ProfileSetupCubit>();
+    sl<AppAnalytics>().setupStepOpened(step.name);
     await ProfileSetupStepRouter.open(context, step);
     await cubit.load();
   }

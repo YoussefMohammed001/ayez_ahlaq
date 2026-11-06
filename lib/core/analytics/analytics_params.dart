@@ -8,6 +8,15 @@ class AnalyticsParams {
   static const paymentMethod = 'payment_method';
   static const amount = 'amount';
   static const source = 'source';
+  static const step = 'step';
+  static const result = 'result';
+  static const enabled = 'enabled';
+  static const transition = 'transition';
+  static const outcome = 'outcome';
+  static const language = 'language';
+  static const theme = 'theme';
+  static const target = 'target';
+  static const questionIndex = 'question_index';
 }
 
 class AnalyticsUserProperties {

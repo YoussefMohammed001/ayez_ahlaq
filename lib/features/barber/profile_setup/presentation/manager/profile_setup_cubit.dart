@@ -1,16 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/analytics/app_analytics.dart';
 import '../../domain/use_cases/get_profile_setup_remote_steps_use_case.dart';
 import 'profile_setup_state.dart';
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
   final GetProfileSetupRemoteStepsUseCase _getRemoteSteps;
+  final AppAnalytics _analytics;
 
-  ProfileSetupCubit(this._getRemoteSteps) : super(const ProfileSetupState());
+  ProfileSetupCubit(this._getRemoteSteps, this._analytics)
+    : super(const ProfileSetupState());
 
   @override
   void emit(ProfileSetupState state) {
     if (isClosed) return;
+    final wasShowingChecklist = this.state.shouldShowChecklist;
     super.emit(state);
+    if (wasShowingChecklist && state.isReady && state.progress.isComplete) {
+      _analytics.setupCompleted();
+    }
   }
 
   Future<void> load() async {

@@ -30,4 +30,18 @@ class AnalyticsEvents {
   static const merchantOrderUpdated = 'merchant_order_updated';
 
   static const reviewPromptShown = 'review_prompt_shown';
+
+  static const tourStarted = 'tour_started';
+  static const tourCompleted = 'tour_completed';
+  static const tourSkipped = 'tour_skipped';
+  static const setupStepOpened = 'setup_step_opened';
+  static const setupCompleted = 'setup_completed';
+  static const helpOpened = 'help_opened';
+  static const helpQuestionOpened = 'help_question_opened';
+  static const helpTourRequested = 'help_tour_requested';
+  static const autoAttendanceToggled = 'auto_attendance_toggled';
+  static const autoAttendanceTriggered = 'auto_attendance_triggered';
+  static const languageChanged = 'language_changed';
+  static const themeChanged = 'theme_changed';
+  static const externalLinkOpened = 'external_link_opened';
 }

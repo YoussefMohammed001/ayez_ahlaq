@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/cache/preferences_storage/preferences_storage_keys.dart';
+import '../../../../../core/analytics/app_analytics.dart';
 import '../../../../../core/di/sl.dart';
 import '../../../../../core/cache/preferences_storage/preferences_storage.dart';
 import '../../../../../shared/tour/app_tour_controller.dart';
@@ -40,17 +41,22 @@ class _BarberTourHostState extends State<BarberTourHost> {
   void initState() {
     super.initState();
     _handledRequests = widget.tourCubit.state.requestCount;
+    final analytics = sl<AppAnalytics>();
     _controller = AppTourController(
       sl<PreferencesStorage>(),
       seenKey: widget.seenKey,
+      onCompleted: analytics.tourCompleted,
+      onSkipped: analytics.tourSkipped,
     )..attach();
-    if (!_controller.hasBeenSeen) _schedule(_firstRunDelay);
+    if (!_controller.hasBeenSeen) _schedule(_firstRunDelay, 'first_run');
   }
 
-  void _schedule(Duration delay) {
+  void _schedule(Duration delay, String source) {
     _timer?.cancel();
     _timer = Timer(delay, () {
-      if (mounted) _controller.start(widget.sequence());
+      if (mounted && _controller.start(widget.sequence())) {
+        sl<AppAnalytics>().tourStarted(source);
+      }
     });
   }
 
@@ -58,7 +64,7 @@ class _BarberTourHostState extends State<BarberTourHost> {
     if (state.requestCount == _handledRequests) return;
     _handledRequests = state.requestCount;
     widget.onShowHome();
-    _schedule(_requestedDelay);
+    _schedule(_requestedDelay, 'requested');
   }
 
   @override

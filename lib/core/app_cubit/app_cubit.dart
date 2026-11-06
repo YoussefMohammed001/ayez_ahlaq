@@ -6,6 +6,7 @@ import 'package:ayez_ahlaq/core/helpers/safe_print.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
 import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '/core/di/services_locator.dart';
+import '../analytics/app_analytics.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -33,6 +34,7 @@ class AppCubit extends Cubit<AppState> {
       key: PreferencesKeys.themeMode,
       value: mode == ThemeMode.dark ? 'dark' : 'light',
     );
+    sl<AppAnalytics>().themeChanged(mode.name);
     emit(ThemeChangedState(mode));
   }
 
@@ -42,6 +44,7 @@ class AppCubit extends Cubit<AppState> {
       key: PreferencesKeys.themeMode,
       value: themeMode == ThemeMode.dark ? 'dark' : 'light',
     );
+    sl<AppAnalytics>().themeChanged(themeMode.name);
     emit(ThemeChangedState(themeMode));
   }
 
@@ -74,6 +77,7 @@ class AppCubit extends Cubit<AppState> {
     );
 
     safePrint('Language changed to: $language');
+    sl<AppAnalytics>().languageChanged(language);
     emit(LanguageChangedState(language));
   }
 
@@ -89,6 +93,7 @@ class AppCubit extends Cubit<AppState> {
     );
 
     safePrint('Language changed to: $language');
+    sl<AppAnalytics>().languageChanged(language);
     emit(LanguageChangedState(language));
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ayez_ahlaq/core/analytics/app_analytics.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/device_location_result.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/geo_point.dart';
@@ -13,6 +14,7 @@ import 'package:ayez_ahlaq/shared/location/domain/use_cases/get_current_location
 import 'package:ayez_ahlaq/shared/location/domain/use_cases/resolve_place_use_case.dart';
 import 'package:ayez_ahlaq/shared/location/domain/use_cases/search_places_use_case.dart';
 import 'package:ayez_ahlaq/shared/location/presentation/manager/map_location_picker_cubit.dart';
+import '../../support/recording_analytics.dart';
 
 class _Repo implements ILocationRepo {
   final pending = <GeoPoint, Completer<Either<Failure, PlaceInfo>>>{};
@@ -43,14 +45,19 @@ class _Repo implements ILocationRepo {
 
 void main() {
   late _Repo repo;
+  late RecordingAnalytics analytics;
 
   MapLocationPickerCubit build() => MapLocationPickerCubit(
     GetCurrentLocationUseCase(repo),
     ResolvePlaceUseCase(repo),
     SearchPlacesUseCase(repo),
+    AppAnalytics(analytics),
   );
 
-  setUp(() => repo = _Repo());
+  setUp(() {
+    repo = _Repo();
+    analytics = RecordingAnalytics();
+  });
 
   test('moving the map blocks the confirmation until the address is known', () async {
     final cubit = build();
@@ -148,5 +155,15 @@ void main() {
     expect(found, isNull);
     expect(cubit.state.errorMessage, isNotNull);
     expect(cubit.state.target, const GeoPoint(30.05, 31.23));
+  });
+
+  test('confirming reports the pick and returns the chosen place', () async {
+    final cubit = build();
+    await cubit.onCameraIdle(const GeoPoint(30.05, 31.23));
+
+    final picked = cubit.confirm();
+
+    expect(picked.latitude, 30.05);
+    expect(analytics.last('location_picked')!.parameters, {'source': 'map_picker'});
   });
 }
