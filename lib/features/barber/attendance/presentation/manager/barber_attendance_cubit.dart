@@ -7,12 +7,11 @@ import '../../domain/entities/current_attendance.dart';
 import '../../domain/use_cases/check_in_attendance_use_case.dart';
 import '../../domain/use_cases/check_out_attendance_use_case.dart';
 import '../../domain/use_cases/get_current_attendance_use_case.dart';
+import '../../domain/entities/attendance_failure_x.dart';
 import 'attendance_location_message.dart';
 import 'barber_attendance_state.dart';
 
 class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
-  static const _featureCodePrefix = 'ATTENDANCE_FEATURE';
-
   final GetCurrentAttendanceUseCase _getCurrent;
   final CheckInAttendanceUseCase _checkIn;
   final CheckOutAttendanceUseCase _checkOut;
@@ -48,7 +47,7 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
       final result = await _getCurrent();
 
       await result.fold(
-        (failure) async => _isFeatureRequired(failure)
+        (failure) async => failure.isAttendanceFeatureRequired
             ? _emitLocked(await _refreshedFeature(feature))
             : _emitLoadFailure(failure),
         (current) async => _emitCurrent(current, feature),
@@ -94,11 +93,6 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
     });
   }
 
-  bool _isFeatureRequired(Failure failure) {
-    final code = failure.data['code'];
-    return code is String && code.startsWith(_featureCodePrefix);
-  }
-
   Future<AttendanceFeatureStatus> _refreshedFeature(
     AttendanceFeatureStatus fallback,
   ) async {
@@ -137,7 +131,7 @@ class BarberAttendanceCubit extends Cubit<BarberAttendanceState> {
   );
 
   Future<bool> _emitActionFailure(Failure failure) async {
-    if (_isFeatureRequired(failure)) {
+    if (failure.isAttendanceFeatureRequired) {
       await load();
       return false;
     }

@@ -12,6 +12,8 @@ import '../../storefront/orders/presentation/manager/barber_storefront_orders_cu
 import '../../storefront/products/presentation/manager/barber_storefront_products_cubit.dart';
 import '../../subscription/presentation/manager/barber_subscription_cubit.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/di/sl.dart';
+import '../../auto_attendance/domain/use_cases/sync_auto_attendance_zone_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BarberDataLoader {
@@ -22,6 +24,7 @@ class BarberDataLoader {
     context.read<BarberNotificationsCubit>().refreshUnseenCount();
     context.read<BookingsCubit>().loadPending();
     context.read<BookingsCubit>().loadQueue();
+    sl<SyncAutoAttendanceZoneUseCase>()().catchError((_) {});
   }
 
   static void loadOwner(BuildContext context) {

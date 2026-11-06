@@ -35,7 +35,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>نحتاج إلى الكاميرا لالتقاط صور المنتجات والملف الشخصي.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>نحتاج إلى موقعك لعرض أقرب الصالونات إليك وتحديد موقع محلك على الخريطة.</string>
+	<string>نحتاج إلى موقعك لعرض أقرب الصالونات إليك وتحديد موقع محلك على الخريطة، ولتسجيل حضور وانصراف الحلاقين تلقائيًا عند وصولهم إلى المحل أو مغادرته حتى عند إغلاق التطبيق.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>نحتاج إلى موقعك لعرض أقرب الصالونات إليك وتحديد موقع محلك على الخريطة.</string>
 	<key>NSMicrophoneUsageDescription</key>

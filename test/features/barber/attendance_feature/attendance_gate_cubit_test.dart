@@ -1,3 +1,4 @@
+import 'package:ayez_ahlaq/features/barber/attendance/domain/entities/attendance_method.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
@@ -79,10 +80,15 @@ class _AttendanceRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, CurrentAttendance>> checkIn({
     double? lat,
     double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
   }) async => checkInResult ?? currentResult;
 
   @override
-  Future<Either<Failure, Unit>> checkOut({double? lat, double? lng}) async =>
+  Future<Either<Failure, Unit>> checkOut({
+    double? lat,
+    double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
+  }) async =>
       const Right(unit);
 
   @override

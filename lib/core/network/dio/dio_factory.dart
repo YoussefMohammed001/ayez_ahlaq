@@ -12,15 +12,15 @@ import '../../di/services_locator.dart';
 import '../interceptors/authorization_interceptor.dart';
 
 class DioFactory {
-  static Dio create(
-    AuthorizationInterceptor authInterceptor,
-    PreferencesStorage storage,
-  ) {
+  static Dio createBare(
+    AuthorizationInterceptor authInterceptor, {
+    Duration timeout = const Duration(seconds: 60),
+  }) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppStrings.baseUrl,
-        connectTimeout: const Duration(seconds: 60),
-        receiveTimeout: const Duration(seconds: 60),
+        connectTimeout: timeout,
+        receiveTimeout: timeout,
       ),
     );
 
@@ -36,6 +36,15 @@ class DioFactory {
     );
 
     dio.interceptors.add(authInterceptor);
+    return dio;
+  }
+
+  static Dio create(
+    AuthorizationInterceptor authInterceptor,
+    PreferencesStorage storage,
+  ) {
+    final dio = createBare(authInterceptor);
+
     dio.interceptors.add(AnalyticsInterceptor(() => sl<ApiAnalyticsTracker>()));
 
     if (isDevEnvironment()) {

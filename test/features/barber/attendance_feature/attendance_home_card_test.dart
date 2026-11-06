@@ -1,3 +1,4 @@
+import 'package:ayez_ahlaq/features/barber/attendance/domain/entities/attendance_method.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,10 +57,15 @@ class _AttendanceRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, CurrentAttendance>> checkIn({
     double? lat,
     double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
   }) => throw UnimplementedError();
 
   @override
-  Future<Either<Failure, Unit>> checkOut({double? lat, double? lng}) =>
+  Future<Either<Failure, Unit>> checkOut({
+    double? lat,
+    double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
+  }) =>
       throw UnimplementedError();
 
   @override

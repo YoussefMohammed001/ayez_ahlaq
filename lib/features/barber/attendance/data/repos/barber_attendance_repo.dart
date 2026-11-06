@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/network/response_guard.dart';
 import '../../domain/entities/attendance_history_page.dart';
+import '../../domain/entities/attendance_method.dart';
 import '../../domain/entities/current_attendance.dart';
 import '../../domain/repos/i_barber_attendance_repo.dart';
 import '../apis/barber_attendance_api.dart';
@@ -23,14 +24,19 @@ class BarberAttendanceRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, CurrentAttendance>> checkIn({
     double? lat,
     double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
   }) async {
-    final result = await _api.checkIn(lat: lat, lng: lng);
+    final result = await _api.checkIn(lat: lat, lng: lng, method: method);
     return result.flatMap(_currentFrom);
   }
 
   @override
-  Future<Either<Failure, Unit>> checkOut({double? lat, double? lng}) async {
-    final result = await _api.checkOut(lat: lat, lng: lng);
+  Future<Either<Failure, Unit>> checkOut({
+    double? lat,
+    double? lng,
+    AttendanceMethod method = AttendanceMethod.manual,
+  }) async {
+    final result = await _api.checkOut(lat: lat, lng: lng, method: method);
     return result.map((_) => unit);
   }
 

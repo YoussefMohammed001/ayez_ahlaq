@@ -2739,6 +2739,166 @@ class S {
     );
   }
 
+  /// `Automatic check-in`
+  String get autoAttendanceTitle {
+    return Intl.message(
+      'Automatic check-in',
+      name: 'autoAttendanceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checks you in when you arrive at the shop and out when you leave, even when the app is closed.`
+  String get autoAttendanceSubtitle {
+    return Intl.message(
+      'Checks you in when you arrive at the shop and out when you leave, even when the app is closed.',
+      name: 'autoAttendanceSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow background location`
+  String get autoAttendanceDialogTitle {
+    return Intl.message(
+      'Allow background location',
+      name: 'autoAttendanceDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To check you in and out automatically, the app needs to know when you arrive at or leave the shop, even when it is closed. Location is used for this purpose only. Choose "Allow all the time" in the next step.`
+  String get autoAttendanceDialogBody {
+    return Intl.message(
+      'To check you in and out automatically, the app needs to know when you arrive at or leave the shop, even when it is closed. Location is used for this purpose only. Choose "Allow all the time" in the next step.',
+      name: 'autoAttendanceDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get autoAttendanceContinue {
+    return Intl.message(
+      'Continue',
+      name: 'autoAttendanceContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open settings`
+  String get autoAttendanceOpenSettings {
+    return Intl.message(
+      'Open settings',
+      name: 'autoAttendanceOpenSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The shop owner has not set the shop location yet.`
+  String get autoAttendanceNoShopLocation {
+    return Intl.message(
+      'The shop owner has not set the shop location yet.',
+      name: 'autoAttendanceNoShopLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic check-in needs an attendance range of at least {meters} meters.`
+  String autoAttendanceRangeTooSmall(int meters) {
+    return Intl.message(
+      'Automatic check-in needs an attendance range of at least $meters meters.',
+      name: 'autoAttendanceRangeTooSmall',
+      desc: '',
+      args: [meters],
+    );
+  }
+
+  /// `Choose "Allow all the time" to turn on automatic check-in.`
+  String get autoAttendanceNeedsAlways {
+    return Intl.message(
+      'Choose "Allow all the time" to turn on automatic check-in.',
+      name: 'autoAttendanceNeedsAlways',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location is blocked for the app. Enable it from the device settings.`
+  String get autoAttendanceBlocked {
+    return Intl.message(
+      'Location is blocked for the app. Enable it from the device settings.',
+      name: 'autoAttendanceBlocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location was not allowed, so automatic check-in stayed off.`
+  String get autoAttendancePermissionDenied {
+    return Intl.message(
+      'Location was not allowed, so automatic check-in stayed off.',
+      name: 'autoAttendancePermissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not turn on automatic check-in. Please try again.`
+  String get autoAttendanceFailed {
+    return Intl.message(
+      'Could not turn on automatic check-in. Please try again.',
+      name: 'autoAttendanceFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If it does not work while the app is closed, allow the app to run in the background from the battery settings.`
+  String get autoAttendanceBatteryHint {
+    return Intl.message(
+      'If it does not work while the app is closed, allow the app to run in the background from the battery settings.',
+      name: 'autoAttendanceBatteryHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You were checked in automatically on arriving at the shop.`
+  String get autoAttendanceCheckedInNotice {
+    return Intl.message(
+      'You were checked in automatically on arriving at the shop.',
+      name: 'autoAttendanceCheckedInNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You were checked out automatically on leaving the shop.`
+  String get autoAttendanceCheckedOutNotice {
+    return Intl.message(
+      'You were checked out automatically on leaving the shop.',
+      name: 'autoAttendanceCheckedOutNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic check-in failed. You can check in or out manually in the app.`
+  String get autoAttendanceFailedNotice {
+    return Intl.message(
+      'Automatic check-in failed. You can check in or out manually in the app.',
+      name: 'autoAttendanceFailedNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

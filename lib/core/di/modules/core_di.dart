@@ -20,7 +20,7 @@ import '../../../shared/location/domain/use_cases/resolve_place_use_case.dart';
 import '../../../shared/location/domain/use_cases/search_places_use_case.dart';
 import '../../../shared/location/presentation/manager/location_status_cubit.dart';
 import '../../../shared/location/presentation/manager/map_location_picker_cubit.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../cache/secure_storage/app_flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/support/data/apis/support_api.dart';
 import '../../../shared/support/data/repos/support_repo.dart';
@@ -90,10 +90,7 @@ Future<void> registerSharedPreferencesStorage() async {
 }
 
 void registerFlutterSecureStorage() {
-  const secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
-  sl.registerLazySingleton(() => SecureStorage(secureStorage));
+  sl.registerLazySingleton(() => SecureStorage(appFlutterSecureStorage));
 }
 
 void registerAppStartup() {
@@ -115,7 +112,7 @@ void registerDioService() {
     () => AuthorizationInterceptor(
       sl<SecureStorage>(),
       sl<PreferencesStorage>(),
-      sl<SessionManager>(),
+      sl<SessionManager>().emitUnauthorized,
     ),
   );
 

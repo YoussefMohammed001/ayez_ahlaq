@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../auto_attendance/presentation/widgets/auto_attendance_card.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_error_state.dart';
@@ -104,6 +105,8 @@ class BarberAttendanceScreen extends StatelessWidget {
                       isLoading: state.isSubmitting,
                       onPressed: () => _toggle(context),
                     ),
+                    SizedBox(height: 16.h),
+                    const AutoAttendanceCard(),
                     if (isOwner) ...[
                       SizedBox(height: 24.h),
                       const OwnerAttendanceLinks(),

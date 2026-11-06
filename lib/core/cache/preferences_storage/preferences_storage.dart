@@ -11,6 +11,8 @@ class PreferencesStorage {
     await _preferences.clear();
   }
 
+  Future<void> reload() => _preferences.reload();
+
   Future<void> clearExcept(Set<PreferencesKeys> keep) async {
     final keptNames = keep.map((key) => key.name).toSet();
     for (final name in _preferences.getKeys().toList()) {

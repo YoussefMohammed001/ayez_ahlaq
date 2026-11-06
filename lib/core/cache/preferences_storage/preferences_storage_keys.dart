@@ -1,4 +1,9 @@
 enum PreferencesKeys {
+  tokenKeychainMigrated,
+  autoAttendanceEnabled,
+  autoAttendanceLastEntered,
+  autoAttendanceLastExited,
+  autoAttendanceBaseUrl,
   barberOwnerTourSeen,
   barberTeamTourSeen,
   reviewPromptCount,

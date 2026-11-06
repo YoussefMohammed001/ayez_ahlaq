@@ -5,14 +5,13 @@ import '../../cache/preferences_storage/preferences_storage_keys.dart';
 import '../constants/http_headers.dart';
 import '../constants/http_codes.dart';
 import '../../../shared/user_type.dart';
-import '../../session/session_manager.dart';
 
 class AuthorizationInterceptor extends Interceptor {
   final SecureStorage storage;
   final PreferencesStorage preferences;
-  final SessionManager sessionManager;
+  final void Function() onUnauthorized;
 
-  AuthorizationInterceptor(this.storage, this.preferences, this.sessionManager);
+  AuthorizationInterceptor(this.storage, this.preferences, this.onUnauthorized);
 
   @override
   Future<void> onRequest(
@@ -45,7 +44,7 @@ class AuthorizationInterceptor extends Interceptor {
       HttpHeadersKeys.authorization,
     );
     if (hadToken && err.response?.statusCode == HttpCodes.unauthorized) {
-      sessionManager.emitUnauthorized();
+      onUnauthorized();
     }
     handler.next(err);
   }

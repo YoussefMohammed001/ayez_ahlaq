@@ -1,4 +1,7 @@
 export 'sl.dart';
+import '../cache/preferences_storage/preferences_storage.dart';
+import '../cache/secure_storage/secure_storage.dart';
+import 'sl.dart';
 import 'modules/core_di.dart';
 import 'modules/customer_auth_di.dart';
 import 'modules/customer_notifications_di.dart';
@@ -26,6 +29,7 @@ import 'modules/barber_storefront_di.dart';
 import 'modules/barber_wallet_di.dart';
 import 'modules/barber_money_di.dart';
 import 'modules/barber_attendance_di.dart';
+import 'modules/barber_auto_attendance_di.dart';
 import 'modules/barber_profile_setup_di.dart';
 import 'modules/barber_team_di.dart';
 import 'modules/barber_booking_di.dart';
@@ -35,6 +39,7 @@ class ServicesLocator {
   Future<void> init() async {
     registerFlutterSecureStorage();
     await registerSharedPreferencesStorage();
+    await sl<SecureStorage>().migrateTokenAccessibility(sl<PreferencesStorage>());
     registerDioService();
     registerSessionManager();
     registerCrashReporting();
@@ -100,6 +105,7 @@ class ServicesLocator {
     registerBarberSubscription();
     registerBarberTeam();
     registerBarberAttendance();
+    registerBarberAutoAttendance();
     registerBarberProfileSetup();
     registerBarberEarnings();
     registerBarberBookings();

@@ -38,6 +38,24 @@ class SecureStorage {
     await _secureStorage.delete(key: key);
   }
 
+  Future<void> migrateTokenAccessibility(
+    PreferencesStorage preferencesStorage,
+  ) async {
+    if (preferencesStorage.getBoolean(key: PreferencesKeys.tokenKeychainMigrated)) {
+      return;
+    }
+
+    final token = await read(SecureStorageKeys.userToken);
+    if (token == null) return;
+
+    await delete(SecureStorageKeys.userToken);
+    await write(SecureStorageKeys.userToken, token);
+    await preferencesStorage.putBoolean(
+      key: PreferencesKeys.tokenKeychainMigrated,
+      value: true,
+    );
+  }
+
   Future<void> deleteAll() async {
     await _secureStorage.deleteAll();
   }
