@@ -1,4 +1,6 @@
 enum PreferencesKeys {
+  barberOwnerTourSeen,
+  barberTeamTourSeen,
   reviewPromptCount,
   lastReviewPromptAt,
   governorate,

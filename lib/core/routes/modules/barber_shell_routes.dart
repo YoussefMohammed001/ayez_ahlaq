@@ -29,6 +29,8 @@ final List<RouteBase> barberShellRoutes = [
         BlocProvider.value(value: earningsCubit),
         BlocProvider.value(value: barberSubscriptionCubit),
         BlocProvider.value(value: moneyPinCubit),
+        BlocProvider.value(value: profileSetupCubit),
+        BlocProvider.value(value: barberTourCubit),
       ],
       child: BarberShell(
         onLogout: handleBarberLogout,

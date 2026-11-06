@@ -11,6 +11,13 @@ class PreferencesStorage {
     await _preferences.clear();
   }
 
+  Future<void> clearExcept(Set<PreferencesKeys> keep) async {
+    final keptNames = keep.map((key) => key.name).toSet();
+    for (final name in _preferences.getKeys().toList()) {
+      if (!keptNames.contains(name)) await _preferences.remove(name);
+    }
+  }
+
   Future<void> putBoolean({
     required PreferencesKeys key,
     required bool value,

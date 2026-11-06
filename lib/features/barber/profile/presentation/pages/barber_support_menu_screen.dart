@@ -22,6 +22,11 @@ class BarberSupportMenuScreen extends StatelessWidget {
       title: S().supportSection,
       rows: [
         MenuRow(
+          icon: Icons.help_outline_rounded,
+          label: S().helpTitle,
+          onTap: () => context.push(Routes.barberHelpScreen),
+        ),
+        MenuRow(
           icon: Icons.info_outline_rounded,
           label: S().aboutApp,
           onTap: () => context.push(Routes.aboutScreen),

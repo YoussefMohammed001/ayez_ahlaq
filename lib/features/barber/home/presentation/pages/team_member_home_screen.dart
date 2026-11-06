@@ -11,14 +11,22 @@ import '../../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../../bookings/presentation/manager/bookings_state.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../../../profile/presentation/manager/barber_profile_state.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../../shared/tour/tour_target.dart';
+import '../../../tour/presentation/widgets/barber_tour_targets.dart';
 import '../widgets/barber_home_greeting.dart';
 import '../widgets/home_pending_section.dart';
 import '../widgets/home_queue_section.dart';
 
 class TeamMemberHomeScreen extends StatelessWidget {
   final ValueChanged<int> onGoToTab;
+  final BarberTourTargets tour;
 
-  const TeamMemberHomeScreen({super.key, required this.onGoToTab});
+  const TeamMemberHomeScreen({
+    super.key,
+    required this.onGoToTab,
+    required this.tour,
+  });
 
   Future<void> _refresh(BuildContext context) {
     return Future.wait([
@@ -49,21 +57,32 @@ class TeamMemberHomeScreen extends StatelessWidget {
                         onAvatarTap: () => onGoToTab(2),
                         onNotificationsTap: () =>
                             context.push(Routes.barberNotificationsScreen),
+                        notificationsTourKey: tour.notifications,
                       ),
                     ),
                     SizedBox(height: 18.h),
-                    const AttendanceHomeCard(),
+                    AttendanceHomeCard(tourKey: tour.attendance),
                     BlocBuilder<BookingsCubit, BookingsState>(
                       builder: (context, state) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          HomePendingSection(
-                            pending: state.pending,
-                            onSeeAll: () => onGoToTab(1),
+                          TourTarget(
+                            tourKey: tour.pending,
+                            title: S().tourPendingTitle,
+                            description: S().tourPendingBody,
+                            child: HomePendingSection(
+                              pending: state.pending,
+                              onSeeAll: () => onGoToTab(1),
+                            ),
                           ),
-                          HomeQueueSection(
-                            queue: state.queue,
-                            onSeeAll: () => onGoToTab(1),
+                          TourTarget(
+                            tourKey: tour.queue,
+                            title: S().tourQueueTitle,
+                            description: S().tourQueueBody,
+                            child: HomeQueueSection(
+                              queue: state.queue,
+                              onSeeAll: () => onGoToTab(1),
+                            ),
                           ),
                         ],
                       ),

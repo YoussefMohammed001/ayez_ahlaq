@@ -1,6 +1,7 @@
 import '../../bookings/presentation/manager/bookings_cubit.dart';
 import '../../notifications/presentation/manager/barber_notifications_cubit.dart';
 import '../../profile/presentation/manager/barber_profile_cubit.dart';
+import '../../profile_setup/presentation/manager/profile_setup_cubit.dart';
 import '../../documents/presentation/manager/barber_documents_cubit.dart';
 import '../../home_service/presentation/manager/home_service_settings_cubit.dart';
 import '../../home_service_broadcast/presentation/manager/home_service_broadcast_cubit.dart';
@@ -26,6 +27,7 @@ class BarberDataLoader {
   static void loadOwner(BuildContext context) {
     context.read<BarberProfileCubit>().loadProfileImage(force: true);
     context.read<BarberDocumentsCubit>().loadDocuments(force: true);
+    context.read<ProfileSetupCubit>().load();
     context.read<BarberStorefrontOrdersCubit>().loadOrders();
     context.read<BarberSubscriptionCubit>().load(force: true);
     context.read<HomeServiceSettingsCubit>().loadSettings();

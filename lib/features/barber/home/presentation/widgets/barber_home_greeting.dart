@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../core/theme/styles.dart';
+import '../../../../../shared/tour/tour_target.dart';
 import '../../../../../shared/widgets/notifications_icon_button.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
@@ -12,13 +13,27 @@ class BarberHomeGreeting extends StatelessWidget {
   final String shopName;
   final VoidCallback onAvatarTap;
   final VoidCallback onNotificationsTap;
+  final GlobalKey? notificationsTourKey;
 
   const BarberHomeGreeting({
     super.key,
     required this.shopName,
     required this.onAvatarTap,
     required this.onNotificationsTap,
+    this.notificationsTourKey,
   });
+
+  Widget _withTour(Widget bell) {
+    final key = notificationsTourKey;
+    if (key == null) return bell;
+    return TourTarget(
+      tourKey: key,
+      title: S().tourNotificationsTitle,
+      description: S().tourNotificationsBody,
+      borderRadius: BorderRadius.circular(40),
+      child: bell,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +63,11 @@ class BarberHomeGreeting extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-        NotificationsIconButton(
-          badge: const BarberUnseenNotificationsBadge(),
-          onTap: onNotificationsTap,
+        _withTour(
+          NotificationsIconButton(
+            badge: const BarberUnseenNotificationsBadge(),
+            onTap: onNotificationsTap,
+          ),
         ),
         SizedBox(width: 14.w),
         GestureDetector(

@@ -7,12 +7,14 @@ class FlatBottomNavBar extends StatelessWidget {
   final List<NavTabItem> items;
   final int currentIndex;
   final ValueChanged<int> onTap;
+  final Widget Function(int index, Widget tab)? tabBuilder;
 
   const FlatBottomNavBar({
     super.key,
     required this.items,
     required this.currentIndex,
     required this.onTap,
+    this.tabBuilder,
   });
 
   @override
@@ -38,7 +40,7 @@ class FlatBottomNavBar extends StatelessWidget {
     final selected = index == currentIndex;
     final color = selected ? context.semantic.accentStrong : context.colorScheme.onSurfaceVariant;
 
-    return InkWell(
+    final tab = InkWell(
       onTap: () => onTap(index),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,5 +54,7 @@ class FlatBottomNavBar extends StatelessWidget {
         ],
       ),
     );
+
+    return tabBuilder?.call(index, tab) ?? tab;
   }
 }

@@ -111,6 +111,7 @@ class Routes {
   static const String barberAppSettingsMenuScreen =
       '/barber/profile/menu/settings';
   static const String barberSupportMenuScreen = '/barber/profile/menu/support';
+  static const String barberHelpScreen = '/barber/help';
   static const String barberAccountMenuScreen = '/barber/profile/menu/account';
   static const String barberProfileDetailsScreen =
       '/barber/profile/details';

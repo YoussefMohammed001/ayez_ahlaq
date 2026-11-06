@@ -10,6 +10,7 @@ import '../../../features/barber/profile/presentation/pages/barber_account_menu_
 import '../../../features/barber/profile/presentation/pages/barber_profile_details_screen.dart';
 import '../../../features/barber/profile/presentation/pages/barber_app_settings_menu_screen.dart';
 import '../../../features/barber/profile/presentation/pages/barber_support_menu_screen.dart';
+import '../../../features/barber/help/presentation/pages/barber_help_screen.dart';
 import '../../../features/barber/documents/presentation/helpers/document_view_args.dart'
     as barber_documents;
 import '../../../features/barber/documents/presentation/pages/document_viewer_screen.dart'
@@ -67,6 +68,13 @@ final List<RouteBase> barberAccountRoutes = [
   GoRoute(
     path: Routes.barberSupportMenuScreen,
     builder: (_, __) => const BarberSupportMenuScreen(),
+  ),
+  GoRoute(
+    path: Routes.barberHelpScreen,
+    builder: (_, __) => BlocProvider.value(
+      value: barberTourCubit,
+      child: const BarberHelpScreen(),
+    ),
   ),
   GoRoute(
     path: Routes.barberDocumentsScreen,

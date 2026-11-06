@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../ratings/presentation/widgets/merchant_rating_prompt.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/routes/route_paths.dart';
-import '../../../../core/widgets/nav_tab_item.dart';
-import '../../../../core/widgets/notched_bottom_nav_bar.dart';
-import '../../bookings/presentation/pages/bookings_home_screen.dart';
-import '../../home/presentation/pages/barber_home_screen.dart';
 import '../../profile/presentation/manager/barber_profile_state.dart';
 import '../../profile/presentation/pages/barber_force_change_password_screen.dart';
 import '../../profile/presentation/pages/barber_location_screen.dart';
-import '../../profile/presentation/pages/barber_profile_screen.dart';
 import '../../../../shared/widgets/blocking_gate.dart';
-import '../../storefront/presentation/pages/storefront_home_screen.dart';
+import '../../tour/presentation/widgets/barber_tour_targets.dart';
 import '../widgets/barber_data_loader.dart';
-import '../widgets/barber_store_fab.dart';
-import '../../../../core/widgets/lazy_tab.dart';
+import '../widgets/barber_owner_shell_view.dart';
 import 'barber_team_member_shell.dart';
 import '../../auth/domain/entities/barber_account_kind.dart';
 import '../../profile/domain/entities/barber_profile.dart';
@@ -38,13 +30,7 @@ class _BarberShellState extends State<BarberShell> {
   bool _ratingPromptScheduled = false;
   bool _ownerDataLoaded = false;
   final Set<int> _visitedTabs = {0};
-
-  List<NavTabItem> get _tabs => [
-    NavTabItem(Icons.home_rounded, S().tabHome),
-    NavTabItem(Icons.event_available_rounded, S().tabBookings),
-    NavTabItem(Icons.storefront_outlined, S().storefrontTitle),
-    NavTabItem(Icons.person_rounded, S().tabAccount),
-  ];
+  final _tour = BarberTourTargets();
 
   @override
   void initState() {
@@ -117,33 +103,16 @@ class _BarberShellState extends State<BarberShell> {
                 BarberLocationScreen(profile: profile, blocking: true),
             builder: (_) => isTeamMember
                 ? BarberTeamMemberShell(onLogout: widget.onLogout)
-                : _buildShell(),
+                : BarberOwnerShellView(
+                    index: _index,
+                    visitedTabs: _visitedTabs,
+                    tour: _tour,
+                    onSelectTab: _selectTab,
+                    onLogout: widget.onLogout,
+                  ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildShell() {
-    return Scaffold(
-      body: IndexedStack(
-        index: _index,
-        children: [
-          BarberHomeScreen(onGoToTab: _selectTab),
-          LazyTab(visited: _visitedTabs.contains(1), child: const BookingsHomeScreen()),
-          LazyTab(visited: _visitedTabs.contains(2), child: const StorefrontHomeScreen()),
-          BarberProfileScreen(onLogout: widget.onLogout),
-        ],
-      ),
-      floatingActionButton: BarberStoreFab(
-        onPressed: () => context.push(Routes.barberStoreMerchantsScreen),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: NotchedBottomNavBar(
-        items: _tabs,
-        currentIndex: _index,
-        onTap: _selectTab,
-      ),
     );
   }
 }

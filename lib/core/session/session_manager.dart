@@ -44,12 +44,11 @@ class SessionManager {
 
   Future<void> _clearSession() async {
     SessionScope.reset();
-    final language = preferencesStorage.getCurrentLanguage();
     await storage.deleteAll();
-    await preferencesStorage.clear();
-    await preferencesStorage.putString(
-      key: PreferencesKeys.currentLanguage,
-      value: language,
-    );
+    await preferencesStorage.clearExcept({
+      PreferencesKeys.currentLanguage,
+      PreferencesKeys.barberOwnerTourSeen,
+      PreferencesKeys.barberTeamTourSeen,
+    });
   }
 }

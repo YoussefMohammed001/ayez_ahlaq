@@ -2284,6 +2284,461 @@ class S {
     );
   }
 
+  /// `Finish setting up your shop`
+  String get setupChecklistTitle {
+    return Intl.message(
+      'Finish setting up your shop',
+      name: 'setupChecklistTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{done} of {total} steps done`
+  String setupChecklistProgress(int done, int total) {
+    return Intl.message(
+      '$done of $total steps done',
+      name: 'setupChecklistProgress',
+      desc: '',
+      args: [done, total],
+    );
+  }
+
+  /// `Set your working hours`
+  String get setupStepHoursTitle {
+    return Intl.message(
+      'Set your working hours',
+      name: 'setupStepHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `So customers can book during your hours`
+  String get setupStepHoursHint {
+    return Intl.message(
+      'So customers can book during your hours',
+      name: 'setupStepHoursHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your services and prices`
+  String get setupStepServicesTitle {
+    return Intl.message(
+      'Add your services and prices',
+      name: 'setupStepServicesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the services you offer and their prices`
+  String get setupStepServicesHint {
+    return Intl.message(
+      'Choose the services you offer and their prices',
+      name: 'setupStepServicesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a shop photo`
+  String get setupStepPhotoTitle {
+    return Intl.message(
+      'Add a shop photo',
+      name: 'setupStepPhotoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A photo builds customer trust`
+  String get setupStepPhotoHint {
+    return Intl.message(
+      'A photo builds customer trust',
+      name: 'setupStepPhotoHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload the required documents`
+  String get setupStepDocumentsTitle {
+    return Intl.message(
+      'Upload the required documents',
+      name: 'setupStepDocumentsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Needed to approve your account`
+  String get setupStepDocumentsHint {
+    return Intl.message(
+      'Needed to approve your account',
+      name: 'setupStepDocumentsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start the guided tour`
+  String get setupStartTour {
+    return Intl.message(
+      'Start the guided tour',
+      name: 'setupStartTour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get tourSkip {
+    return Intl.message('Skip', name: 'tourSkip', desc: '', args: []);
+  }
+
+  /// `Next`
+  String get tourNext {
+    return Intl.message('Next', name: 'tourNext', desc: '', args: []);
+  }
+
+  /// `Done`
+  String get tourDone {
+    return Intl.message('Done', name: 'tourDone', desc: '', args: []);
+  }
+
+  /// `Notifications`
+  String get tourNotificationsTitle {
+    return Intl.message(
+      'Notifications',
+      name: 'tourNotificationsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New booking requests and shop alerts reach you here.`
+  String get tourNotificationsBody {
+    return Intl.message(
+      'New booking requests and shop alerts reach you here.',
+      name: 'tourNotificationsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish setting up`
+  String get tourChecklistTitle {
+    return Intl.message(
+      'Finish setting up',
+      name: 'tourChecklistTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete these steps so customers can find and book your shop.`
+  String get tourChecklistBody {
+    return Intl.message(
+      'Complete these steps so customers can find and book your shop.',
+      name: 'tourChecklistBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your shop summary`
+  String get tourSummaryTitle {
+    return Intl.message(
+      'Your shop summary',
+      name: 'tourSummaryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow your bookings and earnings here.`
+  String get tourSummaryBody {
+    return Intl.message(
+      'Follow your bookings and earnings here.',
+      name: 'tourSummaryBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking requests`
+  String get tourPendingTitle {
+    return Intl.message(
+      'Booking requests',
+      name: 'tourPendingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept or decline customer requests here.`
+  String get tourPendingBody {
+    return Intl.message(
+      'Accept or decline customer requests here.',
+      name: 'tourPendingBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's queue`
+  String get tourQueueTitle {
+    return Intl.message(
+      'Today\'s queue',
+      name: 'tourQueueTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's bookings, ordered by time.`
+  String get tourQueueBody {
+    return Intl.message(
+      'Today\'s bookings, ordered by time.',
+      name: 'tourQueueBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendance`
+  String get tourAttendanceTitle {
+    return Intl.message(
+      'Attendance',
+      name: 'tourAttendanceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in and out of your shift here.`
+  String get tourAttendanceBody {
+    return Intl.message(
+      'Check in and out of your shift here.',
+      name: 'tourAttendanceBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow your queue and booking history.`
+  String get tourBookingsTabBody {
+    return Intl.message(
+      'Follow your queue and booking history.',
+      name: 'tourBookingsTabBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `List your products and receive customer orders.`
+  String get tourStorefrontTabBody {
+    return Intl.message(
+      'List your products and receive customer orders.',
+      name: 'tourStorefrontTabBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage services, hours, team and wallet here.`
+  String get tourAccountTabBody {
+    return Intl.message(
+      'Manage services, hours, team and wallet here.',
+      name: 'tourAccountTabBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Help`
+  String get helpTitle {
+    return Intl.message('Help', name: 'helpTitle', desc: '', args: []);
+  }
+
+  /// `Guided tour`
+  String get helpTourRow {
+    return Intl.message('Guided tour', name: 'helpTourRow', desc: '', args: []);
+  }
+
+  /// `Get to know the app step by step`
+  String get helpTourRowHint {
+    return Intl.message(
+      'Get to know the app step by step',
+      name: 'helpTourRowHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Common questions`
+  String get helpFaqSection {
+    return Intl.message(
+      'Common questions',
+      name: 'helpFaqSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do I receive bookings?`
+  String get helpOwnerQ1 {
+    return Intl.message(
+      'How do I receive bookings?',
+      name: 'helpOwnerQ1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set your working hours, add your services and prices, then complete your documents. Your shop then appears to customers and they can book.`
+  String get helpOwnerA1 {
+    return Intl.message(
+      'Set your working hours, add your services and prices, then complete your documents. Your shop then appears to customers and they can book.',
+      name: 'helpOwnerA1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Where do I add a barber to my team?`
+  String get helpOwnerQ2 {
+    return Intl.message(
+      'Where do I add a barber to my team?',
+      name: 'helpOwnerQ2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From your account open Shop then Team and tap Add member. You get a temporary password to give them.`
+  String get helpOwnerA2 {
+    return Intl.message(
+      'From your account open Shop then Team and tap Add member. You get a temporary password to give them.',
+      name: 'helpOwnerA2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do I change my shop location or photo?`
+  String get helpOwnerQ3 {
+    return Intl.message(
+      'How do I change my shop location or photo?',
+      name: 'helpOwnerQ3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change the location under Account, Shop, Location. For the photo, tap the shop picture under Account.`
+  String get helpOwnerA3 {
+    return Intl.message(
+      'Change the location under Account, Shop, Location. For the photo, tap the shop picture under Account.',
+      name: 'helpOwnerA3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do I follow my earnings and wallet?`
+  String get helpOwnerQ4 {
+    return Intl.message(
+      'How do I follow my earnings and wallet?',
+      name: 'helpOwnerQ4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earnings show on the home screen; wallet details and top-up or withdrawal requests are under Account.`
+  String get helpOwnerA4 {
+    return Intl.message(
+      'Earnings show on the home screen; wallet details and top-up or withdrawal requests are under Account.',
+      name: 'helpOwnerA4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do I check in and out?`
+  String get helpMemberQ1 {
+    return Intl.message(
+      'How do I check in and out?',
+      name: 'helpMemberQ1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use the attendance card on the home screen. The app may require you to be near the shop.`
+  String get helpMemberA1 {
+    return Intl.message(
+      'Use the attendance card on the home screen. The app may require you to be near the shop.',
+      name: 'helpMemberA1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Why can't I see the attendance card?`
+  String get helpMemberQ2 {
+    return Intl.message(
+      'Why can\'t I see the attendance card?',
+      name: 'helpMemberQ2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The card appears once the shop owner enables attendance.`
+  String get helpMemberA2 {
+    return Intl.message(
+      'The card appears once the shop owner enables attendance.',
+      name: 'helpMemberA2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do I accept or decline a booking?`
+  String get helpMemberQ3 {
+    return Intl.message(
+      'How do I accept or decline a booking?',
+      name: 'helpMemberQ3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Bookings from the bottom bar, choose the request and tap accept or decline.`
+  String get helpMemberA3 {
+    return Intl.message(
+      'Open Bookings from the bottom bar, choose the request and tap accept or decline.',
+      name: 'helpMemberA3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Didn't find your answer? Contact us here.`
+  String get helpContactHint {
+    return Intl.message(
+      'Didn\'t find your answer? Contact us here.',
+      name: 'helpContactHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

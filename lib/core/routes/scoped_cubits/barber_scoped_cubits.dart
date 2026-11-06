@@ -10,6 +10,8 @@ import '../../../features/barber/home_service_broadcast/presentation/manager/hom
 import '../../../features/barber/drinks/presentation/manager/barber_drinks_cubit.dart';
 import '../../../features/barber/discounts/presentation/manager/barber_discounts_cubit.dart';
 import '../../../features/barber/sponsorship/presentation/manager/barber_sponsorship_cubit.dart';
+import '../../../features/barber/profile_setup/presentation/manager/profile_setup_cubit.dart';
+import '../../../features/barber/tour/presentation/manager/barber_tour_cubit.dart';
 import '../../../features/barber/services/presentation/manager/barber_services_cubit.dart';
 import '../../../features/barber/services/presentation/manager/own_services_cubit.dart';
 import '../../../features/barber/services/presentation/manager/shop_haircut_styles_cubit.dart';
@@ -63,6 +65,8 @@ BarberProfileCubit get barberProfileCubit =>
     SessionScope.cubit<BarberProfileCubit>();
 BarberReviewsCubit get barberReviewsCubit =>
     SessionScope.cubit<BarberReviewsCubit>();
+ProfileSetupCubit get profileSetupCubit =>
+    SessionScope.cubit<ProfileSetupCubit>();
 BarberServicesCubit get barberServicesCubit =>
     SessionScope.cubit<BarberServicesCubit>();
 BarberSponsorshipCubit get barberSponsorshipCubit =>
@@ -113,3 +117,5 @@ ShopHaircutStylesCubit get shopHaircutStylesCubit =>
     SessionScope.cubit<ShopHaircutStylesCubit>();
 TeamMemberDetailCubit get teamMemberDetailCubit =>
     SessionScope.cubit<TeamMemberDetailCubit>();
+
+BarberTourCubit get barberTourCubit => SessionScope.cubit<BarberTourCubit>();
