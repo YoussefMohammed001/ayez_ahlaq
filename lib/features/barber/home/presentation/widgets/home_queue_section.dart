@@ -11,7 +11,11 @@ class HomeQueueSection extends StatelessWidget {
   final List<Booking> queue;
   final VoidCallback onSeeAll;
 
-  const HomeQueueSection({super.key, required this.queue, required this.onSeeAll});
+  const HomeQueueSection({
+    super.key,
+    required this.queue,
+    required this.onSeeAll,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -27,7 +27,9 @@ class HomeServiceCard extends StatelessWidget {
           Icon(
             Icons.home_repair_service_outlined,
             size: 22.r,
-            color: enabled ? context.semantic.accentStrong : scheme.onSurfaceVariant,
+            color: enabled
+                ? context.semantic.accentStrong
+                : scheme.onSurfaceVariant,
           ),
           SizedBox(width: 10.w),
           Expanded(
@@ -47,8 +49,8 @@ class HomeServiceCard extends StatelessWidget {
                   pendingCount > 0
                       ? S().homeServicePendingCount(pendingCount)
                       : enabled
-                          ? S().homeServiceCardEnabledHint
-                          : S().homeServiceCardDisabledHint,
+                      ? S().homeServiceCardEnabledHint
+                      : S().homeServiceCardDisabledHint,
                   style: TextStyle(
                     fontSize: 11.sp,
                     color: pendingCount > 0

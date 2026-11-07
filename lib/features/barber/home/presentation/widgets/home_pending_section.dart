@@ -11,7 +11,11 @@ class HomePendingSection extends StatelessWidget {
   final List<Booking> pending;
   final VoidCallback onSeeAll;
 
-  const HomePendingSection({super.key, required this.pending, required this.onSeeAll});
+  const HomePendingSection({
+    super.key,
+    required this.pending,
+    required this.onSeeAll,
+  });
 
   @override
   Widget build(BuildContext context) {

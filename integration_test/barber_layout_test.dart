@@ -97,7 +97,7 @@ void main() {
       routes.go(Routes.barberShell);
       await _wait(tester, 1);
       routes.push(path);
-      await _wait(tester, 4);
+      await _wait(tester, 8);
       await binding.takeScreenshot('$_prefix-$name');
     }
   });

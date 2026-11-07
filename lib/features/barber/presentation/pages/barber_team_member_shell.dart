@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/responsive/adaptive_body.dart';
 import '../../../../core/responsive/adaptive_nav_scaffold.dart';
 import '../../../../core/widgets/flat_bottom_nav_bar.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
@@ -56,8 +57,10 @@ class _BarberTeamMemberShellState extends State<BarberTeamMemberShell> {
               onGoToTab: (i) => setState(() => _index = i),
               tour: _tour,
             ),
-            const TeamMemberBookingsScreen(),
-            BarberProfileScreen(onLogout: widget.onLogout),
+            const AdaptiveBody.narrow(child: TeamMemberBookingsScreen()),
+            AdaptiveBody.narrow(
+              child: BarberProfileScreen(onLogout: widget.onLogout),
+            ),
           ],
         ),
       ),

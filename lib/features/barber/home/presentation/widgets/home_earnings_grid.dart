@@ -8,7 +8,11 @@ class HomeEarningsGrid extends StatelessWidget {
   final Earnings earnings;
   final VoidCallback onTap;
 
-  const HomeEarningsGrid({super.key, required this.earnings, required this.onTap});
+  const HomeEarningsGrid({
+    super.key,
+    required this.earnings,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

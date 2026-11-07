@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/cache/preferences_storage/preferences_storage_keys.dart';
 import '../../../../core/routes/route_paths.dart';
+import '../../../../core/responsive/adaptive_body.dart';
 import '../../../../core/responsive/adaptive_nav_scaffold.dart';
 import '../../../../core/widgets/lazy_tab.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
@@ -78,13 +79,13 @@ class BarberOwnerShellView extends StatelessWidget {
             ),
             LazyTab(
               visited: visitedTabs.contains(1),
-              child: const BookingsHomeScreen(),
+              child: const AdaptiveBody.narrow(child: BookingsHomeScreen()),
             ),
             LazyTab(
               visited: visitedTabs.contains(2),
-              child: const StorefrontHomeScreen(),
+              child: const AdaptiveBody.narrow(child: StorefrontHomeScreen()),
             ),
-            BarberProfileScreen(onLogout: onLogout),
+            AdaptiveBody.narrow(child: BarberProfileScreen(onLogout: onLogout)),
           ],
         ),
       ),

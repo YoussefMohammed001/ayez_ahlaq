@@ -27,17 +27,16 @@ class HomeAlertCards extends StatelessWidget {
       children: [
         BlocBuilder<BarberStorefrontOrdersCubit, BarberStorefrontOrdersState>(
           builder: (context, state) {
-            final pendingCount =
-                state.orders.where((o) => o.status.needsDecision).length;
+            final pendingCount = state.orders
+                .where((o) => o.status.needsDecision)
+                .length;
             if (pendingCount == 0) return const SizedBox.shrink();
             return Padding(
               padding: EdgeInsets.only(bottom: 14.h),
               child: HomeStorefrontOrdersCard(
                 pendingCount: pendingCount,
-                onTap: () => context.push(
-                  Routes.barberStorefrontHomeScreen,
-                  extra: 3,
-                ),
+                onTap: () =>
+                    context.push(Routes.barberStorefrontHomeScreen, extra: 3),
               ),
             );
           },
@@ -71,22 +70,22 @@ class HomeAlertCards extends StatelessWidget {
         BlocBuilder<HomeServiceSettingsCubit, HomeServiceSettingsState>(
           builder: (context, settingsState) =>
               BlocBuilder<HomeServiceRequestsCubit, HomeServiceRequestsState>(
-            builder: (context, requestsState) {
-              final pendingCount = requestsState.requests.length;
-              return Padding(
-                padding: EdgeInsets.only(bottom: 14.h),
-                child: HomeServiceCard(
-                  enabled: settingsState.settings.enabled,
-                  pendingCount: pendingCount,
-                  onTap: () => context.push(
-                    pendingCount > 0
-                        ? Routes.barberHomeServiceRequestsScreen
-                        : Routes.barberHomeServiceSettingsScreen,
-                  ),
-                ),
-              );
-            },
-          ),
+                builder: (context, requestsState) {
+                  final pendingCount = requestsState.requests.length;
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 14.h),
+                    child: HomeServiceCard(
+                      enabled: settingsState.settings.enabled,
+                      pendingCount: pendingCount,
+                      onTap: () => context.push(
+                        pendingCount > 0
+                            ? Routes.barberHomeServiceRequestsScreen
+                            : Routes.barberHomeServiceSettingsScreen,
+                      ),
+                    ),
+                  );
+                },
+              ),
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/di/sl.dart';
+import '../../../../../core/responsive/adaptive_body.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../attendance/presentation/manager/barber_attendance_cubit.dart';
@@ -46,48 +47,50 @@ class TeamMemberHomeScreen extends StatelessWidget {
           body: SafeArea(
             child: RefreshableStateView(
               onRefresh: () => _refresh(context),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BlocBuilder<BarberProfileCubit, BarberProfileState>(
-                      builder: (context, state) => BarberHomeGreeting(
-                        shopName: state.profile?.shopName ?? '',
-                        onAvatarTap: () => onGoToTab(2),
-                        onNotificationsTap: () =>
-                            context.push(Routes.barberNotificationsScreen),
-                        notificationsTourKey: tour.notifications,
+              child: AdaptiveBody(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BlocBuilder<BarberProfileCubit, BarberProfileState>(
+                        builder: (context, state) => BarberHomeGreeting(
+                          shopName: state.profile?.shopName ?? '',
+                          onAvatarTap: () => onGoToTab(2),
+                          onNotificationsTap: () =>
+                              context.push(Routes.barberNotificationsScreen),
+                          notificationsTourKey: tour.notifications,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 18.h),
-                    AttendanceHomeCard(tourKey: tour.attendance),
-                    BlocBuilder<BookingsCubit, BookingsState>(
-                      builder: (context, state) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TourTarget(
-                            tourKey: tour.pending,
-                            title: S().tourPendingTitle,
-                            description: S().tourPendingBody,
-                            child: HomePendingSection(
-                              pending: state.pending,
-                              onSeeAll: () => onGoToTab(1),
+                      SizedBox(height: 18.h),
+                      AttendanceHomeCard(tourKey: tour.attendance),
+                      BlocBuilder<BookingsCubit, BookingsState>(
+                        builder: (context, state) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TourTarget(
+                              tourKey: tour.pending,
+                              title: S().tourPendingTitle,
+                              description: S().tourPendingBody,
+                              child: HomePendingSection(
+                                pending: state.pending,
+                                onSeeAll: () => onGoToTab(1),
+                              ),
                             ),
-                          ),
-                          TourTarget(
-                            tourKey: tour.queue,
-                            title: S().tourQueueTitle,
-                            description: S().tourQueueBody,
-                            child: HomeQueueSection(
-                              queue: state.queue,
-                              onSeeAll: () => onGoToTab(1),
+                            TourTarget(
+                              tourKey: tour.queue,
+                              title: S().tourQueueTitle,
+                              description: S().tourQueueBody,
+                              child: HomeQueueSection(
+                                queue: state.queue,
+                                onSeeAll: () => onGoToTab(1),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
