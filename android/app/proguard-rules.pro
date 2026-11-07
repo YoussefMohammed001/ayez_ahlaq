@@ -1,0 +1,5 @@
+-keep class * extends androidx.room.RoomDatabase { <init>(); }
+-keep class androidx.work.impl.WorkDatabase_Impl { <init>(); }
+-keep class androidx.work.impl.** { *; }
+-keep class com.chunkytofustudios.native_geofence.** { *; }
+-keep class com.google.android.gms.location.** { *; }

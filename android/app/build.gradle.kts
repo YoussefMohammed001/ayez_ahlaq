@@ -71,6 +71,10 @@ android {
             signingConfig = signingConfigs.getByName(
                 if (keyProperties.isNotEmpty()) "release" else "debug"
             )
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }
