@@ -63,6 +63,11 @@ class AutoAttendanceBackground {
     AppStrings.baseUrl = store.serverUrl;
     await S.load(Locale(preferences.getCurrentLanguage()));
 
+    final notifier = LocalAutoAttendanceNotifier(
+      diagnostic: store.serverUrl == AppStrings.devBaseUrl,
+    );
+    await notifier.announceReceived(transition);
+
     final outcome = await _run(
       transition,
       params,
@@ -72,8 +77,9 @@ class AutoAttendanceBackground {
       registrar,
     );
 
-    if (outcome != AutoAttendanceOutcome.ignored) {
-      await LocalAutoAttendanceNotifier().notify(outcome);
+    await notifier.notify(outcome);
+
+    if (outcome.isUserFacing) {
       await PendingAnalyticsQueue(
         preferences,
       ).enqueue(AnalyticsEvents.autoAttendanceTriggered, {

@@ -31,14 +31,14 @@ class HandleGeofenceTransitionUseCase {
   }) async {
     if (!_store.isEnabled) {
       await _registrar.clear();
-      return AutoAttendanceOutcome.ignored;
+      return AutoAttendanceOutcome.disabled;
     }
 
     final current = await _getCurrent();
     final failure = current.fold((value) => value, (_) => null);
     if (failure != null) {
       return failure.isAttendanceFeatureRequired
-          ? AutoAttendanceOutcome.ignored
+          ? AutoAttendanceOutcome.featureInactive
           : AutoAttendanceOutcome.failed;
     }
     final onShift = current
@@ -56,7 +56,7 @@ class HandleGeofenceTransitionUseCase {
   ) async {
     switch (transition) {
       case GeofenceTransition.entered:
-        if (onShift) return AutoAttendanceOutcome.ignored;
+        if (onShift) return AutoAttendanceOutcome.alreadyOnShift;
         final result = await _checkIn(
           lat: lat,
           lng: lng,
@@ -67,7 +67,7 @@ class HandleGeofenceTransitionUseCase {
           (_) => AutoAttendanceOutcome.checkedIn,
         );
       case GeofenceTransition.exited:
-        if (!onShift) return AutoAttendanceOutcome.ignored;
+        if (!onShift) return AutoAttendanceOutcome.noOpenShift;
         final result = await _checkOut(
           lat: lat,
           lng: lng,

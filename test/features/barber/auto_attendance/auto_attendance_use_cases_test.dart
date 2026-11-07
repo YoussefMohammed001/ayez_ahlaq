@@ -229,14 +229,14 @@ void main() {
 
       final outcome = await handler()(GeofenceTransition.entered);
 
-      expect(outcome, AutoAttendanceOutcome.ignored);
+      expect(outcome, AutoAttendanceOutcome.alreadyOnShift);
       expect(repo.calls, isEmpty);
     });
 
     test('leaving checks out only when a shift is open', () async {
       expect(
         await handler()(GeofenceTransition.exited),
-        AutoAttendanceOutcome.ignored,
+        AutoAttendanceOutcome.noOpenShift,
       );
 
       repo.current = Right(onShift());
@@ -257,7 +257,7 @@ void main() {
 
         final second = await handler()(GeofenceTransition.entered);
 
-        expect(second, AutoAttendanceOutcome.ignored);
+        expect(second, AutoAttendanceOutcome.alreadyOnShift);
         expect(repo.calls, ['in']);
       },
     );
@@ -293,7 +293,7 @@ void main() {
 
       expect(
         await handler()(GeofenceTransition.entered),
-        AutoAttendanceOutcome.ignored,
+        AutoAttendanceOutcome.featureInactive,
       );
     });
 
@@ -311,7 +311,7 @@ void main() {
 
       final outcome = await handler()(GeofenceTransition.entered);
 
-      expect(outcome, AutoAttendanceOutcome.ignored);
+      expect(outcome, AutoAttendanceOutcome.disabled);
       expect(registrar.clears, 1);
       expect(repo.calls, isEmpty);
     });

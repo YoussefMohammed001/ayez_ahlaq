@@ -2899,6 +2899,66 @@ class S {
     );
   }
 
+  /// `[Test] Entered the shop zone event received`
+  String get autoAttendanceDiagEntered {
+    return Intl.message(
+      '[Test] Entered the shop zone event received',
+      name: 'autoAttendanceDiagEntered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Left the shop zone event received`
+  String get autoAttendanceDiagExited {
+    return Intl.message(
+      '[Test] Left the shop zone event received',
+      name: 'autoAttendanceDiagExited',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Ignored: a shift is already open`
+  String get autoAttendanceDiagAlreadyOnShift {
+    return Intl.message(
+      '[Test] Ignored: a shift is already open',
+      name: 'autoAttendanceDiagAlreadyOnShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Ignored: there is no open shift`
+  String get autoAttendanceDiagNoOpenShift {
+    return Intl.message(
+      '[Test] Ignored: there is no open shift',
+      name: 'autoAttendanceDiagNoOpenShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Ignored: attendance is not active`
+  String get autoAttendanceDiagFeatureInactive {
+    return Intl.message(
+      '[Test] Ignored: attendance is not active',
+      name: 'autoAttendanceDiagFeatureInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Ignored: automatic check-in is off`
+  String get autoAttendanceDiagDisabled {
+    return Intl.message(
+      '[Test] Ignored: automatic check-in is off',
+      name: 'autoAttendanceDiagDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

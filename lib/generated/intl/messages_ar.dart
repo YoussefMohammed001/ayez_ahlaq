@@ -488,6 +488,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تسجيل انصرافك تلقائيًا عند مغادرتك المحل.",
     ),
     "autoAttendanceContinue": MessageLookupByLibrary.simpleMessage("متابعة"),
+    "autoAttendanceDiagAlreadyOnShift": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] تجاهلت الحدث: توجد وردية مفتوحة بالفعل",
+    ),
+    "autoAttendanceDiagDisabled": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] تجاهلت الحدث: التسجيل التلقائي متوقف",
+    ),
+    "autoAttendanceDiagEntered": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] وصل حدث الدخول إلى منطقة المحل",
+    ),
+    "autoAttendanceDiagExited": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] وصل حدث الخروج من منطقة المحل",
+    ),
+    "autoAttendanceDiagFeatureInactive": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] تجاهلت الحدث: ميزة الحضور غير مفعّلة",
+    ),
+    "autoAttendanceDiagNoOpenShift": MessageLookupByLibrary.simpleMessage(
+      "[تجربة] تجاهلت الحدث: لا توجد وردية مفتوحة",
+    ),
     "autoAttendanceDialogBody": MessageLookupByLibrary.simpleMessage(
       "لتسجيل حضورك وانصرافك تلقائيًا، يحتاج التطبيق إلى معرفة وصولك إلى المحل ومغادرتك له حتى عند إغلاقه. نستخدم الموقع لهذا الغرض فقط. اختر «السماح طوال الوقت» في الخطوة التالية.",
     ),

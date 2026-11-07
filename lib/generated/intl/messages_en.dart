@@ -490,6 +490,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "You were checked out automatically on leaving the shop.",
     ),
     "autoAttendanceContinue": MessageLookupByLibrary.simpleMessage("Continue"),
+    "autoAttendanceDiagAlreadyOnShift": MessageLookupByLibrary.simpleMessage(
+      "[Test] Ignored: a shift is already open",
+    ),
+    "autoAttendanceDiagDisabled": MessageLookupByLibrary.simpleMessage(
+      "[Test] Ignored: automatic check-in is off",
+    ),
+    "autoAttendanceDiagEntered": MessageLookupByLibrary.simpleMessage(
+      "[Test] Entered the shop zone event received",
+    ),
+    "autoAttendanceDiagExited": MessageLookupByLibrary.simpleMessage(
+      "[Test] Left the shop zone event received",
+    ),
+    "autoAttendanceDiagFeatureInactive": MessageLookupByLibrary.simpleMessage(
+      "[Test] Ignored: attendance is not active",
+    ),
+    "autoAttendanceDiagNoOpenShift": MessageLookupByLibrary.simpleMessage(
+      "[Test] Ignored: there is no open shift",
+    ),
     "autoAttendanceDialogBody": MessageLookupByLibrary.simpleMessage(
       "To check you in and out automatically, the app needs to know when you arrive at or leave the shop, even when it is closed. Location is used for this purpose only. Choose \"Allow all the time\" in the next step.",
     ),
