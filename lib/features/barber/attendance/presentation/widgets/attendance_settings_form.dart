@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/extensions/ext_theme.dart';
-import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_text_field.dart';
@@ -12,11 +11,9 @@ import '../../../../../core/widgets/toggle_switch.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/attendance_settings.dart';
 import 'attendance_last_change_note.dart';
+import 'attendance_range_validator.dart';
 
 class AttendanceSettingsForm extends StatefulWidget {
-  static const minRange = 10;
-  static const maxRange = 5000;
-
   final AttendanceSettings settings;
   final bool isSubmitting;
   final Future<void> Function(bool enforced, int? rangeMeters) onSave;
@@ -33,6 +30,7 @@ class AttendanceSettingsForm extends StatefulWidget {
 }
 
 class _AttendanceSettingsFormState extends State<AttendanceSettingsForm> {
+  final _formKey = GlobalKey<FormState>();
   late bool _enforced = widget.settings.config.enforced;
   late final _rangeController = TextEditingController(
     text: widget.settings.config.rangeMeters?.toString() ?? '',
@@ -44,19 +42,10 @@ class _AttendanceSettingsFormState extends State<AttendanceSettingsForm> {
     super.dispose();
   }
 
-  bool _inRange(int value) =>
-      value >= AttendanceSettingsForm.minRange &&
-      value <= AttendanceSettingsForm.maxRange;
-
   void _submit() {
-    final text = _rangeController.text.trim();
-    final range = int.tryParse(text);
+    if (!_formKey.currentState!.validate()) return;
 
-    if ((_enforced || text.isNotEmpty) && (range == null || !_inRange(range))) {
-      return showError(S().attendanceRangeInvalid);
-    }
-
-    widget.onSave(_enforced, range);
+    widget.onSave(_enforced, int.tryParse(_rangeController.text.trim()));
   }
 
   @override
@@ -103,10 +92,17 @@ class _AttendanceSettingsFormState extends State<AttendanceSettingsForm> {
                 style: TextStyle(fontSize: 12.5.sp, color: scheme.onSurface),
               ),
               SizedBox(height: 8.h),
-              AppTextField(
-                controller: _rangeController,
-                hint: S().attendanceRangeHelper,
-                isNumber: true,
+              Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: AppTextField(
+                  controller: _rangeController,
+                  hint: S().attendanceRangeHelper,
+                  isNumber: true,
+                  validator: AttendanceRangeValidator.of(
+                    enforced: () => _enforced,
+                  ),
+                ),
               ),
             ],
           ),

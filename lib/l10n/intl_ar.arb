@@ -235,8 +235,8 @@
   "attendanceEnforceLabel": "تقييد الحضور بمكان المحل",
   "attendanceEnforceHint": "يجب أن يكون الحلاق ضمن المسافة المحددة من المحل لتسجيل حضوره",
   "attendanceRangeLabel": "المسافة المسموحة (متر)",
-  "attendanceRangeHelper": "من 10 إلى 5000 متر",
-  "attendanceRangeInvalid": "أدخل مسافة بين 10 و5000 متر",
+  "attendanceRangeHelper": "من 150 إلى 5000 متر",
+  "attendanceRangeInvalid": "أدخل مسافة بين 150 و5000 متر",
   "attendanceSettingsSaved": "تم حفظ إعدادات الحضور",
   "attendanceLastChange": "آخر تعديل بواسطة {name} • {date}",
   "@attendanceLastChange": {

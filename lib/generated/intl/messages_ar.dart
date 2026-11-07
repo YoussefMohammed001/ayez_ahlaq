@@ -441,10 +441,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "attendanceOwnerBadge": MessageLookupByLibrary.simpleMessage("صاحب المحل"),
     "attendanceRangeHelper": MessageLookupByLibrary.simpleMessage(
-      "من 10 إلى 5000 متر",
+      "من 150 إلى 5000 متر",
     ),
     "attendanceRangeInvalid": MessageLookupByLibrary.simpleMessage(
-      "أدخل مسافة بين 10 و5000 متر",
+      "أدخل مسافة بين 150 و5000 متر",
     ),
     "attendanceRangeLabel": MessageLookupByLibrary.simpleMessage(
       "المسافة المسموحة (متر)",

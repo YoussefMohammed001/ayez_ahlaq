@@ -1589,20 +1589,20 @@ class S {
     );
   }
 
-  /// `Between 10 and 5000 meters`
+  /// `Between 150 and 5000 meters`
   String get attendanceRangeHelper {
     return Intl.message(
-      'Between 10 and 5000 meters',
+      'Between 150 and 5000 meters',
       name: 'attendanceRangeHelper',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter a distance between 10 and 5000 meters`
+  /// `Enter a distance between 150 and 5000 meters`
   String get attendanceRangeInvalid {
     return Intl.message(
-      'Enter a distance between 10 and 5000 meters',
+      'Enter a distance between 150 and 5000 meters',
       name: 'attendanceRangeInvalid',
       desc: '',
       args: [],
