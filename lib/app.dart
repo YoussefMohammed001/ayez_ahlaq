@@ -7,8 +7,8 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalWidgetsLocalizations,
         GlobalCupertinoLocalizations,
         GlobalMaterialLocalizations;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/app_cubit/app_cubit.dart';
+import 'core/responsive/responsive_screen_util_init.dart';
 import 'core/app_cubit/app_state.dart';
 import 'core/cache/preferences_storage/preferences_storage.dart';
 import 'core/di/services_locator.dart';
@@ -52,11 +52,7 @@ class _AyezAhlaqAppState extends State<AyezAhlaqApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(402, 874),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      useInheritedMediaQuery: true,
+    return ResponsiveScreenUtilInit(
       builder: (context, child) {
         return MultiBlocProvider(
           providers: _providers,

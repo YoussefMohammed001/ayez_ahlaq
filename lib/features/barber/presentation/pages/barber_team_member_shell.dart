@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/responsive/adaptive_nav_scaffold.dart';
 import '../../../../core/widgets/flat_bottom_nav_bar.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
 import '../../../../generated/l10n.dart';
@@ -37,7 +38,17 @@ class _BarberTeamMemberShellState extends State<BarberTeamMemberShell> {
       seenKey: PreferencesKeys.barberTeamTourSeen,
       sequence: () => _tour.teamMemberSequence,
       onShowHome: () => setState(() => _index = 0),
-      child: Scaffold(
+      child: AdaptiveNavScaffold(
+        items: _tabs,
+        currentIndex: _index,
+        onTap: (i) => setState(() => _index = i),
+        tabBuilder: _tour.teamMemberTab,
+        compactBottomBar: FlatBottomNavBar(
+          items: _tabs,
+          currentIndex: _index,
+          onTap: (i) => setState(() => _index = i),
+          tabBuilder: _tour.teamMemberTab,
+        ),
         body: IndexedStack(
           index: _index,
           children: [
@@ -48,12 +59,6 @@ class _BarberTeamMemberShellState extends State<BarberTeamMemberShell> {
             const TeamMemberBookingsScreen(),
             BarberProfileScreen(onLogout: widget.onLogout),
           ],
-        ),
-        bottomNavigationBar: FlatBottomNavBar(
-          items: _tabs,
-          currentIndex: _index,
-          onTap: (i) => setState(() => _index = i),
-          tabBuilder: _tour.teamMemberTab,
         ),
       ),
     );

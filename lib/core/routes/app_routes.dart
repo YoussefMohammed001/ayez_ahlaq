@@ -41,6 +41,8 @@ import 'modules/barber_storefront_routes.dart';
 import 'modules/merchant_engagement_routes.dart';
 import 'modules/merchant_wallet_routes.dart';
 
+import 'constrained_pages.dart';
+
 export 'root_navigator_key.dart';
 
 final CustomGoRouterObserver customGoRouterObserver = CustomGoRouterObserver();
@@ -53,7 +55,17 @@ final routes = GoRouter(
     customGoRouterObserver,
     AnalyticsRouteObserver(() => sl<IAnalyticsService>()),
   ],
-  routes: [
+  routes: constrainPages(_allRoutes, fullWidthPaths: _fullWidthPaths),
+);
+
+const _fullWidthPaths = {
+  Routes.splashScreen,
+  Routes.customerShell,
+  Routes.barberShell,
+  Routes.merchantShell,
+};
+
+final _allRoutes = <RouteBase>[
     ...sharedAppRoutes,
     ...merchantAuthRoutes,
     ...customerAuthRoutes,
@@ -88,5 +100,4 @@ final routes = GoRouter(
     ...barberStorefrontRoutes,
     ...merchantEngagementRoutes,
     ...merchantWalletRoutes,
-  ],
-);
+];

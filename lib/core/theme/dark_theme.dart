@@ -72,6 +72,7 @@ final darkTheme = ThemeData(
     backgroundColor: AppDarkColors.ink900,
     surfaceTintColor: Colors.transparent,
     showDragHandle: true,
+    constraints: BoxConstraints(maxWidth: 640),
   ),
   dialogTheme: const DialogThemeData(
     backgroundColor: AppDarkColors.ink800,

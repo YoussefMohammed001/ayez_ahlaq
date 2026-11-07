@@ -72,6 +72,7 @@ final lightTheme = ThemeData(
     backgroundColor: AppLightColors.surface,
     surfaceTintColor: Colors.transparent,
     showDragHandle: true,
+    constraints: BoxConstraints(maxWidth: 640),
   ),
   dialogTheme: const DialogThemeData(
     backgroundColor: AppLightColors.surface,

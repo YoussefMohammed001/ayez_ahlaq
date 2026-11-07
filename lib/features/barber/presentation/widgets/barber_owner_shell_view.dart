@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/cache/preferences_storage/preferences_storage_keys.dart';
 import '../../../../core/routes/route_paths.dart';
+import '../../../../core/responsive/adaptive_nav_scaffold.dart';
 import '../../../../core/widgets/lazy_tab.dart';
 import '../../../../core/widgets/nav_tab_item.dart';
 import '../../../../core/widgets/notched_bottom_nav_bar.dart';
@@ -40,6 +41,9 @@ class BarberOwnerShellView extends StatelessWidget {
     NavTabItem(Icons.person_rounded, S().tabAccount),
   ];
 
+  void _openStore(BuildContext context) =>
+      context.push(Routes.barberStoreMerchantsScreen);
+
   @override
   Widget build(BuildContext context) {
     final tourCubit = context.read<BarberTourCubit>();
@@ -50,7 +54,20 @@ class BarberOwnerShellView extends StatelessWidget {
       sequence: () => tour.ownerSequence,
       onShowHome: () => onSelectTab(0),
       isReady: () => context.read<ProfileSetupCubit>().state.hasFinishedLoading,
-      child: Scaffold(
+      child: AdaptiveNavScaffold(
+        items: _tabs,
+        currentIndex: index,
+        onTap: onSelectTab,
+        tabBuilder: tour.ownerTab,
+        railLeading: BarberStoreFab(onPressed: () => _openStore(context)),
+        compactFab: BarberStoreFab(onPressed: () => _openStore(context)),
+        compactFabLocation: FloatingActionButtonLocation.centerDocked,
+        compactBottomBar: NotchedBottomNavBar(
+          items: _tabs,
+          currentIndex: index,
+          onTap: onSelectTab,
+          tabBuilder: tour.ownerTab,
+        ),
         body: IndexedStack(
           index: index,
           children: [
@@ -69,16 +86,6 @@ class BarberOwnerShellView extends StatelessWidget {
             ),
             BarberProfileScreen(onLogout: onLogout),
           ],
-        ),
-        floatingActionButton: BarberStoreFab(
-          onPressed: () => context.push(Routes.barberStoreMerchantsScreen),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: NotchedBottomNavBar(
-          items: _tabs,
-          currentIndex: index,
-          onTap: onSelectTab,
-          tabBuilder: tour.ownerTab,
         ),
       ),
     );
