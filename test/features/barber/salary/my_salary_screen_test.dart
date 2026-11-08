@@ -12,6 +12,7 @@ import 'package:ayez_ahlaq/features/barber/salary/presentation/manager/my_salary
 import 'package:ayez_ahlaq/features/barber/salary/presentation/pages/my_salary_screen.dart';
 import 'package:ayez_ahlaq/features/barber/salary/presentation/widgets/my_salary_home_card.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
+import 'salary_member_doubles.dart';
 import 'salary_test_doubles.dart';
 
 void main() {
@@ -40,8 +41,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Widget screen() =>
-      BlocProvider.value(value: cubit, child: const MySalaryScreen());
+  Widget screen() => mySalaryScreen(salary: cubit);
 
   testWidgets('a salary shows the figures without any edit actions', (
     tester,

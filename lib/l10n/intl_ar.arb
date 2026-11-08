@@ -1512,7 +1512,7 @@
   "salaryDaysWorkedRow": "أيام الحضور",
   "salaryDaysWorkedValue": "{worked} من {total}",
   "@salaryDaysWorkedValue": {"placeholders": {"worked": {"type": "String"}, "total": {"type": "String"}}},
-  "salaryHoursWorkedRow": "ساعات العمل",
+  "salaryHoursWorkedRow": "ساعات الحضور",
   "salaryHoursValue": "{hours} ساعة",
   "@salaryHoursValue": {"placeholders": {"hours": {"type": "String"}}},
   "salaryLateMinutesRow": "دقائق التأخير",
@@ -1558,5 +1558,10 @@
   "graceDescription": "التأخير أو الانصراف المبكر حتى هذه المدة لا يُخصم من المرتب.",
   "graceLabel": "الدقائق (من 0 إلى 120)",
   "graceInvalid": "أدخل رقمًا من 0 إلى 120",
-  "graceSaved": "تم حفظ فترة السماح"
+  "graceSaved": "تم حفظ فترة السماح",
+  "mySalaryScheduleTitle": "مواعيدي",
+  "scheduleDayOff": "إجازة",
+  "salaryScheduledHoursRow": "الساعات المجدولة",
+  "scheduleTimeRange": "{open} – {close}",
+  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}}
 }

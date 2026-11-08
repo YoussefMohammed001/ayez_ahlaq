@@ -1512,7 +1512,7 @@
   "salaryDaysWorkedRow": "Days attended",
   "salaryDaysWorkedValue": "{worked} of {total}",
   "@salaryDaysWorkedValue": {"placeholders": {"worked": {"type": "String"}, "total": {"type": "String"}}},
-  "salaryHoursWorkedRow": "Hours worked",
+  "salaryHoursWorkedRow": "Hours attended",
   "salaryHoursValue": "{hours} h",
   "@salaryHoursValue": {"placeholders": {"hours": {"type": "String"}}},
   "salaryLateMinutesRow": "Late time",
@@ -1558,5 +1558,10 @@
   "graceDescription": "Lateness or early leave up to this long is not deducted.",
   "graceLabel": "Minutes (0 to 120)",
   "graceInvalid": "Enter a number from 0 to 120",
-  "graceSaved": "Grace period saved"
+  "graceSaved": "Grace period saved",
+  "mySalaryScheduleTitle": "My schedule",
+  "scheduleDayOff": "Day off",
+  "salaryScheduledHoursRow": "Scheduled hours",
+  "scheduleTimeRange": "{open} – {close}",
+  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}}
 }

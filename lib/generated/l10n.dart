@@ -12254,10 +12254,10 @@ class S {
     );
   }
 
-  /// `Hours worked`
+  /// `Hours attended`
   String get salaryHoursWorkedRow {
     return Intl.message(
-      'Hours worked',
+      'Hours attended',
       name: 'salaryHoursWorkedRow',
       desc: '',
       args: [],
@@ -12661,6 +12661,41 @@ class S {
       name: 'graceSaved',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `My schedule`
+  String get mySalaryScheduleTitle {
+    return Intl.message(
+      'My schedule',
+      name: 'mySalaryScheduleTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day off`
+  String get scheduleDayOff {
+    return Intl.message('Day off', name: 'scheduleDayOff', desc: '', args: []);
+  }
+
+  /// `Scheduled hours`
+  String get salaryScheduledHoursRow {
+    return Intl.message(
+      'Scheduled hours',
+      name: 'salaryScheduledHoursRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{open} – {close}`
+  String scheduleTimeRange(String open, String close) {
+    return Intl.message(
+      '$open – $close',
+      name: 'scheduleTimeRange',
+      desc: '',
+      args: [open, close],
     );
   }
 }

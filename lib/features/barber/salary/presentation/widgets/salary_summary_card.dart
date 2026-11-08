@@ -54,6 +54,12 @@ class SalarySummaryCard extends StatelessWidget {
           '${salary.workingDays}',
         ),
       ),
+      if (salary.scheduledHours > 0)
+        InfoRow(
+          icon: Icons.event_note_outlined,
+          label: S().salaryScheduledHoursRow,
+          value: SalaryLabels.hours(salary.scheduledHours),
+        ),
       InfoRow(
         icon: Icons.timer_outlined,
         label: S().salaryHoursWorkedRow,
