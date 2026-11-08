@@ -62,21 +62,22 @@ void main() {
       },
     );
 
-    test('rejects a range that is too small to monitor', () async {
+    test('accepts a tiny enforced range and registers the minimum ring', () async {
       repo.current = const Right(
         CurrentAttendance(
           shift: null,
           config: AttendanceConfig(
             shopLat: 30,
             shopLng: 31,
-            rangeMeters: 50,
+            rangeMeters: 5,
             enforced: true,
           ),
         ),
       );
 
-      expect(await enableCase()(), EnableAutoAttendanceResult.rangeTooSmall);
-      expect(permission.requests, 0);
+      expect(await enableCase()(), EnableAutoAttendanceResult.enabled);
+      expect(registrar.registered.single.radiusMeters, 100);
+      expect(registrar.registered.single.trackedRangeMeters, 5);
     });
 
     test('maps every permission outcome and does not register', () async {

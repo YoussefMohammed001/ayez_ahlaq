@@ -9,17 +9,12 @@ class AutoAttendancePolicy {
   static const double defaultRadiusMeters = 150;
   static const double enforcedRadiusFactor = 0.8;
 
-  static double get minEnforcedRangeMeters =>
+  static double get trackedBelowRangeMeters =>
       minRadiusMeters / enforcedRadiusFactor;
 
   static AutoAttendanceEligibility eligibilityOf(AttendanceConfig config) {
     if (config.shopLat == null || config.shopLng == null) {
       return AutoAttendanceEligibility.noShopLocation;
-    }
-
-    final range = config.rangeMeters;
-    if (config.enforced && (range ?? 0) < minEnforcedRangeMeters) {
-      return AutoAttendanceEligibility.rangeTooSmall;
     }
 
     return AutoAttendanceEligibility.eligible;
@@ -31,8 +26,21 @@ class AutoAttendancePolicy {
     }
 
     final range = config.rangeMeters?.toDouble();
+    final tracked =
+        config.enforced && range != null && range < trackedBelowRangeMeters;
+
+    if (tracked) {
+      return AutoAttendanceZone(
+        latitude: config.shopLat!,
+        longitude: config.shopLng!,
+        radiusMeters: minRadiusMeters,
+        trackedRangeMeters: range,
+      );
+    }
+
     final radius = config.enforced
-        ? range! * enforcedRadiusFactor
+        ? (range ?? minRadiusMeters / enforcedRadiusFactor) *
+              enforcedRadiusFactor
         : (range ?? defaultRadiusMeters).clamp(
             minRadiusMeters,
             double.infinity,

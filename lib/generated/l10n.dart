@@ -2809,16 +2809,6 @@ class S {
     );
   }
 
-  /// `Automatic check-in needs an attendance range of at least {meters} meters.`
-  String autoAttendanceRangeTooSmall(int meters) {
-    return Intl.message(
-      'Automatic check-in needs an attendance range of at least $meters meters.',
-      name: 'autoAttendanceRangeTooSmall',
-      desc: '',
-      args: [meters],
-    );
-  }
-
   /// `Choose "Allow all the time" to turn on automatic check-in.`
   String get autoAttendanceNeedsAlways {
     return Intl.message(
@@ -2954,6 +2944,16 @@ class S {
     return Intl.message(
       '[Test] Ignored: automatic check-in is off',
       name: 'autoAttendanceDiagDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Test] Started tracking the distance inside the shop`
+  String get autoAttendanceDiagTracking {
+    return Intl.message(
+      '[Test] Started tracking the distance inside the shop',
+      name: 'autoAttendanceDiagTracking',
       desc: '',
       args: [],
     );

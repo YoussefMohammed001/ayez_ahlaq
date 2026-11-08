@@ -5,6 +5,7 @@ import '../../../attendance/domain/use_cases/check_in_attendance_use_case.dart';
 import '../../../attendance/domain/use_cases/check_out_attendance_use_case.dart';
 import '../../../attendance/domain/use_cases/get_current_attendance_use_case.dart';
 import '../entities/auto_attendance_outcome.dart';
+import '../entities/auto_attendance_policy.dart';
 import '../entities/geofence_transition.dart';
 import '../repos/i_auto_attendance_store.dart';
 import '../repos/i_geofence_registrar.dart';
@@ -41,11 +42,15 @@ class HandleGeofenceTransitionUseCase {
           ? AutoAttendanceOutcome.featureInactive
           : AutoAttendanceOutcome.failed;
     }
-    final onShift = current
-        .getOrElse(() => const CurrentAttendance.none())
-        .onShift;
+    final attendance = current.getOrElse(() => const CurrentAttendance.none());
+    final zone = AutoAttendancePolicy.zoneOf(attendance.config);
 
-    return _apply(transition, onShift, lat, lng);
+    if (transition == GeofenceTransition.entered &&
+        zone?.needsTracking == true) {
+      return AutoAttendanceOutcome.needsTracking;
+    }
+
+    return _apply(transition, attendance.onShift, lat, lng);
   }
 
   Future<AutoAttendanceOutcome> _apply(

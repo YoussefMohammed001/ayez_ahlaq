@@ -5,7 +5,8 @@ enum AutoAttendanceOutcome {
   alreadyOnShift,
   noOpenShift,
   featureInactive,
-  disabled;
+  disabled,
+  needsTracking;
 
   bool get tookEffect =>
       this == AutoAttendanceOutcome.checkedIn ||

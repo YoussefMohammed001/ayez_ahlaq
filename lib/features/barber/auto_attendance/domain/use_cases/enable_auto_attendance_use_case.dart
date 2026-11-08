@@ -29,9 +29,6 @@ class EnableAutoAttendanceUseCase {
     if (eligibility == AutoAttendanceEligibility.noShopLocation) {
       return EnableAutoAttendanceResult.noShopLocation;
     }
-    if (eligibility == AutoAttendanceEligibility.rangeTooSmall) {
-      return EnableAutoAttendanceResult.rangeTooSmall;
-    }
 
     final permission = await _permission.request();
     if (permission != BackgroundLocationStatus.granted) {

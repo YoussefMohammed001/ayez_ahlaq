@@ -1,1 +1,1 @@
-enum AutoAttendanceEligibility { eligible, noShopLocation, rangeTooSmall }
+enum AutoAttendanceEligibility { eligible, noShopLocation }

@@ -1,10 +1,6 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:native_geofence/native_geofence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../core/analytics/analytics_events.dart';
-import '../../../../../core/analytics/analytics_params.dart';
-import '../../../../../core/analytics/pending_analytics_queue.dart';
 import '../../../../../core/cache/preferences_storage/preferences_storage.dart';
 import '../../../../../core/cache/secure_storage/app_flutter_secure_storage.dart';
 import '../../../../../core/cache/secure_storage/secure_storage.dart';
@@ -25,6 +21,9 @@ import '../../domain/use_cases/handle_geofence_transition_use_case.dart';
 import '../services/auto_attendance_prefs_store.dart';
 import '../services/local_auto_attendance_notifier.dart';
 import '../services/native_geofence_registrar.dart';
+import 'auto_attendance_reporter.dart';
+import 'foreground_promotion.dart';
+import 'shop_presence_background.dart';
 
 @pragma('vm:entry-point')
 Future<void> autoAttendanceGeofenceCallback(
@@ -68,6 +67,7 @@ class AutoAttendanceBackground {
     );
     await notifier.announceReceived(transition);
 
+    final reporter = AutoAttendanceReporter(notifier, preferences, transition);
     final outcome = await _run(
       transition,
       params,
@@ -75,17 +75,11 @@ class AutoAttendanceBackground {
       storage,
       store,
       registrar,
+      reporter,
     );
 
-    await notifier.notify(outcome);
-
-    if (outcome.isUserFacing) {
-      await PendingAnalyticsQueue(
-        preferences,
-      ).enqueue(AnalyticsEvents.autoAttendanceTriggered, {
-        AnalyticsParams.transition: transition.name,
-        AnalyticsParams.outcome: outcome.name,
-      });
+    if (outcome != AutoAttendanceOutcome.needsTracking) {
+      await reporter.report(outcome);
     }
   }
 
@@ -96,6 +90,7 @@ class AutoAttendanceBackground {
     SecureStorage storage,
     AutoAttendancePrefsStore store,
     NativeGeofenceRegistrar registrar,
+    AutoAttendanceReporter reporter,
   ) async {
     final network = NetworkService(
       DioFactory.createBare(
@@ -112,18 +107,28 @@ class AutoAttendanceBackground {
       registrar,
     );
 
-    await _promote();
+    await ForegroundPromotion.promote();
     try {
-      return await handler(
+      final outcome = await handler(
         transition,
         lat: params.location?.latitude,
         lng: params.location?.longitude,
       ).timeout(_requestBudget);
+
+      if (outcome != AutoAttendanceOutcome.needsTracking) return outcome;
+
+      await reporter.report(outcome);
+      await ShopPresenceBackground.run(
+        repo: repo,
+        store: store,
+        onOutcome: reporter.report,
+      );
+      return AutoAttendanceOutcome.needsTracking;
     } catch (error) {
       safePrint('Auto attendance failed: $error');
       return AutoAttendanceOutcome.failed;
     } finally {
-      await _demote();
+      await ForegroundPromotion.demote();
     }
   }
 
@@ -133,20 +138,4 @@ class AutoAttendanceBackground {
         GeofenceEvent.exit => GeofenceTransition.exited,
         _ => null,
       };
-
-  static Future<void> _promote() async {
-    if (!Platform.isAndroid) return;
-    try {
-      await NativeGeofenceBackgroundManager.instance.promoteToForeground();
-    } catch (error) {
-      safePrint('Could not promote to foreground: $error');
-    }
-  }
-
-  static Future<void> _demote() async {
-    if (!Platform.isAndroid) return;
-    try {
-      await NativeGeofenceBackgroundManager.instance.demoteToBackground();
-    } catch (_) {}
-  }
 }

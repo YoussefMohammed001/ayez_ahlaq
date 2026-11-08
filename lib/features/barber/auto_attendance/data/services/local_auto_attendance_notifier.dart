@@ -22,13 +22,10 @@ class LocalAutoAttendanceNotifier implements IAutoAttendanceNotifier {
   Future<void> announceReceived(GeofenceTransition transition) async {
     if (!diagnostic) return;
 
-    await _show(
-      _receivedId,
-      switch (transition) {
-        GeofenceTransition.entered => S().autoAttendanceDiagEntered,
-        GeofenceTransition.exited => S().autoAttendanceDiagExited,
-      },
-    );
+    await _show(_receivedId, switch (transition) {
+      GeofenceTransition.entered => S().autoAttendanceDiagEntered,
+      GeofenceTransition.exited => S().autoAttendanceDiagExited,
+    });
   }
 
   @override
@@ -42,11 +39,13 @@ class LocalAutoAttendanceNotifier implements IAutoAttendanceNotifier {
     AutoAttendanceOutcome.checkedIn => S().autoAttendanceCheckedInNotice,
     AutoAttendanceOutcome.checkedOut => S().autoAttendanceCheckedOutNotice,
     AutoAttendanceOutcome.failed => S().autoAttendanceFailedNotice,
-    AutoAttendanceOutcome.alreadyOnShift => S().autoAttendanceDiagAlreadyOnShift,
+    AutoAttendanceOutcome.alreadyOnShift =>
+      S().autoAttendanceDiagAlreadyOnShift,
     AutoAttendanceOutcome.noOpenShift => S().autoAttendanceDiagNoOpenShift,
     AutoAttendanceOutcome.featureInactive =>
       S().autoAttendanceDiagFeatureInactive,
     AutoAttendanceOutcome.disabled => S().autoAttendanceDiagDisabled,
+    AutoAttendanceOutcome.needsTracking => S().autoAttendanceDiagTracking,
   };
 
   Future<void> _show(int id, String body) async {

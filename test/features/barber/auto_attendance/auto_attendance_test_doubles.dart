@@ -86,7 +86,14 @@ class FakeStore implements IAutoAttendanceStore {
   bool get isEnabled => enabled;
 
   @override
+  DateTime? trackingHeartbeat;
+
+  @override
   Future<void> setEnabled(bool value) async => enabled = value;
+
+  @override
+  Future<void> setTrackingHeartbeat(DateTime? at) async =>
+      trackingHeartbeat = at;
 }
 
 class FakeRegistrar implements IGeofenceRegistrar {

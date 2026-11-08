@@ -16,6 +16,19 @@ class AutoAttendancePrefsStore implements IAutoAttendanceStore {
       _preferences.getString(key: PreferencesKeys.autoAttendanceBaseUrl);
 
   @override
+  DateTime? get trackingHeartbeat => DateTime.tryParse(
+    _preferences.getString(
+      key: PreferencesKeys.autoAttendanceTrackingHeartbeat,
+    ),
+  );
+
+  @override
+  Future<void> setTrackingHeartbeat(DateTime? at) => _preferences.putString(
+    key: PreferencesKeys.autoAttendanceTrackingHeartbeat,
+    value: at?.toIso8601String(),
+  );
+
+  @override
   Future<void> setEnabled(bool value) async {
     await _preferences.putBoolean(
       key: PreferencesKeys.autoAttendanceEnabled,
