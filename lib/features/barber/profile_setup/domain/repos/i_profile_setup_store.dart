@@ -1,9 +1,11 @@
+import '../entities/profile_setup_step.dart';
+
 abstract class IProfileSetupStore {
-  bool get started;
+  Set<ProfileSetupStep> doneSteps(int ownerId);
 
-  bool get dismissed;
+  Future<void> saveDoneSteps(int ownerId, Set<ProfileSetupStep> steps);
 
-  Future<void> markStarted();
+  bool isDismissed(int ownerId);
 
-  Future<void> dismiss();
+  Future<void> dismiss(int ownerId);
 }

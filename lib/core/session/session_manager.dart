@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:ayez_ahlaq/generated/l10n.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
-import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '../cache/secure_storage/secure_storage.dart';
 import '../helpers/alerts.dart';
 import '../routes/app_routes.dart';
@@ -45,10 +44,6 @@ class SessionManager {
   Future<void> _clearSession() async {
     SessionScope.reset();
     await storage.deleteAll();
-    await preferencesStorage.clearExcept({
-      PreferencesKeys.currentLanguage,
-      PreferencesKeys.barberOwnerTourSeen,
-      PreferencesKeys.barberTeamTourSeen,
-    });
+    await preferencesStorage.clearExcept(PreferencesStorage.keptOnLogout);
   }
 }

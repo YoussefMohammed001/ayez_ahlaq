@@ -10,9 +10,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
   final AppAnalytics _analytics;
 
   ProfileSetupCubit(this._getSnapshot, this._store, this._analytics)
-    : super(
-        ProfileSetupState(started: _store.started, dismissed: _store.dismissed),
-      );
+    : super(const ProfileSetupState());
 
   @override
   void emit(ProfileSetupState state) {
@@ -24,14 +22,31 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     }
   }
 
+  Future<void> start(int ownerId) async {
+    if (state.ownerId == ownerId &&
+        state.status != ProfileSetupStatus.initial) {
+      return;
+    }
+
+    emit(
+      ProfileSetupState(
+        ownerId: ownerId,
+        hasPhoto: state.hasPhoto,
+        dismissed: _store.isDismissed(ownerId),
+      ),
+    );
+    await load();
+  }
+
   Future<void> load() async {
-    if (state.status == ProfileSetupStatus.loading) return;
+    final ownerId = state.ownerId;
+    if (ownerId == null || state.status == ProfileSetupStatus.loading) return;
 
     if (state.status != ProfileSetupStatus.success) {
       emit(state.copyWith(status: ProfileSetupStatus.loading));
     }
 
-    final result = await _getSnapshot();
+    final result = await _getSnapshot(alreadyDone: _store.doneSteps(ownerId));
 
     await result.fold(
       (_) async => emit(
@@ -48,25 +63,30 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
             snapshot: snapshot,
           ),
         );
-        await _rememberIfNewShop();
+        await _remember();
       },
     );
   }
 
-  void syncLocal({required bool hasPhoto}) {
+  Future<void> syncLocal({required bool hasPhoto}) async {
     if (state.hasPhoto == hasPhoto) return;
+
     emit(state.copyWith(hasPhoto: hasPhoto));
+    await _remember();
   }
 
   Future<void> dismiss() async {
-    await _store.dismiss();
+    final ownerId = state.ownerId;
+    if (ownerId == null) return;
+
+    await _store.dismiss(ownerId);
     emit(state.copyWith(dismissed: true));
   }
 
-  Future<void> _rememberIfNewShop() async {
-    if (state.started || !state.requiredIncomplete) return;
+  Future<void> _remember() async {
+    final ownerId = state.ownerId;
+    if (ownerId == null || state.status != ProfileSetupStatus.success) return;
 
-    await _store.markStarted();
-    emit(state.copyWith(started: true));
+    await _store.saveDoneSteps(ownerId, state.doneSteps);
   }
 }

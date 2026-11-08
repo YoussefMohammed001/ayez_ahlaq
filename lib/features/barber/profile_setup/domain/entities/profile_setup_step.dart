@@ -1,14 +1,10 @@
 enum ProfileSetupStep {
-  hours(required: true),
-  services(required: true),
+  hours,
+  services,
   photo,
   team,
   teamHours,
   teamServices;
-
-  final bool required;
-
-  const ProfileSetupStep({this.required = false});
 
   bool get dependsOnTeam =>
       this == ProfileSetupStep.teamHours ||

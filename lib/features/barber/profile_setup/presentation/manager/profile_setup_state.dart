@@ -8,15 +8,15 @@ enum ProfileSetupStatus { initial, loading, success, failure }
 class ProfileSetupState extends Equatable {
   final ProfileSetupStatus status;
   final ProfileSetupSnapshot snapshot;
+  final int? ownerId;
   final bool? hasPhoto;
-  final bool started;
   final bool dismissed;
 
   const ProfileSetupState({
     this.status = ProfileSetupStatus.initial,
     this.snapshot = const ProfileSetupSnapshot.empty(),
+    this.ownerId,
     this.hasPhoto,
-    this.started = false,
     this.dismissed = false,
   });
 
@@ -26,25 +26,21 @@ class ProfileSetupState extends Equatable {
       status == ProfileSetupStatus.success ||
       status == ProfileSetupStatus.failure;
 
-  bool get requiredIncomplete => ProfileSetupStep.values.any(
-    (step) => step.required && !snapshot.done.contains(step),
-  );
+  Set<ProfileSetupStep> get doneSteps => {
+    ...snapshot.done,
+    if (hasPhoto == true) ProfileSetupStep.photo,
+  };
 
   List<ProfileSetupStep> get visibleSteps => [
     for (final step in ProfileSetupStep.values)
-      if (step.required || (started && _optionalIsVisible(step))) step,
+      if (!step.isTeamRelated || snapshot.teamKnown) step,
   ];
-
-  bool _optionalIsVisible(ProfileSetupStep step) =>
-      !step.isTeamRelated || snapshot.teamKnown;
 
   bool isBlocked(ProfileSetupStep step) =>
       step.dependsOnTeam && !snapshot.hasTeam;
 
-  ProfileSetupProgress get progress => ProfileSetupProgress(
-    done: {...snapshot.done, if (hasPhoto == true) ProfileSetupStep.photo},
-    steps: visibleSteps,
-  );
+  ProfileSetupProgress get progress =>
+      ProfileSetupProgress(done: doneSteps, steps: visibleSteps);
 
   bool get shouldShowChecklist => isReady && !dismissed && !progress.isComplete;
 
@@ -57,19 +53,19 @@ class ProfileSetupState extends Equatable {
   ProfileSetupState copyWith({
     ProfileSetupStatus? status,
     ProfileSetupSnapshot? snapshot,
+    int? ownerId,
     bool? hasPhoto,
-    bool? started,
     bool? dismissed,
   }) {
     return ProfileSetupState(
       status: status ?? this.status,
       snapshot: snapshot ?? this.snapshot,
+      ownerId: ownerId ?? this.ownerId,
       hasPhoto: hasPhoto ?? this.hasPhoto,
-      started: started ?? this.started,
       dismissed: dismissed ?? this.dismissed,
     );
   }
 
   @override
-  List<Object?> get props => [status, snapshot, hasPhoto, started, dismissed];
+  List<Object?> get props => [status, snapshot, ownerId, hasPhoto, dismissed];
 }

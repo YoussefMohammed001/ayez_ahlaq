@@ -23,15 +23,15 @@ class _ProfileSetupLocalSyncState extends State<ProfileSetupLocalSync> {
   }
 
   void _sync(BuildContext context) {
-    final profile = context.read<BarberProfileCubit>().state;
+    final state = context.read<BarberProfileCubit>().state;
 
     final photoKnown =
-        profile.imageStatus == ProfileImageStatus.loaded ||
-        profile.imageStatus == ProfileImageStatus.empty;
+        state.imageStatus == ProfileImageStatus.loaded ||
+        state.imageStatus == ProfileImageStatus.empty;
     if (!photoKnown) return;
 
     context.read<ProfileSetupCubit>().syncLocal(
-      hasPhoto: profile.imageStatus == ProfileImageStatus.loaded,
+      hasPhoto: state.imageStatus == ProfileImageStatus.loaded,
     );
   }
 

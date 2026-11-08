@@ -24,23 +24,35 @@ import '../../../support/recording_analytics.dart';
 
 class _HoursRepo extends Fake implements IBarberHoursRepo {
   Either<Failure, List<WorkingDay>> result = const Right([]);
+  int calls = 0;
 
   @override
-  Future<Either<Failure, List<WorkingDay>>> getHours() async => result;
+  Future<Either<Failure, List<WorkingDay>>> getHours() async {
+    calls++;
+    return result;
+  }
 }
 
 class _ServicesRepo extends Fake implements IBarberServicesRepo {
   Either<Failure, List<BarberService>> result = const Right([]);
+  int calls = 0;
 
   @override
-  Future<Either<Failure, List<BarberService>>> getServices() async => result;
+  Future<Either<Failure, List<BarberService>>> getServices() async {
+    calls++;
+    return result;
+  }
 }
 
 class _TeamRepo extends Fake implements IBarberTeamRepo {
   Either<Failure, List<TeamMember>> result = const Right([]);
+  int calls = 0;
 
   @override
-  Future<Either<Failure, List<TeamMember>>> getTeam() async => result;
+  Future<Either<Failure, List<TeamMember>>> getTeam() async {
+    calls++;
+    return result;
+  }
 }
 
 class _MemberHoursRepo extends Fake implements IBarberTeamHoursRepo {
@@ -61,19 +73,29 @@ class _MemberServicesRepo extends Fake implements IBarberTeamServicesRepo {
 }
 
 class _Store implements IProfileSetupStore {
-  @override
-  bool started;
-  @override
-  bool dismissed;
+  final done = <int, Set<ProfileSetupStep>>{};
+  final dismissed = <int>{};
 
-  _Store({this.started = false, this.dismissed = false});
-
-  @override
-  Future<void> markStarted() async => started = true;
+  _Store({Set<ProfileSetupStep> done = const {}, bool dismissed = false}) {
+    if (done.isNotEmpty) this.done[_owner] = {...done};
+    if (dismissed) this.dismissed.add(_owner);
+  }
 
   @override
-  Future<void> dismiss() async => dismissed = true;
+  Set<ProfileSetupStep> doneSteps(int ownerId) => {...?done[ownerId]};
+
+  @override
+  Future<void> saveDoneSteps(int ownerId, Set<ProfileSetupStep> steps) async =>
+      done[ownerId] = {...?done[ownerId], ...steps};
+
+  @override
+  bool isDismissed(int ownerId) => dismissed.contains(ownerId);
+
+  @override
+  Future<void> dismiss(int ownerId) async => dismissed.add(ownerId);
 }
+
+const _owner = 7;
 
 const _open = WorkingDay(
   dayOfWeek: 1,
@@ -276,77 +298,85 @@ void main() {
     });
   });
 
-  group('a new shop', () {
-    test('sees every step and the team ones wait for a member', () async {
-      final c = cubit();
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+  group('checklist', () {
+    test(
+      'shows every step to everyone, with the team ones waiting for a member',
+      () async {
+        final c = cubit();
 
-      expect(c.state.started, isTrue);
-      expect(c.state.visibleSteps, ProfileSetupStep.values);
-      expect(c.state.isBlocked(ProfileSetupStep.teamHours), isTrue);
-      expect(c.state.isBlocked(ProfileSetupStep.team), isFalse);
+        await c.start(_owner);
+        await c.syncLocal(hasPhoto: false);
+
+        expect(c.state.visibleSteps, ProfileSetupStep.values);
+        expect(c.state.isBlocked(ProfileSetupStep.teamHours), isTrue);
+        expect(c.state.isBlocked(ProfileSetupStep.team), isFalse);
+        expect(c.state.shouldShowChecklist, isTrue);
+      },
+    );
+
+    test(
+      'an old shop that forgot to fill things sees what is missing',
+      () async {
+        hours.result = const Right([_open]);
+        final c = cubit();
+
+        await c.start(_owner);
+        await c.syncLocal(hasPhoto: false);
+
+        expect(c.state.doneSteps, {ProfileSetupStep.hours});
+        expect(c.state.shouldShowChecklist, isTrue);
+      },
+    );
+
+    test('a solo barber is reminded about the team too', () async {
+      shopIsSetUp();
+      team.result = Right([_member(1, owner: true)]);
+      final c = cubit();
+
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: true);
+
       expect(c.state.shouldShowChecklist, isTrue);
+      expect(c.state.visibleSteps, contains(ProfileSetupStep.team));
     });
 
     test('the team steps unblock once a member is added', () async {
       shopIsSetUp();
       team.result = Right([_member(10)]);
-      final c = cubit(_Store(started: true));
+      final c = cubit();
 
-      await c.load();
-      c.syncLocal(hasPhoto: true);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: true);
 
       expect(c.state.isBlocked(ProfileSetupStep.teamHours), isFalse);
       expect(c.state.memberFor(ProfileSetupStep.teamHours), 10);
       expect(c.state.progress.doneCount, 4);
     });
 
-    test(
-      'is remembered as new so the suggestions stay after the required steps are done',
-      () async {
-        final store = _Store();
-        final c = cubit(store);
-        await c.load();
-        expect(store.started, isTrue);
+    test('is complete, and reported once, when every step is done', () async {
+      shopIsSetUp();
+      team.result = Right([_member(10)]);
+      memberHours.byMember[10] = const Right([_open]);
+      memberServices.byMember[10] = Right([_service()]);
+      final c = cubit();
 
-        shopIsSetUp();
-        await c.load();
-        c.syncLocal(hasPhoto: false);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
+      expect(c.state.shouldShowChecklist, isTrue);
 
-        expect(c.state.requiredIncomplete, isFalse);
-        expect(c.state.shouldShowChecklist, isTrue);
-        expect(c.state.visibleSteps, contains(ProfileSetupStep.team));
-      },
-    );
+      await c.syncLocal(hasPhoto: true);
 
-    test(
-      'is complete, and reported once, when every visible step is done',
-      () async {
-        shopIsSetUp();
-        team.result = Right([_member(10)]);
-        memberHours.byMember[10] = const Right([_open]);
-        memberServices.byMember[10] = Right([_service()]);
-        final c = cubit(_Store(started: true));
-
-        await c.load();
-        c.syncLocal(hasPhoto: false);
-        expect(c.state.shouldShowChecklist, isTrue);
-
-        c.syncLocal(hasPhoto: true);
-
-        expect(c.state.progress.isComplete, isTrue);
-        expect(c.state.shouldShowChecklist, isFalse);
-        expect(analytics.names, ['setup_completed']);
-      },
-    );
+      expect(c.state.progress.isComplete, isTrue);
+      expect(c.state.shouldShowChecklist, isFalse);
+      expect(analytics.names, ['setup_completed']);
+    });
 
     test('shows the team steps only when the team is known', () async {
       shopIsSetUp();
       team.result = Left(_failure());
-      final c = cubit(_Store(started: true));
+      final c = cubit();
 
-      await c.load();
+      await c.start(_owner);
 
       expect(c.state.visibleSteps, [
         ProfileSetupStep.hours,
@@ -354,34 +384,118 @@ void main() {
         ProfileSetupStep.photo,
       ]);
     });
+
+    test('waits for the photo before showing anything', () async {
+      final c = cubit();
+
+      await c.start(_owner);
+
+      expect(c.state.shouldShowChecklist, isFalse);
+    });
   });
 
-  group('an old shop', () {
-    test('already set up on first sight never gets suggestions', () async {
+  group('keys', () {
+    test('what is filled becomes true and is remembered', () async {
       shopIsSetUp();
       final store = _Store();
       final c = cubit(store);
 
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: true);
 
-      expect(store.started, isFalse);
-      expect(c.state.visibleSteps, [
+      expect(store.done[_owner], {
         ProfileSetupStep.hours,
         ProfileSetupStep.services,
-      ]);
+        ProfileSetupStep.photo,
+      });
+    });
+
+    test(
+      'a reinstall or an old user gets every filled key set from the data',
+      () async {
+        shopIsSetUp();
+        team.result = Right([_member(10)]);
+        memberHours.byMember[10] = const Right([_open]);
+        final store = _Store();
+
+        await cubit(store).start(_owner);
+
+        expect(store.done[_owner], {
+          ProfileSetupStep.hours,
+          ProfileSetupStep.services,
+          ProfileSetupStep.team,
+          ProfileSetupStep.teamHours,
+        });
+      },
+    );
+
+    test('a key that is true is not asked about again', () async {
+      final store = _Store(
+        done: {ProfileSetupStep.hours, ProfileSetupStep.services},
+      );
+
+      await cubit(store).start(_owner);
+
+      expect(hours.calls, 0);
+      expect(services.calls, 0);
+      expect(team.calls, 1);
+    });
+
+    test('when every key is true nothing is asked at all', () async {
+      final store = _Store(done: ProfileSetupStep.values.toSet());
+      final c = cubit(store);
+
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: true);
+
+      expect(hours.calls + services.calls + team.calls, 0);
       expect(c.state.shouldShowChecklist, isFalse);
     });
 
-    test('one that is missing a required step is treated as new', () async {
-      hours.result = const Right([_open]);
+    test('a key stays true even if the data is removed later', () async {
+      shopIsSetUp();
+      final store = _Store();
+      await cubit(store).start(_owner);
+
+      hours.result = const Right([]);
+      final again = cubit(store);
+      await again.start(_owner);
+
+      expect(again.state.doneSteps, contains(ProfileSetupStep.hours));
+    });
+
+    test('only the missing keys are fetched', () async {
+      final store = _Store(done: {ProfileSetupStep.hours});
+      services.result = Right([_service()]);
+
+      await cubit(store).start(_owner);
+
+      expect(hours.calls, 0);
+      expect(services.calls, 1);
+    });
+
+    test('a refresh after a step keeps what was already known', () async {
       final c = cubit();
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
+      expect(c.state.doneSteps, isEmpty);
 
+      hours.result = const Right([_open]);
       await c.load();
-      c.syncLocal(hasPhoto: true);
 
-      expect(c.state.started, isTrue);
-      expect(c.state.shouldShowChecklist, isTrue);
+      expect(c.state.doneSteps, {ProfileSetupStep.hours});
+    });
+
+    test('each account has its own keys', () async {
+      shopIsSetUp();
+      final store = _Store();
+
+      await cubit(store).start(_owner);
+      await cubit(store).start(99);
+
+      expect(store.done[_owner], isNotEmpty);
+      expect(store.done[99], isNotEmpty);
+      expect(hours.calls, 2);
     });
   });
 
@@ -389,22 +503,31 @@ void main() {
     test('hiding removes the card and is remembered', () async {
       final store = _Store();
       final c = cubit(store);
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
       expect(c.state.shouldShowChecklist, isTrue);
 
       await c.dismiss();
 
       expect(c.state.shouldShowChecklist, isFalse);
-      expect(store.dismissed, isTrue);
+      expect(store.dismissed, contains(_owner));
     });
 
     test('a hidden card stays hidden for the next session', () async {
       final c = cubit(_Store(dismissed: true));
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
 
       expect(c.state.shouldShowChecklist, isFalse);
+    });
+
+    test('hiding does nothing before the account is known', () async {
+      final c = cubit();
+
+      await c.dismiss();
+
+      expect(c.state.dismissed, isFalse);
     });
   });
 
@@ -413,8 +536,8 @@ void main() {
       hours.result = Left(_failure());
       final c = cubit();
 
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
 
       expect(c.state.status, ProfileSetupStatus.failure);
       expect(c.state.shouldShowChecklist, isFalse);
@@ -422,8 +545,8 @@ void main() {
 
     test('a failed refresh keeps what was already shown', () async {
       final c = cubit();
-      await c.load();
-      c.syncLocal(hasPhoto: false);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
 
       hours.result = Left(_failure());
       await c.load();
@@ -432,12 +555,22 @@ void main() {
       expect(c.state.shouldShowChecklist, isTrue);
     });
 
-    test('waits for the photo before showing anything', () async {
+    test('starting twice for the same account asks once', () async {
+      final c = cubit();
+
+      await c.start(_owner);
+      await c.start(_owner);
+
+      expect(hours.calls, 1);
+    });
+
+    test('nothing happens before start', () async {
       final c = cubit();
 
       await c.load();
 
-      expect(c.state.shouldShowChecklist, isFalse);
+      expect(hours.calls, 0);
+      expect(c.state.status, ProfileSetupStatus.initial);
     });
   });
 }

@@ -11,6 +11,14 @@ class PreferencesStorage {
     await _preferences.clear();
   }
 
+  static const Set<PreferencesKeys> keptOnLogout = {
+    PreferencesKeys.currentLanguage,
+    PreferencesKeys.barberOwnerTourSeen,
+    PreferencesKeys.barberTeamTourSeen,
+    PreferencesKeys.profileSetupDoneSteps,
+    PreferencesKeys.profileSetupDismissedOwners,
+  };
+
   Future<void> reload() => _preferences.reload();
 
   Future<void> clearExcept(Set<PreferencesKeys> keep) async {

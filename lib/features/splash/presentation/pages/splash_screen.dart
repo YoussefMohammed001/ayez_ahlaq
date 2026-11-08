@@ -10,6 +10,7 @@ import '../../../../core/app_startup/version_checker.dart';
 import '../../../../core/di/services_locator.dart';
 import '../../../../env/env.dart';
 import '../../../../shared/analytics/user_analytics_sync.dart';
+import '../../../barber/profile_setup/presentation/helpers/profile_setup_prefetch.dart';
 import '../../../../shared/user_type.dart';
 import '../widgets/splash_body.dart';
 
@@ -85,6 +86,9 @@ class _SplashScreenState extends State<SplashScreen>
 
     sl<UserAnalyticsSync>().identify(UserHelpers.userType);
 
+    if (_isBarberOwner) await ProfileSetupPrefetch.fromSplash();
+    if (!mounted) return;
+
     context.go(switch (UserHelpers.userType) {
       UserType.barber => Routes.barberShell,
       UserType.customer => Routes.customerShell,
@@ -93,6 +97,10 @@ class _SplashScreenState extends State<SplashScreen>
 
     sl<NotificationService>().handleLaunchNotification();
   }
+
+  bool get _isBarberOwner =>
+      UserHelpers.userType == UserType.barber &&
+      !UserHelpers.barberAccountKind.isTeamMember;
 
   @override
   Widget build(BuildContext context) {
