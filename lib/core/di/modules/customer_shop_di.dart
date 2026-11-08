@@ -12,7 +12,7 @@ void registerCustomerShops() {
   sl.registerLazySingleton<ICustomerShopsRepo>(() => CustomerShopsRepo(sl()));
   sl.registerLazySingleton(() => GetShopsUseCase(sl()));
   sl.registerLazySingleton(() => GetShopDetailUseCase(sl()));
-  sl.registerFactory(() => CustomerShopsCubit(sl(), sl()));
+  sl.registerFactory(() => CustomerShopsCubit(sl(), sl(), sl()));
   sl.registerFactory(
     () => CustomerShopDetailCubit(sl(), sl(), sl(), sl(), sl()),
   );

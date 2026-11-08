@@ -44,4 +44,5 @@ class AnalyticsEvents {
   static const languageChanged = 'language_changed';
   static const themeChanged = 'theme_changed';
   static const externalLinkOpened = 'external_link_opened';
+  static const shopsAreaChanged = 'shops_area_changed';
 }

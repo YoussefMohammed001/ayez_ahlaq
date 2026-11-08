@@ -59,6 +59,11 @@ class AppAnalytics {
     {AnalyticsParams.target: target},
   );
 
+  Future<void> shopsAreaChanged(String kind) =>
+      _analytics.logEvent(AnalyticsEvents.shopsAreaChanged, {
+        AnalyticsParams.source: kind,
+      });
+
   Future<void> locationPicked(String source) => _analytics.logEvent(
     AnalyticsEvents.locationPicked,
     {AnalyticsParams.source: source},

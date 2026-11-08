@@ -2389,6 +2389,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "سيظهر العرض لكل الصالونات",
     ),
+    "shopsAreaBack": MessageLookupByLibrary.simpleMessage("العودة لموقعي"),
+    "shopsAreaChange": MessageLookupByLibrary.simpleMessage("تغيير"),
+    "shopsAreaChoose": MessageLookupByLibrary.simpleMessage("اختر مكانًا"),
+    "shopsAreaMyLocation": MessageLookupByLibrary.simpleMessage("موقعي الحالي"),
+    "shopsAreaTitle": MessageLookupByLibrary.simpleMessage("الصالونات قرب"),
     "shopsSelectedHint": m61,
     "shopsTitle": MessageLookupByLibrary.simpleMessage("الصالونات"),
     "signIn": MessageLookupByLibrary.simpleMessage("دخول"),

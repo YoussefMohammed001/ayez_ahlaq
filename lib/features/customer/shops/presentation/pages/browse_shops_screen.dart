@@ -13,6 +13,7 @@ import '../../../../../shared/location/presentation/widgets/nearby_location_bann
 import '../manager/customer_shops_cubit.dart';
 import '../manager/customer_shops_state.dart';
 import '../widgets/shop_row.dart';
+import '../widgets/shops_area_selector.dart';
 
 class BrowseShopsScreen extends StatefulWidget {
   const BrowseShopsScreen({super.key});
@@ -34,16 +35,20 @@ class _BrowseShopsScreenState extends State<BrowseShopsScreen> {
       appBar: AppTopBar(title: S().shopsTitle),
       body: Column(
         children: [
+          const ShopsAreaSelector(),
           BlocBuilder<CustomerShopsCubit, CustomerShopsState>(
             buildWhen: (previous, current) =>
                 previous.sortedByDistance != current.sortedByDistance ||
-                previous.status != current.status,
-            builder: (context, state) => NearbyLocationBanner(
-              locationResolved:
-                  state.sortedByDistance ||
-                  state.status != CustomerShopsStatus.success,
-              onEnabled: context.read<CustomerShopsCubit>().loadShops,
-            ),
+                previous.status != current.status ||
+                previous.area != current.area,
+            builder: (context, state) => state.isBrowsingElsewhere
+                ? const SizedBox.shrink()
+                : NearbyLocationBanner(
+                    locationResolved:
+                        state.sortedByDistance ||
+                        state.status != CustomerShopsStatus.success,
+                    onEnabled: context.read<CustomerShopsCubit>().loadShops,
+                  ),
           ),
           Expanded(child: _buildShops()),
         ],

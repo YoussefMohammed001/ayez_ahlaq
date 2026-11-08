@@ -2456,6 +2456,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopsAllNote": MessageLookupByLibrary.simpleMessage(
       "The offer will apply to all salons",
     ),
+    "shopsAreaBack": MessageLookupByLibrary.simpleMessage(
+      "Back to my location",
+    ),
+    "shopsAreaChange": MessageLookupByLibrary.simpleMessage("Change"),
+    "shopsAreaChoose": MessageLookupByLibrary.simpleMessage("Choose a place"),
+    "shopsAreaMyLocation": MessageLookupByLibrary.simpleMessage(
+      "My current location",
+    ),
+    "shopsAreaTitle": MessageLookupByLibrary.simpleMessage("Shops near"),
     "shopsSelectedHint": m61,
     "shopsTitle": MessageLookupByLibrary.simpleMessage("Salons"),
     "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),

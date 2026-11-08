@@ -2959,6 +2959,51 @@ class S {
     );
   }
 
+  /// `Shops near`
+  String get shopsAreaTitle {
+    return Intl.message(
+      'Shops near',
+      name: 'shopsAreaTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My current location`
+  String get shopsAreaMyLocation {
+    return Intl.message(
+      'My current location',
+      name: 'shopsAreaMyLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a place`
+  String get shopsAreaChoose {
+    return Intl.message(
+      'Choose a place',
+      name: 'shopsAreaChoose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change`
+  String get shopsAreaChange {
+    return Intl.message('Change', name: 'shopsAreaChange', desc: '', args: []);
+  }
+
+  /// `Back to my location`
+  String get shopsAreaBack {
+    return Intl.message(
+      'Back to my location',
+      name: 'shopsAreaBack',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No slots available on this day`
   String get noSlotsAvailable {
     return Intl.message(

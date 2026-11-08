@@ -8,6 +8,7 @@ import '../../../../generated/l10n.dart';
 import '../../shops/presentation/manager/customer_shops_cubit.dart';
 import '../../shops/presentation/manager/customer_shops_state.dart';
 import '../../shops/presentation/widgets/shop_row.dart';
+import '../../shops/presentation/widgets/shops_area_selector.dart';
 import '../../../../shared/location/presentation/widgets/nearby_location_banner.dart';
 import 'dashboard_empty_hint.dart';
 
@@ -28,12 +29,14 @@ class NearestShopsSection extends StatelessWidget {
               actionLabel: S().seeAll,
               onAction: () => context.push(Routes.customerBrowseShopsScreen),
             ),
-            NearbyLocationBanner(
-              locationResolved:
-                  state.sortedByDistance ||
-                  state.status != CustomerShopsStatus.success,
-              onEnabled: context.read<CustomerShopsCubit>().loadShops,
-            ),
+            const ShopsAreaSelector(),
+            if (!state.isBrowsingElsewhere)
+              NearbyLocationBanner(
+                locationResolved:
+                    state.sortedByDistance ||
+                    state.status != CustomerShopsStatus.success,
+                onEnabled: context.read<CustomerShopsCubit>().loadShops,
+              ),
             if (state.status == CustomerShopsStatus.loading &&
                 state.shops.isEmpty)
               const ListSkeleton(itemCount: 3)
