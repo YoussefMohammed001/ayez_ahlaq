@@ -104,7 +104,7 @@ void main() {
     await pump(tester, section());
 
     final next = tester.widget<IconButton>(
-      find.widgetWithIcon(IconButton, Icons.chevron_left_rounded),
+      find.widgetWithIcon(IconButton, Icons.chevron_right_rounded),
     );
     expect(next.onPressed, isNull);
   });

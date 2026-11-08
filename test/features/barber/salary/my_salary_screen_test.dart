@@ -87,7 +87,7 @@ void main() {
     await cubit.load();
     await pump(tester, screen());
 
-    await tester.tap(find.byIcon(Icons.chevron_right_rounded));
+    await tester.tap(find.byIcon(Icons.chevron_left_rounded));
     await tester.pumpAndSettle();
 
     expect(repo.requestedMonths.last, '2026-10');

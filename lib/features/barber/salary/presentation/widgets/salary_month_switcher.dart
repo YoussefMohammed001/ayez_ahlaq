@@ -26,7 +26,7 @@ class SalaryMonthSwitcher extends StatelessWidget {
         IconButton(
           tooltip: S().salaryPreviousMonth,
           onPressed: onPrevious,
-          icon: const Icon(Icons.chevron_right_rounded),
+          icon: const Icon(Icons.chevron_left_rounded),
         ),
         SizedBox(
           width: 120.w,
@@ -39,7 +39,7 @@ class SalaryMonthSwitcher extends StatelessWidget {
         IconButton(
           tooltip: S().salaryNextMonth,
           onPressed: canShowNext ? onNext : null,
-          icon: const Icon(Icons.chevron_left_rounded),
+          icon: const Icon(Icons.chevron_right_rounded),
         ),
       ],
     );

@@ -13,7 +13,6 @@ import 'package:ayez_ahlaq/core/routes/route_paths.dart';
 import 'package:ayez_ahlaq/core/widgets/primary_cta_button.dart';
 import 'package:ayez_ahlaq/env/flavor.dart';
 import 'package:ayez_ahlaq/features/barber/auth/domain/entities/barber_account_kind.dart';
-import 'package:ayez_ahlaq/features/barber/salary/presentation/widgets/member_salary_section.dart';
 import 'package:ayez_ahlaq/firebase_options_dev.dart';
 import 'package:ayez_ahlaq/shared/user_type.dart';
 
@@ -66,7 +65,7 @@ void main() {
 
       routes.push(Routes.barberTeamMemberDetailScreen, extra: _memberId);
       await _wait(tester, 8);
-      await tester.ensureVisible(find.byType(MemberSalarySection));
+      await tester.drag(find.byType(ListView).first, const Offset(0, -700));
       await _wait(tester, 2);
       await binding.takeScreenshot('$_role-03_member_salary');
 
