@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/helpers/show_confirm_dialog.dart';
+import '../../../../../core/helpers/confirm_switch_cart.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/cart_icon_button.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
-import '../../../../../generated/l10n.dart';
 import '../../domain/entities/store_merchant.dart';
 import '../manager/barber_store_cart_cubit.dart';
 import '../manager/barber_store_cart_state.dart';
@@ -43,15 +42,7 @@ class _BarberStoreProductsScreenState extends State<BarberStoreProductsScreen> {
     final cart = cubit.state.cart;
 
     if (quantity > 0 && !cart.isEmpty && cart.sellerId != widget.merchant.id) {
-      final confirmed = await showConfirmDialog(
-        context,
-        title: S().switchShopCartTitle,
-        message: S().switchShopCartMessage,
-        confirmLabel: S().switchShopCartConfirm,
-        icon: Icons.remove_shopping_cart_outlined,
-      );
-
-      if (!confirmed) return;
+      if (!await confirmSwitchCart(context)) return;
       await cubit.clearCart();
     }
 

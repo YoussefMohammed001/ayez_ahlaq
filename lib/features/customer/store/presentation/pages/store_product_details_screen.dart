@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/helpers/confirm_switch_cart.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/cart_icon_button.dart';
@@ -28,6 +29,25 @@ class StoreProductDetailsScreen extends StatelessWidget {
       if (product.id == args.productId) return product;
     }
     return null;
+  }
+
+  Future<void> _setQuantity(
+    BuildContext context,
+    StoreProduct product,
+    int quantity,
+  ) async {
+    if (!await GuestGuard.ensureLoggedIn(context)) return;
+    if (!context.mounted) return;
+
+    final cubit = context.read<StoreCartCubit>();
+    final cart = cubit.state.cart;
+
+    if (quantity > 0 && !cart.isEmpty && cart.sellerId != args.shopId) {
+      if (!await confirmSwitchCart(context)) return;
+      await cubit.clearCart();
+    }
+
+    cubit.setQuantity(product.id, product.minOrderQty, quantity);
   }
 
   @override
@@ -117,14 +137,7 @@ class StoreProductDetailsScreen extends StatelessWidget {
                   quantity: quantity,
                   minQuantity: product.minOrderQty,
                   disabled: state.isUpdatingCart,
-                  onChanged: (q) => GuestGuard.run(
-                    context,
-                    () => context.read<StoreCartCubit>().setQuantity(
-                      product.id,
-                      product.minOrderQty,
-                      q,
-                    ),
-                  ),
+                  onChanged: (q) => _setQuantity(context, product, q),
                 ),
               ],
             ],

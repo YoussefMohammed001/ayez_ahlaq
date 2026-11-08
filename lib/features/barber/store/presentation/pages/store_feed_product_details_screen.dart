@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/helpers/show_confirm_dialog.dart';
+import '../../../../../core/helpers/confirm_switch_cart.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/discount_percent_badge.dart';
@@ -28,15 +28,7 @@ class StoreFeedProductDetailsScreen extends StatelessWidget {
     final cart = cubit.state.cart;
 
     if (quantity > 0 && !cart.isEmpty && cart.sellerId != product.merchantId) {
-      final confirmed = await showConfirmDialog(
-        context,
-        title: S().switchShopCartTitle,
-        message: S().switchShopCartMessage,
-        confirmLabel: S().switchShopCartConfirm,
-        icon: Icons.remove_shopping_cart_outlined,
-      );
-
-      if (!confirmed) return;
+      if (!await confirmSwitchCart(context)) return;
       await cubit.clearCart();
     }
 
