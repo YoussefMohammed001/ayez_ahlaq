@@ -237,8 +237,8 @@
   "attendanceEnforceLabel": "Limit check-in to the shop location",
   "attendanceEnforceHint": "A barber must be within the range of the shop to check in",
   "attendanceRangeLabel": "Allowed distance (meters)",
-  "attendanceRangeHelper": "Between 150 and 5000 meters",
-  "attendanceRangeInvalid": "Enter a distance between 150 and 5000 meters",
+  "attendanceRangeHelper": "Between 5 and 5000 meters",
+  "attendanceRangeInvalid": "Enter a distance between 5 and 5000 meters",
   "attendanceSettingsSaved": "Attendance settings saved",
   "attendanceLastChange": "Last changed by {name} • {date}",
   "@attendanceLastChange": {

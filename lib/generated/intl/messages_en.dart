@@ -447,10 +447,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendanceOnShift": MessageLookupByLibrary.simpleMessage("Checked in"),
     "attendanceOwnerBadge": MessageLookupByLibrary.simpleMessage("Owner"),
     "attendanceRangeHelper": MessageLookupByLibrary.simpleMessage(
-      "Between 150 and 5000 meters",
+      "Between 5 and 5000 meters",
     ),
     "attendanceRangeInvalid": MessageLookupByLibrary.simpleMessage(
-      "Enter a distance between 150 and 5000 meters",
+      "Enter a distance between 5 and 5000 meters",
     ),
     "attendanceRangeLabel": MessageLookupByLibrary.simpleMessage(
       "Allowed distance (meters)",

@@ -23,9 +23,9 @@ AttendanceSettings _settings({int? range, bool enforced = false}) =>
 
 void main() {
   group('range rules', () {
-    test('accept 150 to 5000 meters', () {
-      expect(AttendanceRangeRules.isValid(149), isFalse);
-      expect(AttendanceRangeRules.isValid(150), isTrue);
+    test('accept 5 to 5000 meters', () {
+      expect(AttendanceRangeRules.isValid(4), isFalse);
+      expect(AttendanceRangeRules.isValid(5), isTrue);
       expect(AttendanceRangeRules.isValid(5000), isTrue);
       expect(AttendanceRangeRules.isValid(5001), isFalse);
     });
@@ -41,15 +41,15 @@ void main() {
       expect(strict(''), S().attendanceRangeInvalid);
     });
 
-    test('rejects anything under 150 or over 5000, enforced or not', () {
-      for (final text in ['10', '149', '5001', '0', 'abc']) {
+    test('rejects anything under 5 or over 5000, enforced or not', () {
+      for (final text in ['4', '5001', '0', '-3', 'abc']) {
         expect(relaxed(text), S().attendanceRangeInvalid, reason: text);
         expect(strict(text), S().attendanceRangeInvalid, reason: text);
       }
     });
 
     test('accepts the limits and the usual values', () {
-      for (final text in ['150', '200', '5000', ' 300 ']) {
+      for (final text in ['5', '10', '150', '5000', ' 300 ']) {
         expect(relaxed(text), isNull, reason: text);
         expect(strict(text), isNull, reason: text);
       }
@@ -87,10 +87,10 @@ void main() {
       return saved;
     }
 
-    testWidgets('a range below 150 shows the message and is not saved', (
+    testWidgets('a range below 5 shows the message and is not saved', (
       tester,
     ) async {
-      final saved = await pump(tester, _settings(range: 10));
+      final saved = await pump(tester, _settings(range: 4));
 
       await tester.tap(find.text(S().save));
       await tester.pumpAndSettle();
@@ -104,20 +104,20 @@ void main() {
     ) async {
       await pump(tester, _settings());
 
-      await tester.enterText(find.byType(TextFormField), '90');
+      await tester.enterText(find.byType(TextFormField), '3');
       await tester.pumpAndSettle();
 
       expect(find.text(S().attendanceRangeInvalid), findsOneWidget);
     });
 
-    testWidgets('150 is saved', (tester) async {
-      final saved = await pump(tester, _settings(range: 150));
+    testWidgets('5 is saved', (tester) async {
+      final saved = await pump(tester, _settings(range: 5));
 
       await tester.tap(find.text(S().save));
       await tester.pumpAndSettle();
 
       expect(find.text(S().attendanceRangeInvalid), findsNothing);
-      expect(saved, [(false, 150)]);
+      expect(saved, [(false, 5)]);
     });
 
     testWidgets('no range at all is saved when not enforced', (tester) async {
