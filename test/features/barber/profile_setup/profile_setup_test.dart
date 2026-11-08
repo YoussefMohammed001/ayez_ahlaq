@@ -74,11 +74,11 @@ class _MemberServicesRepo extends Fake implements IBarberTeamServicesRepo {
 
 class _Store implements IProfileSetupStore {
   final done = <int, Set<ProfileSetupStep>>{};
-  final dismissed = <int>{};
+  final hidden = <int, DateTime>{};
 
-  _Store({Set<ProfileSetupStep> done = const {}, bool dismissed = false}) {
+  _Store({Set<ProfileSetupStep> done = const {}, DateTime? hiddenAt}) {
     if (done.isNotEmpty) this.done[_owner] = {...done};
-    if (dismissed) this.dismissed.add(_owner);
+    if (hiddenAt != null) hidden[_owner] = hiddenAt;
   }
 
   @override
@@ -89,11 +89,13 @@ class _Store implements IProfileSetupStore {
       done[ownerId] = {...?done[ownerId], ...steps};
 
   @override
-  bool isDismissed(int ownerId) => dismissed.contains(ownerId);
+  DateTime? hiddenAt(int ownerId) => hidden[ownerId];
 
   @override
-  Future<void> dismiss(int ownerId) async => dismissed.add(ownerId);
+  Future<void> hide(int ownerId, DateTime at) async => hidden[ownerId] = at;
 }
+
+final _today = DateTime(2026, 11, 8, 12);
 
 const _owner = 7;
 
@@ -146,10 +148,13 @@ void main() {
         GetMemberServicesUseCase(memberServices),
       );
 
+  late DateTime now;
+
   ProfileSetupCubit cubit([_Store? store]) => ProfileSetupCubit(
     snapshotCase(),
     store ?? _Store(),
     AppAnalytics(analytics),
+    () => now,
   );
 
   void shopIsSetUp() {
@@ -158,6 +163,7 @@ void main() {
   }
 
   setUp(() {
+    now = _today;
     hours = _HoursRepo();
     services = _ServicesRepo();
     team = _TeamRepo();
@@ -500,7 +506,7 @@ void main() {
   });
 
   group('hiding', () {
-    test('hiding removes the card and is remembered', () async {
+    test('hiding removes the card and remembers when', () async {
       final store = _Store();
       final c = cubit(store);
       await c.start(_owner);
@@ -510,16 +516,51 @@ void main() {
       await c.dismiss();
 
       expect(c.state.shouldShowChecklist, isFalse);
-      expect(store.dismissed, contains(_owner));
+      expect(store.hidden[_owner], _today);
     });
 
-    test('a hidden card stays hidden for the next session', () async {
-      final c = cubit(_Store(dismissed: true));
+    test('stays hidden for the next session within two days', () async {
+      final store = _Store(
+        hiddenAt: _today.subtract(const Duration(hours: 47)),
+      );
+      final c = cubit(store);
 
       await c.start(_owner);
       await c.syncLocal(hasPhoto: false);
 
       expect(c.state.shouldShowChecklist, isFalse);
+    });
+
+    test('comes back after two days if something is still missing', () async {
+      final store = _Store(hiddenAt: _today.subtract(const Duration(days: 2)));
+      final c = cubit(store);
+
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
+
+      expect(c.state.shouldShowChecklist, isTrue);
+    });
+
+    test('hiding again starts a new two days', () async {
+      final store = _Store(hiddenAt: _today.subtract(const Duration(days: 5)));
+      final c = cubit(store);
+      await c.start(_owner);
+      await c.syncLocal(hasPhoto: false);
+
+      await c.dismiss();
+
+      expect(store.hidden[_owner], _today);
+      expect(c.state.shouldShowChecklist, isFalse);
+    });
+
+    test('hiding is per account', () async {
+      final store = _Store(hiddenAt: _today);
+      final other = cubit(store);
+
+      await other.start(99);
+      await other.syncLocal(hasPhoto: false);
+
+      expect(other.state.shouldShowChecklist, isTrue);
     });
 
     test('hiding does nothing before the account is known', () async {

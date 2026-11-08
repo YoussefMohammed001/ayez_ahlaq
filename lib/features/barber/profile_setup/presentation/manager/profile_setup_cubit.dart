@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/analytics/app_analytics.dart';
+import '../../domain/entities/profile_setup_policy.dart';
 import '../../domain/repos/i_profile_setup_store.dart';
 import '../../domain/use_cases/get_profile_setup_snapshot_use_case.dart';
 import 'profile_setup_state.dart';
@@ -8,9 +9,15 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
   final GetProfileSetupSnapshotUseCase _getSnapshot;
   final IProfileSetupStore _store;
   final AppAnalytics _analytics;
+  final DateTime Function() _now;
 
-  ProfileSetupCubit(this._getSnapshot, this._store, this._analytics)
-    : super(const ProfileSetupState());
+  ProfileSetupCubit(
+    this._getSnapshot,
+    this._store,
+    this._analytics, [
+    DateTime Function()? now,
+  ]) : _now = now ?? DateTime.now,
+       super(const ProfileSetupState());
 
   @override
   void emit(ProfileSetupState state) {
@@ -32,7 +39,10 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
       ProfileSetupState(
         ownerId: ownerId,
         hasPhoto: state.hasPhoto,
-        dismissed: _store.isDismissed(ownerId),
+        dismissed: ProfileSetupPolicy.isStillHidden(
+          _store.hiddenAt(ownerId),
+          _now(),
+        ),
       ),
     );
     await load();
@@ -79,7 +89,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     final ownerId = state.ownerId;
     if (ownerId == null) return;
 
-    await _store.dismiss(ownerId);
+    await _store.hide(ownerId, _now());
     emit(state.copyWith(dismissed: true));
   }
 

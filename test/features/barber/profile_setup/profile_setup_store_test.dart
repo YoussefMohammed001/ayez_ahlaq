@@ -44,19 +44,32 @@ void main() {
     });
   });
 
-  test('hiding is remembered per account', () async {
-    await store.dismiss(2);
+  test('remembers when each account hid the card', () async {
+    final moment = DateTime(2026, 11, 8, 12, 30);
+    await store.hide(2, moment);
 
-    expect(store.isDismissed(2), isTrue);
-    expect(store.isDismissed(1), isFalse);
-    expect(store.isDismissed(22), isFalse);
+    expect(store.hiddenAt(2), moment);
+    expect(store.hiddenAt(1), isNull);
+    expect(store.hiddenAt(22), isNull);
+  });
+
+  test('hiding again replaces the old time for that account only', () async {
+    final first = DateTime(2026, 11, 1);
+    final second = DateTime(2026, 11, 8);
+    await store.hide(2, first);
+    await store.hide(3, first);
+
+    await store.hide(2, second);
+
+    expect(store.hiddenAt(2), second);
+    expect(store.hiddenAt(3), first);
   });
 
   test(
     'everything survives a logout, the rest of the preferences do not',
     () async {
       await store.saveDoneSteps(1, {ProfileSetupStep.hours});
-      await store.dismiss(1);
+      await store.hide(1, DateTime(2026, 11, 8));
       await preferences.putString(
         key: PreferencesKeys.currentLanguage,
         value: 'en',
@@ -66,7 +79,7 @@ void main() {
       await preferences.clearExcept(PreferencesStorage.keptOnLogout);
 
       expect(store.doneSteps(1), {ProfileSetupStep.hours});
-      expect(store.isDismissed(1), isTrue);
+      expect(store.hiddenAt(1), DateTime(2026, 11, 8));
       expect(preferences.getCurrentLanguage(), 'en');
       expect(preferences.getBoolean(key: PreferencesKeys.firstOpen), isFalse);
     },

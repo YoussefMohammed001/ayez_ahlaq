@@ -5,7 +5,7 @@ abstract class IProfileSetupStore {
 
   Future<void> saveDoneSteps(int ownerId, Set<ProfileSetupStep> steps);
 
-  bool isDismissed(int ownerId);
+  DateTime? hiddenAt(int ownerId);
 
-  Future<void> dismiss(int ownerId);
+  Future<void> hide(int ownerId, DateTime at);
 }

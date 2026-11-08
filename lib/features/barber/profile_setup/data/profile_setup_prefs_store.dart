@@ -37,21 +37,28 @@ class ProfileSetupPrefsStore implements IProfileSetupStore {
   }
 
   @override
-  bool isDismissed(int ownerId) => _preferences
-      .getStringList(key: PreferencesKeys.profileSetupDismissedOwners)
-      .contains('$ownerId');
+  DateTime? hiddenAt(int ownerId) {
+    final prefix = '$ownerId$_separator';
+    final entry = _preferences
+        .getStringList(key: PreferencesKeys.profileSetupDismissedOwners)
+        .where((value) => value.startsWith(prefix))
+        .firstOrNull;
+
+    return entry == null
+        ? null
+        : DateTime.tryParse(entry.substring(prefix.length));
+  }
 
   @override
-  Future<void> dismiss(int ownerId) async {
-    final owners = {
-      ..._preferences.getStringList(
-        key: PreferencesKeys.profileSetupDismissedOwners,
-      ),
-      '$ownerId',
-    };
+  Future<void> hide(int ownerId, DateTime at) async {
+    final prefix = '$ownerId$_separator';
+    final others = _preferences
+        .getStringList(key: PreferencesKeys.profileSetupDismissedOwners)
+        .where((value) => !value.startsWith(prefix));
+
     await _preferences.putStringList(
       key: PreferencesKeys.profileSetupDismissedOwners,
-      value: owners.toList(),
+      value: [...others, '$prefix${at.toIso8601String()}'],
     );
   }
 }
