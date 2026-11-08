@@ -30,7 +30,7 @@ class NearestShopsSection extends StatelessWidget {
               onAction: () => context.push(Routes.customerBrowseShopsScreen),
             ),
             const ShopsAreaSelector(),
-            if (!state.isBrowsingElsewhere)
+            if (state.usesDeviceLocation)
               NearbyLocationBanner(
                 locationResolved:
                     state.sortedByDistance ||

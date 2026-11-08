@@ -10,6 +10,7 @@ import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/location/presentation/widgets/nearby_location_banner.dart';
+import '../../domain/entities/shops_search.dart';
 import '../manager/customer_shops_cubit.dart';
 import '../manager/customer_shops_state.dart';
 import '../widgets/shop_row.dart';
@@ -23,10 +24,19 @@ class BrowseShopsScreen extends StatefulWidget {
 }
 
 class _BrowseShopsScreenState extends State<BrowseShopsScreen> {
+  final _searchController = TextEditingController();
+  String _query = '';
+
   @override
   void initState() {
     super.initState();
     context.read<CustomerShopsCubit>().loadShops();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -35,13 +45,16 @@ class _BrowseShopsScreenState extends State<BrowseShopsScreen> {
       appBar: AppTopBar(title: S().shopsTitle),
       body: Column(
         children: [
-          const ShopsAreaSelector(),
+          ShopsAreaSelector(
+            searchController: _searchController,
+            onSearchChanged: (value) => setState(() => _query = value),
+          ),
           BlocBuilder<CustomerShopsCubit, CustomerShopsState>(
             buildWhen: (previous, current) =>
                 previous.sortedByDistance != current.sortedByDistance ||
                 previous.status != current.status ||
                 previous.area != current.area,
-            builder: (context, state) => state.isBrowsingElsewhere
+            builder: (context, state) => !state.usesDeviceLocation
                 ? const SizedBox.shrink()
                 : NearbyLocationBanner(
                     locationResolved:
@@ -87,13 +100,25 @@ class _BrowseShopsScreenState extends State<BrowseShopsScreen> {
           );
         }
 
+        final shops = ShopsSearch.filter(state.shops, _query);
+
+        if (shops.isEmpty) {
+          return RefreshableStateView(
+            onRefresh: cubit.loadShops,
+            child: AppEmptyState(
+              icon: Icons.search_off_rounded,
+              title: S().noShopsMatch,
+            ),
+          );
+        }
+
         return RefreshIndicator(
           onRefresh: cubit.loadShops,
           child: ListView.builder(
             padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-            itemCount: state.shops.length,
+            itemCount: shops.length,
             itemBuilder: (_, index) {
-              final shop = state.shops[index];
+              final shop = shops[index];
               return ShopRow(
                 shop: shop,
                 onTap: () => context.push(

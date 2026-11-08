@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../shared/location/presentation/widgets/map_location_picker_sheet.dart';
 import '../manager/customer_shops_cubit.dart';
 import '../manager/customer_shops_state.dart';
-import 'shops_area_bar.dart';
+import 'shops_filter_header.dart';
 
 class ShopsAreaSelector extends StatelessWidget {
-  const ShopsAreaSelector({super.key});
+  final TextEditingController? searchController;
+  final ValueChanged<String>? onSearchChanged;
 
-  Future<void> _choose(BuildContext context) async {
+  const ShopsAreaSelector({
+    super.key,
+    this.searchController,
+    this.onSearchChanged,
+  });
+
+  Future<void> _pickPlace(BuildContext context) async {
     final cubit = context.read<CustomerShopsCubit>();
     final picked = await MapLocationPickerSheet.show(
       context,
@@ -20,15 +26,18 @@ class ShopsAreaSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CustomerShopsCubit>();
+
     return BlocBuilder<CustomerShopsCubit, CustomerShopsState>(
-      buildWhen: (a, b) => a.area != b.area,
-      builder: (context, state) => Padding(
-        padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
-        child: ShopsAreaBar(
-          label: state.area?.label,
-          onChange: () => _choose(context),
-          onUseMyLocation: context.read<CustomerShopsCubit>().useMyLocation,
-        ),
+      buildWhen: (a, b) => a.mode != b.mode || a.area != b.area,
+      builder: (context, state) => ShopsFilterHeader(
+        mode: state.mode,
+        areaLabel: state.area?.label,
+        onMyLocation: cubit.useMyLocation,
+        onPickPlace: () => _pickPlace(context),
+        onAllAreas: cubit.browseAll,
+        searchController: searchController,
+        onSearchChanged: onSearchChanged,
       ),
     );
   }

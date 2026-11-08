@@ -2959,46 +2959,76 @@ class S {
     );
   }
 
-  /// `Shops near`
-  String get shopsAreaTitle {
-    return Intl.message(
-      'Shops near',
-      name: 'shopsAreaTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `My current location`
+  /// `My location`
   String get shopsAreaMyLocation {
     return Intl.message(
-      'My current location',
+      'My location',
       name: 'shopsAreaMyLocation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choose a place`
-  String get shopsAreaChoose {
+  /// `Another place`
+  String get shopsAreaOther {
     return Intl.message(
-      'Choose a place',
-      name: 'shopsAreaChoose',
+      'Another place',
+      name: 'shopsAreaOther',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change`
-  String get shopsAreaChange {
-    return Intl.message('Change', name: 'shopsAreaChange', desc: '', args: []);
+  /// `All areas`
+  String get shopsAllAreas {
+    return Intl.message('All areas', name: 'shopsAllAreas', desc: '', args: []);
   }
 
-  /// `Back to my location`
-  String get shopsAreaBack {
+  /// `Closest to your current location`
+  String get shopsHintDevice {
     return Intl.message(
-      'Back to my location',
-      name: 'shopsAreaBack',
+      'Closest to your current location',
+      name: 'shopsHintDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closest to: {place}`
+  String shopsHintCustom(String place) {
+    return Intl.message(
+      'Closest to: $place',
+      name: 'shopsHintCustom',
+      desc: '',
+      args: [place],
+    );
+  }
+
+  /// `All shops, highest rated first`
+  String get shopsHintAll {
+    return Intl.message(
+      'All shops, highest rated first',
+      name: 'shopsHintAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search by shop name or area`
+  String get shopsSearchHint {
+    return Intl.message(
+      'Search by shop name or area',
+      name: 'shopsSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No shops match your search`
+  String get noShopsMatch {
+    return Intl.message(
+      'No shops match your search',
+      name: 'noShopsMatch',
       desc: '',
       args: [],
     );
