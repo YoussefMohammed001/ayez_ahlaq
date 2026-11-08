@@ -11,6 +11,22 @@ class BarberOperationsApiActions {
       'barber_attendance_settings_saved',
     ),
     ApiActionRule.put(
+      r'^barber/team/\d+/salary$',
+      'barber_member_salary_saved',
+    ),
+    ApiActionRule.delete(
+      r'^barber/team/\d+/salary$',
+      'barber_member_salary_cleared',
+    ),
+    ApiActionRule.put(
+      r'^barber/salaryDeduction/\d+$',
+      'barber_deduction_decided',
+    ),
+    ApiActionRule.put(
+      r'^barber/salaryDeduction/setting$',
+      'barber_deduction_grace_saved',
+    ),
+    ApiActionRule.put(
       r'^barber/attendance/\d+$',
       'barber_attendance_corrected',
     ),

@@ -1,8 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/entities/deduction_kind.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/entities/deduction_status.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/member_salary.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_deduction.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_deductions_page.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_type.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/repos/i_member_salary_repo.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/repos/i_salary_deductions_repo.dart';
 
 MemberSalary salaryOf({
   SalaryType? type,
@@ -85,5 +90,96 @@ class FakeSalaryRepo implements IMemberSalaryRepo {
     type = null;
     amount = null;
     return Right(_current);
+  }
+}
+
+SalaryDeduction deductionOf(
+  int id, {
+  DeductionStatus status = DeductionStatus.pending,
+  DeductionKind kind = DeductionKind.late,
+  int minutes = 30,
+  double amount = 40,
+  String? note,
+}) => SalaryDeduction(
+  id: id,
+  barberId: 10,
+  barberName: 'كريم',
+  workDate: DateTime(2026, 11, 8),
+  kind: kind,
+  minutes: minutes,
+  amount: amount,
+  status: status,
+  decisionNote: note,
+);
+
+class FakeDeductionsRepo implements ISalaryDeductionsRepo {
+  final List<SalaryDeduction> all;
+  Failure? failure;
+  Failure? decideFailure;
+  int pending = 0;
+  int grace = 0;
+  int pageSize = 20;
+  final requests = <({int page, DeductionStatus? status})>[];
+  ({int id, bool waive, String? note})? lastDecision;
+
+  FakeDeductionsRepo(this.all);
+
+  @override
+  Future<Either<Failure, int>> pendingCount() async => Right(pending);
+
+  @override
+  Future<Either<Failure, int>> getGraceMinutes() async => Right(grace);
+
+  @override
+  Future<Either<Failure, int>> setGraceMinutes(int minutes) async {
+    if (failure != null) return Left(failure!);
+    grace = minutes;
+    return Right(grace);
+  }
+
+  @override
+  Future<Either<Failure, SalaryDeductionsPage>> list({
+    required int page,
+    DeductionStatus? status,
+    int? barberId,
+    String? month,
+  }) async {
+    requests.add((page: page, status: status));
+    if (failure != null) return Left(failure!);
+
+    final matching = [
+      for (final item in all)
+        if (status == null || item.status == status) item,
+    ];
+    final pages = (matching.length / pageSize).ceil();
+    final start = page * pageSize;
+
+    return Right(
+      SalaryDeductionsPage(
+        items: matching.skip(start).take(pageSize).toList(),
+        page: page,
+        totalPages: pages,
+      ),
+    );
+  }
+
+  @override
+  Future<Either<Failure, SalaryDeduction>> decide(
+    int id, {
+    required bool waive,
+    String? note,
+  }) async {
+    if (decideFailure != null) return Left(decideFailure!);
+    lastDecision = (id: id, waive: waive, note: note);
+
+    final index = all.indexWhere((item) => item.id == id);
+    final updated = deductionOf(
+      id,
+      status: waive ? DeductionStatus.waived : DeductionStatus.deducted,
+      note: note,
+    );
+    all[index] = updated;
+    pending = all.where((i) => i.status == DeductionStatus.pending).length;
+    return Right(updated);
   }
 }

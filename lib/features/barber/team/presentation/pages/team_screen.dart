@@ -12,6 +12,7 @@ import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
+import '../../../salary/presentation/widgets/deductions_entry_card.dart';
 import '../manager/barber_team_cubit.dart';
 import '../manager/barber_team_state.dart';
 import '../widgets/add_team_member_sheet.dart';
@@ -45,7 +46,8 @@ class TeamScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOwner = context.watch<BarberProfileCubit>().state.profile?.owner ?? false;
+    final isOwner =
+        context.watch<BarberProfileCubit>().state.profile?.owner ?? false;
 
     return BusyErrorListener<BarberTeamCubit, BarberTeamState>(
       isBusy: (state) => state.isSubmitting,
@@ -62,60 +64,71 @@ class TeamScreen extends StatelessWidget {
                 )
               : null,
         ),
-        body: BlocBuilder<BarberTeamCubit, BarberTeamState>(
-          builder: (context, state) {
-            final cubit = context.read<BarberTeamCubit>();
+        body: Column(
+          children: [
+            if (isOwner) const DeductionsEntryCard(),
+            Expanded(
+              child: BlocBuilder<BarberTeamCubit, BarberTeamState>(
+                builder: (context, state) {
+                  final cubit = context.read<BarberTeamCubit>();
 
-            if (state.status == BarberTeamStatus.loading && state.members.isEmpty) {
-              return const ListSkeleton();
-            }
+                  if (state.status == BarberTeamStatus.loading &&
+                      state.members.isEmpty) {
+                    return const ListSkeleton();
+                  }
 
-            if (state.status == BarberTeamStatus.failure && state.members.isEmpty) {
-              return AppErrorState(
-                message: state.errorMessage,
-                onRetry: cubit.loadTeam,
-              );
-            }
+                  if (state.status == BarberTeamStatus.failure &&
+                      state.members.isEmpty) {
+                    return AppErrorState(
+                      message: state.errorMessage,
+                      onRetry: cubit.loadTeam,
+                    );
+                  }
 
-            final members = state.members.where((m) => !m.owner).toList();
+                  final members = state.members.where((m) => !m.owner).toList();
 
-            if (members.isEmpty) {
-              return RefreshableStateView(
-                onRefresh: cubit.loadTeam,
-                child: AppEmptyState(
-                  icon: Icons.groups_2_outlined,
-                  title: S().noTeamMembersTitle,
-                  message: isOwner
-                      ? S().noTeamMembersOwnerHint
-                      : S().noTeamMembersYet,
-                  actionLabel: isOwner ? S().addMemberTitle : null,
-                  onAction: isOwner ? () => _openAddMember(context) : null,
-                ),
-              );
-            }
+                  if (members.isEmpty) {
+                    return RefreshableStateView(
+                      onRefresh: cubit.loadTeam,
+                      child: AppEmptyState(
+                        icon: Icons.groups_2_outlined,
+                        title: S().noTeamMembersTitle,
+                        message: isOwner
+                            ? S().noTeamMembersOwnerHint
+                            : S().noTeamMembersYet,
+                        actionLabel: isOwner ? S().addMemberTitle : null,
+                        onAction: isOwner
+                            ? () => _openAddMember(context)
+                            : null,
+                      ),
+                    );
+                  }
 
-            return RefreshableStateView(
-              onRefresh: cubit.loadTeam,
-              child: ListView.builder(
-                padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: members.length,
-                itemBuilder: (_, index) {
-                  final member = members[index];
-                  return TeamMemberRow(
-                    member: member,
-                    onTap: isOwner
-                        ? () => context.push(
-                            Routes.barberTeamMemberDetailScreen,
-                            extra: member.id,
-                          )
-                        : null,
+                  return RefreshableStateView(
+                    onRefresh: cubit.loadTeam,
+                    child: ListView.builder(
+                      padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: members.length,
+                      itemBuilder: (_, index) {
+                        final member = members[index];
+                        return TeamMemberRow(
+                          member: member,
+                          onTap: isOwner
+                              ? () => context.push(
+                                  Routes.barberTeamMemberDetailScreen,
+                                  extra: member.id,
+                                )
+                              : null,
+                        );
+                      },
+                    ),
                   );
                 },
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

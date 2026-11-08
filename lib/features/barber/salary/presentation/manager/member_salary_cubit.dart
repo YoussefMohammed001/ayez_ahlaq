@@ -6,7 +6,6 @@ import '../../domain/use_cases/clear_member_salary_use_case.dart';
 import '../../domain/use_cases/get_member_salary_use_case.dart';
 import '../../domain/use_cases/set_member_salary_use_case.dart';
 import 'salary_view_cubit.dart';
-import 'salary_view_state.dart';
 
 class MemberSalaryCubit extends SalaryViewCubit {
   final GetMemberSalaryUseCase _getSalary;

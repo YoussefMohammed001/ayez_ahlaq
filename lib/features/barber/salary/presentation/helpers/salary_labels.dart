@@ -1,4 +1,6 @@
 import '../../../../../generated/l10n.dart';
+import '../../domain/entities/deduction_kind.dart';
+import '../../domain/entities/deduction_status.dart';
 import '../../domain/entities/salary_type.dart';
 
 class SalaryLabels {
@@ -29,4 +31,28 @@ class SalaryLabels {
     SalaryType.daily => S().salaryDailyHint,
     SalaryType.monthly => S().salaryMonthlyHint,
   };
+
+  static String kind(DeductionKind kind) => switch (kind) {
+    DeductionKind.late => S().deductionKindLate,
+    DeductionKind.earlyLeave => S().deductionKindEarlyLeave,
+    DeductionKind.absent => S().deductionKindAbsent,
+    DeductionKind.other => S().deductionKindOther,
+  };
+
+  static String status(DeductionStatus status) => switch (status) {
+    DeductionStatus.pending => S().deductionStatusPending,
+    DeductionStatus.deducted => S().deductionStatusDeducted,
+    DeductionStatus.waived => S().deductionStatusWaived,
+  };
+
+  static String filter(DeductionStatus status) => switch (status) {
+    DeductionStatus.pending => S().deductionFilterPending,
+    DeductionStatus.deducted => S().deductionFilterDeducted,
+    DeductionStatus.waived => S().deductionFilterWaived,
+  };
+
+  static String date(DateTime date) =>
+      '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
 }

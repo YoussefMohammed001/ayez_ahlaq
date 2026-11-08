@@ -42,6 +42,13 @@ class BarberNotificationTapRouter {
               : Routes.barberAttendanceScreen,
         );
         return;
+      case 'salary':
+        context.push(
+          isOwner()
+              ? Routes.barberSalaryDeductionsScreen
+              : Routes.barberMySalaryScreen,
+        );
+        return;
       case 'booking':
         context.go(Routes.barberShell, extra: _bookingsTab);
         return;

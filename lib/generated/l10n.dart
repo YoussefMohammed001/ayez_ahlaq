@@ -12373,6 +12373,296 @@ class S {
       args: [],
     );
   }
+
+  /// `Salary deductions`
+  String get deductionsTitle {
+    return Intl.message(
+      'Salary deductions',
+      name: 'deductionsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No deductions`
+  String get deductionsEmpty {
+    return Intl.message(
+      'No deductions',
+      name: 'deductionsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Late arrivals, absences and early leaves will show here.`
+  String get deductionsEmptyHint {
+    return Intl.message(
+      'Late arrivals, absences and early leaves will show here.',
+      name: 'deductionsEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A deduction you do not decide on is taken from the salary automatically.`
+  String get deductionsAutoNote {
+    return Intl.message(
+      'A deduction you do not decide on is taken from the salary automatically.',
+      name: 'deductionsAutoNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To decide`
+  String get deductionFilterPending {
+    return Intl.message(
+      'To decide',
+      name: 'deductionFilterPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deducted`
+  String get deductionFilterDeducted {
+    return Intl.message(
+      'Deducted',
+      name: 'deductionFilterDeducted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waived`
+  String get deductionFilterWaived {
+    return Intl.message(
+      'Waived',
+      name: 'deductionFilterWaived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Late`
+  String get deductionKindLate {
+    return Intl.message('Late', name: 'deductionKindLate', desc: '', args: []);
+  }
+
+  /// `Early leave`
+  String get deductionKindEarlyLeave {
+    return Intl.message(
+      'Early leave',
+      name: 'deductionKindEarlyLeave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Absent`
+  String get deductionKindAbsent {
+    return Intl.message(
+      'Absent',
+      name: 'deductionKindAbsent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deduction`
+  String get deductionKindOther {
+    return Intl.message(
+      'Deduction',
+      name: 'deductionKindOther',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awaiting decision`
+  String get deductionStatusPending {
+    return Intl.message(
+      'Awaiting decision',
+      name: 'deductionStatusPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deducted`
+  String get deductionStatusDeducted {
+    return Intl.message(
+      'Deducted',
+      name: 'deductionStatusDeducted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waived`
+  String get deductionStatusWaived {
+    return Intl.message(
+      'Waived',
+      name: 'deductionStatusWaived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waive`
+  String get deductionWaiveAction {
+    return Intl.message(
+      'Waive',
+      name: 'deductionWaiveAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm deduction`
+  String get deductionConfirmAction {
+    return Intl.message(
+      'Confirm deduction',
+      name: 'deductionConfirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waive the deduction`
+  String get deductionWaiveTitle {
+    return Intl.message(
+      'Waive the deduction',
+      name: 'deductionWaiveTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm the deduction`
+  String get deductionConfirmTitle {
+    return Intl.message(
+      'Confirm the deduction',
+      name: 'deductionConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (optional)`
+  String get deductionNoteLabel {
+    return Intl.message(
+      'Note (optional)',
+      name: 'deductionNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: {note}`
+  String deductionNoteValue(String note) {
+    return Intl.message(
+      'Note: $note',
+      name: 'deductionNoteValue',
+      desc: '',
+      args: [note],
+    );
+  }
+
+  /// `Deduction waived`
+  String get deductionWaived {
+    return Intl.message(
+      'Deduction waived',
+      name: 'deductionWaived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deduction confirmed`
+  String get deductionConfirmed {
+    return Intl.message(
+      'Deduction confirmed',
+      name: 'deductionConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salary deductions`
+  String get deductionsEntryTitle {
+    return Intl.message(
+      'Salary deductions',
+      name: 'deductionsEntryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} need your decision`
+  String deductionsEntryPending(String count) {
+    return Intl.message(
+      '$count need your decision',
+      name: 'deductionsEntryPending',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Nothing waiting for your decision`
+  String get deductionsEntryNone {
+    return Intl.message(
+      'Nothing waiting for your decision',
+      name: 'deductionsEntryNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grace period`
+  String get graceTitle {
+    return Intl.message('Grace period', name: 'graceTitle', desc: '', args: []);
+  }
+
+  /// `Lateness or early leave up to this long is not deducted.`
+  String get graceDescription {
+    return Intl.message(
+      'Lateness or early leave up to this long is not deducted.',
+      name: 'graceDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minutes (0 to 120)`
+  String get graceLabel {
+    return Intl.message(
+      'Minutes (0 to 120)',
+      name: 'graceLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a number from 0 to 120`
+  String get graceInvalid {
+    return Intl.message(
+      'Enter a number from 0 to 120',
+      name: 'graceInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grace period saved`
+  String get graceSaved {
+    return Intl.message(
+      'Grace period saved',
+      name: 'graceSaved',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
