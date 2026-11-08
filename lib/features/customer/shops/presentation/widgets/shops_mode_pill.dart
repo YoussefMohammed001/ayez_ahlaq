@@ -37,12 +37,11 @@ class ShopsModePill extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 18.r, color: foreground),
               SizedBox(width: 6.w),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 120.w),
+              Flexible(
                 child: Text(
                   label,
                   maxLines: 1,

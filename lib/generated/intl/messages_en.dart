@@ -811,6 +811,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Are you sure you want to confirm this booking?",
     ),
     "confirmLocation": MessageLookupByLibrary.simpleMessage("Confirm location"),
+    "confirmLocationNoAddress": MessageLookupByLibrary.simpleMessage(
+      "We couldn\'t find the place name. Confirm the location chosen on the map?",
+    ),
     "confirmMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
       "Confirm new PIN",
     ),
@@ -2470,7 +2473,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopRatingLabel": MessageLookupByLibrary.simpleMessage("Shop rating"),
     "shopSection": MessageLookupByLibrary.simpleMessage("Shop"),
     "shops": MessageLookupByLibrary.simpleMessage("Salons"),
-    "shopsAllAreas": MessageLookupByLibrary.simpleMessage("All areas"),
     "shopsAllHint": MessageLookupByLibrary.simpleMessage(
       "Selecting none = the offer applies to all salons",
     ),
@@ -2479,9 +2481,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "shopsAreaMyLocation": MessageLookupByLibrary.simpleMessage("My location"),
     "shopsAreaOther": MessageLookupByLibrary.simpleMessage("Another place"),
-    "shopsHintAll": MessageLookupByLibrary.simpleMessage(
-      "All shops, highest rated first",
-    ),
     "shopsHintCustom": m60,
     "shopsHintDevice": MessageLookupByLibrary.simpleMessage(
       "Closest to your current location",

@@ -1,1 +1,1 @@
-enum ShopsBrowseMode { device, custom, all }
+enum ShopsBrowseMode { device, custom }

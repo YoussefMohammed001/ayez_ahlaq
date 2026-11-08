@@ -16,7 +16,7 @@ class CustomerShopsCubit extends Cubit<CustomerShopsState> {
     : super(const CustomerShopsState());
 
   Future<void> chooseArea(PickedLocation picked) async {
-    emit(state.copyWith(area: ShopsArea.fromPicked(picked), browseAll: false));
+    emit(state.copyWith(area: ShopsArea.fromPicked(picked), shops: const []));
     _analytics.shopsAreaChanged('custom');
     await loadShops();
   }
@@ -24,16 +24,8 @@ class CustomerShopsCubit extends Cubit<CustomerShopsState> {
   Future<void> useMyLocation() async {
     if (state.usesDeviceLocation) return;
 
-    emit(state.copyWith(clearArea: true, browseAll: false));
+    emit(state.copyWith(clearArea: true, shops: const []));
     _analytics.shopsAreaChanged('device');
-    await loadShops();
-  }
-
-  Future<void> browseAll() async {
-    if (state.browseAll) return;
-
-    emit(state.copyWith(clearArea: true, browseAll: true));
-    _analytics.shopsAreaChanged('all');
     await loadShops();
   }
 
@@ -67,7 +59,6 @@ class CustomerShopsCubit extends Cubit<CustomerShopsState> {
   }
 
   Future<GeoPoint?> _positionToAsk() async {
-    if (state.browseAll) return null;
     return state.area?.point ?? (await _getCurrentLocation()).point;
   }
 }

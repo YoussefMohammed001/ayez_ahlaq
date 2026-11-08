@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/services_locator.dart';
 import '../../../../core/extensions/ext_theme.dart';
 import '../../../../core/helpers/alerts.dart';
+import '../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../core/widgets/app_search_field.dart';
 import '../../../../core/widgets/primary_cta_button.dart';
 import '../../../../generated/l10n.dart';
@@ -70,6 +71,21 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
     if (location != null) _mapController.animateTo(location);
   }
 
+  Future<void> _confirm() async {
+    final place = _cubit.picked;
+    final label = place.address.isNotEmpty ? place.address : place.name;
+
+    final confirmed = await showConfirmDialog(
+      context,
+      title: S().confirmLocation,
+      message: label.isEmpty ? S().confirmLocationNoAddress : label,
+      icon: Icons.place_rounded,
+      isDestructive: false,
+    );
+
+    if (confirmed && mounted) context.pop(_cubit.confirm());
+  }
+
   Future<void> _submitSearch(String query) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final point = await _cubit.searchAndSelect(query);
@@ -108,18 +124,17 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-                child: BlocBuilder<MapLocationPickerCubit, MapLocationPickerState>(
-                  builder: (_, state) => PrimaryCtaButton(
-                    label: S().confirmLocation,
-                    isLoading:
-                        state.isResolvingPlace ||
-                        state.isSearching ||
-                        state.isLocating,
-                    onPressed: _cubit.canConfirm
-                        ? () => context.pop(_cubit.confirm())
-                        : null,
-                  ),
-                ),
+                child:
+                    BlocBuilder<MapLocationPickerCubit, MapLocationPickerState>(
+                      builder: (_, state) => PrimaryCtaButton(
+                        label: S().confirmLocation,
+                        isLoading:
+                            state.isResolvingPlace ||
+                            state.isSearching ||
+                            state.isLocating,
+                        onPressed: _cubit.canConfirm ? _confirm : null,
+                      ),
+                    ),
               ),
             ],
           ),
@@ -148,7 +163,7 @@ class _MapLocationPickerSheetState extends State<MapLocationPickerSheet> {
         controller: _mapController,
         onCameraMove: (point) {
           _center = point;
-          _cubit.onCameraMove();
+          _cubit.onCameraMove(point);
         },
         onCameraIdle: () => _cubit.onCameraIdle(_center),
         onMyLocation: _goToMyLocation,

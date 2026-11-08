@@ -2979,11 +2979,6 @@ class S {
     );
   }
 
-  /// `All areas`
-  String get shopsAllAreas {
-    return Intl.message('All areas', name: 'shopsAllAreas', desc: '', args: []);
-  }
-
   /// `Closest to your current location`
   String get shopsHintDevice {
     return Intl.message(
@@ -3001,16 +2996,6 @@ class S {
       name: 'shopsHintCustom',
       desc: '',
       args: [place],
-    );
-  }
-
-  /// `All shops, highest rated first`
-  String get shopsHintAll {
-    return Intl.message(
-      'All shops, highest rated first',
-      name: 'shopsHintAll',
-      desc: '',
-      args: [],
     );
   }
 
@@ -10234,6 +10219,16 @@ class S {
     return Intl.message(
       'Select location',
       name: 'pickLocationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't find the place name. Confirm the location chosen on the map?`
+  String get confirmLocationNoAddress {
+    return Intl.message(
+      'We couldn\'t find the place name. Confirm the location chosen on the map?',
+      name: 'confirmLocationNoAddress',
       desc: '',
       args: [],
     );

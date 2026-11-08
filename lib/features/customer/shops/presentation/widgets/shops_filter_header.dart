@@ -11,9 +11,9 @@ class ShopsFilterHeader extends StatelessWidget {
   final String? areaLabel;
   final VoidCallback onMyLocation;
   final VoidCallback onPickPlace;
-  final VoidCallback onAllAreas;
   final TextEditingController? searchController;
   final ValueChanged<String>? onSearchChanged;
+  final EdgeInsetsGeometry? padding;
 
   const ShopsFilterHeader({
     super.key,
@@ -21,59 +21,54 @@ class ShopsFilterHeader extends StatelessWidget {
     required this.areaLabel,
     required this.onMyLocation,
     required this.onPickPlace,
-    required this.onAllAreas,
     this.searchController,
     this.onSearchChanged,
+    this.padding,
   });
 
   String get _hint => switch (mode) {
     ShopsBrowseMode.device => S().shopsHintDevice,
     ShopsBrowseMode.custom => S().shopsHintCustom(areaLabel ?? ''),
-    ShopsBrowseMode.all => S().shopsHintAll,
   };
 
   @override
   Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
     final hasLabel = areaLabel != null && areaLabel!.isNotEmpty;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 6.h),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ShopsModePill(
+          Row(
+            children: [
+              Expanded(
+                child: ShopsModePill(
                   icon: Icons.my_location_rounded,
                   label: S().shopsAreaMyLocation,
                   selected: mode == ShopsBrowseMode.device,
                   onTap: onMyLocation,
                 ),
-                SizedBox(width: 8.w),
-                ShopsModePill(
+              ),
+              SizedBox(width: 8.w),
+              Expanded(
+                child: ShopsModePill(
                   icon: Icons.place_rounded,
                   label: hasLabel ? areaLabel! : S().shopsAreaOther,
                   selected: mode == ShopsBrowseMode.custom,
                   opensPicker: true,
                   onTap: onPickPlace,
                 ),
-                SizedBox(width: 8.w),
-                ShopsModePill(
-                  icon: Icons.public_rounded,
-                  label: S().shopsAllAreas,
-                  selected: mode == ShopsBrowseMode.all,
-                  onTap: onAllAreas,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           SizedBox(height: 8.h),
           Text(
             _hint,
-            style: TextStyle(fontSize: 12.sp, color: scheme.onSurfaceVariant),
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: context.colorScheme.onSurfaceVariant,
+            ),
           ),
           if (searchController != null) ...[
             SizedBox(height: 10.h),

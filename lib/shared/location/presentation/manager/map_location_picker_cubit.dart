@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/analytics/app_analytics.dart';
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/entities/geo_point.dart';
 import '../../domain/entities/location_availability.dart';
@@ -17,21 +20,35 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
   final ResolvePlaceUseCase _resolvePlace;
   final SearchPlacesUseCase _searchPlaces;
   final AppAnalytics _analytics;
+  final Duration _lookupTimeout;
+  final Duration _idleWatchdog;
   int _placeRequestId = 0;
   int _searchRequestId = 0;
   bool _hasInitialLocation = false;
+  GeoPoint? _lastMovedTo;
+  Timer? _idleTimer;
 
   MapLocationPickerCubit(
     this._getCurrentLocation,
     this._resolvePlace,
     this._searchPlaces,
-    this._analytics,
-  ) : super(const MapLocationPickerState(target: defaultTarget));
+    this._analytics, {
+    Duration lookupTimeout = const Duration(seconds: 6),
+    Duration idleWatchdog = const Duration(milliseconds: 1500),
+  }) : _lookupTimeout = lookupTimeout,
+       _idleWatchdog = idleWatchdog,
+       super(const MapLocationPickerState(target: defaultTarget));
 
   @override
   void emit(MapLocationPickerState state) {
     if (isClosed) return;
     super.emit(state);
+  }
+
+  @override
+  Future<void> close() {
+    _idleTimer?.cancel();
+    return super.close();
   }
 
   bool get hasInitialLocation => _hasInitialLocation;
@@ -57,19 +74,32 @@ class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
     );
   }
 
-  void onCameraMove() {
+  void onCameraMove([GeoPoint? to]) {
+    _lastMovedTo = to ?? _lastMovedTo;
+    _idleTimer?.cancel();
+    _idleTimer = Timer(_idleWatchdog, _settleIfStillMoving);
+
     if (state.isMoving) return;
     _placeRequestId++;
     emit(state.copyWith(isMoving: true, isResolvingPlace: false));
   }
 
+  void _settleIfStillMoving() {
+    final target = _lastMovedTo;
+    if (state.isMoving && target != null) onCameraIdle(target);
+  }
+
   Future<void> onCameraIdle(GeoPoint target) async {
+    _idleTimer?.cancel();
     final requestId = ++_placeRequestId;
     emit(
       state.copyWith(target: target, isMoving: false, isResolvingPlace: true),
     );
 
-    final result = await _resolvePlace(target);
+    final result = await _resolvePlace(target).timeout(
+      _lookupTimeout,
+      onTimeout: () => Left(Failure('timeout', null, const {})),
+    );
     if (requestId != _placeRequestId) return;
 
     emit(

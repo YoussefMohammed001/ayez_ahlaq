@@ -28,6 +28,7 @@ class BookingSummaryScreen extends StatefulWidget {
 
 class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
   final _noteController = TextEditingController();
+  bool _checking = false;
 
   @override
   void dispose() {
@@ -39,8 +40,10 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
     BuildContext context,
     BookingFlowCubit cubit,
   ) async {
+    setState(() => _checking = true);
     final hasSameDayBooking = await cubit.hasSameDayBooking();
     if (!context.mounted) return;
+    setState(() => _checking = false);
 
     final confirmed = await showConfirmDialog(
       context,
@@ -134,7 +137,8 @@ class _BookingSummaryScreenState extends State<BookingSummaryScreen> {
                 padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
                 child: PrimaryCtaButton(
                   label: S().confirmBooking,
-                  isLoading: state.status == BookingFlowStatus.submitting,
+                  isLoading:
+                      _checking || state.status == BookingFlowStatus.submitting,
                   onPressed: () => _confirmAndSubmit(context, cubit),
                 ),
               ),

@@ -9,11 +9,13 @@ import 'location_status_scope.dart';
 class NearbyLocationBanner extends StatelessWidget {
   final VoidCallback onEnabled;
   final bool locationResolved;
+  final EdgeInsetsGeometry? margin;
 
   const NearbyLocationBanner({
     super.key,
     required this.onEnabled,
     this.locationResolved = true,
+    this.margin,
   });
 
   @override
@@ -30,7 +32,7 @@ class NearbyLocationBanner extends StatelessWidget {
         final warning = context.semantic.warning;
 
         return Container(
-          margin: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+          margin: margin ?? EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
           padding: EdgeInsets.all(14.r),
           decoration: BoxDecoration(
             color: warning.withValues(alpha: 0.1),

@@ -15,6 +15,7 @@ import 'package:ayez_ahlaq/features/customer/shops/presentation/manager/customer
 import 'package:ayez_ahlaq/features/customer/shops/domain/entities/shops_browse_mode.dart';
 import 'package:ayez_ahlaq/features/customer/shops/domain/entities/shops_search.dart';
 import 'package:ayez_ahlaq/features/customer/shops/presentation/widgets/shops_filter_header.dart';
+import 'package:ayez_ahlaq/features/customer/shops/presentation/widgets/shops_mode_pill.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/device_location_result.dart';
 import 'package:ayez_ahlaq/shared/location/domain/entities/geo_point.dart';
@@ -216,67 +217,6 @@ void main() {
     });
   });
 
-  group('browse all', () {
-    test('asks the server with no coordinates and keeps its order', () async {
-      final cubit = build();
-
-      await cubit.browseAll();
-
-      expect(repo.requests.single, (null, null));
-      expect(cubit.state.mode, ShopsBrowseMode.all);
-      expect(cubit.state.sortedByDistance, isFalse);
-      expect(cubit.state.status, CustomerShopsStatus.success);
-    });
-
-    test('works whatever the device location is', () async {
-      location.device = null;
-      final cubit = build();
-
-      await cubit.browseAll();
-
-      expect(repo.requests.single, (null, null));
-    });
-
-    test('stays on all areas through a refresh', () async {
-      final cubit = build();
-      await cubit.browseAll();
-
-      await cubit.loadShops();
-
-      expect(repo.requests.last, (null, null));
-    });
-
-    test('choosing a place or going back leaves all areas', () async {
-      final cubit = build();
-      await cubit.browseAll();
-
-      await cubit.chooseArea(_home);
-      expect(cubit.state.mode, ShopsBrowseMode.custom);
-
-      await cubit.browseAll();
-      await cubit.useMyLocation();
-      expect(cubit.state.mode, ShopsBrowseMode.device);
-      expect(repo.requests.last, (30.0, 31.0));
-    });
-
-    test('tapping all areas twice asks once', () async {
-      final cubit = build();
-
-      await cubit.browseAll();
-      await cubit.browseAll();
-
-      expect(repo.requests, hasLength(1));
-    });
-
-    test('is reported', () async {
-      await build().browseAll();
-
-      expect(analytics.last('shops_area_changed')!.parameters, {
-        'source': 'all',
-      });
-    });
-  });
-
   group('search', () {
     const shops = [
       Shop(
@@ -359,7 +299,6 @@ void main() {
                 areaLabel: label,
                 onMyLocation: () => log.add('device'),
                 onPickPlace: () => log.add('pick'),
-                onAllAreas: () => log.add('all'),
                 searchController: search,
               ),
             ),
@@ -369,14 +308,13 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('offers the three ways to browse with a one-line explanation', (
+    testWidgets('offers the two ways to browse with a one-line explanation', (
       tester,
     ) async {
       await pump(tester);
 
       expect(find.text(S().shopsAreaMyLocation), findsOneWidget);
       expect(find.text(S().shopsAreaOther), findsOneWidget);
-      expect(find.text(S().shopsAllAreas), findsOneWidget);
       expect(find.text(S().shopsHintDevice), findsOneWidget);
     });
 
@@ -384,16 +322,12 @@ void main() {
       final taps = <String>[];
       await pump(tester, taps: taps);
 
-      for (final label in [
-        S().shopsAreaMyLocation,
-        S().shopsAreaOther,
-        S().shopsAllAreas,
-      ]) {
+      for (final label in [S().shopsAreaMyLocation, S().shopsAreaOther]) {
         await tester.ensureVisible(find.text(label));
         await tester.tap(find.text(label));
       }
 
-      expect(taps, ['device', 'pick', 'all']);
+      expect(taps, ['device', 'pick']);
     });
 
     testWidgets(
@@ -411,10 +345,16 @@ void main() {
       },
     );
 
-    testWidgets('all areas explains the order', (tester) async {
-      await pump(tester, mode: ShopsBrowseMode.all);
+    testWidgets('the two choices share the row without scrolling', (
+      tester,
+    ) async {
+      await pump(tester);
 
-      expect(find.text(S().shopsHintAll), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsNothing);
+      expect(
+        tester.getSize(find.byType(ShopsModePill).first).width,
+        tester.getSize(find.byType(ShopsModePill).last).width,
+      );
     });
 
     testWidgets('shows a search field only when given a controller', (

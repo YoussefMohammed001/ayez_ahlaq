@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_paths.dart';
@@ -29,9 +30,10 @@ class NearestShopsSection extends StatelessWidget {
               actionLabel: S().seeAll,
               onAction: () => context.push(Routes.customerBrowseShopsScreen),
             ),
-            const ShopsAreaSelector(),
+            ShopsAreaSelector(padding: EdgeInsets.symmetric(vertical: 8.h)),
             if (state.usesDeviceLocation)
               NearbyLocationBanner(
+                margin: EdgeInsets.symmetric(vertical: 8.h),
                 locationResolved:
                     state.sortedByDistance ||
                     state.status != CustomerShopsStatus.success,

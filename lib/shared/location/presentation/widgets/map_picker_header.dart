@@ -17,7 +17,7 @@ class MapPickerHeader extends StatelessWidget {
     final scheme = context.colorScheme;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.w, 1.h, 16.w, 4.h),
+      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 6.h),
       child: Row(
         children: [
           InkWell(

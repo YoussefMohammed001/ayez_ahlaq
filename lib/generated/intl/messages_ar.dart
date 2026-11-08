@@ -797,6 +797,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "هل أنت متأكد من تأكيد هذا الحجز؟",
     ),
     "confirmLocation": MessageLookupByLibrary.simpleMessage("تأكيد الموقع"),
+    "confirmLocationNoAddress": MessageLookupByLibrary.simpleMessage(
+      "لم نتمكن من معرفة اسم المكان، هل تريد تأكيد الموقع المحدد على الخريطة؟",
+    ),
     "confirmMoneyPinLabel": MessageLookupByLibrary.simpleMessage(
       "تأكيد الرقم السري الجديد",
     ),
@@ -2403,7 +2406,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "shopRatingLabel": MessageLookupByLibrary.simpleMessage("تقييم المحل"),
     "shopSection": MessageLookupByLibrary.simpleMessage("المحل"),
     "shops": MessageLookupByLibrary.simpleMessage("الصالونات"),
-    "shopsAllAreas": MessageLookupByLibrary.simpleMessage("كل المناطق"),
     "shopsAllHint": MessageLookupByLibrary.simpleMessage(
       "إن لم تختر شيئًا، سيكون العرض متاحًا لكل الصالونات",
     ),
@@ -2412,9 +2414,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "shopsAreaMyLocation": MessageLookupByLibrary.simpleMessage("موقعي"),
     "shopsAreaOther": MessageLookupByLibrary.simpleMessage("مكان آخر"),
-    "shopsHintAll": MessageLookupByLibrary.simpleMessage(
-      "كل الصالونات، الأعلى تقييمًا أولًا",
-    ),
     "shopsHintCustom": m60,
     "shopsHintDevice": MessageLookupByLibrary.simpleMessage(
       "الأقرب إلى موقعك الحالي",

@@ -8,11 +8,13 @@ import 'shops_filter_header.dart';
 class ShopsAreaSelector extends StatelessWidget {
   final TextEditingController? searchController;
   final ValueChanged<String>? onSearchChanged;
+  final EdgeInsetsGeometry? padding;
 
   const ShopsAreaSelector({
     super.key,
     this.searchController,
     this.onSearchChanged,
+    this.padding,
   });
 
   Future<void> _pickPlace(BuildContext context) async {
@@ -35,9 +37,9 @@ class ShopsAreaSelector extends StatelessWidget {
         areaLabel: state.area?.label,
         onMyLocation: cubit.useMyLocation,
         onPickPlace: () => _pickPlace(context),
-        onAllAreas: cubit.browseAll,
         searchController: searchController,
         onSearchChanged: onSearchChanged,
+        padding: padding,
       ),
     );
   }

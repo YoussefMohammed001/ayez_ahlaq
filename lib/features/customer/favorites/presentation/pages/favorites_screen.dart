@@ -30,33 +30,34 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppTopBar(
-        viewLeading: false,
-        title: S().favoritesTitle,
-        trailing: IconButton(
-          icon: const Icon(Icons.link_rounded),
-          onPressed: () => context.push(Routes.customerEnterInviteCodeScreen),
-        ),
-      ),
+      appBar: AppTopBar(viewLeading: false, title: S().favoritesTitle),
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         builder: (context, state) {
           final cubit = context.read<FavoritesCubit>();
 
-          if (state.status == FavoritesStatus.loading && state.favorites.isEmpty) {
+          if (state.status == FavoritesStatus.loading &&
+              state.favorites.isEmpty) {
             return const ListSkeleton();
           }
 
-          if (state.status == FavoritesStatus.failure && state.favorites.isEmpty) {
+          if (state.status == FavoritesStatus.failure &&
+              state.favorites.isEmpty) {
             return RefreshableStateView(
               onRefresh: cubit.loadFavorites,
-              child: AppErrorState(message: state.errorMessage, onRetry: cubit.loadFavorites),
+              child: AppErrorState(
+                message: state.errorMessage,
+                onRetry: cubit.loadFavorites,
+              ),
             );
           }
 
           if (state.favorites.isEmpty) {
             return RefreshableStateView(
               onRefresh: cubit.loadFavorites,
-              child: AppEmptyState(icon: Icons.favorite_border_rounded, title: S().noFavoritesYet),
+              child: AppEmptyState(
+                icon: Icons.favorite_border_rounded,
+                title: S().noFavoritesYet,
+              ),
             );
           }
 

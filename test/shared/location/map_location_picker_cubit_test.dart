@@ -19,7 +19,11 @@ import '../../support/recording_analytics.dart';
 class _Repo implements ILocationRepo {
   final pending = <GeoPoint, Completer<Either<Failure, PlaceInfo>>>{};
   Either<Failure, PlaceInfo> defaultPlace = const Right(
-    PlaceInfo(name: 'شارع التحرير', city: 'القاهرة', fullAddress: 'شارع التحرير، الدقي'),
+    PlaceInfo(
+      name: 'شارع التحرير',
+      city: 'القاهرة',
+      fullAddress: 'شارع التحرير، الدقي',
+    ),
   );
   List<PlaceSuggestion> suggestions = const [];
 
@@ -47,11 +51,16 @@ void main() {
   late _Repo repo;
   late RecordingAnalytics analytics;
 
-  MapLocationPickerCubit build() => MapLocationPickerCubit(
+  MapLocationPickerCubit build({
+    Duration lookupTimeout = const Duration(seconds: 6),
+    Duration idleWatchdog = const Duration(milliseconds: 1500),
+  }) => MapLocationPickerCubit(
     GetCurrentLocationUseCase(repo),
     ResolvePlaceUseCase(repo),
     SearchPlacesUseCase(repo),
     AppAnalytics(analytics),
+    lookupTimeout: lookupTimeout,
+    idleWatchdog: idleWatchdog,
   );
 
   setUp(() {
@@ -59,21 +68,24 @@ void main() {
     analytics = RecordingAnalytics();
   });
 
-  test('moving the map blocks the confirmation until the address is known', () async {
-    final cubit = build();
+  test(
+    'moving the map blocks the confirmation until the address is known',
+    () async {
+      final cubit = build();
 
-    cubit.onCameraMove();
+      cubit.onCameraMove();
 
-    expect(cubit.state.isMoving, true);
-    expect(cubit.canConfirm, false);
+      expect(cubit.state.isMoving, true);
+      expect(cubit.canConfirm, false);
 
-    await cubit.onCameraIdle(const GeoPoint(30.05, 31.23));
+      await cubit.onCameraIdle(const GeoPoint(30.05, 31.23));
 
-    expect(cubit.state.isMoving, false);
-    expect(cubit.state.isResolvingPlace, false);
-    expect(cubit.canConfirm, true);
-    expect(cubit.state.place.fullAddress, 'شارع التحرير، الدقي');
-  });
+      expect(cubit.state.isMoving, false);
+      expect(cubit.state.isResolvingPlace, false);
+      expect(cubit.canConfirm, true);
+      expect(cubit.state.place.fullAddress, 'شارع التحرير، الدقي');
+    },
+  );
 
   test('the confirmation waits while the address is being resolved', () async {
     const target = GeoPoint(30.05, 31.23);
@@ -91,36 +103,42 @@ void main() {
     expect(cubit.canConfirm, true);
   });
 
-  test('an address that arrives after the map moved again is ignored', () async {
-    const first = GeoPoint(30.0, 31.0);
-    const second = GeoPoint(30.1, 31.1);
-    repo.pending[first] = Completer();
-    final cubit = build();
+  test(
+    'an address that arrives after the map moved again is ignored',
+    () async {
+      const first = GeoPoint(30.0, 31.0);
+      const second = GeoPoint(30.1, 31.1);
+      repo.pending[first] = Completer();
+      final cubit = build();
 
-    final slow = cubit.onCameraIdle(first);
-    cubit.onCameraMove();
-    await cubit.onCameraIdle(second);
-    repo.pending[first]!.complete(const Right(PlaceInfo(name: 'قديم')));
-    await slow;
+      final slow = cubit.onCameraIdle(first);
+      cubit.onCameraMove();
+      await cubit.onCameraIdle(second);
+      repo.pending[first]!.complete(const Right(PlaceInfo(name: 'قديم')));
+      await slow;
 
-    expect(cubit.state.place.name, 'شارع التحرير');
-    expect(cubit.state.target, second);
-  });
+      expect(cubit.state.place.name, 'شارع التحرير');
+      expect(cubit.state.target, second);
+    },
+  );
 
-  test('moving the map while an address is loading drops that address', () async {
-    const target = GeoPoint(30.0, 31.0);
-    repo.pending[target] = Completer();
-    final cubit = build();
+  test(
+    'moving the map while an address is loading drops that address',
+    () async {
+      const target = GeoPoint(30.0, 31.0);
+      repo.pending[target] = Completer();
+      final cubit = build();
 
-    final resolving = cubit.onCameraIdle(target);
-    cubit.onCameraMove();
-    repo.pending[target]!.complete(const Right(PlaceInfo(name: 'قديم')));
-    await resolving;
+      final resolving = cubit.onCameraIdle(target);
+      cubit.onCameraMove();
+      repo.pending[target]!.complete(const Right(PlaceInfo(name: 'قديم')));
+      await resolving;
 
-    expect(cubit.state.isMoving, true);
-    expect(cubit.state.place.name, isNot('قديم'));
-    expect(cubit.canConfirm, false);
-  });
+      expect(cubit.state.isMoving, true);
+      expect(cubit.state.place.name, isNot('قديم'));
+      expect(cubit.canConfirm, false);
+    },
+  );
 
   test('a failed address lookup still lets the user confirm the pin', () async {
     repo.defaultPlace = Left(Failure('تعذّر', 500, const {}));
@@ -164,6 +182,61 @@ void main() {
     final picked = cubit.confirm();
 
     expect(picked.latitude, 30.05);
-    expect(analytics.last('location_picked')!.parameters, {'source': 'map_picker'});
+    expect(analytics.last('location_picked')!.parameters, {
+      'source': 'map_picker',
+    });
+  });
+
+  test(
+    'an address lookup that never answers does not block the confirmation',
+    () async {
+      const target = GeoPoint(30.05, 31.23);
+      repo.pending[target] = Completer();
+      final cubit = build(lookupTimeout: const Duration(milliseconds: 30));
+
+      await cubit.onCameraIdle(target);
+
+      expect(cubit.state.isResolvingPlace, false);
+      expect(cubit.canConfirm, true);
+      expect(cubit.state.place, PlaceInfo.empty);
+      expect(cubit.picked.latitude, 30.05);
+    },
+  );
+
+  test('a map that never reports it stopped settles by itself', () async {
+    const target = GeoPoint(30.07, 31.25);
+    final cubit = build(idleWatchdog: const Duration(milliseconds: 30));
+
+    cubit.onCameraMove(target);
+    expect(cubit.canConfirm, false);
+
+    await Future<void>.delayed(const Duration(milliseconds: 120));
+
+    expect(cubit.state.isMoving, false);
+    expect(cubit.state.target, target);
+    expect(cubit.canConfirm, true);
+    await cubit.close();
+  });
+
+  test('keeps waiting while the map keeps moving', () async {
+    final cubit = build(idleWatchdog: const Duration(milliseconds: 80));
+
+    cubit.onCameraMove(const GeoPoint(30.07, 31.25));
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    cubit.onCameraMove(const GeoPoint(30.08, 31.26));
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+
+    expect(cubit.state.isMoving, true);
+    await cubit.close();
+  });
+
+  test('closing the picker cancels the pending settle', () async {
+    final cubit = build(idleWatchdog: const Duration(milliseconds: 20));
+
+    cubit.onCameraMove(const GeoPoint(30.07, 31.25));
+    await cubit.close();
+
+    await Future<void>.delayed(const Duration(milliseconds: 60));
+    expect(cubit.isClosed, true);
   });
 }
