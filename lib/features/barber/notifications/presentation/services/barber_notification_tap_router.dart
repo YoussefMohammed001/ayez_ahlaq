@@ -13,6 +13,7 @@ class BarberNotificationTapRouter {
   static const String _storeOrderRequestedType = 'store_order_requested';
   static const String _attendanceTypePrefix = 'attendance_';
   static const String _attendanceFeatureTypePrefix = 'attendance_feature';
+  static const String _salaryTypePrefix = 'salary_';
 
   final bool Function() isOwner;
 
@@ -26,6 +27,8 @@ class BarberNotificationTapRouter {
 
     final reference = notification.type.startsWith(_attendanceTypePrefix)
         ? 'attendance'
+        : notification.type.startsWith(_salaryTypePrefix)
+        ? 'salary'
         : NotificationReference.canonical(
             type: notification.type,
             referenceType: notification.referenceType,
@@ -43,6 +46,7 @@ class BarberNotificationTapRouter {
         );
         return;
       case 'salary':
+      case 'salaryDeduction':
         context.push(
           isOwner()
               ? Routes.barberSalaryDeductionsScreen
@@ -54,7 +58,10 @@ class BarberNotificationTapRouter {
         return;
       case 'homeService':
         if (requestId == null) return;
-        context.push(Routes.barberHomeServiceRequestDetailScreen, extra: requestId);
+        context.push(
+          Routes.barberHomeServiceRequestDetailScreen,
+          extra: requestId,
+        );
         return;
       case 'homeServiceBroadcast':
         if (requestId == null) return;
@@ -65,13 +72,22 @@ class BarberNotificationTapRouter {
         return;
       case 'productOrder':
         if (notification.type == _storeOrderRequestedType) {
-          context.push(Routes.barberStorefrontHomeScreen, extra: _storefrontOrdersTab);
+          context.push(
+            Routes.barberStorefrontHomeScreen,
+            extra: _storefrontOrdersTab,
+          );
           return;
         }
-        context.push(Routes.barberStoreMerchantsScreen, extra: _supplierOrdersTab);
+        context.push(
+          Routes.barberStoreMerchantsScreen,
+          extra: _supplierOrdersTab,
+        );
         return;
       case 'order':
-        context.push(Routes.barberStorefrontHomeScreen, extra: _storefrontOrdersTab);
+        context.push(
+          Routes.barberStorefrontHomeScreen,
+          extra: _storefrontOrdersTab,
+        );
         return;
       case 'rating':
         context.push(Routes.barberReviewsScreen);

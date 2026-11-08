@@ -71,12 +71,17 @@ void main() {
         NotificationKind.fromType('booking_requested'),
         NotificationKind.bookingRequested,
       );
-      expect(NotificationKind.fromType('something_new'), NotificationKind.general);
+      expect(
+        NotificationKind.fromType('something_new'),
+        NotificationKind.general,
+      );
     });
   });
 
   group('tapping an attendance notification', () {
-    testWidgets('the owner lands on the team attendance screen', (tester) async {
+    testWidgets('the owner lands on the team attendance screen', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _app(
           BarberNotificationTapRouter(isOwner: () => true),
@@ -122,20 +127,21 @@ void main() {
       expect(find.text('team screen'), findsOneWidget);
     });
 
-    testWidgets('a feature notification opens the attendance screen for the owner', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _app(
-          BarberNotificationTapRouter(isOwner: () => true),
-          _notification('attendance_feature_approved'),
-        ),
-      );
+    testWidgets(
+      'a feature notification opens the attendance screen for the owner',
+      (tester) async {
+        await tester.pumpWidget(
+          _app(
+            BarberNotificationTapRouter(isOwner: () => true),
+            _notification('attendance_feature_approved'),
+          ),
+        );
 
-      await tester.tap(find.text('tap'));
-      await tester.pumpAndSettle();
+        await tester.tap(find.text('tap'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('my attendance screen'), findsOneWidget);
-    });
+        expect(find.text('my attendance screen'), findsOneWidget);
+      },
+    );
   });
 }

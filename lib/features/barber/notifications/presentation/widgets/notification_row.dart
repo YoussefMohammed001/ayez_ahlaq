@@ -23,7 +23,9 @@ class NotificationRow extends StatelessWidget {
       onTap: onTap,
       padding: EdgeInsets.all(12.w),
       margin: EdgeInsets.only(bottom: 10.h),
-      borderColor: unseen ? context.colorScheme.primary : context.colorScheme.outline,
+      borderColor: unseen
+          ? context.colorScheme.primary
+          : context.colorScheme.outline,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

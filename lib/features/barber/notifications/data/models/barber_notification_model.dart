@@ -20,7 +20,8 @@ class BarberNotificationModel extends BarberNotification {
       referenceId: json['referenceId']?.toString(),
       title: json['title'] as String? ?? '',
       body: json['body'] as String? ?? '',
-      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      createdAt:
+          DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now(),
       seen: json['seen'] as bool? ?? false,
     );

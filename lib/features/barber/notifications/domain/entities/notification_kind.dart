@@ -12,28 +12,37 @@ enum NotificationKind {
   adminAnnouncement,
   attendanceCheckIn,
   attendanceCheckOut,
+  attendance,
+  salaryDeduction,
   account,
   document,
   general;
 
   static NotificationKind fromType(String type) {
     final normalized = type.toUpperCase();
+    if (normalized.startsWith('SALARY'))
+      return NotificationKind.salaryDeduction;
     if (normalized.contains('ATTENDANCE_CHECK_OUT')) {
       return NotificationKind.attendanceCheckOut;
     }
     if (normalized.contains('ATTENDANCE_CHECK_IN')) {
       return NotificationKind.attendanceCheckIn;
     }
-    if (normalized.contains('HOME_SERVICE') && normalized.contains('BROADCAST')) {
+    if (normalized.startsWith('ATTENDANCE')) return NotificationKind.attendance;
+    if (normalized.contains('HOME_SERVICE') &&
+        normalized.contains('BROADCAST')) {
       return NotificationKind.homeServiceBroadcast;
     }
-    if (normalized.contains('HOME_SERVICE')) return NotificationKind.homeService;
+    if (normalized.contains('HOME_SERVICE'))
+      return NotificationKind.homeService;
     if (normalized.contains('RATING')) return NotificationKind.ratingReceived;
     if (normalized.contains('BOOKING') && normalized.contains('CANCEL')) {
       return NotificationKind.bookingCancelled;
     }
-    if (normalized.contains('BOOKING')) return NotificationKind.bookingRequested;
-    if (normalized.contains('SUBSCRIPTION')) return NotificationKind.subscription;
+    if (normalized.contains('BOOKING'))
+      return NotificationKind.bookingRequested;
+    if (normalized.contains('SUBSCRIPTION'))
+      return NotificationKind.subscription;
     if (normalized.contains('WALLET')) return NotificationKind.wallet;
     if (normalized.contains('BROADCAST')) return NotificationKind.broadcast;
     if (normalized.contains('ADMIN') || normalized.contains('ANNOUNCEMENT')) {
@@ -56,6 +65,8 @@ enum NotificationKind {
     NotificationKind.adminAnnouncement => Icons.admin_panel_settings_outlined,
     NotificationKind.attendanceCheckIn => Icons.login_rounded,
     NotificationKind.attendanceCheckOut => Icons.logout_rounded,
+    NotificationKind.attendance => Icons.fingerprint_rounded,
+    NotificationKind.salaryDeduction => Icons.payments_outlined,
     NotificationKind.account => Icons.verified_user_outlined,
     NotificationKind.document => Icons.description_outlined,
     NotificationKind.general => Icons.notifications_none_rounded,

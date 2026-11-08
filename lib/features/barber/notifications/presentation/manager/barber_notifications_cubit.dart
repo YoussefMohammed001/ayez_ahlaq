@@ -88,8 +88,9 @@ class BarberNotificationsCubit extends Cubit<BarberNotificationsState> {
       (_) => emit(
         state.copyWith(
           isMarkingRead: false,
-          notifications:
-              state.notifications.map((n) => n.copyWith(seen: true)).toList(),
+          notifications: state.notifications
+              .map((n) => n.copyWith(seen: true))
+              .toList(),
           unseenCount: 0,
         ),
       ),
@@ -97,8 +98,7 @@ class BarberNotificationsCubit extends Cubit<BarberNotificationsState> {
   }
 
   Future<void> markRead(int id) async {
-    final wasUnseen =
-        state.notifications.any((n) => n.id == id && !n.seen);
+    final wasUnseen = state.notifications.any((n) => n.id == id && !n.seen);
 
     emit(
       state.copyWith(

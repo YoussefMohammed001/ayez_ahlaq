@@ -21,8 +21,7 @@ class BarberNotificationsScreen extends StatefulWidget {
       _BarberNotificationsScreenState();
 }
 
-class _BarberNotificationsScreenState
-    extends State<BarberNotificationsScreen> {
+class _BarberNotificationsScreenState extends State<BarberNotificationsScreen> {
   final _scrollController = ScrollController();
   final _tapRouter = const BarberNotificationTapRouter();
 
@@ -50,32 +49,35 @@ class _BarberNotificationsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BusyErrorListener<BarberNotificationsCubit, BarberNotificationsState>(
+    return BusyErrorListener<
+      BarberNotificationsCubit,
+      BarberNotificationsState
+    >(
       isBusy: (state) => state.isMarkingRead,
       errorMessage: (state) => state.errorMessage,
       child: Scaffold(
         appBar: AppTopBar(
           title: S().notifications,
-          trailing: BlocBuilder<
-            BarberNotificationsCubit,
-            BarberNotificationsState
-          >(
-            builder: (context, state) {
-              if (state.unseenCount == 0) return const SizedBox.shrink();
+          trailing:
+              BlocBuilder<BarberNotificationsCubit, BarberNotificationsState>(
+                builder: (context, state) {
+                  if (state.unseenCount == 0) return const SizedBox.shrink();
 
-              return TextButton(
-                onPressed: context.read<BarberNotificationsCubit>().markAllRead,
-                child: Text(
-                  S().markAllRead,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: context.semantic.accentStrong,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              );
-            },
-          ),
+                  return TextButton(
+                    onPressed: context
+                        .read<BarberNotificationsCubit>()
+                        .markAllRead,
+                    child: Text(
+                      S().markAllRead,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: context.semantic.accentStrong,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                },
+              ),
         ),
         body: BlocBuilder<BarberNotificationsCubit, BarberNotificationsState>(
           builder: (context, state) {
@@ -86,8 +88,9 @@ class _BarberNotificationsScreenState
             if (state.status == NotificationsStatus.failure) {
               return AppErrorState(
                 message: state.errorMessage,
-                onRetry: () =>
-                    context.read<BarberNotificationsCubit>().loadNotifications(),
+                onRetry: () => context
+                    .read<BarberNotificationsCubit>()
+                    .loadNotifications(),
               );
             }
 
@@ -122,9 +125,9 @@ class _BarberNotificationsScreenState
                   return NotificationRow(
                     notification: notification,
                     onTap: () {
-                      context
-                          .read<BarberNotificationsCubit>()
-                          .markRead(notification.id);
+                      context.read<BarberNotificationsCubit>().markRead(
+                        notification.id,
+                      );
                       _tapRouter.handle(context, notification);
                     },
                   );
