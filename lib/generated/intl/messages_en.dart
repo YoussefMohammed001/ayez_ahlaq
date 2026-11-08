@@ -1757,6 +1757,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Barbers and salons who ordered from your store",
     ),
     "myDocuments": MessageLookupByLibrary.simpleMessage("My documents"),
+    "mySalaryHomeHint": MessageLookupByLibrary.simpleMessage(
+      "Your attendance, deductions and net salary this month",
+    ),
+    "mySalaryTitle": MessageLookupByLibrary.simpleMessage("My salary"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
     "name_invalid_characters": MessageLookupByLibrary.simpleMessage(
       "Name contains invalid characters",
@@ -2346,21 +2350,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "salaryDaysWorkedValue": m56,
     "salaryDeductionsRow": MessageLookupByLibrary.simpleMessage("Deductions"),
-    "salaryEarlyLeaveRow": MessageLookupByLibrary.simpleMessage(
-      "Early leave minutes",
-    ),
+    "salaryEarlyLeaveRow": MessageLookupByLibrary.simpleMessage("Early leave"),
     "salaryEditAction": MessageLookupByLibrary.simpleMessage("Edit salary"),
-    "salaryGrossRow": MessageLookupByLibrary.simpleMessage(
-      "Salary before deductions",
-    ),
+    "salaryGrossRow": MessageLookupByLibrary.simpleMessage("Before deductions"),
     "salaryHourlyRateRow": MessageLookupByLibrary.simpleMessage("Hourly rate"),
     "salaryHoursValue": m57,
     "salaryHoursWorkedRow": MessageLookupByLibrary.simpleMessage(
       "Hours worked",
     ),
-    "salaryLateMinutesRow": MessageLookupByLibrary.simpleMessage(
-      "Late minutes",
-    ),
+    "salaryLateMinutesRow": MessageLookupByLibrary.simpleMessage("Late time"),
     "salaryMinutesValue": m58,
     "salaryMonthLabel": m59,
     "salaryMonthlyHint": MessageLookupByLibrary.simpleMessage(

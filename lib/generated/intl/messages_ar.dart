@@ -1706,6 +1706,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "الحلاقون والصالونات الذين طلبوا من متجرك",
     ),
     "myDocuments": MessageLookupByLibrary.simpleMessage("مستنداتي"),
+    "mySalaryHomeHint": MessageLookupByLibrary.simpleMessage(
+      "حضورك وخصوماتك وصافي مرتبك هذا الشهر",
+    ),
+    "mySalaryTitle": MessageLookupByLibrary.simpleMessage("مرتبي"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
     "name_invalid_characters": MessageLookupByLibrary.simpleMessage(
       "يحتوي الاسم على حروف غير مسموحة",

@@ -32,6 +32,7 @@ import 'modules/barber_money_routes.dart';
 import 'modules/customer_wallet_routes.dart';
 import 'modules/barber_notifications_routes.dart';
 import 'modules/barber_attendance_routes.dart';
+import 'modules/barber_salary_routes.dart';
 import 'modules/barber_team_routes.dart';
 import 'modules/barber_booking_routes.dart';
 import 'modules/merchant_shell_routes.dart';
@@ -93,6 +94,7 @@ final _allRoutes = <RouteBase>[
     ...barberNotificationsRoutes,
     ...barberTeamRoutes,
     ...barberAttendanceRoutes,
+    ...barberSalaryRoutes,
     ...barberBookingRoutes,
     ...merchantShellRoutes,
     ...merchantCatalogRoutes,

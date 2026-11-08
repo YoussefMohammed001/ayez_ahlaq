@@ -12274,20 +12274,20 @@ class S {
     );
   }
 
-  /// `Late minutes`
+  /// `Late time`
   String get salaryLateMinutesRow {
     return Intl.message(
-      'Late minutes',
+      'Late time',
       name: 'salaryLateMinutesRow',
       desc: '',
       args: [],
     );
   }
 
-  /// `Early leave minutes`
+  /// `Early leave`
   String get salaryEarlyLeaveRow {
     return Intl.message(
-      'Early leave minutes',
+      'Early leave',
       name: 'salaryEarlyLeaveRow',
       desc: '',
       args: [],
@@ -12314,10 +12314,10 @@ class S {
     );
   }
 
-  /// `Salary before deductions`
+  /// `Before deductions`
   String get salaryGrossRow {
     return Intl.message(
-      'Salary before deductions',
+      'Before deductions',
       name: 'salaryGrossRow',
       desc: '',
       args: [],
@@ -12344,6 +12344,21 @@ class S {
     return Intl.message(
       'Previous month',
       name: 'salaryPreviousMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My salary`
+  String get mySalaryTitle {
+    return Intl.message('My salary', name: 'mySalaryTitle', desc: '', args: []);
+  }
+
+  /// `Your attendance, deductions and net salary this month`
+  String get mySalaryHomeHint {
+    return Intl.message(
+      'Your attendance, deductions and net salary this month',
+      name: 'mySalaryHomeHint',
       desc: '',
       args: [],
     );

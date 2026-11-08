@@ -1,3 +1,4 @@
+import '../../../salary/presentation/widgets/my_salary_home_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,6 +65,7 @@ class TeamMemberHomeScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 18.h),
                       AttendanceHomeCard(tourKey: tour.attendance),
+                      const MySalaryHomeCard(),
                       BlocBuilder<BookingsCubit, BookingsState>(
                         builder: (context, state) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

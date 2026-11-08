@@ -146,6 +146,7 @@ class Routes {
   static const String barberNotificationsScreen = '/barber/notifications';
   static const String barberBroadcastScreen = '/barber/broadcast';
   static const String barberBroadcastListScreen = '/barber/broadcast/list';
+  static const String barberMySalaryScreen = '/barber/salary';
   static const String barberAttendanceScreen = '/barber/attendance';
   static const String barberAttendanceHistoryScreen =
       '/barber/attendance/history';
