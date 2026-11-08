@@ -167,6 +167,8 @@
       }
     }
   },
+  "workedHoursTitle": "Hours worked",
+  "workedHoursThisMonth": "This month",
   "attendanceCheckIn": "Check in",
   "attendanceCheckOut": "Check out",
   "attendanceCheckedIn": "You are checked in",

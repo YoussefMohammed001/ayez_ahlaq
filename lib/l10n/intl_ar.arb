@@ -167,6 +167,8 @@
       }
     }
   },
+  "workedHoursTitle": "ساعات العمل",
+  "workedHoursThisMonth": "هذا الشهر",
   "attendanceCheckIn": "تسجيل حضور",
   "attendanceCheckOut": "تسجيل انصراف",
   "attendanceCheckedIn": "تم تسجيل حضورك",

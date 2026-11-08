@@ -8,6 +8,7 @@ import '../../../features/barber/attendance/presentation/manager/attendance_sett
 import '../../../features/barber/attendance/presentation/manager/attendance_settings_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_team_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/barber_attendance_cubit.dart';
+import '../../../features/barber/attendance/presentation/manager/worked_hours_cubit.dart';
 import '../../../features/barber/attendance/presentation/pages/attendance_history_screen.dart';
 import '../../../features/barber/attendance/presentation/pages/attendance_setting_log_screen.dart';
 import '../../../features/barber/attendance/presentation/pages/attendance_settings_screen.dart';
@@ -30,6 +31,7 @@ final List<RouteBase> barberAttendanceRoutes = [
           else
             BlocProvider(create: (_) => sl<BarberAttendanceCubit>()..load()),
           BlocProvider(create: (_) => sl<AttendanceFeatureRequestCubit>()),
+          BlocProvider(create: (_) => sl<WorkedHoursCubit>()..load()),
           BlocProvider.value(value: barberProfileCubit),
         ],
         child: const BarberAttendanceScreen(),

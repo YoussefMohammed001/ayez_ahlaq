@@ -44,8 +44,9 @@ class BarberAttendanceRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, AttendanceHistoryPage>> getHistory({
     required int page,
     int size = 20,
+    DateTime? from,
   }) async {
-    final result = await _api.getHistory(page: page, size: size);
+    final result = await _api.getHistory(page: page, size: size, from: from);
     return result.flatMap(
       (response) =>
           requireDataMap(response).map(AttendanceHistoryPageModel.fromJson),

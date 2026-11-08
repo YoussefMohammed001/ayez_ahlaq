@@ -1339,6 +1339,26 @@ class S {
     );
   }
 
+  /// `Hours worked`
+  String get workedHoursTitle {
+    return Intl.message(
+      'Hours worked',
+      name: 'workedHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This month`
+  String get workedHoursThisMonth {
+    return Intl.message(
+      'This month',
+      name: 'workedHoursThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Check in`
   String get attendanceCheckIn {
     return Intl.message(

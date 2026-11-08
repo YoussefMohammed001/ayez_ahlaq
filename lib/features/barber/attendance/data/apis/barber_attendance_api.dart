@@ -38,10 +38,20 @@ class BarberAttendanceApi {
   Future<Either<Failure, dynamic>> getHistory({
     required int page,
     required int size,
+    DateTime? from,
   }) {
     return _networkService.getData(
       endPoint: EndPoints.barberAttendance,
-      queryParameters: {'page': page, 'size': size},
+      queryParameters: {
+        'page': page,
+        'size': size,
+        if (from != null) 'from': _dateOnly(from),
+      },
     );
   }
+
+  static String _dateOnly(DateTime date) =>
+      '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
 }

@@ -22,5 +22,6 @@ abstract class IBarberAttendanceRepo {
   Future<Either<Failure, AttendanceHistoryPage>> getHistory({
     required int page,
     int size,
+    DateTime? from,
   });
 }

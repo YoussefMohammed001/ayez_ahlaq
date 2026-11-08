@@ -2892,6 +2892,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "withdrawMethodRequired": MessageLookupByLibrary.simpleMessage(
       "Please choose a withdrawal method",
     ),
+    "workedHoursThisMonth": MessageLookupByLibrary.simpleMessage("This month"),
+    "workedHoursTitle": MessageLookupByLibrary.simpleMessage("Hours worked"),
     "workingHoursTitle": MessageLookupByLibrary.simpleMessage("Working hours"),
     "yesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "youLabel": MessageLookupByLibrary.simpleMessage("You"),

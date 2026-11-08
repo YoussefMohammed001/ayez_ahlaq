@@ -2801,6 +2801,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "withdrawMethodRequired": MessageLookupByLibrary.simpleMessage(
       "يجب اختيار طريقة الاستلام",
     ),
+    "workedHoursThisMonth": MessageLookupByLibrary.simpleMessage("هذا الشهر"),
+    "workedHoursTitle": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
     "workingHoursTitle": MessageLookupByLibrary.simpleMessage("مواعيد العمل"),
     "yesterday": MessageLookupByLibrary.simpleMessage("أمس"),
     "youLabel": MessageLookupByLibrary.simpleMessage("أنت"),

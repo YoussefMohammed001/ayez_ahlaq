@@ -11,6 +11,7 @@ import '../../../features/barber/attendance/domain/use_cases/get_attendance_hist
 import '../../../features/barber/attendance/domain/use_cases/get_attendance_setting_log_use_case.dart';
 import '../../../features/barber/attendance/domain/use_cases/get_attendance_settings_use_case.dart';
 import '../../../features/barber/attendance/domain/use_cases/get_team_attendance_use_case.dart';
+import '../../../features/barber/attendance/domain/use_cases/get_worked_hours_use_case.dart';
 import '../../../features/barber/attendance/domain/use_cases/update_attendance_settings_use_case.dart';
 import '../../../features/barber/attendance/domain/use_cases/get_current_attendance_use_case.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_history_cubit.dart';
@@ -18,6 +19,7 @@ import '../../../features/barber/attendance/presentation/manager/attendance_sett
 import '../../../features/barber/attendance/presentation/manager/attendance_settings_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/attendance_team_cubit.dart';
 import '../../../features/barber/attendance/presentation/manager/barber_attendance_cubit.dart';
+import '../../../features/barber/attendance/presentation/manager/worked_hours_cubit.dart';
 import '../../../features/barber/attendance_feature/data/apis/attendance_feature_api.dart';
 import '../../../features/barber/attendance_feature/data/repos/attendance_feature_repo.dart';
 import '../../../features/barber/attendance_feature/domain/repos/i_attendance_feature_repo.dart';
@@ -58,6 +60,8 @@ void registerBarberAttendance() {
   sl.registerLazySingleton(() => GetTeamAttendanceUseCase(sl()));
   sl.registerLazySingleton(() => GetAttendanceSettingLogUseCase(sl()));
   sl.registerLazySingleton(() => CorrectAttendanceRecordUseCase(sl()));
+  sl.registerLazySingleton(() => GetWorkedHoursUseCase(sl()));
+  sl.registerFactory(() => WorkedHoursCubit(sl()));
   sl.registerFactory(() => AttendanceHistoryCubit(sl(), sl()));
   sl.registerFactory(() => AttendanceSettingsCubit(sl(), sl()));
   sl.registerFactory(() => AttendanceTeamCubit(sl()));

@@ -14,11 +14,13 @@ import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../profile/presentation/manager/barber_profile_cubit.dart';
 import '../manager/barber_attendance_cubit.dart';
 import '../manager/barber_attendance_state.dart';
+import '../manager/worked_hours_cubit.dart';
 import '../../../attendance_feature/presentation/widgets/attendance_feature_active_banner.dart';
 import '../../../attendance_feature/presentation/widgets/attendance_feature_locked_view.dart';
 import '../widgets/attendance_range_note.dart';
 import '../widgets/attendance_status_card.dart';
 import '../widgets/owner_attendance_links.dart';
+import '../widgets/worked_hours_card.dart';
 
 class BarberAttendanceScreen extends StatelessWidget {
   const BarberAttendanceScreen({super.key});
@@ -29,6 +31,8 @@ class BarberAttendanceScreen extends StatelessWidget {
     final done = wasOnShift ? await cubit.checkOut() : await cubit.checkIn();
 
     if (!context.mounted || !done) return;
+
+    context.read<WorkedHoursCubit>().load();
 
     showSuccess(
       wasOnShift ? S().attendanceCheckedOut : S().attendanceCheckedIn,
@@ -84,7 +88,10 @@ class BarberAttendanceScreen extends StatelessWidget {
             }
 
             return RefreshableStateView(
-              onRefresh: cubit.load,
+              onRefresh: () async {
+                context.read<WorkedHoursCubit>().load();
+                await cubit.load();
+              },
               child: Padding(
                 padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 24.h),
                 child: Column(
@@ -95,6 +102,7 @@ class BarberAttendanceScreen extends StatelessWidget {
                       current: state.current,
                       fetchedAt: state.fetchedAt!,
                     ),
+                    const WorkedHoursCard(),
                     SizedBox(height: 14.h),
                     AttendanceRangeNote(config: state.current.config),
                     SizedBox(height: 20.h),

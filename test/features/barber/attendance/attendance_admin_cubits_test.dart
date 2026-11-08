@@ -92,6 +92,7 @@ class _FakeHistoryRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, AttendanceHistoryPage>> getHistory({
     required int page,
     int size = 20,
+    DateTime? from,
   }) async => Right(
     AttendanceHistoryPage(shifts: [_shift(1), _shift(2)], page: 0, totalPages: 1),
   );

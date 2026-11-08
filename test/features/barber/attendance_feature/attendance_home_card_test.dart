@@ -72,6 +72,7 @@ class _AttendanceRepo implements IBarberAttendanceRepo {
   Future<Either<Failure, AttendanceHistoryPage>> getHistory({
     required int page,
     int size = 20,
+    DateTime? from,
   }) => throw UnimplementedError();
 }
 
