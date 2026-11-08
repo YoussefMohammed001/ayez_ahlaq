@@ -1,3 +1,4 @@
+import '../../../profile_setup/presentation/helpers/profile_setup_prefetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,9 +61,10 @@ class _BarberLoginScreenState extends State<BarberLoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: BlocListener<BarberAuthCubit, BarberAuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.status == BarberAuthStatus.authenticated) {
-              context.go(Routes.barberShell);
+              if (!isTeamMember) await ProfileSetupPrefetch.beforeHome();
+              if (context.mounted) context.go(Routes.barberShell);
             }
             if (state.status == BarberAuthStatus.otpRequested) {
               context.replace(Routes.barberVerifyOtpScreen);

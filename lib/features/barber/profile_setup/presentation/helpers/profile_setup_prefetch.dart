@@ -6,7 +6,7 @@ import '../manager/profile_setup_cubit.dart';
 class ProfileSetupPrefetch {
   const ProfileSetupPrefetch._();
 
-  static const _splashBudget = Duration(seconds: 4);
+  static const _homeBudget = Duration(seconds: 4);
 
   static Future<void> start(ProfileSetupCubit cubit) async {
     final ownerId = sl<PreferencesStorage>().getUserId();
@@ -15,9 +15,9 @@ class ProfileSetupPrefetch {
     await cubit.start(ownerId).catchError((_) {});
   }
 
-  static Future<void> fromSplash() async {
+  static Future<void> beforeHome() async {
     await start(
       SessionScope.cubit<ProfileSetupCubit>(),
-    ).timeout(_splashBudget, onTimeout: () {});
+    ).timeout(_homeBudget, onTimeout: () {});
   }
 }

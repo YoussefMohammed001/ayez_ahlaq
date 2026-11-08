@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     sl<UserAnalyticsSync>().identify(UserHelpers.userType);
 
-    if (_isBarberOwner) await ProfileSetupPrefetch.fromSplash();
+    if (_isBarberOwner) await ProfileSetupPrefetch.beforeHome();
     if (!mounted) return;
 
     context.go(switch (UserHelpers.userType) {
