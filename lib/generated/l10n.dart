@@ -12013,6 +12013,351 @@ class S {
       args: [],
     );
   }
+
+  /// `Salary`
+  String get salaryTitle {
+    return Intl.message('Salary', name: 'salaryTitle', desc: '', args: []);
+  }
+
+  /// `{month} / {year}`
+  String salaryMonthLabel(String month, String year) {
+    return Intl.message(
+      '$month / $year',
+      name: 'salaryMonthLabel',
+      desc: '',
+      args: [month, year],
+    );
+  }
+
+  /// `No salary set yet`
+  String get salaryNotSet {
+    return Intl.message(
+      'No salary set yet',
+      name: 'salaryNotSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set this member's salary to see the monthly calculation.`
+  String get salaryNotSetOwnerHint {
+    return Intl.message(
+      'Set this member\'s salary to see the monthly calculation.',
+      name: 'salaryNotSetOwnerHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The shop owner has not set your salary yet.`
+  String get salaryNotSetMemberHint {
+    return Intl.message(
+      'The shop owner has not set your salary yet.',
+      name: 'salaryNotSetMemberHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set salary`
+  String get salarySetAction {
+    return Intl.message(
+      'Set salary',
+      name: 'salarySetAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit salary`
+  String get salaryEditAction {
+    return Intl.message(
+      'Edit salary',
+      name: 'salaryEditAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear salary`
+  String get salaryClearAction {
+    return Intl.message(
+      'Clear salary',
+      name: 'salaryClearAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear salary`
+  String get salaryClearConfirmTitle {
+    return Intl.message(
+      'Clear salary',
+      name: 'salaryClearConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This member's salary will be cleared and nothing will be calculated until you set it again.`
+  String get salaryClearConfirmMessage {
+    return Intl.message(
+      'This member\'s salary will be cleared and nothing will be calculated until you set it again.',
+      name: 'salaryClearConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salary saved`
+  String get salarySaved {
+    return Intl.message(
+      'Salary saved',
+      name: 'salarySaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salary cleared`
+  String get salaryCleared {
+    return Intl.message(
+      'Salary cleared',
+      name: 'salaryCleared',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salary type`
+  String get salaryTypeLabel {
+    return Intl.message(
+      'Salary type',
+      name: 'salaryTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily`
+  String get salaryTypeDaily {
+    return Intl.message('Daily', name: 'salaryTypeDaily', desc: '', args: []);
+  }
+
+  /// `Monthly`
+  String get salaryTypeMonthly {
+    return Intl.message(
+      'Monthly',
+      name: 'salaryTypeMonthly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount (EGP)`
+  String get salaryAmountLabel {
+    return Intl.message(
+      'Amount (EGP)',
+      name: 'salaryAmountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter an amount greater than zero`
+  String get salaryAmountInvalid {
+    return Intl.message(
+      'Enter an amount greater than zero',
+      name: 'salaryAmountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount is multiplied by the working days of the month.`
+  String get salaryDailyHint {
+    return Intl.message(
+      'The amount is multiplied by the working days of the month.',
+      name: 'salaryDailyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount is divided over the working days and hours of the month.`
+  String get salaryMonthlyHint {
+    return Intl.message(
+      'The amount is divided over the working days and hours of the month.',
+      name: 'salaryMonthlyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set salary`
+  String get salaryAmountRow {
+    return Intl.message(
+      'Set salary',
+      name: 'salaryAmountRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily rate`
+  String get salaryDailyRateRow {
+    return Intl.message(
+      'Daily rate',
+      name: 'salaryDailyRateRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hourly rate`
+  String get salaryHourlyRateRow {
+    return Intl.message(
+      'Hourly rate',
+      name: 'salaryHourlyRateRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Month total`
+  String get salaryMonthlyTotalRow {
+    return Intl.message(
+      'Month total',
+      name: 'salaryMonthlyTotalRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Days attended`
+  String get salaryDaysWorkedRow {
+    return Intl.message(
+      'Days attended',
+      name: 'salaryDaysWorkedRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{worked} of {total}`
+  String salaryDaysWorkedValue(String worked, String total) {
+    return Intl.message(
+      '$worked of $total',
+      name: 'salaryDaysWorkedValue',
+      desc: '',
+      args: [worked, total],
+    );
+  }
+
+  /// `Hours worked`
+  String get salaryHoursWorkedRow {
+    return Intl.message(
+      'Hours worked',
+      name: 'salaryHoursWorkedRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{hours} h`
+  String salaryHoursValue(String hours) {
+    return Intl.message(
+      '$hours h',
+      name: 'salaryHoursValue',
+      desc: '',
+      args: [hours],
+    );
+  }
+
+  /// `Late minutes`
+  String get salaryLateMinutesRow {
+    return Intl.message(
+      'Late minutes',
+      name: 'salaryLateMinutesRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Early leave minutes`
+  String get salaryEarlyLeaveRow {
+    return Intl.message(
+      'Early leave minutes',
+      name: 'salaryEarlyLeaveRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{minutes} min`
+  String salaryMinutesValue(String minutes) {
+    return Intl.message(
+      '$minutes min',
+      name: 'salaryMinutesValue',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
+  /// `Absent days`
+  String get salaryAbsentDaysRow {
+    return Intl.message(
+      'Absent days',
+      name: 'salaryAbsentDaysRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salary before deductions`
+  String get salaryGrossRow {
+    return Intl.message(
+      'Salary before deductions',
+      name: 'salaryGrossRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deductions`
+  String get salaryDeductionsRow {
+    return Intl.message(
+      'Deductions',
+      name: 'salaryDeductionsRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Net salary`
+  String get salaryNetRow {
+    return Intl.message('Net salary', name: 'salaryNetRow', desc: '', args: []);
+  }
+
+  /// `Previous month`
+  String get salaryPreviousMonth {
+    return Intl.message(
+      'Previous month',
+      name: 'salaryPreviousMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next month`
+  String get salaryNextMonth {
+    return Intl.message(
+      'Next month',
+      name: 'salaryNextMonth',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -143,43 +143,51 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m55(count) => "${count} reviews";
 
-  static String m56(date) =>
+  static String m56(worked, total) => "${worked} of ${total}";
+
+  static String m57(hours) => "${hours} h";
+
+  static String m58(minutes) => "${minutes} min";
+
+  static String m59(month, year) => "${month} / ${year}";
+
+  static String m60(date) =>
       "You already have another booking on ${date}. It may be for you or a friend. Do you want to book again?";
 
-  static String m57(price, duration) => "${price} EGP · ${duration} min";
+  static String m61(price, duration) => "${price} EGP · ${duration} min";
 
-  static String m58(count) => "${count} selected";
+  static String m62(count) => "${count} selected";
 
-  static String m59(done, total) => "${done} of ${total} steps done";
+  static String m63(done, total) => "${done} of ${total} steps done";
 
-  static String m60(place) => "Closest to: ${place}";
+  static String m64(place) => "Closest to: ${place}";
 
-  static String m61(count) => "The offer applies to ${count} salons";
+  static String m65(count) => "The offer applies to ${count} salons";
 
-  static String m62(minutes) =>
+  static String m66(minutes) =>
       "The service takes ${minutes} min, these are the available times for it.";
 
-  static String m63(amount) =>
+  static String m67(amount) =>
       "${amount} will be charged from your wallet and you stay promoted for 30 days.";
 
-  static String m64(days) => "${days} days left";
+  static String m68(days) => "${days} days left";
 
-  static String m65(amount) =>
+  static String m69(amount) =>
       "Your wallet is short by ${amount}, top up first";
 
-  static String m66(count) => "${count} units";
+  static String m70(count) => "${count} units";
 
-  static String m67(percent) => "${percent}% off";
+  static String m71(percent) => "${percent}% off";
 
-  static String m68(merchantName) => "View ${merchantName}\'s store";
+  static String m72(merchantName) => "View ${merchantName}\'s store";
 
-  static String m69(shopName) => "View ${shopName}\'s page";
+  static String m73(shopName) => "View ${shopName}\'s page";
 
-  static String m70(amount) => "Available: ${amount} EGP";
+  static String m74(amount) => "Available: ${amount} EGP";
 
-  static String m71(amount) => "Your available balance: ${amount} EGP";
+  static String m75(amount) => "Your available balance: ${amount} EGP";
 
-  static String m72(amount) => "Remaining after withdrawal: ${amount} EGP";
+  static String m76(amount) => "Remaining after withdrawal: ${amount} EGP";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2315,10 +2323,74 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "rewardTypeLabel": MessageLookupByLibrary.simpleMessage("Reward type"),
     "runningLowProducts": MessageLookupByLibrary.simpleMessage("Running low"),
+    "salaryAbsentDaysRow": MessageLookupByLibrary.simpleMessage("Absent days"),
+    "salaryAmountInvalid": MessageLookupByLibrary.simpleMessage(
+      "Enter an amount greater than zero",
+    ),
+    "salaryAmountLabel": MessageLookupByLibrary.simpleMessage("Amount (EGP)"),
+    "salaryAmountRow": MessageLookupByLibrary.simpleMessage("Set salary"),
+    "salaryClearAction": MessageLookupByLibrary.simpleMessage("Clear salary"),
+    "salaryClearConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "This member\'s salary will be cleared and nothing will be calculated until you set it again.",
+    ),
+    "salaryClearConfirmTitle": MessageLookupByLibrary.simpleMessage(
+      "Clear salary",
+    ),
+    "salaryCleared": MessageLookupByLibrary.simpleMessage("Salary cleared"),
+    "salaryDailyHint": MessageLookupByLibrary.simpleMessage(
+      "The amount is multiplied by the working days of the month.",
+    ),
+    "salaryDailyRateRow": MessageLookupByLibrary.simpleMessage("Daily rate"),
+    "salaryDaysWorkedRow": MessageLookupByLibrary.simpleMessage(
+      "Days attended",
+    ),
+    "salaryDaysWorkedValue": m56,
+    "salaryDeductionsRow": MessageLookupByLibrary.simpleMessage("Deductions"),
+    "salaryEarlyLeaveRow": MessageLookupByLibrary.simpleMessage(
+      "Early leave minutes",
+    ),
+    "salaryEditAction": MessageLookupByLibrary.simpleMessage("Edit salary"),
+    "salaryGrossRow": MessageLookupByLibrary.simpleMessage(
+      "Salary before deductions",
+    ),
+    "salaryHourlyRateRow": MessageLookupByLibrary.simpleMessage("Hourly rate"),
+    "salaryHoursValue": m57,
+    "salaryHoursWorkedRow": MessageLookupByLibrary.simpleMessage(
+      "Hours worked",
+    ),
+    "salaryLateMinutesRow": MessageLookupByLibrary.simpleMessage(
+      "Late minutes",
+    ),
+    "salaryMinutesValue": m58,
+    "salaryMonthLabel": m59,
+    "salaryMonthlyHint": MessageLookupByLibrary.simpleMessage(
+      "The amount is divided over the working days and hours of the month.",
+    ),
+    "salaryMonthlyTotalRow": MessageLookupByLibrary.simpleMessage(
+      "Month total",
+    ),
+    "salaryNetRow": MessageLookupByLibrary.simpleMessage("Net salary"),
+    "salaryNextMonth": MessageLookupByLibrary.simpleMessage("Next month"),
+    "salaryNotSet": MessageLookupByLibrary.simpleMessage("No salary set yet"),
+    "salaryNotSetMemberHint": MessageLookupByLibrary.simpleMessage(
+      "The shop owner has not set your salary yet.",
+    ),
+    "salaryNotSetOwnerHint": MessageLookupByLibrary.simpleMessage(
+      "Set this member\'s salary to see the monthly calculation.",
+    ),
+    "salaryPreviousMonth": MessageLookupByLibrary.simpleMessage(
+      "Previous month",
+    ),
+    "salarySaved": MessageLookupByLibrary.simpleMessage("Salary saved"),
+    "salarySetAction": MessageLookupByLibrary.simpleMessage("Set salary"),
+    "salaryTitle": MessageLookupByLibrary.simpleMessage("Salary"),
+    "salaryTypeDaily": MessageLookupByLibrary.simpleMessage("Daily"),
+    "salaryTypeLabel": MessageLookupByLibrary.simpleMessage("Salary type"),
+    "salaryTypeMonthly": MessageLookupByLibrary.simpleMessage("Monthly"),
     "sameDayBookingConfirmLabel": MessageLookupByLibrary.simpleMessage(
       "Yes, book again",
     ),
-    "sameDayBookingWarningMessage": m56,
+    "sameDayBookingWarningMessage": m60,
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saveChanges": MessageLookupByLibrary.simpleMessage("Save changes"),
     "saveNewPassword": MessageLookupByLibrary.simpleMessage("Save password"),
@@ -2375,7 +2447,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Duration (minutes)",
     ),
     "serviceLabel": MessageLookupByLibrary.simpleMessage("Service"),
-    "serviceMetaLine": m57,
+    "serviceMetaLine": m61,
     "servicePopularLabel": MessageLookupByLibrary.simpleMessage(
       "Most requested",
     ),
@@ -2391,12 +2463,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "settleCancelReasonHint": MessageLookupByLibrary.simpleMessage(
       "Reason for cancelling",
     ),
-    "settleSelectedCount": m58,
+    "settleSelectedCount": m62,
     "settleSubmitAction": MessageLookupByLibrary.simpleMessage(
       "Apply decisions",
     ),
     "settleSuccess": MessageLookupByLibrary.simpleMessage("Bookings settled"),
-    "setupChecklistProgress": m59,
+    "setupChecklistProgress": m63,
     "setupChecklistTitle": MessageLookupByLibrary.simpleMessage(
       "Finish setting up your shop",
     ),
@@ -2481,19 +2553,19 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "shopsAreaMyLocation": MessageLookupByLibrary.simpleMessage("My location"),
     "shopsAreaOther": MessageLookupByLibrary.simpleMessage("Another place"),
-    "shopsHintCustom": m60,
+    "shopsHintCustom": m64,
     "shopsHintDevice": MessageLookupByLibrary.simpleMessage(
       "Closest to your current location",
     ),
     "shopsSearchHint": MessageLookupByLibrary.simpleMessage(
       "Search by shop name or area",
     ),
-    "shopsSelectedHint": m61,
+    "shopsSelectedHint": m65,
     "shopsTitle": MessageLookupByLibrary.simpleMessage("Salons"),
     "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "skipForNow": MessageLookupByLibrary.simpleMessage("Not now"),
-    "slotsServiceDurationNote": m62,
+    "slotsServiceDurationNote": m66,
     "snapchat_error": MessageLookupByLibrary.simpleMessage(
       "Could not open Snapchat",
     ),
@@ -2513,16 +2585,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "sponsorshipBuy": MessageLookupByLibrary.simpleMessage(
       "Promote for a month",
     ),
-    "sponsorshipConfirmMessage": m63,
+    "sponsorshipConfirmMessage": m67,
     "sponsorshipConfirmTitle": MessageLookupByLibrary.simpleMessage(
       "Activate promotion",
     ),
-    "sponsorshipDaysLeft": m64,
+    "sponsorshipDaysLeft": m68,
     "sponsorshipEndsAt": MessageLookupByLibrary.simpleMessage("Ends on"),
     "sponsorshipInactive": MessageLookupByLibrary.simpleMessage(
       "Promotion is off",
     ),
-    "sponsorshipInsufficient": m65,
+    "sponsorshipInsufficient": m69,
     "sponsorshipMerchantSubtitle": MessageLookupByLibrary.simpleMessage(
       "Put your products at the top of the barbers\' store",
     ),
@@ -2554,7 +2626,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "stockQuantity": MessageLookupByLibrary.simpleMessage("Available stock"),
     "stockQuantityHint": MessageLookupByLibrary.simpleMessage("e.g. 20"),
-    "stockUnits": m66,
+    "stockUnits": m70,
     "stockUpdated": MessageLookupByLibrary.simpleMessage("Stock updated"),
     "storeAndSalesSection": MessageLookupByLibrary.simpleMessage("Your Store"),
     "storeBrowseMerchantsCta": MessageLookupByLibrary.simpleMessage(
@@ -2717,7 +2789,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This app is still under development",
     ),
     "underReview": MessageLookupByLibrary.simpleMessage("Under review"),
-    "unitDiscountPercentLabel": m67,
+    "unitDiscountPercentLabel": m71,
     "unitPrice": MessageLookupByLibrary.simpleMessage("Unit price (EGP)"),
     "unnamedLocation": MessageLookupByLibrary.simpleMessage(
       "Location selected on map",
@@ -2753,9 +2825,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "view": MessageLookupByLibrary.simpleMessage("View"),
     "viewCart": MessageLookupByLibrary.simpleMessage("View cart"),
     "viewDocument": MessageLookupByLibrary.simpleMessage("View"),
-    "viewMerchantStore": m68,
+    "viewMerchantStore": m72,
     "viewOnMap": MessageLookupByLibrary.simpleMessage("View on map"),
-    "viewShopProfile": m69,
+    "viewShopProfile": m73,
     "visitRatingTitle": MessageLookupByLibrary.simpleMessage(
       "How was your visit?",
     ),
@@ -2784,7 +2856,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletAttachmentTapToView": MessageLookupByLibrary.simpleMessage(
       "Tap to view the full image",
     ),
-    "walletAvailableLabel": m70,
+    "walletAvailableLabel": m74,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage(
       "Current balance",
     ),
@@ -2846,14 +2918,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Wallet requests",
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("Wallet"),
-    "walletWithdrawAvailableNow": m71,
+    "walletWithdrawAvailableNow": m75,
     "walletWithdrawBalanceUnknown": MessageLookupByLibrary.simpleMessage(
       "Loading your balance...",
     ),
     "walletWithdrawExceedsAvailable": MessageLookupByLibrary.simpleMessage(
       "The amount is more than your available balance",
     ),
-    "walletWithdrawRemainingAfter": m72,
+    "walletWithdrawRemainingAfter": m76,
     "weak_password": MessageLookupByLibrary.simpleMessage(
       "Password is too weak",
     ),

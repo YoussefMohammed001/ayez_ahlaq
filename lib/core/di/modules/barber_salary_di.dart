@@ -11,6 +11,8 @@ import '../../../features/barber/salary/domain/use_cases/get_my_salary_use_case.
 import '../../../features/barber/salary/domain/use_cases/get_pending_deductions_count_use_case.dart';
 import '../../../features/barber/salary/domain/use_cases/set_deduction_grace_use_case.dart';
 import '../../../features/barber/salary/domain/use_cases/set_member_salary_use_case.dart';
+import '../../../features/barber/salary/presentation/manager/member_salary_cubit.dart';
+import '../../../features/barber/salary/presentation/manager/my_salary_cubit.dart';
 import '../sl.dart';
 
 void registerBarberSalary() {
@@ -27,4 +29,6 @@ void registerBarberSalary() {
   sl.registerLazySingleton(() => GetPendingDeductionsCountUseCase(sl()));
   sl.registerLazySingleton(() => GetDeductionGraceUseCase(sl()));
   sl.registerLazySingleton(() => SetDeductionGraceUseCase(sl()));
+  sl.registerFactory(() => MemberSalaryCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => MySalaryCubit(sl()));
 }

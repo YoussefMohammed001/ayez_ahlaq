@@ -7,6 +7,7 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
+import '../../../salary/presentation/widgets/member_salary_section.dart';
 import '../manager/barber_team_cubit.dart';
 import '../manager/team_member_detail_cubit.dart';
 import '../manager/team_member_detail_state.dart';
@@ -117,6 +118,7 @@ class TeamMemberDetailScreen extends StatelessWidget {
                   onActivate: () => _activate(context),
                   onDeletePermanently: () => _deletePermanently(context),
                 ),
+                const MemberSalarySection(),
                 const MemberHoursSection(),
                 const MemberServicesSection(),
                 const MemberEarningsSection(),
