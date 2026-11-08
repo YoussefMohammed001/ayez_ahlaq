@@ -13,6 +13,7 @@ import '../../../features/customer/store/presentation/pages/store_feed_product_d
     as customer_feed;
 import '../../../features/customer/store/presentation/pages/store_product_details_args.dart';
 import '../../../features/customer/store/presentation/pages/store_product_details_screen.dart';
+import '../../../features/customer/store/presentation/widgets/store_cart_busy_scope.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/customer_scoped_cubits.dart';
 import '../route_guards.dart';
@@ -23,7 +24,9 @@ final List<RouteBase> customerStoreRoutes = [
     redirect: (_, state) => redirectToSplashUnlessExtraIs<int>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
-      child: StoreProductsScreen(shopId: state.extra as int),
+      child: StoreCartBusyScope(
+        child: StoreProductsScreen(shopId: state.extra as int),
+      ),
     ),
   ),
   GoRoute(
@@ -31,8 +34,10 @@ final List<RouteBase> customerStoreRoutes = [
     redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
-      child: StoreProductDetailsScreen(
-        args: state.extra as StoreProductDetailsArgs,
+      child: StoreCartBusyScope(
+        child: StoreProductDetailsScreen(
+          args: state.extra as StoreProductDetailsArgs,
+        ),
       ),
     ),
   ),
@@ -41,8 +46,10 @@ final List<RouteBase> customerStoreRoutes = [
     redirect: (_, state) => redirectToSplashUnlessExtraIs<customer_feed.StoreFeedProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: customerStoreCartCubit,
-      child: customer_feed.StoreFeedProductDetailsScreen(
-        args: state.extra as customer_feed.StoreFeedProductDetailsArgs,
+      child: StoreCartBusyScope(
+        child: customer_feed.StoreFeedProductDetailsScreen(
+          args: state.extra as customer_feed.StoreFeedProductDetailsArgs,
+        ),
       ),
     ),
   ),
@@ -53,7 +60,7 @@ final List<RouteBase> customerStoreRoutes = [
         BlocProvider.value(value: customerStoreCartCubit),
         BlocProvider.value(value: customerPaymentMethodsCubit),
       ],
-      child: const StoreCartScreen(),
+      child: const StoreCartBusyScope(child: StoreCartScreen()),
     ),
   ),
   GoRoute(

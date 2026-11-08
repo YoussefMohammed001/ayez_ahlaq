@@ -13,6 +13,7 @@ import '../../../features/barber/store/presentation/pages/barber_store_order_det
 import '../../../features/barber/store/presentation/pages/barber_store_products_screen.dart';
 import '../../../features/barber/store/presentation/pages/store_feed_product_details_args.dart';
 import '../../../features/barber/store/presentation/pages/store_feed_product_details_screen.dart';
+import '../../../features/barber/store/presentation/widgets/barber_store_cart_busy_scope.dart';
 import '../route_paths.dart';
 import '../scoped_cubits/barber_scoped_cubits.dart';
 import '../route_guards.dart';
@@ -31,7 +32,9 @@ final List<RouteBase> barberStoreRoutes = [
         BlocProvider.value(value: barberStoreCartCubit),
         BlocProvider.value(value: barberStoreOrdersCubit),
       ],
-      child: StoreHomeScreen(initialTabIndex: state.extra as int? ?? 0),
+      child: BarberStoreCartBusyScope(
+        child: StoreHomeScreen(initialTabIndex: state.extra as int? ?? 0),
+      ),
     ),
   ),
   GoRoute(
@@ -41,9 +44,11 @@ final List<RouteBase> barberStoreRoutes = [
         BlocProvider.value(value: barberStoreMerchantsCubit..loadMerchants()),
         BlocProvider.value(value: barberStoreCartCubit),
       ],
-      child: Scaffold(
-        appBar: AppTopBar(title: S().storeBrowseMerchantsCta),
-        body: const BarberStoreMerchantsScreen(),
+      child: BarberStoreCartBusyScope(
+        child: Scaffold(
+          appBar: AppTopBar(title: S().storeBrowseMerchantsCta),
+          body: const BarberStoreMerchantsScreen(),
+        ),
       ),
     ),
   ),
@@ -52,8 +57,10 @@ final List<RouteBase> barberStoreRoutes = [
     redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreFeedProductDetailsArgs>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStoreCartCubit,
-      child: StoreFeedProductDetailsScreen(
-        args: state.extra as StoreFeedProductDetailsArgs,
+      child: BarberStoreCartBusyScope(
+        child: StoreFeedProductDetailsScreen(
+          args: state.extra as StoreFeedProductDetailsArgs,
+        ),
       ),
     ),
   ),
@@ -62,7 +69,11 @@ final List<RouteBase> barberStoreRoutes = [
     redirect: (_, state) => redirectToSplashUnlessExtraIs<StoreMerchant>(state),
     builder: (_, state) => BlocProvider.value(
       value: barberStoreCartCubit,
-      child: BarberStoreProductsScreen(merchant: state.extra as StoreMerchant),
+      child: BarberStoreCartBusyScope(
+        child: BarberStoreProductsScreen(
+          merchant: state.extra as StoreMerchant,
+        ),
+      ),
     ),
   ),
   GoRoute(
