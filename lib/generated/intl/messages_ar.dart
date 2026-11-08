@@ -2333,14 +2333,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "setupChecklistTitle": MessageLookupByLibrary.simpleMessage(
       "أكمل إعداد محلك",
     ),
+    "setupHide": MessageLookupByLibrary.simpleMessage("إخفاء"),
     "setupStartTour": MessageLookupByLibrary.simpleMessage(
       "ابدأ الجولة التعريفية",
     ),
-    "setupStepDocumentsHint": MessageLookupByLibrary.simpleMessage(
-      "مطلوبة لاعتماد حسابك",
-    ),
-    "setupStepDocumentsTitle": MessageLookupByLibrary.simpleMessage(
-      "ارفع المستندات المطلوبة",
+    "setupStepBlockedHint": MessageLookupByLibrary.simpleMessage(
+      "أضف عضوًا أولًا",
     ),
     "setupStepHoursHint": MessageLookupByLibrary.simpleMessage(
       "ليتمكن العملاء من الحجز في أوقات عملك",
@@ -2359,6 +2357,24 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setupStepServicesTitle": MessageLookupByLibrary.simpleMessage(
       "أضف خدماتك وأسعارها",
+    ),
+    "setupStepTeamHint": MessageLookupByLibrary.simpleMessage(
+      "ليستقبل الحجوزات معك",
+    ),
+    "setupStepTeamHoursHint": MessageLookupByLibrary.simpleMessage(
+      "عضو واحد على الأقل",
+    ),
+    "setupStepTeamHoursTitle": MessageLookupByLibrary.simpleMessage(
+      "حدد مواعيد عضو الفريق",
+    ),
+    "setupStepTeamServicesHint": MessageLookupByLibrary.simpleMessage(
+      "ليظهر للعملاء ويقبل الحجز",
+    ),
+    "setupStepTeamServicesTitle": MessageLookupByLibrary.simpleMessage(
+      "أضف خدمات عضو الفريق",
+    ),
+    "setupStepTeamTitle": MessageLookupByLibrary.simpleMessage(
+      "أضف عضوًا لفريقك",
     ),
     "shareDocument": MessageLookupByLibrary.simpleMessage("مشاركة"),
     "shopDetailTitle": MessageLookupByLibrary.simpleMessage("تفاصيل الصالون"),

@@ -1,14 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/analytics/app_analytics.dart';
-import '../../domain/use_cases/get_profile_setup_remote_steps_use_case.dart';
+import '../../domain/repos/i_profile_setup_store.dart';
+import '../../domain/use_cases/get_profile_setup_snapshot_use_case.dart';
 import 'profile_setup_state.dart';
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
-  final GetProfileSetupRemoteStepsUseCase _getRemoteSteps;
+  final GetProfileSetupSnapshotUseCase _getSnapshot;
+  final IProfileSetupStore _store;
   final AppAnalytics _analytics;
 
-  ProfileSetupCubit(this._getRemoteSteps, this._analytics)
-    : super(const ProfileSetupState());
+  ProfileSetupCubit(this._getSnapshot, this._store, this._analytics)
+    : super(
+        ProfileSetupState(started: _store.started, dismissed: _store.dismissed),
+      );
 
   @override
   void emit(ProfileSetupState state) {
@@ -27,29 +31,42 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
       emit(state.copyWith(status: ProfileSetupStatus.loading));
     }
 
-    final result = await _getRemoteSteps();
+    final result = await _getSnapshot();
 
-    result.fold(
-      (_) => emit(
+    await result.fold(
+      (_) async => emit(
         state.copyWith(
           status: state.status == ProfileSetupStatus.loading
               ? ProfileSetupStatus.failure
               : state.status,
         ),
       ),
-      (done) => emit(
-        state.copyWith(status: ProfileSetupStatus.success, remoteDone: done),
-      ),
+      (snapshot) async {
+        emit(
+          state.copyWith(
+            status: ProfileSetupStatus.success,
+            snapshot: snapshot,
+          ),
+        );
+        await _rememberIfNewShop();
+      },
     );
   }
 
-  void syncLocal({required bool hasPhoto, required bool documentsComplete}) {
-    if (state.hasPhoto == hasPhoto &&
-        state.documentsComplete == documentsComplete) {
-      return;
-    }
-    emit(
-      state.copyWith(hasPhoto: hasPhoto, documentsComplete: documentsComplete),
-    );
+  void syncLocal({required bool hasPhoto}) {
+    if (state.hasPhoto == hasPhoto) return;
+    emit(state.copyWith(hasPhoto: hasPhoto));
+  }
+
+  Future<void> dismiss() async {
+    await _store.dismiss();
+    emit(state.copyWith(dismissed: true));
+  }
+
+  Future<void> _rememberIfNewShop() async {
+    if (state.started || !state.requiredIncomplete) return;
+
+    await _store.markStarted();
+    emit(state.copyWith(started: true));
   }
 }

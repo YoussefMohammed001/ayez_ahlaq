@@ -32,7 +32,11 @@ class ProfileSetupCard extends StatelessWidget {
   Future<void> _open(BuildContext context, ProfileSetupStep step) async {
     final cubit = context.read<ProfileSetupCubit>();
     sl<AppAnalytics>().setupStepOpened(step.name);
-    await ProfileSetupStepRouter.open(context, step);
+    await ProfileSetupStepRouter.open(
+      context,
+      step,
+      memberId: cubit.state.memberFor(step),
+    );
     await cubit.load();
   }
 
@@ -48,8 +52,10 @@ class ProfileSetupCard extends StatelessWidget {
             child: _withTour(
               ProfileSetupChecklist(
                 progress: state.progress,
+                isBlocked: state.isBlocked,
                 onStepTap: (step) => _open(context, step),
                 onStartTour: onStartTour,
+                onDismiss: context.read<ProfileSetupCubit>().dismiss,
               ),
             ),
           );

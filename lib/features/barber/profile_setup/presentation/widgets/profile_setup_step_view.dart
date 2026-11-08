@@ -7,20 +7,26 @@ extension ProfileSetupStepView on ProfileSetupStep {
     ProfileSetupStep.hours => Icons.schedule_rounded,
     ProfileSetupStep.services => Icons.content_cut_rounded,
     ProfileSetupStep.photo => Icons.add_a_photo_outlined,
-    ProfileSetupStep.documents => Icons.folder_outlined,
+    ProfileSetupStep.team => Icons.group_add_outlined,
+    ProfileSetupStep.teamHours => Icons.more_time_rounded,
+    ProfileSetupStep.teamServices => Icons.design_services_outlined,
   };
 
   String get title => switch (this) {
     ProfileSetupStep.hours => S().setupStepHoursTitle,
     ProfileSetupStep.services => S().setupStepServicesTitle,
     ProfileSetupStep.photo => S().setupStepPhotoTitle,
-    ProfileSetupStep.documents => S().setupStepDocumentsTitle,
+    ProfileSetupStep.team => S().setupStepTeamTitle,
+    ProfileSetupStep.teamHours => S().setupStepTeamHoursTitle,
+    ProfileSetupStep.teamServices => S().setupStepTeamServicesTitle,
   };
 
   String get hint => switch (this) {
     ProfileSetupStep.hours => S().setupStepHoursHint,
     ProfileSetupStep.services => S().setupStepServicesHint,
     ProfileSetupStep.photo => S().setupStepPhotoHint,
-    ProfileSetupStep.documents => S().setupStepDocumentsHint,
+    ProfileSetupStep.team => S().setupStepTeamHint,
+    ProfileSetupStep.teamHours => S().setupStepTeamHoursHint,
+    ProfileSetupStep.teamServices => S().setupStepTeamServicesHint,
   };
 }

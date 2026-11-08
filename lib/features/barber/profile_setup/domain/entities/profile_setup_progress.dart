@@ -3,26 +3,20 @@ import 'profile_setup_step.dart';
 
 class ProfileSetupProgress extends Equatable {
   final Set<ProfileSetupStep> done;
+  final List<ProfileSetupStep> steps;
 
-  const ProfileSetupProgress(this.done);
+  const ProfileSetupProgress({required this.done, required this.steps});
 
-  int get total => ProfileSetupStep.values.length;
+  int get total => steps.length;
 
-  int get doneCount => done.length;
+  int get doneCount => steps.where(done.contains).length;
 
   bool get isComplete => doneCount == total;
 
-  double get fraction => doneCount / total;
+  double get fraction => total == 0 ? 1 : doneCount / total;
 
   bool isDone(ProfileSetupStep step) => done.contains(step);
 
-  ProfileSetupStep? get nextStep {
-    for (final step in ProfileSetupStep.values) {
-      if (!isDone(step)) return step;
-    }
-    return null;
-  }
-
   @override
-  List<Object?> get props => [done];
+  List<Object?> get props => [done, steps];
 }

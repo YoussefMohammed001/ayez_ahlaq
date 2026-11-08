@@ -1,4 +1,6 @@
 enum PreferencesKeys {
+  profileSetupStarted,
+  profileSetupDismissed,
   pendingAnalyticsEvents,
   tokenKeychainMigrated,
   autoAttendanceEnabled,

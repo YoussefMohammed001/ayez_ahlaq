@@ -9,14 +9,18 @@ import 'profile_setup_step_row.dart';
 
 class ProfileSetupChecklist extends StatelessWidget {
   final ProfileSetupProgress progress;
+  final bool Function(ProfileSetupStep step) isBlocked;
   final ValueChanged<ProfileSetupStep> onStepTap;
   final VoidCallback onStartTour;
+  final VoidCallback onDismiss;
 
   const ProfileSetupChecklist({
     super.key,
     required this.progress,
+    required this.isBlocked,
     required this.onStepTap,
     required this.onStartTour,
+    required this.onDismiss,
   });
 
   @override
@@ -51,19 +55,34 @@ class ProfileSetupChecklist extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          for (final step in ProfileSetupStep.values)
+          for (final step in progress.steps)
             ProfileSetupStepRow(
               step: step,
               done: progress.isDone(step),
+              blocked: isBlocked(step),
               onTap: () => onStepTap(step),
             ),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton.icon(
-              onPressed: onStartTour,
-              icon: Icon(Icons.explore_outlined, size: 18.r),
-              label: Text(S().setupStartTour),
-            ),
+          Row(
+            children: [
+              Flexible(
+                child: TextButton.icon(
+                  onPressed: onStartTour,
+                  icon: Icon(Icons.explore_outlined, size: 18.r),
+                  label: Text(
+                    S().setupStartTour,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: onDismiss,
+                child: Text(
+                  S().setupHide,
+                  style: TextStyle(color: scheme.onSurfaceVariant),
+                ),
+              ),
+            ],
           ),
         ],
       ),

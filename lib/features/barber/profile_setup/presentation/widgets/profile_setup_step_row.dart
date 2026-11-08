@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extensions/ext_theme.dart';
 import '../../domain/entities/profile_setup_step.dart';
+import '../../../../../generated/l10n.dart';
 import 'profile_setup_step_view.dart';
 
 class ProfileSetupStepRow extends StatelessWidget {
   final ProfileSetupStep step;
   final bool done;
+  final bool blocked;
   final VoidCallback onTap;
 
   const ProfileSetupStepRow({
@@ -14,16 +16,21 @@ class ProfileSetupStepRow extends StatelessWidget {
     required this.step,
     required this.done,
     required this.onTap,
+    this.blocked = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final accent = done ? context.semantic.success : scheme.primary;
+    final accent = done
+        ? context.semantic.success
+        : blocked
+        ? scheme.onSurfaceVariant
+        : scheme.primary;
 
     return InkWell(
       borderRadius: BorderRadius.circular(10.r),
-      onTap: done ? null : onTap,
+      onTap: done || blocked ? null : onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.h),
         child: Row(
@@ -58,7 +65,7 @@ class ProfileSetupStepRow extends StatelessWidget {
                   if (!done) ...[
                     SizedBox(height: 2.h),
                     Text(
-                      step.hint,
+                      blocked ? S().setupStepBlockedHint : step.hint,
                       style: TextStyle(
                         fontSize: 11.5.sp,
                         color: scheme.onSurfaceVariant,
@@ -68,7 +75,7 @@ class ProfileSetupStepRow extends StatelessWidget {
                 ],
               ),
             ),
-            if (!done)
+            if (!done && !blocked)
               Icon(
                 Icons.chevron_right,
                 size: 20.r,

@@ -2364,26 +2364,6 @@ class S {
     );
   }
 
-  /// `Upload the required documents`
-  String get setupStepDocumentsTitle {
-    return Intl.message(
-      'Upload the required documents',
-      name: 'setupStepDocumentsTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Needed to approve your account`
-  String get setupStepDocumentsHint {
-    return Intl.message(
-      'Needed to approve your account',
-      name: 'setupStepDocumentsHint',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Start the guided tour`
   String get setupStartTour {
     return Intl.message(
@@ -3032,6 +3012,81 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Add a team member`
+  String get setupStepTeamTitle {
+    return Intl.message(
+      'Add a team member',
+      name: 'setupStepTeamTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `So they can take bookings with you`
+  String get setupStepTeamHint {
+    return Intl.message(
+      'So they can take bookings with you',
+      name: 'setupStepTeamHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set a team member's hours`
+  String get setupStepTeamHoursTitle {
+    return Intl.message(
+      'Set a team member\'s hours',
+      name: 'setupStepTeamHoursTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one member`
+  String get setupStepTeamHoursHint {
+    return Intl.message(
+      'At least one member',
+      name: 'setupStepTeamHoursHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a team member's services`
+  String get setupStepTeamServicesTitle {
+    return Intl.message(
+      'Add a team member\'s services',
+      name: 'setupStepTeamServicesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `So customers can book them`
+  String get setupStepTeamServicesHint {
+    return Intl.message(
+      'So customers can book them',
+      name: 'setupStepTeamServicesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a member first`
+  String get setupStepBlockedHint {
+    return Intl.message(
+      'Add a member first',
+      name: 'setupStepBlockedHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hide`
+  String get setupHide {
+    return Intl.message('Hide', name: 'setupHide', desc: '', args: []);
   }
 
   /// `No slots available on this day`

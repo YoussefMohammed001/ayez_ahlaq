@@ -2398,14 +2398,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "setupChecklistTitle": MessageLookupByLibrary.simpleMessage(
       "Finish setting up your shop",
     ),
+    "setupHide": MessageLookupByLibrary.simpleMessage("Hide"),
     "setupStartTour": MessageLookupByLibrary.simpleMessage(
       "Start the guided tour",
     ),
-    "setupStepDocumentsHint": MessageLookupByLibrary.simpleMessage(
-      "Needed to approve your account",
-    ),
-    "setupStepDocumentsTitle": MessageLookupByLibrary.simpleMessage(
-      "Upload the required documents",
+    "setupStepBlockedHint": MessageLookupByLibrary.simpleMessage(
+      "Add a member first",
     ),
     "setupStepHoursHint": MessageLookupByLibrary.simpleMessage(
       "So customers can book during your hours",
@@ -2424,6 +2422,24 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setupStepServicesTitle": MessageLookupByLibrary.simpleMessage(
       "Add your services and prices",
+    ),
+    "setupStepTeamHint": MessageLookupByLibrary.simpleMessage(
+      "So they can take bookings with you",
+    ),
+    "setupStepTeamHoursHint": MessageLookupByLibrary.simpleMessage(
+      "At least one member",
+    ),
+    "setupStepTeamHoursTitle": MessageLookupByLibrary.simpleMessage(
+      "Set a team member\'s hours",
+    ),
+    "setupStepTeamServicesHint": MessageLookupByLibrary.simpleMessage(
+      "So customers can book them",
+    ),
+    "setupStepTeamServicesTitle": MessageLookupByLibrary.simpleMessage(
+      "Add a team member\'s services",
+    ),
+    "setupStepTeamTitle": MessageLookupByLibrary.simpleMessage(
+      "Add a team member",
     ),
     "shareDocument": MessageLookupByLibrary.simpleMessage("Share"),
     "shopDetailTitle": MessageLookupByLibrary.simpleMessage("Salon details"),
