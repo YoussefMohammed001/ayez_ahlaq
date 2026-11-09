@@ -1,3 +1,4 @@
+import '../../../features/barber/salary/presentation/manager/member_commission_cubit.dart';
 import '../../../features/barber/salary/presentation/manager/member_salary_cubit.dart';
 import '../../di/sl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,12 @@ final List<RouteBase> barberTeamRoutes = [
             value: memberEarningsCubit..loadEarnings(memberId),
           ),
           BlocProvider.value(value: memberClientsCubit..loadClients(memberId)),
-          BlocProvider(create: (_) => sl<MemberSalaryCubit>()..loadMember(memberId)),
+          BlocProvider(
+            create: (_) => sl<MemberSalaryCubit>()..loadMember(memberId),
+          ),
+          BlocProvider(
+            create: (_) => sl<MemberCommissionCubit>()..load(memberId),
+          ),
           BlocProvider.value(value: barberTeamCubit),
         ],
         child: const TeamListSync(child: TeamMemberDetailScreen()),

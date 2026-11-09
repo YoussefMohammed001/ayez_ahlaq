@@ -49,7 +49,7 @@ class SalaryBody extends StatelessWidget {
             onRetry: cubit.load,
           )
         else ...[
-          if (salary.hasSalary)
+          if (salary.hasPay)
             SalarySummaryCard(salary: salary)
           else
             SalaryNotSetCard(hint: notSetHint),

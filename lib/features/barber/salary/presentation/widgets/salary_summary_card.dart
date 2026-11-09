@@ -5,6 +5,7 @@ import '../../../../../core/widgets/info_row.dart';
 import '../../../../../generated/l10n.dart';
 import '../../domain/entities/member_salary.dart';
 import '../helpers/salary_labels.dart';
+import 'salary_commission_rows.dart';
 
 class SalarySummaryCard extends StatelessWidget {
   final MemberSalary salary;
@@ -19,6 +20,7 @@ class SalarySummaryCard extends StatelessWidget {
     final gross = salary.grossSalary;
     final deductions = salary.deductions;
     final net = salary.netSalary;
+    final commission = salary.commissionEnabled;
 
     return [
       if (type != null)
@@ -100,8 +102,9 @@ class SalarySummaryCard extends StatelessWidget {
           icon: Icons.savings_outlined,
           label: S().salaryNetRow,
           value: SalaryLabels.money(net),
-          showDivider: false,
+          showDivider: commission,
         ),
+      if (commission) ...SalaryCommissionRows.of(salary),
     ];
   }
 

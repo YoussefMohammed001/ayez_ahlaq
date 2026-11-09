@@ -12698,6 +12698,151 @@ class S {
       args: [open, close],
     );
   }
+
+  /// `Commission on services`
+  String get commissionTitle {
+    return Intl.message(
+      'Commission on services',
+      name: 'commissionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Off`
+  String get commissionOffHint {
+    return Intl.message('Off', name: 'commissionOffHint', desc: '', args: []);
+  }
+
+  /// `{percent}% of the completed bookings value`
+  String commissionOnHint(String percent) {
+    return Intl.message(
+      '$percent% of the completed bookings value',
+      name: 'commissionOnHint',
+      desc: '',
+      args: [percent],
+    );
+  }
+
+  /// `Edit percent`
+  String get commissionEditAction {
+    return Intl.message(
+      'Edit percent',
+      name: 'commissionEditAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission percent`
+  String get commissionSetTitle {
+    return Intl.message(
+      'Commission percent',
+      name: 'commissionSetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Percent (1 to 100)`
+  String get commissionPercentLabel {
+    return Intl.message(
+      'Percent (1 to 100)',
+      name: 'commissionPercentLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a percent from 1 to 100`
+  String get commissionPercentInvalid {
+    return Intl.message(
+      'Enter a percent from 1 to 100',
+      name: 'commissionPercentInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission saved`
+  String get commissionSaved {
+    return Intl.message(
+      'Commission saved',
+      name: 'commissionSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission turned off`
+  String get commissionTurnedOff {
+    return Intl.message(
+      'Commission turned off',
+      name: 'commissionTurnedOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission rate`
+  String get commissionPercentRow {
+    return Intl.message(
+      'Commission rate',
+      name: 'commissionPercentRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission bookings`
+  String get commissionBookingsRow {
+    return Intl.message(
+      'Commission bookings',
+      name: 'commissionBookingsRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services value`
+  String get commissionBaseRow {
+    return Intl.message(
+      'Services value',
+      name: 'commissionBaseRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission`
+  String get commissionAmountRow {
+    return Intl.message(
+      'Commission',
+      name: 'commissionAmountRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total pay`
+  String get salaryTotalPayRow {
+    return Intl.message(
+      'Total pay',
+      name: 'salaryTotalPayRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{percent}%`
+  String commissionPercentValue(String percent) {
+    return Intl.message(
+      '$percent%',
+      name: 'commissionPercentValue',
+      desc: '',
+      args: [percent],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

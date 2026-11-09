@@ -6,8 +6,11 @@ import 'package:ayez_ahlaq/core/error/failure.dart';
 import 'package:ayez_ahlaq/core/theme/light_theme.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_type.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/use_cases/clear_member_salary_use_case.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/use_cases/get_member_commission_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/use_cases/get_member_salary_use_case.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/use_cases/set_member_commission_use_case.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/use_cases/set_member_salary_use_case.dart';
+import 'package:ayez_ahlaq/features/barber/salary/presentation/manager/member_commission_cubit.dart';
 import 'package:ayez_ahlaq/features/barber/salary/presentation/manager/member_salary_cubit.dart';
 import 'package:ayez_ahlaq/features/barber/salary/presentation/widgets/member_salary_section.dart';
 import 'package:ayez_ahlaq/features/barber/salary/presentation/widgets/set_salary_sheet.dart';
@@ -53,8 +56,18 @@ void main() {
     }
   }
 
-  Widget section() =>
-      BlocProvider.value(value: cubit, child: const MemberSalarySection());
+  Widget section() => MultiBlocProvider(
+    providers: [
+      BlocProvider.value(value: cubit),
+      BlocProvider(
+        create: (_) => MemberCommissionCubit(
+          GetMemberCommissionUseCase(FakeCommissionRepo()),
+          SetMemberCommissionUseCase(FakeCommissionRepo()),
+        )..load(10),
+      ),
+    ],
+    child: const MemberSalarySection(),
+  );
 
   testWidgets('a member without a salary invites the owner to set one', (
     tester,

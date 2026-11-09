@@ -2,10 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:ayez_ahlaq/core/error/failure.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/deduction_kind.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/deduction_status.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/entities/member_commission.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/member_salary.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_deduction.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_deductions_page.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/entities/salary_type.dart';
+import 'package:ayez_ahlaq/features/barber/salary/domain/repos/i_member_commission_repo.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/repos/i_member_salary_repo.dart';
 import 'package:ayez_ahlaq/features/barber/salary/domain/repos/i_salary_deductions_repo.dart';
 
@@ -181,5 +183,32 @@ class FakeDeductionsRepo implements ISalaryDeductionsRepo {
     all[index] = updated;
     pending = all.where((i) => i.status == DeductionStatus.pending).length;
     return Right(updated);
+  }
+}
+
+class FakeCommissionRepo implements IMemberCommissionRepo {
+  MemberCommission current;
+  Failure? failure;
+  ({bool enabled, double? percent})? lastSet;
+
+  FakeCommissionRepo([this.current = const MemberCommission.off()]);
+
+  @override
+  Future<Either<Failure, MemberCommission>> get(int memberId) async =>
+      failure != null ? Left(failure!) : Right(current);
+
+  @override
+  Future<Either<Failure, MemberCommission>> set(
+    int memberId, {
+    required bool enabled,
+    double? percent,
+  }) async {
+    if (failure != null) return Left(failure!);
+    lastSet = (enabled: enabled, percent: percent);
+    current = MemberCommission(
+      enabled: enabled,
+      percent: percent ?? current.percent,
+    );
+    return Right(current);
   }
 }

@@ -1563,5 +1563,22 @@
   "scheduleDayOff": "إجازة",
   "salaryScheduledHoursRow": "الساعات المجدولة",
   "scheduleTimeRange": "{open} – {close}",
-  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}}
+  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}},
+  "commissionTitle": "العمولة على الخدمات",
+  "commissionOffHint": "غير مفعّلة",
+  "commissionOnHint": "{percent}% من قيمة حجوزاته المكتملة",
+  "@commissionOnHint": {"placeholders": {"percent": {"type": "String"}}},
+  "commissionEditAction": "تعديل النسبة",
+  "commissionSetTitle": "نسبة العمولة",
+  "commissionPercentLabel": "النسبة (من 1 إلى 100)",
+  "commissionPercentInvalid": "أدخل نسبة بين 1 و100",
+  "commissionSaved": "تم حفظ العمولة",
+  "commissionTurnedOff": "تم إيقاف العمولة",
+  "commissionPercentRow": "نسبة العمولة",
+  "commissionBookingsRow": "حجوزات العمولة",
+  "commissionBaseRow": "قيمة الخدمات",
+  "commissionAmountRow": "العمولة",
+  "salaryTotalPayRow": "الإجمالي المستحق",
+  "commissionPercentValue": "{percent}%",
+  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}}
 }

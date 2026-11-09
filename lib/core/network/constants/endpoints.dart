@@ -160,6 +160,7 @@ class EndPoints {
   static String barberTeamMemberClients(int id) => 'barber/team/$id/clients';
   static String barberTeamHours(int id) => 'barber/team/$id/hours';
   static String barberTeamSalary(int id) => 'barber/team/$id/salary';
+  static String barberTeamCommission(int id) => 'barber/team/$id/commission';
   static const String barberSalary = 'barber/salary';
   static const String barberSalaryDeduction = 'barber/salaryDeduction';
   static const String barberSalaryDeductionPendingCount =

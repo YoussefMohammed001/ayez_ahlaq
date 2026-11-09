@@ -26,6 +26,12 @@ class MemberSalaryModel extends MemberSalary {
     required super.grossSalary,
     required super.netSalary,
     required super.pendingDecisions,
+    super.commissionEnabled,
+    super.commissionPercent,
+    super.commissionBookings,
+    super.commissionBase,
+    super.commissionAmount,
+    super.totalPay,
   });
 
   factory MemberSalaryModel.fromJson(Map<String, dynamic> json) {
@@ -56,6 +62,12 @@ class MemberSalaryModel extends MemberSalary {
       grossSalary: money('grossSalary'),
       netSalary: money('netSalary'),
       pendingDecisions: count('pendingDecisions'),
+      commissionEnabled: json['commissionEnabled'] as bool? ?? false,
+      commissionPercent: money('commissionPercent'),
+      commissionBookings: count('commissionBookings'),
+      commissionBase: money('commissionBase') ?? 0,
+      commissionAmount: money('commissionAmount') ?? 0,
+      totalPay: money('totalPay'),
     );
   }
 }

@@ -7,6 +7,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../manager/member_salary_cubit.dart';
 import '../manager/salary_view_state.dart';
+import 'member_commission_card.dart';
 import 'member_salary_actions.dart';
 import 'salary_body.dart';
 import 'set_salary_sheet.dart';
@@ -66,6 +67,7 @@ class MemberSalarySection extends StatelessWidget {
                   onClear: () => _clear(context),
                 ),
               ),
+              const MemberCommissionCard(),
             ],
           );
         },

@@ -25,6 +25,12 @@ class MemberSalary extends Equatable {
   final double? grossSalary;
   final double? netSalary;
   final int pendingDecisions;
+  final bool commissionEnabled;
+  final double? commissionPercent;
+  final int commissionBookings;
+  final double commissionBase;
+  final double commissionAmount;
+  final double? totalPay;
 
   const MemberSalary({
     required this.barberId,
@@ -50,9 +56,17 @@ class MemberSalary extends Equatable {
     required this.grossSalary,
     required this.netSalary,
     required this.pendingDecisions,
+    this.commissionEnabled = false,
+    this.commissionPercent,
+    this.commissionBookings = 0,
+    this.commissionBase = 0,
+    this.commissionAmount = 0,
+    this.totalPay,
   });
 
   bool get hasSalary => type != null && amount != null;
+
+  bool get hasPay => hasSalary || commissionEnabled;
 
   bool get hasIncidents =>
       lateMinutes > 0 || earlyLeaveMinutes > 0 || absentDays > 0;
@@ -82,5 +96,11 @@ class MemberSalary extends Equatable {
     grossSalary,
     netSalary,
     pendingDecisions,
+    commissionEnabled,
+    commissionPercent,
+    commissionBookings,
+    commissionBase,
+    commissionAmount,
+    totalPay,
   ];
 }

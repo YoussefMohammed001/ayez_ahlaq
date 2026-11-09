@@ -14,6 +14,10 @@ class BarberOperationsApiActions {
       r'^barber/team/\d+/salary$',
       'barber_member_salary_saved',
     ),
+    ApiActionRule.put(
+      r'^barber/team/\d+/commission$',
+      'barber_member_commission_saved',
+    ),
     ApiActionRule.delete(
       r'^barber/team/\d+/salary$',
       'barber_member_salary_cleared',

@@ -17,6 +17,9 @@ class SalaryLabels {
     value.toStringAsFixed(1).replaceFirst(RegExp(r'\.0$'), ''),
   );
 
+  static String percent(double value) =>
+      value.toStringAsFixed(1).replaceFirst(RegExp(r'\.0$'), '');
+
   static String minutes(int value) => S().salaryMinutesValue('$value');
 
   static String month(DateTime date) =>

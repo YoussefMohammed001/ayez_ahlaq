@@ -1563,5 +1563,22 @@
   "scheduleDayOff": "Day off",
   "salaryScheduledHoursRow": "Scheduled hours",
   "scheduleTimeRange": "{open} – {close}",
-  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}}
+  "@scheduleTimeRange": {"placeholders": {"open": {"type": "String"}, "close": {"type": "String"}}},
+  "commissionTitle": "Commission on services",
+  "commissionOffHint": "Off",
+  "commissionOnHint": "{percent}% of the completed bookings value",
+  "@commissionOnHint": {"placeholders": {"percent": {"type": "String"}}},
+  "commissionEditAction": "Edit percent",
+  "commissionSetTitle": "Commission percent",
+  "commissionPercentLabel": "Percent (1 to 100)",
+  "commissionPercentInvalid": "Enter a percent from 1 to 100",
+  "commissionSaved": "Commission saved",
+  "commissionTurnedOff": "Commission turned off",
+  "commissionPercentRow": "Commission rate",
+  "commissionBookingsRow": "Commission bookings",
+  "commissionBaseRow": "Services value",
+  "commissionAmountRow": "Commission",
+  "salaryTotalPayRow": "Total pay",
+  "commissionPercentValue": "{percent}%",
+  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}}
 }

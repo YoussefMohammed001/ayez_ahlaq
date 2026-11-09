@@ -102,6 +102,7 @@ const writeEndpoints = <(String, String)>[
   ('PUT', 'barber/attendance/7'),
   ('PUT', 'barber/salaryDeduction/7'),
   ('PUT', 'barber/salaryDeduction/setting'),
+  ('PUT', 'barber/team/7/commission'),
   ('PUT', 'barber/team/7/salary'),
   ('PUT', 'barber/attendance/setting'),
   ('PUT', 'barber/attendanceFeature/request/7/cancel'),

@@ -1,5 +1,10 @@
 import '../../../features/barber/salary/data/apis/member_salary_api.dart';
+import '../../../features/barber/salary/data/apis/member_commission_api.dart';
 import '../../../features/barber/salary/data/apis/salary_deductions_api.dart';
+import '../../../features/barber/salary/data/repos/member_commission_repo.dart';
+import '../../../features/barber/salary/domain/repos/i_member_commission_repo.dart';
+import '../../../features/barber/salary/domain/use_cases/get_member_commission_use_case.dart';
+import '../../../features/barber/salary/domain/use_cases/set_member_commission_use_case.dart';
 import '../../../features/barber/salary/data/repos/member_salary_repo.dart';
 import '../../../features/barber/salary/data/repos/salary_deductions_repo.dart';
 import '../../../features/barber/salary/domain/repos/i_member_salary_repo.dart';
@@ -14,6 +19,7 @@ import '../../../features/barber/salary/domain/use_cases/get_pending_deductions_
 import '../../../features/barber/salary/domain/use_cases/set_deduction_grace_use_case.dart';
 import '../../../features/barber/salary/domain/use_cases/set_member_salary_use_case.dart';
 import '../../../features/barber/salary/presentation/manager/deduction_grace_cubit.dart';
+import '../../../features/barber/salary/presentation/manager/member_commission_cubit.dart';
 import '../../../features/barber/salary/presentation/manager/member_salary_cubit.dart';
 import '../../../features/barber/salary/presentation/manager/pending_deductions_count_cubit.dart';
 import '../../../features/barber/salary/presentation/manager/salary_deductions_cubit.dart';
@@ -34,10 +40,17 @@ void registerBarberSalary() {
   sl.registerLazySingleton(() => GetPendingDeductionsCountUseCase(sl()));
   sl.registerLazySingleton(() => GetDeductionGraceUseCase(sl()));
   sl.registerLazySingleton(() => SetDeductionGraceUseCase(sl()));
+  sl.registerLazySingleton(() => MemberCommissionApi(sl()));
+  sl.registerLazySingleton<IMemberCommissionRepo>(
+    () => MemberCommissionRepo(sl()),
+  );
+  sl.registerLazySingleton(() => GetMemberCommissionUseCase(sl()));
+  sl.registerLazySingleton(() => SetMemberCommissionUseCase(sl()));
   sl.registerLazySingleton(() => GetSalaryDeductionsUseCase(sl()));
   sl.registerLazySingleton(() => DecideDeductionUseCase(sl()));
   sl.registerFactory(() => MemberSalaryCubit(sl(), sl(), sl()));
   sl.registerFactory(() => MySalaryCubit(sl()));
+  sl.registerFactory(() => MemberCommissionCubit(sl(), sl()));
   sl.registerFactory(() => SalaryDeductionsCubit(sl(), sl(), sl()));
   sl.registerFactory(() => PendingDeductionsCountCubit(sl()));
   sl.registerFactory(() => DeductionGraceCubit(sl(), sl()));
