@@ -1,63 +1,41 @@
-import 'package:geolocator/geolocator.dart';
-import '../../../core/cache/preferences_storage/preferences_storage.dart';
-import '../../../core/cache/preferences_storage/preferences_storage_keys.dart';
 import '../../../core/helpers/safe_print.dart';
 import '../domain/entities/geo_point.dart';
+import 'position_gateway.dart';
 
 class DevicePositionSource {
-  static const _timeout = Duration(seconds: 8);
+  static const _timeout = Duration(seconds: 10);
+  static const _maxLastKnownAge = Duration(minutes: 2);
 
-  final PreferencesStorage _preferences;
-  GeoPoint? _lastPoint;
+  final PositionGateway _gateway;
+  final DateTime Function() _now;
 
-  DevicePositionSource(this._preferences);
+  DevicePositionSource({PositionGateway? gateway, DateTime Function()? now})
+    : _gateway = gateway ?? GeolocatorPositionGateway(),
+      _now = now ?? DateTime.now;
 
   Future<GeoPoint?> resolve() async {
     try {
-      final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.medium,
-          timeLimit: _timeout,
-        ),
-      ).timeout(_timeout);
-      return await _remember(GeoPoint(position.latitude, position.longitude));
+      final position = await _gateway
+          .current(timeLimit: _timeout)
+          .timeout(_timeout);
+      if (position != null) {
+        return GeoPoint(position.latitude, position.longitude);
+      }
     } catch (error) {
       safePrint('current position failed: $error');
-      return await _lastKnown() ?? _lastPoint ?? _stored();
     }
+
+    return _recentLastKnown();
   }
 
-  Future<GeoPoint?> _lastKnown() async {
+  Future<GeoPoint?> _recentLastKnown() async {
     try {
-      final position = await Geolocator.getLastKnownPosition();
+      final position = await _gateway.lastKnown();
       if (position == null) return null;
-      return await _remember(GeoPoint(position.latitude, position.longitude));
+      if (_now().difference(position.timestamp) > _maxLastKnownAge) return null;
+      return GeoPoint(position.latitude, position.longitude);
     } catch (_) {
       return null;
     }
-  }
-
-  Future<GeoPoint> _remember(GeoPoint point) async {
-    _lastPoint = point;
-    await _preferences.putString(
-      key: PreferencesKeys.lastLatitude,
-      value: point.latitude.toString(),
-    );
-    await _preferences.putString(
-      key: PreferencesKeys.lastLongitude,
-      value: point.longitude.toString(),
-    );
-    return point;
-  }
-
-  GeoPoint? _stored() {
-    final latitude = double.tryParse(
-      _preferences.getString(key: PreferencesKeys.lastLatitude),
-    );
-    final longitude = double.tryParse(
-      _preferences.getString(key: PreferencesKeys.lastLongitude),
-    );
-    if (latitude == null || longitude == null) return null;
-    return GeoPoint(latitude, longitude);
   }
 }

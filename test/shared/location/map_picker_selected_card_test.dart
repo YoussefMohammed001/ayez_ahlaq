@@ -35,9 +35,13 @@ void main() {
     expect(find.textContaining('مدينة نصر'), findsOneWidget);
   });
 
-  testWidgets('adds the city when the address does not mention it', (tester) async {
+  testWidgets('adds the city when the address does not mention it', (
+    tester,
+  ) async {
     await tester.pumpWidget(
-      _host(const PlaceInfo(name: 'س', city: 'الجيزة', fullAddress: 'شارع الهرم')),
+      _host(
+        const PlaceInfo(name: 'س', city: 'الجيزة', fullAddress: 'شارع الهرم'),
+      ),
     );
 
     expect(find.text('شارع الهرم، الجيزة'), findsOneWidget);

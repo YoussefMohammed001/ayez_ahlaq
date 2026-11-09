@@ -64,7 +64,7 @@ void registerAnalytics() {
 }
 
 void registerLocation() {
-  sl.registerLazySingleton(() => DevicePositionSource(sl()));
+  sl.registerLazySingleton(() => DevicePositionSource());
   sl.registerLazySingleton(() => PlaceGeocoder());
   sl.registerLazySingleton(() => ExternalMapsLauncher());
   sl.registerLazySingleton(() => OpenInMapsUseCase(sl()));
