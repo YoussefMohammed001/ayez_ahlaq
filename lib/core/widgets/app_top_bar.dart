@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../theme/heading_styles.dart';
 import '../../core/extensions/ext_theme.dart';
 import '../helpers/user_helpers.dart';
+import '../routes/merchant_home_route.dart';
 import '../routes/route_paths.dart';
 import '../../shared/user_type.dart';
 
@@ -24,7 +25,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   String get _homeShellRoute => switch (UserHelpers.userType) {
     UserType.customer => Routes.customerShell,
     UserType.barber => Routes.barberShell,
-    UserType.merchant => Routes.merchantShell,
+    UserType.merchant => merchantHomeRoute,
   };
 
   @override

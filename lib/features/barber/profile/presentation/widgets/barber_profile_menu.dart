@@ -6,7 +6,7 @@ import '../../../../../core/widgets/menu_section.dart';
 import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 import '../../../documents/presentation/widgets/missing_documents_badge.dart';
 import '../../domain/entities/barber_profile.dart';
-import 'barber_logout.dart';
+import '../../../../../shared/widgets/logout_menu_row.dart';
 import '../../../../../generated/l10n.dart';
 
 class BarberProfileMenu extends StatelessWidget {
@@ -73,7 +73,7 @@ class BarberProfileMenu extends StatelessWidget {
           label: S().supportSection,
           onTap: () => context.push(Routes.barberSupportMenuScreen),
         ),
-        BarberLogout.row(context, onLogout),
+        LogoutMenuRow.row(context, onLogout),
       ],
     );
   }

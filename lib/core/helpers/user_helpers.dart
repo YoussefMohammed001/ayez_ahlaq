@@ -1,5 +1,6 @@
 import 'package:ayez_ahlaq/shared/user_type.dart';
 import '../../features/barber/auth/domain/entities/barber_account_kind.dart';
+import '../../features/merchant/auth/domain/entities/merchant_account_kind.dart';
 import '../cache/preferences_storage/preferences_storage.dart';
 import '../cache/preferences_storage/preferences_storage_keys.dart';
 import '../cache/secure_storage/secure_storage.dart';
@@ -64,6 +65,18 @@ class UserHelpers {
       key: PreferencesKeys.barberAccountKind,
       value: kind.name,
     );
+  }
+
+  static MerchantAccountKind get merchantAccountKind {
+    return MerchantAccountKind.fromName(
+      sl<PreferencesStorage>().getString(
+        key: PreferencesKeys.merchantAccountKind,
+      ),
+    );
+  }
+
+  static String get displayName {
+    return sl<PreferencesStorage>().getString(key: PreferencesKeys.name);
   }
 
   static bool get hasSelectedUserType {

@@ -10,6 +10,7 @@ class Subscription extends Equatable {
   final DateTime? cycleStartedAt;
   final DateTime? nextRenewalDate;
   final bool autoCharge;
+  final bool attendanceEnabled;
   final SubscriptionQuota? employees;
   final SubscriptionQuota? notificationsAll;
   final SubscriptionQuota? notificationsZone;
@@ -25,6 +26,7 @@ class Subscription extends Equatable {
     this.cycleStartedAt,
     this.nextRenewalDate,
     required this.autoCharge,
+    this.attendanceEnabled = false,
     this.employees,
     this.notificationsAll,
     this.notificationsZone,
@@ -42,6 +44,7 @@ class Subscription extends Equatable {
     cycleStartedAt,
     nextRenewalDate,
     autoCharge,
+    attendanceEnabled,
     employees,
     notificationsAll,
     notificationsZone,

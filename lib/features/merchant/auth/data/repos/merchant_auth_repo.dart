@@ -9,6 +9,7 @@ import '../../../../../shared/auth/domain/entities/password_reset_ticket.dart';
 import '../../../../../shared/auth/domain/entities/register_outcome.dart';
 import '../../../../../shared/auth/data/register_outcome_resolver.dart';
 import '../../../../../shared/user_type.dart';
+import '../../domain/entities/merchant_account_kind.dart';
 import '../../domain/repos/i_merchant_auth_repo.dart';
 import '../apis/merchant_auth_api.dart';
 import '../requests/register_request.dart';
@@ -102,10 +103,12 @@ class MerchantAuthRepo implements IMerchantAuthRepo {
       (response) => requireDataMap(response).map(AuthSessionModel.fromJson),
     );
 
-    await session.fold(
-      (_) async {},
-      (value) => _localDataSource.saveSession(value, phone, UserType.merchant),
-    );
+    await session.fold((_) async {}, (value) async {
+      await _localDataSource.saveSession(value, phone, UserType.merchant);
+      await _localDataSource.saveMerchantAccountKind(
+        MerchantAccountKind.fromApi(value.type),
+      );
+    });
 
     return session;
   }

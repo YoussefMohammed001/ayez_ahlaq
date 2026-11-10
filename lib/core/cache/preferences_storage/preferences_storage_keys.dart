@@ -42,4 +42,5 @@ enum PreferencesKeys {
   adminApproved,
   missingDocumentsCount,
   barberAccountKind,
+  merchantAccountKind,
 }

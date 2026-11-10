@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/helpers/alerts.dart';
-import '../../../../../core/helpers/show_confirm_dialog.dart';
-import '../../../../../core/widgets/menu_row.dart';
-import '../../../../../generated/l10n.dart';
+import '../../core/helpers/alerts.dart';
+import '../../core/helpers/show_confirm_dialog.dart';
+import '../../core/widgets/menu_row.dart';
+import '../../generated/l10n.dart';
 
-class BarberLogout {
-  const BarberLogout._();
+class LogoutMenuRow {
+  const LogoutMenuRow._();
 
   static MenuRow row(
     BuildContext context,

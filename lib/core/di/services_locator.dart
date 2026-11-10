@@ -18,6 +18,7 @@ import 'modules/merchant_account_di.dart';
 import 'modules/merchant_notifications_di.dart';
 import 'modules/merchant_engagement_di.dart';
 import 'modules/barber_engagement_di.dart';
+import 'modules/merchant_team_di.dart';
 import 'modules/merchant_wallet_di.dart';
 import 'modules/barber_auth_di.dart';
 import 'modules/barber_account_di.dart';
@@ -76,6 +77,7 @@ class ServicesLocator {
     registerMerchantSubscription();
     registerMerchantBroadcast();
     registerMerchantWallet();
+    registerMerchantTeam();
     registerMerchantWalletRequests();
 
     registerBarberAuth();

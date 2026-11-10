@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/extensions/ext_text_controllers.dart';
 import '../../../../../core/helpers/alerts.dart';
 import '../../../../../core/helpers/validators.dart';
+import '../../../../../core/routes/merchant_home_route.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_card.dart';
 import '../../../../../core/widgets/app_password_field.dart';
@@ -59,7 +60,7 @@ class _MerchantLoginScreenState extends State<MerchantLoginScreen> {
         child: BlocListener<MerchantAuthCubit, MerchantAuthState>(
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
-              context.go(Routes.merchantShell);
+              context.go(merchantHomeRoute);
             }
             if (state.status == AuthStatus.otpRequested) {
               context.replace(Routes.merchantVerifyOtpScreen);

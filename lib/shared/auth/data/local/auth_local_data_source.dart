@@ -1,6 +1,7 @@
 import '../../../../core/cache/preferences_storage/preferences_storage.dart';
 import '../../../../core/cache/preferences_storage/preferences_storage_keys.dart';
 import '../../../../core/cache/secure_storage/secure_storage.dart';
+import '../../../../features/merchant/auth/domain/entities/merchant_account_kind.dart';
 import '../../../user_type.dart';
 import '../../domain/entities/auth_session.dart';
 
@@ -34,6 +35,13 @@ class AuthLocalDataSource {
     );
   }
 
+  Future<void> saveMerchantAccountKind(MerchantAccountKind kind) {
+    return _preferencesStorage.putString(
+      key: PreferencesKeys.merchantAccountKind,
+      value: kind.name,
+    );
+  }
+
   Future<bool> isLoggedIn() async {
     final token = await _secureStorage.read(SecureStorageKeys.userToken);
     return token != null && token.isNotEmpty;
@@ -50,5 +58,6 @@ class AuthLocalDataSource {
     await _secureStorage.delete(SecureStorageKeys.userToken);
     await _preferencesStorage.putInt(key: PreferencesKeys.userId, value: 0);
     await _preferencesStorage.putString(key: PreferencesKeys.name, value: '');
+    await saveMerchantAccountKind(MerchantAccountKind.owner);
   }
 }

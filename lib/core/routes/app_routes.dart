@@ -36,6 +36,7 @@ import 'modules/barber_salary_routes.dart';
 import 'modules/barber_team_routes.dart';
 import 'modules/barber_booking_routes.dart';
 import 'modules/merchant_shell_routes.dart';
+import 'modules/sub_merchant_shell_routes.dart';
 import 'modules/merchant_catalog_routes.dart';
 import 'modules/merchant_notifications_routes.dart';
 import 'modules/barber_storefront_routes.dart';
@@ -64,6 +65,7 @@ const _fullWidthPaths = {
   Routes.customerShell,
   Routes.barberShell,
   Routes.merchantShell,
+  Routes.subMerchantShell,
 };
 
 final _allRoutes = <RouteBase>[
@@ -97,6 +99,7 @@ final _allRoutes = <RouteBase>[
     ...barberSalaryRoutes,
     ...barberBookingRoutes,
     ...merchantShellRoutes,
+    ...subMerchantShellRoutes,
     ...merchantCatalogRoutes,
     ...merchantNotificationsRoutes,
     ...barberStorefrontRoutes,
