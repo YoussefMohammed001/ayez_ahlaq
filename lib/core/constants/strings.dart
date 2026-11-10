@@ -2,7 +2,7 @@ class AppStrings {
   static late String baseUrl;
 
   static const String devBaseUrl = 'https://gobeeeg.com/ayezAhlaqApi/api/';
-  static const String prodBaseUrl = 'https://gobeeeg.com/ayezAhlaqProdApi/api/';
+  static const String prodBaseUrl = 'https://ayezahlaq.com/ayezAhlaqProdApi/api/';
 
   static const String androidStoreUrl =
       'https://play.google.com/store/apps/details?id=com.ayezAhlaq.app';

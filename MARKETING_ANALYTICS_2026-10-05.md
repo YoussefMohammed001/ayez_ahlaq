@@ -129,7 +129,7 @@
 
 # إعداد الـ API للمراجعة (Remote Config)
 
-نسخة الـ prod بتتصل افتراضياً بـ `https://gobeeeg.com/ayezAhlaqProdApi/api/`.
+نسخة الـ prod بتتصل افتراضياً بـ `https://ayezahlaq.com/ayezAhlaqProdApi/api/`.
 
 للمراجعة (App Store / Google Play) نقدر نخليها تتصل بالـ dev بس **للنسخة اللي بتتراجع**:
 
