@@ -342,6 +342,12 @@ class EndPoints {
   static const String merchantMemberMe = 'merchant/member/me';
   static const String merchantMemberMeHours = 'merchant/member/me/hours';
   static const String merchantMemberMePassword = 'merchant/member/me/password';
+  static const String merchantMemberMeAttendance =
+      'merchant/member/me/attendance';
+  static const String merchantMemberMeAttendanceCurrent =
+      'merchant/member/me/attendance/current';
+  static const String merchantMemberMeCheckIn = 'merchant/member/me/checkIn';
+  static const String merchantMemberMeCheckOut = 'merchant/member/me/checkOut';
   static String merchantMemberById(int id) => 'merchant/member/$id';
   static String merchantMemberSalary(int id) => 'merchant/member/$id/salary';
   static String merchantMemberPermissions(int id) =>

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/extensions/ext_theme.dart';
 import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/theme/heading_styles.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/extensions/ext_theme.dart';
+import '../../../team/presentation/widgets/merchant_permission_gate.dart';
 
 class ProductsHeader extends StatelessWidget {
   const ProductsHeader({super.key});
@@ -17,24 +18,32 @@ class ProductsHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(S().tabProducts, style: HeadingStyles.h2),
-          InkWell(
-            onTap: () => context.push(Routes.merchantProductFormScreen),
-            child: Container(
-              width: 36.r,
-              height: 36.r,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: context.colorScheme.primary,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Icon(
-                Icons.add,
-                color: context.colorScheme.surfaceContainerLowest,
-                size: 20.r,
-              ),
-            ),
+          MerchantPermissionGate(
+            allows: MerchantPermissionGate.canManageProducts,
+            builder: (context, allowed) =>
+                allowed ? _buildAddButton(context) : const SizedBox.shrink(),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAddButton(BuildContext context) {
+    return InkWell(
+      onTap: () => context.push(Routes.merchantProductFormScreen),
+      child: Container(
+        width: 36.r,
+        height: 36.r,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: context.colorScheme.primary,
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Icon(
+          Icons.add,
+          color: context.colorScheme.surfaceContainerLowest,
+          size: 20.r,
+        ),
       ),
     );
   }

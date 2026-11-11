@@ -1591,5 +1591,7 @@
   "deleteMemberTitle": "Delete member",
   "deleteMemberConfirm": "This member will be deleted and can no longer sign in. Their phone number can be used again. Continue?",
   "memberDeleted": "Member deleted",
-  "teamLimitReached": "You reached the maximum number of members in your plan"
+  "teamLimitReached": "You reached the maximum number of members in your plan",
+  "memberAttendanceDisabledTitle": "Attendance is not enabled",
+  "memberAttendanceDisabledHint": "Check in and check out is not available in the shop's plan right now. Contact the shop owner."
 }

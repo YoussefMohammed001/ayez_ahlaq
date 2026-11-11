@@ -11,13 +11,13 @@ import '../../../../../core/extensions/ext_theme.dart';
 
 class ProductRow extends StatelessWidget {
   final MerchantProduct product;
-  final VoidCallback onRemove;
+  final VoidCallback? onRemove;
   final VoidCallback onTap;
 
   const ProductRow({
     super.key,
     required this.product,
-    required this.onRemove,
+    this.onRemove,
     required this.onTap,
   });
 
@@ -32,17 +32,18 @@ class ProductRow extends StatelessWidget {
           ProductThumbnail(product: product, size: 54.r),
           SizedBox(width: 12.w),
           Expanded(child: _buildInfo(context)),
-          GestureDetector(
-            onTap: onRemove,
-            child: Padding(
-              padding: EdgeInsets.all(4.r),
-              child: Icon(
-                Icons.delete_outline,
-                size: 20.r,
-                color: context.semantic.warning,
+          if (onRemove != null)
+            GestureDetector(
+              onTap: onRemove,
+              child: Padding(
+                padding: EdgeInsets.all(4.r),
+                child: Icon(
+                  Icons.delete_outline,
+                  size: 20.r,
+                  color: context.semantic.warning,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

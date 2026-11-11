@@ -17,6 +17,7 @@ import '../../../features/merchant/products/presentation/manager/merchant_produc
 import '../../../features/merchant/profile/presentation/manager/merchant_profile_cubit.dart';
 import '../../../features/merchant/profile/presentation/manager/merchant_phones_cubit.dart';
 import '../../../features/merchant/notifications/presentation/manager/merchant_notifications_cubit.dart';
+import '../../../features/merchant/attendance/presentation/manager/member_attendance_cubit.dart';
 import '../../../features/merchant/team/presentation/manager/my_merchant_member_cubit.dart';
 import '../../session/session_scope.dart';
 
@@ -46,6 +47,8 @@ MerchantPhonesCubit get merchantPhonesCubit =>
     SessionScope.cubit<MerchantPhonesCubit>();
 MerchantProductsCubit get merchantProductsCubit =>
     SessionScope.cubit<MerchantProductsCubit>();
+MemberAttendanceCubit get memberAttendanceCubit =>
+    SessionScope.cubit<MemberAttendanceCubit>();
 MyMerchantMemberCubit get myMerchantMemberCubit =>
     SessionScope.cubit<MyMerchantMemberCubit>();
 MerchantProfileCubit get merchantProfileCubit =>

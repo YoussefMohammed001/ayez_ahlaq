@@ -12953,6 +12953,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Attendance is not enabled`
+  String get memberAttendanceDisabledTitle {
+    return Intl.message(
+      'Attendance is not enabled',
+      name: 'memberAttendanceDisabledTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in and check out is not available in the shop's plan right now. Contact the shop owner.`
+  String get memberAttendanceDisabledHint {
+    return Intl.message(
+      'Check in and check out is not available in the shop\'s plan right now. Contact the shop owner.',
+      name: 'memberAttendanceDisabledHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

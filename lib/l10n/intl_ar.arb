@@ -1591,5 +1591,7 @@
   "deleteMemberTitle": "حذف العضو",
   "deleteMemberConfirm": "سيُحذف هذا العضو ولن يتمكن من الدخول، ويمكن استخدام رقمه من جديد. هل تريد المتابعة؟",
   "memberDeleted": "تم حذف العضو",
-  "teamLimitReached": "وصلت للحد الأقصى من الأعضاء في باقتك"
+  "teamLimitReached": "وصلت للحد الأقصى من الأعضاء في باقتك",
+  "memberAttendanceDisabledTitle": "الحضور والانصراف غير مفعّل",
+  "memberAttendanceDisabledHint": "خدمة الحضور والانصراف غير متاحة في باقة المحل حاليًا. تواصل مع صاحب المحل."
 }

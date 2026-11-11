@@ -19,8 +19,8 @@ class AttendanceShiftModel extends AttendanceShift {
 
     return AttendanceShiftModel(
       id: (json['id'] as num?)?.toInt() ?? 0,
-      barberId: (json['barberId'] as num?)?.toInt() ?? 0,
-      barberName: json['barberName'] as String? ?? '',
+      barberId: ((json['barberId'] ?? json['memberId']) as num?)?.toInt() ?? 0,
+      barberName: (json['barberName'] ?? json['memberName']) as String? ?? '',
       checkInAt: DateTime.parse(json['checkInAt'] as String),
       checkOutAt: checkOut == null ? null : DateTime.parse(checkOut),
       durationMinutes: (json['durationMinutes'] as num?)?.toInt() ?? 0,

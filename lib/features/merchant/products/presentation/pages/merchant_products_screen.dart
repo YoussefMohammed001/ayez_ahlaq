@@ -19,6 +19,7 @@ import '../../../../../core/helpers/show_confirm_dialog.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../team/presentation/widgets/merchant_permission_gate.dart';
 
 class MerchantProductsScreen extends StatelessWidget {
   const MerchantProductsScreen({super.key});
@@ -89,12 +90,17 @@ class MerchantProductsScreen extends StatelessWidget {
         if (state.products.isEmpty) {
           return RefreshableStateView(
             onRefresh: cubit.loadProducts,
-            child: AppEmptyState(
-              icon: Icons.inventory_2_outlined,
-              title: S().noProductsYet,
-              message: S().productsNote,
-              actionLabel: S().addWholesaleProduct,
-              onAction: () => context.push(Routes.merchantProductFormScreen),
+            child: MerchantPermissionGate(
+              allows: MerchantPermissionGate.canManageProducts,
+              builder: (context, allowed) => AppEmptyState(
+                icon: Icons.inventory_2_outlined,
+                title: S().noProductsYet,
+                message: S().productsNote,
+                actionLabel: allowed ? S().addWholesaleProduct : null,
+                onAction: allowed
+                    ? () => context.push(Routes.merchantProductFormScreen)
+                    : null,
+              ),
             ),
           );
         }
@@ -121,13 +127,18 @@ class MerchantProductsScreen extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (_, index) {
         final product = products[index];
-        return ProductRow(
-          product: product,
-          onTap: () => context.push(
-            Routes.merchantProductDetailsScreen,
-            extra: product.id,
+        return MerchantPermissionGate(
+          allows: MerchantPermissionGate.canManageProducts,
+          builder: (context, allowed) => ProductRow(
+            product: product,
+            onTap: () => context.push(
+              Routes.merchantProductDetailsScreen,
+              extra: product.id,
+            ),
+            onRemove: allowed
+                ? () => _confirmRemove(context, product.id)
+                : null,
           ),
-          onRemove: () => _confirmRemove(context, product.id),
         );
       },
     );

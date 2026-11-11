@@ -16,7 +16,9 @@ import '../widgets/attendance_shift_row.dart';
 import '../widgets/correct_attendance_sheet.dart';
 
 class AttendanceHistoryScreen extends StatelessWidget {
-  const AttendanceHistoryScreen({super.key});
+  final bool? canCorrect;
+
+  const AttendanceHistoryScreen({super.key, this.canCorrect});
 
   void _correct(BuildContext context, AttendanceShift shift) {
     final cubit = context.read<AttendanceHistoryCubit>();
@@ -40,7 +42,9 @@ class AttendanceHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isOwner =
-        context.watch<BarberProfileCubit>().state.profile?.owner ?? false;
+        canCorrect ??
+        context.watch<BarberProfileCubit>().state.profile?.owner ??
+        false;
 
     return BusyErrorListener<AttendanceHistoryCubit, AttendanceHistoryState>(
       isBusy: (state) => state.isSubmitting,

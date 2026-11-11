@@ -14,6 +14,7 @@ import '../widgets/product_detail_info.dart';
 import '../widgets/product_image_gallery.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/extensions/ext_theme.dart';
+import '../../../team/presentation/widgets/merchant_permission_gate.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final int productId;
@@ -53,32 +54,39 @@ class ProductDetailsScreen extends StatelessWidget {
           );
         }
 
-        return Scaffold(
-          appBar: AppTopBar(
-            title: S().productDetails,
-            trailing: IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                color: context.semantic.warning,
-              ),
-              onPressed: () => _confirmRemove(context),
+        return MerchantPermissionGate(
+          allows: MerchantPermissionGate.canManageProducts,
+          builder: (context, allowed) => Scaffold(
+            appBar: AppTopBar(
+              title: S().productDetails,
+              trailing: allowed
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: context.semantic.warning,
+                      ),
+                      onPressed: () => _confirmRemove(context),
+                    )
+                  : null,
             ),
-          ),
-          body: ListView(
-            padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
-            children: [
-              ProductImageGallery(product: product),
-              SizedBox(height: 18.h),
-              ProductDetailInfo(product: product),
-              SizedBox(height: 24.h),
-              PrimaryCtaButton(
-                label: S().editProduct,
-                onPressed: () => context.push(
-                  Routes.merchantProductFormScreen,
-                  extra: product,
-                ),
-              ),
-            ],
+            body: ListView(
+              padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
+              children: [
+                ProductImageGallery(product: product),
+                SizedBox(height: 18.h),
+                ProductDetailInfo(product: product),
+                if (allowed) ...[
+                  SizedBox(height: 24.h),
+                  PrimaryCtaButton(
+                    label: S().editProduct,
+                    onPressed: () => context.push(
+                      Routes.merchantProductFormScreen,
+                      extra: product,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         );
       },

@@ -5,7 +5,7 @@ import 'attendance_history_state.dart';
 
 class AttendanceHistoryCubit extends Cubit<AttendanceHistoryState> {
   final GetAttendanceHistoryUseCase _getHistory;
-  final CorrectAttendanceRecordUseCase _correct;
+  final CorrectAttendanceRecordUseCase? _correct;
 
   AttendanceHistoryCubit(this._getHistory, this._correct)
     : super(const AttendanceHistoryState());
@@ -61,9 +61,12 @@ class AttendanceHistoryCubit extends Cubit<AttendanceHistoryState> {
     required DateTime checkOutAt,
     required String note,
   }) async {
+    final correct = _correct;
+    if (correct == null) return false;
+
     emit(state.copyWith(isSubmitting: true));
 
-    final result = await _correct(
+    final result = await correct(
       id: id,
       checkInAt: checkInAt,
       checkOutAt: checkOutAt,

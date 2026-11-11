@@ -128,22 +128,23 @@
 - [ ] إشعارات التاجر: `attendance_check_in`, `attendance_check_out`, `attendance_auto_closed`, `merchant_sale` في [merchant_notification_tap_router.dart](lib/features/merchant/notifications/presentation/services/merchant_notification_tap_router.dart)
 
 ### المرحلة 5 — شيل الـ Sub-Merchant (الشاشة التانية)
-- [~] `SubMerchantShell` **هيكل أولي اتعمل** ([sub_merchant_shell.dart](lib/features/merchant/sub_merchant/presentation/pages/sub_merchant_shell.dart): اسم + مظهر + لغة + عن التطبيق + خروج، من غير تابات ولا تحميل بيانات). التابات ناقصة: **الحضور، الطلبات، المنتجات (قراءة، وكتابة لو `canManageProducts`)، المبيعات لو `canSell`، حسابي** (المرتب كارت في الحضور/حسابي زي الحلاق). الداشبورد/العملاء/الأقسام مخفية لحد ما نتفق
-- [ ] تحميل ابتدائي للـ sub بس: `member/me` + `attendance/current` + الطلبات + المنتجات + `unseenCount` (من غير dashboard/categories/discounts/documents/subscription)
-- [ ] **الطلبات للـ sub:** نعيد استخدام `MerchantOrdersCubit` وشاشات `orders` الحالية كما هي (نفس الـ APIs `merchant/order/**`)، من غير نسخة جديدة؛ قبول/رفض/تغيير الحالة متاحة (الباك اند مفيهوش صلاحية) — القرار النهائي في الأسئلة المفتوحة
-- [ ] إشعارات الـ sub: تعدّي على `merchant/notification` (inbox التاجر المشترك لحد ما Omar يفصله) + تسجيل `deviceToken`، وفتح الإشعار على الشاشة الصح في `merchant_notification_tap_router`، واستثناء إشعارات التاجر اللي الـ sub مالوش وصول لها (مثلًا `merchant_sale`/الاشتراك)
-- [ ] بوابة تغيير الباسورد الإجباري فقط (من غير موقع ولا مستندات)
-- [ ] شاشة الحضور: حالة الوردية + زرار check in/out + اللوكيشن (`lat/lng` + `method: MANUAL`)، رسالة "خارج النطاق" (`distanceMeters`/`rangeMeters` من الـ 400)، "الوردية مفتوحة" و"مفيش وردية مفتوحة"، تايمر الوردية — إعادة استخدام `shift_elapsed_text`, `attendance_status_card`…
-- [ ] سجل حضوري `member/me/attendance` + مواعيدي (قراءة فقط) `member/me/hours`
-- [ ] حسابي: بيانات الـ sub (`member/me`) + بيانات المحل (قراءة فقط `GET merchant/profile`) + تغيير الباسورد + إعدادات + دعم + خروج (من غير حذف حساب/مالية/فريق)
-- [ ] `isMerchantActive` / `canEditMerchantIdentity` ([merchant_access.dart](lib/features/merchant/profile/presentation/helpers/merchant_access.dart)) مش بتتسأل في شيل الـ sub
+- [x] `SubMerchantShell` + تابات: **الحضور، الطلبات، المنتجات، حسابي** ([sub_merchant_tabs.dart](lib/features/merchant/sub_merchant/presentation/widgets/sub_merchant_tabs.dart)). تاب **المبيعات** هييجي مع `canSell` في المرحلة 6، والمرتب لما الباك اند يجهز (المرحلة 7). الداشبورد/العملاء/الأقسام مخفية
+- [x] تحميل ابتدائي للـ sub بس: `member/me` + `attendance/current` + الطلبات + المنتجات (من غير dashboard/categories/discounts/documents/subscription)
+- [x] **الطلبات للـ sub:** نفس `MerchantOrdersScreen` و`MerchantOrdersCubit` من غير نسخة (قبول/رفض/تغيير الحالة متاحة). **الـ API اتجرّب بـ id وهمي بس** (404)، لسه ماجرّبتش قبول طلب حقيقي بحساب sub عشان مغيّرش بيانات dev
+- [~] إشعارات الـ sub: **لسه**. الـ inbox هو inbox التاجر المشترك + تسجيل `deviceToken` (المرحلة 5ج)
+- [x] بوابة تغيير الباسورد الإجباري فقط (من غير موقع ولا مستندات)
+- [x] شاشة الحضور ([member_attendance_screen.dart](lib/features/merchant/attendance/presentation/pages/member_attendance_screen.dart)): حالة الوردية + check in/out + اللوكيشن (`method: MANUAL`) + "غير مفعّل" لو `enabled:false`، وبتعيد استخدام `AttendanceStatusCard`/`AttendanceRangeNote`. **check in/out الحقيقي ماجرّبش على dev** لأن `attendanceEnabled` مقفول (شكل رد `current` متأكد منه، وشكل رد `checkIn` مفترض إنه نفس `current`)
+- [x] سجل حضوري: نفس `AttendanceHistoryScreen`/`AttendanceHistoryCubit` (من غير تصحيح) عبر نسخة مسجّلة باسم `memberAttendanceHistoryCubitName`
+- [ ] مواعيدي (قراءة فقط) `member/me/hours` — لسه
+- [x] حسابي: الاسم + مظهر + لغة + عن التطبيق + خروج. **لسه:** بيانات المحل (قراءة) وتغيير الباسورد العادي (`member/me/password`)
+- [x] `isMerchantActive` / `canEditMerchantIdentity` مش بتتسأل في شيل الـ sub
 
 ### المرحلة 5ب — الحضور التلقائي (متفق عليه)
 - [ ] **الحضور التلقائي (geofence):** نعيد استخدام `features/barber/auto_attendance` (الـ domain/services مش معتمدة على الحلاق: zone/policy/registrar/tracker) عبر `lib/shared/`، وتغذيته من `attendanceConfig` (`merchantLat/Lng`, `rangeMeters`) في `member/me/attendance/current`، وإرسال check in/out التلقائي على `merchant/member/me/checkIn|checkOut` بـ `method` اللي Omar هيحدده. نكرر إعداد iOS/Android الـ native اللي في memory (`ayez-ahlaq-auto-attendance`) ومفيش تغيير في الـ manifest/plist غالبًا
 - [ ] إعادة تسجيل الـ geofence عند تغيير نطاق التاجر/موقعه أو الدخول/الخروج من الحساب
 
 ### المرحلة 6 — الصلاحيات (التاجر بيتحكم)
-- [ ] `canManageProducts`: الـ sub يقرأ المنتجات دايمًا؛ الإضافة/التعديل/المخزون (`PUT product/{id}/stock`) مخفية بدون الصلاحية (403 احتياطي برسالة الباك اند)
+- [x] `canManageProducts` (الإخفاء): `MerchantPermissionGate` بيخفي الإضافة والحذف والتعديل بدون الصلاحية في القايمة والتفاصيل (المخزون `PUT product/{id}/stock` ماله واجهة أصلًا). **الإضافة والمخزون بالصلاحية لسه ماجرّبتهمش كـ sub على dev**؛ القديم: الـ sub يقرأ المنتجات دايمًا؛ الإضافة/التعديل/المخزون (`PUT product/{id}/stock`) مخفية بدون الصلاحية (403 احتياطي برسالة الباك اند)
 - [ ] `canSell`: شاشة بيع (POS) — `POST merchant/sale` (عميل اختياري اسم/موبايل، `paymentMethod` من `GET paymentMethod` بدون hardcode، `discount`، `note`، `items[{productId, quantity}]`)، المخزون بيتخصم (400 لو ناقص)
 - [ ] قايمة المبيعات `GET merchant/sale` (الـ sub بيشوف بتاعته بس، التاجر الكل) + تفاصيل البيع
 - [ ] إلغاء البيع للتاجر بس `PUT sale/{id}/cancel` (المخزون بيرجع، الإلغاء المتكرر 400، الـ sub 403)

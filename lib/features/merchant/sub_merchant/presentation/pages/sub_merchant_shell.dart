@@ -5,7 +5,7 @@ import '../../../../../shared/widgets/blocking_gate.dart';
 import '../../../team/presentation/manager/my_merchant_member_cubit.dart';
 import '../../../team/presentation/manager/my_merchant_member_state.dart';
 import '../../../team/presentation/pages/member_force_change_password_screen.dart';
-import '../widgets/sub_merchant_account_view.dart';
+import '../widgets/sub_merchant_tabs.dart';
 
 class SubMerchantShell extends StatefulWidget {
   final Future<void> Function() onLogout;
@@ -36,7 +36,7 @@ class _SubMerchantShellState extends State<SubMerchantShell> {
         title: S().forceChangePasswordTitle,
         onLogout: widget.onLogout,
         blockedBuilder: (_) => const MemberForceChangePasswordScreen(),
-        builder: (_) => SubMerchantAccountView(onLogout: widget.onLogout),
+        builder: (_) => SubMerchantTabs(onLogout: widget.onLogout),
       ),
     );
   }

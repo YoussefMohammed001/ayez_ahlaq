@@ -1683,6 +1683,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberAddedPermissionsFailed": MessageLookupByLibrary.simpleMessage(
       "The member was added but the permissions were not saved. Edit them from the member page",
     ),
+    "memberAttendanceDisabledHint": MessageLookupByLibrary.simpleMessage(
+      "Check in and check out is not available in the shop\'s plan right now. Contact the shop owner.",
+    ),
+    "memberAttendanceDisabledTitle": MessageLookupByLibrary.simpleMessage(
+      "Attendance is not enabled",
+    ),
     "memberBlocked": MessageLookupByLibrary.simpleMessage("Member blocked"),
     "memberClientsDateRangeAction": MessageLookupByLibrary.simpleMessage(
       "Change period",
