@@ -7,6 +7,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/logout_menu_row.dart';
 import '../../../../../shared/widgets/settings/language_sheet.dart';
 import '../../../../../shared/widgets/settings/theme_sheet.dart';
+import '../../../notifications/presentation/widgets/unseen_notifications_badge.dart';
 
 class SubMerchantMenu extends StatelessWidget {
   final Future<void> Function() onLogout;
@@ -18,8 +19,24 @@ class SubMerchantMenu extends StatelessWidget {
     return Column(
       children: [
         MenuSection(
+          title: S().accountSection,
+          children: [
+            MenuRow(
+              icon: Icons.lock_outline_rounded,
+              label: S().changePassword,
+              onTap: () => context.push(Routes.memberChangePasswordScreen),
+            ),
+          ],
+        ),
+        MenuSection(
           title: S().appSettings,
           children: [
+            MenuRow(
+              icon: Icons.notifications_none_rounded,
+              label: S().notifications,
+              trailing: const UnseenNotificationsBadge(),
+              onTap: () => context.push(Routes.merchantNotificationsScreen),
+            ),
             MenuRow(
               icon: Icons.brightness_6_rounded,
               label: S().theme,

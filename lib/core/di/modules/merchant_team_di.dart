@@ -26,6 +26,7 @@ import '../../../features/barber/team/presentation/manager/member_hours_cubit.da
 import '../../../features/merchant/team/presentation/manager/merchant_member_detail_cubit.dart';
 import '../../../features/merchant/team/presentation/manager/merchant_team_cubit.dart';
 import '../../../features/merchant/team/presentation/manager/my_merchant_member_cubit.dart';
+import '../../../features/merchant/team/presentation/manager/my_schedule_cubit.dart';
 import '../sl.dart';
 
 const merchantMemberHoursCubitName = 'merchantMemberHours';
@@ -59,6 +60,7 @@ void registerMerchantTeam() {
   sl.registerLazySingleton(() => GetMyMerchantHoursUseCase(sl()));
   sl.registerLazySingleton(() => ChangeMyMerchantPasswordUseCase(sl()));
   sl.registerFactory(() => MyMerchantMemberCubit(sl(), sl()));
+  sl.registerFactory(() => MyScheduleCubit(sl()));
   sl.registerFactory(() => MerchantTeamCubit(sl(), sl()));
   sl.registerFactory(
     () => MerchantMemberDetailCubit(

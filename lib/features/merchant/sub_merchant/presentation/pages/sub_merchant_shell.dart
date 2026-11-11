@@ -9,8 +9,13 @@ import '../widgets/sub_merchant_tabs.dart';
 
 class SubMerchantShell extends StatefulWidget {
   final Future<void> Function() onLogout;
+  final int initialIndex;
 
-  const SubMerchantShell({super.key, required this.onLogout});
+  const SubMerchantShell({
+    super.key,
+    required this.onLogout,
+    this.initialIndex = 0,
+  });
 
   @override
   State<SubMerchantShell> createState() => _SubMerchantShellState();
@@ -36,7 +41,10 @@ class _SubMerchantShellState extends State<SubMerchantShell> {
         title: S().forceChangePasswordTitle,
         onLogout: widget.onLogout,
         blockedBuilder: (_) => const MemberForceChangePasswordScreen(),
-        builder: (_) => SubMerchantTabs(onLogout: widget.onLogout),
+        builder: (_) => SubMerchantTabs(
+          onLogout: widget.onLogout,
+          initialIndex: widget.initialIndex,
+        ),
       ),
     );
   }

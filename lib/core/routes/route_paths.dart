@@ -177,6 +177,8 @@ class Routes {
   static const String subMerchantShell = '/merchant/sub';
   static const String memberAttendanceHistoryScreen =
       '/merchant/sub/attendance/history';
+  static const String memberChangePasswordScreen =
+      '/merchant/sub/password';
   static const String merchantTeamScreen = '/merchant/team';
   static const String merchantTeamMemberScreen = '/merchant/team/member';
   static const String merchantProductFormScreen = '/merchant/product/form';

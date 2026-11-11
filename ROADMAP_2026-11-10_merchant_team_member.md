@@ -131,12 +131,12 @@
 - [x] `SubMerchantShell` + تابات: **الحضور، الطلبات، المنتجات، حسابي** ([sub_merchant_tabs.dart](lib/features/merchant/sub_merchant/presentation/widgets/sub_merchant_tabs.dart)). تاب **المبيعات** هييجي مع `canSell` في المرحلة 6، والمرتب لما الباك اند يجهز (المرحلة 7). الداشبورد/العملاء/الأقسام مخفية
 - [x] تحميل ابتدائي للـ sub بس: `member/me` + `attendance/current` + الطلبات + المنتجات (من غير dashboard/categories/discounts/documents/subscription)
 - [x] **الطلبات للـ sub:** نفس `MerchantOrdersScreen` و`MerchantOrdersCubit` من غير نسخة (قبول/رفض/تغيير الحالة متاحة). **الـ API اتجرّب بـ id وهمي بس** (404)، لسه ماجرّبتش قبول طلب حقيقي بحساب sub عشان مغيّرش بيانات dev
-- [~] إشعارات الـ sub: **لسه**. الـ inbox هو inbox التاجر المشترك + تسجيل `deviceToken` (المرحلة 5ج)
+- [x] إشعارات الـ sub: صف الإشعارات مع badge في حسابي بيفتح نفس شاشة إشعارات التاجر (الـ inbox لسه **مشترك مع التاجر** لحد ما Omar يفصله). تسجيل/حذف `deviceToken` شغال للـ sub (اتجرّب `DELETE deviceToken/all` → 200). الضغط على إشعار بيفتح تاب الطلبات/المنتجات/الحضور في شيل الـ sub، وإشعارات المالية/الاشتراك/الخصومات بتتجاهل للـ sub
 - [x] بوابة تغيير الباسورد الإجباري فقط (من غير موقع ولا مستندات)
 - [x] شاشة الحضور ([member_attendance_screen.dart](lib/features/merchant/attendance/presentation/pages/member_attendance_screen.dart)): حالة الوردية + check in/out + اللوكيشن (`method: MANUAL`) + "غير مفعّل" لو `enabled:false`، وبتعيد استخدام `AttendanceStatusCard`/`AttendanceRangeNote`. **check in/out الحقيقي ماجرّبش على dev** لأن `attendanceEnabled` مقفول (شكل رد `current` متأكد منه، وشكل رد `checkIn` مفترض إنه نفس `current`)
 - [x] سجل حضوري: نفس `AttendanceHistoryScreen`/`AttendanceHistoryCubit` (من غير تصحيح) عبر نسخة مسجّلة باسم `memberAttendanceHistoryCubitName`
-- [ ] مواعيدي (قراءة فقط) `member/me/hours` — لسه
-- [x] حسابي: الاسم + مظهر + لغة + عن التطبيق + خروج. **لسه:** بيانات المحل (قراءة) وتغيير الباسورد العادي (`member/me/password`)
+- [x] مواعيدي (قراءة فقط): قسم في حسابي بنفس `ScheduleDayRow` بتاع الحلاق (متجرّب API `member/me/hours`)
+- [x] حسابي: الاسم + مظهر + لغة + عن التطبيق + خروج. بيانات المحل (قراءة من `GET merchant/profile`: الاسم والموبايل) + تغيير الباسورد العادي بـ `member/me/password` عبر `ChangePasswordForm` المشترك (اتفصل من شاشة التاجر)
 - [x] `isMerchantActive` / `canEditMerchantIdentity` مش بتتسأل في شيل الـ sub
 
 ### المرحلة 5ب — الحضور التلقائي (متفق عليه)

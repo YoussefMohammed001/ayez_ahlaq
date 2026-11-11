@@ -8,20 +8,28 @@ import '../../../attendance/presentation/pages/member_attendance_screen.dart';
 import '../../../orders/presentation/manager/merchant_orders_cubit.dart';
 import '../../../orders/presentation/pages/merchant_orders_screen.dart';
 import '../../../products/presentation/manager/merchant_products_cubit.dart';
+import '../../../notifications/presentation/manager/merchant_notifications_cubit.dart';
 import '../../../products/presentation/pages/merchant_products_screen.dart';
+import '../../../profile/presentation/manager/merchant_profile_cubit.dart';
+import '../../../team/presentation/manager/my_schedule_cubit.dart';
 import 'sub_merchant_account_view.dart';
 
 class SubMerchantTabs extends StatefulWidget {
   final Future<void> Function() onLogout;
+  final int initialIndex;
 
-  const SubMerchantTabs({super.key, required this.onLogout});
+  const SubMerchantTabs({
+    super.key,
+    required this.onLogout,
+    this.initialIndex = 0,
+  });
 
   @override
   State<SubMerchantTabs> createState() => _SubMerchantTabsState();
 }
 
 class _SubMerchantTabsState extends State<SubMerchantTabs> {
-  int _index = 0;
+  late int _index = widget.initialIndex;
 
   List<NavTabItem> get _tabs => [
     NavTabItem(Icons.fingerprint_rounded, S().attendanceTitle),
@@ -38,6 +46,9 @@ class _SubMerchantTabsState extends State<SubMerchantTabs> {
       context.read<MemberAttendanceCubit>().load();
       context.read<MerchantOrdersCubit>().loadOrders();
       context.read<MerchantProductsCubit>().loadProducts();
+      context.read<MerchantProfileCubit>().loadProfile();
+      context.read<MyScheduleCubit>().load();
+      context.read<MerchantNotificationsCubit>().refreshUnseenCount();
     });
   }
 

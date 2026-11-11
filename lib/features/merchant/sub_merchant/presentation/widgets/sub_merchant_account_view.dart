@@ -5,6 +5,8 @@ import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/avatar_circle.dart';
 import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../generated/l10n.dart';
+import 'my_schedule_section.dart';
+import 'shop_info_card.dart';
 import 'sub_merchant_menu.dart';
 
 class SubMerchantAccountView extends StatelessWidget {
@@ -33,6 +35,8 @@ class SubMerchantAccountView extends StatelessWidget {
             SizedBox(height: 10.h),
             Center(child: AppText(name, style: font20w700)),
             SizedBox(height: 18.h),
+            const ShopInfoCard(),
+            const MyScheduleSection(),
             SubMerchantMenu(onLogout: onLogout),
             SizedBox(height: 24.h),
           ],
