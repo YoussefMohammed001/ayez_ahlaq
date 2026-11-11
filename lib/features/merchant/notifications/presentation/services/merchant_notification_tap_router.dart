@@ -4,7 +4,7 @@ import '../../../../../core/notifications/notification_reference.dart';
 import '../../../../../core/helpers/user_helpers.dart';
 import '../../../../../core/routes/merchant_home_route.dart';
 import '../../../../../core/routes/route_paths.dart';
-import '../../../sub_merchant/domain/sub_merchant_tab_index.dart';
+import '../../../sub_merchant/domain/sub_merchant_tab.dart';
 import '../../domain/entities/merchant_notification.dart';
 
 class MerchantNotificationTapRouter {
@@ -24,7 +24,7 @@ class MerchantNotificationTapRouter {
       case 'rating':
         context.go(
           merchantHomeRoute,
-          extra: _isSubMerchant ? SubMerchantTabIndex.orders : 2,
+          extra: _isSubMerchant ? SubMerchantTab.orders.index : 2,
         );
         return;
       case 'lowStock':
@@ -34,12 +34,12 @@ class MerchantNotificationTapRouter {
         }
         context.go(
           merchantHomeRoute,
-          extra: _isSubMerchant ? SubMerchantTabIndex.products : 1,
+          extra: _isSubMerchant ? SubMerchantTab.products.index : 1,
         );
         return;
       case 'attendance':
         if (_isSubMerchant) {
-          context.go(merchantHomeRoute, extra: SubMerchantTabIndex.attendance);
+          context.go(merchantHomeRoute, extra: SubMerchantTab.attendance.index);
         }
         return;
       case 'discountEnded':

@@ -193,17 +193,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m78(count) => "${count} units";
 
-  static String m79(percent) => "${percent}% off";
+  static String m79(name, count) => "${name} · ${count} left";
 
-  static String m80(merchantName) => "View ${merchantName}\'s store";
+  static String m80(name) => "${name} · out of stock";
 
-  static String m81(shopName) => "View ${shopName}\'s page";
+  static String m81(count, total) => "${count} sales · ${total}";
 
-  static String m82(amount) => "Available: ${amount} EGP";
+  static String m82(percent) => "${percent}% off";
 
-  static String m83(amount) => "Your available balance: ${amount} EGP";
+  static String m83(merchantName) => "View ${merchantName}\'s store";
 
-  static String m84(amount) => "Remaining after withdrawal: ${amount} EGP";
+  static String m84(shopName) => "View ${shopName}\'s page";
+
+  static String m85(amount) => "Available: ${amount} EGP";
+
+  static String m86(amount) => "Your available balance: ${amount} EGP";
+
+  static String m87(amount) => "Remaining after withdrawal: ${amount} EGP";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2857,6 +2863,42 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "storefrontTitle": MessageLookupByLibrary.simpleMessage("Your storefront"),
     "styleLabel": MessageLookupByLibrary.simpleMessage("Style"),
+    "subHomeActiveLabel": MessageLookupByLibrary.simpleMessage("In progress"),
+    "subHomeAttendanceDisabled": MessageLookupByLibrary.simpleMessage(
+      "Attendance is not enabled in the shop\'s plan",
+    ),
+    "subHomeAttendanceNotStarted": MessageLookupByLibrary.simpleMessage(
+      "You have not checked in yet",
+    ),
+    "subHomeAttendanceTitle": MessageLookupByLibrary.simpleMessage(
+      "Your attendance today",
+    ),
+    "subHomeLatestOrders": MessageLookupByLibrary.simpleMessage(
+      "Latest orders",
+    ),
+    "subHomeLowStockLine": m79,
+    "subHomeLowStockOut": m80,
+    "subHomeLowStockTitle": MessageLookupByLibrary.simpleMessage(
+      "Products running out",
+    ),
+    "subHomeNoOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
+    "subHomePendingLabel": MessageLookupByLibrary.simpleMessage(
+      "Waiting for you",
+    ),
+    "subHomeSalesNone": MessageLookupByLibrary.simpleMessage(
+      "You have not recorded a sale today",
+    ),
+    "subHomeSalesSummary": m81,
+    "subHomeSalesTitle": MessageLookupByLibrary.simpleMessage("Today\'s sales"),
+    "subHomeScheduleTitle": MessageLookupByLibrary.simpleMessage(
+      "Your hours today",
+    ),
+    "subScheduleNotSet": MessageLookupByLibrary.simpleMessage(
+      "The shop owner has not set your hours yet",
+    ),
+    "subScheduleWholeWeek": MessageLookupByLibrary.simpleMessage(
+      "Weekly schedule",
+    ),
     "submitRating": MessageLookupByLibrary.simpleMessage("Submit rating"),
     "submitWalletRequest": MessageLookupByLibrary.simpleMessage(
       "Submit request",
@@ -2979,7 +3021,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This app is still under development",
     ),
     "underReview": MessageLookupByLibrary.simpleMessage("Under review"),
-    "unitDiscountPercentLabel": m79,
+    "unitDiscountPercentLabel": m82,
     "unitPrice": MessageLookupByLibrary.simpleMessage("Unit price (EGP)"),
     "unnamedLocation": MessageLookupByLibrary.simpleMessage(
       "Location selected on map",
@@ -3015,9 +3057,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "view": MessageLookupByLibrary.simpleMessage("View"),
     "viewCart": MessageLookupByLibrary.simpleMessage("View cart"),
     "viewDocument": MessageLookupByLibrary.simpleMessage("View"),
-    "viewMerchantStore": m80,
+    "viewMerchantStore": m83,
     "viewOnMap": MessageLookupByLibrary.simpleMessage("View on map"),
-    "viewShopProfile": m81,
+    "viewShopProfile": m84,
     "visitRatingTitle": MessageLookupByLibrary.simpleMessage(
       "How was your visit?",
     ),
@@ -3046,7 +3088,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletAttachmentTapToView": MessageLookupByLibrary.simpleMessage(
       "Tap to view the full image",
     ),
-    "walletAvailableLabel": m82,
+    "walletAvailableLabel": m85,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage(
       "Current balance",
     ),
@@ -3108,14 +3150,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Wallet requests",
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("Wallet"),
-    "walletWithdrawAvailableNow": m83,
+    "walletWithdrawAvailableNow": m86,
     "walletWithdrawBalanceUnknown": MessageLookupByLibrary.simpleMessage(
       "Loading your balance...",
     ),
     "walletWithdrawExceedsAvailable": MessageLookupByLibrary.simpleMessage(
       "The amount is more than your available balance",
     ),
-    "walletWithdrawRemainingAfter": m84,
+    "walletWithdrawRemainingAfter": m87,
     "weak_password": MessageLookupByLibrary.simpleMessage(
       "Password is too weak",
     ),

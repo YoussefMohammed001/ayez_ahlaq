@@ -4,6 +4,7 @@ import 'package:ayez_ahlaq/core/di/sl.dart';
 import 'package:ayez_ahlaq/core/routes/route_paths.dart';
 import 'package:ayez_ahlaq/features/merchant/notifications/domain/entities/merchant_notification.dart';
 import 'package:ayez_ahlaq/features/merchant/notifications/presentation/services/merchant_notification_tap_router.dart';
+import 'package:ayez_ahlaq/features/merchant/sub_merchant/domain/sub_merchant_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -76,7 +77,7 @@ void main() {
 
     testWidgets('lands on the orders tab of the sub shell', (tester) async {
       expect(await _tap(tester, _notification('order_new')), [
-        '${Routes.subMerchantShell}:1',
+        '${Routes.subMerchantShell}:${SubMerchantTab.orders.index}',
       ]);
     });
 
@@ -84,7 +85,7 @@ void main() {
       tester,
     ) async {
       expect(await _tap(tester, _notification('attendance_check_in')), [
-        '${Routes.subMerchantShell}:0',
+        '${Routes.subMerchantShell}:${SubMerchantTab.attendance.index}',
       ]);
     });
 

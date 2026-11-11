@@ -139,6 +139,8 @@
 - [ ] إشعارات التاجر: `attendance_check_in`, `attendance_check_out`, `attendance_auto_closed`, `merchant_sale` في [merchant_notification_tap_router.dart](lib/features/merchant/notifications/presentation/services/merchant_notification_tap_router.dart)
 
 ### المرحلة 5 — شيل الـ Sub-Merchant (الشاشة التانية)
+- [x] **لوحتي (الهوم) للـ sub** (أول تاب، اتجرّبت على simulator): تحية + جرس الإشعارات، عدّادين للطلبات (بانتظار ردّك / قيد التنفيذ)، كارت الحضور، مواعيد النهارده (بتختفي لو مفيش مواعيد متحددة)، مبيعات اليوم + زرار بيع جديد (لو `canSell`)، آخر 3 طلبات بتفتح التفاصيل، منتجات على وشك النفاد، وسحب للتحديث. كله من بيانات التطبيق الحالية من غير API جديد ([sub_merchant_home_screen.dart](lib/features/merchant/sub_merchant/presentation/pages/sub_merchant_home_screen.dart)). التابات بقت: لوحتي، الحضور، الطلبات، المنتجات، [المبيعات]، حسابي (`SubMerchantTab` enum)
+- [x] مواعيدي في حسابي: رسالة واحدة لو مفيش مواعيد متحددة، وإلا سطر مواعيد النهارده + "جدول الأسبوع" قابل للفتح
 - [x] `SubMerchantShell` + تابات: **الحضور، الطلبات، المنتجات، حسابي** ([sub_merchant_tabs.dart](lib/features/merchant/sub_merchant/presentation/widgets/sub_merchant_tabs.dart)). تاب **المبيعات** هييجي مع `canSell` في المرحلة 6، والمرتب لما الباك اند يجهز (المرحلة 7). الداشبورد/العملاء/الأقسام مخفية
 - [x] تحميل ابتدائي للـ sub بس: `member/me` + `attendance/current` + الطلبات + المنتجات (من غير dashboard/categories/discounts/documents/subscription)
 - [x] **الطلبات للـ sub:** نفس `MerchantOrdersScreen` و`MerchantOrdersCubit` من غير نسخة (قبول/رفض/تغيير الحالة متاحة). **الـ API اتجرّب بـ id وهمي بس** (404)، لسه ماجرّبتش قبول طلب حقيقي بحساب sub عشان مغيّرش بيانات dev

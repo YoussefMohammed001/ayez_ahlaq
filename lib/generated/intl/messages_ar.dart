@@ -190,17 +190,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m78(count) => "${count} قطعة";
 
-  static String m79(percent) => "خصم ${percent}٪";
+  static String m79(name, count) => "${name} · المتبقي ${count}";
 
-  static String m80(merchantName) => "عرض متجر ${merchantName}";
+  static String m80(name) => "${name} · نفد";
 
-  static String m81(shopName) => "عرض صفحة ${shopName}";
+  static String m81(count, total) => "${count} عملية · ${total}";
 
-  static String m82(amount) => "المتاح: ${amount} ج";
+  static String m82(percent) => "خصم ${percent}٪";
 
-  static String m83(amount) => "رصيدك المتاح الحالي: ${amount} ج";
+  static String m83(merchantName) => "عرض متجر ${merchantName}";
 
-  static String m84(amount) => "المتبقي بعد السحب: ${amount} ج";
+  static String m84(shopName) => "عرض صفحة ${shopName}";
+
+  static String m85(amount) => "المتاح: ${amount} ج";
+
+  static String m86(amount) => "رصيدك المتاح الحالي: ${amount} ج";
+
+  static String m87(amount) => "المتبقي بعد السحب: ${amount} ج";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2790,6 +2796,40 @@ class MessageLookup extends MessageLookupByLibrary {
     "storefrontProductsTitle": MessageLookupByLibrary.simpleMessage("متجرك"),
     "storefrontTitle": MessageLookupByLibrary.simpleMessage("متجرك"),
     "styleLabel": MessageLookupByLibrary.simpleMessage("القصّة"),
+    "subHomeActiveLabel": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
+    "subHomeAttendanceDisabled": MessageLookupByLibrary.simpleMessage(
+      "الحضور والانصراف غير مفعّل في باقة المحل",
+    ),
+    "subHomeAttendanceNotStarted": MessageLookupByLibrary.simpleMessage(
+      "لم تسجّل حضورك بعد",
+    ),
+    "subHomeAttendanceTitle": MessageLookupByLibrary.simpleMessage(
+      "حضورك اليوم",
+    ),
+    "subHomeLatestOrders": MessageLookupByLibrary.simpleMessage("آخر الطلبات"),
+    "subHomeLowStockLine": m79,
+    "subHomeLowStockOut": m80,
+    "subHomeLowStockTitle": MessageLookupByLibrary.simpleMessage(
+      "منتجات على وشك النفاد",
+    ),
+    "subHomeNoOrders": MessageLookupByLibrary.simpleMessage(
+      "لا توجد طلبات بعد",
+    ),
+    "subHomePendingLabel": MessageLookupByLibrary.simpleMessage("بانتظار ردّك"),
+    "subHomeSalesNone": MessageLookupByLibrary.simpleMessage(
+      "لم تسجّل أي بيع اليوم",
+    ),
+    "subHomeSalesSummary": m81,
+    "subHomeSalesTitle": MessageLookupByLibrary.simpleMessage("مبيعات اليوم"),
+    "subHomeScheduleTitle": MessageLookupByLibrary.simpleMessage(
+      "مواعيدك اليوم",
+    ),
+    "subScheduleNotSet": MessageLookupByLibrary.simpleMessage(
+      "لم يحدّد صاحب المحل مواعيدك بعد",
+    ),
+    "subScheduleWholeWeek": MessageLookupByLibrary.simpleMessage(
+      "جدول الأسبوع",
+    ),
     "submitRating": MessageLookupByLibrary.simpleMessage("إرسال التقييم"),
     "submitWalletRequest": MessageLookupByLibrary.simpleMessage("إرسال الطلب"),
     "subscribeAction": MessageLookupByLibrary.simpleMessage("اشترك"),
@@ -2904,7 +2944,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "هذا التطبيق ما زال قيد التطوير",
     ),
     "underReview": MessageLookupByLibrary.simpleMessage("قيد المراجعة"),
-    "unitDiscountPercentLabel": m79,
+    "unitDiscountPercentLabel": m82,
     "unitPrice": MessageLookupByLibrary.simpleMessage("سعر الوحدة (جنيه)"),
     "unnamedLocation": MessageLookupByLibrary.simpleMessage(
       "موقع محدد على الخريطة",
@@ -2938,9 +2978,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "view": MessageLookupByLibrary.simpleMessage("عرض"),
     "viewCart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
     "viewDocument": MessageLookupByLibrary.simpleMessage("عرض"),
-    "viewMerchantStore": m80,
+    "viewMerchantStore": m83,
     "viewOnMap": MessageLookupByLibrary.simpleMessage("عرض على الخريطة"),
-    "viewShopProfile": m81,
+    "viewShopProfile": m84,
     "visitRatingTitle": MessageLookupByLibrary.simpleMessage(
       "كيف كانت زيارتك؟",
     ),
@@ -2971,7 +3011,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletAttachmentTapToView": MessageLookupByLibrary.simpleMessage(
       "اضغط لعرض الصورة كاملة",
     ),
-    "walletAvailableLabel": m82,
+    "walletAvailableLabel": m85,
     "walletBalanceLabel": MessageLookupByLibrary.simpleMessage("الرصيد الحالي"),
     "walletRequestAmountHint": MessageLookupByLibrary.simpleMessage(
       "أدخل المبلغ",
@@ -3027,14 +3067,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "طلبات المحفظة",
     ),
     "walletTitle": MessageLookupByLibrary.simpleMessage("المحفظة"),
-    "walletWithdrawAvailableNow": m83,
+    "walletWithdrawAvailableNow": m86,
     "walletWithdrawBalanceUnknown": MessageLookupByLibrary.simpleMessage(
       "جارٍ تحميل رصيدك...",
     ),
     "walletWithdrawExceedsAvailable": MessageLookupByLibrary.simpleMessage(
       "المبلغ أكبر من رصيدك المتاح",
     ),
-    "walletWithdrawRemainingAfter": m84,
+    "walletWithdrawRemainingAfter": m87,
     "weak_password": MessageLookupByLibrary.simpleMessage("كلمة السر ضعيفة"),
     "weekdayFriday": MessageLookupByLibrary.simpleMessage("الجمعة"),
     "weekdayMonday": MessageLookupByLibrary.simpleMessage("الإثنين"),

@@ -13223,6 +13223,166 @@ class S {
       args: [name, count],
     );
   }
+
+  /// `Your attendance today`
+  String get subHomeAttendanceTitle {
+    return Intl.message(
+      'Your attendance today',
+      name: 'subHomeAttendanceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have not checked in yet`
+  String get subHomeAttendanceNotStarted {
+    return Intl.message(
+      'You have not checked in yet',
+      name: 'subHomeAttendanceNotStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendance is not enabled in the shop's plan`
+  String get subHomeAttendanceDisabled {
+    return Intl.message(
+      'Attendance is not enabled in the shop\'s plan',
+      name: 'subHomeAttendanceDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your hours today`
+  String get subHomeScheduleTitle {
+    return Intl.message(
+      'Your hours today',
+      name: 'subHomeScheduleTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products running out`
+  String get subHomeLowStockTitle {
+    return Intl.message(
+      'Products running out',
+      name: 'subHomeLowStockTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{name} · {count} left`
+  String subHomeLowStockLine(String name, String count) {
+    return Intl.message(
+      '$name · $count left',
+      name: 'subHomeLowStockLine',
+      desc: '',
+      args: [name, count],
+    );
+  }
+
+  /// `{name} · out of stock`
+  String subHomeLowStockOut(String name) {
+    return Intl.message(
+      '$name · out of stock',
+      name: 'subHomeLowStockOut',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Today's sales`
+  String get subHomeSalesTitle {
+    return Intl.message(
+      'Today\'s sales',
+      name: 'subHomeSalesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} sales · {total}`
+  String subHomeSalesSummary(String count, String total) {
+    return Intl.message(
+      '$count sales · $total',
+      name: 'subHomeSalesSummary',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `You have not recorded a sale today`
+  String get subHomeSalesNone {
+    return Intl.message(
+      'You have not recorded a sale today',
+      name: 'subHomeSalesNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for you`
+  String get subHomePendingLabel {
+    return Intl.message(
+      'Waiting for you',
+      name: 'subHomePendingLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In progress`
+  String get subHomeActiveLabel {
+    return Intl.message(
+      'In progress',
+      name: 'subHomeActiveLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest orders`
+  String get subHomeLatestOrders {
+    return Intl.message(
+      'Latest orders',
+      name: 'subHomeLatestOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No orders yet`
+  String get subHomeNoOrders {
+    return Intl.message(
+      'No orders yet',
+      name: 'subHomeNoOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The shop owner has not set your hours yet`
+  String get subScheduleNotSet {
+    return Intl.message(
+      'The shop owner has not set your hours yet',
+      name: 'subScheduleNotSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly schedule`
+  String get subScheduleWholeWeek {
+    return Intl.message(
+      'Weekly schedule',
+      name: 'subScheduleWholeWeek',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

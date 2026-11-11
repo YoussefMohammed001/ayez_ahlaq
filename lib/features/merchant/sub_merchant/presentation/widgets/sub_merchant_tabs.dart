@@ -14,9 +14,9 @@ import '../../../profile/presentation/manager/merchant_profile_cubit.dart';
 import '../../../sales/presentation/widgets/sales_tab.dart';
 import '../../../team/presentation/manager/my_schedule_cubit.dart';
 import '../../../team/presentation/widgets/merchant_permission_gate.dart';
+import '../../domain/sub_merchant_tab.dart';
+import '../pages/sub_merchant_home_screen.dart';
 import 'sub_merchant_account_view.dart';
-
-enum _Tab { attendance, orders, products, sales, account }
 
 class SubMerchantTabs extends StatefulWidget {
   final Future<void> Function() onLogout;
@@ -33,7 +33,7 @@ class SubMerchantTabs extends StatefulWidget {
 }
 
 class _SubMerchantTabsState extends State<SubMerchantTabs> {
-  late _Tab _current = _Tab.values[widget.initialIndex];
+  late SubMerchantTab _current = SubMerchantTab.values[widget.initialIndex];
 
   @override
   void initState() {
@@ -49,29 +49,42 @@ class _SubMerchantTabsState extends State<SubMerchantTabs> {
     });
   }
 
-  NavTabItem _item(_Tab tab) => switch (tab) {
-    _Tab.attendance => NavTabItem(
+  NavTabItem _item(SubMerchantTab tab) => switch (tab) {
+    SubMerchantTab.home => NavTabItem(Icons.home_rounded, S().tabDashboard),
+    SubMerchantTab.attendance => NavTabItem(
       Icons.fingerprint_rounded,
       S().attendanceTitle,
     ),
-    _Tab.orders => NavTabItem(Icons.receipt_long_rounded, S().tabOrders),
-    _Tab.products => NavTabItem(Icons.inventory_2_rounded, S().tabProducts),
-    _Tab.sales => NavTabItem(Icons.point_of_sale_rounded, S().salesTitle),
-    _Tab.account => NavTabItem(Icons.person_rounded, S().tabAccount),
+    SubMerchantTab.orders => NavTabItem(
+      Icons.receipt_long_rounded,
+      S().tabOrders,
+    ),
+    SubMerchantTab.products => NavTabItem(
+      Icons.inventory_2_rounded,
+      S().tabProducts,
+    ),
+    SubMerchantTab.sales => NavTabItem(
+      Icons.point_of_sale_rounded,
+      S().salesTitle,
+    ),
+    SubMerchantTab.account => NavTabItem(Icons.person_rounded, S().tabAccount),
   };
 
-  Widget _page(_Tab tab) => switch (tab) {
-    _Tab.attendance => const MemberAttendanceScreen(),
-    _Tab.orders => const MerchantOrdersScreen(),
-    _Tab.products => const MerchantProductsScreen(),
-    _Tab.sales => const SalesTab(),
-    _Tab.account => SubMerchantAccountView(onLogout: widget.onLogout),
+  Widget _page(SubMerchantTab tab) => switch (tab) {
+    SubMerchantTab.home => SubMerchantHomeScreen(onGoTo: _goTo),
+    SubMerchantTab.attendance => const MemberAttendanceScreen(),
+    SubMerchantTab.orders => const MerchantOrdersScreen(),
+    SubMerchantTab.products => const MerchantProductsScreen(),
+    SubMerchantTab.sales => const SalesTab(),
+    SubMerchantTab.account => SubMerchantAccountView(onLogout: widget.onLogout),
   };
+
+  void _goTo(SubMerchantTab tab) => setState(() => _current = tab);
 
   Widget _build(BuildContext context, bool canSell) {
     final tabs = [
-      for (final tab in _Tab.values)
-        if (tab != _Tab.sales || canSell) tab,
+      for (final tab in SubMerchantTab.values)
+        if (tab != SubMerchantTab.sales || canSell) tab,
     ];
     final index = tabs.contains(_current) ? tabs.indexOf(_current) : 0;
 

@@ -14,6 +14,7 @@ import 'package:ayez_ahlaq/features/merchant/sales/presentation/widgets/new_sale
 import 'package:ayez_ahlaq/features/merchant/sales/presentation/widgets/sale_product_row.dart';
 import 'package:ayez_ahlaq/firebase_options_dev.dart';
 import 'package:ayez_ahlaq/generated/l10n.dart';
+import 'package:ayez_ahlaq/shared/payment_methods/payment_method_tile.dart';
 import 'package:ayez_ahlaq/shared/user_type.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +77,34 @@ class _OwnerApi {
     await cancelMemberSales();
     await resetMemberPassword();
   }
+
+  Future<void> leaveSubReadyToUse() async {
+    await setPermissions(canSell: false);
+    await cancelMemberSales();
+
+    for (final password in [_newPassword, _defaultPassword]) {
+      final login = await _dio.post(
+        'merchant/login',
+        data: {'phoneNumber': _memberPhone, 'password': password},
+      );
+      final token = login.data['data']?['token'] as String?;
+      if (token == null) continue;
+
+      await Dio(
+        BaseOptions(
+          baseUrl: AppStrings.devBaseUrl,
+          validateStatus: (_) => true,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      ).put(
+        'merchant/member/me/password',
+        data: {'currentPassword': password, 'newPassword': _defaultPassword},
+      );
+      return;
+    }
+
+    await resetMemberPassword();
+  }
 }
 
 Finder _navTab(String label) => find.descendant(
@@ -121,7 +150,7 @@ void main() {
 
   tearDownAll(() async {
     await owner.login();
-    await owner.restoreSub();
+    await owner.leaveSubReadyToUse();
   });
 
   testWidgets('a sub-merchant from login to a sale', (tester) async {
@@ -157,6 +186,22 @@ void main() {
       await tester.enterText(passwordFields.at(2), _newPassword);
       await tester.tap(find.byType(PrimaryCtaButton).first);
 
+      await _waitFor(
+        tester,
+        find.text(S().subHomeAttendanceTitle),
+        'the home screen after the password change',
+      );
+      await _waitFor(
+        tester,
+        find.text(S().subHomeAttendanceDisabled),
+        'the home attendance card saying attendance is not enabled',
+      );
+      await _wait(tester, 4);
+      await binding.takeScreenshot('sub-02a_home');
+      expect(find.text(S().subHomePendingLabel), findsOneWidget);
+      expect(find.text(S().subHomeSalesTitle), findsNothing);
+
+      await tester.tap(_navTab(S().attendanceTitle));
       await _waitFor(
         tester,
         find.text(S().memberAttendanceDisabledTitle),
@@ -195,6 +240,15 @@ void main() {
       );
       await binding.takeScreenshot('sub-06_sales_tab_appeared');
 
+      await tester.tap(_navTab(S().tabDashboard));
+      await _waitFor(
+        tester,
+        find.text(S().subHomeSalesTitle),
+        'the home sales card after canSell was granted',
+      );
+      await _wait(tester, 4);
+      await binding.takeScreenshot('sub-06a_home_with_sales');
+
       await tester.tap(_navTab(S().salesTitle));
       await _waitFor(
         tester,
@@ -224,6 +278,12 @@ void main() {
 
       await tester.tap(stepperAdd.first);
       await tester.pump(const Duration(milliseconds: 500));
+      await _waitFor(
+        tester,
+        find.byType(PaymentMethodTile),
+        'the payment methods to load before scrolling',
+        seconds: 40,
+      );
       await tester.scrollUntilVisible(
         find.text(S().saleSubmit),
         300,
