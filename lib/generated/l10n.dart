@@ -12973,6 +12973,256 @@ class S {
       args: [],
     );
   }
+
+  /// `Sales`
+  String get salesTitle {
+    return Intl.message('Sales', name: 'salesTitle', desc: '', args: []);
+  }
+
+  /// `New sale`
+  String get newSaleTitle {
+    return Intl.message('New sale', name: 'newSaleTitle', desc: '', args: []);
+  }
+
+  /// `Products`
+  String get saleProductsTitle {
+    return Intl.message(
+      'Products',
+      name: 'saleProductsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer name (optional)`
+  String get saleCustomerNameOptional {
+    return Intl.message(
+      'Customer name (optional)',
+      name: 'saleCustomerNameOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discount (EGP)`
+  String get saleDiscountLabel {
+    return Intl.message(
+      'Discount (EGP)',
+      name: 'saleDiscountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (optional)`
+  String get saleNoteOptional {
+    return Intl.message(
+      'Note (optional)',
+      name: 'saleNoteOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No products available to sell`
+  String get saleNoProductsToSell {
+    return Intl.message(
+      'No products available to sell',
+      name: 'saleNoProductsToSell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subtotal`
+  String get saleSubtotalRow {
+    return Intl.message(
+      'Subtotal',
+      name: 'saleSubtotalRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discount`
+  String get saleDiscountRow {
+    return Intl.message(
+      'Discount',
+      name: 'saleDiscountRow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get saleTotalRow {
+    return Intl.message('Total', name: 'saleTotalRow', desc: '', args: []);
+  }
+
+  /// `Record sale`
+  String get saleSubmit {
+    return Intl.message('Record sale', name: 'saleSubmit', desc: '', args: []);
+  }
+
+  /// `Sale recorded`
+  String get saleRecorded {
+    return Intl.message(
+      'Sale recorded',
+      name: 'saleRecorded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed`
+  String get saleStatusDone {
+    return Intl.message(
+      'Completed',
+      name: 'saleStatusDone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get saleStatusCancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'saleStatusCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By {name}`
+  String saleSoldBy(String name) {
+    return Intl.message('By $name', name: 'saleSoldBy', desc: '', args: [name]);
+  }
+
+  /// `Available {count}`
+  String saleStockAvailable(String count) {
+    return Intl.message(
+      'Available $count',
+      name: 'saleStockAvailable',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Walk-in customer`
+  String get saleWalkInCustomer {
+    return Intl.message(
+      'Walk-in customer',
+      name: 'saleWalkInCustomer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel sale`
+  String get cancelSaleTitle {
+    return Intl.message(
+      'Cancel sale',
+      name: 'cancelSaleTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The sale will be cancelled and the quantities returned to stock. Continue?`
+  String get cancelSaleConfirm {
+    return Intl.message(
+      'The sale will be cancelled and the quantities returned to stock. Continue?',
+      name: 'cancelSaleConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sale cancelled`
+  String get saleCancelled {
+    return Intl.message(
+      'Sale cancelled',
+      name: 'saleCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No sales yet`
+  String get noSalesTitle {
+    return Intl.message(
+      'No sales yet',
+      name: 'noSalesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record the first sale to a customer in the shop.`
+  String get noSalesHint {
+    return Intl.message(
+      'Record the first sale to a customer in the shop.',
+      name: 'noSalesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one product`
+  String get saleSelectItems {
+    return Intl.message(
+      'Pick at least one product',
+      name: 'saleSelectItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The discount is higher than the total`
+  String get saleDiscountTooHigh {
+    return Intl.message(
+      'The discount is higher than the total',
+      name: 'saleDiscountTooHigh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid discount`
+  String get saleDiscountInvalid {
+    return Intl.message(
+      'Enter a valid discount',
+      name: 'saleDiscountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sale details`
+  String get saleDetailsTitle {
+    return Intl.message(
+      'Sale details',
+      name: 'saleDetailsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Items`
+  String get saleItemsTitle {
+    return Intl.message('Items', name: 'saleItemsTitle', desc: '', args: []);
+  }
+
+  /// `{name} × {count}`
+  String saleItemLine(String name, String count) {
+    return Intl.message(
+      '$name × $count',
+      name: 'saleItemLine',
+      desc: '',
+      args: [name, count],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

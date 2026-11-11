@@ -21,6 +21,7 @@ final List<RouteBase> subMerchantShellRoutes = [
         BlocProvider.value(value: merchantOrdersCubit),
         BlocProvider.value(value: merchantProductsCubit),
         BlocProvider.value(value: merchantProfileCubit),
+        BlocProvider.value(value: salesCubit),
         BlocProvider.value(value: merchantNotificationsCubit),
         BlocProvider(create: (_) => sl<MyScheduleCubit>()),
       ],

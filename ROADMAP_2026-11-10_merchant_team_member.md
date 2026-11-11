@@ -40,6 +40,17 @@
 - ⚠️ **باك اند:** `PUT member/{id}` **مبيعملش validation للموبايل** (حفظ `"0abc"`). لازم الـ validation في التطبيق، ونبلّغ Omar. (رجّعت رقم الحساب التجريبي لأصله.)
 - الـ sub ممكن يغيّر باسورده بـ `member/me/password` فقط (`merchant/password` 403).
 
+## سلوك `merchant/sale` المتحقق منه (dev، 2026-11-11)
+
+- الرد: `{id, code "MS-000005", soldByMemberId, soldByName, customerName, customerPhone, paymentMethod, subtotal, discount, total, status DONE|CANCELLED, note, createdAt, cancelledAt, items[{productId, productName, unitPrice, quantity, lineTotal}]}`. القايمة page `{content,page,size,totalElements,totalPages}`.
+- التاجر يشوف كل المبيعات (بتاعته وبتاعة الأعضاء، `soldByName` للعضو)، والـ sub **بيشوف بتاعته بس** وغيرها 404. بدون `canSell` حتى القراءة 403 "ليس لديك صلاحية البيع".
+- الإلغاء (`PUT sale/{id}/cancel`): للتاجر بس، للـ sub 403 "إلغاء البيع لصاحب الحساب فقط"؛ المخزون بيرجع (اتأكدت 43→44)؛ الإلغاء التاني 400 "هذه العملية ملغاة بالفعل".
+- `unitPrice` = السعر الأساسي `price` **مش** `effectivePrice` (خصم المنتج مش بيتطبق على البيع المباشر)، و`minOrderQty` مش بيتطبق.
+- أخطاء 400 برسائل عربي: مخزون غير كافٍ (بيذكر المتاح)، `items` فاضية، كمية < 1، منتج غير متاح، طريقة دفع غير مدعومة، الخصم أكبر من الإجمالي، خصم سالب.
+- ⚠️ **باك اند:** `customerPhone` مبيتحققش منه (قبل `"abc"`). الـ validation في التطبيق (اختياري، رقم مصري).
+- `paymentMethod` اختياري. `GET merchant/paymentMethod` → `[{code,label,enabled,sortOrder}]` (WALLET, CASH).
+- أثناء الفحص عملت 3 مبيعات على dev وألغيتهم كلهم (المخزون رجع 44 و143) وسحبت صلاحية `canSell` من الحساب التجريبي.
+
 ## قرارات اتحسمت (2026-11-10)
 
 - ✅ الـ sub **بيستقبل إشعارات** (+ device token).
@@ -145,10 +156,10 @@
 
 ### المرحلة 6 — الصلاحيات (التاجر بيتحكم)
 - [x] `canManageProducts` (الإخفاء): `MerchantPermissionGate` بيخفي الإضافة والحذف والتعديل بدون الصلاحية في القايمة والتفاصيل (المخزون `PUT product/{id}/stock` ماله واجهة أصلًا). **الإضافة والمخزون بالصلاحية لسه ماجرّبتهمش كـ sub على dev**؛ القديم: الـ sub يقرأ المنتجات دايمًا؛ الإضافة/التعديل/المخزون (`PUT product/{id}/stock`) مخفية بدون الصلاحية (403 احتياطي برسالة الباك اند)
-- [ ] `canSell`: شاشة بيع (POS) — `POST merchant/sale` (عميل اختياري اسم/موبايل، `paymentMethod` من `GET paymentMethod` بدون hardcode، `discount`، `note`، `items[{productId, quantity}]`)، المخزون بيتخصم (400 لو ناقص)
-- [ ] قايمة المبيعات `GET merchant/sale` (الـ sub بيشوف بتاعته بس، التاجر الكل) + تفاصيل البيع
-- [ ] إلغاء البيع للتاجر بس `PUT sale/{id}/cancel` (المخزون بيرجع، الإلغاء المتكرر 400، الـ sub 403)
-- [ ] الصلاحيات بتتغير والـ sub فاتح: نعيد تحميل `member/me` عند الرجوع للتطبيق وعند أي 403 (مرة واحدة)
+- [x] `canSell`: شاشة بيع (POS) ([new_sale_screen.dart](lib/features/merchant/sales/presentation/pages/new_sale_screen.dart)) — `POST merchant/sale` (عميل اختياري اسم/موبايل، `paymentMethod` من `GET paymentMethod` بدون hardcode، `discount`، `note`، `items[{productId, quantity}]`)، المخزون بيتخصم (400 لو ناقص)
+- [x] قايمة المبيعات `GET merchant/sale` (الـ sub بيشوف بتاعته بس، التاجر الكل) + تفاصيل البيع
+- [x] إلغاء البيع للتاجر بس `PUT sale/{id}/cancel` (المخزون بيرجع، الإلغاء المتكرر 400، الـ sub 403)
+- [~] الصلاحيات بتتغير والـ sub فاتح: تاب المبيعات والأزرار بتتحدّث لما `MyMerchantMemberCubit` يتحدّث، **لكن لسه مفيش إعادة تحميل تلقائية** لـ `member/me` عند الرجوع للتطبيق أو عند 403
 
 ### المرحلة 7 — المرتب والخصومات (متفق عليه — **معطّل بانتظار الباك اند**)
 مفيش `merchant/salary` ولا `merchant/salaryDeduction` على dev لسه (404 للتاجر، 403 للـ sub). نبني بعد ما Omar يطلّعهم بنفس شكل الحلاق ([ayez-ahlaq-salary-api](/Users/youssefmohamednaeem/.claude/projects/-Users-youssefmohamednaeem-StudioProjects-ayez-ahlaq/memory/ayez-ahlaq-salary-api.md)):
