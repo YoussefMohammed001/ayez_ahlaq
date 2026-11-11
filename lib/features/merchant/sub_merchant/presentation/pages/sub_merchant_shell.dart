@@ -5,6 +5,7 @@ import '../../../../../shared/widgets/blocking_gate.dart';
 import '../../../team/presentation/manager/my_merchant_member_cubit.dart';
 import '../../../team/presentation/manager/my_merchant_member_state.dart';
 import '../../../team/presentation/pages/member_force_change_password_screen.dart';
+import '../widgets/sub_merchant_permission_refresher.dart';
 import '../widgets/sub_merchant_tabs.dart';
 
 class SubMerchantShell extends StatefulWidget {
@@ -33,17 +34,19 @@ class _SubMerchantShellState extends State<SubMerchantShell> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MyMerchantMemberCubit, MyMerchantMemberState>(
-      buildWhen: (previous, current) =>
-          previous.mustChangePassword != current.mustChangePassword,
-      builder: (context, state) => BlockingGate(
-        isBlocked: state.mustChangePassword,
-        title: S().forceChangePasswordTitle,
-        onLogout: widget.onLogout,
-        blockedBuilder: (_) => const MemberForceChangePasswordScreen(),
-        builder: (_) => SubMerchantTabs(
+    return SubMerchantPermissionRefresher(
+      child: BlocBuilder<MyMerchantMemberCubit, MyMerchantMemberState>(
+        buildWhen: (previous, current) =>
+            previous.mustChangePassword != current.mustChangePassword,
+        builder: (context, state) => BlockingGate(
+          isBlocked: state.mustChangePassword,
+          title: S().forceChangePasswordTitle,
           onLogout: widget.onLogout,
-          initialIndex: widget.initialIndex,
+          blockedBuilder: (_) => const MemberForceChangePasswordScreen(),
+          builder: (_) => SubMerchantTabs(
+            onLogout: widget.onLogout,
+            initialIndex: widget.initialIndex,
+          ),
         ),
       ),
     );

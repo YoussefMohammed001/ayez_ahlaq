@@ -23,6 +23,8 @@ class SessionManager {
 
   void emitUnauthorized() => _sessionEvents.add(SessionEvents.unauthorized);
 
+  void emitForbidden() => _sessionEvents.add(SessionEvents.forbidden);
+
   Future<void> handleUnauthorized() async {
     if (_isHandlingUnauthorized) return;
     _isHandlingUnauthorized = true;

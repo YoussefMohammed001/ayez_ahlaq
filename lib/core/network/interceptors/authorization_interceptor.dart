@@ -10,8 +10,14 @@ class AuthorizationInterceptor extends Interceptor {
   final SecureStorage storage;
   final PreferencesStorage preferences;
   final void Function() onUnauthorized;
+  final void Function()? onForbidden;
 
-  AuthorizationInterceptor(this.storage, this.preferences, this.onUnauthorized);
+  AuthorizationInterceptor(
+    this.storage,
+    this.preferences,
+    this.onUnauthorized, [
+    this.onForbidden,
+  ]);
 
   @override
   Future<void> onRequest(
@@ -43,8 +49,12 @@ class AuthorizationInterceptor extends Interceptor {
     final hadToken = err.requestOptions.headers.containsKey(
       HttpHeadersKeys.authorization,
     );
-    if (hadToken && err.response?.statusCode == HttpCodes.unauthorized) {
+    final status = err.response?.statusCode;
+    if (hadToken && status == HttpCodes.unauthorized) {
       onUnauthorized();
+    }
+    if (hadToken && status == HttpCodes.forbidden) {
+      onForbidden?.call();
     }
     handler.next(err);
   }

@@ -159,7 +159,7 @@
 - [x] `canSell`: شاشة بيع (POS) ([new_sale_screen.dart](lib/features/merchant/sales/presentation/pages/new_sale_screen.dart)) — `POST merchant/sale` (عميل اختياري اسم/موبايل، `paymentMethod` من `GET paymentMethod` بدون hardcode، `discount`، `note`، `items[{productId, quantity}]`)، المخزون بيتخصم (400 لو ناقص)
 - [x] قايمة المبيعات `GET merchant/sale` (الـ sub بيشوف بتاعته بس، التاجر الكل) + تفاصيل البيع
 - [x] إلغاء البيع للتاجر بس `PUT sale/{id}/cancel` (المخزون بيرجع، الإلغاء المتكرر 400، الـ sub 403)
-- [~] الصلاحيات بتتغير والـ sub فاتح: تاب المبيعات والأزرار بتتحدّث لما `MyMerchantMemberCubit` يتحدّث، **لكن لسه مفيش إعادة تحميل تلقائية** لـ `member/me` عند الرجوع للتطبيق أو عند 403
+- [x] الصلاحيات بتتغير والـ sub فاتح: `SubMerchantPermissionRefresher` بيعيد تحميل `member/me` لما التطبيق يرجع للمقدمة ولما أي طلب يرجع 403 (حدث `SessionEvents.forbidden` جديد من `AuthorizationInterceptor`)، بحد أدنى 5 ثواني بين كل تحميلين عشان ميعملش loop. تاب المبيعات والأزرار بتتحدّث بعدها لوحدها
 
 ### المرحلة 7 — المرتب والخصومات (متفق عليه — **معطّل بانتظار الباك اند**)
 مفيش `merchant/salary` ولا `merchant/salaryDeduction` على dev لسه (404 للتاجر، 403 للـ sub). نبني بعد ما Omar يطلّعهم بنفس شكل الحلاق ([ayez-ahlaq-salary-api](/Users/youssefmohamednaeem/.claude/projects/-Users-youssefmohamednaeem-StudioProjects-ayez-ahlaq/memory/ayez-ahlaq-salary-api.md)):

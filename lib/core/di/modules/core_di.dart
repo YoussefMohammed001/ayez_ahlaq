@@ -117,6 +117,7 @@ void registerDioService() {
       sl<SecureStorage>(),
       sl<PreferencesStorage>(),
       sl<SessionManager>().emitUnauthorized,
+      sl<SessionManager>().emitForbidden,
     ),
   );
 
