@@ -1580,5 +1580,16 @@
   "commissionAmountRow": "Commission",
   "salaryTotalPayRow": "Total pay",
   "commissionPercentValue": "{percent}%",
-  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}}
+  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}},
+  "memberPermissionManageProducts": "Manage products",
+  "memberPermissionManageProductsHint": "Add and edit products and update stock. Viewing products is always allowed.",
+  "memberPermissionSell": "Sell to customers",
+  "memberPermissionSellHint": "Record direct sales to the shop's customers from their account.",
+  "memberSalaryOptionalLabel": "Monthly salary (optional)",
+  "memberDefaultPasswordNote": "If left empty the default password is 123456, and they must change it at first login.",
+  "resetMemberPasswordDefaultNote": "The member's password goes back to the default 123456, and they must change it at first login.",
+  "deleteMemberTitle": "Delete member",
+  "deleteMemberConfirm": "This member will be deleted and can no longer sign in. Their phone number can be used again. Continue?",
+  "memberDeleted": "Member deleted",
+  "teamLimitReached": "You reached the maximum number of members in your plan"
 }

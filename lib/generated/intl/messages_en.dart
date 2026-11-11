@@ -1027,12 +1027,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteDrinkConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to remove this drink from the menu?",
     ),
+    "deleteMemberConfirm": MessageLookupByLibrary.simpleMessage(
+      "This member will be deleted and can no longer sign in. Their phone number can be used again. Continue?",
+    ),
     "deleteMemberPermanentlyConfirm": MessageLookupByLibrary.simpleMessage(
       "This member will be permanently deleted and this cannot be undone. Continue?",
     ),
     "deleteMemberPermanentlyTitle": MessageLookupByLibrary.simpleMessage(
       "Delete member permanently",
     ),
+    "deleteMemberTitle": MessageLookupByLibrary.simpleMessage("Delete member"),
     "deleteOwnServiceConfirm": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this custom service?",
     ),
@@ -1692,6 +1696,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberClientsTitle": MessageLookupByLibrary.simpleMessage(
       "Member clients",
     ),
+    "memberDefaultPasswordNote": MessageLookupByLibrary.simpleMessage(
+      "If left empty the default password is 123456, and they must change it at first login.",
+    ),
+    "memberDeleted": MessageLookupByLibrary.simpleMessage("Member deleted"),
     "memberDeletedPermanently": MessageLookupByLibrary.simpleMessage(
       "Member deleted permanently",
     ),
@@ -1705,11 +1713,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberPasswordResetDone": MessageLookupByLibrary.simpleMessage(
       "The member\'s password was changed",
     ),
+    "memberPermissionManageProducts": MessageLookupByLibrary.simpleMessage(
+      "Manage products",
+    ),
+    "memberPermissionManageProductsHint": MessageLookupByLibrary.simpleMessage(
+      "Add and edit products and update stock. Viewing products is always allowed.",
+    ),
+    "memberPermissionSell": MessageLookupByLibrary.simpleMessage(
+      "Sell to customers",
+    ),
+    "memberPermissionSellHint": MessageLookupByLibrary.simpleMessage(
+      "Record direct sales to the shop\'s customers from their account.",
+    ),
     "memberPermissionsTitle": MessageLookupByLibrary.simpleMessage(
       "Member permissions",
     ),
     "memberPhoneHint": MessageLookupByLibrary.simpleMessage("e.g. 01111111111"),
     "memberPhoneLabel": MessageLookupByLibrary.simpleMessage("Phone number"),
+    "memberSalaryOptionalLabel": MessageLookupByLibrary.simpleMessage(
+      "Monthly salary (optional)",
+    ),
     "memberSaved": MessageLookupByLibrary.simpleMessage("Member details saved"),
     "memberServicesTitle": MessageLookupByLibrary.simpleMessage("Services"),
     "memberTaglineHint": MessageLookupByLibrary.simpleMessage("Optional"),
@@ -2404,6 +2427,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "This field is required",
     ),
     "resend_code": MessageLookupByLibrary.simpleMessage("Resend code"),
+    "resetMemberPasswordDefaultNote": MessageLookupByLibrary.simpleMessage(
+      "The member\'s password goes back to the default 123456, and they must change it at first login.",
+    ),
     "resetMemberPasswordNote": MessageLookupByLibrary.simpleMessage(
       "The member signs in with this password and is asked to change it on first sign in",
     ),
@@ -2810,6 +2836,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabProducts": MessageLookupByLibrary.simpleMessage("Products"),
     "tabServices": MessageLookupByLibrary.simpleMessage("Services"),
     "tabStore": MessageLookupByLibrary.simpleMessage("Store"),
+    "teamLimitReached": MessageLookupByLibrary.simpleMessage(
+      "You reached the maximum number of members in your plan",
+    ),
     "teamMember": MessageLookupByLibrary.simpleMessage("Team member"),
     "teamMemberAccountHint": MessageLookupByLibrary.simpleMessage(
       "Your shop owner creates your account and sends you the temporary password",

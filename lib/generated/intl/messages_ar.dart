@@ -1007,12 +1007,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteDrinkConfirm": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من حذف هذا المشروب من القائمة؟",
     ),
+    "deleteMemberConfirm": MessageLookupByLibrary.simpleMessage(
+      "سيُحذف هذا العضو ولن يتمكن من الدخول، ويمكن استخدام رقمه من جديد. هل تريد المتابعة؟",
+    ),
     "deleteMemberPermanentlyConfirm": MessageLookupByLibrary.simpleMessage(
       "سيتم حذف هذا العضو نهائيًا ولا يمكن التراجع عن ذلك. هل تريد المتابعة؟",
     ),
     "deleteMemberPermanentlyTitle": MessageLookupByLibrary.simpleMessage(
       "حذف العضو نهائيًا",
     ),
+    "deleteMemberTitle": MessageLookupByLibrary.simpleMessage("حذف العضو"),
     "deleteOwnServiceConfirm": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من حذف هذه الخدمة الخاصة؟",
     ),
@@ -1647,6 +1651,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "جرّب تغيير الفترة الزمنية لعرض عملاء آخرين.",
     ),
     "memberClientsTitle": MessageLookupByLibrary.simpleMessage("عملاء العضو"),
+    "memberDefaultPasswordNote": MessageLookupByLibrary.simpleMessage(
+      "لو تركتها فارغة تكون كلمة السر الافتراضية 123456، وسيُطلب منه تغييرها عند أول دخول.",
+    ),
+    "memberDeleted": MessageLookupByLibrary.simpleMessage("تم حذف العضو"),
     "memberDeletedPermanently": MessageLookupByLibrary.simpleMessage(
       "تم حذف العضو نهائيًا",
     ),
@@ -1658,6 +1666,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "memberPasswordResetDone": MessageLookupByLibrary.simpleMessage(
       "تم تغيير كلمة سر العضو",
     ),
+    "memberPermissionManageProducts": MessageLookupByLibrary.simpleMessage(
+      "إدارة المنتجات",
+    ),
+    "memberPermissionManageProductsHint": MessageLookupByLibrary.simpleMessage(
+      "إضافة المنتجات وتعديلها وتحديث المخزون. عرض المنتجات متاح دائمًا.",
+    ),
+    "memberPermissionSell": MessageLookupByLibrary.simpleMessage(
+      "البيع للعملاء",
+    ),
+    "memberPermissionSellHint": MessageLookupByLibrary.simpleMessage(
+      "تسجيل بيع مباشر لعملاء المحل من حسابه.",
+    ),
     "memberPermissionsTitle": MessageLookupByLibrary.simpleMessage(
       "صلاحيات العضو",
     ),
@@ -1665,6 +1685,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "مثال: 01111111111",
     ),
     "memberPhoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "memberSalaryOptionalLabel": MessageLookupByLibrary.simpleMessage(
+      "المرتب الشهري (اختياري)",
+    ),
     "memberSaved": MessageLookupByLibrary.simpleMessage("تم حفظ بيانات العضو"),
     "memberServicesTitle": MessageLookupByLibrary.simpleMessage("الخدمات"),
     "memberTaglineHint": MessageLookupByLibrary.simpleMessage("اختياري"),
@@ -2337,6 +2360,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestTypeSubscribe": MessageLookupByLibrary.simpleMessage("اشتراك"),
     "requiredField": MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
     "resend_code": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
+    "resetMemberPasswordDefaultNote": MessageLookupByLibrary.simpleMessage(
+      "ستعود كلمة سر العضو إلى الافتراضية 123456، وسيُطلب منه تغييرها عند أول دخول.",
+    ),
     "resetMemberPasswordNote": MessageLookupByLibrary.simpleMessage(
       "سيدخل العضو بكلمة السر هذه، وسيُطلب منه تغييرها عند أول دخول",
     ),
@@ -2739,6 +2765,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabProducts": MessageLookupByLibrary.simpleMessage("منتجاتي"),
     "tabServices": MessageLookupByLibrary.simpleMessage("الخدمات"),
     "tabStore": MessageLookupByLibrary.simpleMessage("المتجر"),
+    "teamLimitReached": MessageLookupByLibrary.simpleMessage(
+      "وصلت للحد الأقصى من الأعضاء في باقتك",
+    ),
     "teamMember": MessageLookupByLibrary.simpleMessage("عضو فريق"),
     "teamMemberAccountHint": MessageLookupByLibrary.simpleMessage(
       "ينشئ صاحب المحل حسابك، وتصلك كلمة السر المؤقتة منه",

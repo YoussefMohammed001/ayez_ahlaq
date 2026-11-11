@@ -74,7 +74,7 @@
 ## أسئلة لسه مفتوحة
 
 - [ ] الـ sub يشوف **الداشبورد/العملاء/الأقسام/المنتجات (قراءة)**؟ الـ APIs شغالة له، لكن مش مطلوبة بالاسم — الافتراضي المقترح: **الطلبات + المنتجات (قراءة) + الحضور + المرتب + الإشعارات**، من غير داشبورد/عملاء/أقسام. (الداشبورد فيه أرقام إيراد التاجر، فالأفضل نخفيه.)
-- [ ] الـ sub يقبل/يرفض/يغيّر حالة الطلبات (الـ API بيسمح) — نسمح فعلًا ولا قراءة بس؟ لو بيسمح، **مفيش أي صلاحية على الطلبات** في الباك اند (مفيش `canManageOrders`).
+- [x] **اتحسم (2026-11-11):** الـ sub يشوف الطلبات ويقبلها (`accept`) ويغيّر حالتها (`status`). الـ API بيسمح، ومفيش صلاحية `canManageOrders` في الباك اند فالتحكم كله من اللي الـ API بيسمح بيه. الرفض (`reject`) متاح برضو لأنه نفس الـ API، ونتأكد مع Omar لو عايزه مقفول.
 - [ ] واجهة البيع (`merchant/sale`): خصم وملاحظة واسم/موبايل عميل اختياري — تأكيد إن ده كل المطلوب.
 
 ---
@@ -113,11 +113,11 @@
 - [x] `attendanceEnabled` اتضاف لـ `Subscription` entity/model بتاع التاجر
 
 ### المرحلة 3 — شاشات التاجر لإدارة الفريق
-- [ ] صف "الفريق" في قايمة حساب التاجر ([profile_admin_menu.dart](lib/features/merchant/profile/presentation/widgets/profile_admin_menu.dart)) + `Routes.merchantTeamScreen` / `merchantTeamMemberScreen`
-- [ ] قايمة الأعضاء + إضافة عضو (اسم، موبايل، باسورد اختياري، مرتب، صلاحيتين) + عداد الباقة `used/cap`
-- [ ] تفاصيل العضو: بيانات، مرتب شهري، صلاحيات (`canManageProducts`, `canSell` — بتتطبق من الطلب الجاي بدون re-login)، حظر/تفعيل، إعادة تعيين الباسورد، حذف
-- [ ] جدول مواعيد الأسبوع للعضو (`dayOfWeek` 0=الأحد…6=السبت، يوم بدون صف = إجازة، `closesAt <= opensAt` = الوردية بتنتهي بكرة) — نعيد استخدام قسم المواعيد الليلية بتاع الحلاق
-- [ ] قفل الإضافة لما `remaining == 0` ورسالة ترقية الباقة
+- [x] صف "الفريق" في قايمة حساب التاجر ([profile_admin_menu.dart](lib/features/merchant/profile/presentation/widgets/profile_admin_menu.dart)) + `Routes.merchantTeamScreen` / `merchantTeamMemberScreen`
+- [x] قايمة الأعضاء (pagination + سحب للتحديث) + إضافة عضو (اسم، موبايل، باسورد اختياري، مرتب، صلاحيتين) + عداد الباقة `used/cap`
+- [x] تفاصيل العضو: بيانات، مرتب شهري، صلاحيات (`canManageProducts`, `canSell` — بتتطبق من الطلب الجاي بدون re-login)، حظر/تفعيل، إعادة تعيين الباسورد، حذف
+- [x] جدول مواعيد الأسبوع للعضو (نفس `MemberHoursSection` و`WorkingDayRow` بتوع الحلاق، بعد ما `MemberHoursCubit` اتعمّم يقبل أي مصدر بيانات) (`dayOfWeek` 0=الأحد…6=السبت، يوم بدون صف = إجازة، `closesAt <= opensAt` = الوردية بتنتهي بكرة) — نعيد استخدام قسم المواعيد الليلية بتاع الحلاق
+- [x] قفل الإضافة لما `remaining == 0` برسالة `teamLimitReached` (لسه مش متجرّب على باقة بحد حقيقي)
 
 ### المرحلة 4 — الحضور والانصراف (جهة التاجر) — `attendanceEnabled`
 - [ ] إعدادات النطاق: `GET/PUT member/attendance/setting` (`rangeMeters` 1–5000، `enforced`) — محتاجة موقع التاجر محفوظ (`PUT merchant/location`، الشيل بيطلبه أصلًا)
@@ -191,6 +191,7 @@
 | `features/merchant/subscription/**` | `attendanceEnabled` |
 | `features/merchant/profile/**` | قايمة الـ sub، `member/me/password` |
 | `features/merchant/notifications/**` | أنواع إشعارات الحضور والبيع |
+| `lib/shared/widgets/form_sheet_frame.dart` (جديد) | إطار الـ bottom sheet للفورم، مستخدم في 3 sheets للتاجر |
 | `lib/shared/team/**` (جديد) | presentation مشتركة بين الحلاق والتاجر (حضور، مواعيد، مرتب) |
 | `features/barber/team|attendance|salary/**` | ينقل الـ presentation المشتركة (بدون تغيير سلوك) |
 | `core/network/constants/endpoints.dart` | endpoints الـ `merchant/member/**` و`merchant/sale/**` |

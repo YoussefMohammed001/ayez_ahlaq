@@ -22,8 +22,13 @@ import '../../../features/merchant/team/domain/use_cases/set_merchant_member_sal
 import '../../../features/merchant/team/domain/use_cases/update_merchant_member_hours_use_case.dart';
 import '../../../features/merchant/team/domain/use_cases/update_merchant_member_permissions_use_case.dart';
 import '../../../features/merchant/team/domain/use_cases/update_merchant_member_use_case.dart';
+import '../../../features/barber/team/presentation/manager/member_hours_cubit.dart';
+import '../../../features/merchant/team/presentation/manager/merchant_member_detail_cubit.dart';
+import '../../../features/merchant/team/presentation/manager/merchant_team_cubit.dart';
 import '../../../features/merchant/team/presentation/manager/my_merchant_member_cubit.dart';
 import '../sl.dart';
+
+const merchantMemberHoursCubitName = 'merchantMemberHours';
 
 void registerMerchantTeam() {
   sl.registerLazySingleton(() => MerchantTeamApi(sl()));
@@ -54,4 +59,24 @@ void registerMerchantTeam() {
   sl.registerLazySingleton(() => GetMyMerchantHoursUseCase(sl()));
   sl.registerLazySingleton(() => ChangeMyMerchantPasswordUseCase(sl()));
   sl.registerFactory(() => MyMerchantMemberCubit(sl(), sl()));
+  sl.registerFactory(() => MerchantTeamCubit(sl(), sl()));
+  sl.registerFactory(
+    () => MerchantMemberDetailCubit(
+      sl(),
+      sl(),
+      sl(),
+      sl(),
+      sl(),
+      sl(),
+      sl(),
+      sl(),
+    ),
+  );
+  sl.registerFactory<MemberHoursCubit>(
+    () => MemberHoursCubit(
+      sl<GetMerchantMemberHoursUseCase>().call,
+      sl<UpdateMerchantMemberHoursUseCase>().call,
+    ),
+    instanceName: merchantMemberHoursCubitName,
+  );
 }

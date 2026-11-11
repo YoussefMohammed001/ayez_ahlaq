@@ -1,12 +1,21 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/error/failure.dart';
 import '../../../hours/domain/entities/working_day.dart';
-import '../../domain/use_cases/get_member_hours_use_case.dart';
-import '../../domain/use_cases/update_member_hours_use_case.dart';
 import 'member_hours_state.dart';
 
+typedef LoadMemberHours =
+    Future<Either<Failure, List<WorkingDay>>> Function(int memberId);
+
+typedef SaveMemberHours =
+    Future<Either<Failure, List<WorkingDay>>> Function(
+      int memberId,
+      List<WorkingDay> days,
+    );
+
 class MemberHoursCubit extends Cubit<MemberHoursState> {
-  final GetMemberHoursUseCase _getHours;
-  final UpdateMemberHoursUseCase _updateHours;
+  final LoadMemberHours _getHours;
+  final SaveMemberHours _updateHours;
 
   MemberHoursCubit(this._getHours, this._updateHours)
     : super(const MemberHoursState());

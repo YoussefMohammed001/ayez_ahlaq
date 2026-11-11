@@ -12843,6 +12843,116 @@ class S {
       args: [percent],
     );
   }
+
+  /// `Manage products`
+  String get memberPermissionManageProducts {
+    return Intl.message(
+      'Manage products',
+      name: 'memberPermissionManageProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add and edit products and update stock. Viewing products is always allowed.`
+  String get memberPermissionManageProductsHint {
+    return Intl.message(
+      'Add and edit products and update stock. Viewing products is always allowed.',
+      name: 'memberPermissionManageProductsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sell to customers`
+  String get memberPermissionSell {
+    return Intl.message(
+      'Sell to customers',
+      name: 'memberPermissionSell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record direct sales to the shop's customers from their account.`
+  String get memberPermissionSellHint {
+    return Intl.message(
+      'Record direct sales to the shop\'s customers from their account.',
+      name: 'memberPermissionSellHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly salary (optional)`
+  String get memberSalaryOptionalLabel {
+    return Intl.message(
+      'Monthly salary (optional)',
+      name: 'memberSalaryOptionalLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If left empty the default password is 123456, and they must change it at first login.`
+  String get memberDefaultPasswordNote {
+    return Intl.message(
+      'If left empty the default password is 123456, and they must change it at first login.',
+      name: 'memberDefaultPasswordNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The member's password goes back to the default 123456, and they must change it at first login.`
+  String get resetMemberPasswordDefaultNote {
+    return Intl.message(
+      'The member\'s password goes back to the default 123456, and they must change it at first login.',
+      name: 'resetMemberPasswordDefaultNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete member`
+  String get deleteMemberTitle {
+    return Intl.message(
+      'Delete member',
+      name: 'deleteMemberTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This member will be deleted and can no longer sign in. Their phone number can be used again. Continue?`
+  String get deleteMemberConfirm {
+    return Intl.message(
+      'This member will be deleted and can no longer sign in. Their phone number can be used again. Continue?',
+      name: 'deleteMemberConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member deleted`
+  String get memberDeleted {
+    return Intl.message(
+      'Member deleted',
+      name: 'memberDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You reached the maximum number of members in your plan`
+  String get teamLimitReached {
+    return Intl.message(
+      'You reached the maximum number of members in your plan',
+      name: 'teamLimitReached',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

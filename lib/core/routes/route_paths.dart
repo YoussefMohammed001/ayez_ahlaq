@@ -175,6 +175,8 @@ class Routes {
 
   static const String merchantShell = '/merchant';
   static const String subMerchantShell = '/merchant/sub';
+  static const String merchantTeamScreen = '/merchant/team';
+  static const String merchantTeamMemberScreen = '/merchant/team/member';
   static const String merchantProductFormScreen = '/merchant/product/form';
   static const String merchantProductDetailsScreen = '/merchant/product/details';
   static const String merchantCategoriesScreen = '/merchant/categories';

@@ -1580,5 +1580,16 @@
   "commissionAmountRow": "العمولة",
   "salaryTotalPayRow": "الإجمالي المستحق",
   "commissionPercentValue": "{percent}%",
-  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}}
+  "@commissionPercentValue": {"placeholders": {"percent": {"type": "String"}}},
+  "memberPermissionManageProducts": "إدارة المنتجات",
+  "memberPermissionManageProductsHint": "إضافة المنتجات وتعديلها وتحديث المخزون. عرض المنتجات متاح دائمًا.",
+  "memberPermissionSell": "البيع للعملاء",
+  "memberPermissionSellHint": "تسجيل بيع مباشر لعملاء المحل من حسابه.",
+  "memberSalaryOptionalLabel": "المرتب الشهري (اختياري)",
+  "memberDefaultPasswordNote": "لو تركتها فارغة تكون كلمة السر الافتراضية 123456، وسيُطلب منه تغييرها عند أول دخول.",
+  "resetMemberPasswordDefaultNote": "ستعود كلمة سر العضو إلى الافتراضية 123456، وسيُطلب منه تغييرها عند أول دخول.",
+  "deleteMemberTitle": "حذف العضو",
+  "deleteMemberConfirm": "سيُحذف هذا العضو ولن يتمكن من الدخول، ويمكن استخدام رقمه من جديد. هل تريد المتابعة؟",
+  "memberDeleted": "تم حذف العضو",
+  "teamLimitReached": "وصلت للحد الأقصى من الأعضاء في باقتك"
 }

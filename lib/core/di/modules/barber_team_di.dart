@@ -54,7 +54,12 @@ void registerBarberTeam() {
   );
   sl.registerLazySingleton(() => GetMemberHoursUseCase(sl()));
   sl.registerLazySingleton(() => UpdateMemberHoursUseCase(sl()));
-  sl.registerFactory(() => MemberHoursCubit(sl(), sl()));
+  sl.registerFactory(
+    () => MemberHoursCubit(
+      sl<GetMemberHoursUseCase>().call,
+      sl<UpdateMemberHoursUseCase>().call,
+    ),
+  );
 
   sl.registerLazySingleton(() => BarberTeamServicesApi(sl()));
   sl.registerLazySingleton<IBarberTeamServicesRepo>(
