@@ -1644,5 +1644,7 @@
   "subHomeNoOrders": "No orders yet",
   "subScheduleNotSet": "The shop owner has not set your hours yet",
   "subScheduleWholeWeek": "Weekly schedule",
-  "ownerAttendanceLocked": "Attendance is not enabled in your plan. Contact support to turn it on."
+  "ownerAttendanceLocked": "Attendance is not enabled in your plan. Contact support to turn it on.",
+  "teamPinEnterTitle": "Enter the PIN to open the team section",
+  "teamPinSetupTitle": "Create a PIN to protect the team and salaries (the same PIN as the money section)"
 }

@@ -84,7 +84,16 @@ class MoneyPinCubit extends Cubit<MoneyPinState> {
     );
   }
 
+  int _openProtectedScreens = 0;
+
   void lock() => emit(state.copyWith(stage: MoneyPinStage.locked));
+
+  void protectedScreenOpened() => _openProtectedScreens++;
+
+  void protectedScreenClosed() {
+    if (_openProtectedScreens > 0) _openProtectedScreens--;
+    if (_openProtectedScreens == 0) lock();
+  }
 
   Future<void> checkResetStatus() async {
     emit(state.copyWith(checkingResetStatus: true));

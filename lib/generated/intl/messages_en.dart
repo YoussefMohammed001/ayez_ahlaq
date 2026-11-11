@@ -2947,6 +2947,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "teamMemberHint": MessageLookupByLibrary.simpleMessage(
       "Follow your bookings and do your daily work",
     ),
+    "teamPinEnterTitle": MessageLookupByLibrary.simpleMessage(
+      "Enter the PIN to open the team section",
+    ),
+    "teamPinSetupTitle": MessageLookupByLibrary.simpleMessage(
+      "Create a PIN to protect the team and salaries (the same PIN as the money section)",
+    ),
     "teamTitle": MessageLookupByLibrary.simpleMessage("Team"),
     "termsAndConditions": MessageLookupByLibrary.simpleMessage(
       "Terms and conditions",

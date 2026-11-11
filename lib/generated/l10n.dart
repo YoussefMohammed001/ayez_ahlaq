@@ -13393,6 +13393,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter the PIN to open the team section`
+  String get teamPinEnterTitle {
+    return Intl.message(
+      'Enter the PIN to open the team section',
+      name: 'teamPinEnterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a PIN to protect the team and salaries (the same PIN as the money section)`
+  String get teamPinSetupTitle {
+    return Intl.message(
+      'Create a PIN to protect the team and salaries (the same PIN as the money section)',
+      name: 'teamPinSetupTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

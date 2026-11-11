@@ -1,4 +1,6 @@
+import '../../../features/barber/money/presentation/widgets/owner_money_pin_gate.dart';
 import '../../../features/barber/salary/presentation/manager/member_commission_cubit.dart';
+import '../../../generated/l10n.dart';
 import '../../../features/barber/salary/presentation/manager/member_salary_cubit.dart';
 import '../../di/sl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +19,14 @@ final List<RouteBase> barberTeamRoutes = [
       providers: [
         BlocProvider.value(value: barberTeamCubit..loadTeam()),
         BlocProvider.value(value: barberProfileCubit),
+        BlocProvider.value(value: moneyPinCubit),
       ],
-      child: const TeamScreen(),
+      child: OwnerMoneyPinGate(
+        title: S().teamTitle,
+        enterTitle: S().teamPinEnterTitle,
+        setupTitle: S().teamPinSetupTitle,
+        child: const TeamScreen(),
+      ),
     ),
   ),
   GoRoute(
@@ -46,8 +54,15 @@ final List<RouteBase> barberTeamRoutes = [
             create: (_) => sl<MemberCommissionCubit>()..load(memberId),
           ),
           BlocProvider.value(value: barberTeamCubit),
+          BlocProvider.value(value: barberProfileCubit),
+          BlocProvider.value(value: moneyPinCubit),
         ],
-        child: const TeamListSync(child: TeamMemberDetailScreen()),
+        child: OwnerMoneyPinGate(
+          title: S().teamTitle,
+          enterTitle: S().teamPinEnterTitle,
+          setupTitle: S().teamPinSetupTitle,
+          child: const TeamListSync(child: TeamMemberDetailScreen()),
+        ),
       );
     },
   ),

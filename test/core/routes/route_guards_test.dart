@@ -28,15 +28,23 @@ void main() {
     expect(find.text('splash'), findsOneWidget);
   });
 
-  testWidgets('goes to splash when the extra has the wrong type', (tester) async {
-    await tester.pumpWidget(MaterialApp.router(routerConfig: _router(extra: 'x')));
+  testWidgets('goes to splash when the extra has the wrong type', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp.router(routerConfig: _router(extra: 'x')),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('splash'), findsOneWidget);
   });
 
-  testWidgets('stays on the route when the extra has the right type', (tester) async {
-    await tester.pumpWidget(MaterialApp.router(routerConfig: _router(extra: 7)));
+  testWidgets('stays on the route when the extra has the right type', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp.router(routerConfig: _router(extra: 7)),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('guarded 7'), findsOneWidget);

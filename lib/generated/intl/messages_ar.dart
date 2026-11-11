@@ -2876,6 +2876,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "teamMemberHint": MessageLookupByLibrary.simpleMessage(
       "تابع حجوزاتك وأنجز عملك اليومي",
     ),
+    "teamPinEnterTitle": MessageLookupByLibrary.simpleMessage(
+      "أدخل الرقم السري لفتح قسم الفريق",
+    ),
+    "teamPinSetupTitle": MessageLookupByLibrary.simpleMessage(
+      "أنشئ رقمًا سريًا لحماية بيانات الفريق والمرتبات (نفس رقم قسم الأموال)",
+    ),
     "teamTitle": MessageLookupByLibrary.simpleMessage("الفريق"),
     "termsAndConditions": MessageLookupByLibrary.simpleMessage(
       "الشروط والأحكام",
