@@ -37,6 +37,7 @@ class MerchantMemberDetailScreen extends StatelessWidget {
     if (!context.mounted || !deleted) return;
 
     showSuccess(S().memberDeleted);
+    hideLoading();
     context.pop();
   }
 

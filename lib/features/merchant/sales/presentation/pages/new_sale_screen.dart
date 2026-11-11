@@ -45,6 +45,7 @@ class NewSaleScreen extends StatelessWidget {
 
     showSuccess(S().saleRecorded);
     products.loadProducts();
+    hideLoading();
     context.pop(true);
   }
 

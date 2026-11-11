@@ -45,6 +45,12 @@ class _FakeStorage extends Fake implements SecureStorage {
   Future<String?> read(SecureStorageKeys key) async => null;
 }
 
+class _SilentHandler extends ErrorInterceptorHandler {
+  _SilentHandler() {
+    future.then((_) {}, onError: (_) {});
+  }
+}
+
 DioException _error(int status, {bool withToken = true}) => DioException(
   requestOptions: RequestOptions(
     path: '/x',
@@ -98,9 +104,7 @@ void main() {
     });
 
     void send(DioException error, [AuthorizationInterceptor? target]) {
-      final handler = ErrorInterceptorHandler();
-      unawaited(handler.future.then((_) {}, onError: (_) {}));
-      (target ?? interceptor).onError(error, handler);
+      (target ?? interceptor).onError(error, _SilentHandler());
     }
 
     test('a 403 with a token reports forbidden only', () {
