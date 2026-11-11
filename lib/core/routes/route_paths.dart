@@ -179,6 +179,14 @@ class Routes {
       '/merchant/sub/attendance/history';
   static const String memberChangePasswordScreen =
       '/merchant/sub/password';
+  static const String merchantTeamAttendanceScreen =
+      '/merchant/team/attendance';
+  static const String merchantAttendanceSettingsScreen =
+      '/merchant/team/attendance/settings';
+  static const String merchantAttendanceSettingLogScreen =
+      '/merchant/team/attendance/settings/log';
+  static const String merchantMemberAttendanceScreen =
+      '/merchant/team/attendance/member';
   static const String merchantSalesScreen = '/merchant/sales';
   static const String merchantNewSaleScreen = '/merchant/sales/new';
   static const String merchantSaleDetailsScreen = '/merchant/sales/details';

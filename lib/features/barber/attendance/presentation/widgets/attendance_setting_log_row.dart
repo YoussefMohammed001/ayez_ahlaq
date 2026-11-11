@@ -29,7 +29,10 @@ class AttendanceSettingLogRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${entry.actorName} • ${AttendanceTimeLabel.date(entry.createdAt)} ${AttendanceTimeLabel.time(entry.createdAt)}',
+            [
+              if (entry.actorName.isNotEmpty) entry.actorName,
+              '${AttendanceTimeLabel.date(entry.createdAt)} ${AttendanceTimeLabel.time(entry.createdAt)}',
+            ].join(' • '),
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w700,

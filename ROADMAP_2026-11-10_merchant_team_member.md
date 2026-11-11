@@ -51,6 +51,10 @@
 - `paymentMethod` اختياري. `GET merchant/paymentMethod` → `[{code,label,enabled,sortOrder}]` (WALLET, CASH).
 - أثناء الفحص عملت 3 مبيعات على dev وألغيتهم كلهم (المخزون رجع 44 و143) وسحبت صلاحية `canSell` من الحساب التجريبي.
 
+## تجربة جهة التاجر على simulator (2026-11-12، `integration_test/merchant_owner_flow_test.dart`)
+
+لوجين التاجر ← حسابي ← الفريق (بانر الباقة + رسالة الحضور) ← إضافة عضو (اسم/موبايل/باسورد/مرتب 3000) ← تفاصيل العضو ← تفعيل صلاحية البيع (اتأكد من الـ API) ← حذف العضو (رجع للقايمة والعضو اختفى) ← المبيعات ← بيع جديد ← تفاصيل البيع ← إلغاء البيع (مفيش بيع مكتمل بعدها). كله نجح في الوضع الصارم. الاختبار بينضّف بعد نفسه (بيحذف عضو الاختبار وبيلغي المبيعات).
+
 ## قرارات اتحسمت (2026-11-10)
 
 - ✅ الـ sub **بيستقبل إشعارات** (+ device token).
@@ -131,11 +135,11 @@
 - [x] قفل الإضافة لما `remaining == 0` برسالة `teamLimitReached` (لسه مش متجرّب على باقة بحد حقيقي)
 
 ### المرحلة 4 — الحضور والانصراف (جهة التاجر) — `attendanceEnabled`
-- [ ] إعدادات النطاق: `GET/PUT member/attendance/setting` (`rangeMeters` 1–5000، `enforced`) — محتاجة موقع التاجر محفوظ (`PUT merchant/location`، الشيل بيطلبه أصلًا)
-- [ ] سجل تغييرات الإعدادات `setting/log` (paginated)
-- [ ] فريق اليوم `attendance/team` (على الوردية/الدقائق) + سجل عضو `member/{id}/attendance`
-- [ ] تعديل وردية (`PUT member/attendance/{id}`، الملاحظة إجبارية، مفيش وقت مستقبلي، الخروج بعد الدخول، الحالة `ADJUSTED`)
-- [ ] لو `attendanceEnabled == false`: الشاشات تعرض حالة "غير مفعّل" (زي `attendance_feature_locked_view`) بدل ما تفشل
+- [x] إعدادات النطاق: `GET/PUT member/attendance/setting` (`rangeMeters` 1–5000، `enforced`) — محتاجة موقع التاجر محفوظ (`PUT merchant/location`، الشيل بيطلبه أصلًا)
+- [x] سجل تغييرات الإعدادات `setting/log` (paginated؛ السجل مفيهوش اسم الفاعل فبيتخفي)
+- [x] فريق اليوم `attendance/team` (الحقول: `merchantMemberId, name, active, checkedIn, checkedInSince, todayMinutes`) (على الوردية/الدقائق) + سجل عضو `member/{id}/attendance`
+- [~] تعديل وردية (الواجهة جاهزة ومشتركة مع الحلاق، **ماجرّبتش على dev** لأن الحضور مقفول ومفيش ورديات) (`PUT member/attendance/{id}`، الملاحظة إجبارية، مفيش وقت مستقبلي، الخروج بعد الدخول، الحالة `ADJUSTED`)
+- [x] لو `attendanceEnabled == false`: شاشة الفريق بتعرض رسالة "الحضور غير مفعّل في باقتك" بدل الروابط، والـ sub بيشوف "غير مفعّل"؛ القديم: الشاشات تعرض حالة "غير مفعّل" (زي `attendance_feature_locked_view`) بدل ما تفشل
 - [ ] إشعارات التاجر: `attendance_check_in`, `attendance_check_out`, `attendance_auto_closed`, `merchant_sale` في [merchant_notification_tap_router.dart](lib/features/merchant/notifications/presentation/services/merchant_notification_tap_router.dart)
 
 ### المرحلة 5 — شيل الـ Sub-Merchant (الشاشة التانية)

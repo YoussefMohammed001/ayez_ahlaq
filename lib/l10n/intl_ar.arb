@@ -1643,5 +1643,6 @@
   "subHomeLatestOrders": "آخر الطلبات",
   "subHomeNoOrders": "لا توجد طلبات بعد",
   "subScheduleNotSet": "لم يحدّد صاحب المحل مواعيدك بعد",
-  "subScheduleWholeWeek": "جدول الأسبوع"
+  "subScheduleWholeWeek": "جدول الأسبوع",
+  "ownerAttendanceLocked": "الحضور والانصراف غير مفعّل في باقتك. تواصل مع الدعم لتفعيله."
 }

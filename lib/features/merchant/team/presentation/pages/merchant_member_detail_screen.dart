@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/theme/styles.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
@@ -11,6 +12,7 @@ import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../shared/widgets/busy_error_listener.dart';
 import '../../../../barber/team/presentation/widgets/member_hours_section.dart';
+import '../../../subscription/presentation/manager/merchant_subscription_cubit.dart';
 import '../manager/merchant_member_detail_cubit.dart';
 import '../manager/merchant_member_detail_state.dart';
 import '../widgets/merchant_member_actions_menu.dart';
@@ -44,6 +46,13 @@ class MerchantMemberDetailScreen extends StatelessWidget {
   Widget _buildContent(BuildContext context, MerchantMemberDetailState state) {
     final cubit = context.read<MerchantMemberDetailCubit>();
     final member = state.member;
+    final attendanceEnabled =
+        context
+            .watch<MerchantSubscriptionCubit>()
+            .state
+            .subscription
+            ?.attendanceEnabled ??
+        false;
 
     if (state.status == MerchantMemberDetailStatus.loading && member == null) {
       return const Center(child: CircularProgressIndicator());
@@ -82,6 +91,12 @@ class MerchantMemberDetailScreen extends StatelessWidget {
           onActivate: () =>
               _run(context, cubit.activateMember, S().memberActivated),
           onDelete: () => _delete(context),
+          onOpenAttendance: attendanceEnabled
+              ? () => context.push(
+                  Routes.merchantMemberAttendanceScreen,
+                  extra: member.id,
+                )
+              : null,
         ),
         const MemberHoursSection(),
       ],

@@ -352,6 +352,16 @@ class EndPoints {
       'merchant/member/me/attendance/current';
   static const String merchantMemberMeCheckIn = 'merchant/member/me/checkIn';
   static const String merchantMemberMeCheckOut = 'merchant/member/me/checkOut';
+  static const String merchantMemberAttendanceSetting =
+      'merchant/member/attendance/setting';
+  static const String merchantMemberAttendanceSettingLog =
+      'merchant/member/attendance/setting/log';
+  static const String merchantMemberAttendanceTeam =
+      'merchant/member/attendance/team';
+  static String merchantMemberAttendanceById(int id) =>
+      'merchant/member/attendance/$id';
+  static String merchantMemberAttendanceOf(int memberId) =>
+      'merchant/member/$memberId/attendance';
   static String merchantMemberById(int id) => 'merchant/member/$id';
   static String merchantMemberSalary(int id) => 'merchant/member/$id/salary';
   static String merchantMemberPermissions(int id) =>

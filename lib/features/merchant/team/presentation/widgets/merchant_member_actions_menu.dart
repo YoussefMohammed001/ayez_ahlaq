@@ -13,6 +13,7 @@ class MerchantMemberActionsMenu extends StatelessWidget {
   final VoidCallback onBlock;
   final VoidCallback onActivate;
   final VoidCallback onDelete;
+  final VoidCallback? onOpenAttendance;
 
   const MerchantMemberActionsMenu({
     super.key,
@@ -23,6 +24,7 @@ class MerchantMemberActionsMenu extends StatelessWidget {
     required this.onBlock,
     required this.onActivate,
     required this.onDelete,
+    this.onOpenAttendance,
   });
 
   Future<void> _confirm(
@@ -50,6 +52,12 @@ class MerchantMemberActionsMenu extends StatelessWidget {
     return MenuSection(
       title: S().memberDetailTitle,
       children: [
+        if (onOpenAttendance != null)
+          MenuRow(
+            icon: Icons.fingerprint_rounded,
+            label: S().attendanceHistoryTitle,
+            onTap: onOpenAttendance,
+          ),
         MenuRow(
           icon: Icons.edit_outlined,
           label: S().editMemberTitle,

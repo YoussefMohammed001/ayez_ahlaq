@@ -7,12 +7,15 @@ import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/list_skeleton.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
 import '../../../../../generated/l10n.dart';
+import '../../domain/entities/team_attendance_member.dart';
 import '../manager/attendance_team_cubit.dart';
 import '../manager/attendance_team_state.dart';
 import '../widgets/team_attendance_row.dart';
 
 class AttendanceTeamScreen extends StatelessWidget {
-  const AttendanceTeamScreen({super.key});
+  final ValueChanged<TeamAttendanceMember>? onMemberTap;
+
+  const AttendanceTeamScreen({super.key, this.onMemberTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +47,15 @@ class AttendanceTeamScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: state.members.length,
-              itemBuilder: (_, index) =>
-                  TeamAttendanceRow(member: state.members[index]),
+              itemBuilder: (_, index) {
+                final member = state.members[index];
+                return TeamAttendanceRow(
+                  member: member,
+                  onTap: onMemberTap == null
+                      ? null
+                      : () => onMemberTap!(member),
+                );
+              },
             ),
           );
         },

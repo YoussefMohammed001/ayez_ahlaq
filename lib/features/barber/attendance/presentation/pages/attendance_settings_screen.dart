@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/helpers/alerts.dart';
+import '../../../../../core/routes/route_paths.dart';
 import '../../../../../core/widgets/app_error_state.dart';
 import '../../../../../core/widgets/app_top_bar.dart';
 import '../../../../../core/widgets/refreshable_state_view.dart';
@@ -12,7 +13,12 @@ import '../manager/attendance_settings_state.dart';
 import '../widgets/attendance_settings_form.dart';
 
 class AttendanceSettingsScreen extends StatelessWidget {
-  const AttendanceSettingsScreen({super.key});
+  final String logRoute;
+
+  const AttendanceSettingsScreen({
+    super.key,
+    this.logRoute = Routes.barberAttendanceSettingLogScreen,
+  });
 
   Future<void> _save(
     BuildContext context,
@@ -56,6 +62,7 @@ class AttendanceSettingsScreen extends StatelessWidget {
                   key: ValueKey(settings),
                   settings: settings,
                   isSubmitting: state.isSubmitting,
+                  logRoute: logRoute,
                   onSave: (enforced, range) => _save(context, enforced, range),
                 ),
               ),

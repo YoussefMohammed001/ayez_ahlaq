@@ -1,11 +1,26 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/use_cases/correct_attendance_record_use_case.dart';
-import '../../domain/use_cases/get_attendance_history_use_case.dart';
+import '../../../../../core/error/failure.dart';
+import '../../domain/entities/attendance_history_page.dart';
+import '../../domain/entities/attendance_shift.dart';
 import 'attendance_history_state.dart';
 
+typedef LoadAttendanceHistory =
+    Future<Either<Failure, AttendanceHistoryPage>> Function({
+      required int page,
+    });
+
+typedef CorrectAttendanceShift =
+    Future<Either<Failure, AttendanceShift>> Function({
+      required int id,
+      required DateTime checkInAt,
+      required DateTime checkOutAt,
+      required String note,
+    });
+
 class AttendanceHistoryCubit extends Cubit<AttendanceHistoryState> {
-  final GetAttendanceHistoryUseCase _getHistory;
-  final CorrectAttendanceRecordUseCase? _correct;
+  final LoadAttendanceHistory _getHistory;
+  final CorrectAttendanceShift? _correct;
 
   AttendanceHistoryCubit(this._getHistory, this._correct)
     : super(const AttendanceHistoryState());

@@ -1643,5 +1643,6 @@
   "subHomeLatestOrders": "Latest orders",
   "subHomeNoOrders": "No orders yet",
   "subScheduleNotSet": "The shop owner has not set your hours yet",
-  "subScheduleWholeWeek": "Weekly schedule"
+  "subScheduleWholeWeek": "Weekly schedule",
+  "ownerAttendanceLocked": "Attendance is not enabled in your plan. Contact support to turn it on."
 }

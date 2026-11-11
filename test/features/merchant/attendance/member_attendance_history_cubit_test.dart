@@ -28,7 +28,7 @@ void main() {
     () async {
       final repo = _FakeRepo();
       final cubit = AttendanceHistoryCubit(
-        GetAttendanceHistoryUseCase(repo),
+        GetAttendanceHistoryUseCase(repo).call,
         null,
       );
 

@@ -62,7 +62,12 @@ void registerBarberAttendance() {
   sl.registerLazySingleton(() => CorrectAttendanceRecordUseCase(sl()));
   sl.registerLazySingleton(() => GetWorkedHoursUseCase(sl()));
   sl.registerFactory(() => WorkedHoursCubit(sl()));
-  sl.registerFactory(() => AttendanceHistoryCubit(sl(), sl()));
+  sl.registerFactory(
+    () => AttendanceHistoryCubit(
+      sl<GetAttendanceHistoryUseCase>().call,
+      sl<CorrectAttendanceRecordUseCase>().call,
+    ),
+  );
   sl.registerFactory(() => AttendanceSettingsCubit(sl(), sl()));
   sl.registerFactory(() => AttendanceTeamCubit(sl()));
   sl.registerFactory(() => AttendanceSettingLogCubit(sl()));

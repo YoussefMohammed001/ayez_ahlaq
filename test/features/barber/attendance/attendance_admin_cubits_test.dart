@@ -160,8 +160,8 @@ void main() {
   });
 
   AttendanceHistoryCubit historyCubit() => AttendanceHistoryCubit(
-    GetAttendanceHistoryUseCase(_FakeHistoryRepo()),
-    CorrectAttendanceRecordUseCase(admin),
+    GetAttendanceHistoryUseCase(_FakeHistoryRepo()).call,
+    CorrectAttendanceRecordUseCase(admin).call,
   );
 
   test('a correction replaces only that row', () async {

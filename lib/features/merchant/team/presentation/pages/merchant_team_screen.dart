@@ -15,6 +15,7 @@ import '../manager/merchant_team_cubit.dart';
 import '../manager/merchant_team_state.dart';
 import '../widgets/add_merchant_member_sheet.dart';
 import '../widgets/merchant_member_row.dart';
+import '../widgets/merchant_team_attendance_section.dart';
 import '../widgets/merchant_team_quota_banner.dart';
 
 class MerchantTeamScreen extends StatelessWidget {
@@ -130,6 +131,7 @@ class MerchantTeamScreen extends StatelessWidget {
         body: Column(
           children: [
             const MerchantTeamQuotaBanner(),
+            const MerchantTeamAttendanceSection(),
             Expanded(
               child: BlocBuilder<MerchantTeamCubit, MerchantTeamState>(
                 builder: _buildBody,

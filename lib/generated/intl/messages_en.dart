@@ -2167,6 +2167,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ownServicesTitle": MessageLookupByLibrary.simpleMessage(
       "Your custom services",
     ),
+    "ownerAttendanceLocked": MessageLookupByLibrary.simpleMessage(
+      "Attendance is not enabled in your plan. Contact support to turn it on.",
+    ),
     "ownerLabel": MessageLookupByLibrary.simpleMessage("Owner"),
     "ownerName": MessageLookupByLibrary.simpleMessage("Owner name"),
     "ownerNameHint": MessageLookupByLibrary.simpleMessage("e.g. Ahmed Ali"),

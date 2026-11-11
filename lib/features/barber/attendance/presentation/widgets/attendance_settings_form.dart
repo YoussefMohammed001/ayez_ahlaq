@@ -17,12 +17,14 @@ class AttendanceSettingsForm extends StatefulWidget {
   final AttendanceSettings settings;
   final bool isSubmitting;
   final Future<void> Function(bool enforced, int? rangeMeters) onSave;
+  final String logRoute;
 
   const AttendanceSettingsForm({
     super.key,
     required this.settings,
     required this.isSubmitting,
     required this.onSave,
+    this.logRoute = Routes.barberAttendanceSettingLogScreen,
   });
 
   @override
@@ -121,7 +123,7 @@ class _AttendanceSettingsFormState extends State<AttendanceSettingsForm> {
             icon: Icons.history_rounded,
             label: S().attendanceSettingsLogTitle,
             showDivider: false,
-            onTap: () => context.push(Routes.barberAttendanceSettingLogScreen),
+            onTap: () => context.push(widget.logRoute),
           ),
         ),
       ],

@@ -32,6 +32,7 @@ final List<RouteBase> merchantTeamRoutes = [
           BlocProvider(
             create: (_) => sl<MerchantMemberDetailCubit>()..load(memberId),
           ),
+          BlocProvider.value(value: merchantSubscriptionCubit),
           BlocProvider(
             create: (_) =>
                 sl<MemberHoursCubit>(instanceName: merchantMemberHoursCubitName)

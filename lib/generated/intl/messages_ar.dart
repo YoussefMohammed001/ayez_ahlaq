@@ -2116,6 +2116,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "ownServiceNameLabel": MessageLookupByLibrary.simpleMessage("اسم الخدمة"),
     "ownServicesTitle": MessageLookupByLibrary.simpleMessage("خدماتك الخاصة"),
+    "ownerAttendanceLocked": MessageLookupByLibrary.simpleMessage(
+      "الحضور والانصراف غير مفعّل في باقتك. تواصل مع الدعم لتفعيله.",
+    ),
     "ownerLabel": MessageLookupByLibrary.simpleMessage("المالك"),
     "ownerName": MessageLookupByLibrary.simpleMessage("اسم صاحب النشاط"),
     "ownerNameHint": MessageLookupByLibrary.simpleMessage("مثلاً: أحمد علي"),

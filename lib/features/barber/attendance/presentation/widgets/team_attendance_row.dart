@@ -11,8 +11,9 @@ import 'attendance_time_label.dart';
 
 class TeamAttendanceRow extends StatelessWidget {
   final TeamAttendanceMember member;
+  final VoidCallback? onTap;
 
-  const TeamAttendanceRow({super.key, required this.member});
+  const TeamAttendanceRow({super.key, required this.member, this.onTap});
 
   String _details() {
     final today = S().attendanceTodayDuration(
@@ -28,6 +29,7 @@ class TeamAttendanceRow extends StatelessWidget {
     final scheme = context.colorScheme;
 
     return AppCard(
+      onTap: onTap,
       margin: EdgeInsets.only(bottom: 10.h),
       padding: EdgeInsets.all(14.r),
       child: Row(

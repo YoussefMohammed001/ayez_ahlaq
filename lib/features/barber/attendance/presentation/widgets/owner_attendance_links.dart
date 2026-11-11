@@ -7,7 +7,14 @@ import '../../../../../core/widgets/menu_row.dart';
 import '../../../../../generated/l10n.dart';
 
 class OwnerAttendanceLinks extends StatelessWidget {
-  const OwnerAttendanceLinks({super.key});
+  final String teamRoute;
+  final String settingsRoute;
+
+  const OwnerAttendanceLinks({
+    super.key,
+    this.teamRoute = Routes.barberAttendanceTeamScreen,
+    this.settingsRoute = Routes.barberAttendanceSettingsScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +25,13 @@ class OwnerAttendanceLinks extends StatelessWidget {
           MenuRow(
             icon: Icons.groups_outlined,
             label: S().attendanceTeamNowTitle,
-            onTap: () => context.push(Routes.barberAttendanceTeamScreen),
+            onTap: () => context.push(teamRoute),
           ),
           MenuRow(
             icon: Icons.tune_rounded,
             label: S().attendanceSettingsTitle,
             showDivider: false,
-            onTap: () => context.push(Routes.barberAttendanceSettingsScreen),
+            onTap: () => context.push(settingsRoute),
           ),
         ],
       ),

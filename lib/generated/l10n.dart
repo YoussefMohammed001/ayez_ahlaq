@@ -13383,6 +13383,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Attendance is not enabled in your plan. Contact support to turn it on.`
+  String get ownerAttendanceLocked {
+    return Intl.message(
+      'Attendance is not enabled in your plan. Contact support to turn it on.',
+      name: 'ownerAttendanceLocked',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
